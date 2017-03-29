@@ -1,0 +1,15 @@
+# Spring properties
+spring:
+  application:
+     name: cmpl
+  datasource:
+    platform: h2
+    url: jdbc:h2:file:./target/cmpl
+  jpa:
+    hibernate.ddl-auto: update
+    database: H2
+
+# HTTP Server
+server:
+  port: 3232  # HTTP (Tomcat) port
+  

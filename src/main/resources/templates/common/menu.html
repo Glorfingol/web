@@ -1,0 +1,7 @@
+<div class="collapse navbar-collapse">
+    <ul id="menu" class="nav navbar-nav">
+        <li id="menu_index" class="menu-item" th:each="menuItem : ${menuItems}">
+            <a th:title="${menuItem.title}" th:href="${menuItem.href}" th:text="${menuItem.label}"></a>
+        </li>
+    </ul>
+</div>
