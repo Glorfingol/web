@@ -8,26 +8,31 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.builder.FooterBuilder;
 import cmpl.web.builder.MenuBuilder;
+import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.footer.Footer;
 import cmpl.web.model.menu.MenuItem;
+import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.PAGE;
 
 public class DisplayFactoryImpl implements DisplayFactory {
 
   private final MenuBuilder menuBuilder;
   private final FooterBuilder footerBuilder;
+  private final MetaElementBuilder metaElementBuilder;
   private final MessageSource messageSource;
 
-  private DisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder, MessageSource messageSource) {
+  private DisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
+      MetaElementBuilder metaElementBuilder, MessageSource messageSource) {
     this.menuBuilder = menuBuilder;
     this.messageSource = messageSource;
     this.footerBuilder = footerBuilder;
+    this.metaElementBuilder = metaElementBuilder;
   }
 
   public static DisplayFactoryImpl fromBuilders(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MessageSource messageSource) {
-    return new DisplayFactoryImpl(menuBuilder, footerBuilder, messageSource);
+      MetaElementBuilder metaElementBuilder, MessageSource messageSource) {
+    return new DisplayFactoryImpl(menuBuilder, footerBuilder, metaElementBuilder, messageSource);
   }
 
   @Override
@@ -38,7 +43,9 @@ public class DisplayFactoryImpl implements DisplayFactory {
     ModelAndView model = new ModelAndView(messageSource.getMessage(page.getTileName(), null, locale));
 
     model.addObject("menuItems", computeMenuItems(locale));
+    model.addObject("metaItems", computeMetaElements(locale, page));
     model.addObject("footer", computeFooter(locale));
+    model.addObject("description", "une description");
 
     return model;
 
@@ -50,6 +57,10 @@ public class DisplayFactoryImpl implements DisplayFactory {
 
   Footer computeFooter(Locale locale) {
     return footerBuilder.computeFooter(locale);
+  }
+
+  List<MetaElement> computeMetaElements(Locale locale, PAGE page) {
+    return metaElementBuilder.computeMetaElementsForPage(locale, page);
   }
 
 }

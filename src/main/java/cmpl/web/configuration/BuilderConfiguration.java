@@ -6,8 +6,10 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 import cmpl.web.builder.FooterBuilder;
 import cmpl.web.builder.MenuBuilder;
+import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.builder.impl.FooterBuilderImpl;
 import cmpl.web.builder.impl.MenuBuilderImpl;
+import cmpl.web.builder.impl.MetaElementBuilderImpl;
 
 @Configuration
 public class BuilderConfiguration {
@@ -20,5 +22,10 @@ public class BuilderConfiguration {
   @Bean
   FooterBuilder footerBuilder(ResourceBundleMessageSource resourceBundleMessageSource) {
     return FooterBuilderImpl.fromResourceBundleMessageSource(resourceBundleMessageSource);
+  }
+
+  @Bean
+  MetaElementBuilder metaElementBuilder(ResourceBundleMessageSource resourceBundleMessageSource) {
+    return MetaElementBuilderImpl.fromResourceBundleMessageSource(resourceBundleMessageSource);
   }
 }

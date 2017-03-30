@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import cmpl.web.builder.FooterBuilder;
 import cmpl.web.builder.MenuBuilder;
+import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.factory.DisplayFactory;
 import cmpl.web.factory.impl.DisplayFactoryImpl;
 
@@ -13,8 +14,9 @@ import cmpl.web.factory.impl.DisplayFactoryImpl;
 public class FactoryConfiguration {
 
   @Bean
-  DisplayFactory displayFactory(MenuBuilder menuBuilder, FooterBuilder footerBuilder, MessageSource messageSource) {
-    return DisplayFactoryImpl.fromBuilders(menuBuilder, footerBuilder, messageSource);
+  DisplayFactory displayFactory(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
+      MetaElementBuilder metaElementBuilder, MessageSource messageSource) {
+    return DisplayFactoryImpl.fromBuilders(menuBuilder, footerBuilder, metaElementBuilder, messageSource);
   }
 
 }
