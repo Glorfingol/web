@@ -1,7 +1,17 @@
-<div class="collapse navbar-collapse">
-    <ul id="menu" class="nav navbar-nav">
-        <li id="menu_index" class="menu-item" th:each="menuItem : ${menuItems}">
-            <a th:title="${menuItem.title}" th:href="${menuItem.href}" th:text="${menuItem.label}"></a>
-        </li>
-    </ul>
+<div class="row">
+	<div class="col-md-12 hidden-sm hidden-xs ">
+	    <div class="collapse navbar-collapse">
+	        <ul id="menu" class="nav navbar-nav">
+	            <li id="menu_index" class="menu-item" th:each="menuItem : ${menuItems}">
+	                <a th:title="${menuItem.title}" th:href="${menuItem.href}" th:text="${menuItem.label}"></a>
+	            </li>
+	        </ul>
+	    </div>
+	</div>
+	<div class="col-xs-12 hidden-md hidden-lg">
+        <div class="collapse navbar-collapse">
+            PLOP
+        </div>
+    </div>
 </div>
+

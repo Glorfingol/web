@@ -8,11 +8,12 @@ import java.util.Locale;
 
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import cmpl.web.builder.AbstractBuilder;
 import cmpl.web.builder.MenuBuilder;
 import cmpl.web.model.menu.MenuItem;
 import cmpl.web.model.page.PAGE;
 
-public class MenuBuilderImpl implements MenuBuilder {
+public class MenuBuilderImpl extends AbstractBuilder implements MenuBuilder {
 
   private final ResourceBundleMessageSource resourceBundleMessageSource;
 
@@ -47,7 +48,8 @@ public class MenuBuilderImpl implements MenuBuilder {
     return menuItems;
   }
 
-  String getI18nValue(String key, Locale locale) {
+  @Override
+  protected String getI18nValue(String key, Locale locale) {
     return resourceBundleMessageSource.getMessage(key, null, locale);
   }
 
