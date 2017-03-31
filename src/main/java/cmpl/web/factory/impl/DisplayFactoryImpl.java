@@ -22,7 +22,7 @@ public class DisplayFactoryImpl implements DisplayFactory {
   private final MetaElementBuilder metaElementBuilder;
   private final MessageSource messageSource;
 
-  private DisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
+  protected DisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
       MetaElementBuilder metaElementBuilder, MessageSource messageSource) {
     this.menuBuilder = menuBuilder;
     this.messageSource = messageSource;

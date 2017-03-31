@@ -9,6 +9,8 @@ import cmpl.web.builder.MenuBuilder;
 import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.factory.DisplayFactory;
 import cmpl.web.factory.impl.DisplayFactoryImpl;
+import cmpl.web.factory.impl.NewsDisplayFactoryImpl;
+import cmpl.web.service.NewsEntryService;
 
 @Configuration
 public class FactoryConfiguration {
@@ -17,6 +19,13 @@ public class FactoryConfiguration {
   DisplayFactory displayFactory(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
       MetaElementBuilder metaElementBuilder, MessageSource messageSource) {
     return DisplayFactoryImpl.fromBuilders(menuBuilder, footerBuilder, metaElementBuilder, messageSource);
+  }
+
+  @Bean
+  NewsDisplayFactoryImpl newsDisplayFactory(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
+      MetaElementBuilder metaElementBuilder, MessageSource messageSource, NewsEntryService newsEntryService) {
+    return NewsDisplayFactoryImpl.fromBuildersAndServices(menuBuilder, footerBuilder, metaElementBuilder,
+        messageSource, newsEntryService);
   }
 
 }
