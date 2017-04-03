@@ -1,0 +1,7 @@
+<div th:text="${newsBean.author}">
+</div>
+<div th:text="${newsBean.publicationDate}">
+</div>
+<div th:each="tag : ${newsBean.tags}">
+    <span th:text="${tag}"></span>
+</div>

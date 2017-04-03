@@ -6,14 +6,14 @@ public class NewsEntryDTO extends BaseDTO {
   private NewsImageDTO newsImage;
 
   private String author;
-  private String tag;
+  private String tags;
 
-  public String getTag() {
-    return tag;
+  public String getTags() {
+    return tags;
   }
 
-  public void setTag(String tag) {
-    this.tag = tag;
+  public void setTags(String tags) {
+    this.tags = tags;
   }
 
   public void setNewsContent(NewsContentDTO newsContent) {

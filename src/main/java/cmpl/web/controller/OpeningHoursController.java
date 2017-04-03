@@ -19,7 +19,7 @@ public class OpeningHoursController {
   }
 
   @RequestMapping(value = "/horaires")
-  public ModelAndView printAppointments() {
+  public ModelAndView printOpeningHours() {
     return displayFactory.computeModelAndViewForPage(PAGE.OPENING_HOURS, "fr");
   }
 

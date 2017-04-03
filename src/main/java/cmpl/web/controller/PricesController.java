@@ -19,7 +19,7 @@ public class PricesController {
   }
 
   @RequestMapping(value = "/tarifs")
-  public ModelAndView printAppointments() {
+  public ModelAndView printPrices() {
     return displayFactory.computeModelAndViewForPage(PAGE.PRICES, "fr");
   }
 

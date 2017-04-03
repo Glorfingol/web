@@ -2,6 +2,7 @@ package cmpl.web.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -18,6 +19,8 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   private final NewsEntryRepository newsEntryRepository;
   private final NewsImageService newsImageService;
   private final NewsContentService newsContentService;
+
+  private static final long DAY_IN_MS = 1000 * 60 * 60 * 24;
 
   private NewsEntryServiceImpl(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
       NewsContentService newsContentService) {
@@ -38,9 +41,8 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     List<NewsEntryDTO> newsEntriesToReturn = new ArrayList<NewsEntryDTO>();
 
     Calendar today = Calendar.getInstance();
-    Calendar tenDaysAgo = today;
-    tenDaysAgo.add(Calendar.DATE, -10);
-    List<NewsEntry> newsEntries = newsEntryRepository.findByCreationDateBetween(tenDaysAgo.getTime(), today.getTime());
+    Date tenDaysAgo = new Date(today.getTimeInMillis() - (7 * DAY_IN_MS));
+    List<NewsEntry> newsEntries = newsEntryRepository.findByCreationDateBetween(tenDaysAgo, today.getTime());
 
     for (NewsEntry newsEntry : newsEntries) {
       newsEntriesToReturn.add(computeNewsEntryDTO(newsEntry));

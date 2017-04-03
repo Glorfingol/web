@@ -9,18 +9,18 @@ import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
 @Controller
-public class MedicalCareController {
+public class ThinningController {
 
   private final DisplayFactory displayFactory;
 
   @Autowired
-  MedicalCareController(DisplayFactory displayFactory) {
+  ThinningController(DisplayFactory displayFactory) {
     this.displayFactory = displayFactory;
   }
 
-  @RequestMapping(value = "/soins-medicaux")
-  public ModelAndView printAppointments() {
-    return displayFactory.computeModelAndViewForPage(PAGE.MEDICAL_CARE, "fr");
+  @RequestMapping(value = "/amincissement")
+  public ModelAndView printThinning() {
+    return displayFactory.computeModelAndViewForPage(PAGE.THINNING, "fr");
   }
 
 }

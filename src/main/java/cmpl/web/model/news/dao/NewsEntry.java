@@ -10,8 +10,8 @@ public class NewsEntry extends BaseEntity {
 
   @Column(name = "author")
   private String author;
-  @Column(name = "tag")
-  private String tag;
+  @Column(name = "tags")
+  private String tags;
   @Column(name = "image_id")
   private String imageId;
   @Column(name = "content_id")
@@ -25,12 +25,12 @@ public class NewsEntry extends BaseEntity {
     this.author = author;
   }
 
-  public String getTag() {
-    return tag;
+  public String getTags() {
+    return tags;
   }
 
-  public void setTag(String tag) {
-    this.tag = tag;
+  public void setTags(String tags) {
+    this.tags = tags;
   }
 
   public String getImageId() {

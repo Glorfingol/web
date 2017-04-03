@@ -10,8 +10,8 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 import cmpl.web.builder.AbstractBuilder;
 import cmpl.web.builder.MenuBuilder;
+import cmpl.web.model.menu.MENU;
 import cmpl.web.model.menu.MenuItem;
-import cmpl.web.model.page.PAGE;
 
 public class MenuBuilderImpl extends AbstractBuilder implements MenuBuilder {
 
@@ -29,11 +29,11 @@ public class MenuBuilderImpl extends AbstractBuilder implements MenuBuilder {
   public List<MenuItem> computeMenuItems(Locale locale) {
     List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
-    for (PAGE page : PAGE.values()) {
+    for (MENU menu : MENU.values()) {
       MenuItem menuItem = new MenuItem();
-      menuItem.setHref(getI18nValue(page.getHref(), locale));
-      menuItem.setLabel(getI18nValue(page.getLabel(), locale));
-      menuItem.setTitle(getI18nValue(page.getTitle(), locale));
+      menuItem.setHref(getI18nValue(menu.getHref(), locale));
+      menuItem.setLabel(getI18nValue(menu.getLabel(), locale));
+      menuItem.setTitle(getI18nValue(menu.getTitle(), locale));
 
       menuItems.add(menuItem);
     }

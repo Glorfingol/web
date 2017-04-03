@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/header"/>
+<body class="main">
+    <div class="container">
+        <div th:include="common/logo"/>
+        <div th:include="common/menu"/>
+        <div class="row">
+            <div class="col-xs-12">
+               <div class="panel panel-default">
+                     <div class="panel-body">
+                        <div th:each="newsBean : ${newsEntries}">
+                            <div th:replace="pages/actualites/news_entry"/>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+     </div>
+</body>
+<footer th:include="common/footer"></footer>
+</html>

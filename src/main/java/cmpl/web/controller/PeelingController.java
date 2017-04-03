@@ -9,19 +9,18 @@ import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
 @Controller
-public class LasersController {
+public class PeelingController {
 
   private final DisplayFactory displayFactory;
 
   @Autowired
-  LasersController(DisplayFactory displayFactory) {
+  PeelingController(DisplayFactory displayFactory) {
     this.displayFactory = displayFactory;
   }
 
-  @RequestMapping(value = "/lasers-medicaux")
-  public ModelAndView printAppointments() {
-
-    return displayFactory.computeModelAndViewForPage(PAGE.MEDICAL_LASERS, "fr");
+  @RequestMapping(value = "/peeling")
+  public ModelAndView printPeeling() {
+    return displayFactory.computeModelAndViewForPage(PAGE.PEELING, "fr");
   }
 
 }

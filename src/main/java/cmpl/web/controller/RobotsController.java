@@ -14,7 +14,7 @@ public class RobotsController {
 
   @RequestMapping(value = {"/robots", "/robot", "/robot.txt", "/robots.txt"})
   @ResponseBody
-  public void robot(HttpServletResponse response) {
+  public void printRobot(HttpServletResponse response) {
 
     InputStream resourceAsStream = null;
     try {

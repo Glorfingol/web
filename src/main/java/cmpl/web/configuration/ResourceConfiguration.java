@@ -10,7 +10,7 @@ public class ResourceConfiguration {
   @Bean
   public ResourceBundleMessageSource messageSource() {
     ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-    source.setBasenames("i18n/messages");
+    source.setBasenames("i18n/pages", "i18n/menu", "i18n/footer");
     source.setUseCodeAsDefaultMessage(true);
     source.setDefaultEncoding("UTF-8");
     return source;

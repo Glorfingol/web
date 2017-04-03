@@ -1,8 +1,15 @@
 package cmpl.web.model.news.display;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.util.StringUtils;
 
 import cmpl.web.model.news.dto.NewsEntryDTO;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 
 public class NewsEntryDisplayBean {
 
@@ -19,8 +26,11 @@ public class NewsEntryDisplayBean {
     return formatted.format(newsEntryDTO.getCreationDate());
   }
 
-  public String getTag() {
-    return newsEntryDTO.getTag();
+  public List<String> getTags() {
+    if (StringUtils.isEmpty(newsEntryDTO.getTags())) {
+      return new ArrayList<String>();
+    }
+    return Lists.newArrayList(Splitter.on(";").split(newsEntryDTO.getTags()));
   }
 
   public String getAuthor() {
@@ -28,44 +38,53 @@ public class NewsEntryDisplayBean {
   }
 
   public String getTitle() {
-    if (newsEntryDTO.getNewsContent() == null) {
+    if (!hasContent()) {
       return "";
     }
     return newsEntryDTO.getNewsContent().getTitle();
   }
 
   public String getContent() {
-    if (newsEntryDTO.getNewsContent() == null) {
+    if (!hasContent()) {
       return "";
     }
     return newsEntryDTO.getNewsContent().getContent();
   }
 
   public String getImage() {
-    if (newsEntryDTO.getNewsImage() == null) {
+    if (!hasImage()) {
       return "";
     }
     return newsEntryDTO.getNewsImage().getSrc();
   }
 
   public String getLegend() {
-    if (newsEntryDTO.getNewsImage() == null) {
+    if (!hasImage()) {
       return "";
     }
     return newsEntryDTO.getNewsImage().getLegend();
   }
 
   public int getImageWitdh() {
-    if (newsEntryDTO.getNewsImage() == null) {
+    if (!hasImage()) {
       return 0;
     }
     return newsEntryDTO.getNewsImage().getWidth();
   }
 
   public int getImageHeight() {
-    if (newsEntryDTO.getNewsImage() == null) {
+    if (!hasImage()) {
       return 0;
     }
     return newsEntryDTO.getNewsImage().getHeight();
   }
+
+  public boolean hasImage() {
+    return newsEntryDTO.getNewsImage() != null;
+  }
+
+  public boolean hasContent() {
+    return newsEntryDTO.getNewsContent() != null;
+  }
+
 }

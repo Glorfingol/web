@@ -19,7 +19,7 @@ public class NewsController {
   }
 
   @RequestMapping(value = "/actualites")
-  public ModelAndView printAppointments() {
+  public ModelAndView printNews() {
     return newsDisplayFactory.computeModelAndViewForPage(PAGE.NEWS, "fr");
   }
 
