@@ -6,6 +6,7 @@ public class NewsImageDTO extends BaseDTO {
   private String legend;
   private int width;
   private int height;
+  private String alt;
 
   public String getSrc() {
     return src;
@@ -37,6 +38,14 @@ public class NewsImageDTO extends BaseDTO {
 
   public void setHeight(int height) {
     this.height = height;
+  }
+
+  public String getAlt() {
+    return alt;
+  }
+
+  public void setAlt(String alt) {
+    this.alt = alt;
   }
 
 }

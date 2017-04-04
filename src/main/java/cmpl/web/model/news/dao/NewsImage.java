@@ -16,6 +16,8 @@ public class NewsImage extends BaseEntity {
   private int width;
   @Column(name = "height")
   private int height;
+  @Column(name = "alt")
+  private String alt;
 
   public String getSrc() {
     return src;
@@ -47,6 +49,14 @@ public class NewsImage extends BaseEntity {
 
   public void setHeight(int height) {
     this.height = height;
+  }
+
+  public String getAlt() {
+    return alt;
+  }
+
+  public void setAlt(String alt) {
+    this.alt = alt;
   }
 
 }

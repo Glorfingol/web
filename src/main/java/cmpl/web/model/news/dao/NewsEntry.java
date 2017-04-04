@@ -16,6 +16,8 @@ public class NewsEntry extends BaseEntity {
   private String imageId;
   @Column(name = "content_id")
   private String contentId;
+  @Column(name = "title")
+  private String title;
 
   public String getAuthor() {
     return author;
@@ -47,6 +49,14 @@ public class NewsEntry extends BaseEntity {
 
   public void setContentId(String contentId) {
     this.contentId = contentId;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
   }
 
 }

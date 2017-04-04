@@ -2,6 +2,7 @@ package cmpl.web.factory.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.context.MessageSource;
 import org.springframework.util.CollectionUtils;
@@ -19,6 +20,7 @@ import cmpl.web.service.NewsEntryService;
 public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDisplayFactory {
 
   private NewsEntryService newsEntryService;
+  private static final String DAY_MONTH_YEAR_FORMAT = "dd/MM/yy";
 
   private NewsDisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
       MetaElementBuilder metaElementBuilder, MessageSource messageSource, NewsEntryService newsEntryService) {
@@ -35,13 +37,13 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
   public ModelAndView computeModelAndViewForPage(PAGE page, String languageCode) {
 
     ModelAndView newsModelAndView = super.computeModelAndViewForPage(page, languageCode);
-    newsModelAndView.addObject("newsEntries", computeNewsEntries());
+    newsModelAndView.addObject("newsEntries", computeNewsEntries(languageCode));
 
     return newsModelAndView;
 
   }
 
-  List<NewsEntryDisplayBean> computeNewsEntries() {
+  List<NewsEntryDisplayBean> computeNewsEntries(String languageCode) {
     List<NewsEntryDisplayBean> newsEntries = new ArrayList<NewsEntryDisplayBean>();
 
     List<NewsEntryDTO> newsEntriesFromDB = newsEntryService.getRecentNews();
@@ -50,7 +52,11 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     }
 
     for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
-      NewsEntryDisplayBean newsEntryDisplayBean = new NewsEntryDisplayBean(newsEntryFromDB);
+      Locale locale = new Locale(languageCode);
+      String labelPar = computeI18nLabel("news.entry.by", locale);
+      String labelLe = computeI18nLabel("news.entry.the", locale);
+      NewsEntryDisplayBean newsEntryDisplayBean = new NewsEntryDisplayBean(newsEntryFromDB, labelPar, labelLe,
+          DAY_MONTH_YEAR_FORMAT);
       newsEntries.add(newsEntryDisplayBean);
     }
 

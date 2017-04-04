@@ -1,4 +1,4 @@
-package cmpl.web.controller;
+package cmpl.web.controller.front;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,18 +9,18 @@ import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
 @Controller
-public class OpeningHoursController {
+public class MedicalCenterController {
 
   private final DisplayFactory displayFactory;
 
   @Autowired
-  OpeningHoursController(DisplayFactory displayFactory) {
+  MedicalCenterController(DisplayFactory displayFactory) {
     this.displayFactory = displayFactory;
   }
 
-  @RequestMapping(value = "/horaires")
-  public ModelAndView printOpeningHours() {
-    return displayFactory.computeModelAndViewForPage(PAGE.OPENING_HOURS, "fr");
+  @RequestMapping(value = "/centre-medical")
+  public ModelAndView printMedicalCenter() {
+    return displayFactory.computeModelAndViewForPage(PAGE.CENTER, "fr");
   }
 
 }

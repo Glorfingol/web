@@ -7,6 +7,7 @@ public class NewsEntryDTO extends BaseDTO {
 
   private String author;
   private String tags;
+  private String title;
 
   public String getTags() {
     return tags;
@@ -38,6 +39,14 @@ public class NewsEntryDTO extends BaseDTO {
 
   public String getAuthor() {
     return author;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
   }
 
 }

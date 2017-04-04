@@ -9,4 +9,6 @@ public interface MenuBuilder {
 
   List<MenuItem> computeMenuItems(Locale locale);
 
+  List<MenuItem> computeBackMenuItems(Locale locale);
+
 }

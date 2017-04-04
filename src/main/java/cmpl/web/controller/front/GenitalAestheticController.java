@@ -1,4 +1,4 @@
-package cmpl.web.controller;
+package cmpl.web.controller.front;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,19 +9,18 @@ import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
 @Controller
-public class AppointmentController {
+public class GenitalAestheticController {
 
   private final DisplayFactory displayFactory;
 
   @Autowired
-  AppointmentController(DisplayFactory displayFactory) {
+  GenitalAestheticController(DisplayFactory displayFactory) {
     this.displayFactory = displayFactory;
   }
 
-  @RequestMapping(value = "/rendez-vous")
-  public ModelAndView printAppointments() {
-
-    return displayFactory.computeModelAndViewForPage(PAGE.APPOINTMENT, "fr");
+  @RequestMapping(value = "/medecine_esthetique_genitale")
+  public ModelAndView printGenitalAesthetic() {
+    return displayFactory.computeModelAndViewForPage(PAGE.GENITAL_AESTHETIC, "fr");
   }
 
 }

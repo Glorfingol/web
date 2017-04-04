@@ -40,12 +40,11 @@ public class DisplayFactoryImpl implements DisplayFactory {
 
     Locale locale = new Locale(languageCode);
 
-    ModelAndView model = new ModelAndView(messageSource.getMessage(page.getTileName(), null, locale));
+    ModelAndView model = new ModelAndView(computeI18nLabel(page.getTileName(), locale));
 
     model.addObject("menuItems", computeMenuItems(locale));
     model.addObject("metaItems", computeMetaElements(locale, page));
     model.addObject("footer", computeFooter(locale));
-    model.addObject("description", "une description");
 
     return model;
 
@@ -63,4 +62,7 @@ public class DisplayFactoryImpl implements DisplayFactory {
     return metaElementBuilder.computeMetaElementsForPage(locale, page);
   }
 
+  String computeI18nLabel(String key, Locale locale) {
+    return messageSource.getMessage(key, null, locale);
+  }
 }

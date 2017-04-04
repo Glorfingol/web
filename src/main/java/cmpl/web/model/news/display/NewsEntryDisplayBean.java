@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import cmpl.web.model.news.dto.NewsEntryDTO;
@@ -13,78 +14,102 @@ import com.google.common.collect.Lists;
 
 public class NewsEntryDisplayBean {
 
-  private NewsEntryDTO newsEntryDTO;
+  private final NewsEntryDTO newsEntryDTO;
+  private final String labelPar;
+  private final String labelLe;
+  private final String dateFormat;
+  private static final String SPACE = " ";
+  private static final String SEMICOLON = ";";
 
-  private static final String DAY_MONTH_YEAR_FORMAT = "dd/MM/yy";
-
-  public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO) {
+  public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO, String labelPar, String labelLe, String dateFormat) {
     this.newsEntryDTO = newsEntryDTO;
-  }
-
-  public String getPublicationDate() {
-    SimpleDateFormat formatted = new SimpleDateFormat(DAY_MONTH_YEAR_FORMAT);
-    return formatted.format(newsEntryDTO.getCreationDate());
+    this.labelLe = labelLe;
+    this.labelPar = labelPar;
+    this.dateFormat = dateFormat;
   }
 
   public List<String> getTags() {
     if (StringUtils.isEmpty(newsEntryDTO.getTags())) {
       return new ArrayList<String>();
     }
-    return Lists.newArrayList(Splitter.on(";").split(newsEntryDTO.getTags()));
-  }
-
-  public String getAuthor() {
-    return newsEntryDTO.getAuthor();
+    return Lists.newArrayList(Splitter.on(SEMICOLON).split(newsEntryDTO.getTags()));
   }
 
   public String getTitle() {
-    if (!hasContent()) {
-      return "";
-    }
-    return newsEntryDTO.getNewsContent().getTitle();
+    return newsEntryDTO.getTitle();
   }
 
   public String getContent() {
-    if (!hasContent()) {
+    if (!displayContent()) {
       return "";
     }
     return newsEntryDTO.getNewsContent().getContent();
   }
 
   public String getImage() {
-    if (!hasImage()) {
+    if (!displayImage()) {
       return "";
     }
     return newsEntryDTO.getNewsImage().getSrc();
   }
 
   public String getLegend() {
-    if (!hasImage()) {
+    if (!displayImage()) {
       return "";
     }
     return newsEntryDTO.getNewsImage().getLegend();
   }
 
-  public int getImageWitdh() {
-    if (!hasImage()) {
+  public String getAlt() {
+    if (!displayImage()) {
+      return "";
+    }
+    return newsEntryDTO.getNewsImage().getAlt();
+  }
+
+  public int getImageWidth() {
+    if (!displayImage()) {
       return 0;
     }
     return newsEntryDTO.getNewsImage().getWidth();
   }
 
   public int getImageHeight() {
-    if (!hasImage()) {
+    if (!displayImage()) {
       return 0;
     }
     return newsEntryDTO.getNewsImage().getHeight();
   }
 
-  public boolean hasImage() {
+  private boolean displayImage() {
     return newsEntryDTO.getNewsImage() != null;
   }
 
-  public boolean hasContent() {
+  private boolean displayContent() {
     return newsEntryDTO.getNewsContent() != null;
   }
 
+  public String getPanelHeading() {
+    StringBuilder panelHeadingBuilder = new StringBuilder();
+    panelHeadingBuilder.append(labelPar).append(SPACE).append(newsEntryDTO.getAuthor()).append(SPACE).append(labelLe)
+        .append(SPACE).append(getPublicationDate());
+    return panelHeadingBuilder.toString();
+  }
+
+  private String getPublicationDate() {
+    SimpleDateFormat formatted = new SimpleDateFormat(dateFormat);
+    return formatted.format(newsEntryDTO.getCreationDate());
+  }
+
+  public boolean isDisplayImage() {
+    return displayImage();
+  }
+
+  public boolean isDisplayContent() {
+    return displayContent();
+  }
+
+  public boolean isDisplayTags() {
+    return !CollectionUtils.isEmpty(getTags());
+  }
 }
