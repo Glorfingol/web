@@ -6,22 +6,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import cmpl.web.factory.BackDisplayFactory;
+import cmpl.web.factory.NewsManagerDisplayFactory;
 import cmpl.web.model.page.BACK_PAGE;
 
 @Controller
 public class NewsManagerController {
 
-  private final BackDisplayFactory backDisplayFactory;
+  private final NewsManagerDisplayFactory newsManagerDisplayFactory;
 
   @Autowired
-  NewsManagerController(BackDisplayFactory backDisplayFactory) {
-    this.backDisplayFactory = backDisplayFactory;
+  NewsManagerController(NewsManagerDisplayFactory newsManagerDisplayFactory) {
+    this.newsManagerDisplayFactory = newsManagerDisplayFactory;
   }
 
   @RequestMapping(value = "/manager/news", method = RequestMethod.GET)
   public ModelAndView printViewNews() {
 
-    return backDisplayFactory.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, "fr");
+    return newsManagerDisplayFactory.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, "fr");
   }
 }

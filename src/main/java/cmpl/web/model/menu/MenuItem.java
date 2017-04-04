@@ -1,5 +1,6 @@
 package cmpl.web.model.menu;
 
+
 public class MenuItem {
 
   private String title;

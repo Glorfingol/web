@@ -9,9 +9,11 @@ import cmpl.web.builder.MenuBuilder;
 import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.factory.BackDisplayFactory;
 import cmpl.web.factory.DisplayFactory;
+import cmpl.web.factory.NewsManagerDisplayFactory;
 import cmpl.web.factory.impl.BackDisplayFactoryImpl;
 import cmpl.web.factory.impl.DisplayFactoryImpl;
 import cmpl.web.factory.impl.NewsDisplayFactoryImpl;
+import cmpl.web.factory.impl.NewsManagerDisplayFactoryImpl;
 import cmpl.web.service.NewsEntryService;
 
 @Configuration
@@ -24,8 +26,9 @@ public class FactoryConfiguration {
   }
 
   @Bean
-  BackDisplayFactory backdisplayFactory(MessageSource messageSource) {
-    return BackDisplayFactoryImpl.fromBuilders(messageSource);
+  BackDisplayFactory backdisplayFactory(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
+      MessageSource messageSource) {
+    return BackDisplayFactoryImpl.fromBuilders(menuBuilder, footerBuilder, messageSource);
   }
 
   @Bean
@@ -35,4 +38,9 @@ public class FactoryConfiguration {
         messageSource, newsEntryService);
   }
 
+  @Bean
+  NewsManagerDisplayFactory newsManagerDisplayFactory(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
+      MessageSource messageSource, NewsEntryService newsEntryService) {
+    return NewsManagerDisplayFactoryImpl.fromBuilders(menuBuilder, footerBuilder, messageSource, newsEntryService);
+  }
 }

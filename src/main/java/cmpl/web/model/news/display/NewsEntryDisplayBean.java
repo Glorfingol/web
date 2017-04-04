@@ -112,4 +112,8 @@ public class NewsEntryDisplayBean {
   public boolean isDisplayTags() {
     return !CollectionUtils.isEmpty(getTags());
   }
+
+  public String getNewsEntryId() {
+    return String.valueOf(newsEntryDTO.getId());
+  }
 }

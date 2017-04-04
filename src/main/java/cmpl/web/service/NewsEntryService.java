@@ -4,7 +4,7 @@ import java.util.List;
 
 import cmpl.web.model.news.dto.NewsEntryDTO;
 
-public interface NewsEntryService {
+public interface NewsEntryService extends BaseService<NewsEntryDTO> {
 
   List<NewsEntryDTO> getRecentNews();
 
