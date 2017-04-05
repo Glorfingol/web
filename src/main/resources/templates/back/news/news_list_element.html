@@ -4,6 +4,7 @@
            <div class="form-group">
               <span th:text="${newsBean.title}"/>
               <span th:text="${newsBean.panelHeading}"/>
+              <a th:title="Modifier" th:href="${newsBean.newsEntryModifyHref}" class="pull-right">Modifier</a>
            </div>
        </div>
     </div>

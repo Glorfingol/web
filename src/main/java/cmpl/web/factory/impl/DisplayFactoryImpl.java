@@ -45,6 +45,7 @@ public class DisplayFactoryImpl implements DisplayFactory {
     model.addObject("menuItems", computeMenuItems(locale));
     model.addObject("metaItems", computeMetaElements(locale, page));
     model.addObject("footer", computeFooter(locale));
+    model.addObject("maintTitle", computeMainTitle(locale));
 
     return model;
 
@@ -52,6 +53,10 @@ public class DisplayFactoryImpl implements DisplayFactory {
 
   List<MenuItem> computeMenuItems(Locale locale) {
     return menuBuilder.computeMenuItems(locale);
+  }
+
+  String computeMainTitle(Locale locale) {
+    return computeI18nLabel("main.title", locale);
   }
 
   Footer computeFooter(Locale locale) {

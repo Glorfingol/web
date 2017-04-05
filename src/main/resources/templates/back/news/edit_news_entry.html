@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/back_header"/>
+<body class="main">
+    <div class="container">
+        <div th:include="common/menu"/>
+        <div class="row">
+            <div class="col-xs-12">
+               <div class="panel panel-default">
+                     <div class="panel-body">
+                            <div class="panel panel-default">
+							    <div class="panel-heading">
+							        <h3 th:text="${newsBean.title}"/>
+							        <div>
+							            <span th:text="${newsBean.panelHeading}"/>
+							        </div>
+							    </div>
+							    <div class="panel-body" th:if="${newsBean.displayContent || newsBean.displayImage}">
+							       <figure th:if="${newsBean.displayImage}">
+							           <img class="newsImage" th:src="${newsBean.image}" th:alt="${newsBean.alt}" th:height="${newsBean.imageHeight}" th:width="${newsBean.imageWidth}"/>
+							           <figcaption class="text-right" th:text="${newsBean.legend}"/>
+							       </figure> 
+							       <p th:if="${newsBean.displayContent}" th:text="${newsBean.content}"/>
+							    </div>
+							    <div class="panel-footer" th:if="${newsBean.displayTags}">
+							       <div class="form-inline">
+							           <div class="form-group">
+							              <span th:each="tag : ${newsBean.tags}" class="badge" th:text="${tag}"/>
+							           </div>
+							       </div>
+							    </div>
+							</div>
+                      </div>
+                </div>
+            </div>
+        </div>
+     </div>
+</body>
+<footer th:include="common/back_footer"></footer>
+</html>

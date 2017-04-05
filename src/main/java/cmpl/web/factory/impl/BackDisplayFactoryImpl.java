@@ -35,11 +35,16 @@ public class BackDisplayFactoryImpl implements BackDisplayFactory {
 
     Locale locale = new Locale(languageCode);
 
-    ModelAndView modelAndView = new ModelAndView(computeI18nLabel(backPage.getTile(), locale));
-    modelAndView.addObject("menuItems", computeBackMenuItems(locale));
-    modelAndView.addObject("footer", computeFooter(locale));
+    ModelAndView model = new ModelAndView(computeI18nLabel(backPage.getTile(), locale));
+    model.addObject("menuItems", computeBackMenuItems(locale));
+    model.addObject("footer", computeFooter(locale));
+    model.addObject("maintTitle", computeMainTitle(locale));
 
-    return modelAndView;
+    return model;
+  }
+
+  String computeMainTitle(Locale locale) {
+    return computeI18nLabel("main.title", locale);
   }
 
   List<MenuItem> computeBackMenuItems(Locale locale) {

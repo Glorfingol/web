@@ -116,4 +116,12 @@ public class NewsEntryDisplayBean {
   public String getNewsEntryId() {
     return String.valueOf(newsEntryDTO.getId());
   }
+
+  public String getNewsEntryModifyHref() {
+    return "/manager/news/" + newsEntryDTO.getId();
+  }
+
+  public String getNewsEntryReadHref() {
+    return "/news/" + newsEntryDTO.getId();
+  }
 }

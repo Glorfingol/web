@@ -59,4 +59,23 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
 
     return newsEntries;
   }
+
+  @Override
+  public ModelAndView computeModelAndViewForOneNewsEntry(BACK_PAGE backPage, String languageCode, String newsEntryId) {
+    ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, languageCode);
+    newsManager.addObject("newsBean", computeNewsEntry(newsEntryId, languageCode));
+
+    return newsManager;
+  }
+
+  NewsEntryDisplayBean computeNewsEntry(String newsEntryId, String languageCode) {
+
+    NewsEntryDTO dto = newsEntryService.getEntity(Long.parseLong(newsEntryId));
+    Locale locale = new Locale(languageCode);
+    String labelPar = computeI18nLabel("news.entry.by", locale);
+    String labelLe = computeI18nLabel("news.entry.the", locale);
+
+    return new NewsEntryDisplayBean(dto, labelPar, labelLe, DAY_MONTH_YEAR_FORMAT);
+
+  }
 }

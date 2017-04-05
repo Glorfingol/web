@@ -6,11 +6,11 @@ import cmpl.web.model.news.dto.BaseDTO;
 
 public interface BaseService<T extends BaseDTO> {
 
-  T createEntity(T boUser);
+  T createEntity(T entity);
 
   T getEntity(Long id);
 
-  T updateEntity(T boUser);
+  T updateEntity(T entity);
 
   void deleteEntity(Long id);
 
