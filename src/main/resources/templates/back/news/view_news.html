@@ -6,13 +6,30 @@
         <div th:include="common/menu"/>
         <div class="row">
             <div class="col-xs-12">
-               <div class="panel panel-default">
-                     <div class="panel-body">
-                        <div th:each="newsBean : ${newsEntries}">
-                            <div th:replace="back/news/news_list_element"/>
+                <div id="accordion" class="panel-group">
+	               <div class="panel panel-default panel-body">
+                        <div class="row collapse in" id="viewEntries">
+                            <div class="col-xs-12">
+	                            <a class="btn btn-primary pull-right" data-toggle="collapse" data-parent="#accordion" data-target="#creationForm">
+	                            Ajouter une entrée
+	                            </a>
+                            </div>
+                            <div th:each="newsBean : ${newsEntries}" class="col-xs-12">
+                                <div th:replace="back/news/news_list_element"/>
+                            </div>
                         </div>
-                      </div>
-                </div>
+                        <div class="row collapse" id="creationForm">
+	                        <div class="col-xs-12">
+	                        FORMULAIRE
+	                        </div>
+                            <div class="col-xs-12" role="tab" id="buttonCancel">
+                                <a class="btn btn-danger collapsed pull-right" role="button" data-toggle="collapse" data-parent="#accordion" href="#viewEntries">
+                                Annuler
+                                </a>
+                            </div>
+                        </div>
+	                </div>
+	           </div>
             </div>
         </div>
      </div>
