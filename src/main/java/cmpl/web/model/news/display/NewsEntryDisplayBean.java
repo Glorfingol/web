@@ -2,15 +2,13 @@ package cmpl.web.model.news.display;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import cmpl.web.model.news.dto.NewsEntryDTO;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 
 public class NewsEntryDisplayBean {
 
@@ -32,7 +30,8 @@ public class NewsEntryDisplayBean {
     if (StringUtils.isEmpty(newsEntryDTO.getTags())) {
       return new ArrayList<String>();
     }
-    return Lists.newArrayList(Splitter.on(SEMICOLON).split(newsEntryDTO.getTags()));
+    String[] splittedTags = newsEntryDTO.getTags().split(SEMICOLON);
+    return Arrays.asList(splittedTags);
   }
 
   public String getTitle() {
