@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.builder.FooterBuilder;
 import cmpl.web.builder.MenuBuilder;
+import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.factory.NewsManagerDisplayFactory;
 import cmpl.web.model.news.display.NewsEntryDisplayBean;
 import cmpl.web.model.news.display.NewsFormDisplayBean;
@@ -23,14 +24,15 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   private static final String DAY_MONTH_YEAR_FORMAT = "dd/MM/yy";
 
   protected NewsManagerDisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MessageSource messageSource, NewsEntryService newsEntryService) {
-    super(menuBuilder, footerBuilder, messageSource);
+      MessageSource messageSource, NewsEntryService newsEntryService, MetaElementBuilder metaElementBuilder) {
+    super(menuBuilder, footerBuilder, messageSource, metaElementBuilder);
     this.newsEntryService = newsEntryService;
   }
 
   public static NewsManagerDisplayFactoryImpl fromBuilders(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MessageSource messageSource, NewsEntryService newsEntryService) {
-    return new NewsManagerDisplayFactoryImpl(menuBuilder, footerBuilder, messageSource, newsEntryService);
+      MessageSource messageSource, NewsEntryService newsEntryService, MetaElementBuilder metaElementBuilder) {
+    return new NewsManagerDisplayFactoryImpl(menuBuilder, footerBuilder, messageSource, newsEntryService,
+        metaElementBuilder);
   }
 
   @Override
@@ -105,12 +107,6 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
 
     formBean.setAltLabel(computeI18nLabel("alt.label", locale));
     formBean.setAltHelp(computeI18nLabel("alt.help", locale));
-
-    formBean.setWidthLabel(computeI18nLabel("width.label", locale));
-    formBean.setWidthHelp(computeI18nLabel("width.help", locale));
-
-    formBean.setHeightLabel(computeI18nLabel("height.label", locale));
-    formBean.setHeightHelp(computeI18nLabel("height.help", locale));
 
     return formBean;
   }

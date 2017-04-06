@@ -12,6 +12,7 @@ import cmpl.web.model.news.dto.NewsContentDTO;
 import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.model.news.dto.NewsImageDTO;
 import cmpl.web.repository.NewsEntryRepository;
+import cmpl.web.service.ImageConverterService;
 import cmpl.web.service.NewsContentService;
 import cmpl.web.service.NewsEntryService;
 import cmpl.web.service.NewsImageService;
@@ -21,20 +22,23 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   private final NewsEntryRepository newsEntryRepository;
   private final NewsImageService newsImageService;
   private final NewsContentService newsContentService;
+  private final ImageConverterService imageConverterService;
 
   private static final long DAY_IN_MS = 1000 * 60 * 60 * 24;
 
   private NewsEntryServiceImpl(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
-      NewsContentService newsContentService) {
+      NewsContentService newsContentService, ImageConverterService imageConverterService) {
     super(newsEntryRepository);
     this.newsEntryRepository = newsEntryRepository;
     this.newsImageService = newsImageService;
     this.newsContentService = newsContentService;
+    this.imageConverterService = imageConverterService;
   }
 
   public static NewsEntryServiceImpl fromRepositoriesAndServices(NewsEntryRepository newsEntryRepository,
-      NewsImageService newsImageService, NewsContentService newsContentService) {
-    return new NewsEntryServiceImpl(newsEntryRepository, newsImageService, newsContentService);
+      NewsImageService newsImageService, NewsContentService newsContentService,
+      ImageConverterService imageConverterService) {
+    return new NewsEntryServiceImpl(newsEntryRepository, newsImageService, newsContentService, imageConverterService);
   }
 
   @Override
@@ -48,7 +52,10 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     }
     NewsImageDTO imageToCreate = dto.getNewsImage();
     if (imageToCreate != null) {
-      entry.setImageId(String.valueOf(newsImageService.createEntity(imageToCreate).getId()));
+      NewsImageDTO formattedImage = imageConverterService.computeNewsImageFromString(imageToCreate.getSrc());
+      formattedImage.setAlt(imageToCreate.getAlt());
+      formattedImage.setLegend(imageToCreate.getLegend());
+      entry.setImageId(String.valueOf(newsImageService.createEntity(formattedImage).getId()));
     }
 
     return toDTO(newsEntryRepository.save(entry));
@@ -64,7 +71,13 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     }
     NewsImageDTO imageToUpdate = dto.getNewsImage();
     if (imageToUpdate != null) {
-      dtoUpdated.setNewsImage(this.newsImageService.updateEntity(imageToUpdate));
+      NewsImageDTO formattedImage = imageConverterService.computeNewsImageFromString(imageToUpdate.getSrc());
+      formattedImage.setAlt(imageToUpdate.getAlt());
+      formattedImage.setLegend(imageToUpdate.getLegend());
+      formattedImage.setId(imageToUpdate.getId());
+      formattedImage.setCreationDate(imageToUpdate.getCreationDate());
+      formattedImage.setModificationDate(imageToUpdate.getModificationDate());
+      dtoUpdated.setNewsImage(this.newsImageService.updateEntity(formattedImage));
     }
     return dtoUpdated;
   }

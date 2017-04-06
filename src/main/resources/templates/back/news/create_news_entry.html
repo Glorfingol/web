@@ -44,17 +44,5 @@
          <div id="feedbackAlt" class="control-label"></div>
         <small class="form-text text-muted" th:text="${newsFormLabels.altHelp}"/>
     </div>
-    <div class="form-group" id="formInputWidth">
-        <label th:text="${newsFormLabels.widthLabel}" />
-        <input type="number" class="form-control" id="inputWidth"/>
-         <div id="feedbackWidth" class="control-label"></div>
-        <small class="form-text text-muted" th:text="${newsFormLabels.widthHelp}"/>
-    </div>
-    <div class="form-group" id="formInputHeight">
-        <label th:text="${newsFormLabels.heightLabel}" />
-        <input type="number" class="form-control" id="inputHeight"/>
-         <div id="feedbackHeight" class="control-label"></div>
-        <small class="form-text text-muted" th:text="${newsFormLabels.heightHelp}"/>
-    </div>
     <a class="btn btn-primary"  onclick="postCreateNewsForm()">POST</a>
 </form>

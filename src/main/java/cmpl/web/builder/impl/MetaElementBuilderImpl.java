@@ -37,6 +37,17 @@ public class MetaElementBuilderImpl extends AbstractBuilder implements MetaEleme
     return metaElements;
   }
 
+  @Override
+  public List<MetaElement> computeMetaElementsForBackPage(Locale locale) {
+
+    List<MetaElement> metaElements = new ArrayList<MetaElement>();
+
+    metaElements.add(computeLanguage(locale));
+    metaElements.add(computeViewPort());
+
+    return metaElements;
+  }
+
   MetaElement computeTitle(Locale locale, PAGE page) {
 
     MetaElement title = new MetaElement();

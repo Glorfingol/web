@@ -21,6 +21,9 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
 
   private final MessageSource messageSource;
 
+  private static final String FORMAT_PNG = "png";
+  private static final String FORMAT_JPG = "jpg";
+
   private NewsEntryRequestValidatorImpl(MessageSource messageSource) {
     this.messageSource = messageSource;
   }
@@ -137,16 +140,12 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
       NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_LEGEND, locale);
       causes.add(cause);
     }
-    if (!isIntValid(imageRequest.getHeight())) {
-      NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_WIDTH, locale);
-      causes.add(cause);
-    }
-    if (!isIntValid(imageRequest.getWidth())) {
-      NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_HEIGHT, locale);
-      causes.add(cause);
-    }
     if (!isStringValid(imageRequest.getSrc())) {
       NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_SRC, locale);
+      causes.add(cause);
+    }
+    if (!isImageFormatValid(imageRequest.getSrc())) {
+      NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.INVALID_FORMAT, locale);
       causes.add(cause);
     }
 
@@ -167,10 +166,6 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
     return cause;
   }
 
-  private boolean isIntValid(int value) {
-    return value != -1;
-  }
-
   private boolean isStringValid(String stringToValidate) {
     return !StringUtils.isEmpty(stringToValidate);
   }
@@ -181,6 +176,10 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
 
   private String getI18n(String key, Locale locale) {
     return messageSource.getMessage(key, null, locale);
+  }
+
+  private boolean isImageFormatValid(String src) {
+    return src.contains(FORMAT_JPG) || src.contains(FORMAT_PNG);
   }
 
 }

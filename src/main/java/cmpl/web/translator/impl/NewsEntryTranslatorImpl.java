@@ -53,8 +53,6 @@ public class NewsEntryTranslatorImpl implements NewsEntryTranslator {
     NewsImageDTO dto = new NewsImageDTO();
 
     dto.setAlt(imageRequest.getAlt());
-    dto.setHeight(imageRequest.getHeight());
-    dto.setWidth(imageRequest.getWidth());
     dto.setSrc(imageRequest.getSrc());
     dto.setLegend(imageRequest.getLegend());
     dto.setCreationDate(imageRequest.getCreationDate());

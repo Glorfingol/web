@@ -8,8 +8,7 @@ public enum NEWS_ERROR_CAUSE {
   EMPTY_CONTENT("empty.content"),
   EMPTY_LEGEND("empty.legend"),
   EMPTY_SRC("empty.src"),
-  EMPTY_WIDTH("empty.width"),
-  EMPTY_HEIGHT("empty.height"),
+  INVALID_FORMAT("invalid.format"),
   EMPTY_ALT("empty.alt");
 
   private String causeKey;

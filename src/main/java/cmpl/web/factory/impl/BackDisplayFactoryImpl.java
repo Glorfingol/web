@@ -8,9 +8,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.builder.FooterBuilder;
 import cmpl.web.builder.MenuBuilder;
+import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.factory.BackDisplayFactory;
 import cmpl.web.model.footer.Footer;
 import cmpl.web.model.menu.MenuItem;
+import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.BACK_PAGE;
 
 public class BackDisplayFactoryImpl implements BackDisplayFactory {
@@ -18,16 +20,19 @@ public class BackDisplayFactoryImpl implements BackDisplayFactory {
   private final MessageSource messageSource;
   private final MenuBuilder menuBuilder;
   private final FooterBuilder footerBuilder;
+  private final MetaElementBuilder metaElementBuilder;
 
-  protected BackDisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder, MessageSource messageSource) {
+  protected BackDisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder, MessageSource messageSource,
+      MetaElementBuilder metaElementBuilder) {
     this.menuBuilder = menuBuilder;
     this.messageSource = messageSource;
     this.footerBuilder = footerBuilder;
+    this.metaElementBuilder = metaElementBuilder;
   }
 
   public static BackDisplayFactoryImpl fromBuilders(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MessageSource messageSource) {
-    return new BackDisplayFactoryImpl(menuBuilder, footerBuilder, messageSource);
+      MessageSource messageSource, MetaElementBuilder metaElementBuilder) {
+    return new BackDisplayFactoryImpl(menuBuilder, footerBuilder, messageSource, metaElementBuilder);
   }
 
   @Override
@@ -39,6 +44,7 @@ public class BackDisplayFactoryImpl implements BackDisplayFactory {
     model.addObject("menuItems", computeBackMenuItems(locale));
     model.addObject("footer", computeFooter(locale));
     model.addObject("maintTitle", computeMainTitle(locale));
+    model.addObject("metaItems", computeMetaElements(locale));
 
     return model;
   }
@@ -57,6 +63,10 @@ public class BackDisplayFactoryImpl implements BackDisplayFactory {
 
   String computeI18nLabel(String key, Locale locale) {
     return messageSource.getMessage(key, null, locale);
+  }
+
+  List<MetaElement> computeMetaElements(Locale locale) {
+    return metaElementBuilder.computeMetaElementsForBackPage(locale);
   }
 
 }

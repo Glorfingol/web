@@ -53,14 +53,10 @@ function computeNewsImage(){
 	
 	var inputLegend = $("#inputLegend");
 	var inputAlt = $("#inputAlt");
-	var inputWidth = $("#inputWidth");
-	var inputHeight = $("#inputHeight");
 	
 	image.src= base64Image;
 	image.alt = inputAlt.val();
 	image.legend = inputLegend.val();
-	image.width = inputWidth.val();
-	image.height = inputHeight.val();
 	
 	return image;
 }
@@ -78,9 +74,7 @@ function displayError(error){
 			errorTarget.addClass("has-error");
 			
 			var feedbackDiv = getFeedBackDivInput(code);
-			feedbackDiv.hide();
 			feedbackDiv.html(message);
-			feedbackDiv.show();
 			
 			var errorInput = getErrorInput(code);
 			errorInput.addClass("form-control-error");
@@ -97,6 +91,21 @@ function getFeedBackDivInput(code){
 	if(code.indexOf("AUTHOR") !== -1){
 		return $("#feedbackAuthor");
 	}	
+	if(code.indexOf("CONTENT") !== -1){
+		return $("#feedbackContent");
+	}	
+	if(code.indexOf("LEGEND") !== -1){
+		return $("#feedbackLegend");
+	}	
+	if(code.indexOf("SRC") !== -1){
+		return $("#feedbackImage");
+	}	
+	if(code.indexOf("FORMAT") !== -1){
+		return $("#feedbackImage");
+	}	
+	if(code.indexOf("ALT") !== -1){
+		return $("#feedbackAlt");
+	}	
 	return null;
 }
 
@@ -107,6 +116,21 @@ function getErrorInput(code){
 	if(code.indexOf("AUTHOR") !== -1){
 		return $("#inputAuthor");
 	}	
+	if(code.indexOf("CONTENT") !== -1){
+		return $("#formInputContent");
+	}	
+	if(code.indexOf("LEGEND") !== -1){
+		return $("#formInputLegend");
+	}	
+	if(code.indexOf("SRC") !== -1){
+		return $("#formInputImage");
+	}	
+	if(code.indexOf("FORMAT") !== -1){
+		return $("#formInputImage");
+	}	
+	if(code.indexOf("ALT") !== -1){
+		return $("#formInputAlt");
+	}	
 	return null;
 }
 
@@ -116,10 +140,25 @@ function getErrorTarget(code){
 	}
 	if(code.indexOf("AUTHOR") !== -1){
 		return $("#formInputAuthor");
+	}
+	if(code.indexOf("CONTENT") !== -1){
+		return $("#formInputContent");
+	}	
+	if(code.indexOf("LEGEND") !== -1){
+		return $("#formInputLegend");
+	}	
+	if(code.indexOf("SRC") !== -1){
+		return $("#formInputImage");
+	}	
+	if(code.indexOf("FORMAT") !== -1){
+		return $("#formInputImage");
+	}	
+	if(code.indexOf("ALT") !== -1){
+		return $("#formInputAlt");
 	}	
 	return null;
 }
-
+s
 function resetForm(){
 	$("input").each(function(){
 		$(this).val("");

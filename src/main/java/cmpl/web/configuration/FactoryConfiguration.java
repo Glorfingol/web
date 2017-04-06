@@ -27,20 +27,21 @@ public class FactoryConfiguration {
 
   @Bean
   BackDisplayFactory backdisplayFactory(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MessageSource messageSource) {
-    return BackDisplayFactoryImpl.fromBuilders(menuBuilder, footerBuilder, messageSource);
+      MessageSource messageSource, MetaElementBuilder metaElementBuilder) {
+    return BackDisplayFactoryImpl.fromBuilders(menuBuilder, footerBuilder, messageSource, metaElementBuilder);
   }
 
   @Bean
   NewsDisplayFactoryImpl newsDisplayFactory(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
       MetaElementBuilder metaElementBuilder, MessageSource messageSource, NewsEntryService newsEntryService) {
-    return NewsDisplayFactoryImpl.fromBuildersAndServices(menuBuilder, footerBuilder, metaElementBuilder,
-        messageSource, newsEntryService);
+    return NewsDisplayFactoryImpl.fromBuildersAndServices(menuBuilder, footerBuilder, metaElementBuilder, messageSource,
+        newsEntryService);
   }
 
   @Bean
   NewsManagerDisplayFactory newsManagerDisplayFactory(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MessageSource messageSource, NewsEntryService newsEntryService) {
-    return NewsManagerDisplayFactoryImpl.fromBuilders(menuBuilder, footerBuilder, messageSource, newsEntryService);
+      MessageSource messageSource, NewsEntryService newsEntryService, MetaElementBuilder metaElementBuilder) {
+    return NewsManagerDisplayFactoryImpl.fromBuilders(menuBuilder, footerBuilder, messageSource, newsEntryService,
+        metaElementBuilder);
   }
 }

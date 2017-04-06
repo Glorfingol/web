@@ -23,12 +23,6 @@ public class NewsFormDisplayBean {
   private String altLabel;
   private String altHelp;
 
-  private String widthLabel;
-  private String widthHelp;
-
-  private String heightLabel;
-  private String heightHelp;
-
   public String getTitleLabel() {
     return titleLabel;
   }
@@ -139,38 +133,6 @@ public class NewsFormDisplayBean {
 
   public void setAltHelp(String altHelp) {
     this.altHelp = altHelp;
-  }
-
-  public String getWidthLabel() {
-    return widthLabel;
-  }
-
-  public void setWidthLabel(String widthLabel) {
-    this.widthLabel = widthLabel;
-  }
-
-  public String getWidthHelp() {
-    return widthHelp;
-  }
-
-  public void setWidthHelp(String widthHelp) {
-    this.widthHelp = widthHelp;
-  }
-
-  public String getHeightLabel() {
-    return heightLabel;
-  }
-
-  public void setHeightLabel(String heightLabel) {
-    this.heightLabel = heightLabel;
-  }
-
-  public String getHeightHelp() {
-    return heightHelp;
-  }
-
-  public void setHeightHelp(String heightHelp) {
-    this.heightHelp = heightHelp;
   }
 
 }

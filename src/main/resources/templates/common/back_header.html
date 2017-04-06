@@ -2,6 +2,7 @@
 
 <meta charset="UTF-8"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta th:each="metaItem : ${metaItems}" th:name="${metaItem.name}" th:content="${metaItem.content}" />
 
 <script type="text/javascript" th:src="@{../../jquery/jquery-3.2.0.min.js}"/>
 <script type="text/javascript" th:src="@{../../bootstrap/js/bootstrap.min.js}"/>

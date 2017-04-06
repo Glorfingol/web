@@ -10,4 +10,6 @@ public interface MetaElementBuilder {
 
   List<MetaElement> computeMetaElementsForPage(Locale locale, PAGE page);
 
+  List<MetaElement> computeMetaElementsForBackPage(Locale locale);
+
 }
