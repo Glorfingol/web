@@ -29,6 +29,9 @@ public abstract class BaseEntity {
     if (creationDate == null) {
       creationDate = new Date(System.currentTimeMillis());
     }
+    if (modificationDate == null) {
+      modificationDate = new Date(System.currentTimeMillis());
+    }
   }
 
   public Long getId() {

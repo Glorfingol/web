@@ -1,0 +1,60 @@
+<form id="newsEntryForm">
+    <div class="form-group" id="formInputTitle">
+        <label th:text="${newsFormLabels.titleLabel}" />
+        <input type="text" class="form-control" id="inputTitle"/>
+        <div id="feedbackTitle" class="control-label"></div>
+        <small class="form-text text-muted" th:text="${newsFormLabels.titleHelp}"/>
+    </div>
+    <div class="form-group" id="formInputAuthor">
+        <label th:text="${newsFormLabels.authorLabel}" />
+        <input type="text" class="form-control" id="inputAuthor"/>
+        <div id="feedbackAuthor" class="control-label" ></div>
+        <small class="form-text text-muted" th:text="${newsFormLabels.authorHelp}"/>
+    </div>
+    <div class="form-group" id="formInputTags">
+        <label th:text="${newsFormLabels.tagsLabel}" />
+        <input type="text" class="form-control" id="inputTags"/>
+         <div id="feedbackTags" class="control-label"></div>
+        <small class="form-text text-muted" th:text="${newsFormLabels.tagsHelp}"/>
+    </div>
+    <div class="form-group" id="formInputContent">
+        <label th:text="${newsFormLabels.contentLabel}" />
+        <textarea rows="3" class="form-control" id="inputContent"/>
+         <div id="feedbackContent" class="control-label"></div>
+        <small class="form-text text-muted" th:text="${newsFormLabels.contentHelp}"/>
+    </div>
+    <div class="form-group" id="formInputImage">
+        <label th:text="${newsFormLabels.imageLabel}" />
+        <input type="file" class="form-control-file" id="inputImage" onchange="previewFile()"/>
+        <div id="feedbackImage" class="control-label"></div>
+        <small class="form-text text-muted" th:text="${newsFormLabels.imageHelp}"/>
+    </div>
+     <div class="form-group" id="formPreviewImage">
+        <img src="" id="imagePreview"/>
+     </div>
+    <div class="form-group" id="formInputLegend">
+        <label th:text="${newsFormLabels.legendLabel}" />
+        <input type="text" class="form-control" id="inputLegend"/>
+         <div id="feedbackLegend" class="control-label"></div>
+        <small class="form-text text-muted" th:text="${newsFormLabels.legendHelp}"/>
+    </div>
+    <div class="form-group" id="formInputAlt">
+        <label th:text="${newsFormLabels.altLabel}" />
+        <input type="text" class="form-control" id="inputAlt"/>
+         <div id="feedbackAlt" class="control-label"></div>
+        <small class="form-text text-muted" th:text="${newsFormLabels.altHelp}"/>
+    </div>
+    <div class="form-group" id="formInputWidth">
+        <label th:text="${newsFormLabels.widthLabel}" />
+        <input type="number" class="form-control" id="inputWidth"/>
+         <div id="feedbackWidth" class="control-label"></div>
+        <small class="form-text text-muted" th:text="${newsFormLabels.widthHelp}"/>
+    </div>
+    <div class="form-group" id="formInputHeight">
+        <label th:text="${newsFormLabels.heightLabel}" />
+        <input type="number" class="form-control" id="inputHeight"/>
+         <div id="feedbackHeight" class="control-label"></div>
+        <small class="form-text text-muted" th:text="${newsFormLabels.heightHelp}"/>
+    </div>
+    <a class="btn btn-primary"  onclick="postCreateNewsForm()">POST</a>
+</form>

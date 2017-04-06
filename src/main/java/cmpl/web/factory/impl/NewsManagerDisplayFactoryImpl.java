@@ -12,6 +12,7 @@ import cmpl.web.builder.FooterBuilder;
 import cmpl.web.builder.MenuBuilder;
 import cmpl.web.factory.NewsManagerDisplayFactory;
 import cmpl.web.model.news.display.NewsEntryDisplayBean;
+import cmpl.web.model.news.display.NewsFormDisplayBean;
 import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.model.page.BACK_PAGE;
 import cmpl.web.service.NewsEntryService;
@@ -36,6 +37,7 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, String languageCode) {
     ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, languageCode);
     newsManager.addObject("newsEntries", computeNewsEntries(languageCode));
+    newsManager.addObject("newsFormLabels", computeForm(languageCode));
 
     return newsManager;
   }
@@ -77,5 +79,39 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
 
     return new NewsEntryDisplayBean(dto, labelPar, labelLe, DAY_MONTH_YEAR_FORMAT);
 
+  }
+
+  NewsFormDisplayBean computeForm(String languageCode) {
+    Locale locale = new Locale(languageCode);
+    NewsFormDisplayBean formBean = new NewsFormDisplayBean();
+
+    formBean.setTitleLabel(computeI18nLabel("title.label", locale));
+    formBean.setTitleHelp(computeI18nLabel("title.help", locale));
+
+    formBean.setAuthorLabel(computeI18nLabel("author.label", locale));
+    formBean.setAuthorHelp(computeI18nLabel("author.help", locale));
+
+    formBean.setTagsLabel(computeI18nLabel("tags.label", locale));
+    formBean.setTagsHelp(computeI18nLabel("tags.help", locale));
+
+    formBean.setContentLabel(computeI18nLabel("content.label", locale));
+    formBean.setContentHelp(computeI18nLabel("content.help", locale));
+
+    formBean.setImageLabel(computeI18nLabel("image.label", locale));
+    formBean.setImageHelp(computeI18nLabel("image.help", locale));
+
+    formBean.setLegendLabel(computeI18nLabel("legend.label", locale));
+    formBean.setLegendHelp(computeI18nLabel("legend.help", locale));
+
+    formBean.setAltLabel(computeI18nLabel("alt.label", locale));
+    formBean.setAltHelp(computeI18nLabel("alt.help", locale));
+
+    formBean.setWidthLabel(computeI18nLabel("width.label", locale));
+    formBean.setWidthHelp(computeI18nLabel("width.help", locale));
+
+    formBean.setHeightLabel(computeI18nLabel("height.label", locale));
+    formBean.setHeightHelp(computeI18nLabel("height.help", locale));
+
+    return formBean;
   }
 }

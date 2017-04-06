@@ -8,7 +8,9 @@ import java.util.List;
 import org.springframework.util.StringUtils;
 
 import cmpl.web.model.news.dao.NewsEntry;
+import cmpl.web.model.news.dto.NewsContentDTO;
 import cmpl.web.model.news.dto.NewsEntryDTO;
+import cmpl.web.model.news.dto.NewsImageDTO;
 import cmpl.web.repository.NewsEntryRepository;
 import cmpl.web.service.NewsContentService;
 import cmpl.web.service.NewsEntryService;
@@ -33,6 +35,51 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   public static NewsEntryServiceImpl fromRepositoriesAndServices(NewsEntryRepository newsEntryRepository,
       NewsImageService newsImageService, NewsContentService newsContentService) {
     return new NewsEntryServiceImpl(newsEntryRepository, newsImageService, newsContentService);
+  }
+
+  @Override
+  public NewsEntryDTO createEntity(NewsEntryDTO dto) {
+
+    NewsEntry entry = new NewsEntry();
+    fillObject(dto, entry);
+    NewsContentDTO contentToCreate = dto.getNewsContent();
+    if (contentToCreate != null) {
+      entry.setContentId(String.valueOf(newsContentService.createEntity(contentToCreate).getId()));
+    }
+    NewsImageDTO imageToCreate = dto.getNewsImage();
+    if (imageToCreate != null) {
+      entry.setImageId(String.valueOf(newsImageService.createEntity(imageToCreate).getId()));
+    }
+
+    return toDTO(newsEntryRepository.save(entry));
+  }
+
+  @Override
+  public NewsEntryDTO updateEntity(NewsEntryDTO dto) {
+    NewsEntryDTO dtoUpdated = super.updateEntity(dto);
+
+    NewsContentDTO contentToUpdate = dto.getNewsContent();
+    if (contentToUpdate != null) {
+      dtoUpdated.setNewsContent(newsContentService.updateEntity(contentToUpdate));
+    }
+    NewsImageDTO imageToUpdate = dto.getNewsImage();
+    if (imageToUpdate != null) {
+      dtoUpdated.setNewsImage(this.newsImageService.updateEntity(imageToUpdate));
+    }
+    return dtoUpdated;
+  }
+
+  @Override
+  public List<NewsEntryDTO> getEntities() {
+
+    List<NewsEntryDTO> entries = new ArrayList<NewsEntryDTO>();
+    List<NewsEntry> newsEntries = newsEntryRepository.findAll();
+
+    for (NewsEntry newsEntry : newsEntries) {
+      entries.add(computeNewsEntryDTO(newsEntry));
+    }
+
+    return entries;
   }
 
   @Override

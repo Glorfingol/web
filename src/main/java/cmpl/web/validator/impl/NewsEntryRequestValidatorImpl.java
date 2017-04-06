@@ -34,7 +34,6 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
 
     List<NewsEntryErrorCause> causes = isContentValid(request.getContent(), languageCode);
     causes.addAll(isNewsEntryValid(request, languageCode));
-    causes.addAll(isContentValid(request.getContent(), languageCode));
     causes.addAll(isNewsImageValid(request.getImage(), languageCode));
 
     if (!CollectionUtils.isEmpty(causes)) {

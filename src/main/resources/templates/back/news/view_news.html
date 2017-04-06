@@ -20,10 +20,10 @@
                         </div>
                         <div class="row collapse" id="creationForm">
 	                        <div class="col-xs-12">
-	                        FORMULAIRE
+	                           <div th:replace="back/news/create_news_entry"/>
 	                        </div>
                             <div class="col-xs-12" role="tab" id="buttonCancel">
-                                <a class="btn btn-danger collapsed pull-right" role="button" data-toggle="collapse" data-parent="#accordion" href="#viewEntries">
+                                <a class="btn btn-danger collapsed pull-right" role="button" data-toggle="collapse" data-parent="#accordion" href="#viewEntries" onclick="resetForm()">
                                 Annuler
                                 </a>
                             </div>
