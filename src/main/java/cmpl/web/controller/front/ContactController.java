@@ -9,18 +9,18 @@ import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
 @Controller
-public class ThinningController {
+public class ContactController {
 
   private final DisplayFactory displayFactory;
 
   @Autowired
-  ThinningController(DisplayFactory displayFactory) {
+  ContactController(DisplayFactory displayFactory) {
     this.displayFactory = displayFactory;
   }
 
-  @RequestMapping(value = "/amincissement")
-  public ModelAndView printThinning() {
-    return displayFactory.computeModelAndViewForPage(PAGE.THINNING, "fr");
+  @RequestMapping(value = "/contact")
+  public ModelAndView printLaserHairRemoval() {
+    return displayFactory.computeModelAndViewForPage(PAGE.CONTACT, "fr");
   }
 
 }

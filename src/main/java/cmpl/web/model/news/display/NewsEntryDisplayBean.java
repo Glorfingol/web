@@ -49,7 +49,7 @@ public class NewsEntryDisplayBean {
     if (!displayImage()) {
       return "";
     }
-    return newsEntryDTO.getNewsImage().getSrc();
+    return newsEntryDTO.getNewsImage().getBase64Src();
   }
 
   public String getLegend() {

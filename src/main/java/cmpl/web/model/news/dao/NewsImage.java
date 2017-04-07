@@ -9,7 +9,7 @@ import javax.persistence.Table;
 public class NewsImage extends BaseEntity {
 
   @Column(name = "src")
-  private String src;
+  private byte[] src;
   @Column(name = "legend")
   private String legend;
   @Column(name = "width")
@@ -18,12 +18,14 @@ public class NewsImage extends BaseEntity {
   private int height;
   @Column(name = "alt")
   private String alt;
+  @Column(name = "format")
+  private String format;
 
-  public String getSrc() {
+  public byte[] getSrc() {
     return src;
   }
 
-  public void setSrc(String src) {
+  public void setSrc(byte[] src) {
     this.src = src;
   }
 
@@ -57,6 +59,14 @@ public class NewsImage extends BaseEntity {
 
   public void setAlt(String alt) {
     this.alt = alt;
+  }
+
+  public String getFormat() {
+    return format;
+  }
+
+  public void setFormat(String format) {
+    this.format = format;
   }
 
 }

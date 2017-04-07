@@ -52,7 +52,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     }
     NewsImageDTO imageToCreate = dto.getNewsImage();
     if (imageToCreate != null) {
-      NewsImageDTO formattedImage = imageConverterService.computeNewsImageFromString(imageToCreate.getSrc());
+      NewsImageDTO formattedImage = imageConverterService.computeNewsImageFromString(imageToCreate.getBase64Src());
       formattedImage.setAlt(imageToCreate.getAlt());
       formattedImage.setLegend(imageToCreate.getLegend());
       entry.setImageId(String.valueOf(newsImageService.createEntity(formattedImage).getId()));
@@ -63,23 +63,52 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
   @Override
   public NewsEntryDTO updateEntity(NewsEntryDTO dto) {
-    NewsEntryDTO dtoUpdated = super.updateEntity(dto);
+    NewsEntry entry = new NewsEntry();
+    fillObject(dto, entry);
 
     NewsContentDTO contentToUpdate = dto.getNewsContent();
     if (contentToUpdate != null) {
-      dtoUpdated.setNewsContent(newsContentService.updateEntity(contentToUpdate));
+
+      String contentId = String.valueOf(contentToUpdate.getId());
+      if (StringUtils.isEmpty(contentId)) {
+        contentToUpdate = newsContentService.createEntity(contentToUpdate);
+        entry.setContentId(String.valueOf(contentToUpdate.getId()));
+      } else {
+        contentToUpdate = newsContentService.updateEntity(contentToUpdate);
+      }
+
     }
+
     NewsImageDTO imageToUpdate = dto.getNewsImage();
     if (imageToUpdate != null) {
-      NewsImageDTO formattedImage = imageConverterService.computeNewsImageFromString(imageToUpdate.getSrc());
+      NewsImageDTO formattedImage = imageConverterService.computeNewsImageFromString(imageToUpdate.getBase64Src());
       formattedImage.setAlt(imageToUpdate.getAlt());
       formattedImage.setLegend(imageToUpdate.getLegend());
       formattedImage.setId(imageToUpdate.getId());
       formattedImage.setCreationDate(imageToUpdate.getCreationDate());
       formattedImage.setModificationDate(imageToUpdate.getModificationDate());
-      dtoUpdated.setNewsImage(this.newsImageService.updateEntity(formattedImage));
+
+      String imageToUpdateId = String.valueOf(imageToUpdate.getId());
+      if (StringUtils.isEmpty(imageToUpdateId)) {
+        imageToUpdate = newsImageService.createEntity(imageToUpdate);
+        entry.setImageId(String.valueOf(imageToUpdate.getId()));
+      } else {
+        imageToUpdate = newsImageService.updateEntity(imageToUpdate);
+      }
+
     }
+
+    NewsEntryDTO dtoUpdated = toDTO(newsEntryRepository.save(entry));
+    dtoUpdated.setNewsContent(contentToUpdate);
+    dtoUpdated.setNewsImage(imageToUpdate);
+
     return dtoUpdated;
+  }
+
+  @Override
+  public NewsEntryDTO getEntity(Long id) {
+    NewsEntry entry = newsEntryRepository.findOne(id);
+    return computeNewsEntryDTO(entry);
   }
 
   @Override
@@ -121,7 +150,10 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
     String newsImageId = newsEntry.getImageId();
     if (!StringUtils.isEmpty(newsImageId)) {
-      newsEntryDTO.setNewsImage(newsImageService.getEntity(Long.parseLong(newsImageId)));
+      NewsImageDTO image = newsImageService.getEntity(Long.parseLong(newsImageId));
+      image.setBase64Src(imageConverterService.convertByteArrayToBase64(image.getSrc(), image.getFormat()));
+      newsEntryDTO.setNewsImage(image);
+
     }
 
     return newsEntryDTO;

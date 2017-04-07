@@ -8,13 +8,11 @@ public enum PAGE {
   OPENING_HOURS("hours.tile", "hours.title", "hours.description"),
   CENTER("center.tile", "center.title", "center.description"),
   PRICES("prices.tile", "prices.title", "prices.description"),
+  CONTACT("contact.tile", "contact.title", "contact.description"),
 
-  FACIAL_INJECTION("facial.injection.tile", "facial.injection.title", "facial.injection.description"),
-  LASER_HAIR_REMOVAL("laser.hair.removal.tile", "laser.hair.removal.title", "laser.hair.removal.description"),
-  LASER_TREATMENT("laser.treatment.tile", "laser.treatment.title", "laser.treatment.description"),
-  THINNING("thinning.tile", "thinning.title", "thinning.description"),
-  PEELING("peeling.tile", "peeling.title", "peeling.description"),
-  GENITAL_AESTHETIC("genital.aesthetic.tile", "genital.aesthetic.title", "genital.aesthetic.description");
+  MEDICAL_CARE("medical.care.tile", "medical.care.title", "medical.care.description"),
+  GYNECOLOGIST("gynecologist.tile", "gynecologist.title", "gynecologist.description"),
+  TECHNICS("technics.tile", "technics.title", "technics.description");
 
   private String tileName;
   private String title;

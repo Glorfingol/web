@@ -6,4 +6,6 @@ public interface ImageConverterService {
 
   NewsImageDTO computeNewsImageFromString(String base64);
 
+  String convertByteArrayToBase64(byte[] src, String format);
+
 }

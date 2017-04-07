@@ -9,18 +9,18 @@ import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
 @Controller
-public class GenitalAestheticController {
+public class MedicalCareController {
 
   private final DisplayFactory displayFactory;
 
   @Autowired
-  GenitalAestheticController(DisplayFactory displayFactory) {
+  MedicalCareController(DisplayFactory displayFactory) {
     this.displayFactory = displayFactory;
   }
 
-  @RequestMapping(value = "/medecine_esthetique_genitale")
-  public ModelAndView printGenitalAesthetic() {
-    return displayFactory.computeModelAndViewForPage(PAGE.GENITAL_AESTHETIC, "fr");
+  @RequestMapping(value = "/soins_medicaux")
+  public ModelAndView printFacialInjections() {
+    return displayFactory.computeModelAndViewForPage(PAGE.MEDICAL_CARE, "fr");
   }
 
 }

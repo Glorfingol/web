@@ -44,5 +44,8 @@
          <div id="feedbackAlt" class="control-label"></div>
         <small class="form-text text-muted" th:text="${newsFormLabels.altHelp}"/>
     </div>
-    <a class="btn btn-primary"  onclick="postCreateNewsForm()">POST</a>
+    <div class="pull-right">
+        <a class="btn btn-md btn-danger collapsed glyphicon glyphicon-remove" role="button" data-toggle="collapse" data-parent="#accordion" href="#viewEntries" onclick="resetForm()"/>
+        <a class="btn btn-md btn-success glyphicon glyphicon glyphicon-ok"  onclick="postCreateNewsForm()"/>
+    </div>
 </form>

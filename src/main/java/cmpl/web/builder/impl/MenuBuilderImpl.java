@@ -1,8 +1,6 @@
 package cmpl.web.builder.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,6 +11,7 @@ import cmpl.web.builder.MenuBuilder;
 import cmpl.web.model.menu.BACK_MENU;
 import cmpl.web.model.menu.MENU;
 import cmpl.web.model.menu.MenuItem;
+import cmpl.web.model.menu.SUB_MENU;
 
 public class MenuBuilderImpl extends AbstractBuilder implements MenuBuilder {
 
@@ -36,17 +35,30 @@ public class MenuBuilderImpl extends AbstractBuilder implements MenuBuilder {
       menuItem.setLabel(getI18nValue(menu.getLabel(), locale));
       menuItem.setTitle(getI18nValue(menu.getTitle(), locale));
 
+      menuItem.setSubMenuItems(computeSubMenuItems(menu, locale));
+
       menuItems.add(menuItem);
     }
 
-    Collections.sort(menuItems, new Comparator<MenuItem>() {
-      @Override
-      public int compare(MenuItem item1, MenuItem item2) {
-        return item1.getTitle().compareTo(item2.getTitle());
-      }
-    });
-
     return menuItems;
+  }
+
+  private List<MenuItem> computeSubMenuItems(MENU menu, Locale locale) {
+    List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
+    for (SUB_MENU subMenu : SUB_MENU.values()) {
+      if (menu.equals(subMenu.getParent())) {
+        MenuItem subMenuItem = new MenuItem();
+
+        subMenuItem.setHref(getI18nValue(subMenu.getHref(), locale));
+        subMenuItem.setLabel(getI18nValue(subMenu.getLabel(), locale));
+        subMenuItem.setTitle(getI18nValue(subMenu.getLabel(), locale));
+
+        subMenuItems.add(subMenuItem);
+
+      }
+    }
+
+    return subMenuItems;
   }
 
   @Override
@@ -64,17 +76,10 @@ public class MenuBuilderImpl extends AbstractBuilder implements MenuBuilder {
       menuItem.setLabel(getI18nValue(menu.getLabel(), locale));
       menuItem.setTitle(getI18nValue(menu.getTitle(), locale));
 
+      menuItem.setSubMenuItems(new ArrayList<MenuItem>());
       menuItems.add(menuItem);
     }
 
-    Collections.sort(menuItems, new Comparator<MenuItem>() {
-      @Override
-      public int compare(MenuItem item1, MenuItem item2) {
-        return item1.getTitle().compareTo(item2.getTitle());
-      }
-    });
-
     return menuItems;
   }
-
 }

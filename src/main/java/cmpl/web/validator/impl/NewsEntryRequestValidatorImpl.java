@@ -22,7 +22,6 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
   private final MessageSource messageSource;
 
   private static final String FORMAT_PNG = "png";
-  private static final String FORMAT_JPG = "jpg";
 
   private NewsEntryRequestValidatorImpl(MessageSource messageSource) {
     this.messageSource = messageSource;
@@ -179,7 +178,7 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
   }
 
   private boolean isImageFormatValid(String src) {
-    return src.contains(FORMAT_JPG) || src.contains(FORMAT_PNG);
+    return src.contains(FORMAT_PNG);
   }
 
 }

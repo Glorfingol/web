@@ -6,32 +6,66 @@
         <div th:include="common/menu"/>
         <div class="row">
             <div class="col-xs-12">
-               <div class="panel panel-default">
-                     <div class="panel-body">
-                            <div class="panel panel-default">
-							    <div class="panel-heading">
-							        <h3 th:text="${newsBean.title}"/>
-							        <div>
-							            <span th:text="${newsBean.panelHeading}"/>
-							        </div>
-							    </div>
-							    <div class="panel-body" th:if="${newsBean.displayContent || newsBean.displayImage}">
-							       <figure th:if="${newsBean.displayImage}">
-							           <img class="newsImage" th:src="${newsBean.image}" th:alt="${newsBean.alt}" th:height="${newsBean.imageHeight}" th:width="${newsBean.imageWidth}"/>
-							           <figcaption class="text-right" th:text="${newsBean.legend}"/>
-							       </figure> 
-							       <p th:if="${newsBean.displayContent}" th:text="${newsBean.content}"/>
-							    </div>
-							    <div class="panel-footer" th:if="${newsBean.displayTags}">
-							       <div class="form-inline">
-							           <div class="form-group">
-							              <span th:each="tag : ${newsBean.tags}" class="badge" th:text="${tag}"/>
-							           </div>
-							       </div>
-							    </div>
-							</div>
-                      </div>
-                </div>
+                   <form id="newsEntryForm">
+				    <div class="form-group" id="formInputTitle">
+				        <label th:text="${newsFormLabels.titleLabel}" />
+				        <input type="text" class="form-control" id="inputTitle" th:value="${newsEditBean.title}"/>
+				        <div id="feedbackTitle" class="control-label"></div>
+				        <small class="form-text text-muted" th:text="${newsFormLabels.titleHelp}"/>
+				    </div>
+				    <div class="form-group" id="formInputAuthor">
+				        <label th:text="${newsFormLabels.authorLabel}" />
+				        <input type="text" class="form-control" id="inputAuthor" th:value="${newsEditBean.author}"/>
+				        <div id="feedbackAuthor" class="control-label" ></div>
+				        <small class="form-text text-muted" th:text="${newsFormLabels.authorHelp}"/>
+				    </div>
+				    <div class="form-group" id="formInputTags">
+				        <label th:text="${newsFormLabels.tagsLabel}" />
+				        <input type="text" class="form-control" id="inputTags" th:value="${newsEditBean.tags}"/>
+				         <div id="feedbackTags" class="control-label"></div>
+				        <small class="form-text text-muted" th:text="${newsFormLabels.tagsHelp}"/>
+				    </div>
+				    <div class="form-group" id="formInputContent">
+				        <label th:text="${newsFormLabels.contentLabel}" />
+				        <textarea rows="3" class="form-control" id="inputContent" th:text="${newsEditBean.content}"/>
+				         <div id="feedbackContent" class="control-label"></div>
+				        <small class="form-text text-muted" th:text="${newsFormLabels.contentHelp}"/>
+				    </div>
+				    <div class="form-group" id="formInputImage">
+				        <label th:text="${newsFormLabels.imageLabel}" />
+				        <input type="file" class="form-control-file" id="inputImage" onchange="previewFile()" th:value="${newsEditBean.src}"/>
+				        <div id="feedbackImage" class="control-label"></div>
+				        <small class="form-text text-muted" th:text="${newsFormLabels.imageHelp}"/>
+				    </div>
+				     <div class="form-group" id="formPreviewImage">
+				        <img src="" id="imagePreview"/>
+				     </div>
+				    <div class="form-group" id="formInputLegend">
+				        <label th:text="${newsFormLabels.legendLabel}" />
+				        <input type="text" class="form-control" id="inputLegend" th:value="${newsEditBean.legend}"/>
+				         <div id="feedbackLegend" class="control-label"></div>
+				        <small class="form-text text-muted" th:text="${newsFormLabels.legendHelp}"/>
+				    </div>
+				    <div class="form-group" id="formInputAlt">
+				        <label th:text="${newsFormLabels.altLabel}" />
+				        <input type="text" class="form-control" id="inputAlt" th:value="${newsEditBean.alt}"/>
+				         <div id="feedbackAlt" class="control-label"></div>
+				        <small class="form-text text-muted" th:text="${newsFormLabels.altHelp}"/>
+				    </div>
+				    <input type="hidden" id="entryId" th:value="${newsEditBean.entryId}"/>
+				    <input type="hidden" id="entryCreationDate" th:value="${newsEditBean.entryCreationDate}"/>
+				    <input type="hidden" id="entryModificationDate" th:value="${newsEditBean.entryModificationDate}"/>
+				    <input type="hidden" id="contentId" th:value="${newsEditBean.contentId}"/>
+				    <input type="hidden" id="contentCreationDate" th:value="${newsEditBean.contentCreationDate}"/>
+				    <input type="hidden" id="contentModificationDate" th:value="${newsEditBean.contentModificationDate}"/>
+				    <input type="hidden" id="imageId" th:value="${newsEditBean.imageId}"/>
+				    <input type="hidden" id="imageCreationDate" th:value="${newsEditBean.imageCreationDate}"/>
+				    <input type="hidden" id="imageModificationDate" th:value="${newsEditBean.imageModificationDate}"/>
+				    <div class="pull-right">
+				        <a class="btn btn-md btn-danger glyphicon glyphicon-remove"  onclick="cancelUpdate()"/>
+				        <a class="btn btn-md btn-success glyphicon glyphicon-ok"  onclick="postUpdayeNewsForm()"/>
+				    </div>
+				</form>
             </div>
         </div>
      </div>

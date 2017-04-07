@@ -9,18 +9,19 @@ import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
 @Controller
-public class PeelingController {
+public class TechnicsController {
 
   private final DisplayFactory displayFactory;
 
   @Autowired
-  PeelingController(DisplayFactory displayFactory) {
+  TechnicsController(DisplayFactory displayFactory) {
     this.displayFactory = displayFactory;
   }
 
-  @RequestMapping(value = "/peeling")
-  public ModelAndView printPeeling() {
-    return displayFactory.computeModelAndViewForPage(PAGE.PEELING, "fr");
+  @RequestMapping(value = "/techniques")
+  public ModelAndView printTechnicsTreatment() {
+
+    return displayFactory.computeModelAndViewForPage(PAGE.TECHNICS, "fr");
   }
 
 }

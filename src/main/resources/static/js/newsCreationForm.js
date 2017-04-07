@@ -158,7 +158,6 @@ function getErrorTarget(code){
 	}	
 	return null;
 }
-s
 function resetForm(){
 	$("input").each(function(){
 		$(this).val("");

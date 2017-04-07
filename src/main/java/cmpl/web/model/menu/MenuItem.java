@@ -1,11 +1,14 @@
 package cmpl.web.model.menu;
 
+import java.util.List;
 
 public class MenuItem {
 
   private String title;
   private String href;
   private String label;
+
+  List<MenuItem> subMenuItems;
 
   public String getTitle() {
     return title;
@@ -29,6 +32,14 @@ public class MenuItem {
 
   public void setLabel(String label) {
     this.label = label;
+  }
+
+  public List<MenuItem> getSubMenuItems() {
+    return subMenuItems;
+  }
+
+  public void setSubMenuItems(List<MenuItem> subMenuItems) {
+    this.subMenuItems = subMenuItems;
   }
 
 }

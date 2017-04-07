@@ -1,10 +1,10 @@
 package cmpl.web.service.impl;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
@@ -16,9 +16,9 @@ import cmpl.web.service.ImageConverterService;
 
 public class ImageConverterServiceImpl implements ImageConverterService {
 
-  private static final String JPEG_FORMAT = "jpeg";
-  private static final String JPEG_NAME = "jpeg";
   private static final String COMMA = ",";
+  private static final String FORMAT_PNG = "png";
+  private static final String IMAGE_OVERHEAD = "data:image/{0};base64,";
 
   private ImageConverterServiceImpl() {
 
@@ -32,39 +32,22 @@ public class ImageConverterServiceImpl implements ImageConverterService {
   public NewsImageDTO computeNewsImageFromString(String base64) {
 
     NewsImageDTO newsImage = new NewsImageDTO();
+    byte[] decodedSource = Base64.decodeBase64(base64);
 
     try {
       BufferedImage bufferedImage = createBufferedImageFromBase64(base64);
       newsImage.setWidth(computeWidth(bufferedImage));
       newsImage.setHeight(computeHeight(bufferedImage));
-      String newSrc = computeSrcInJpeg(bufferedImage, base64);
-      while (isResizeImage(newSrc)) {
-        BufferedImage resizedImage = resizeImage(newSrc);
-        newSrc = computeSrc(resizedImage);
-        newsImage.setWidth(computeWidth(resizedImage));
-        newsImage.setHeight(computeHeight(resizedImage));
-      }
-      newsImage.setSrc(newSrc);
+      newsImage.setSrc(getImageByteArray(base64));
+      newsImage.setFormat(extractFormatFromBase64(base64));
     } catch (Exception e) {
-      newsImage.setSrc(base64);
+      newsImage.setSrc(decodedSource);
       newsImage.setWidth(0);
       newsImage.setHeight(0);
+      newsImage.setFormat(FORMAT_PNG);
     }
 
     return newsImage;
-  }
-
-  private String computeSrcInJpeg(BufferedImage bufferedImage, String base64) throws IOException {
-    if (base64.contains(JPEG_NAME)) {
-      return base64;
-    }
-    return computeSrc(bufferedImage);
-  }
-
-  private String computeSrc(BufferedImage bufferedImage) throws IOException {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    ImageIO.write(bufferedImage, JPEG_FORMAT, outputStream);
-    return Base64.encodeBase64String(outputStream.toByteArray());
   }
 
   private int computeWidth(BufferedImage bufferedImage) {
@@ -75,30 +58,41 @@ public class ImageConverterServiceImpl implements ImageConverterService {
     return bufferedImage.getHeight();
   }
 
-  private boolean isResizeImage(String base64) {
-    return base64.length() > 65535;
-  }
-
-  private BufferedImage resizeImage(String base64) throws IOException {
-    BufferedImage bufferedImage = createBufferedImageFromBase64(base64);
-    int newWidth = bufferedImage.getWidth() - 10;
-    int newHeight = bufferedImage.getHeight() - 10;
-    BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, bufferedImage.getType());
-    Graphics2D g = resizedImage.createGraphics();
-    g.drawImage(bufferedImage, 0, 0, newWidth, newHeight, null);
-    g.dispose();
-
-    return resizedImage;
-  }
-
   private BufferedImage createBufferedImageFromBase64(String base64) throws IOException {
-    String splittedBase64[] = splitBase64(base64);
-    String base64Image = splittedBase64.length > 1 ? splittedBase64[1] : base64;
-    byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64Image);
+    byte[] imageBytes = getImageByteArray(base64);
     return ImageIO.read(new ByteArrayInputStream(imageBytes));
   }
 
-  private String[] splitBase64(String base64) {
-    return base64.split(COMMA);
+  private byte[] getImageByteArray(String base64) {
+    String base64Image = base64.split(COMMA)[1];
+    return DatatypeConverter.parseBase64Binary(base64Image);
   }
+
+  @Override
+  public String convertByteArrayToBase64(byte[] src, String format) {
+    String base64;
+    try {
+      BufferedImage image = ImageIO.read(new ByteArrayInputStream(src));
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      ImageIO.write(image, format, os);
+      base64 = Base64.encodeBase64String(os.toByteArray());
+    } catch (Exception e) {
+      base64 = Base64.encodeBase64String(src);
+    }
+    return computeOverhead(format) + base64;
+  }
+
+  private String extractFormatFromBase64(String base64) {
+    String firstMatcher = "data:image/";
+    int previousIndex = base64.indexOf("data:image/");
+    int nextIndex = base64.indexOf(";base64");
+
+    return base64.substring(previousIndex + firstMatcher.length(), nextIndex);
+
+  }
+
+  private String computeOverhead(String format) {
+    return MessageFormat.format(IMAGE_OVERHEAD, format);
+  }
+
 }

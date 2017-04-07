@@ -12,9 +12,12 @@ import cmpl.web.builder.FooterBuilder;
 import cmpl.web.builder.MenuBuilder;
 import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.factory.NewsManagerDisplayFactory;
+import cmpl.web.model.news.display.NewsEditBean;
 import cmpl.web.model.news.display.NewsEntryDisplayBean;
 import cmpl.web.model.news.display.NewsFormDisplayBean;
+import cmpl.web.model.news.dto.NewsContentDTO;
 import cmpl.web.model.news.dto.NewsEntryDTO;
+import cmpl.web.model.news.dto.NewsImageDTO;
 import cmpl.web.model.page.BACK_PAGE;
 import cmpl.web.service.NewsEntryService;
 
@@ -67,19 +70,23 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   @Override
   public ModelAndView computeModelAndViewForOneNewsEntry(BACK_PAGE backPage, String languageCode, String newsEntryId) {
     ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, languageCode);
-    newsManager.addObject("newsBean", computeNewsEntry(newsEntryId, languageCode));
+    newsManager.addObject("newsEditBean", computeNewsEntry(newsEntryId));
+    newsManager.addObject("newsFormLabels", computeForm(languageCode));
 
     return newsManager;
   }
 
-  NewsEntryDisplayBean computeNewsEntry(String newsEntryId, String languageCode) {
+  NewsEditBean computeNewsEntry(String newsEntryId) {
 
     NewsEntryDTO dto = newsEntryService.getEntity(Long.parseLong(newsEntryId));
-    Locale locale = new Locale(languageCode);
-    String labelPar = computeI18nLabel("news.entry.by", locale);
-    String labelLe = computeI18nLabel("news.entry.the", locale);
 
-    return new NewsEntryDisplayBean(dto, labelPar, labelLe, DAY_MONTH_YEAR_FORMAT);
+    if (dto.getNewsImage() == null) {
+      dto.setNewsImage(new NewsImageDTO());
+    }
+    if (dto.getNewsContent() == null) {
+      dto.setNewsContent(new NewsContentDTO());
+    }
+    return new NewsEditBean(dto);
 
   }
 

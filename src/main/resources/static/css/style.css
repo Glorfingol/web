@@ -2,3 +2,8 @@
     width: 100%;
     height: auto;
 }
+@media (min-width: 800px) {
+  ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block;
+  }
+}
