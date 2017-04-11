@@ -39,15 +39,15 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   @Override
-  public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, String languageCode) {
-    ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, languageCode);
-    newsManager.addObject("newsEntries", computeNewsEntries(languageCode));
-    newsManager.addObject("newsFormLabels", computeForm(languageCode));
+  public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
+    ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
+    newsManager.addObject("newsEntries", computeNewsEntries(locale));
+    newsManager.addObject("newsFormLabels", computeForm(locale));
 
     return newsManager;
   }
 
-  List<NewsEntryDisplayBean> computeNewsEntries(String languageCode) {
+  List<NewsEntryDisplayBean> computeNewsEntries(Locale locale) {
     List<NewsEntryDisplayBean> newsEntries = new ArrayList<NewsEntryDisplayBean>();
 
     List<NewsEntryDTO> newsEntriesFromDB = newsEntryService.getEntities();
@@ -56,7 +56,6 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     }
 
     for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
-      Locale locale = new Locale(languageCode);
       String labelPar = computeI18nLabel("news.entry.by", locale);
       String labelLe = computeI18nLabel("news.entry.the", locale);
       NewsEntryDisplayBean newsEntryDisplayBean = new NewsEntryDisplayBean(newsEntryFromDB, labelPar, labelLe,
@@ -68,10 +67,10 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   @Override
-  public ModelAndView computeModelAndViewForOneNewsEntry(BACK_PAGE backPage, String languageCode, String newsEntryId) {
-    ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, languageCode);
+  public ModelAndView computeModelAndViewForOneNewsEntry(BACK_PAGE backPage, Locale locale, String newsEntryId) {
+    ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
     newsManager.addObject("newsEditBean", computeNewsEntry(newsEntryId));
-    newsManager.addObject("newsFormLabels", computeForm(languageCode));
+    newsManager.addObject("newsFormLabels", computeForm(locale));
 
     return newsManager;
   }
@@ -90,8 +89,7 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
 
   }
 
-  NewsFormDisplayBean computeForm(String languageCode) {
-    Locale locale = new Locale(languageCode);
+  NewsFormDisplayBean computeForm(Locale locale) {
     NewsFormDisplayBean formBean = new NewsFormDisplayBean();
 
     formBean.setTitleLabel(computeI18nLabel("title.label", locale));

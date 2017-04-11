@@ -25,6 +25,9 @@ public class NewsEntryTranslatorImpl implements NewsEntryTranslator {
     dto.setAuthor(request.getAuthor());
     dto.setTags(request.getTags());
     dto.setTitle(request.getTitle());
+    dto.setId(request.getId());
+    dto.setCreationDate(request.getCreationDate());
+    dto.setModificationDate(request.getModificationDate());
 
     NewsContentRequest contentRequest = request.getContent();
     if (contentRequest != null) {

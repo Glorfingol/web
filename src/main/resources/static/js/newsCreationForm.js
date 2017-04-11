@@ -173,7 +173,7 @@ function resetForm(){
 }
 
 function previewFile() {
-	  var preview = document.querySelector('img');
+	  var preview = document.querySelector('#imagePreview');
 	  var file    = document.querySelector('input[type=file]').files[0];
 	  var reader  = new FileReader();
 

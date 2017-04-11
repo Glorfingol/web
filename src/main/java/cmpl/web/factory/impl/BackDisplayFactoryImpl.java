@@ -11,6 +11,7 @@ import cmpl.web.builder.MenuBuilder;
 import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.factory.BackDisplayFactory;
 import cmpl.web.model.footer.Footer;
+import cmpl.web.model.login.LoginFormDisplayBean;
 import cmpl.web.model.menu.MenuItem;
 import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.BACK_PAGE;
@@ -36,15 +37,15 @@ public class BackDisplayFactoryImpl implements BackDisplayFactory {
   }
 
   @Override
-  public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, String languageCode) {
-
-    Locale locale = new Locale(languageCode);
+  public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
 
     ModelAndView model = new ModelAndView(computeI18nLabel(backPage.getTile(), locale));
     model.addObject("menuItems", computeBackMenuItems(locale));
     model.addObject("footer", computeFooter(locale));
     model.addObject("maintTitle", computeMainTitle(locale));
     model.addObject("metaItems", computeMetaElements(locale));
+    model.addObject("loginForm", computeLoginFormDisplayBean(locale));
+    model.addObject("hiddenLink", computeI18nLabel("back.news.href", locale));
 
     return model;
   }
@@ -67,6 +68,17 @@ public class BackDisplayFactoryImpl implements BackDisplayFactory {
 
   List<MetaElement> computeMetaElements(Locale locale) {
     return metaElementBuilder.computeMetaElementsForBackPage(locale);
+  }
+
+  LoginFormDisplayBean computeLoginFormDisplayBean(Locale locale) {
+    LoginFormDisplayBean loginFormDisplayBean = new LoginFormDisplayBean();
+
+    loginFormDisplayBean.setUserLabel(computeI18nLabel("user.name", locale));
+    loginFormDisplayBean.setPasswordLabel(computeI18nLabel("user.password", locale));
+    loginFormDisplayBean.setErrorLabel(computeI18nLabel("user.error", locale));
+    loginFormDisplayBean.setTimeoutLabel(computeI18nLabel("user.logout", locale));
+
+    return loginFormDisplayBean;
   }
 
 }

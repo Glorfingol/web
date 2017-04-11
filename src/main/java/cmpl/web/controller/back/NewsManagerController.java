@@ -1,5 +1,7 @@
 package cmpl.web.controller.back;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +34,7 @@ public class NewsManagerController {
   @RequestMapping(value = "/manager/news", method = RequestMethod.GET)
   public ModelAndView printViewNews() {
 
-    return newsManagerDisplayFactory.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, "fr");
+    return newsManagerDisplayFactory.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, Locale.FRANCE);
   }
 
   @RequestMapping(value = "/manager/news", method = RequestMethod.POST, produces = "application/json")
@@ -77,6 +79,7 @@ public class NewsManagerController {
   @RequestMapping(value = "/manager/news/{newsEntryId}", method = RequestMethod.GET)
   public ModelAndView getNewsEntity(@PathVariable(value = "newsEntryId") String newsEntryId) {
 
-    return newsManagerDisplayFactory.computeModelAndViewForOneNewsEntry(BACK_PAGE.NEWS_UPDATE, "fr", newsEntryId);
+    return newsManagerDisplayFactory.computeModelAndViewForOneNewsEntry(BACK_PAGE.NEWS_UPDATE, Locale.FRANCE,
+        newsEntryId);
   }
 }

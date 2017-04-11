@@ -2,7 +2,7 @@ package cmpl.web.model.menu;
 
 public enum BACK_MENU {
 
-  BACK_NEWS("news.title", "news.href", "news.label");
+  BACK_NEWS("back.news.title", "back.news.href", "back.news.label");
 
   private String title;
   private String href;

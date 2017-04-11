@@ -1,11 +1,15 @@
 package cmpl.web.factory;
 
+import java.util.Locale;
+
 import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.model.page.BACK_PAGE;
 
-public interface NewsManagerDisplayFactory extends BackDisplayFactory {
+public interface NewsManagerDisplayFactory {
 
-  ModelAndView computeModelAndViewForOneNewsEntry(BACK_PAGE backPage, String languageCode, String newsEntryId);
+  ModelAndView computeModelAndViewForOneNewsEntry(BACK_PAGE backPage, Locale locale, String newsEntryId);
+
+  ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale);
 
 }

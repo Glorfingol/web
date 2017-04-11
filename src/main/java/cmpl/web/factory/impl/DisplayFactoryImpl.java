@@ -36,9 +36,7 @@ public class DisplayFactoryImpl implements DisplayFactory {
   }
 
   @Override
-  public ModelAndView computeModelAndViewForPage(PAGE page, String languageCode) {
-
-    Locale locale = new Locale(languageCode);
+  public ModelAndView computeModelAndViewForPage(PAGE page, Locale locale) {
 
     ModelAndView model = new ModelAndView(computeI18nLabel(page.getTileName(), locale));
 
@@ -46,6 +44,7 @@ public class DisplayFactoryImpl implements DisplayFactory {
     model.addObject("metaItems", computeMetaElements(locale, page));
     model.addObject("footer", computeFooter(locale));
     model.addObject("maintTitle", computeMainTitle(locale));
+    model.addObject("hiddenLink", computeI18nLabel("back.news.href", locale));
 
     return model;
 

@@ -34,25 +34,24 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
   }
 
   @Override
-  public ModelAndView computeModelAndViewForPage(PAGE page, String languageCode) {
+  public ModelAndView computeModelAndViewForPage(PAGE page, Locale locale) {
 
-    ModelAndView newsModelAndView = super.computeModelAndViewForPage(page, languageCode);
-    newsModelAndView.addObject("newsEntries", computeNewsEntries(languageCode));
+    ModelAndView newsModelAndView = super.computeModelAndViewForPage(page, locale);
+    newsModelAndView.addObject("newsEntries", computeNewsEntries(locale));
 
     return newsModelAndView;
 
   }
 
-  List<NewsEntryDisplayBean> computeNewsEntries(String languageCode) {
+  List<NewsEntryDisplayBean> computeNewsEntries(Locale locale) {
     List<NewsEntryDisplayBean> newsEntries = new ArrayList<NewsEntryDisplayBean>();
 
-    List<NewsEntryDTO> newsEntriesFromDB = newsEntryService.getRecentNews();
+    List<NewsEntryDTO> newsEntriesFromDB = newsEntryService.getEntities();
     if (CollectionUtils.isEmpty(newsEntriesFromDB)) {
       return newsEntries;
     }
 
     for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
-      Locale locale = new Locale(languageCode);
       String labelPar = computeI18nLabel("news.entry.by", locale);
       String labelLe = computeI18nLabel("news.entry.the", locale);
       NewsEntryDisplayBean newsEntryDisplayBean = new NewsEntryDisplayBean(newsEntryFromDB, labelPar, labelLe,

@@ -1,8 +1,6 @@
 package cmpl.web.service.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -23,8 +21,6 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   private final NewsImageService newsImageService;
   private final NewsContentService newsContentService;
   private final ImageConverterService imageConverterService;
-
-  private static final long DAY_IN_MS = 1000 * 60 * 60 * 24;
 
   private NewsEntryServiceImpl(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
       NewsContentService newsContentService, ImageConverterService imageConverterService) {
@@ -69,13 +65,14 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     NewsContentDTO contentToUpdate = dto.getNewsContent();
     if (contentToUpdate != null) {
 
-      String contentId = String.valueOf(contentToUpdate.getId());
-      if (StringUtils.isEmpty(contentId)) {
+      Long contentId = contentToUpdate.getId();
+      if (contentId == null) {
         contentToUpdate = newsContentService.createEntity(contentToUpdate);
-        entry.setContentId(String.valueOf(contentToUpdate.getId()));
+
       } else {
         contentToUpdate = newsContentService.updateEntity(contentToUpdate);
       }
+      entry.setContentId(String.valueOf(contentToUpdate.getId()));
 
     }
 
@@ -88,13 +85,14 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
       formattedImage.setCreationDate(imageToUpdate.getCreationDate());
       formattedImage.setModificationDate(imageToUpdate.getModificationDate());
 
-      String imageToUpdateId = String.valueOf(imageToUpdate.getId());
-      if (StringUtils.isEmpty(imageToUpdateId)) {
+      Long imageToUpdateId = imageToUpdate.getId();
+      if (imageToUpdateId == null) {
         imageToUpdate = newsImageService.createEntity(imageToUpdate);
-        entry.setImageId(String.valueOf(imageToUpdate.getId()));
+
       } else {
         imageToUpdate = newsImageService.updateEntity(imageToUpdate);
       }
+      entry.setImageId(String.valueOf(imageToUpdate.getId()));
 
     }
 
@@ -122,22 +120,6 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     }
 
     return entries;
-  }
-
-  @Override
-  public List<NewsEntryDTO> getRecentNews() {
-
-    List<NewsEntryDTO> newsEntriesToReturn = new ArrayList<NewsEntryDTO>();
-
-    Calendar today = Calendar.getInstance();
-    Date tenDaysAgo = new Date(today.getTimeInMillis() - (7 * DAY_IN_MS));
-    List<NewsEntry> newsEntries = newsEntryRepository.findByCreationDateBetween(tenDaysAgo, today.getTime());
-
-    for (NewsEntry newsEntry : newsEntries) {
-      newsEntriesToReturn.add(computeNewsEntryDTO(newsEntry));
-    }
-
-    return newsEntriesToReturn;
   }
 
   NewsEntryDTO computeNewsEntryDTO(NewsEntry newsEntry) {

@@ -42,15 +42,20 @@ function computeNewsContentUpdate(){
 	var content = {};
 	
 	var inputContent = $("#inputContent");
-	var inputId = $("#entryId");
-	var inputCreationDate = $("#entryCreationDate");
-	var inputModificationDate = $("#entryModificationDate");
+	var inputId = $("#contentId");
+	var inputCreationDate = $("#contentCreationDate");
+	var inputModificationDate = $("#contentModificationDate");
 	
 	content.content = inputContent.val();
-	content.id = inputId.val();
-	content.creationDate = formatDate(inputCreationDate.val());
-	content.modificationDate = formatDate(inputModificationDate.val());
-	
+	if(inputId.val()){
+		content.id = inputId.val();	
+	}
+	if(inputCreationDate.val()){
+		content.creationDate = formatDate(inputCreationDate.val());
+	}
+	if(inputModificationDate.val()){
+		content.modificationDate = formatDate(inputModificationDate.val());
+	}
 	return content;
 }
 
@@ -66,10 +71,15 @@ function computeNewsImageUpdate(){
 	image.src= base64Image;
 	image.alt = inputAlt.val();
 	image.legend = inputLegend.val();
-	image.id = inputId.val();
-	image.creationDate = formatDate(inputCreationDate.val());
-	image.modificationDate = formatDate(inputModificationDate.val());
-	
+	if(inputId.val()){
+		image.id = inputId.val();	
+	}
+	if(inputCreationDate.val()){
+		image.creationDate = formatDate(inputCreationDate.val());
+	}
+	if(inputModificationDate.val()){
+		image.modificationDate = formatDate(inputModificationDate.val());
+	}
 	return image;
 }
 

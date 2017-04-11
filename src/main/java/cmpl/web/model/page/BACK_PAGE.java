@@ -2,6 +2,7 @@ package cmpl.web.model.page;
 
 public enum BACK_PAGE {
 
+  LOGIN("login.tile"),
   NEWS_VIEW("news.view"),
   NEWS_CREATE("news.create"),
   NEWS_UPDATE("news.update");

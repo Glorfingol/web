@@ -1,5 +1,7 @@
 package cmpl.web.controller.front;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,7 @@ public class ContactController {
 
   @RequestMapping(value = "/contact")
   public ModelAndView printLaserHairRemoval() {
-    return displayFactory.computeModelAndViewForPage(PAGE.CONTACT, "fr");
+    return displayFactory.computeModelAndViewForPage(PAGE.CONTACT, Locale.FRANCE);
   }
 
 }

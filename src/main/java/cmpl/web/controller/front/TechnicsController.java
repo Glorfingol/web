@@ -1,5 +1,7 @@
 package cmpl.web.controller.front;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,7 @@ public class TechnicsController {
   @RequestMapping(value = "/techniques")
   public ModelAndView printTechnicsTreatment() {
 
-    return displayFactory.computeModelAndViewForPage(PAGE.TECHNICS, "fr");
+    return displayFactory.computeModelAndViewForPage(PAGE.TECHNICS, Locale.FRANCE);
   }
 
 }

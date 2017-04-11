@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="common/back_header"/>
 <body class="main">
-    <div class="container">
+    <div class="container container-fluid">
+        <div th:include="common/back_logo"/>
         <div th:include="common/menu"/>
         <div class="row">
             <div class="col-xs-12">
@@ -63,12 +64,11 @@
 				    <input type="hidden" id="imageModificationDate" th:value="${newsEditBean.imageModificationDate}"/>
 				    <div class="pull-right">
 				        <a class="btn btn-md btn-danger glyphicon glyphicon-remove"  onclick="cancelUpdate()"/>
-				        <a class="btn btn-md btn-success glyphicon glyphicon-ok"  onclick="postUpdayeNewsForm()"/>
+				        <a class="btn btn-md btn-success glyphicon glyphicon-ok"  onclick="postUpdateNewsForm()"/>
 				    </div>
 				</form>
             </div>
         </div>
      </div>
 </body>
-<footer th:include="common/back_footer"></footer>
 </html>

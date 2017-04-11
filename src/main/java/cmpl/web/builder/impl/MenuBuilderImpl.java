@@ -68,8 +68,16 @@ public class MenuBuilderImpl extends AbstractBuilder implements MenuBuilder {
 
   @Override
   public List<MenuItem> computeBackMenuItems(Locale locale) {
-
     List<MenuItem> menuItems = new ArrayList<MenuItem>();
+
+    MenuItem accueil = new MenuItem();
+    accueil.setHref(getI18nValue(MENU.INDEX.getHref(), locale));
+    accueil.setLabel(getI18nValue(MENU.INDEX.getLabel(), locale));
+    accueil.setTitle(getI18nValue(MENU.INDEX.getTitle(), locale));
+    accueil.setSubMenuItems(new ArrayList<MenuItem>());
+
+    menuItems.add(accueil);
+
     for (BACK_MENU menu : BACK_MENU.values()) {
       MenuItem menuItem = new MenuItem();
       menuItem.setHref(getI18nValue(menu.getHref(), locale));
