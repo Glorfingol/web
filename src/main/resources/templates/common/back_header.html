@@ -3,7 +3,7 @@
 <meta charset="UTF-8"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="_csrf" th:content="${_csrf.token}"/>
- <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <meta th:each="metaItem : ${metaItems}" th:name="${metaItem.name}" th:content="${metaItem.content}" />
 
 <script type="text/javascript" th:src="@{../../jquery/jquery-3.2.0.min.js}"/>
@@ -14,3 +14,4 @@
 
 <link rel="stylesheet" th:href="@{../../bootstrap/css/bootstrap.min.css}"/>
 <link rel="stylesheet" th:href="@{../../css/style.css}"/>
+

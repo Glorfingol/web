@@ -87,10 +87,9 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
       Long imageToUpdateId = imageToUpdate.getId();
       if (imageToUpdateId == null) {
-        imageToUpdate = newsImageService.createEntity(imageToUpdate);
-
+        imageToUpdate = newsImageService.createEntity(formattedImage);
       } else {
-        imageToUpdate = newsImageService.updateEntity(imageToUpdate);
+        imageToUpdate = newsImageService.updateEntity(formattedImage);
       }
       entry.setImageId(String.valueOf(imageToUpdate.getId()));
 
