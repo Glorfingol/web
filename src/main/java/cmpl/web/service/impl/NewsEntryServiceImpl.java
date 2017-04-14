@@ -42,19 +42,31 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
     NewsEntry entry = new NewsEntry();
     fillObject(dto, entry);
-    NewsContentDTO contentToCreate = dto.getNewsContent();
-    if (contentToCreate != null) {
-      entry.setContentId(String.valueOf(newsContentService.createEntity(contentToCreate).getId()));
-    }
-    NewsImageDTO imageToCreate = dto.getNewsImage();
-    if (imageToCreate != null) {
-      NewsImageDTO formattedImage = imageConverterService.computeNewsImageFromString(imageToCreate.getBase64Src());
-      formattedImage.setAlt(imageToCreate.getAlt());
-      formattedImage.setLegend(imageToCreate.getLegend());
-      entry.setImageId(String.valueOf(newsImageService.createEntity(formattedImage).getId()));
-    }
+
+    String contentId = createContent(dto.getNewsContent());
+    entry.setContentId(contentId);
+
+    String imageId = createImage(dto.getNewsImage());
+    entry.setImageId(imageId);
 
     return toDTO(newsEntryRepository.save(entry));
+  }
+
+  private String createContent(NewsContentDTO contentToCreate) {
+    String contentId = "";
+    if (contentToCreate != null) {
+      contentId = String.valueOf(newsContentService.createEntity(contentToCreate).getId());
+    }
+    return contentId;
+  }
+
+  private String createImage(NewsImageDTO imageToCreate) {
+    String imageId = "";
+    if (imageToCreate != null) {
+      NewsImageDTO formattedImage = formatImage(imageToCreate);
+      imageId = String.valueOf(newsImageService.createEntity(formattedImage).getId());
+    }
+    return imageId;
   }
 
   @Override
@@ -62,44 +74,66 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     NewsEntry entry = new NewsEntry();
     fillObject(dto, entry);
 
-    NewsContentDTO contentToUpdate = dto.getNewsContent();
-    if (contentToUpdate != null) {
+    NewsContentDTO contentToUpdate = updateContent(dto.getNewsContent());
+    String contentId = contentToUpdate == null ? "" : String.valueOf(contentToUpdate.getId());
+    entry.setContentId(contentId);
 
-      Long contentId = contentToUpdate.getId();
-      if (contentId == null) {
-        contentToUpdate = newsContentService.createEntity(contentToUpdate);
-
-      } else {
-        contentToUpdate = newsContentService.updateEntity(contentToUpdate);
-      }
-      entry.setContentId(String.valueOf(contentToUpdate.getId()));
-
-    }
-
-    NewsImageDTO imageToUpdate = dto.getNewsImage();
-    if (imageToUpdate != null) {
-      NewsImageDTO formattedImage = imageConverterService.computeNewsImageFromString(imageToUpdate.getBase64Src());
-      formattedImage.setAlt(imageToUpdate.getAlt());
-      formattedImage.setLegend(imageToUpdate.getLegend());
-      formattedImage.setId(imageToUpdate.getId());
-      formattedImage.setCreationDate(imageToUpdate.getCreationDate());
-      formattedImage.setModificationDate(imageToUpdate.getModificationDate());
-
-      Long imageToUpdateId = imageToUpdate.getId();
-      if (imageToUpdateId == null) {
-        imageToUpdate = newsImageService.createEntity(formattedImage);
-      } else {
-        imageToUpdate = newsImageService.updateEntity(formattedImage);
-      }
-      entry.setImageId(String.valueOf(imageToUpdate.getId()));
-
-    }
+    NewsImageDTO imageToUpdate = updateImage(dto.getNewsImage());
+    String imageId = imageToUpdate == null ? "" : String.valueOf(imageToUpdate.getId());
+    entry.setImageId(imageId);
 
     NewsEntryDTO dtoUpdated = toDTO(newsEntryRepository.save(entry));
     dtoUpdated.setNewsContent(contentToUpdate);
     dtoUpdated.setNewsImage(imageToUpdate);
 
     return dtoUpdated;
+  }
+
+  private NewsContentDTO updateContent(NewsContentDTO contentToUpdate) {
+    if (contentToUpdate != null) {
+      return dealWithContentToUpdate(contentToUpdate);
+    }
+    return contentToUpdate;
+  }
+
+  private NewsImageDTO updateImage(NewsImageDTO imageToUpdate) {
+    if (imageToUpdate != null) {
+      NewsImageDTO formattedImage = formatImage(imageToUpdate);
+      return dealWithImageToUpdate(imageToUpdate, formattedImage);
+    }
+    return imageToUpdate;
+  }
+
+  private NewsContentDTO dealWithContentToUpdate(NewsContentDTO contentToUpdate) {
+    NewsContentDTO contentSaved;
+    Long contentId = contentToUpdate.getId();
+    if (contentId == null) {
+      contentSaved = newsContentService.createEntity(contentToUpdate);
+    } else {
+      contentSaved = newsContentService.updateEntity(contentToUpdate);
+    }
+    return contentSaved;
+  }
+
+  private NewsImageDTO dealWithImageToUpdate(NewsImageDTO imageToUpdate, NewsImageDTO formattedImage) {
+    NewsImageDTO imageSaved;
+    Long imageToUpdateId = imageToUpdate.getId();
+    if (imageToUpdateId == null) {
+      imageSaved = newsImageService.createEntity(formattedImage);
+    } else {
+      imageSaved = newsImageService.updateEntity(formattedImage);
+    }
+    return imageSaved;
+  }
+
+  private NewsImageDTO formatImage(NewsImageDTO imageToUpdate) {
+    NewsImageDTO formattedImage = imageConverterService.computeNewsImageFromString(imageToUpdate.getBase64Src());
+    formattedImage.setAlt(imageToUpdate.getAlt());
+    formattedImage.setLegend(imageToUpdate.getLegend());
+    formattedImage.setId(imageToUpdate.getId());
+    formattedImage.setCreationDate(imageToUpdate.getCreationDate());
+    formattedImage.setModificationDate(imageToUpdate.getModificationDate());
+    return formattedImage;
   }
 
   @Override
