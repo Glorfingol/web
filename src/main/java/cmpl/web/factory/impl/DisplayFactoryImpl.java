@@ -3,6 +3,8 @@ package cmpl.web.factory.impl;
 import java.util.List;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,6 +19,7 @@ import cmpl.web.model.page.PAGE;
 
 public class DisplayFactoryImpl implements DisplayFactory {
 
+  protected static final Logger LOGGER = LoggerFactory.getLogger(DisplayFactoryImpl.class);
   private final MenuBuilder menuBuilder;
   private final FooterBuilder footerBuilder;
   private final MetaElementBuilder metaElementBuilder;
@@ -38,13 +41,21 @@ public class DisplayFactoryImpl implements DisplayFactory {
   @Override
   public ModelAndView computeModelAndViewForPage(PAGE page, Locale locale) {
 
+    LOGGER.info("Construction de la page  " + page.name());
     ModelAndView model = new ModelAndView(computeI18nLabel(page.getTileName(), locale));
 
+    LOGGER.info("Construction du menu pour la page " + page.name());
     model.addObject("menuItems", computeMenuItems(locale));
+    LOGGER.info("Construction des éléments meta pour la page  " + page.name());
     model.addObject("metaItems", computeMetaElements(locale, page));
+    LOGGER.info("Construction du footer pour la page   " + page.name());
     model.addObject("footer", computeFooter(locale));
+    LOGGER.info("Construction du titre principal pour la page  " + page.name());
     model.addObject("maintTitle", computeMainTitle(locale));
+    LOGGER.info("Construction du lien du back pour la page " + page.name());
     model.addObject("hiddenLink", computeI18nLabel("back.news.href", locale));
+
+    LOGGER.info("Page " + page.name() + " prête");
 
     return model;
 

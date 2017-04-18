@@ -10,8 +10,8 @@ import org.springframework.util.StringUtils;
 
 import cmpl.web.model.news.error.NEWS_ERROR;
 import cmpl.web.model.news.error.NEWS_ERROR_CAUSE;
-import cmpl.web.model.news.error.NewsEntryError;
-import cmpl.web.model.news.error.NewsEntryErrorCause;
+import cmpl.web.model.news.error.Error;
+import cmpl.web.model.news.error.ErrorCause;
 import cmpl.web.model.news.rest.news.NewsContentRequest;
 import cmpl.web.model.news.rest.news.NewsEntryRequest;
 import cmpl.web.model.news.rest.news.NewsImageRequest;
@@ -32,9 +32,9 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
   }
 
   @Override
-  public NewsEntryError validateCreate(NewsEntryRequest request, String languageCode) {
+  public Error validateCreate(NewsEntryRequest request, String languageCode) {
 
-    List<NewsEntryErrorCause> causes = isContentValid(request.getContent(), languageCode);
+    List<ErrorCause> causes = isContentValid(request.getContent(), languageCode);
     causes.addAll(isNewsEntryValid(request, languageCode));
     causes.addAll(isNewsImageValid(request.getImage(), languageCode));
 
@@ -46,9 +46,9 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
   }
 
   @Override
-  public NewsEntryError validateUpdate(NewsEntryRequest request, String newsEntryId, String languageCode) {
+  public Error validateUpdate(NewsEntryRequest request, String newsEntryId, String languageCode) {
 
-    List<NewsEntryErrorCause> causes = isIdValid(newsEntryId, languageCode);
+    List<ErrorCause> causes = isIdValid(newsEntryId, languageCode);
     causes.addAll(isNewsEntryValid(request, languageCode));
     causes.addAll(isContentValid(request.getContent(), languageCode));
     causes.addAll(isNewsImageValid(request.getImage(), languageCode));
@@ -61,8 +61,8 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
   }
 
   @Override
-  public NewsEntryError validateDelete(String newsEntryId, String languageCode) {
-    List<NewsEntryErrorCause> causes = isIdValid(newsEntryId, languageCode);
+  public Error validateDelete(String newsEntryId, String languageCode) {
+    List<ErrorCause> causes = isIdValid(newsEntryId, languageCode);
 
     if (!CollectionUtils.isEmpty(causes)) {
       return computeError(causes);
@@ -72,8 +72,8 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
   }
 
   @Override
-  public NewsEntryError validateGet(String newsEntryId, String languageCode) {
-    List<NewsEntryErrorCause> causes = isIdValid(newsEntryId, languageCode);
+  public Error validateGet(String newsEntryId, String languageCode) {
+    List<ErrorCause> causes = isIdValid(newsEntryId, languageCode);
 
     if (!CollectionUtils.isEmpty(causes)) {
       return computeError(causes);
@@ -81,85 +81,85 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
     return null;
   }
 
-  private List<NewsEntryErrorCause> isIdValid(String id, String languageCode) {
-    List<NewsEntryErrorCause> causes = new ArrayList<NewsEntryErrorCause>();
+  private List<ErrorCause> isIdValid(String id, String languageCode) {
+    List<ErrorCause> causes = new ArrayList<ErrorCause>();
     if (!isStringValid(id)) {
 
       Locale locale = new Locale(languageCode);
 
-      NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_NEWS_ID, locale);
+      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_NEWS_ID, locale);
       causes.add(cause);
     }
     return causes;
   }
 
-  private List<NewsEntryErrorCause> isContentValid(NewsContentRequest content, String languageCode) {
-    List<NewsEntryErrorCause> causes = new ArrayList<NewsEntryErrorCause>();
+  private List<ErrorCause> isContentValid(NewsContentRequest content, String languageCode) {
+    List<ErrorCause> causes = new ArrayList<ErrorCause>();
     if (content == null) {
       return causes;
     }
     if (!isNewsContentValid(content)) {
       Locale locale = new Locale(languageCode);
-      NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_CONTENT, locale);
+      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_CONTENT, locale);
       causes.add(cause);
     }
     return causes;
   }
 
-  private List<NewsEntryErrorCause> isNewsEntryValid(NewsEntryRequest entry, String languageCode) {
+  private List<ErrorCause> isNewsEntryValid(NewsEntryRequest entry, String languageCode) {
     Locale locale = new Locale(languageCode);
-    List<NewsEntryErrorCause> causes = new ArrayList<NewsEntryErrorCause>();
+    List<ErrorCause> causes = new ArrayList<ErrorCause>();
 
     if (!isStringValid(entry.getTitle())) {
-      NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_TITLE, locale);
+      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_TITLE, locale);
       causes.add(cause);
 
     }
     if (!isStringValid(entry.getAuthor())) {
-      NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_AUTHOR, locale);
+      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_AUTHOR, locale);
       causes.add(cause);
     }
     return causes;
   }
 
-  private List<NewsEntryErrorCause> isNewsImageValid(NewsImageRequest imageRequest, String languageCode) {
+  private List<ErrorCause> isNewsImageValid(NewsImageRequest imageRequest, String languageCode) {
 
-    List<NewsEntryErrorCause> causes = new ArrayList<NewsEntryErrorCause>();
+    List<ErrorCause> causes = new ArrayList<ErrorCause>();
     if (imageRequest == null) {
       return causes;
     }
     Locale locale = new Locale(languageCode);
 
     if (!isStringValid(imageRequest.getAlt())) {
-      NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_ALT, locale);
+      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_ALT, locale);
       causes.add(cause);
 
     }
     if (!isStringValid(imageRequest.getLegend())) {
-      NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_LEGEND, locale);
+      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_LEGEND, locale);
       causes.add(cause);
     }
     if (!isStringValid(imageRequest.getSrc())) {
-      NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_SRC, locale);
+      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_SRC, locale);
       causes.add(cause);
     }
     if (!isImageFormatValid(imageRequest.getSrc())) {
-      NewsEntryErrorCause cause = computeCause(NEWS_ERROR_CAUSE.INVALID_FORMAT, locale);
+      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.INVALID_FORMAT, locale);
       causes.add(cause);
     }
 
     return causes;
   }
 
-  private NewsEntryError computeError(List<NewsEntryErrorCause> causes) {
-    NewsEntryError error = new NewsEntryError();
+  private Error computeError(List<ErrorCause> causes) {
+    Error error = new Error();
     error.setCode(NEWS_ERROR.INVALID_REQUEST.toString());
     error.setCauses(causes);
     return error;
   }
 
-  private NewsEntryErrorCause computeCause(NEWS_ERROR_CAUSE errorCause, Locale locale) {
-    NewsEntryErrorCause cause = new NewsEntryErrorCause();
+  private ErrorCause computeCause(NEWS_ERROR_CAUSE errorCause, Locale locale) {
+    ErrorCause cause = new ErrorCause();
     cause.setCode(errorCause.toString());
     cause.setMessage(getI18n(errorCause.getCauseKey(), locale));
     return cause;

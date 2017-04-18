@@ -1,13 +1,13 @@
 package cmpl.web.model.news.rest.news;
 
 import cmpl.web.model.news.dto.NewsEntryDTO;
-import cmpl.web.model.news.error.NewsEntryError;
+import cmpl.web.model.news.error.Error;
 import cmpl.web.model.news.rest.BaseResponse;
 
 public class NewsEntryResponse extends BaseResponse {
 
   private NewsEntryDTO newsEntry;
-  private NewsEntryError error;
+  private Error error;
 
   public NewsEntryDTO getNewsEntry() {
     return newsEntry;
@@ -17,11 +17,11 @@ public class NewsEntryResponse extends BaseResponse {
     this.newsEntry = newsEntry;
   }
 
-  public NewsEntryError getError() {
+  public Error getError() {
     return error;
   }
 
-  public void setError(NewsEntryError error) {
+  public void setError(Error error) {
     this.error = error;
   }
 

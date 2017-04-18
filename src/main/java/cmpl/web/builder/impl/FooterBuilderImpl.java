@@ -12,13 +12,13 @@ public class FooterBuilderImpl extends AbstractBuilder implements FooterBuilder 
 
   private final ResourceBundleMessageSource resourceBundleMessageSource;
 
+  private FooterBuilderImpl(ResourceBundleMessageSource resourceBundleMessageSource) {
+    this.resourceBundleMessageSource = resourceBundleMessageSource;
+  }
+
   public static FooterBuilderImpl fromResourceBundleMessageSource(
       ResourceBundleMessageSource resourceBundleMessageSource) {
     return new FooterBuilderImpl(resourceBundleMessageSource);
-  }
-
-  private FooterBuilderImpl(ResourceBundleMessageSource resourceBundleMessageSource) {
-    this.resourceBundleMessageSource = resourceBundleMessageSource;
   }
 
   @Override

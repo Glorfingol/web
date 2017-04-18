@@ -2,6 +2,8 @@ package cmpl.web.controller.front;
 
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,7 @@ import cmpl.web.model.page.PAGE;
 @Controller
 public class NewsController {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(NewsController.class);
   private final NewsDisplayFactory newsDisplayFactory;
 
   @Autowired
@@ -22,6 +25,8 @@ public class NewsController {
 
   @RequestMapping(value = "/actualites")
   public ModelAndView printNews() {
+
+    LOGGER.info("Accès à la page " + PAGE.NEWS.name());
     return newsDisplayFactory.computeModelAndViewForPage(PAGE.NEWS, Locale.FRANCE);
   }
 

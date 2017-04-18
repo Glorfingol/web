@@ -15,13 +15,13 @@ public class MetaElementBuilderImpl extends AbstractBuilder implements MetaEleme
 
   private final ResourceBundleMessageSource resourceBundleMessageSource;
 
+  private MetaElementBuilderImpl(ResourceBundleMessageSource resourceBundleMessageSource) {
+    this.resourceBundleMessageSource = resourceBundleMessageSource;
+  }
+
   public static MetaElementBuilderImpl fromResourceBundleMessageSource(
       ResourceBundleMessageSource resourceBundleMessageSource) {
     return new MetaElementBuilderImpl(resourceBundleMessageSource);
-  }
-
-  private MetaElementBuilderImpl(ResourceBundleMessageSource resourceBundleMessageSource) {
-    this.resourceBundleMessageSource = resourceBundleMessageSource;
   }
 
   @Override

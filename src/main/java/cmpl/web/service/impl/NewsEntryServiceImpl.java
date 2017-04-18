@@ -3,6 +3,8 @@ package cmpl.web.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import cmpl.web.model.news.dao.NewsEntry;
@@ -16,6 +18,8 @@ import cmpl.web.service.NewsEntryService;
 import cmpl.web.service.NewsImageService;
 
 public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntry> implements NewsEntryService {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(NewsEntryServiceImpl.class);
 
   private final NewsEntryRepository newsEntryRepository;
   private final NewsImageService newsImageService;
@@ -39,6 +43,8 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
   @Override
   public NewsEntryDTO createEntity(NewsEntryDTO dto) {
+
+    LOGGER.info("Creation d'une nouvelle entrée de blog");
 
     NewsEntry entry = new NewsEntry();
     fillObject(dto, entry);
@@ -71,6 +77,8 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
   @Override
   public NewsEntryDTO updateEntity(NewsEntryDTO dto) {
+
+    LOGGER.info("Mise à jour d'une entrée de blog d'id " + dto.getId());
     NewsEntry entry = new NewsEntry();
     fillObject(dto, entry);
 
@@ -138,6 +146,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
   @Override
   public NewsEntryDTO getEntity(Long id) {
+    LOGGER.info("Récupération de l'entrée de blog d'id " + id);
     NewsEntry entry = newsEntryRepository.findOne(id);
     return computeNewsEntryDTO(entry);
   }
@@ -145,6 +154,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   @Override
   public List<NewsEntryDTO> getEntities() {
 
+    LOGGER.info("Récupération de toutes les entrées de blog");
     List<NewsEntryDTO> entries = new ArrayList<NewsEntryDTO>();
     List<NewsEntry> newsEntries = newsEntryRepository.findAll();
 

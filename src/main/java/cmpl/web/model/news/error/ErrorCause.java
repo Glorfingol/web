@@ -1,6 +1,6 @@
 package cmpl.web.model.news.error;
 
-public class NewsEntryErrorCause {
+public class ErrorCause {
 
   private String code;
   private String message;

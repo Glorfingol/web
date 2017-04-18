@@ -1,8 +1,9 @@
 package cmpl.web.dispatcher.impl;
 
 import cmpl.web.dispatcher.NewsEntryDispatcher;
+import cmpl.web.model.BaseException;
 import cmpl.web.model.news.dto.NewsEntryDTO;
-import cmpl.web.model.news.error.NewsEntryError;
+import cmpl.web.model.news.error.Error;
 import cmpl.web.model.news.rest.news.NewsEntryRequest;
 import cmpl.web.model.news.rest.news.NewsEntryResponse;
 import cmpl.web.service.NewsEntryService;
@@ -30,7 +31,7 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   @Override
   public NewsEntryResponse createEntity(NewsEntryRequest newsEntryRequest, String languageCode) {
 
-    NewsEntryError error = validator.validateCreate(newsEntryRequest, languageCode);
+    Error error = validator.validateCreate(newsEntryRequest, languageCode);
 
     if (error != null) {
       NewsEntryResponse response = new NewsEntryResponse();
@@ -47,7 +48,7 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   @Override
   public NewsEntryResponse updateEntity(NewsEntryRequest newsEntryRequest, String newsEntryId, String languageCode) {
 
-    NewsEntryError error = validator.validateUpdate(newsEntryRequest, newsEntryId, languageCode);
+    Error error = validator.validateUpdate(newsEntryRequest, newsEntryId, languageCode);
 
     if (error != null) {
       NewsEntryResponse response = new NewsEntryResponse();
@@ -65,10 +66,10 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   }
 
   @Override
-  public void deleteEntity(String newsEntryId, String languageCode) throws Exception {
-    NewsEntryError error = validator.validateDelete(newsEntryId, languageCode);
+  public void deleteEntity(String newsEntryId, String languageCode) throws BaseException {
+    Error error = validator.validateDelete(newsEntryId, languageCode);
     if (error != null) {
-      throw new Exception(error.getCauses().get(0).getMessage());
+      throw new BaseException(error.getCauses().get(0).getMessage());
     }
     newsEntryService.deleteEntity(Long.parseLong(newsEntryId));
   }

@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import cmpl.web.model.BaseException;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -21,8 +23,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   }
 
   @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication().withUser("cmplUser").password("CmPlForTheWin!!").roles("USER");
+  public void configureGlobal(AuthenticationManagerBuilder auth) throws BaseException {
+    try {
+      auth.inMemoryAuthentication().withUser("cmplUser").password("CmPlForTheWin!!").roles("USER");
+    } catch (Exception e) {
+      throw new BaseException(e.getMessage());
+    }
   }
-
 }

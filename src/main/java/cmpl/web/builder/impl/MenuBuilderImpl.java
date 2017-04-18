@@ -17,12 +17,12 @@ public class MenuBuilderImpl extends AbstractBuilder implements MenuBuilder {
 
   private final ResourceBundleMessageSource resourceBundleMessageSource;
 
-  public static MenuBuilderImpl fromResourceBundleMessageSource(ResourceBundleMessageSource resourceBundleMessageSource) {
-    return new MenuBuilderImpl(resourceBundleMessageSource);
-  }
-
   private MenuBuilderImpl(ResourceBundleMessageSource resourceBundleMessageSource) {
     this.resourceBundleMessageSource = resourceBundleMessageSource;
+  }
+
+  public static MenuBuilderImpl fromResourceBundleMessageSource(ResourceBundleMessageSource resourceBundleMessageSource) {
+    return new MenuBuilderImpl(resourceBundleMessageSource);
   }
 
   @Override

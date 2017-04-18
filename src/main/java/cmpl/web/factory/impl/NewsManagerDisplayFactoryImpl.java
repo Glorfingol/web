@@ -41,7 +41,9 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   @Override
   public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
     ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
+    LOGGER.info("Construction des entrées de blog pour la page " + backPage.name());
     newsManager.addObject("newsEntries", computeNewsEntries(locale));
+    LOGGER.info("Construction du formulaire d'entrées de blog pour la page " + backPage.name());
     newsManager.addObject("newsFormLabels", computeForm(locale));
 
     return newsManager;

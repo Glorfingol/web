@@ -37,7 +37,10 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
   public ModelAndView computeModelAndViewForPage(PAGE page, Locale locale) {
 
     ModelAndView newsModelAndView = super.computeModelAndViewForPage(page, locale);
-    newsModelAndView.addObject("newsEntries", computeNewsEntries(locale));
+    if (PAGE.NEWS.equals(page)) {
+      LOGGER.info("Construction des entrées de blog pour la page " + page.name());
+      newsModelAndView.addObject("newsEntries", computeNewsEntries(locale));
+    }
 
     return newsModelAndView;
 

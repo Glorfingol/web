@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 
 import cmpl.web.model.news.METHOD;
@@ -16,6 +18,8 @@ import cmpl.web.repository.BaseRepository;
 import cmpl.web.service.BaseService;
 
 public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> implements BaseService<D> {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(BaseServiceImpl.class);
 
   private final BaseRepository<E> entityRepository;
 
@@ -88,6 +92,7 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
         }
       }
     } catch (Exception e) {
+      LOGGER.error("Impossible de remplir l'objet " + destination + " avec l'origine " + origin, e);
     }
 
   }
