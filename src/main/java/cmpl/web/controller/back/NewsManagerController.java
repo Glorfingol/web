@@ -78,7 +78,7 @@ public class NewsManagerController {
   @RequestMapping(value = "/manager/news/{newsEntryId}", method = RequestMethod.DELETE, produces = "application/json")
   @ResponseBody
   public ResponseEntity<NewsEntryResponse> deleteNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId) {
-    LOGGER.info("Tentative de suppréssion d'une entrée, action interdite");
+    LOGGER.info("Tentative de suppression d'une entrée d'id " + newsEntryId + ", action interdite");
     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
   }
 

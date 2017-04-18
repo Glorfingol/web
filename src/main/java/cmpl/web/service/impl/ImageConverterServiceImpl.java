@@ -23,6 +23,8 @@ public class ImageConverterServiceImpl implements ImageConverterService {
   private static final String COMMA = ",";
   private static final String FORMAT_PNG = "png";
   private static final String IMAGE_OVERHEAD = "data:image/{0};base64,";
+  private static final String IMAGE_MATCHER = "data:image/";
+  private static final String BASE_64_MATCHER = ";base64";
 
   private ImageConverterServiceImpl() {
   }
@@ -90,11 +92,11 @@ public class ImageConverterServiceImpl implements ImageConverterService {
   }
 
   private String extractFormatFromBase64(String base64) {
-    String firstMatcher = "data:image/";
-    int previousIndex = base64.indexOf("data:image/");
-    int nextIndex = base64.indexOf(";base64");
+    String matcher = IMAGE_MATCHER;
+    int previousIndex = base64.indexOf(IMAGE_MATCHER);
+    int nextIndex = base64.indexOf(BASE_64_MATCHER);
 
-    return base64.substring(previousIndex + firstMatcher.length(), nextIndex);
+    return base64.substring(previousIndex + matcher.length(), nextIndex);
 
   }
 
