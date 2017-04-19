@@ -14,11 +14,11 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.servlet.ModelAndView;
 
-import cmpl.web.builder.FooterBuilder;
-import cmpl.web.builder.MenuBuilder;
+import cmpl.web.builder.MenuItemBuilder;
 import cmpl.web.builder.MetaElementBuilder;
-import cmpl.web.builder.impl.MenuItemBuilder;
-import cmpl.web.builder.impl.MetaElementTestBuilder;
+import cmpl.web.factory.FooterFactory;
+import cmpl.web.factory.MenuFactory;
+import cmpl.web.factory.MetaElementFactory;
 import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.footer.Footer;
 import cmpl.web.model.login.LoginFormDisplayBean;
@@ -29,9 +29,9 @@ import cmpl.web.model.page.BACK_PAGE;
 @RunWith(MockitoJUnitRunner.class)
 public class BackDisplayFactoryImplTest {
 
-  private MenuBuilder menuBuilder;
-  private FooterBuilder footerBuilder;
-  private MetaElementBuilder metaElementBuilder;
+  private MenuFactory menuFactory;
+  private FooterFactory footerFactory;
+  private MetaElementFactory metaElementFactory;
   private WebMessageSourceImpl messageBundle;
 
   private BackDisplayFactoryImpl displayFactory;
@@ -40,11 +40,12 @@ public class BackDisplayFactoryImplTest {
 
   @Before
   public void setUp() {
-    footerBuilder = Mockito.mock(FooterBuilder.class);
-    metaElementBuilder = Mockito.mock(MetaElementBuilder.class);
-    menuBuilder = Mockito.mock(MenuBuilder.class);
+    footerFactory = Mockito.mock(FooterFactory.class);
+    metaElementFactory = Mockito.mock(MetaElementFactory.class);
+    menuFactory = Mockito.mock(MenuFactory.class);
     messageBundle = Mockito.mock(WebMessageSourceImpl.class);
-    displayFactory = BackDisplayFactoryImpl.fromBuilders(menuBuilder, footerBuilder, messageBundle, metaElementBuilder);
+    displayFactory = BackDisplayFactoryImpl.fromFactoriesAndMessageResource(menuFactory, footerFactory, messageBundle,
+        metaElementFactory);
     displayFactory = Mockito.spy(displayFactory);
     locale = Locale.FRANCE;
   }
@@ -54,7 +55,7 @@ public class BackDisplayFactoryImplTest {
 
     String title = "title";
 
-    BDDMockito.doReturn(title).when(displayFactory).computeI18nLabel(Mockito.anyString(), Mockito.eq(locale));
+    BDDMockito.doReturn(title).when(displayFactory).getI18nValue(Mockito.anyString(), Mockito.eq(locale));
 
     String result = displayFactory.computeMainTitle(locale);
 
@@ -69,11 +70,10 @@ public class BackDisplayFactoryImplTest {
     String logout = "logout";
     String error = "error";
 
-    BDDMockito.doReturn(name).when(displayFactory).computeI18nLabel(Mockito.eq("user.name"), Mockito.eq(locale));
-    BDDMockito.doReturn(password).when(displayFactory)
-        .computeI18nLabel(Mockito.eq("user.password"), Mockito.eq(locale));
-    BDDMockito.doReturn(logout).when(displayFactory).computeI18nLabel(Mockito.eq("user.logout"), Mockito.eq(locale));
-    BDDMockito.doReturn(error).when(displayFactory).computeI18nLabel(Mockito.eq("user.error"), Mockito.eq(locale));
+    BDDMockito.doReturn(name).when(displayFactory).getI18nValue(Mockito.eq("user.name"), Mockito.eq(locale));
+    BDDMockito.doReturn(password).when(displayFactory).getI18nValue(Mockito.eq("user.password"), Mockito.eq(locale));
+    BDDMockito.doReturn(logout).when(displayFactory).getI18nValue(Mockito.eq("user.logout"), Mockito.eq(locale));
+    BDDMockito.doReturn(error).when(displayFactory).getI18nValue(Mockito.eq("user.error"), Mockito.eq(locale));
 
     LoginFormDisplayBean result = displayFactory.computeLoginFormDisplayBean(locale);
     Assert.assertEquals(name, result.getUserLabel());
@@ -90,7 +90,7 @@ public class BackDisplayFactoryImplTest {
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
-    BDDMockito.doReturn(footer).when(footerBuilder).computeFooter(Mockito.eq(locale));
+    BDDMockito.doReturn(footer).when(footerFactory).computeFooter(Mockito.eq(locale));
 
     Footer result = displayFactory.computeFooter(locale);
 
@@ -112,15 +112,15 @@ public class BackDisplayFactoryImplTest {
     String descriptionName = "description";
     String descriptionContent = "description";
 
-    MetaElement viewport = new MetaElementTestBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
-    MetaElement language = new MetaElementTestBuilder().name(languageName).content(languageContent).toMetaElement();
-    MetaElement title = new MetaElementTestBuilder().name(titleName).content(titleContent).toMetaElement();
-    MetaElement description = new MetaElementTestBuilder().name(descriptionName).content(descriptionContent)
+    MetaElement viewport = new MetaElementBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
+    MetaElement language = new MetaElementBuilder().name(languageName).content(languageContent).toMetaElement();
+    MetaElement title = new MetaElementBuilder().name(titleName).content(titleContent).toMetaElement();
+    MetaElement description = new MetaElementBuilder().name(descriptionName).content(descriptionContent)
         .toMetaElement();
 
     List<MetaElement> metaElements = Lists.newArrayList(viewport, language, title, description);
 
-    BDDMockito.doReturn(metaElements).when(metaElementBuilder).computeMetaElementsForBackPage(Mockito.eq(locale));
+    BDDMockito.doReturn(metaElements).when(metaElementFactory).computeMetaElementsForBackPage(Mockito.eq(locale));
 
     List<MetaElement> result = displayFactory.computeMetaElements(locale);
 
@@ -139,7 +139,7 @@ public class BackDisplayFactoryImplTest {
     MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
-    BDDMockito.doReturn(backMenu).when(menuBuilder).computeBackMenuItems(Mockito.eq(locale));
+    BDDMockito.doReturn(backMenu).when(menuFactory).computeBackMenuItems(Mockito.eq(locale));
 
     List<MenuItem> result = displayFactory.computeBackMenuItems(locale);
     Assert.assertEquals(backMenu, result);
@@ -170,10 +170,10 @@ public class BackDisplayFactoryImplTest {
     String descriptionName = "description";
     String descriptionContent = "description";
 
-    MetaElement viewport = new MetaElementTestBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
-    MetaElement language = new MetaElementTestBuilder().name(languageName).content(languageContent).toMetaElement();
-    MetaElement titleMeta = new MetaElementTestBuilder().name(titleName).content(titleContent).toMetaElement();
-    MetaElement description = new MetaElementTestBuilder().name(descriptionName).content(descriptionContent)
+    MetaElement viewport = new MetaElementBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
+    MetaElement language = new MetaElementBuilder().name(languageName).content(languageContent).toMetaElement();
+    MetaElement titleMeta = new MetaElementBuilder().name(titleName).content(titleContent).toMetaElement();
+    MetaElement description = new MetaElementBuilder().name(descriptionName).content(descriptionContent)
         .toMetaElement();
 
     List<MetaElement> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
@@ -218,7 +218,7 @@ public class BackDisplayFactoryImplTest {
   @Test
   public void testComputeHiddenLink() throws Exception {
     String href = "/";
-    BDDMockito.doReturn(href).when(displayFactory).computeI18nLabel(Mockito.eq("back.news.href"), Mockito.eq(locale));
+    BDDMockito.doReturn(href).when(displayFactory).getI18nValue(Mockito.eq("back.news.href"), Mockito.eq(locale));
 
     String result = displayFactory.computeHiddenLink(locale);
 
@@ -230,7 +230,7 @@ public class BackDisplayFactoryImplTest {
   public void testComputeTileName() throws Exception {
     String tile = "login";
 
-    BDDMockito.doReturn(tile).when(displayFactory).computeI18nLabel(Mockito.anyString(), Mockito.eq(locale));
+    BDDMockito.doReturn(tile).when(displayFactory).getI18nValue(Mockito.anyString(), Mockito.eq(locale));
 
     String result = displayFactory.computeTileName(BACK_PAGE.LOGIN, locale);
     Assert.assertEquals(tile, result);

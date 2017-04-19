@@ -1,25 +1,22 @@
-package cmpl.web.builder.impl;
+package cmpl.web.factory.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import cmpl.web.builder.AbstractBuilder;
-import cmpl.web.builder.MetaElementBuilder;
+import cmpl.web.factory.MetaElementFactory;
 import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.PAGE;
 
-public class MetaElementBuilderImpl extends AbstractBuilder implements MetaElementBuilder {
+public class MetaElementFactoryImpl extends BaseFactoryImpl implements MetaElementFactory {
 
-  private final WebMessageSourceImpl messageSource;
-
-  private MetaElementBuilderImpl(WebMessageSourceImpl messageSource) {
-    this.messageSource = messageSource;
+  private MetaElementFactoryImpl(WebMessageSourceImpl messageSource) {
+    super(messageSource);
   }
 
-  public static MetaElementBuilderImpl fromMessageSource(WebMessageSourceImpl messageSource) {
-    return new MetaElementBuilderImpl(messageSource);
+  public static MetaElementFactoryImpl fromMessageSource(WebMessageSourceImpl messageSource) {
+    return new MetaElementFactoryImpl(messageSource);
   }
 
   @Override
@@ -69,11 +66,6 @@ public class MetaElementBuilderImpl extends AbstractBuilder implements MetaEleme
     metaElement.setContent(content);
     return metaElement;
 
-  }
-
-  @Override
-  protected String getI18nValue(String key, Locale locale) {
-    return messageSource.getI18n(key, locale);
   }
 
 }

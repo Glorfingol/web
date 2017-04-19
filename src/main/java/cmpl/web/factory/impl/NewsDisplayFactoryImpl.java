@@ -7,9 +7,9 @@ import java.util.Locale;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import cmpl.web.builder.FooterBuilder;
-import cmpl.web.builder.MenuBuilder;
-import cmpl.web.builder.MetaElementBuilder;
+import cmpl.web.factory.FooterFactory;
+import cmpl.web.factory.MenuFactory;
+import cmpl.web.factory.MetaElementFactory;
 import cmpl.web.factory.NewsDisplayFactory;
 import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.news.display.NewsEntryDisplayBean;
@@ -22,15 +22,15 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
   private NewsEntryService newsEntryService;
   private static final String DAY_MONTH_YEAR_FORMAT = "dd/MM/yy";
 
-  private NewsDisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MetaElementBuilder metaElementBuilder, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
-    super(menuBuilder, footerBuilder, metaElementBuilder, messageSource);
+  private NewsDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
+      MetaElementFactory metaElementFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
+    super(menuFactory, footerFactory, metaElementFactory, messageSource);
     this.newsEntryService = newsEntryService;
   }
 
-  public static NewsDisplayFactoryImpl fromBuildersAndServices(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MetaElementBuilder metaElementBuilder, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
-    return new NewsDisplayFactoryImpl(menuBuilder, footerBuilder, metaElementBuilder, messageSource, newsEntryService);
+  public static NewsDisplayFactoryImpl fromFactoriesAndMessageResourceAndServices(MenuFactory menuFactory, FooterFactory footerFactory,
+      MetaElementFactory metaElementFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
+    return new NewsDisplayFactoryImpl(menuFactory, footerFactory, metaElementFactory, messageSource, newsEntryService);
   }
 
   @Override
@@ -55,8 +55,8 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     }
 
     for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
-      String labelPar = computeI18nLabel("news.entry.by", locale);
-      String labelLe = computeI18nLabel("news.entry.the", locale);
+      String labelPar = getI18nValue("news.entry.by", locale);
+      String labelLe = getI18nValue("news.entry.the", locale);
       NewsEntryDisplayBean newsEntryDisplayBean = new NewsEntryDisplayBean(newsEntryFromDB, labelPar, labelLe,
           DAY_MONTH_YEAR_FORMAT);
       newsEntries.add(newsEntryDisplayBean);

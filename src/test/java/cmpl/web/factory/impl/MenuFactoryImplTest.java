@@ -1,4 +1,4 @@
-package cmpl.web.builder.impl;
+package cmpl.web.factory.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.util.CollectionUtils;
 
+import cmpl.web.builder.MenuItemBuilder;
 import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.menu.BACK_MENU;
 import cmpl.web.model.menu.MENU;
@@ -21,19 +22,19 @@ import cmpl.web.model.menu.MenuItem;
 import cmpl.web.model.menu.SUB_MENU;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MenuBuilderImplTest {
+public class MenuFactoryImplTest {
 
   private WebMessageSourceImpl messageBundle;
 
-  private MenuBuilderImpl menuBuilder;
+  private MenuFactoryImpl menuFactory;
 
   private Locale locale;
 
   @Before
   public void setUp() {
     messageBundle = Mockito.mock(WebMessageSourceImpl.class);
-    menuBuilder = MenuBuilderImpl.fromMessageSource(messageBundle);
-    menuBuilder = Mockito.spy(menuBuilder);
+    menuFactory = MenuFactoryImpl.fromMessageSource(messageBundle);
+    menuFactory = Mockito.spy(menuFactory);
     locale = Locale.FRANCE;
   }
 
@@ -46,10 +47,10 @@ public class MenuBuilderImplTest {
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
     MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
 
-    BDDMockito.doReturn(index).when(menuBuilder).computeIndexMenuElement(Mockito.eq(locale));
-    BDDMockito.doReturn(index).when(menuBuilder).computeMenuItem(Mockito.any(BACK_MENU.class), Mockito.eq(locale));
+    BDDMockito.doReturn(index).when(menuFactory).computeIndexMenuElement(Mockito.eq(locale));
+    BDDMockito.doReturn(index).when(menuFactory).computeMenuItem(Mockito.any(BACK_MENU.class), Mockito.eq(locale));
 
-    List<MenuItem> result = menuBuilder.computeBackMenuItems(locale);
+    List<MenuItem> result = menuFactory.computeBackMenuItems(locale);
     Assert.assertTrue(BACK_MENU.values().length + 1 == result.size());
 
   }
@@ -64,9 +65,9 @@ public class MenuBuilderImplTest {
 
     MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
 
-    BDDMockito.doReturn(index).when(menuBuilder).computeMenuItem(Mockito.eq(MENU.INDEX), Mockito.eq(locale));
+    BDDMockito.doReturn(index).when(menuFactory).computeMenuItem(Mockito.eq(MENU.INDEX), Mockito.eq(locale));
 
-    MenuItem result = menuBuilder.computeIndexMenuElement(locale);
+    MenuItem result = menuFactory.computeIndexMenuElement(locale);
 
     Assert.assertEquals(href, result.getHref());
     Assert.assertEquals(label, result.getLabel());
@@ -81,12 +82,12 @@ public class MenuBuilderImplTest {
     String href = "/";
     String label = "label";
 
-    BDDMockito.doReturn(href).when(menuBuilder)
-        .getI18nValue(Mockito.eq(SUB_MENU.EXILIS_GENITAL.getHref()), Mockito.eq(locale));
-    BDDMockito.doReturn(label).when(menuBuilder)
-        .getI18nValue(Mockito.eq(SUB_MENU.EXILIS_GENITAL.getLabel()), Mockito.eq(locale));
+    BDDMockito.doReturn(href).when(menuFactory).getI18nValue(Mockito.eq(SUB_MENU.EXILIS_GENITAL.getHref()),
+        Mockito.eq(locale));
+    BDDMockito.doReturn(label).when(menuFactory).getI18nValue(Mockito.eq(SUB_MENU.EXILIS_GENITAL.getLabel()),
+        Mockito.eq(locale));
 
-    MenuItem result = menuBuilder.computeMenuItem(SUB_MENU.EXILIS_GENITAL, locale);
+    MenuItem result = menuFactory.computeMenuItem(SUB_MENU.EXILIS_GENITAL, locale);
 
     Assert.assertEquals(href, result.getHref());
     Assert.assertEquals(label, result.getLabel());
@@ -100,14 +101,14 @@ public class MenuBuilderImplTest {
     String label = "label";
     String title = "title";
 
-    BDDMockito.doReturn(href).when(menuBuilder)
-        .getI18nValue(Mockito.eq(BACK_MENU.BACK_NEWS.getHref()), Mockito.eq(locale));
-    BDDMockito.doReturn(label).when(menuBuilder)
-        .getI18nValue(Mockito.eq(BACK_MENU.BACK_NEWS.getLabel()), Mockito.eq(locale));
-    BDDMockito.doReturn(title).when(menuBuilder)
-        .getI18nValue(Mockito.eq(BACK_MENU.BACK_NEWS.getTitle()), Mockito.eq(locale));
+    BDDMockito.doReturn(href).when(menuFactory).getI18nValue(Mockito.eq(BACK_MENU.BACK_NEWS.getHref()),
+        Mockito.eq(locale));
+    BDDMockito.doReturn(label).when(menuFactory).getI18nValue(Mockito.eq(BACK_MENU.BACK_NEWS.getLabel()),
+        Mockito.eq(locale));
+    BDDMockito.doReturn(title).when(menuFactory).getI18nValue(Mockito.eq(BACK_MENU.BACK_NEWS.getTitle()),
+        Mockito.eq(locale));
 
-    MenuItem result = menuBuilder.computeMenuItem(BACK_MENU.BACK_NEWS, locale);
+    MenuItem result = menuFactory.computeMenuItem(BACK_MENU.BACK_NEWS, locale);
 
     Assert.assertEquals(href, result.getHref());
     Assert.assertEquals(label, result.getLabel());
@@ -121,13 +122,13 @@ public class MenuBuilderImplTest {
     String label = "label";
     String title = "title";
 
-    BDDMockito.doReturn(href).when(menuBuilder).getI18nValue(Mockito.eq(MENU.INDEX.getHref()), Mockito.eq(locale));
-    BDDMockito.doReturn(label).when(menuBuilder).getI18nValue(Mockito.eq(MENU.INDEX.getLabel()), Mockito.eq(locale));
-    BDDMockito.doReturn(title).when(menuBuilder).getI18nValue(Mockito.eq(MENU.INDEX.getTitle()), Mockito.eq(locale));
-    BDDMockito.doReturn(Lists.newArrayList()).when(menuBuilder)
-        .computeSubMenuItems(Mockito.eq(MENU.INDEX), Mockito.eq(locale));
+    BDDMockito.doReturn(href).when(menuFactory).getI18nValue(Mockito.eq(MENU.INDEX.getHref()), Mockito.eq(locale));
+    BDDMockito.doReturn(label).when(menuFactory).getI18nValue(Mockito.eq(MENU.INDEX.getLabel()), Mockito.eq(locale));
+    BDDMockito.doReturn(title).when(menuFactory).getI18nValue(Mockito.eq(MENU.INDEX.getTitle()), Mockito.eq(locale));
+    BDDMockito.doReturn(Lists.newArrayList()).when(menuFactory).computeSubMenuItems(Mockito.eq(MENU.INDEX),
+        Mockito.eq(locale));
 
-    MenuItem result = menuBuilder.computeIndexMenuElement(locale);
+    MenuItem result = menuFactory.computeIndexMenuElement(locale);
 
     Assert.assertEquals(href, result.getHref());
     Assert.assertEquals(label, result.getLabel());
@@ -140,7 +141,7 @@ public class MenuBuilderImplTest {
 
     for (MENU menu : MENU.values()) {
       if (!MENU.TECHNICS.equals(menu)) {
-        List<MenuItem> result = menuBuilder.computeSubMenuItems(MENU.INDEX, locale);
+        List<MenuItem> result = menuFactory.computeSubMenuItems(MENU.INDEX, locale);
         Assert.assertTrue(CollectionUtils.isEmpty(result));
       }
     }
@@ -150,9 +151,9 @@ public class MenuBuilderImplTest {
   @Test
   public void testComputeSubMenuItems_Not_Empty() throws Exception {
 
-    BDDMockito.doReturn("test").when(menuBuilder).getI18nValue(Mockito.anyString(), Mockito.eq(locale));
+    BDDMockito.doReturn("test").when(menuFactory).getI18nValue(Mockito.anyString(), Mockito.eq(locale));
 
-    List<MenuItem> result = menuBuilder.computeSubMenuItems(MENU.TECHNICS, locale);
+    List<MenuItem> result = menuFactory.computeSubMenuItems(MENU.TECHNICS, locale);
     Assert.assertFalse(CollectionUtils.isEmpty(result));
   }
 
@@ -165,9 +166,9 @@ public class MenuBuilderImplTest {
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
     MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
 
-    BDDMockito.doReturn(index).when(menuBuilder).computeMenuItem(Mockito.any(MENU.class), Mockito.eq(locale));
+    BDDMockito.doReturn(index).when(menuFactory).computeMenuItem(Mockito.any(MENU.class), Mockito.eq(locale));
 
-    List<MenuItem> result = menuBuilder.computeMenuItems(locale);
+    List<MenuItem> result = menuFactory.computeMenuItems(locale);
     Assert.assertTrue(MENU.values().length == result.size());
   }
 }

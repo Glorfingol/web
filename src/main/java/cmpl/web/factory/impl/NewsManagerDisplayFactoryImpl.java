@@ -7,9 +7,9 @@ import java.util.Locale;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import cmpl.web.builder.FooterBuilder;
-import cmpl.web.builder.MenuBuilder;
-import cmpl.web.builder.MetaElementBuilder;
+import cmpl.web.factory.FooterFactory;
+import cmpl.web.factory.MenuFactory;
+import cmpl.web.factory.MetaElementFactory;
 import cmpl.web.factory.NewsManagerDisplayFactory;
 import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.news.display.NewsEditBean;
@@ -26,16 +26,16 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   private NewsEntryService newsEntryService;
   private static final String DAY_MONTH_YEAR_FORMAT = "dd/MM/yy";
 
-  protected NewsManagerDisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementBuilder metaElementBuilder) {
-    super(menuBuilder, footerBuilder, messageSource, metaElementBuilder);
+  protected NewsManagerDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
+      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
+    super(menuFactory, footerFactory, messageSource, metaElementFactory);
     this.newsEntryService = newsEntryService;
   }
 
-  public static NewsManagerDisplayFactoryImpl fromBuilders(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementBuilder metaElementBuilder) {
-    return new NewsManagerDisplayFactoryImpl(menuBuilder, footerBuilder, messageSource, newsEntryService,
-        metaElementBuilder);
+  public static NewsManagerDisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory, FooterFactory footerFactory,
+      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
+    return new NewsManagerDisplayFactoryImpl(menuFactory, footerFactory, messageSource, newsEntryService,
+        metaElementFactory);
   }
 
   @Override
@@ -58,8 +58,8 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     }
 
     for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
-      String labelPar = computeI18nLabel("news.entry.by", locale);
-      String labelLe = computeI18nLabel("news.entry.the", locale);
+      String labelPar = getI18nValue("news.entry.by", locale);
+      String labelLe = getI18nValue("news.entry.the", locale);
       NewsEntryDisplayBean newsEntryDisplayBean = new NewsEntryDisplayBean(newsEntryFromDB, labelPar, labelLe,
           DAY_MONTH_YEAR_FORMAT);
       newsEntries.add(newsEntryDisplayBean);
@@ -94,26 +94,26 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   NewsFormDisplayBean computeForm(Locale locale) {
     NewsFormDisplayBean formBean = new NewsFormDisplayBean();
 
-    formBean.setTitleLabel(computeI18nLabel("title.label", locale));
-    formBean.setTitleHelp(computeI18nLabel("title.help", locale));
+    formBean.setTitleLabel(getI18nValue("title.label", locale));
+    formBean.setTitleHelp(getI18nValue("title.help", locale));
 
-    formBean.setAuthorLabel(computeI18nLabel("author.label", locale));
-    formBean.setAuthorHelp(computeI18nLabel("author.help", locale));
+    formBean.setAuthorLabel(getI18nValue("author.label", locale));
+    formBean.setAuthorHelp(getI18nValue("author.help", locale));
 
-    formBean.setTagsLabel(computeI18nLabel("tags.label", locale));
-    formBean.setTagsHelp(computeI18nLabel("tags.help", locale));
+    formBean.setTagsLabel(getI18nValue("tags.label", locale));
+    formBean.setTagsHelp(getI18nValue("tags.help", locale));
 
-    formBean.setContentLabel(computeI18nLabel("content.label", locale));
-    formBean.setContentHelp(computeI18nLabel("content.help", locale));
+    formBean.setContentLabel(getI18nValue("content.label", locale));
+    formBean.setContentHelp(getI18nValue("content.help", locale));
 
-    formBean.setImageLabel(computeI18nLabel("image.label", locale));
-    formBean.setImageHelp(computeI18nLabel("image.help", locale));
+    formBean.setImageLabel(getI18nValue("image.label", locale));
+    formBean.setImageHelp(getI18nValue("image.help", locale));
 
-    formBean.setLegendLabel(computeI18nLabel("legend.label", locale));
-    formBean.setLegendHelp(computeI18nLabel("legend.help", locale));
+    formBean.setLegendLabel(getI18nValue("legend.label", locale));
+    formBean.setLegendHelp(getI18nValue("legend.help", locale));
 
-    formBean.setAltLabel(computeI18nLabel("alt.label", locale));
-    formBean.setAltHelp(computeI18nLabel("alt.help", locale));
+    formBean.setAltLabel(getI18nValue("alt.label", locale));
+    formBean.setAltHelp(getI18nValue("alt.help", locale));
 
     return formBean;
   }

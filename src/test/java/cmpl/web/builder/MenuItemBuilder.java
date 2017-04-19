@@ -1,4 +1,4 @@
-package cmpl.web.builder.impl;
+package cmpl.web.builder;
 
 import java.util.List;
 

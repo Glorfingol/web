@@ -1,27 +1,24 @@
-package cmpl.web.builder.impl;
+package cmpl.web.factory.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import cmpl.web.builder.AbstractBuilder;
-import cmpl.web.builder.MenuBuilder;
+import cmpl.web.factory.MenuFactory;
 import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.menu.BACK_MENU;
 import cmpl.web.model.menu.MENU;
 import cmpl.web.model.menu.MenuItem;
 import cmpl.web.model.menu.SUB_MENU;
 
-public class MenuBuilderImpl extends AbstractBuilder implements MenuBuilder {
+public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
 
-  private final WebMessageSourceImpl messageSource;
-
-  private MenuBuilderImpl(WebMessageSourceImpl messageSource) {
-    this.messageSource = messageSource;
+  private MenuFactoryImpl(WebMessageSourceImpl messageSource) {
+    super(messageSource);
   }
 
-  public static MenuBuilderImpl fromMessageSource(WebMessageSourceImpl messageSource) {
-    return new MenuBuilderImpl(messageSource);
+  public static MenuFactoryImpl fromMessageSource(WebMessageSourceImpl messageSource) {
+    return new MenuFactoryImpl(messageSource);
   }
 
   @Override
@@ -46,11 +43,6 @@ public class MenuBuilderImpl extends AbstractBuilder implements MenuBuilder {
     }
 
     return subMenuItems;
-  }
-
-  @Override
-  protected String getI18nValue(String key, Locale locale) {
-    return messageSource.getI18n(key, locale);
   }
 
   @Override

@@ -1,4 +1,4 @@
-package cmpl.web.builder.impl;
+package cmpl.web.factory.impl;
 
 import java.util.Locale;
 
@@ -14,19 +14,19 @@ import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.footer.Footer;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FooterBuilderImplTest {
+public class FooterFactoryImplTest {
 
   private WebMessageSourceImpl messageBundle;
 
-  private FooterBuilderImpl footerBuilder;
+  private FooterFactoryImpl footerFactory;
 
   private Locale locale;
 
   @Before
   public void setUp() {
     messageBundle = Mockito.mock(WebMessageSourceImpl.class);
-    footerBuilder = FooterBuilderImpl.fromMessageSource(messageBundle);
-    footerBuilder = Mockito.spy(footerBuilder);
+    footerFactory = FooterFactoryImpl.fromMessageSource(messageBundle);
+    footerFactory = Mockito.spy(footerFactory);
     locale = Locale.FRANCE;
   }
 
@@ -37,11 +37,11 @@ public class FooterBuilderImplTest {
     String label = "un label";
     String phone = "0100000000";
 
-    BDDMockito.doReturn(adresse).when(footerBuilder).getI18nValue(Mockito.eq("footer.address"), Mockito.eq(locale));
-    BDDMockito.doReturn(label).when(footerBuilder).getI18nValue(Mockito.eq("footer.label"), Mockito.eq(locale));
-    BDDMockito.doReturn(phone).when(footerBuilder).getI18nValue(Mockito.eq("footer.phone"), Mockito.eq(locale));
+    BDDMockito.doReturn(adresse).when(footerFactory).getI18nValue(Mockito.eq("footer.address"), Mockito.eq(locale));
+    BDDMockito.doReturn(label).when(footerFactory).getI18nValue(Mockito.eq("footer.label"), Mockito.eq(locale));
+    BDDMockito.doReturn(phone).when(footerFactory).getI18nValue(Mockito.eq("footer.phone"), Mockito.eq(locale));
 
-    Footer result = footerBuilder.computeFooter(locale);
+    Footer result = footerFactory.computeFooter(locale);
 
     Assert.assertEquals(adresse, result.getAdresse());
     Assert.assertEquals(label, result.getLibelle());

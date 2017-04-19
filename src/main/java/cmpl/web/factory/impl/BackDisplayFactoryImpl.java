@@ -7,10 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 
-import cmpl.web.builder.FooterBuilder;
-import cmpl.web.builder.MenuBuilder;
-import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.factory.BackDisplayFactory;
+import cmpl.web.factory.FooterFactory;
+import cmpl.web.factory.MenuFactory;
+import cmpl.web.factory.MetaElementFactory;
 import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.footer.Footer;
 import cmpl.web.model.login.LoginFormDisplayBean;
@@ -18,26 +18,25 @@ import cmpl.web.model.menu.MenuItem;
 import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.BACK_PAGE;
 
-public class BackDisplayFactoryImpl implements BackDisplayFactory {
+public class BackDisplayFactoryImpl extends BaseFactoryImpl implements BackDisplayFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(BackDisplayFactoryImpl.class);
 
-  private final WebMessageSourceImpl messageSource;
-  private final MenuBuilder menuBuilder;
-  private final FooterBuilder footerBuilder;
-  private final MetaElementBuilder metaElementBuilder;
+  private final MenuFactory menuFactory;
+  private final FooterFactory footerFactory;
+  private final MetaElementFactory metaElementFactory;
 
-  protected BackDisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      WebMessageSourceImpl messageSource, MetaElementBuilder metaElementBuilder) {
-    this.menuBuilder = menuBuilder;
-    this.messageSource = messageSource;
-    this.footerBuilder = footerBuilder;
-    this.metaElementBuilder = metaElementBuilder;
+  protected BackDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
+      WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory) {
+    super(messageSource);
+    this.menuFactory = menuFactory;
+    this.footerFactory = footerFactory;
+    this.metaElementFactory = metaElementFactory;
   }
 
-  public static BackDisplayFactoryImpl fromBuilders(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      WebMessageSourceImpl messageSource, MetaElementBuilder metaElementBuilder) {
-    return new BackDisplayFactoryImpl(menuBuilder, footerBuilder, messageSource, metaElementBuilder);
+  public static BackDisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory,
+      FooterFactory footerFactory, WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory) {
+    return new BackDisplayFactoryImpl(menuFactory, footerFactory, messageSource, metaElementFactory);
   }
 
   @Override
@@ -65,40 +64,36 @@ public class BackDisplayFactoryImpl implements BackDisplayFactory {
   }
 
   String computeTileName(BACK_PAGE backPage, Locale locale) {
-    return computeI18nLabel(backPage.getTile(), locale);
+    return getI18nValue(backPage.getTile(), locale);
   }
 
   String computeMainTitle(Locale locale) {
-    return computeI18nLabel("main.title", locale);
+    return getI18nValue("main.title", locale);
   }
 
   List<MenuItem> computeBackMenuItems(Locale locale) {
-    return menuBuilder.computeBackMenuItems(locale);
+    return menuFactory.computeBackMenuItems(locale);
   }
 
   Footer computeFooter(Locale locale) {
-    return footerBuilder.computeFooter(locale);
-  }
-
-  String computeI18nLabel(String key, Locale locale) {
-    return messageSource.getMessage(key, null, locale);
+    return footerFactory.computeFooter(locale);
   }
 
   List<MetaElement> computeMetaElements(Locale locale) {
-    return metaElementBuilder.computeMetaElementsForBackPage(locale);
+    return metaElementFactory.computeMetaElementsForBackPage(locale);
   }
 
   String computeHiddenLink(Locale locale) {
-    return computeI18nLabel("back.news.href", locale);
+    return getI18nValue("back.news.href", locale);
   }
 
   LoginFormDisplayBean computeLoginFormDisplayBean(Locale locale) {
     LoginFormDisplayBean loginFormDisplayBean = new LoginFormDisplayBean();
 
-    loginFormDisplayBean.setUserLabel(computeI18nLabel("user.name", locale));
-    loginFormDisplayBean.setPasswordLabel(computeI18nLabel("user.password", locale));
-    loginFormDisplayBean.setErrorLabel(computeI18nLabel("user.error", locale));
-    loginFormDisplayBean.setTimeoutLabel(computeI18nLabel("user.logout", locale));
+    loginFormDisplayBean.setUserLabel(getI18nValue("user.name", locale));
+    loginFormDisplayBean.setPasswordLabel(getI18nValue("user.password", locale));
+    loginFormDisplayBean.setErrorLabel(getI18nValue("user.error", locale));
+    loginFormDisplayBean.setTimeoutLabel(getI18nValue("user.logout", locale));
 
     return loginFormDisplayBean;
   }

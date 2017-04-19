@@ -7,42 +7,41 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 
-import cmpl.web.builder.FooterBuilder;
-import cmpl.web.builder.MenuBuilder;
-import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.factory.DisplayFactory;
+import cmpl.web.factory.FooterFactory;
+import cmpl.web.factory.MenuFactory;
+import cmpl.web.factory.MetaElementFactory;
 import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.footer.Footer;
 import cmpl.web.model.menu.MenuItem;
 import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.PAGE;
 
-public class DisplayFactoryImpl implements DisplayFactory {
+public class DisplayFactoryImpl extends BaseFactoryImpl implements DisplayFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(DisplayFactoryImpl.class);
-  private final MenuBuilder menuBuilder;
-  private final FooterBuilder footerBuilder;
-  private final MetaElementBuilder metaElementBuilder;
-  private final WebMessageSourceImpl messageSource;
+  private final MenuFactory menuFactory;
+  private final FooterFactory footerFactory;
+  private final MetaElementFactory metaElementFactory;
 
-  protected DisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MetaElementBuilder metaElementBuilder, WebMessageSourceImpl messageSource) {
-    this.menuBuilder = menuBuilder;
-    this.messageSource = messageSource;
-    this.footerBuilder = footerBuilder;
-    this.metaElementBuilder = metaElementBuilder;
+  protected DisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
+      MetaElementFactory metaElementFactory, WebMessageSourceImpl messageSource) {
+    super(messageSource);
+    this.menuFactory = menuFactory;
+    this.footerFactory = footerFactory;
+    this.metaElementFactory = metaElementFactory;
   }
 
-  public static DisplayFactoryImpl fromBuilders(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MetaElementBuilder metaElementBuilder, WebMessageSourceImpl messageSource) {
-    return new DisplayFactoryImpl(menuBuilder, footerBuilder, metaElementBuilder, messageSource);
+  public static DisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory, FooterFactory footerFactory,
+      MetaElementFactory metaElementFactory, WebMessageSourceImpl messageSource) {
+    return new DisplayFactoryImpl(menuFactory, footerFactory, metaElementFactory, messageSource);
   }
 
   @Override
   public ModelAndView computeModelAndViewForPage(PAGE page, Locale locale) {
 
     LOGGER.info("Construction de la page  " + page.name());
-    ModelAndView model = new ModelAndView(computeI18nLabel(page.getTileName(), locale));
+    ModelAndView model = new ModelAndView(getI18nValue(page.getTileName(), locale));
 
     LOGGER.info("Construction du menu pour la page " + page.name());
     model.addObject("menuItems", computeMenuItems(locale));
@@ -53,7 +52,7 @@ public class DisplayFactoryImpl implements DisplayFactory {
     LOGGER.info("Construction du titre principal pour la page  " + page.name());
     model.addObject("maintTitle", computeMainTitle(locale));
     LOGGER.info("Construction du lien du back pour la page " + page.name());
-    model.addObject("hiddenLink", computeI18nLabel("back.news.href", locale));
+    model.addObject("hiddenLink", getI18nValue("back.news.href", locale));
 
     LOGGER.info("Page " + page.name() + " prête");
 
@@ -62,22 +61,19 @@ public class DisplayFactoryImpl implements DisplayFactory {
   }
 
   List<MenuItem> computeMenuItems(Locale locale) {
-    return menuBuilder.computeMenuItems(locale);
+    return menuFactory.computeMenuItems(locale);
   }
 
   String computeMainTitle(Locale locale) {
-    return computeI18nLabel("main.title", locale);
+    return getI18nValue("main.title", locale);
   }
 
   Footer computeFooter(Locale locale) {
-    return footerBuilder.computeFooter(locale);
+    return footerFactory.computeFooter(locale);
   }
 
   List<MetaElement> computeMetaElements(Locale locale, PAGE page) {
-    return metaElementBuilder.computeMetaElementsForPage(locale, page);
+    return metaElementFactory.computeMetaElementsForPage(locale, page);
   }
 
-  String computeI18nLabel(String key, Locale locale) {
-    return messageSource.getMessage(key, null, locale);
-  }
 }
