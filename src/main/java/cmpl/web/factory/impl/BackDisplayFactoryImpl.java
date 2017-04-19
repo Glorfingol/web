@@ -44,7 +44,7 @@ public class BackDisplayFactoryImpl implements BackDisplayFactory {
   public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
 
     LOGGER.info("Construction de la page du back " + backPage.name());
-    ModelAndView model = new ModelAndView(computeI18nLabel(backPage.getTile(), locale));
+    ModelAndView model = new ModelAndView(computeTileName(backPage, locale));
 
     LOGGER.info("Construction du menu pour la page " + backPage.name());
     model.addObject("menuItems", computeBackMenuItems(locale));
@@ -57,11 +57,15 @@ public class BackDisplayFactoryImpl implements BackDisplayFactory {
     LOGGER.info("Construction du formulaire de login pour la page " + backPage.name());
     model.addObject("loginForm", computeLoginFormDisplayBean(locale));
     LOGGER.info("Construction du lien du back pour la page " + backPage.name());
-    model.addObject("hiddenLink", computeI18nLabel("back.news.href", locale));
+    model.addObject("hiddenLink", computeHiddenLink(locale));
 
     LOGGER.info("Page du back " + backPage.name() + " prête");
 
     return model;
+  }
+
+  String computeTileName(BACK_PAGE backPage, Locale locale) {
+    return computeI18nLabel(backPage.getTile(), locale);
   }
 
   String computeMainTitle(Locale locale) {
@@ -82,6 +86,10 @@ public class BackDisplayFactoryImpl implements BackDisplayFactory {
 
   List<MetaElement> computeMetaElements(Locale locale) {
     return metaElementBuilder.computeMetaElementsForBackPage(locale);
+  }
+
+  String computeHiddenLink(Locale locale) {
+    return computeI18nLabel("back.news.href", locale);
   }
 
   LoginFormDisplayBean computeLoginFormDisplayBean(Locale locale) {

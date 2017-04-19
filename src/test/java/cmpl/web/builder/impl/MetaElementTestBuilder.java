@@ -2,17 +2,17 @@ package cmpl.web.builder.impl;
 
 import cmpl.web.model.meta.MetaElement;
 
-public class MetaElementBuilder {
+public class MetaElementTestBuilder {
 
   private String name;
   private String content;
 
-  public MetaElementBuilder name(String name) {
+  public MetaElementTestBuilder name(String name) {
     this.name = name;
     return this;
   }
 
-  public MetaElementBuilder content(String content) {
+  public MetaElementTestBuilder content(String content) {
     this.content = content;
     return this;
   }

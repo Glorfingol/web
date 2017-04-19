@@ -49,7 +49,7 @@ public class MetaElementBuilderImplTest {
 
     String name = "language";
 
-    MetaElement language = new MetaElementBuilder().name(name).content(locale.getLanguage()).toMetaElement();
+    MetaElement language = new MetaElementTestBuilder().name(name).content(locale.getLanguage()).toMetaElement();
 
     BDDMockito.doReturn(language).when(metaElementBuilder)
         .computeMetaElement(Mockito.eq(name), Mockito.eq(locale.getLanguage()));
@@ -65,7 +65,7 @@ public class MetaElementBuilderImplTest {
     String name = "viewport";
     String content = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
 
-    MetaElement viewport = new MetaElementBuilder().name(name).content(content).toMetaElement();
+    MetaElement viewport = new MetaElementTestBuilder().name(name).content(content).toMetaElement();
 
     BDDMockito.doReturn(viewport).when(metaElementBuilder).computeMetaElement(Mockito.eq(name), Mockito.eq(content));
 
@@ -83,7 +83,7 @@ public class MetaElementBuilderImplTest {
     BDDMockito.doReturn("test").when(metaElementBuilder)
         .getI18nValue(Mockito.eq(PAGE.CENTER.getDescription()), Mockito.eq(locale));
 
-    MetaElement description = new MetaElementBuilder().name(name).content(content).toMetaElement();
+    MetaElement description = new MetaElementTestBuilder().name(name).content(content).toMetaElement();
 
     BDDMockito.doReturn(description).when(metaElementBuilder).computeMetaElement(Mockito.eq(name), Mockito.anyString());
 
@@ -101,7 +101,7 @@ public class MetaElementBuilderImplTest {
     BDDMockito.doReturn("test").when(metaElementBuilder)
         .getI18nValue(Mockito.eq(PAGE.CENTER.getTitle()), Mockito.eq(locale));
 
-    MetaElement description = new MetaElementBuilder().name(name).content(content).toMetaElement();
+    MetaElement description = new MetaElementTestBuilder().name(name).content(content).toMetaElement();
 
     BDDMockito.doReturn(description).when(metaElementBuilder).computeMetaElement(Mockito.eq(name), Mockito.anyString());
 
@@ -120,8 +120,8 @@ public class MetaElementBuilderImplTest {
     String languageName = "viewport";
     String languageContent = locale.getLanguage();
 
-    MetaElement viewport = new MetaElementBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
-    MetaElement language = new MetaElementBuilder().name(languageName).content(languageContent).toMetaElement();
+    MetaElement viewport = new MetaElementTestBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
+    MetaElement language = new MetaElementTestBuilder().name(languageName).content(languageContent).toMetaElement();
 
     BDDMockito.doReturn(viewport).when(metaElementBuilder).computeViewPort();
     BDDMockito.doReturn(language).when(metaElementBuilder).computeLanguage(Mockito.eq(locale));
@@ -155,10 +155,10 @@ public class MetaElementBuilderImplTest {
     String descriptionName = "description";
     String descriptionContent = "description";
 
-    MetaElement viewport = new MetaElementBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
-    MetaElement language = new MetaElementBuilder().name(languageName).content(languageContent).toMetaElement();
-    MetaElement title = new MetaElementBuilder().name(titleName).content(titleContent).toMetaElement();
-    MetaElement description = new MetaElementBuilder().name(descriptionName).content(descriptionContent)
+    MetaElement viewport = new MetaElementTestBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
+    MetaElement language = new MetaElementTestBuilder().name(languageName).content(languageContent).toMetaElement();
+    MetaElement title = new MetaElementTestBuilder().name(titleName).content(titleContent).toMetaElement();
+    MetaElement description = new MetaElementTestBuilder().name(descriptionName).content(descriptionContent)
         .toMetaElement();
 
     BDDMockito.doReturn(viewport).when(metaElementBuilder).computeViewPort();
