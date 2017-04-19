@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.context.MessageSource;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import cmpl.web.model.news.error.NEWS_ERROR;
-import cmpl.web.model.news.error.NEWS_ERROR_CAUSE;
+import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.news.error.Error;
 import cmpl.web.model.news.error.ErrorCause;
+import cmpl.web.model.news.error.NEWS_ERROR;
+import cmpl.web.model.news.error.NEWS_ERROR_CAUSE;
 import cmpl.web.model.news.rest.news.NewsContentRequest;
 import cmpl.web.model.news.rest.news.NewsEntryRequest;
 import cmpl.web.model.news.rest.news.NewsImageRequest;
@@ -19,15 +19,15 @@ import cmpl.web.validator.NewsEntryRequestValidator;
 
 public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator {
 
-  private final MessageSource messageSource;
+  private final WebMessageSourceImpl messageSource;
 
   private static final String FORMAT_PNG = "png";
 
-  private NewsEntryRequestValidatorImpl(MessageSource messageSource) {
+  private NewsEntryRequestValidatorImpl(WebMessageSourceImpl messageSource) {
     this.messageSource = messageSource;
   }
 
-  public static NewsEntryRequestValidatorImpl fromMessageSource(MessageSource messageSource) {
+  public static NewsEntryRequestValidatorImpl fromMessageSource(WebMessageSourceImpl messageSource) {
     return new NewsEntryRequestValidatorImpl(messageSource);
   }
 

@@ -4,24 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.context.support.ResourceBundleMessageSource;
-
 import cmpl.web.builder.AbstractBuilder;
 import cmpl.web.builder.MetaElementBuilder;
+import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.PAGE;
 
 public class MetaElementBuilderImpl extends AbstractBuilder implements MetaElementBuilder {
 
-  private final ResourceBundleMessageSource resourceBundleMessageSource;
+  private final WebMessageSourceImpl messageSource;
 
-  private MetaElementBuilderImpl(ResourceBundleMessageSource resourceBundleMessageSource) {
-    this.resourceBundleMessageSource = resourceBundleMessageSource;
+  private MetaElementBuilderImpl(WebMessageSourceImpl messageSource) {
+    this.messageSource = messageSource;
   }
 
-  public static MetaElementBuilderImpl fromResourceBundleMessageSource(
-      ResourceBundleMessageSource resourceBundleMessageSource) {
-    return new MetaElementBuilderImpl(resourceBundleMessageSource);
+  public static MetaElementBuilderImpl fromMessageSource(WebMessageSourceImpl messageSource) {
+    return new MetaElementBuilderImpl(messageSource);
   }
 
   @Override
@@ -49,47 +47,33 @@ public class MetaElementBuilderImpl extends AbstractBuilder implements MetaEleme
   }
 
   MetaElement computeTitle(Locale locale, PAGE page) {
-
-    MetaElement title = new MetaElement();
-    title.setName("title");
-    title.setContent(getI18nValue(page.getTitle(), locale));
-
-    return title;
+    return computeMetaElement("title", getI18nValue(page.getTitle(), locale));
   }
 
   MetaElement computeDescription(Locale locale, PAGE page) {
-
-    MetaElement description = new MetaElement();
-    description.setName("description");
-    description.setContent(getI18nValue(page.getDescription(), locale));
-
-    return description;
+    return computeMetaElement("description", getI18nValue(page.getDescription(), locale));
 
   }
 
   MetaElement computeLanguage(Locale locale) {
-
-    MetaElement language = new MetaElement();
-    language.setName("language");
-    language.setContent(locale.getLanguage());
-
-    return language;
-
+    return computeMetaElement("language", locale.getLanguage());
   }
 
   MetaElement computeViewPort() {
+    return computeMetaElement("viewport", "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no");
+  }
 
-    MetaElement viewPort = new MetaElement();
-    viewPort.setName("viewport");
-    viewPort.setContent("width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no");
-
-    return viewPort;
+  MetaElement computeMetaElement(String name, String content) {
+    MetaElement metaElement = new MetaElement();
+    metaElement.setName(name);
+    metaElement.setContent(content);
+    return metaElement;
 
   }
 
   @Override
   protected String getI18nValue(String key, Locale locale) {
-    return resourceBundleMessageSource.getMessage(key, null, locale);
+    return messageSource.getI18n(key, locale);
   }
 
 }

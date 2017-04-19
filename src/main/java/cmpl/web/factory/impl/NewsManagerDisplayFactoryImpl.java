@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.context.MessageSource;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,6 +11,7 @@ import cmpl.web.builder.FooterBuilder;
 import cmpl.web.builder.MenuBuilder;
 import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.factory.NewsManagerDisplayFactory;
+import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.news.display.NewsEditBean;
 import cmpl.web.model.news.display.NewsEntryDisplayBean;
 import cmpl.web.model.news.display.NewsFormDisplayBean;
@@ -27,13 +27,13 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   private static final String DAY_MONTH_YEAR_FORMAT = "dd/MM/yy";
 
   protected NewsManagerDisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MessageSource messageSource, NewsEntryService newsEntryService, MetaElementBuilder metaElementBuilder) {
+      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementBuilder metaElementBuilder) {
     super(menuBuilder, footerBuilder, messageSource, metaElementBuilder);
     this.newsEntryService = newsEntryService;
   }
 
   public static NewsManagerDisplayFactoryImpl fromBuilders(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MessageSource messageSource, NewsEntryService newsEntryService, MetaElementBuilder metaElementBuilder) {
+      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementBuilder metaElementBuilder) {
     return new NewsManagerDisplayFactoryImpl(menuBuilder, footerBuilder, messageSource, newsEntryService,
         metaElementBuilder);
   }

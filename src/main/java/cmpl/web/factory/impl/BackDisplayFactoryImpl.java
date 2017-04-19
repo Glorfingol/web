@@ -5,13 +5,13 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
 import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.builder.FooterBuilder;
 import cmpl.web.builder.MenuBuilder;
 import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.factory.BackDisplayFactory;
+import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.footer.Footer;
 import cmpl.web.model.login.LoginFormDisplayBean;
 import cmpl.web.model.menu.MenuItem;
@@ -22,13 +22,13 @@ public class BackDisplayFactoryImpl implements BackDisplayFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(BackDisplayFactoryImpl.class);
 
-  private final MessageSource messageSource;
+  private final WebMessageSourceImpl messageSource;
   private final MenuBuilder menuBuilder;
   private final FooterBuilder footerBuilder;
   private final MetaElementBuilder metaElementBuilder;
 
-  protected BackDisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder, MessageSource messageSource,
-      MetaElementBuilder metaElementBuilder) {
+  protected BackDisplayFactoryImpl(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
+      WebMessageSourceImpl messageSource, MetaElementBuilder metaElementBuilder) {
     this.menuBuilder = menuBuilder;
     this.messageSource = messageSource;
     this.footerBuilder = footerBuilder;
@@ -36,7 +36,7 @@ public class BackDisplayFactoryImpl implements BackDisplayFactory {
   }
 
   public static BackDisplayFactoryImpl fromBuilders(MenuBuilder menuBuilder, FooterBuilder footerBuilder,
-      MessageSource messageSource, MetaElementBuilder metaElementBuilder) {
+      WebMessageSourceImpl messageSource, MetaElementBuilder metaElementBuilder) {
     return new BackDisplayFactoryImpl(menuBuilder, footerBuilder, messageSource, metaElementBuilder);
   }
 

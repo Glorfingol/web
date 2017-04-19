@@ -2,23 +2,21 @@ package cmpl.web.builder.impl;
 
 import java.util.Locale;
 
-import org.springframework.context.support.ResourceBundleMessageSource;
-
 import cmpl.web.builder.AbstractBuilder;
 import cmpl.web.builder.FooterBuilder;
+import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.footer.Footer;
 
 public class FooterBuilderImpl extends AbstractBuilder implements FooterBuilder {
 
-  private final ResourceBundleMessageSource resourceBundleMessageSource;
+  private final WebMessageSourceImpl messageSource;
 
-  private FooterBuilderImpl(ResourceBundleMessageSource resourceBundleMessageSource) {
-    this.resourceBundleMessageSource = resourceBundleMessageSource;
+  private FooterBuilderImpl(WebMessageSourceImpl messageSource) {
+    this.messageSource = messageSource;
   }
 
-  public static FooterBuilderImpl fromResourceBundleMessageSource(
-      ResourceBundleMessageSource resourceBundleMessageSource) {
-    return new FooterBuilderImpl(resourceBundleMessageSource);
+  public static FooterBuilderImpl fromMessageSource(WebMessageSourceImpl messageSource) {
+    return new FooterBuilderImpl(messageSource);
   }
 
   @Override
@@ -35,6 +33,6 @@ public class FooterBuilderImpl extends AbstractBuilder implements FooterBuilder 
 
   @Override
   protected String getI18nValue(String key, Locale locale) {
-    return resourceBundleMessageSource.getMessage(key, null, locale);
+    return messageSource.getI18n(key, locale);
   }
 }
