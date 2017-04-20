@@ -32,8 +32,9 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     this.newsEntryService = newsEntryService;
   }
 
-  public static NewsManagerDisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory, FooterFactory footerFactory,
-      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
+  public static NewsManagerDisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory,
+      FooterFactory footerFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService,
+      MetaElementFactory metaElementFactory) {
     return new NewsManagerDisplayFactoryImpl(menuFactory, footerFactory, messageSource, newsEntryService,
         metaElementFactory);
   }
@@ -60,8 +61,9 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
       String labelPar = getI18nValue("news.entry.by", locale);
       String labelLe = getI18nValue("news.entry.the", locale);
+      String labelAccroche = getI18nValue("news.entry.call", locale);
       NewsEntryDisplayBean newsEntryDisplayBean = new NewsEntryDisplayBean(newsEntryFromDB, labelPar, labelLe,
-          DAY_MONTH_YEAR_FORMAT);
+          DAY_MONTH_YEAR_FORMAT, labelAccroche);
       newsEntries.add(newsEntryDisplayBean);
     }
 
