@@ -10,4 +10,6 @@ public interface NewsDisplayFactory {
 
   ModelAndView computeModelAndViewForPage(PAGE page, Locale locale);
 
+  ModelAndView computeModelAndViewForNewsEntry(Locale locale, String newsEntryId);
+
 }

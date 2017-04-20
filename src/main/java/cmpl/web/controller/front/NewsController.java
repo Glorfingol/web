@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,6 +29,13 @@ public class NewsController {
 
     LOGGER.info("Accès à la page " + PAGE.NEWS.name());
     return newsDisplayFactory.computeModelAndViewForPage(PAGE.NEWS, Locale.FRANCE);
+  }
+
+  @RequestMapping(value = "/actualites/{newsEntryId}")
+  public ModelAndView printNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId) {
+
+    LOGGER.info("Accès à la page " + PAGE.NEWS_ENTRY.name());
+    return newsDisplayFactory.computeModelAndViewForNewsEntry(Locale.FRANCE, newsEntryId);
   }
 
 }

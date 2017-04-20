@@ -17,4 +17,5 @@ public class BaseFactoryImpl implements BaseFactory {
   public String getI18nValue(String key, Locale locale) {
     return messageSource.getI18n(key, locale);
   }
+
 }

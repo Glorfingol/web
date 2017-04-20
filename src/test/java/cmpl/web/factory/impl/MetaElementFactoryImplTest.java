@@ -20,7 +20,7 @@ import cmpl.web.model.page.PAGE;
 @RunWith(MockitoJUnitRunner.class)
 public class MetaElementFactoryImplTest {
 
-  private WebMessageSourceImpl messageBundle;
+  private WebMessageSourceImpl messageSource;
 
   private MetaElementFactoryImpl metaElementFactory;
 
@@ -28,8 +28,8 @@ public class MetaElementFactoryImplTest {
 
   @Before
   public void setUp() {
-    messageBundle = Mockito.mock(WebMessageSourceImpl.class);
-    metaElementFactory = MetaElementFactoryImpl.fromMessageSource(messageBundle);
+    messageSource = Mockito.mock(WebMessageSourceImpl.class);
+    metaElementFactory = MetaElementFactoryImpl.fromMessageSource(messageSource);
     metaElementFactory = Mockito.spy(metaElementFactory);
     locale = Locale.FRANCE;
   }

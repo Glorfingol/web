@@ -18,7 +18,7 @@ import cmpl.web.model.menu.MenuItem;
 import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.BACK_PAGE;
 
-public class BackDisplayFactoryImpl extends BaseFactoryImpl implements BackDisplayFactory {
+public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements BackDisplayFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(BackDisplayFactoryImpl.class);
 
@@ -43,7 +43,7 @@ public class BackDisplayFactoryImpl extends BaseFactoryImpl implements BackDispl
   public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
 
     LOGGER.info("Construction de la page du back " + backPage.name());
-    ModelAndView model = new ModelAndView(computeTileName(backPage, locale));
+    ModelAndView model = new ModelAndView(computeTileName(backPage.getTile(), locale));
 
     LOGGER.info("Construction du menu pour la page " + backPage.name());
     model.addObject("menuItems", computeBackMenuItems(locale));
@@ -63,14 +63,6 @@ public class BackDisplayFactoryImpl extends BaseFactoryImpl implements BackDispl
     return model;
   }
 
-  String computeTileName(BACK_PAGE backPage, Locale locale) {
-    return getI18nValue(backPage.getTile(), locale);
-  }
-
-  String computeMainTitle(Locale locale) {
-    return getI18nValue("main.title", locale);
-  }
-
   List<MenuItem> computeBackMenuItems(Locale locale) {
     return menuFactory.computeBackMenuItems(locale);
   }
@@ -81,10 +73,6 @@ public class BackDisplayFactoryImpl extends BaseFactoryImpl implements BackDispl
 
   List<MetaElement> computeMetaElements(Locale locale) {
     return metaElementFactory.computeMetaElementsForBackPage(locale);
-  }
-
-  String computeHiddenLink(Locale locale) {
-    return getI18nValue("back.news.href", locale);
   }
 
   LoginFormDisplayBean computeLoginFormDisplayBean(Locale locale) {

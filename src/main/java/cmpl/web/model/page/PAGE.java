@@ -4,6 +4,7 @@ public enum PAGE {
 
   APPOINTMENT("appointment.tile", "appointment.title", "appointment.description"),
   NEWS("news.tile", "news.title", "news.description"),
+  NEWS_ENTRY("news.entry.tile", "news.entry.title", "news.entry.description"),
   INDEX("index.tile", "index.title", "index.description"),
   OPENING_HOURS("hours.tile", "hours.title", "hours.description"),
   CENTER("center.tile", "center.title", "center.description"),

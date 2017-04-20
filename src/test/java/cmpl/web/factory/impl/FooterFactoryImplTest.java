@@ -16,7 +16,7 @@ import cmpl.web.model.footer.Footer;
 @RunWith(MockitoJUnitRunner.class)
 public class FooterFactoryImplTest {
 
-  private WebMessageSourceImpl messageBundle;
+  private WebMessageSourceImpl messageSource;
 
   private FooterFactoryImpl footerFactory;
 
@@ -24,8 +24,8 @@ public class FooterFactoryImplTest {
 
   @Before
   public void setUp() {
-    messageBundle = Mockito.mock(WebMessageSourceImpl.class);
-    footerFactory = FooterFactoryImpl.fromMessageSource(messageBundle);
+    messageSource = Mockito.mock(WebMessageSourceImpl.class);
+    footerFactory = FooterFactoryImpl.fromMessageSource(messageSource);
     footerFactory = Mockito.spy(footerFactory);
     locale = Locale.FRANCE;
   }

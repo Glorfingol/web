@@ -24,7 +24,7 @@ import cmpl.web.model.menu.SUB_MENU;
 @RunWith(MockitoJUnitRunner.class)
 public class MenuFactoryImplTest {
 
-  private WebMessageSourceImpl messageBundle;
+  private WebMessageSourceImpl messageSource;
 
   private MenuFactoryImpl menuFactory;
 
@@ -32,8 +32,8 @@ public class MenuFactoryImplTest {
 
   @Before
   public void setUp() {
-    messageBundle = Mockito.mock(WebMessageSourceImpl.class);
-    menuFactory = MenuFactoryImpl.fromMessageSource(messageBundle);
+    messageSource = Mockito.mock(WebMessageSourceImpl.class);
+    menuFactory = MenuFactoryImpl.fromMessageSource(messageSource);
     menuFactory = Mockito.spy(menuFactory);
     locale = Locale.FRANCE;
   }

@@ -10,7 +10,7 @@
 	       <img class="newsImage" th:src="${newsBean.image}" th:alt="${newsBean.alt}" th:height="${newsBean.imageHeight}" th:width="${newsBean.imageWidth}"/>
 	       <figcaption class="text-right" th:text="${newsBean.legend}"/>
 	   </figure> 
-	   <p th:if="${newsBean.displayContent}" th:text="${newsBean.content}"/>
+	   <a th:text="${newsBean.newsEntryShowMore}" th:href="${newsBean.newsEntryShowHref}"></a>
 	</div>
 	<div class="panel-footer" th:if="${newsBean.displayTags}">
 	   <div class="form-inline">

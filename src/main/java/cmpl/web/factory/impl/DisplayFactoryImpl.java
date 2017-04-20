@@ -17,7 +17,7 @@ import cmpl.web.model.menu.MenuItem;
 import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.PAGE;
 
-public class DisplayFactoryImpl extends BaseFactoryImpl implements DisplayFactory {
+public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements DisplayFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(DisplayFactoryImpl.class);
   private final MenuFactory menuFactory;
@@ -32,8 +32,8 @@ public class DisplayFactoryImpl extends BaseFactoryImpl implements DisplayFactor
     this.metaElementFactory = metaElementFactory;
   }
 
-  public static DisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory, FooterFactory footerFactory,
-      MetaElementFactory metaElementFactory, WebMessageSourceImpl messageSource) {
+  public static DisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory,
+      FooterFactory footerFactory, MetaElementFactory metaElementFactory, WebMessageSourceImpl messageSource) {
     return new DisplayFactoryImpl(menuFactory, footerFactory, metaElementFactory, messageSource);
   }
 
@@ -41,7 +41,7 @@ public class DisplayFactoryImpl extends BaseFactoryImpl implements DisplayFactor
   public ModelAndView computeModelAndViewForPage(PAGE page, Locale locale) {
 
     LOGGER.info("Construction de la page  " + page.name());
-    ModelAndView model = new ModelAndView(getI18nValue(page.getTileName(), locale));
+    ModelAndView model = new ModelAndView(computeTileName(page.getTileName(), locale));
 
     LOGGER.info("Construction du menu pour la page " + page.name());
     model.addObject("menuItems", computeMenuItems(locale));
@@ -52,7 +52,7 @@ public class DisplayFactoryImpl extends BaseFactoryImpl implements DisplayFactor
     LOGGER.info("Construction du titre principal pour la page  " + page.name());
     model.addObject("maintTitle", computeMainTitle(locale));
     LOGGER.info("Construction du lien du back pour la page " + page.name());
-    model.addObject("hiddenLink", getI18nValue("back.news.href", locale));
+    model.addObject("hiddenLink", computeHiddenLink(locale));
 
     LOGGER.info("Page " + page.name() + " prête");
 
@@ -62,10 +62,6 @@ public class DisplayFactoryImpl extends BaseFactoryImpl implements DisplayFactor
 
   List<MenuItem> computeMenuItems(Locale locale) {
     return menuFactory.computeMenuItems(locale);
-  }
-
-  String computeMainTitle(Locale locale) {
-    return getI18nValue("main.title", locale);
   }
 
   Footer computeFooter(Locale locale) {

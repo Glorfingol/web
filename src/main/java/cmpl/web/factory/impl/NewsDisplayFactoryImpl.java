@@ -28,8 +28,9 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     this.newsEntryService = newsEntryService;
   }
 
-  public static NewsDisplayFactoryImpl fromFactoriesAndMessageResourceAndServices(MenuFactory menuFactory, FooterFactory footerFactory,
-      MetaElementFactory metaElementFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
+  public static NewsDisplayFactoryImpl fromFactoriesAndMessageResourceAndServices(MenuFactory menuFactory,
+      FooterFactory footerFactory, MetaElementFactory metaElementFactory, WebMessageSourceImpl messageSource,
+      NewsEntryService newsEntryService) {
     return new NewsDisplayFactoryImpl(menuFactory, footerFactory, metaElementFactory, messageSource, newsEntryService);
   }
 
@@ -57,11 +58,32 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
       String labelPar = getI18nValue("news.entry.by", locale);
       String labelLe = getI18nValue("news.entry.the", locale);
+      String labelAccroche = getI18nValue("news.entry.call", locale);
       NewsEntryDisplayBean newsEntryDisplayBean = new NewsEntryDisplayBean(newsEntryFromDB, labelPar, labelLe,
-          DAY_MONTH_YEAR_FORMAT);
+          DAY_MONTH_YEAR_FORMAT, labelAccroche);
       newsEntries.add(newsEntryDisplayBean);
     }
 
     return newsEntries;
+  }
+
+  NewsEntryDisplayBean computeNewsEntry(Locale locale, String newsEntryId) {
+
+    NewsEntryDTO newsEntryFromDB = newsEntryService.getEntity(Long.valueOf(newsEntryId));
+
+    String labelPar = getI18nValue("news.entry.by", locale);
+    String labelLe = getI18nValue("news.entry.the", locale);
+    String labelAccroche = getI18nValue("news.entry.call", locale);
+
+    return new NewsEntryDisplayBean(newsEntryFromDB, labelPar, labelLe, DAY_MONTH_YEAR_FORMAT, labelAccroche);
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForNewsEntry(Locale locale, String newsEntryId) {
+    ModelAndView newsModelAndView = super.computeModelAndViewForPage(PAGE.NEWS_ENTRY, locale);
+    LOGGER.info("Construction de l'entrée de blog pour la page " + PAGE.NEWS_ENTRY.name());
+    newsModelAndView.addObject("newsEntry", computeNewsEntry(locale, newsEntryId));
+
+    return newsModelAndView;
   }
 }

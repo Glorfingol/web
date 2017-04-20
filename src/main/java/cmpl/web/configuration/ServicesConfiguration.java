@@ -3,6 +3,7 @@ package cmpl.web.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import cmpl.web.message.WebMessageSource;
 import cmpl.web.repository.NewsContentRepository;
 import cmpl.web.repository.NewsEntryRepository;
 import cmpl.web.repository.NewsImageRepository;
@@ -10,10 +11,12 @@ import cmpl.web.service.ImageConverterService;
 import cmpl.web.service.NewsContentService;
 import cmpl.web.service.NewsEntryService;
 import cmpl.web.service.NewsImageService;
+import cmpl.web.service.SitemapService;
 import cmpl.web.service.impl.ImageConverterServiceImpl;
 import cmpl.web.service.impl.NewsContentServiceImpl;
 import cmpl.web.service.impl.NewsEntryServiceImpl;
 import cmpl.web.service.impl.NewsImageServiceImpl;
+import cmpl.web.service.impl.SitemapServiceImpl;
 
 @Configuration
 public class ServicesConfiguration {
@@ -38,5 +41,10 @@ public class ServicesConfiguration {
   @Bean
   ImageConverterService imageConverterService() {
     return ImageConverterServiceImpl.fromVoid();
+  }
+
+  @Bean
+  SitemapService sitemapService(NewsEntryService newsEntryService, WebMessageSource messageSource) {
+    return SitemapServiceImpl.fromService(newsEntryService, messageSource);
   }
 }

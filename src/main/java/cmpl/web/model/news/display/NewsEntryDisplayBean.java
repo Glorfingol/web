@@ -15,15 +15,18 @@ public class NewsEntryDisplayBean {
   private final NewsEntryDTO newsEntryDTO;
   private final String labelPar;
   private final String labelLe;
+  private final String labelAccroche;
   private final String dateFormat;
   private static final String SPACE = " ";
   private static final String SEMICOLON = ";";
 
-  public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO, String labelPar, String labelLe, String dateFormat) {
+  public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO, String labelPar, String labelLe, String dateFormat,
+      String labelAccroche) {
     this.newsEntryDTO = newsEntryDTO;
     this.labelLe = labelLe;
     this.labelPar = labelPar;
     this.dateFormat = dateFormat;
+    this.labelAccroche = labelAccroche;
   }
 
   public List<String> getTags() {
@@ -122,5 +125,13 @@ public class NewsEntryDisplayBean {
 
   public String getNewsEntryReadHref() {
     return "/news/" + newsEntryDTO.getId();
+  }
+
+  public String getNewsEntryShowHref() {
+    return "/actualites/" + newsEntryDTO.getId();
+  }
+
+  public String getNewsEntryShowMore() {
+    return labelAccroche;
   }
 }
