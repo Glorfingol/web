@@ -151,33 +151,33 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
     return causes;
   }
 
-  private Error computeError(List<ErrorCause> causes) {
+  Error computeError(List<ErrorCause> causes) {
     Error error = new Error();
     error.setCode(NEWS_ERROR.INVALID_REQUEST.toString());
     error.setCauses(causes);
     return error;
   }
 
-  private ErrorCause computeCause(NEWS_ERROR_CAUSE errorCause, Locale locale) {
+  ErrorCause computeCause(NEWS_ERROR_CAUSE errorCause, Locale locale) {
     ErrorCause cause = new ErrorCause();
     cause.setCode(errorCause.toString());
     cause.setMessage(getI18n(errorCause.getCauseKey(), locale));
     return cause;
   }
 
-  private boolean isStringValid(String stringToValidate) {
-    return !StringUtils.isEmpty(stringToValidate);
-  }
-
-  private boolean isNewsContentValid(NewsContentRequest content) {
+  boolean isNewsContentValid(NewsContentRequest content) {
     return isStringValid(content.getContent());
   }
 
-  private String getI18n(String key, Locale locale) {
+  boolean isStringValid(String stringToValidate) {
+    return !StringUtils.isEmpty(stringToValidate) && !StringUtils.isEmpty(stringToValidate.trim());
+  }
+
+  String getI18n(String key, Locale locale) {
     return messageSource.getMessage(key, null, locale);
   }
 
-  private boolean isImageFormatValid(String src) {
+  boolean isImageFormatValid(String src) {
     return src.contains(FORMAT_PNG);
   }
 
