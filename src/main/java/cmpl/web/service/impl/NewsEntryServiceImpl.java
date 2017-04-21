@@ -155,7 +155,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   public List<NewsEntryDTO> getEntities() {
 
     LOGGER.info("Récupération de toutes les entrées de blog");
-    List<NewsEntryDTO> entries = new ArrayList<NewsEntryDTO>();
+    List<NewsEntryDTO> entries = new ArrayList<>();
     List<NewsEntry> newsEntries = newsEntryRepository.findAll();
 
     for (NewsEntry newsEntry : newsEntries) {

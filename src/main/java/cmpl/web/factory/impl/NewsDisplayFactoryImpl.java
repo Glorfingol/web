@@ -48,7 +48,7 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
   }
 
   List<NewsEntryDisplayBean> computeNewsEntries(Locale locale) {
-    List<NewsEntryDisplayBean> newsEntries = new ArrayList<NewsEntryDisplayBean>();
+    List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
 
     List<NewsEntryDTO> newsEntriesFromDB = newsEntryService.getEntities();
     if (CollectionUtils.isEmpty(newsEntriesFromDB)) {
@@ -56,26 +56,10 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     }
 
     for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
-      String labelPar = getI18nValue("news.entry.by", locale);
-      String labelLe = getI18nValue("news.entry.the", locale);
-      String labelAccroche = getI18nValue("news.entry.call", locale);
-      NewsEntryDisplayBean newsEntryDisplayBean = new NewsEntryDisplayBean(newsEntryFromDB, labelPar, labelLe,
-          DAY_MONTH_YEAR_FORMAT, labelAccroche);
-      newsEntries.add(newsEntryDisplayBean);
+      newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB));
     }
 
     return newsEntries;
-  }
-
-  NewsEntryDisplayBean computeNewsEntry(Locale locale, String newsEntryId) {
-
-    NewsEntryDTO newsEntryFromDB = newsEntryService.getEntity(Long.valueOf(newsEntryId));
-
-    String labelPar = getI18nValue("news.entry.by", locale);
-    String labelLe = getI18nValue("news.entry.the", locale);
-    String labelAccroche = getI18nValue("news.entry.call", locale);
-
-    return new NewsEntryDisplayBean(newsEntryFromDB, labelPar, labelLe, DAY_MONTH_YEAR_FORMAT, labelAccroche);
   }
 
   @Override
@@ -85,5 +69,20 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     newsModelAndView.addObject("newsEntry", computeNewsEntry(locale, newsEntryId));
 
     return newsModelAndView;
+  }
+
+  NewsEntryDisplayBean computeNewsEntry(Locale locale, String newsEntryId) {
+
+    NewsEntryDTO newsEntryFromDB = newsEntryService.getEntity(Long.valueOf(newsEntryId));
+    return computeNewsEntryDisplayBean(locale, newsEntryFromDB);
+  }
+
+  NewsEntryDisplayBean computeNewsEntryDisplayBean(Locale locale, NewsEntryDTO newsEntryDTO) {
+
+    String labelPar = getI18nValue("news.entry.by", locale);
+    String labelLe = getI18nValue("news.entry.the", locale);
+    String labelAccroche = getI18nValue("news.entry.call", locale);
+
+    return new NewsEntryDisplayBean(newsEntryDTO, labelPar, labelLe, DAY_MONTH_YEAR_FORMAT, labelAccroche);
   }
 }

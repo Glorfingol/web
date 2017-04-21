@@ -7,7 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import cmpl.web.message.impl.WebMessageSourceImpl;
@@ -16,17 +19,17 @@ import cmpl.web.model.footer.Footer;
 @RunWith(MockitoJUnitRunner.class)
 public class FooterFactoryImplTest {
 
+  @Mock
   private WebMessageSourceImpl messageSource;
 
+  @InjectMocks
+  @Spy
   private FooterFactoryImpl footerFactory;
 
   private Locale locale;
 
   @Before
   public void setUp() {
-    messageSource = Mockito.mock(WebMessageSourceImpl.class);
-    footerFactory = FooterFactoryImpl.fromMessageSource(messageSource);
-    footerFactory = Mockito.spy(footerFactory);
     locale = Locale.FRANCE;
   }
 

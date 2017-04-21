@@ -10,7 +10,6 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -31,7 +30,6 @@ public class BaseDisplayFactoryImplTest {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
     locale = Locale.FRANCE;
   }
 

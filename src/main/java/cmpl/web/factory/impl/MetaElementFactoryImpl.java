@@ -22,7 +22,7 @@ public class MetaElementFactoryImpl extends BaseFactoryImpl implements MetaEleme
   @Override
   public List<MetaElement> computeMetaElementsForPage(Locale locale, PAGE page) {
 
-    List<MetaElement> metaElements = new ArrayList<MetaElement>();
+    List<MetaElement> metaElements = new ArrayList<>();
 
     metaElements.add(computeTitle(locale, page));
     metaElements.add(computeDescription(locale, page));
@@ -35,7 +35,7 @@ public class MetaElementFactoryImpl extends BaseFactoryImpl implements MetaEleme
   @Override
   public List<MetaElement> computeMetaElementsForBackPage(Locale locale) {
 
-    List<MetaElement> metaElements = new ArrayList<MetaElement>();
+    List<MetaElement> metaElements = new ArrayList<>();
 
     metaElements.add(computeLanguage(locale));
     metaElements.add(computeViewPort());

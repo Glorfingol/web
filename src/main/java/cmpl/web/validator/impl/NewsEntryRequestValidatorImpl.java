@@ -82,7 +82,7 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
   }
 
   private List<ErrorCause> isIdValid(String id, String languageCode) {
-    List<ErrorCause> causes = new ArrayList<ErrorCause>();
+    List<ErrorCause> causes = new ArrayList<>();
     if (!isStringValid(id)) {
 
       Locale locale = new Locale(languageCode);
@@ -94,7 +94,7 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
   }
 
   private List<ErrorCause> isContentValid(NewsContentRequest content, String languageCode) {
-    List<ErrorCause> causes = new ArrayList<ErrorCause>();
+    List<ErrorCause> causes = new ArrayList<>();
     if (content == null) {
       return causes;
     }
@@ -108,7 +108,7 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
 
   private List<ErrorCause> isNewsEntryValid(NewsEntryRequest entry, String languageCode) {
     Locale locale = new Locale(languageCode);
-    List<ErrorCause> causes = new ArrayList<ErrorCause>();
+    List<ErrorCause> causes = new ArrayList<>();
 
     if (!isStringValid(entry.getTitle())) {
       ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_TITLE, locale);
@@ -124,7 +124,7 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
 
   private List<ErrorCause> isNewsImageValid(NewsImageRequest imageRequest, String languageCode) {
 
-    List<ErrorCause> causes = new ArrayList<ErrorCause>();
+    List<ErrorCause> causes = new ArrayList<>();
     if (imageRequest == null) {
       return causes;
     }

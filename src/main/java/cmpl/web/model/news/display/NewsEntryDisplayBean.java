@@ -31,7 +31,7 @@ public class NewsEntryDisplayBean {
 
   public List<String> getTags() {
     if (StringUtils.isEmpty(newsEntryDTO.getTags())) {
-      return new ArrayList<String>();
+      return new ArrayList<>();
     }
     String[] splittedTags = newsEntryDTO.getTags().split(SEMICOLON);
     return Arrays.asList(splittedTags);

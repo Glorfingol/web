@@ -68,7 +68,7 @@ public class SitemapServiceImpl implements SitemapService {
     List<NewsEntryDTO> entries = newsEntryService.getEntities();
     Date lastModified = computeLastModified(entries);
     List<WebSitemapUrl> newsEntriesUrls = computeNewsEntriesUrls(locale, entries);
-    List<WebSitemapUrl> menuUrls = computeMenuUrls(locale, lastModified);
+    List<WebSitemapUrl> menuUrls = computeMenuUrls(locale);
     sitemap.addUrls(menuUrls);
     sitemap.addUrl(computeUrlForMenuNews(lastModified, locale));
     sitemap.addUrls(newsEntriesUrls);
@@ -78,7 +78,7 @@ public class SitemapServiceImpl implements SitemapService {
 
   private List<WebSitemapUrl> computeNewsEntriesUrls(Locale locale, List<NewsEntryDTO> entries)
       throws MalformedURLException {
-    List<WebSitemapUrl> newsEntriesUrls = new ArrayList<WebSitemapUrl>();
+    List<WebSitemapUrl> newsEntriesUrls = new ArrayList<>();
     for (NewsEntryDTO newsEntry : entries) {
       newsEntriesUrls.add(computeUrlForNewsEntry(newsEntry, locale));
     }
@@ -102,8 +102,8 @@ public class SitemapServiceImpl implements SitemapService {
     return messageSource.getI18n(key, locale);
   }
 
-  private List<WebSitemapUrl> computeMenuUrls(Locale locale, Date lastModified) throws MalformedURLException {
-    List<WebSitemapUrl> menuUrls = new ArrayList<WebSitemapUrl>();
+  private List<WebSitemapUrl> computeMenuUrls(Locale locale) throws MalformedURLException {
+    List<WebSitemapUrl> menuUrls = new ArrayList<>();
     for (MENU menu : MENU.values()) {
       if (!MENU.NEWS.equals(menu)) {
         menuUrls.add(computeUrlForMenuNotNews(menu, locale));

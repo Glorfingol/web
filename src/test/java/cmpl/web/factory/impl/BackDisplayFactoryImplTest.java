@@ -10,7 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,24 +32,23 @@ import cmpl.web.model.page.BACK_PAGE;
 @RunWith(MockitoJUnitRunner.class)
 public class BackDisplayFactoryImplTest {
 
+  @Mock
   private MenuFactory menuFactory;
+  @Mock
   private FooterFactory footerFactory;
+  @Mock
   private MetaElementFactory metaElementFactory;
+  @Mock
   private WebMessageSourceImpl messageSource;
 
+  @InjectMocks
+  @Spy
   private BackDisplayFactoryImpl displayFactory;
 
   private Locale locale;
 
   @Before
   public void setUp() {
-    footerFactory = Mockito.mock(FooterFactory.class);
-    metaElementFactory = Mockito.mock(MetaElementFactory.class);
-    menuFactory = Mockito.mock(MenuFactory.class);
-    messageSource = Mockito.mock(WebMessageSourceImpl.class);
-    displayFactory = BackDisplayFactoryImpl.fromFactoriesAndMessageResource(menuFactory, footerFactory, messageSource,
-        metaElementFactory);
-    displayFactory = Mockito.spy(displayFactory);
     locale = Locale.FRANCE;
   }
 

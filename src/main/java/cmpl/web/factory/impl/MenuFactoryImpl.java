@@ -23,7 +23,7 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
 
   @Override
   public List<MenuItem> computeMenuItems(Locale locale) {
-    List<MenuItem> menuItems = new ArrayList<MenuItem>();
+    List<MenuItem> menuItems = new ArrayList<>();
 
     for (MENU menu : MENU.values()) {
       MenuItem menuItem = computeMenuItem(menu, locale);
@@ -34,7 +34,7 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
   }
 
   List<MenuItem> computeSubMenuItems(MENU menu, Locale locale) {
-    List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
+    List<MenuItem> subMenuItems = new ArrayList<>();
     for (SUB_MENU subMenu : SUB_MENU.values()) {
       if (menu.equals(subMenu.getParent())) {
         MenuItem subMenuItem = computeMenuItem(subMenu, locale);
@@ -47,7 +47,7 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
 
   @Override
   public List<MenuItem> computeBackMenuItems(Locale locale) {
-    List<MenuItem> menuItems = new ArrayList<MenuItem>();
+    List<MenuItem> menuItems = new ArrayList<>();
 
     menuItems.add(computeIndexMenuElement(locale));
 

@@ -49,7 +49,7 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
   }
 
   protected List<D> toListDTO(List<E> entities) {
-    List<D> dtos = new ArrayList<D>();
+    List<D> dtos = new ArrayList<>();
 
     for (E entity : entities) {
       dtos.add(toDTO(entity));

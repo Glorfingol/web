@@ -43,15 +43,15 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
     ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction des entrées de blog pour la page " + backPage.name());
-    newsManager.addObject("newsEntries", computeNewsEntries(locale));
+    newsManager.addObject("newsEntries", computeNewsEntryDisplayBeans(locale));
     LOGGER.info("Construction du formulaire d'entrées de blog pour la page " + backPage.name());
     newsManager.addObject("newsFormLabels", computeForm(locale));
 
     return newsManager;
   }
 
-  List<NewsEntryDisplayBean> computeNewsEntries(Locale locale) {
-    List<NewsEntryDisplayBean> newsEntries = new ArrayList<NewsEntryDisplayBean>();
+  List<NewsEntryDisplayBean> computeNewsEntryDisplayBeans(Locale locale) {
+    List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
 
     List<NewsEntryDTO> newsEntriesFromDB = newsEntryService.getEntities();
     if (CollectionUtils.isEmpty(newsEntriesFromDB)) {
@@ -59,27 +59,31 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     }
 
     for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
-      String labelPar = getI18nValue("news.entry.by", locale);
-      String labelLe = getI18nValue("news.entry.the", locale);
-      String labelAccroche = getI18nValue("news.entry.call", locale);
-      NewsEntryDisplayBean newsEntryDisplayBean = new NewsEntryDisplayBean(newsEntryFromDB, labelPar, labelLe,
-          DAY_MONTH_YEAR_FORMAT, labelAccroche);
-      newsEntries.add(newsEntryDisplayBean);
+      newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB));
     }
 
     return newsEntries;
   }
 
+  NewsEntryDisplayBean computeNewsEntryDisplayBean(Locale locale, NewsEntryDTO newsEntryDTO) {
+
+    String labelPar = getI18nValue("news.entry.by", locale);
+    String labelLe = getI18nValue("news.entry.the", locale);
+    String labelAccroche = getI18nValue("news.entry.call", locale);
+
+    return new NewsEntryDisplayBean(newsEntryDTO, labelPar, labelLe, DAY_MONTH_YEAR_FORMAT, labelAccroche);
+  }
+
   @Override
   public ModelAndView computeModelAndViewForOneNewsEntry(BACK_PAGE backPage, Locale locale, String newsEntryId) {
     ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
-    newsManager.addObject("newsEditBean", computeNewsEntry(newsEntryId));
+    newsManager.addObject("newsEditBean", computeNewsEditBean(newsEntryId));
     newsManager.addObject("newsFormLabels", computeForm(locale));
 
     return newsManager;
   }
 
-  NewsEditBean computeNewsEntry(String newsEntryId) {
+  NewsEditBean computeNewsEditBean(String newsEntryId) {
 
     NewsEntryDTO dto = newsEntryService.getEntity(Long.parseLong(newsEntryId));
 

@@ -8,11 +8,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import cmpl.web.builder.MetaElementBuilder;
-import cmpl.web.factory.impl.MetaElementFactoryImpl;
 import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.PAGE;
@@ -20,17 +22,17 @@ import cmpl.web.model.page.PAGE;
 @RunWith(MockitoJUnitRunner.class)
 public class MetaElementFactoryImplTest {
 
+  @Mock
   private WebMessageSourceImpl messageSource;
 
+  @InjectMocks
+  @Spy
   private MetaElementFactoryImpl metaElementFactory;
 
   private Locale locale;
 
   @Before
   public void setUp() {
-    messageSource = Mockito.mock(WebMessageSourceImpl.class);
-    metaElementFactory = MetaElementFactoryImpl.fromMessageSource(messageSource);
-    metaElementFactory = Mockito.spy(metaElementFactory);
     locale = Locale.FRANCE;
   }
 
@@ -53,8 +55,8 @@ public class MetaElementFactoryImplTest {
 
     MetaElement language = new MetaElementBuilder().name(name).content(locale.getLanguage()).toMetaElement();
 
-    BDDMockito.doReturn(language).when(metaElementFactory).computeMetaElement(Mockito.eq(name),
-        Mockito.eq(locale.getLanguage()));
+    BDDMockito.doReturn(language).when(metaElementFactory)
+        .computeMetaElement(Mockito.eq(name), Mockito.eq(locale.getLanguage()));
 
     MetaElement result = metaElementFactory.computeLanguage(locale);
 
@@ -82,8 +84,8 @@ public class MetaElementFactoryImplTest {
     String name = "description";
     String content = "test";
 
-    BDDMockito.doReturn("test").when(metaElementFactory).getI18nValue(Mockito.eq(PAGE.CENTER.getDescription()),
-        Mockito.eq(locale));
+    BDDMockito.doReturn("test").when(metaElementFactory)
+        .getI18nValue(Mockito.eq(PAGE.CENTER.getDescription()), Mockito.eq(locale));
 
     MetaElement description = new MetaElementBuilder().name(name).content(content).toMetaElement();
 
@@ -100,8 +102,8 @@ public class MetaElementFactoryImplTest {
     String name = "title";
     String content = "test";
 
-    BDDMockito.doReturn("test").when(metaElementFactory).getI18nValue(Mockito.eq(PAGE.CENTER.getTitle()),
-        Mockito.eq(locale));
+    BDDMockito.doReturn("test").when(metaElementFactory)
+        .getI18nValue(Mockito.eq(PAGE.CENTER.getTitle()), Mockito.eq(locale));
 
     MetaElement description = new MetaElementBuilder().name(name).content(content).toMetaElement();
 
@@ -137,8 +139,8 @@ public class MetaElementFactoryImplTest {
 
     Mockito.verify(metaElementFactory, Mockito.times(1)).computeViewPort();
     Mockito.verify(metaElementFactory, Mockito.times(1)).computeLanguage(Mockito.eq(locale));
-    Mockito.verify(metaElementFactory, Mockito.times(0)).computeDescription(Mockito.eq(locale),
-        Mockito.any(PAGE.class));
+    Mockito.verify(metaElementFactory, Mockito.times(0))
+        .computeDescription(Mockito.eq(locale), Mockito.any(PAGE.class));
     Mockito.verify(metaElementFactory, Mockito.times(0)).computeTitle(Mockito.eq(locale), Mockito.any(PAGE.class));
 
   }
@@ -166,8 +168,8 @@ public class MetaElementFactoryImplTest {
     BDDMockito.doReturn(viewport).when(metaElementFactory).computeViewPort();
     BDDMockito.doReturn(language).when(metaElementFactory).computeLanguage(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(metaElementFactory).computeTitle(Mockito.eq(locale), Mockito.any(PAGE.class));
-    BDDMockito.doReturn(description).when(metaElementFactory).computeDescription(Mockito.eq(locale),
-        Mockito.any(PAGE.class));
+    BDDMockito.doReturn(description).when(metaElementFactory)
+        .computeDescription(Mockito.eq(locale), Mockito.any(PAGE.class));
 
     List<MetaElement> result = metaElementFactory.computeMetaElementsForPage(locale, PAGE.INDEX);
 
@@ -180,8 +182,8 @@ public class MetaElementFactoryImplTest {
 
     Mockito.verify(metaElementFactory, Mockito.times(1)).computeViewPort();
     Mockito.verify(metaElementFactory, Mockito.times(1)).computeLanguage(Mockito.eq(locale));
-    Mockito.verify(metaElementFactory, Mockito.times(1)).computeDescription(Mockito.eq(locale),
-        Mockito.any(PAGE.class));
+    Mockito.verify(metaElementFactory, Mockito.times(1))
+        .computeDescription(Mockito.eq(locale), Mockito.any(PAGE.class));
     Mockito.verify(metaElementFactory, Mockito.times(1)).computeTitle(Mockito.eq(locale), Mockito.any(PAGE.class));
   }
 

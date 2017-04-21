@@ -2,8 +2,6 @@ package cmpl.web.controller.front;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,7 @@ public class SitemapController {
 
   @RequestMapping(value = {"/sitemap.xml"}, produces = "application/xml")
   @ResponseBody
-  public String printSitemap(HttpServletResponse response) {
+  public String printSitemap() {
 
     LOGGER.info("Accès au sitemap");
 
