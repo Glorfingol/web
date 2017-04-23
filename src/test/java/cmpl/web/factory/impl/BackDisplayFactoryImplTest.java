@@ -129,9 +129,10 @@ public class BackDisplayFactoryImplTest {
     MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
-    BDDMockito.doReturn(backMenu).when(menuFactory).computeBackMenuItems(Mockito.eq(locale));
+    BDDMockito.doReturn(backMenu).when(menuFactory).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
+        Mockito.eq(locale));
 
-    List<MenuItem> result = displayFactory.computeBackMenuItems(locale);
+    List<MenuItem> result = displayFactory.computeBackMenuItems(BACK_PAGE.LOGIN, locale);
     Assert.assertEquals(backMenu, result);
   }
 
@@ -186,7 +187,8 @@ public class BackDisplayFactoryImplTest {
 
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
-    BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(Mockito.eq(locale));
+    BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
+        Mockito.eq(locale));
     BDDMockito.doReturn(bean).when(displayFactory).computeLoginFormDisplayBean(Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
@@ -198,7 +200,8 @@ public class BackDisplayFactoryImplTest {
 
     Mockito.verify(displayFactory, Mockito.times(1)).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeBackMenuItems(Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
+        Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeLoginFormDisplayBean(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));

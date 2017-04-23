@@ -6,7 +6,7 @@
         <div th:include="common/logo"/>
         <div th:include="common/menu"/>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-12 col-lg-6 col-lg-offset-3">
                <div class="panel panel-default">
                      <div class="panel-body">
                        <div class="panel panel-default">
@@ -19,7 +19,7 @@
 						    <div class="panel-body" th:if="${newsEntry.displayContent || newsEntry.displayImage}">
 						       <figure th:if="${newsEntry.displayImage}">
 						           <img class="newsImage" th:src="${newsEntry.image}" th:alt="${newsEntry.alt}" th:height="${newsEntry.imageHeight}" th:width="${newsEntry.imageWidth}"/>
-						           <figcaption class="text-right" th:text="${newsBean.legend}"/>
+						           <figcaption class="text-right" th:text="${newsEntry.legend}"/>
 						       </figure> 
 						       <p th:if="${newsEntry.displayContent}" th:text="${newsEntry.content}"/>
 						    </div>

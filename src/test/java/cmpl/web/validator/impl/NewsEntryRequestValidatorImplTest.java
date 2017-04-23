@@ -36,19 +36,6 @@ public class NewsEntryRequestValidatorImplTest {
   private NewsEntryRequestValidatorImpl validator;
 
   @Test
-  public void testIsImageFormatValid_true() throws Exception {
-
-    boolean result = validator.isImageFormatValid("png");
-    Assert.assertTrue(result);
-  }
-
-  @Test
-  public void testIsImageFormatValid_false() throws Exception {
-    boolean result = validator.isImageFormatValid("jpg");
-    Assert.assertFalse(result);
-  }
-
-  @Test
   public void testIsStringValid_True() throws Exception {
     boolean result = validator.isStringValid("someString");
     Assert.assertTrue(result);

@@ -7,6 +7,7 @@ public class MenuItem {
   private String title;
   private String href;
   private String label;
+  private String customCssClass;
 
   List<MenuItem> subMenuItems;
 
@@ -40,6 +41,14 @@ public class MenuItem {
 
   public void setSubMenuItems(List<MenuItem> subMenuItems) {
     this.subMenuItems = subMenuItems;
+  }
+
+  public String getCustomCssClass() {
+    return customCssClass;
+  }
+
+  public void setCustomCssClass(String customCssClass) {
+    this.customCssClass = customCssClass;
   }
 
 }

@@ -16,16 +16,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 
+import com.redfin.sitemapgenerator.ChangeFreq;
+import com.redfin.sitemapgenerator.WebSitemapGenerator;
+import com.redfin.sitemapgenerator.WebSitemapUrl;
+
 import cmpl.web.message.WebMessageSource;
 import cmpl.web.model.BaseException;
 import cmpl.web.model.menu.MENU;
 import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.service.NewsEntryService;
 import cmpl.web.service.SitemapService;
-
-import com.redfin.sitemapgenerator.ChangeFreq;
-import com.redfin.sitemapgenerator.WebSitemapGenerator;
-import com.redfin.sitemapgenerator.WebSitemapUrl;
 
 public class SitemapServiceImpl implements SitemapService {
 
@@ -115,17 +115,17 @@ public class SitemapServiceImpl implements SitemapService {
 
   private WebSitemapUrl computeUrlForMenuNotNews(MENU menu, Locale locale) throws MalformedURLException {
     return new WebSitemapUrl.Options(BASE_URL + getI18nValue(menu.getHref(), locale)).changeFreq(ChangeFreq.NEVER)
-        .build();
+        .priority(1d).build();
   }
 
   private WebSitemapUrl computeUrlForMenuNews(Date lastModified, Locale locale) throws MalformedURLException {
     return new WebSitemapUrl.Options(BASE_URL + getI18nValue(MENU.NEWS.getHref(), locale)).lastMod(lastModified)
-        .changeFreq(ChangeFreq.YEARLY).build();
+        .priority(1d).changeFreq(ChangeFreq.YEARLY).build();
   }
 
   private WebSitemapUrl computeUrlForNewsEntry(NewsEntryDTO newsEntry, Locale locale) throws MalformedURLException {
     return new WebSitemapUrl.Options(BASE_URL + getI18nValue(MENU.NEWS.getHref(), locale) + "/" + newsEntry.getId())
-        .lastMod(newsEntry.getModificationDate()).changeFreq(ChangeFreq.YEARLY).build();
+        .lastMod(newsEntry.getModificationDate()).changeFreq(ChangeFreq.YEARLY).priority(0.5d).build();
   }
 
   private Date computeLastModified(List<NewsEntryDTO> entries) {

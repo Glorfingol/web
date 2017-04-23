@@ -32,8 +32,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     this.metaElementFactory = metaElementFactory;
   }
 
-  public static DisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory,
-      FooterFactory footerFactory, MetaElementFactory metaElementFactory, WebMessageSourceImpl messageSource) {
+  public static DisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory, FooterFactory footerFactory,
+      MetaElementFactory metaElementFactory, WebMessageSourceImpl messageSource) {
     return new DisplayFactoryImpl(menuFactory, footerFactory, metaElementFactory, messageSource);
   }
 
@@ -44,7 +44,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     ModelAndView model = new ModelAndView(computeTileName(page.getTileName(), locale));
 
     LOGGER.info("Construction du menu pour la page " + page.name());
-    model.addObject("menuItems", computeMenuItems(locale));
+    model.addObject("menuItems", computeMenuItems(page, locale));
     LOGGER.info("Construction des éléments meta pour la page  " + page.name());
     model.addObject("metaItems", computeMetaElements(locale, page));
     LOGGER.info("Construction du footer pour la page   " + page.name());
@@ -60,8 +60,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
   }
 
-  List<MenuItem> computeMenuItems(Locale locale) {
-    return menuFactory.computeMenuItems(locale);
+  List<MenuItem> computeMenuItems(PAGE page, Locale locale) {
+    return menuFactory.computeMenuItems(page, locale);
   }
 
   Footer computeFooter(Locale locale) {

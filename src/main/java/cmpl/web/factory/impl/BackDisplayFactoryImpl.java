@@ -46,7 +46,7 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     ModelAndView model = new ModelAndView(computeTileName(backPage.getTile(), locale));
 
     LOGGER.info("Construction du menu pour la page " + backPage.name());
-    model.addObject("menuItems", computeBackMenuItems(locale));
+    model.addObject("menuItems", computeBackMenuItems(backPage, locale));
     LOGGER.info("Construction du footer pour la page " + backPage.name());
     model.addObject("footer", computeFooter(locale));
     LOGGER.info("Construction du titre principal pour la page " + backPage.name());
@@ -63,8 +63,8 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     return model;
   }
 
-  List<MenuItem> computeBackMenuItems(Locale locale) {
-    return menuFactory.computeBackMenuItems(locale);
+  List<MenuItem> computeBackMenuItems(BACK_PAGE backPage, Locale locale) {
+    return menuFactory.computeBackMenuItems(backPage, locale);
   }
 
   Footer computeFooter(Locale locale) {

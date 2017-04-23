@@ -143,10 +143,6 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
       ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_SRC, locale);
       causes.add(cause);
     }
-    if (!isImageFormatValid(imageRequest.getSrc())) {
-      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.INVALID_FORMAT, locale);
-      causes.add(cause);
-    }
 
     return causes;
   }
@@ -175,10 +171,6 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
 
   String getI18n(String key, Locale locale) {
     return messageSource.getMessage(key, null, locale);
-  }
-
-  boolean isImageFormatValid(String src) {
-    return src.contains(FORMAT_PNG);
   }
 
 }

@@ -73,11 +73,12 @@ public class NewsDisplayFactoryImplTest {
     String labelLe = "le";
     String labelAccroche = "accroche";
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, labelPar, labelLe, dateFormat, labelAccroche);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, labelPar, labelLe, dateFormat,
+        labelAccroche);
 
     BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.any(Long.class));
-    BDDMockito.doReturn(displayBean).when(displayFactory)
-        .computeNewsEntryDisplayBean(Mockito.eq(locale), Mockito.eq(newsEntry));
+    BDDMockito.doReturn(displayBean).when(displayFactory).computeNewsEntryDisplayBean(Mockito.eq(locale),
+        Mockito.eq(newsEntry));
 
     NewsEntryDisplayBean result = displayFactory.computeNewsEntry(locale, "123");
 
@@ -102,8 +103,8 @@ public class NewsDisplayFactoryImplTest {
 
     BDDMockito.doReturn(labelPar).when(displayFactory).getI18nValue(Mockito.eq("news.entry.by"), Mockito.eq(locale));
     BDDMockito.doReturn(labelLe).when(displayFactory).getI18nValue(Mockito.eq("news.entry.the"), Mockito.eq(locale));
-    BDDMockito.doReturn(labelAccroche).when(displayFactory)
-        .getI18nValue(Mockito.eq("news.entry.call"), Mockito.eq(locale));
+    BDDMockito.doReturn(labelAccroche).when(displayFactory).getI18nValue(Mockito.eq("news.entry.call"),
+        Mockito.eq(locale));
 
     NewsEntryDisplayBean result = displayFactory.computeNewsEntryDisplayBean(locale, newsEntry);
 
@@ -150,9 +151,9 @@ public class NewsDisplayFactoryImplTest {
     footer.setTelephone("0100000000");
 
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(metaElements).when(displayFactory)
-        .computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
-    BDDMockito.doReturn(menu).when(displayFactory).computeMenuItems(Mockito.eq(locale));
+    BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale),
+        Mockito.any(PAGE.class));
+    BDDMockito.doReturn(menu).when(displayFactory).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
@@ -163,7 +164,7 @@ public class NewsDisplayFactoryImplTest {
 
     Mockito.verify(displayFactory, Mockito.times(1)).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeMenuItems(Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
@@ -208,9 +209,9 @@ public class NewsDisplayFactoryImplTest {
     footer.setTelephone("0100000000");
 
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(metaElements).when(displayFactory)
-        .computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
-    BDDMockito.doReturn(menu).when(displayFactory).computeMenuItems(Mockito.eq(locale));
+    BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale),
+        Mockito.any(PAGE.class));
+    BDDMockito.doReturn(menu).when(displayFactory).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
@@ -221,7 +222,7 @@ public class NewsDisplayFactoryImplTest {
 
     Mockito.verify(displayFactory, Mockito.times(1)).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeMenuItems(Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
@@ -266,9 +267,9 @@ public class NewsDisplayFactoryImplTest {
     footer.setTelephone("0100000000");
 
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(metaElements).when(displayFactory)
-        .computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
-    BDDMockito.doReturn(menu).when(displayFactory).computeMenuItems(Mockito.eq(locale));
+    BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale),
+        Mockito.any(PAGE.class));
+    BDDMockito.doReturn(menu).when(displayFactory).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
@@ -279,7 +280,7 @@ public class NewsDisplayFactoryImplTest {
 
     Mockito.verify(displayFactory, Mockito.times(1)).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeMenuItems(Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
