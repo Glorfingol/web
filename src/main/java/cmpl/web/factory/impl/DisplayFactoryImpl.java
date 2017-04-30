@@ -2,6 +2,7 @@ package cmpl.web.factory.impl;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,7 +63,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     if (page.isWithCarousel()) {
       LOGGER.info("Construction du carousel pour la page " + page.name());
-      model.addObject("carouselItems", computeCarouselItems());
+      model.addObject("carouselItems", computeCarouselItems(locale));
     }
     LOGGER.info("Page " + page.name() + " prête");
 
@@ -82,11 +83,19 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     return metaElementFactory.computeMetaElementsForPage(locale, page);
   }
 
-  List<CarouselItem> computeCarouselItems() {
-    List<File> imagesForCarousel = new ArrayList<>();
-    imagesForCarousel.add(new File("src/main/resources/static/img/logo/logo.jpg"));
-    imagesForCarousel.add(new File("src/main/resources/static/img/logo/logoSmall.jpg"));
+  List<CarouselItem> computeCarouselItems(Locale locale) {
+    List<File> imagesForCarousel = computeCarouselImagesFiles(locale);
     return carouselFactory.computeCarouselItems(imagesForCarousel);
+  }
+
+  List<File> computeCarouselImagesFiles(Locale locale) {
+    String carouselImagesSrc = getI18nValue("carousel.src", locale);
+    List<String> imagesSrcs = Arrays.asList(carouselImagesSrc.split(";"));
+    List<File> imagesForCarousel = new ArrayList<>();
+    for (String imageSrc : imagesSrcs) {
+      imagesForCarousel.add(new File(imageSrc));
+    }
+    return imagesForCarousel;
   }
 
 }
