@@ -11,13 +11,22 @@
 		     <div class="navbar-collapse collapse sidebar-navbar-collapse" id="navbarCollapse">
 			     <ul id="menu" class="nav navbar-nav">
 		            <li id="menu_index" class="menu-item dropdown" th:each="menuItem : ${menuItems}" th:classappend="${menuItem.customCssClass}">
-		                <a th:if="${(menuItem.subMenuItems.size() > 0)}" class="dropdow-toggle"  data-toggle="dropdown" th:title="${menuItem.title}" th:href="${menuItem.href}" th:text="${menuItem.label}" onhover="onhover()"/>
+		                <a th:if="${(menuItem.subMenuItems.size() > 0)}" 
+		                   class="dropdow-toggle"  
+		                   data-toggle="dropdown" 
+		                   th:title="${menuItem.title}" 
+		                   th:href="${menuItem.href}" 
+		                   th:text="${menuItem.label}" 
+		                   onhover="onhover()"/>
 		                <ul th:if="${(menuItem.subMenuItems.size() > 0)}" class="dropdown-menu multi-level">
 		                  <li class="dropdown-submenu"  th:each="subMenuItem : ${menuItem.subMenuItems}">
 		                       <a th:title="${subMenuItem.title}" th:href="${subMenuItem.href}" th:text="${subMenuItem.label}"/>
 		                  </li>
 		                </ul>
-		                <a th:if="${!(menuItem.subMenuItems.size() > 0)}" th:title="${menuItem.title}" th:href="${menuItem.href}" th:text="${menuItem.label}"/>
+		                <a th:if="${!(menuItem.subMenuItems.size() > 0)}" 
+		                   th:title="${menuItem.title}" 
+		                   th:href="${menuItem.href}" 
+		                   th:text="${menuItem.label}"/>
 		            </li>
 		        </ul>
 		    </div>

@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.builder.MenuItemBuilder;
 import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.builder.NewsEntryDTOBuilder;
+import cmpl.web.factory.CarouselFactory;
 import cmpl.web.factory.FooterFactory;
 import cmpl.web.factory.MenuFactory;
 import cmpl.web.factory.MetaElementFactory;
@@ -48,6 +49,8 @@ public class NewsDisplayFactoryImplTest {
   private WebMessageSourceImpl messageSource;
   @Mock
   private NewsEntryService newsEntryService;
+  @Mock
+  private CarouselFactory carouselFactory;
 
   @InjectMocks
   @Spy

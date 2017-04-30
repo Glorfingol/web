@@ -19,10 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.builder.MenuItemBuilder;
 import cmpl.web.builder.MetaElementBuilder;
+import cmpl.web.factory.CarouselFactory;
 import cmpl.web.factory.FooterFactory;
 import cmpl.web.factory.MenuFactory;
 import cmpl.web.factory.MetaElementFactory;
-import cmpl.web.message.impl.WebMessageSourceImpl;
+import cmpl.web.message.WebMessageSource;
 import cmpl.web.model.footer.Footer;
 import cmpl.web.model.menu.MenuItem;
 import cmpl.web.model.meta.MetaElement;
@@ -38,7 +39,9 @@ public class DisplayFactoryImplTest {
   @Mock
   private MetaElementFactory metaElementFactory;
   @Mock
-  private WebMessageSourceImpl messageSource;
+  private WebMessageSource messageSource;
+  @Mock
+  private CarouselFactory carouseFactory;
 
   @InjectMocks
   @Spy

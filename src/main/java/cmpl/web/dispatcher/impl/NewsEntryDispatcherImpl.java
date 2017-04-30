@@ -1,5 +1,7 @@
 package cmpl.web.dispatcher.impl;
 
+import java.util.Locale;
+
 import cmpl.web.dispatcher.NewsEntryDispatcher;
 import cmpl.web.model.BaseException;
 import cmpl.web.model.news.dto.NewsEntryDTO;
@@ -29,9 +31,9 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   }
 
   @Override
-  public NewsEntryResponse createEntity(NewsEntryRequest newsEntryRequest, String languageCode) {
+  public NewsEntryResponse createEntity(NewsEntryRequest newsEntryRequest, Locale locale) {
 
-    Error error = validator.validateCreate(newsEntryRequest, languageCode);
+    Error error = validator.validateCreate(newsEntryRequest, locale);
 
     if (error != null) {
       NewsEntryResponse response = new NewsEntryResponse();
@@ -46,9 +48,9 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   }
 
   @Override
-  public NewsEntryResponse updateEntity(NewsEntryRequest newsEntryRequest, String newsEntryId, String languageCode) {
+  public NewsEntryResponse updateEntity(NewsEntryRequest newsEntryRequest, String newsEntryId, Locale locale) {
 
-    Error error = validator.validateUpdate(newsEntryRequest, newsEntryId, languageCode);
+    Error error = validator.validateUpdate(newsEntryRequest, newsEntryId, locale);
 
     if (error != null) {
       NewsEntryResponse response = new NewsEntryResponse();
@@ -66,8 +68,8 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   }
 
   @Override
-  public void deleteEntity(String newsEntryId, String languageCode) throws BaseException {
-    Error error = validator.validateDelete(newsEntryId, languageCode);
+  public void deleteEntity(String newsEntryId, Locale locale) throws BaseException {
+    Error error = validator.validateDelete(newsEntryId, locale);
     if (error != null) {
       throw new BaseException(error.getCauses().get(0).getMessage());
     }

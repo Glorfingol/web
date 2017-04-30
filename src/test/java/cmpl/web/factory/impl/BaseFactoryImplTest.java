@@ -13,13 +13,13 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import cmpl.web.message.impl.WebMessageSourceImpl;
+import cmpl.web.message.WebMessageSource;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BaseFactoryImplTest {
 
   @Mock
-  private WebMessageSourceImpl messageSource;
+  private WebMessageSource messageSource;
 
   @InjectMocks
   @Spy

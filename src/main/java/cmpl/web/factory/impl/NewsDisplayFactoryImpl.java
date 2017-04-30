@@ -7,6 +7,7 @@ import java.util.Locale;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import cmpl.web.factory.CarouselFactory;
 import cmpl.web.factory.FooterFactory;
 import cmpl.web.factory.MenuFactory;
 import cmpl.web.factory.MetaElementFactory;
@@ -23,15 +24,17 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
   private static final String DAY_MONTH_YEAR_FORMAT = "dd/MM/yy";
 
   private NewsDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
-      MetaElementFactory metaElementFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
-    super(menuFactory, footerFactory, metaElementFactory, messageSource);
+      MetaElementFactory metaElementFactory, CarouselFactory carouselFactory, WebMessageSourceImpl messageSource,
+      NewsEntryService newsEntryService) {
+    super(menuFactory, footerFactory, metaElementFactory, carouselFactory, messageSource);
     this.newsEntryService = newsEntryService;
   }
 
   public static NewsDisplayFactoryImpl fromFactoriesAndMessageResourceAndServices(MenuFactory menuFactory,
-      FooterFactory footerFactory, MetaElementFactory metaElementFactory, WebMessageSourceImpl messageSource,
-      NewsEntryService newsEntryService) {
-    return new NewsDisplayFactoryImpl(menuFactory, footerFactory, metaElementFactory, messageSource, newsEntryService);
+      FooterFactory footerFactory, MetaElementFactory metaElementFactory, CarouselFactory carouselFactory,
+      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
+    return new NewsDisplayFactoryImpl(menuFactory, footerFactory, metaElementFactory, carouselFactory, messageSource,
+        newsEntryService);
   }
 
   @Override

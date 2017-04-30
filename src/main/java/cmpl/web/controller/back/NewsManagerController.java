@@ -48,7 +48,7 @@ public class NewsManagerController {
 
     LOGGER.info("Tentative de création d'une entrée de blog");
     try {
-      NewsEntryResponse response = dispatcher.createEntity(newsEntryRequest, "fr");
+      NewsEntryResponse response = dispatcher.createEntity(newsEntryRequest, Locale.FRANCE);
       LOGGER.info("Entrée crée, id " + response.getNewsEntry().getId());
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
@@ -65,7 +65,7 @@ public class NewsManagerController {
 
     LOGGER.info("Tentative de mise à jour d'une entrée de blog d'id " + newsEntryId);
     try {
-      NewsEntryResponse response = dispatcher.updateEntity(newsEntryRequest, newsEntryId, "fr");
+      NewsEntryResponse response = dispatcher.updateEntity(newsEntryRequest, newsEntryId, Locale.FRANCE);
       LOGGER.info("Entrée modifiée, id " + newsEntryId);
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
