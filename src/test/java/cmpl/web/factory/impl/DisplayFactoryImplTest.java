@@ -118,7 +118,7 @@ public class DisplayFactoryImplTest {
   }
 
   @Test
-  public void testComputeModelAndViewForPage() throws Exception {
+  public void testComputeModelAndViewForPage_Index() throws Exception {
     String tile = "login";
     String href = "/";
     String label = "label";
@@ -172,6 +172,65 @@ public class DisplayFactoryImplTest {
     Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeCarouselImagesFiles(Mockito.eq(locale));
+  }
+
+  @Test
+  public void testComputeModelAndViewForPage_Not_Index() throws Exception {
+    String tile = "login";
+    String href = "/";
+    String label = "label";
+    String title = "title";
+    List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
+    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
+    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
+
+    List<MenuItem> menu = Lists.newArrayList(index, news);
+
+    String viewPortName = "viewport";
+    String viewPortContent = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
+
+    String languageName = "viewport";
+    String languageContent = locale.getLanguage();
+
+    String titleName = "title";
+    String titleContent = "title";
+
+    String descriptionName = "description";
+    String descriptionContent = "description";
+
+    MetaElement viewport = new MetaElementBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
+    MetaElement language = new MetaElementBuilder().name(languageName).content(languageContent).toMetaElement();
+    MetaElement titleMeta = new MetaElementBuilder().name(titleName).content(titleContent).toMetaElement();
+    MetaElement description = new MetaElementBuilder().name(descriptionName).content(descriptionContent)
+        .toMetaElement();
+
+    List<MetaElement> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
+
+    Footer footer = new Footer();
+    footer.setAdresse("an adress");
+    footer.setLibelle("a label");
+    footer.setTelephone("0100000000");
+
+    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
+    BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale),
+        Mockito.any(PAGE.class));
+    BDDMockito.doReturn(menu).when(displayFactory).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
+    BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
+    BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
+    BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
+
+    ModelAndView result = displayFactory.computeModelAndViewForPage(PAGE.NEWS, locale);
+
+    Assert.assertEquals(tile, result.getViewName());
+
+    Mockito.verify(displayFactory, Mockito.times(1)).computeTileName(Mockito.anyString(), Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(0)).computeCarouselImagesFiles(Mockito.eq(locale));
   }
 
 }
