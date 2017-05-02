@@ -22,9 +22,8 @@ public class ImageConverterServiceImpl implements ImageConverterService {
 
   private static final String COMMA = ",";
   private static final String FORMAT_PNG = "png";
+  private static final String FORMAT_JPG = "jpeg";
   private static final String IMAGE_OVERHEAD = "data:image/{0};base64,";
-  private static final String IMAGE_MATCHER = "data:image/";
-  private static final String BASE_64_MATCHER = ";base64";
 
   private ImageConverterServiceImpl() {
   }
@@ -45,7 +44,7 @@ public class ImageConverterServiceImpl implements ImageConverterService {
       newsImage.setWidth(computeWidth(bufferedImage));
       newsImage.setHeight(computeHeight(bufferedImage));
       newsImage.setSrc(getImageByteArray(base64));
-      newsImage.setFormat(extractFormatFromBase64(base64));
+      newsImage.setFormat(FORMAT_JPG);
     } catch (Exception e) {
       LOGGER.error("Impossible de parser l'image en paramètre", e);
       newsImage.setSrc(decodedSource);
@@ -89,15 +88,6 @@ public class ImageConverterServiceImpl implements ImageConverterService {
       base64 = Base64.encodeBase64String(src);
     }
     return computeOverhead(format) + base64;
-  }
-
-  private String extractFormatFromBase64(String base64) {
-    String matcher = IMAGE_MATCHER;
-    int previousIndex = base64.indexOf(IMAGE_MATCHER);
-    int nextIndex = base64.indexOf(BASE_64_MATCHER);
-
-    return base64.substring(previousIndex + matcher.length(), nextIndex);
-
   }
 
   private String computeOverhead(String format) {

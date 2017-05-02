@@ -111,8 +111,10 @@ public class ObjectReflexiveFillerImpl implements ObjectReflexiveFiller {
     StringBuilder sb = new StringBuilder();
     sb.append(method.getPrefix());
 
-    sb.append(field.getName().replaceFirst(field.getName().substring(0, 1),
-        field.getName().substring(0, 1).toUpperCase()));
+    if (!field.isSynthetic()) {
+      String fieldName = field.getName();
+      sb.append(fieldName.replaceFirst(fieldName.substring(0, 1), fieldName.substring(0, 1).toUpperCase()));
+    }
 
     return sb.toString();
   }
