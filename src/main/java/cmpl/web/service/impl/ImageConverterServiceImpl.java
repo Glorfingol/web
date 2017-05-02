@@ -1,5 +1,6 @@
 package cmpl.web.service.impl;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -22,7 +23,7 @@ public class ImageConverterServiceImpl implements ImageConverterService {
 
   private static final String COMMA = ",";
   private static final String FORMAT_PNG = "png";
-  private static final String FORMAT_JPG = "jpeg";
+  private static final String FORMAT_JPG = "jpg";
   private static final String IMAGE_OVERHEAD = "data:image/{0};base64,";
 
   private ImageConverterServiceImpl() {
@@ -69,9 +70,25 @@ public class ImageConverterServiceImpl implements ImageConverterService {
     return ImageIO.read(new ByteArrayInputStream(imageBytes));
   }
 
-  private byte[] getImageByteArray(String base64) {
+  private byte[] getImageByteArray(String base64) throws IOException {
     String base64Image = base64.split(COMMA)[1];
-    return DatatypeConverter.parseBase64Binary(base64Image);
+    if (base64Image.contains(FORMAT_JPG)) {
+      LOGGER.info("Pas besoin de convertir l'image en jpeg car elle l'est déjà");
+      return DatatypeConverter.parseBase64Binary(base64Image);
+    }
+    LOGGER.info("Conversion vers le format jpeg");
+    return toJPEG(DatatypeConverter.parseBase64Binary(base64Image));
+  }
+
+  private byte[] toJPEG(byte[] file) throws IOException {
+    BufferedImage imageToConvert = ImageIO.read(new ByteArrayInputStream(file));
+    BufferedImage jpeg = new BufferedImage(imageToConvert.getHeight(), imageToConvert.getWidth(),
+        BufferedImage.TYPE_INT_RGB);
+    jpeg.createGraphics().drawImage(imageToConvert, 0, 0, Color.WHITE, null);
+
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    ImageIO.write(jpeg, FORMAT_JPG, os);
+    return os.toByteArray();
   }
 
   @Override
