@@ -44,8 +44,8 @@ public class CarouselFactoryImpl implements CarouselFactory {
 
   String computeImageAlt(File file) {
     String filePath = file.getPath();
-    int firstIndex = filePath.lastIndexOf("\\");
-    int lastIndex = filePath.indexOf(".");
+    int firstIndex = filePath.lastIndexOf('\\');
+    int lastIndex = filePath.indexOf('.');
 
     return filePath.substring(firstIndex + 1, lastIndex);
   }
