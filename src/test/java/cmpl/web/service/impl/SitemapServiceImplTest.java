@@ -1,11 +1,17 @@
 package cmpl.web.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,14 +23,15 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.redfin.sitemapgenerator.ChangeFreq;
+import com.redfin.sitemapgenerator.WebSitemapUrl;
+
 import cmpl.web.builder.NewsEntryDTOBuilder;
 import cmpl.web.message.WebMessageSource;
+import cmpl.web.model.BaseException;
 import cmpl.web.model.menu.MENU;
 import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.service.NewsEntryService;
-
-import com.redfin.sitemapgenerator.ChangeFreq;
-import com.redfin.sitemapgenerator.WebSitemapUrl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SitemapServiceImplTest {
@@ -43,6 +50,11 @@ public class SitemapServiceImplTest {
 
   @Before
   public void setUp() {
+    File sitemap = new File("src/test/resources/sitemap.xml");
+    if (sitemap.exists()) {
+      sitemap.delete();
+    }
+
     locale = Locale.FRANCE;
   }
 
@@ -138,4 +150,116 @@ public class SitemapServiceImplTest {
     Assert.assertEquals(ChangeFreq.NEVER, result.getChangeFreq());
     Assert.assertEquals(priority, result.getPriority());
   }
+
+  @Test
+  public void testComputeMenuUrls() throws MalformedURLException {
+    List<WebSitemapUrl> result = service.computeMenuUrls(locale);
+
+    Assert.assertEquals(MENU.values().length - 1, result.size());
+
+    for (WebSitemapUrl url : result) {
+      Assert.assertFalse(url.getUrl().toExternalForm().contains("actualites"));
+    }
+  }
+
+  @Test
+  public void testComputeNewsEntriesUrls() throws MalformedURLException {
+
+    NewsEntryDTO entry1 = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry2 = new NewsEntryDTOBuilder().toNewsEntryDTO();
+
+    List<NewsEntryDTO> entries = Lists.newArrayList(entry1, entry2);
+
+    BDDMockito.doReturn(entries).when(newsEntryService).getEntities();
+
+    List<WebSitemapUrl> result = service.computeNewsEntriesUrls(locale, entries);
+
+    Assert.assertEquals(entries.size(), result.size());
+
+  }
+
+  @Test
+  public void testReadSitemap() throws IOException {
+    Path path = Paths.get("src/test/resources/sitemap_test.xml");
+
+    String result = service.readSitemap(path);
+
+    Assert.assertTrue(result.contains("actualites"));
+    Assert.assertTrue(result.contains("horaires"));
+    Assert.assertTrue(result.contains("rendez-vous"));
+    Assert.assertTrue(result.contains("contact"));
+    Assert.assertTrue(result.contains("tarifs"));
+    Assert.assertTrue(result.contains("techniques"));
+    Assert.assertTrue(result.contains("soins_medicaux"));
+    Assert.assertTrue(result.contains("gynecologue"));
+    Assert.assertTrue(result.contains("centre-medical"));
+
+  }
+
+  @Test
+  public void testWriteSitemap() throws IOException {
+
+    Path path = Paths.get("src/test/resources");
+    String host = "http://cmpl.com/";
+    NewsEntryDTO entry1 = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry2 = new NewsEntryDTOBuilder().toNewsEntryDTO();
+
+    List<NewsEntryDTO> entries = Lists.newArrayList(entry1, entry2);
+    Date dateModification = new Date();
+
+    WebSitemapUrl urlMenu = new WebSitemapUrl.Options(host + "techniques").priority(1d).changeFreq(ChangeFreq.NEVER)
+        .build();
+    WebSitemapUrl urlNews = new WebSitemapUrl.Options(host + "actualites").lastMod(dateModification).priority(1d)
+        .changeFreq(ChangeFreq.YEARLY).build();
+    WebSitemapUrl urlNewsEntry = new WebSitemapUrl.Options(host + "actualites/666").lastMod(dateModification)
+        .priority(1d).changeFreq(ChangeFreq.YEARLY).build();
+
+    BDDMockito.doReturn(entries).when(newsEntryService).getEntities();
+    BDDMockito.doReturn(Lists.newArrayList(urlMenu)).when(service).computeMenuUrls(Mockito.eq(locale));
+    BDDMockito.doReturn(urlNews).when(service).computeUrlForMenuNews(Mockito.eq(dateModification), Mockito.eq(locale));
+    BDDMockito.doReturn(Lists.newArrayList(urlNewsEntry)).when(service).computeNewsEntriesUrls(Mockito.eq(locale),
+        Mockito.eq(entries));
+    BDDMockito.doReturn(dateModification).when(service).computeLastModified(Mockito.eq(entries));
+
+    service.writeSitemap(path, locale);
+
+    Mockito.verify(newsEntryService, Mockito.times(1)).getEntities();
+    Mockito.verify(service, Mockito.times(1)).computeMenuUrls(Mockito.eq(locale));
+    Mockito.verify(service, Mockito.times(1)).computeUrlForMenuNews(Mockito.eq(dateModification), Mockito.eq(locale));
+    Mockito.verify(service, Mockito.times(1)).computeNewsEntriesUrls(Mockito.eq(locale), Mockito.eq(entries));
+    Mockito.verify(service, Mockito.times(1)).computeLastModified(Mockito.eq(entries));
+
+    File sitemap = new File("src/test/resources/sitemap.xml");
+    if (sitemap.exists()) {
+      sitemap.delete();
+    }
+
+  }
+
+  @Test
+  public void testCreateSiteMap() throws IOException, BaseException {
+    String sitemap = "<?xml version='1.0' encoding='UTF-8'?><urlset><url><loc>http://cmpl.com/</loc><changefreq>never</changefreq><priority>1.0</priority></url></urlset>";
+
+    BDDMockito.doReturn(sitemap).when(service).readSitemap(Mockito.any(Path.class));
+    BDDMockito.doNothing().when(service).writeSitemap(Mockito.any(Path.class), Mockito.eq(locale));
+
+    String result = service.createSiteMap(locale);
+
+    Assert.assertEquals(sitemap, result);
+  }
+
+  @Test
+  public void testCreateSiteMap_Exception() throws BaseException, IOException {
+
+    BDDMockito.doThrow(new IOException("")).when(service).writeSitemap(Mockito.any(Path.class), Mockito.eq(locale));
+
+    try {
+      service.createSiteMap(locale);
+      Assert.fail();
+    } catch (BaseException e) {
+
+    }
+
+  }
+
 }

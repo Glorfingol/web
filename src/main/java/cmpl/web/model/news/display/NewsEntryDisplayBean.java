@@ -83,11 +83,11 @@ public class NewsEntryDisplayBean {
     return newsEntryDTO.getNewsImage().getHeight();
   }
 
-  private boolean displayImage() {
+  boolean displayImage() {
     return newsEntryDTO.getNewsImage() != null;
   }
 
-  private boolean displayContent() {
+  boolean displayContent() {
     return newsEntryDTO.getNewsContent() != null;
   }
 
@@ -98,7 +98,7 @@ public class NewsEntryDisplayBean {
     return panelHeadingBuilder.toString();
   }
 
-  private String getPublicationDate() {
+  String getPublicationDate() {
     SimpleDateFormat formatted = new SimpleDateFormat(dateFormat);
     return formatted.format(newsEntryDTO.getCreationDate());
   }
