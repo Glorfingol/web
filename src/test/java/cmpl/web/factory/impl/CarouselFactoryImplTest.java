@@ -51,7 +51,7 @@ public class CarouselFactoryImplTest {
   @Test
   public void testCanExploitImageFile_True() throws Exception {
 
-    String path = "src/main/resources/static/img/logo/logo.jpg";
+    String path = "src/test/resources/img/logo.jpg";
     File testFile = new File(path);
 
     boolean result = carouselFactory.canExploitImageFile(testFile);
@@ -73,7 +73,7 @@ public class CarouselFactoryImplTest {
   @Test
   public void testCanExploitImageFile_False_Not_File() throws Exception {
 
-    String path = "src/main/resources/static/img/logo";
+    String path = "src/test/resources/img";
     File testFile = new File(path);
 
     boolean result = carouselFactory.canExploitImageFile(testFile);

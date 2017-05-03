@@ -57,22 +57,23 @@ public class ImageConverterServiceImpl implements ImageConverterService {
     return newsImage;
   }
 
-  private int computeWidth(BufferedImage bufferedImage) {
+  int computeWidth(BufferedImage bufferedImage) {
     return bufferedImage.getWidth();
   }
 
-  private int computeHeight(BufferedImage bufferedImage) {
+  int computeHeight(BufferedImage bufferedImage) {
     return bufferedImage.getHeight();
   }
 
-  private BufferedImage createBufferedImageFromBase64(String base64) throws IOException {
+  BufferedImage createBufferedImageFromBase64(String base64) throws IOException {
     byte[] imageBytes = getImageByteArray(base64);
     return ImageIO.read(new ByteArrayInputStream(imageBytes));
   }
 
-  private byte[] getImageByteArray(String base64) throws IOException {
+  byte[] getImageByteArray(String base64) throws IOException {
+    String imageOverhead = base64.split(COMMA)[0];
     String base64Image = base64.split(COMMA)[1];
-    if (base64Image.contains(FORMAT_JPG)) {
+    if (imageOverhead.contains(FORMAT_JPG)) {
       LOGGER.info("Pas besoin de convertir l'image en jpeg car elle l'est déjà");
       return DatatypeConverter.parseBase64Binary(base64Image);
     }
@@ -80,7 +81,7 @@ public class ImageConverterServiceImpl implements ImageConverterService {
     return toJPEG(DatatypeConverter.parseBase64Binary(base64Image));
   }
 
-  private byte[] toJPEG(byte[] file) throws IOException {
+  byte[] toJPEG(byte[] file) throws IOException {
     BufferedImage imageToConvert = ImageIO.read(new ByteArrayInputStream(file));
     BufferedImage jpeg = new BufferedImage(imageToConvert.getHeight(), imageToConvert.getWidth(),
         BufferedImage.TYPE_INT_RGB);
@@ -94,6 +95,11 @@ public class ImageConverterServiceImpl implements ImageConverterService {
   @Override
   public String convertByteArrayToBase64(byte[] src, String format) {
     LOGGER.info("Conversion du byteArray en base64");
+    String base64 = computeBase64String(src, format);
+    return computeOverhead(format) + base64;
+  }
+
+  String computeBase64String(byte[] src, String format) {
     String base64;
     try {
       BufferedImage image = ImageIO.read(new ByteArrayInputStream(src));
@@ -104,10 +110,10 @@ public class ImageConverterServiceImpl implements ImageConverterService {
       LOGGER.error("Impossible de convertir le byte array en String pour le format " + format, e);
       base64 = Base64.encodeBase64String(src);
     }
-    return computeOverhead(format) + base64;
+    return base64;
   }
 
-  private String computeOverhead(String format) {
+  String computeOverhead(String format) {
     return MessageFormat.format(IMAGE_OVERHEAD, format);
   }
 

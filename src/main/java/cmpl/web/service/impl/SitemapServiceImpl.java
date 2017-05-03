@@ -16,16 +16,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 
-import com.redfin.sitemapgenerator.ChangeFreq;
-import com.redfin.sitemapgenerator.WebSitemapGenerator;
-import com.redfin.sitemapgenerator.WebSitemapUrl;
-
 import cmpl.web.message.WebMessageSource;
 import cmpl.web.model.BaseException;
 import cmpl.web.model.menu.MENU;
 import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.service.NewsEntryService;
 import cmpl.web.service.SitemapService;
+
+import com.redfin.sitemapgenerator.ChangeFreq;
+import com.redfin.sitemapgenerator.WebSitemapGenerator;
+import com.redfin.sitemapgenerator.WebSitemapUrl;
 
 public class SitemapServiceImpl implements SitemapService {
 
@@ -62,7 +62,7 @@ public class SitemapServiceImpl implements SitemapService {
 
   }
 
-  private void writeSitemap(Path temporarySitemapFile, Locale locale) throws IOException {
+  void writeSitemap(Path temporarySitemapFile, Locale locale) throws IOException {
     WebSitemapGenerator sitemap = WebSitemapGenerator.builder(BASE_URL, temporarySitemapFile.toFile()).build();
 
     List<NewsEntryDTO> entries = newsEntryService.getEntities();
@@ -76,8 +76,7 @@ public class SitemapServiceImpl implements SitemapService {
 
   }
 
-  private List<WebSitemapUrl> computeNewsEntriesUrls(Locale locale, List<NewsEntryDTO> entries)
-      throws MalformedURLException {
+  List<WebSitemapUrl> computeNewsEntriesUrls(Locale locale, List<NewsEntryDTO> entries) throws MalformedURLException {
     List<WebSitemapUrl> newsEntriesUrls = new ArrayList<>();
     for (NewsEntryDTO newsEntry : entries) {
       newsEntriesUrls.add(computeUrlForNewsEntry(newsEntry, locale));
@@ -85,7 +84,7 @@ public class SitemapServiceImpl implements SitemapService {
     return newsEntriesUrls;
   }
 
-  private String readSitemap(Path sitemapPath) throws IOException {
+  String readSitemap(Path sitemapPath) throws IOException {
     Charset charset = Charset.forName("UTF-8");
     BufferedReader reader = Files.newBufferedReader(sitemapPath, charset);
     StringBuilder siteMapbuilder = new StringBuilder();
@@ -98,11 +97,11 @@ public class SitemapServiceImpl implements SitemapService {
     return siteMapbuilder.toString();
   }
 
-  private String getI18nValue(String key, Locale locale) {
+  String getI18nValue(String key, Locale locale) {
     return messageSource.getI18n(key, locale);
   }
 
-  private List<WebSitemapUrl> computeMenuUrls(Locale locale) throws MalformedURLException {
+  List<WebSitemapUrl> computeMenuUrls(Locale locale) throws MalformedURLException {
     List<WebSitemapUrl> menuUrls = new ArrayList<>();
     for (MENU menu : MENU.values()) {
       if (!MENU.NEWS.equals(menu)) {
@@ -113,22 +112,22 @@ public class SitemapServiceImpl implements SitemapService {
     return menuUrls;
   }
 
-  private WebSitemapUrl computeUrlForMenuNotNews(MENU menu, Locale locale) throws MalformedURLException {
+  WebSitemapUrl computeUrlForMenuNotNews(MENU menu, Locale locale) throws MalformedURLException {
     return new WebSitemapUrl.Options(BASE_URL + getI18nValue(menu.getHref(), locale)).changeFreq(ChangeFreq.NEVER)
         .priority(1d).build();
   }
 
-  private WebSitemapUrl computeUrlForMenuNews(Date lastModified, Locale locale) throws MalformedURLException {
+  WebSitemapUrl computeUrlForMenuNews(Date lastModified, Locale locale) throws MalformedURLException {
     return new WebSitemapUrl.Options(BASE_URL + getI18nValue(MENU.NEWS.getHref(), locale)).lastMod(lastModified)
         .priority(1d).changeFreq(ChangeFreq.YEARLY).build();
   }
 
-  private WebSitemapUrl computeUrlForNewsEntry(NewsEntryDTO newsEntry, Locale locale) throws MalformedURLException {
+  WebSitemapUrl computeUrlForNewsEntry(NewsEntryDTO newsEntry, Locale locale) throws MalformedURLException {
     return new WebSitemapUrl.Options(BASE_URL + getI18nValue(MENU.NEWS.getHref(), locale) + "/" + newsEntry.getId())
         .lastMod(newsEntry.getModificationDate()).changeFreq(ChangeFreq.YEARLY).priority(0.5d).build();
   }
 
-  private Date computeLastModified(List<NewsEntryDTO> entries) {
+  Date computeLastModified(List<NewsEntryDTO> entries) {
     Date lastModified = entries.get(0).getModificationDate();
     for (NewsEntryDTO newsEntry : entries) {
       Date dateModification = newsEntry.getModificationDate();

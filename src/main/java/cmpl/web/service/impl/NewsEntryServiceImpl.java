@@ -58,7 +58,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     return toDTO(newsEntryRepository.save(entry));
   }
 
-  private String createContent(NewsContentDTO contentToCreate) {
+  String createContent(NewsContentDTO contentToCreate) {
     String contentId = "";
     if (contentToCreate != null) {
       contentId = String.valueOf(newsContentService.createEntity(contentToCreate).getId());
@@ -66,7 +66,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     return contentId;
   }
 
-  private String createImage(NewsImageDTO imageToCreate) {
+  String createImage(NewsImageDTO imageToCreate) {
     String imageId = "";
     if (imageToCreate != null) {
       NewsImageDTO formattedImage = formatImage(imageToCreate);
@@ -97,14 +97,14 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     return dtoUpdated;
   }
 
-  private NewsContentDTO updateContent(NewsContentDTO contentToUpdate) {
+  NewsContentDTO updateContent(NewsContentDTO contentToUpdate) {
     if (contentToUpdate != null) {
       return dealWithContentToUpdate(contentToUpdate);
     }
     return contentToUpdate;
   }
 
-  private NewsImageDTO updateImage(NewsImageDTO imageToUpdate) {
+  NewsImageDTO updateImage(NewsImageDTO imageToUpdate) {
     if (imageToUpdate != null) {
       NewsImageDTO formattedImage = formatImage(imageToUpdate);
       return dealWithImageToUpdate(imageToUpdate, formattedImage);
@@ -112,7 +112,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     return imageToUpdate;
   }
 
-  private NewsContentDTO dealWithContentToUpdate(NewsContentDTO contentToUpdate) {
+  NewsContentDTO dealWithContentToUpdate(NewsContentDTO contentToUpdate) {
     NewsContentDTO contentSaved;
     Long contentId = contentToUpdate.getId();
     if (contentId == null) {
@@ -123,7 +123,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     return contentSaved;
   }
 
-  private NewsImageDTO dealWithImageToUpdate(NewsImageDTO imageToUpdate, NewsImageDTO formattedImage) {
+  NewsImageDTO dealWithImageToUpdate(NewsImageDTO imageToUpdate, NewsImageDTO formattedImage) {
     NewsImageDTO imageSaved;
     Long imageToUpdateId = imageToUpdate.getId();
     if (imageToUpdateId == null) {
@@ -134,7 +134,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     return imageSaved;
   }
 
-  private NewsImageDTO formatImage(NewsImageDTO imageToUpdate) {
+  NewsImageDTO formatImage(NewsImageDTO imageToUpdate) {
     NewsImageDTO formattedImage = imageConverterService.computeNewsImageFromString(imageToUpdate.getBase64Src());
     formattedImage.setAlt(imageToUpdate.getAlt());
     formattedImage.setLegend(imageToUpdate.getLegend());
