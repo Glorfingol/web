@@ -19,10 +19,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    String[] authorizedUrls = new String[]{"/", "/soins_medicaux", "/centre-medical", "/rendez-vous", "/contact",
-        "/gynecologue", "/actualites", "/actualites/**", "/techniques", "/tarifs", "/horaires", "/robots", "/robot",
-        "/robot.txt", "/robots.txt", "/bootstrap/**", "/jquery/**", "/js/**", "/img/**", "/css/**", "/**/favicon.ico",
-        "/sitemap.xml" + ""};
+    String[] authorizedUrls = prepareAuthorizedUrls();
     http.authorizeRequests().antMatchers(authorizedUrls).permitAll().anyRequest().authenticated().and().formLogin()
         .loginPage("/login").permitAll().and().logout().permitAll();
   }
@@ -35,5 +32,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
       LOGGER.error("Erreur lors de la configuration de la sécurité", e);
       throw new BaseException(e.getMessage());
     }
+  }
+
+  String[] prepareAuthorizedUrls() {
+    return new String[]{"/", "/soins_medicaux", "/centre-medical", "/rendez-vous", "/contact", "/gynecologue",
+        "/actualites", "/actualites/**", "/techniques", "/tarifs", "/horaires", "/robots", "/robot", "/robot.txt",
+        "/robots.txt", "/bootstrap/**", "/jquery/**", "/js/**", "/img/**", "/css/**", "/**/favicon.ico", "/sitemap.xml"};
   }
 }

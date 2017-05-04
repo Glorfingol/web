@@ -129,8 +129,8 @@ public class BackDisplayFactoryImplTest {
     MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
-    BDDMockito.doReturn(backMenu).when(menuFactory).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(backMenu).when(menuFactory)
+        .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
 
     List<MenuItem> result = displayFactory.computeBackMenuItems(BACK_PAGE.LOGIN, locale);
     Assert.assertEquals(backMenu, result);
@@ -187,8 +187,8 @@ public class BackDisplayFactoryImplTest {
 
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
-    BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(backMenu).when(displayFactory)
+        .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
     BDDMockito.doReturn(bean).when(displayFactory).computeLoginFormDisplayBean(Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
@@ -197,6 +197,13 @@ public class BackDisplayFactoryImplTest {
     ModelAndView result = displayFactory.computeModelAndViewForBackPage(BACK_PAGE.LOGIN, locale);
 
     Assert.assertEquals(tile, result.getViewName());
+
+    Assert.assertEquals(metaElements, result.getModel().get("metaItems"));
+    Assert.assertEquals(backMenu, result.getModel().get("menuItems"));
+    Assert.assertEquals(bean, result.getModel().get("loginForm"));
+    Assert.assertEquals(footer, result.getModel().get("footer"));
+    Assert.assertEquals(title, result.getModel().get("mainTitle"));
+    Assert.assertEquals(href, result.getModel().get("hiddenLink"));
 
     Mockito.verify(displayFactory, Mockito.times(1)).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale));

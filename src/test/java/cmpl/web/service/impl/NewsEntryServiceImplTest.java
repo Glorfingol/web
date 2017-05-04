@@ -140,6 +140,9 @@ public class NewsEntryServiceImplTest {
     String imageBase64 = "imageBase64";
     NewsEntry entry = new NewsEntry();
     entry.setContentId(String.valueOf(1L));
+    entry.setTags("somTags");
+    entry.setTitle("someTitle");
+    entry.setAuthor("someAuhtor");
     entry.setImageId(String.valueOf(1L));
     entry.setId(1L);
 

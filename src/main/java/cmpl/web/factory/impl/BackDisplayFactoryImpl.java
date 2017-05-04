@@ -50,7 +50,7 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     LOGGER.info("Construction du footer pour la page " + backPage.name());
     model.addObject("footer", computeFooter(locale));
     LOGGER.info("Construction du titre principal pour la page " + backPage.name());
-    model.addObject("maintTitle", computeMainTitle(locale));
+    model.addObject("mainTitle", computeMainTitle(locale));
     LOGGER.info("Construction des éléments meta pour la page " + backPage.name());
     model.addObject("metaItems", computeMetaElements(locale));
     LOGGER.info("Construction du formulaire de login pour la page " + backPage.name());

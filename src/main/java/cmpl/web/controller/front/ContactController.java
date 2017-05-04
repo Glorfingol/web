@@ -24,7 +24,7 @@ public class ContactController {
   }
 
   @RequestMapping(value = "/contact")
-  public ModelAndView printLaserHairRemoval() {
+  public ModelAndView printContact() {
 
     LOGGER.info("Accès à la page " + PAGE.CONTACT.name());
     return displayFactory.computeModelAndViewForPage(PAGE.CONTACT, Locale.FRANCE);

@@ -21,15 +21,18 @@ public class RobotsController {
   public void printRobot(HttpServletResponse response) {
 
     LOGGER.info("Accès à la page des robots");
-
     InputStream resourceAsStream = null;
+    ClassLoader classLoader = getClass().getClassLoader();
+    resourceAsStream = classLoader.getResourceAsStream("robot.txt");
+    modifyResponse(response, resourceAsStream);
+
+  }
+
+  private void modifyResponse(HttpServletResponse response, InputStream resourceAsStream) {
+
+    response.addHeader("Content-disposition", "filename=robot.txt");
+    response.setContentType("text/plain");
     try {
-
-      ClassLoader classLoader = getClass().getClassLoader();
-      resourceAsStream = classLoader.getResourceAsStream("robot.txt");
-
-      response.addHeader("Content-disposition", "filename=robot.txt");
-      response.setContentType("text/plain");
       IOUtils.copy(resourceAsStream, response.getOutputStream());
       response.flushBuffer();
       resourceAsStream.close();

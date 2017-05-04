@@ -39,8 +39,9 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     this.carouselFactory = carouselFactory;
   }
 
-  public static DisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory, FooterFactory footerFactory,
-      MetaElementFactory metaElementFactory, CarouselFactory carouselFactory, WebMessageSourceImpl messageSource) {
+  public static DisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory,
+      FooterFactory footerFactory, MetaElementFactory metaElementFactory, CarouselFactory carouselFactory,
+      WebMessageSourceImpl messageSource) {
     return new DisplayFactoryImpl(menuFactory, footerFactory, metaElementFactory, carouselFactory, messageSource);
   }
 
@@ -57,7 +58,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     LOGGER.info("Construction du footer pour la page   " + page.name());
     model.addObject("footer", computeFooter(locale));
     LOGGER.info("Construction du titre principal pour la page  " + page.name());
-    model.addObject("maintTitle", computeMainTitle(locale));
+    model.addObject("mainTitle", computeMainTitle(locale));
     LOGGER.info("Construction du lien du back pour la page " + page.name());
     model.addObject("hiddenLink", computeHiddenLink(locale));
 

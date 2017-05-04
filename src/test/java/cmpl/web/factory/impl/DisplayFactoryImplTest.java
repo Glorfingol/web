@@ -167,6 +167,12 @@ public class DisplayFactoryImplTest {
 
     Assert.assertEquals(tile, result.getViewName());
 
+    Assert.assertEquals(metaElements, result.getModel().get("metaItems"));
+    Assert.assertEquals(menu, result.getModel().get("menuItems"));
+    Assert.assertEquals(footer, result.getModel().get("footer"));
+    Assert.assertEquals(title, result.getModel().get("mainTitle"));
+    Assert.assertEquals(href, result.getModel().get("hiddenLink"));
+
     Mockito.verify(displayFactory, Mockito.times(1)).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
@@ -224,6 +230,12 @@ public class DisplayFactoryImplTest {
     ModelAndView result = displayFactory.computeModelAndViewForPage(PAGE.NEWS, locale);
 
     Assert.assertEquals(tile, result.getViewName());
+
+    Assert.assertEquals(metaElements, result.getModel().get("metaItems"));
+    Assert.assertEquals(menu, result.getModel().get("menuItems"));
+    Assert.assertEquals(footer, result.getModel().get("footer"));
+    Assert.assertEquals(title, result.getModel().get("mainTitle"));
+    Assert.assertEquals(href, result.getModel().get("hiddenLink"));
 
     Mockito.verify(displayFactory, Mockito.times(1)).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
