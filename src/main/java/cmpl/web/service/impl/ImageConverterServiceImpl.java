@@ -83,7 +83,7 @@ public class ImageConverterServiceImpl implements ImageConverterService {
 
   byte[] toJPEG(byte[] file) throws IOException {
     BufferedImage imageToConvert = ImageIO.read(new ByteArrayInputStream(file));
-    BufferedImage jpeg = new BufferedImage(imageToConvert.getHeight(), imageToConvert.getWidth(),
+    BufferedImage jpeg = new BufferedImage(imageToConvert.getWidth(), imageToConvert.getHeight(),
         BufferedImage.TYPE_INT_RGB);
     jpeg.createGraphics().drawImage(imageToConvert, 0, 0, Color.WHITE, null);
 

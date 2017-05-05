@@ -127,8 +127,8 @@ public class ImageConverterServiceImplTest {
 
     BufferedImage result = service.createBufferedImageFromBase64(base64);
 
-    Assert.assertEquals(398, result.getWidth());
-    Assert.assertEquals(727, result.getHeight());
+    Assert.assertEquals(727, result.getWidth());
+    Assert.assertEquals(398, result.getHeight());
   }
 
   @Test
