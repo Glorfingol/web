@@ -4,10 +4,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cmpl.web.factory.CarouselFactory;
 import cmpl.web.model.carousel.CarouselItem;
 
 public class CarouselFactoryImpl implements CarouselFactory {
+
+  protected static final Logger LOGGER = LoggerFactory.getLogger(CarouselFactoryImpl.class);
 
   private CarouselFactoryImpl() {
 
@@ -21,9 +26,7 @@ public class CarouselFactoryImpl implements CarouselFactory {
   public List<CarouselItem> computeCarouselItems(List<File> images) {
     List<CarouselItem> carouselItems = new ArrayList<>();
     for (File image : images) {
-      if (canExploitImageFile(image)) {
-        carouselItems.add(computeCarouselItem(image));
-      }
+      carouselItems.add(computeCarouselItem(image));
     }
     return carouselItems;
   }
@@ -48,13 +51,6 @@ public class CarouselFactoryImpl implements CarouselFactory {
     int lastIndex = filePath.indexOf('.');
 
     return filePath.substring(firstIndex + 1, lastIndex);
-  }
-
-  boolean canExploitImageFile(File file) {
-    if (!file.exists()) {
-      return false;
-    }
-    return file.isFile();
   }
 
 }

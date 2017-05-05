@@ -1,6 +1,7 @@
 package cmpl.web.factory.impl;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.factory.CarouselFactory;
@@ -90,11 +92,20 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   }
 
   List<File> computeCarouselImagesFiles(Locale locale) {
+
     String carouselImagesSrc = getI18nValue("carousel.src", locale);
     List<String> imagesSrcs = Arrays.asList(carouselImagesSrc.split(";"));
     List<File> imagesForCarousel = new ArrayList<>();
+    ClassLoader classLoader = getClass().getClassLoader();
     for (String imageSrc : imagesSrcs) {
-      imagesForCarousel.add(new File(imageSrc));
+      URL resource = classLoader.getResource(imageSrc);
+      if (resource != null && !StringUtils.isEmpty(resource.getFile())) {
+        File file = new File(resource.getFile());
+        imagesForCarousel.add(file);
+      } else {
+        LOGGER.error("Image introuvable : " + imageSrc);
+      }
+
     }
     return imagesForCarousel;
   }
