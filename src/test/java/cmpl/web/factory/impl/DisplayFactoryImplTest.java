@@ -1,5 +1,6 @@
 package cmpl.web.factory.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -15,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.builder.MenuItemBuilder;
@@ -244,6 +246,20 @@ public class DisplayFactoryImplTest {
     Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(0)).computeCarouselImagesFiles(Mockito.eq(locale));
+  }
+
+  @Test
+  public void testComputeCarouselImagesFiles() throws Exception {
+    String srcs = "static/img/logo/logo.jpg;static/img/logo/logoSmall.jpg";
+
+    BDDMockito.doReturn(srcs).when(displayFactory).getI18nValue(Mockito.anyString(), Mockito.eq(locale));
+    List<File> result = displayFactory.computeCarouselImagesFiles(locale);
+
+    Assert.assertFalse(CollectionUtils.isEmpty(result));
+
+    for (File file : result) {
+      Assert.assertTrue(file.exists());
+    }
   }
 
 }
