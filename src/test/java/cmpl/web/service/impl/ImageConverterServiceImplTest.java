@@ -25,16 +25,6 @@ public class ImageConverterServiceImplTest {
   private ImageConverterServiceImpl service;
 
   @Test
-  public void testComputeOverhead() throws Exception {
-    String format = "jpg";
-    String overhead = "data:image/jpg;base64,";
-
-    String result = service.computeOverhead(format);
-
-    Assert.assertEquals(overhead, result);
-  }
-
-  @Test
   public void testComputeWidth() throws Exception {
     BufferedImage image = new BufferedImage(500, 600, BufferedImage.TYPE_INT_RGB);
 
@@ -48,44 +38,6 @@ public class ImageConverterServiceImplTest {
 
     int result = service.computeHeight(image);
     Assert.assertEquals(600, result);
-  }
-
-  @Test
-  public void testConvertByteArrayToBase64() throws Exception {
-    String base64 = "osdfsfdsfgsgsg";
-    String overhead = "data:image/jpg;base64,";
-    BDDMockito.doReturn(base64).when(service).computeBase64String(Mockito.any(byte[].class), Mockito.anyString());
-    BDDMockito.doReturn(overhead).when(service).computeOverhead(Mockito.anyString());
-
-    String result = service.convertByteArrayToBase64(new byte[]{1}, "jpg");
-
-    Assert.assertEquals(overhead + base64, result);
-
-  }
-
-  @Test
-  public void testComputeBase64String_Exception() throws Exception {
-
-    byte[] data = new byte[]{1};
-    String format = "png";
-
-    String result = service.computeBase64String(data, format);
-    Assert.assertEquals("AQ==", result);
-  }
-
-  @Test
-  public void testComputeBase64String_Ok() throws Exception {
-
-    Path path = Paths.get("src/test/resources/img/test.png");
-
-    String pathBase64 = "src/test/resources/img/base64Image.txt";
-    byte[] encoded = Files.readAllBytes(Paths.get(pathBase64));
-    String base64 = new String(encoded, "UTF-8");
-    base64 = base64.split(",")[1];
-    String format = "png";
-
-    service.computeBase64String(Files.readAllBytes(path), format);
-
   }
 
   @Test
@@ -137,21 +89,16 @@ public class ImageConverterServiceImplTest {
 
   @Test
   public void testComputeNewsImageFromString() throws Exception {
-    byte[] data = new byte[]{1};
     int width = 100;
     int height = 100;
-    String format = "jpg";
     BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-    BDDMockito.doReturn(data).when(service).getImageByteArray(Mockito.anyString());
     BDDMockito.doReturn(width).when(service).computeWidth(Mockito.eq(bufferedImage));
     BDDMockito.doReturn(height).when(service).computeHeight(Mockito.eq(bufferedImage));
     BDDMockito.doReturn(bufferedImage).when(service).createBufferedImageFromBase64(Mockito.anyString());
 
     NewsImageDTO result = service.computeNewsImageFromString("someBase64");
 
-    Assert.assertEquals(format, result.getFormat());
-    Assert.assertEquals(data, result.getSrc());
     Assert.assertEquals(width, result.getWidth());
     Assert.assertEquals(height, result.getHeight());
 
@@ -159,12 +106,10 @@ public class ImageConverterServiceImplTest {
 
   @Test
   public void testComputeNewsImageFromString_Exception() throws Exception {
-    String format = "png";
 
     BDDMockito.doThrow(new IOException("")).when(service).createBufferedImageFromBase64(Mockito.anyString());
 
     NewsImageDTO result = service.computeNewsImageFromString("AQ==");
-    Assert.assertEquals(format, result.getFormat());
     Assert.assertEquals(0, result.getWidth());
     Assert.assertEquals(0, result.getHeight());
   }

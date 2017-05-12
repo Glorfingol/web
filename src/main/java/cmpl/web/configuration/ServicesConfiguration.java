@@ -7,11 +7,13 @@ import cmpl.web.message.WebMessageSource;
 import cmpl.web.repository.NewsContentRepository;
 import cmpl.web.repository.NewsEntryRepository;
 import cmpl.web.repository.NewsImageRepository;
+import cmpl.web.service.FileService;
 import cmpl.web.service.ImageConverterService;
 import cmpl.web.service.NewsContentService;
 import cmpl.web.service.NewsEntryService;
 import cmpl.web.service.NewsImageService;
 import cmpl.web.service.SitemapService;
+import cmpl.web.service.impl.FileServiceImpl;
 import cmpl.web.service.impl.ImageConverterServiceImpl;
 import cmpl.web.service.impl.NewsContentServiceImpl;
 import cmpl.web.service.impl.NewsEntryServiceImpl;
@@ -23,9 +25,9 @@ public class ServicesConfiguration {
 
   @Bean
   NewsEntryService newsEntryService(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
-      NewsContentService newsContentService, ImageConverterService imageConverterService) {
+      NewsContentService newsContentService, ImageConverterService imageConverterService, FileService fileService) {
     return NewsEntryServiceImpl.fromRepositoriesAndServices(newsEntryRepository, newsImageService, newsContentService,
-        imageConverterService);
+        imageConverterService, fileService);
   }
 
   @Bean
@@ -46,5 +48,10 @@ public class ServicesConfiguration {
   @Bean
   SitemapService sitemapService(NewsEntryService newsEntryService, WebMessageSource messageSource) {
     return SitemapServiceImpl.fromService(newsEntryService, messageSource);
+  }
+
+  @Bean
+  FileService fileService(ImageConverterService imageConverterService) {
+    return FileServiceImpl.fromService(imageConverterService);
   }
 }

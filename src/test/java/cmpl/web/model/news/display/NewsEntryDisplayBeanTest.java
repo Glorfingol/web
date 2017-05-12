@@ -294,13 +294,13 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetSrc_With_Image() {
-    NewsImageDTO image = new NewsImageDTOBuilder().base64Src("base64").toNewsImageDTO();
+    NewsImageDTO image = new NewsImageDTOBuilder().src("src").toNewsImageDTO();
     NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).toNewsEntryDTO();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, labelPar, labelLe, dateFormat, labelAccroche);
 
     String result = displayBean.getImage();
-    Assert.assertEquals("base64", result);
+    Assert.assertEquals("src", result);
   }
 
   @Test

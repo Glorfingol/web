@@ -2,19 +2,18 @@ package cmpl.web.model.news.dto;
 
 public class NewsImageDTO extends BaseDTO {
 
-  private byte[] src;
+  private String src;
   private String legend;
   private int width;
   private int height;
   private String alt;
   private String base64Src;
-  private String format;
 
-  public byte[] getSrc() {
+  public String getSrc() {
     return src;
   }
 
-  public void setSrc(byte[] src) {
+  public void setSrc(String src) {
     this.src = src;
   }
 
@@ -56,14 +55,6 @@ public class NewsImageDTO extends BaseDTO {
 
   public void setBase64Src(String base64Src) {
     this.base64Src = base64Src;
-  }
-
-  public String getFormat() {
-    return format;
-  }
-
-  public void setFormat(String format) {
-    this.format = format;
   }
 
 }

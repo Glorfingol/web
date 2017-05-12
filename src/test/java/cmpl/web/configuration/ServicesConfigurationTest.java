@@ -11,11 +11,13 @@ import cmpl.web.message.WebMessageSource;
 import cmpl.web.repository.NewsContentRepository;
 import cmpl.web.repository.NewsEntryRepository;
 import cmpl.web.repository.NewsImageRepository;
+import cmpl.web.service.FileService;
 import cmpl.web.service.ImageConverterService;
 import cmpl.web.service.NewsContentService;
 import cmpl.web.service.NewsEntryService;
 import cmpl.web.service.NewsImageService;
 import cmpl.web.service.SitemapService;
+import cmpl.web.service.impl.FileServiceImpl;
 import cmpl.web.service.impl.ImageConverterServiceImpl;
 import cmpl.web.service.impl.NewsContentServiceImpl;
 import cmpl.web.service.impl.NewsEntryServiceImpl;
@@ -41,6 +43,8 @@ public class ServicesConfigurationTest {
   private ImageConverterService imageConverterService;
   @Mock
   private WebMessageSource messageSource;
+  @Mock
+  private FileService fileService;
 
   @Spy
   private ServicesConfiguration configuration;
@@ -48,7 +52,7 @@ public class ServicesConfigurationTest {
   @Test
   public void testNewsEntryService() throws Exception {
     NewsEntryService result = configuration.newsEntryService(newsEntryRepository, newsImageService, newsContentService,
-        imageConverterService);
+        imageConverterService, fileService);
 
     Assert.assertEquals(NewsEntryServiceImpl.class, result.getClass());
   }
@@ -80,6 +84,13 @@ public class ServicesConfigurationTest {
     SitemapService result = configuration.sitemapService(newsEntryService, messageSource);
 
     Assert.assertEquals(SitemapServiceImpl.class, result.getClass());
+  }
+
+  @Test
+  public void testFileService() throws Exception {
+    FileService result = configuration.fileService(imageConverterService);
+
+    Assert.assertEquals(FileServiceImpl.class, result.getClass());
   }
 
 }

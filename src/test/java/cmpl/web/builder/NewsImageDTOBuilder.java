@@ -10,13 +10,12 @@ public class NewsImageDTOBuilder {
   private Date creationDate;
   private Date modificationDate;
 
-  private byte[] src;
+  private String src;
   private String legend;
   private int width;
   private int height;
   private String alt;
   private String base64Src;
-  private String format;
 
   public NewsImageDTOBuilder id(Long id) {
     this.id = id;
@@ -33,7 +32,7 @@ public class NewsImageDTOBuilder {
     return this;
   }
 
-  public NewsImageDTOBuilder src(byte[] src) {
+  public NewsImageDTOBuilder src(String src) {
     this.src = src;
     return this;
   }
@@ -63,11 +62,6 @@ public class NewsImageDTOBuilder {
     return this;
   }
 
-  public NewsImageDTOBuilder format(String format) {
-    this.format = format;
-    return this;
-  }
-
   public NewsImageDTO toNewsImageDTO() {
 
     NewsImageDTO newsImageDTO = new NewsImageDTO();
@@ -76,7 +70,6 @@ public class NewsImageDTOBuilder {
     newsImageDTO.setModificationDate(modificationDate);
     newsImageDTO.setAlt(alt);
     newsImageDTO.setBase64Src(base64Src);
-    newsImageDTO.setFormat(format);
     newsImageDTO.setHeight(height);
     newsImageDTO.setLegend(legend);
     newsImageDTO.setSrc(src);

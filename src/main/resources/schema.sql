@@ -31,10 +31,9 @@ ENGINE=InnoDB
 
 CREATE TABLE IF NOT EXISTS  news_image(
     id BIGINT(20) NOT NULL,
-    src BLOB NOT NULL,
+    src VARCHAR(500),
     alt VARCHAR(50) NOT NULL,
     legend VARCHAR(50) NOT NULL,
-    format VARCHAR(50) NOT NULL,
     width INT(10) NOT NULL,
     height INT(10) NOT NULL,
     creation_date DATETIME NOT NULL,

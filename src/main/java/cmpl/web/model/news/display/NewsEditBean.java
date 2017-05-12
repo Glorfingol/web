@@ -28,7 +28,7 @@ public class NewsEditBean {
     return newsEntryDTO.getTitle();
   }
 
-  public byte[] getSrc() {
+  public String getSrc() {
     return newsEntryDTO.getNewsImage().getSrc();
   }
 

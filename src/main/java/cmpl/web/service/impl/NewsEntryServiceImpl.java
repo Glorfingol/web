@@ -1,5 +1,6 @@
 package cmpl.web.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,11 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import cmpl.web.model.BaseException;
 import cmpl.web.model.news.dao.NewsEntry;
 import cmpl.web.model.news.dto.NewsContentDTO;
 import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.model.news.dto.NewsImageDTO;
 import cmpl.web.repository.NewsEntryRepository;
+import cmpl.web.service.FileService;
 import cmpl.web.service.ImageConverterService;
 import cmpl.web.service.NewsContentService;
 import cmpl.web.service.NewsEntryService;
@@ -25,20 +28,23 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   private final NewsImageService newsImageService;
   private final NewsContentService newsContentService;
   private final ImageConverterService imageConverterService;
+  private final FileService fileService;
 
   private NewsEntryServiceImpl(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
-      NewsContentService newsContentService, ImageConverterService imageConverterService) {
+      NewsContentService newsContentService, ImageConverterService imageConverterService, FileService fileService) {
     super(newsEntryRepository);
     this.newsEntryRepository = newsEntryRepository;
     this.newsImageService = newsImageService;
     this.newsContentService = newsContentService;
     this.imageConverterService = imageConverterService;
+    this.fileService = fileService;
   }
 
   public static NewsEntryServiceImpl fromRepositoriesAndServices(NewsEntryRepository newsEntryRepository,
       NewsImageService newsImageService, NewsContentService newsContentService,
-      ImageConverterService imageConverterService) {
-    return new NewsEntryServiceImpl(newsEntryRepository, newsImageService, newsContentService, imageConverterService);
+      ImageConverterService imageConverterService, FileService fileService) {
+    return new NewsEntryServiceImpl(newsEntryRepository, newsImageService, newsContentService, imageConverterService,
+        fileService);
   }
 
   @Override
@@ -71,8 +77,23 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     if (imageToCreate != null) {
       NewsImageDTO formattedImage = formatImage(imageToCreate);
       imageId = String.valueOf(newsImageService.createEntity(formattedImage).getId());
+      File savedFile = saveToFileSystem(imageToCreate, imageId);
+
+      NewsImageDTO imageToUpdate = newsImageService.getEntity(Long.valueOf(imageId));
+      imageToUpdate.setSrc(computeImageSrc(savedFile));
+      newsImageService.updateEntity(imageToUpdate);
+
     }
     return imageId;
+  }
+
+  File saveToFileSystem(NewsImageDTO imageToCreate, String imageId) {
+    try {
+      return fileService.saveFileOnSystem(imageId, imageToCreate.getBase64Src());
+    } catch (BaseException e) {
+      LOGGER.error("Impossible d'enregistrer l'image sur le filesystem", e);
+    }
+    return null;
   }
 
   @Override
@@ -131,6 +152,9 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     } else {
       imageSaved = newsImageService.updateEntity(formattedImage);
     }
+    File savedFile = saveToFileSystem(imageToUpdate, String.valueOf(imageSaved.getId()));
+    imageSaved.setSrc(computeImageSrc(savedFile));
+    newsImageService.updateEntity(imageSaved);
     return imageSaved;
   }
 
@@ -176,7 +200,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     String newsImageId = newsEntry.getImageId();
     if (!StringUtils.isEmpty(newsImageId)) {
       NewsImageDTO image = newsImageService.getEntity(Long.parseLong(newsImageId));
-      image.setBase64Src(imageConverterService.convertByteArrayToBase64(image.getSrc(), image.getFormat()));
+      image.setBase64Src(image.getBase64Src());
       newsEntryDTO.setNewsImage(image);
 
     }
@@ -200,6 +224,13 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     fillObject(dto, entity);
 
     return entity;
+  }
+
+  String computeImageSrc(File file) {
+    String filePath = file.getPath();
+    int firstIndex = filePath.indexOf("img");
+    filePath = filePath.substring(firstIndex, filePath.length());
+    return filePath;
   }
 
 }
