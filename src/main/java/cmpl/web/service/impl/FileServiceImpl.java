@@ -20,8 +20,10 @@ public class FileServiceImpl implements FileService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ImageConverterServiceImpl.class);
   private static final String FILE_BASE_PATH = "src/main/resources/static/img/actualites/";
-  private static final String FILE_END_PATH = "/image.jpg";
-  private static final String FORMAT_JPG = "jpg";
+  private static final String FILE_END_PATH = "/image.";
+  private static final String COMMA = ",";
+  private static final String SEMICOLON = ";";
+  private static final String FORMAT_PREFIX = "image/";
 
   private ImageConverterService imageConverterService;
 
@@ -37,13 +39,20 @@ public class FileServiceImpl implements FileService {
   public File saveFileOnSystem(String entityId, String base64FileContent) throws BaseException {
 
     createFoldersIfRequired(entityId);
-    Path path = computePath(entityId);
-    byte[] convertedImageBytes = convertBase64ContentToJPGBytes(entityId, base64FileContent);
+    String format = extractFormatFromBase64(base64FileContent);
+    Path path = computePath(entityId, format);
+    byte[] convertedImageBytes = convertBase64ContentToBytes(entityId, base64FileContent);
     BufferedImage bufferedImage = readBytesToBufferedImage(entityId, convertedImageBytes);
     File fileTosave = instantiateFileFromPath(path);
     deleteFileIfExistsAndReturnResult(fileTosave);
     createNewFile(entityId, fileTosave);
-    return writeBufferedImageToFile(bufferedImage, fileTosave);
+    return writeBufferedImageToFile(bufferedImage, fileTosave, format);
+  }
+
+  String extractFormatFromBase64(String base64FileContent) {
+    String formatOverhead = base64FileContent.split(COMMA)[0];
+    String formatImage = formatOverhead.split(SEMICOLON)[0];
+    return formatImage.split(FORMAT_PREFIX)[1];
   }
 
   void createFoldersIfRequired(String entityId) {
@@ -71,8 +80,8 @@ public class FileServiceImpl implements FileService {
     return hasCreated;
   }
 
-  Path computePath(String entityId) {
-    return Paths.get(FILE_BASE_PATH + entityId + FILE_END_PATH);
+  Path computePath(String entityId, String format) {
+    return Paths.get(FILE_BASE_PATH + entityId + FILE_END_PATH + format);
   }
 
   Path computeMainFolderPath() {
@@ -83,9 +92,9 @@ public class FileServiceImpl implements FileService {
     return Paths.get(FILE_BASE_PATH + entityId);
   }
 
-  File writeBufferedImageToFile(BufferedImage bufferedImage, File imageToSave) throws BaseException {
+  File writeBufferedImageToFile(BufferedImage bufferedImage, File imageToSave, String format) throws BaseException {
     try {
-      ImageIO.write(bufferedImage, FORMAT_JPG, imageToSave);
+      ImageIO.write(bufferedImage, format, imageToSave);
       return imageToSave;
     } catch (Exception e) {
       LOGGER.error("Impossible d'enregistrer l'image sur le système", e);
@@ -97,7 +106,7 @@ public class FileServiceImpl implements FileService {
     return new File(path.toUri());
   }
 
-  byte[] convertBase64ContentToJPGBytes(String entityId, String base64FileContent) throws BaseException {
+  byte[] convertBase64ContentToBytes(String entityId, String base64FileContent) throws BaseException {
     try {
       return imageConverterService.getImageByteArray(base64FileContent);
     } catch (Exception e) {

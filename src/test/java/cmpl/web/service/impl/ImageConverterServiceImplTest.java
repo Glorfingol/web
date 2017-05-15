@@ -3,7 +3,6 @@ package cmpl.web.service.impl;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.Assert;
@@ -41,36 +40,10 @@ public class ImageConverterServiceImplTest {
   }
 
   @Test
-  public void testToJPEG() throws Exception {
-
-    Path path = Paths.get("src/test/resources/img/test.png");
-
-    byte[] result = service.toJPEG(Files.readAllBytes(path));
-
-    Assert.assertTrue(result[0] == Byte.parseByte("-1"));
-
-  }
-
-  @Test
-  public void testGetImageByteArray_conversion() throws Exception {
+  public void testGetImageByteArray() throws Exception {
     String base64 = "png,lolo";
 
-    byte[] jpg = new byte[]{1};
-
-    BDDMockito.doReturn(jpg).when(service).toJPEG(Mockito.any(byte[].class));
     service.getImageByteArray(base64);
-
-    Mockito.verify(service, Mockito.times(1)).toJPEG(Mockito.any(byte[].class));
-
-  }
-
-  @Test
-  public void testGetImageByteArray_no_conversion() throws Exception {
-    String base64 = "jpg,lolo";
-
-    service.getImageByteArray(base64);
-
-    Mockito.verify(service, Mockito.times(0)).toJPEG(Mockito.any(byte[].class));
 
   }
 
