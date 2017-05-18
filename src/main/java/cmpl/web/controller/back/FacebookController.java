@@ -28,14 +28,14 @@ public class FacebookController {
   @RequestMapping(value = "/manager/facebook", method = RequestMethod.GET)
   public ModelAndView printFacebookAccess() {
     LOGGER.info("Accès à la page " + BACK_PAGE.FACEBOOK_ACCESS.name());
-    return facebookDisplayFactory.computeModelAndViewForFacebookAccessPage(BACK_PAGE.FACEBOOK_ACCESS, Locale.FRANCE);
+    return facebookDisplayFactory.computeModelAndViewForFacebookAccessPage(Locale.FRANCE);
   }
 
   @RequestMapping(value = "/manager/facebook/import", method = RequestMethod.GET)
   public ModelAndView printFacebookImport() {
 
     LOGGER.info("Accès à la page " + BACK_PAGE.FACEBOOK_IMPORT.name());
-    return facebookDisplayFactory.computeModelAndViewForFacebookImportPage(BACK_PAGE.FACEBOOK_IMPORT, Locale.FRANCE);
+    return facebookDisplayFactory.computeModelAndViewForFacebookImportPage(Locale.FRANCE);
   }
 
 }

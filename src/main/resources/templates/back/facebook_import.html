@@ -9,8 +9,20 @@
             <div class="col-xs-12">
                 <div id="accordion" class="panel-group">
                    <div class="panel panel-default panel-body">
-             
-                    </div>
+                    <div th:if="${feeds}">
+	                    <div class="form-inline" th:each="feed : ${feeds}">
+	                    <div class="form-group">
+                             <span>Titre: </span><span th:text="${feed.title}"></span>
+                            </div>
+	                        <div class="form-group">
+	                         <span>Description: </span><span th:text="${feed.description}"></span>
+	                        </div>
+	                        <div class="form-group">
+                             <span>Type: </span><span th:text="${feed.type}"></span>
+                            </div>
+	                    </div>
+                    </div>     
+                   </div>
                </div>
             </div>
         </div>

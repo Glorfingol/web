@@ -1,12 +1,15 @@
 package cmpl.web.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Post;
 
 import cmpl.web.model.BaseException;
+import cmpl.web.model.facebook.ImportablePost;
 import cmpl.web.service.FacebookService;
 
 public class FacebookServiceImpl implements FacebookService {
@@ -25,13 +28,36 @@ public class FacebookServiceImpl implements FacebookService {
   }
 
   @Override
-  public List<Post> getRecentFeed() throws BaseException {
+  public List<ImportablePost> getRecentFeed() throws BaseException {
 
     if (connectionRepository.findPrimaryConnection(Facebook.class) == null) {
       throw new BaseException();
     }
 
-    return facebookConnector.feedOperations().getFeed();
+    PagedList<Post> recentFeeds = facebookConnector.feedOperations().getFeed();
+
+    return computeImportablePosts(recentFeeds);
+  }
+
+  List<ImportablePost> computeImportablePosts(PagedList<Post> recentFeeds) {
+    List<ImportablePost> importablePosts = new ArrayList<>();
+    for (Post feed : recentFeeds) {
+      ImportablePost post = computeImportablePost(feed);
+      importablePosts.add(post);
+    }
+    return importablePosts;
+  }
+
+  private ImportablePost computeImportablePost(Post feed) {
+    ImportablePost post = new ImportablePost();
+    post.setAuthor(feed.getFrom().getName());
+    post.setDescription(feed.getMessage());
+    post.setPhotoUrl(feed.getPicture());
+    post.setLinkUrl(feed.getLink());
+    post.setVideoUrl(feed.getSource());
+    post.setTitle(feed.getStory());
+    post.setType(feed.getType());
+    return post;
   }
 
 }

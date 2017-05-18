@@ -2,12 +2,11 @@ package cmpl.web.service;
 
 import java.util.List;
 
-import org.springframework.social.facebook.api.Post;
-
 import cmpl.web.model.BaseException;
+import cmpl.web.model.facebook.ImportablePost;
 
 public interface FacebookService {
 
-  List<Post> getRecentFeed() throws BaseException;
+  List<ImportablePost> getRecentFeed() throws BaseException;
 
 }
