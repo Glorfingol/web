@@ -11,15 +11,10 @@
                    <div class="panel panel-default panel-body">
                     <div th:if="${feeds}">
 	                    <div class="form-inline" th:each="feed : ${feeds}">
-	                    <div class="form-group">
-                             <span>Titre: </span><span th:text="${feed.title}"></span>
-                            </div>
-	                        <div class="form-group">
-	                         <span>Description: </span><span th:text="${feed.description}"></span>
-	                        </div>
-	                        <div class="form-group">
-                             <span>Type: </span><span th:text="${feed.type}"></span>
-                            </div>
+	                       <div th:replace="back/posts/link" th:if="${LINK.equals(feed.type.name)}"/>
+	                       <div th:replace="back/posts/photo" th:if="${PHOTO.equals(feed.type.name)}"/>
+	                       <div th:replace="back/posts/status" th:if="${STATUS.equals(feed.type.name)}"/>
+	                       <div th:replace="back/posts/video" th:if="${VIDEO.equals(feed.type.name)}"/>
 	                    </div>
                     </div>     
                    </div>

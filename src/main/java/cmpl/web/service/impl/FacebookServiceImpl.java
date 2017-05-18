@@ -7,6 +7,7 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Post;
+import org.springframework.social.facebook.api.Post.PostType;
 
 import cmpl.web.model.BaseException;
 import cmpl.web.model.facebook.ImportablePost;
@@ -42,8 +43,10 @@ public class FacebookServiceImpl implements FacebookService {
   List<ImportablePost> computeImportablePosts(PagedList<Post> recentFeeds) {
     List<ImportablePost> importablePosts = new ArrayList<>();
     for (Post feed : recentFeeds) {
-      ImportablePost post = computeImportablePost(feed);
-      importablePosts.add(post);
+      if (!PostType.UNKNOWN.equals(feed.getType())) {
+        ImportablePost post = computeImportablePost(feed);
+        importablePosts.add(post);
+      }
     }
     return importablePosts;
   }
