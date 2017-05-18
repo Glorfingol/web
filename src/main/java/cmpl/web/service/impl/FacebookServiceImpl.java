@@ -8,6 +8,7 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Post;
 import org.springframework.social.facebook.api.Post.PostType;
+import org.springframework.util.StringUtils;
 
 import cmpl.web.model.BaseException;
 import cmpl.web.model.facebook.ImportablePost;
@@ -54,13 +55,32 @@ public class FacebookServiceImpl implements FacebookService {
   private ImportablePost computeImportablePost(Post feed) {
     ImportablePost post = new ImportablePost();
     post.setAuthor(feed.getFrom().getName());
-    post.setDescription(feed.getMessage());
+    post.setDescription(computeDescription(feed));
     post.setPhotoUrl(feed.getPicture());
     post.setLinkUrl(feed.getLink());
     post.setVideoUrl(feed.getSource());
-    post.setTitle(feed.getStory());
+    post.setTitle(computeTitle(feed));
     post.setType(feed.getType());
     return post;
+  }
+
+  private String computeTitle(Post feed) {
+    String title = feed.getName();
+    if (StringUtils.isEmpty(title)) {
+      title = feed.getCaption();
+    }
+    if (StringUtils.isEmpty(title)) {
+      title = "Type " + feed.getType().name();
+    }
+    return title;
+  }
+
+  private String computeDescription(Post feed) {
+    String message = feed.getMessage();
+    if (StringUtils.isEmpty(message)) {
+      return feed.getDescription();
+    }
+    return message;
   }
 
 }

@@ -12,4 +12,6 @@ public interface NewsEntryRepository extends BaseRepository<NewsEntry> {
 
   List<NewsEntry> findByCreationDateBetween(Date start, Date end);
 
+  List<NewsEntry> findByFacebookId(String facebookId);
+
 }

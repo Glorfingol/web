@@ -7,18 +7,13 @@
         <div th:include="common/menu"/>
         <div class="row">
             <div class="col-xs-12">
-                <div id="accordion" class="panel-group">
-                   <div class="panel panel-default panel-body">
-                    <div th:if="${feeds}">
-	                    <div class="form-inline" th:each="feed : ${feeds}">
-	                       <div th:replace="back/posts/link" th:if="${LINK.equals(feed.type.name)}"/>
-	                       <div th:replace="back/posts/photo" th:if="${PHOTO.equals(feed.type.name)}"/>
-	                       <div th:replace="back/posts/status" th:if="${STATUS.equals(feed.type.name)}"/>
-	                       <div th:replace="back/posts/video" th:if="${VIDEO.equals(feed.type.name)}"/>
-	                    </div>
-                    </div>     
-                   </div>
-               </div>
+	            <div class="panel panel-default">
+		             <div th:if="${feeds}" class="panel-body">
+			              <div class="panel panel-default" th:each="feed : ${feeds}">
+			                 <div th:replace="back/posts/importable"/>
+			              </div>
+		             </div>     
+	            </div>
             </div>
         </div>
      </div>

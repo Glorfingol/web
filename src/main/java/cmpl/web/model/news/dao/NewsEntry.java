@@ -16,6 +16,8 @@ public class NewsEntry extends BaseEntity {
   private String imageId;
   @Column(name = "content_id")
   private String contentId;
+  @Column(name = "facebook_Id")
+  private String facebookId;
   @Column(name = "title")
   private String title;
 
@@ -57,6 +59,14 @@ public class NewsEntry extends BaseEntity {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public String getFacebookId() {
+    return facebookId;
+  }
+
+  public void setFacebookId(String facebookId) {
+    this.facebookId = facebookId;
   }
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import cmpl.web.model.BaseException;
@@ -231,6 +232,11 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     int firstIndex = filePath.indexOf("img");
     filePath = filePath.substring(firstIndex, filePath.length());
     return filePath;
+  }
+
+  @Override
+  public boolean isAlreadyImportedFromFacebook(String facebookId) {
+    return !CollectionUtils.isEmpty(newsEntryRepository.findByFacebookId(facebookId));
   }
 
 }

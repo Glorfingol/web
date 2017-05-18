@@ -1,0 +1,7 @@
+<div class="panel-heading">
+    <h3 th:text="${feed.title}"/>
+</div>
+<div th:if="${feed.link}" th:include="back/posts/link" />
+<div th:if="${feed.photo}" th:include="back/posts/photo" />
+<div th:if="${feed.status}" th:include="back/posts/status" />
+<div th:if="${feed.video}" th:include="back/posts/video" />

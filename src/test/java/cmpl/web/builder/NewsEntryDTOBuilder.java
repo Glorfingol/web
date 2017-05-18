@@ -11,6 +11,7 @@ public class NewsEntryDTOBuilder {
   private Long id;
   private Date creationDate;
   private Date modificationDate;
+  private String facebookId;
 
   private NewsContentDTO newsContent;
   private NewsImageDTO newsImage;
@@ -21,6 +22,11 @@ public class NewsEntryDTOBuilder {
 
   public NewsEntryDTOBuilder id(Long id) {
     this.id = id;
+    return this;
+  }
+
+  public NewsEntryDTOBuilder facebookId(String facebookId) {
+    this.facebookId = facebookId;
     return this;
   }
 
@@ -70,6 +76,7 @@ public class NewsEntryDTOBuilder {
     newsEntryDTO.setTitle(title);
     newsEntryDTO.setNewsContent(newsContent);
     newsEntryDTO.setNewsImage(newsImage);
+    newsEntryDTO.setFacebookId(facebookId);
 
     return newsEntryDTO;
   }

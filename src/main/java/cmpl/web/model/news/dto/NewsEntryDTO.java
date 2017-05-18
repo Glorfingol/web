@@ -4,6 +4,7 @@ public class NewsEntryDTO extends BaseDTO {
 
   private NewsContentDTO newsContent;
   private NewsImageDTO newsImage;
+  private String facebookId;
 
   private String author;
   private String tags;
@@ -47,6 +48,14 @@ public class NewsEntryDTO extends BaseDTO {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public String getFacebookId() {
+    return facebookId;
+  }
+
+  public void setFacebookId(String facebookId) {
+    this.facebookId = facebookId;
   }
 
 }

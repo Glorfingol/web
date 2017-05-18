@@ -68,4 +68,20 @@ public class ImportablePost {
     this.linkUrl = linkUrl;
   }
 
+  public boolean isPhoto() {
+    return PostType.PHOTO.equals(this.type);
+  }
+
+  public boolean isStatus() {
+    return PostType.STATUS.equals(this.type);
+  }
+
+  public boolean isLink() {
+    return PostType.LINK.equals(this.type);
+  }
+
+  public boolean isVideo() {
+    return PostType.VIDEO.equals(this.type);
+  }
+
 }
