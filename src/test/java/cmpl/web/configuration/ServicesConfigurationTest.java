@@ -6,17 +6,21 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.facebook.api.Facebook;
 
 import cmpl.web.message.WebMessageSource;
 import cmpl.web.repository.NewsContentRepository;
 import cmpl.web.repository.NewsEntryRepository;
 import cmpl.web.repository.NewsImageRepository;
+import cmpl.web.service.FacebookService;
 import cmpl.web.service.FileService;
 import cmpl.web.service.ImageConverterService;
 import cmpl.web.service.NewsContentService;
 import cmpl.web.service.NewsEntryService;
 import cmpl.web.service.NewsImageService;
 import cmpl.web.service.SitemapService;
+import cmpl.web.service.impl.FacebookServiceImpl;
 import cmpl.web.service.impl.FileServiceImpl;
 import cmpl.web.service.impl.ImageConverterServiceImpl;
 import cmpl.web.service.impl.NewsContentServiceImpl;
@@ -45,6 +49,10 @@ public class ServicesConfigurationTest {
   private WebMessageSource messageSource;
   @Mock
   private FileService fileService;
+  @Mock
+  private Facebook facebookConnector;
+  @Mock
+  private ConnectionRepository connectionRepository;
 
   @Spy
   private ServicesConfiguration configuration;
@@ -91,6 +99,13 @@ public class ServicesConfigurationTest {
     FileService result = configuration.fileService(imageConverterService);
 
     Assert.assertEquals(FileServiceImpl.class, result.getClass());
+  }
+
+  @Test
+  public void testFacebookService() throws Exception {
+    FacebookService result = configuration.facebookService(facebookConnector, connectionRepository);
+
+    Assert.assertEquals(FacebookServiceImpl.class, result.getClass());
   }
 
 }

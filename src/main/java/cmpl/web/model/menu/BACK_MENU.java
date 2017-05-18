@@ -2,7 +2,8 @@ package cmpl.web.model.menu;
 
 public enum BACK_MENU {
 
-  BACK_NEWS("back.news.title", "back.news.href", "back.news.label");
+  BACK_NEWS("back.news.title", "back.news.href", "back.news.label"),
+  BACK_FACEBOOK("facebook.access.title", "facebook.access.href", "facebook.access.label");
 
   private String title;
   private String href;

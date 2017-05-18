@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import cmpl.web.factory.BackDisplayFactory;
+import cmpl.web.factory.LoginDisplayFactory;
 import cmpl.web.model.page.BACK_PAGE;
 
 @Controller
@@ -18,10 +18,10 @@ public class LoginController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-  private final BackDisplayFactory displayFactory;
+  private final LoginDisplayFactory displayFactory;
 
   @Autowired
-  public LoginController(BackDisplayFactory displayFactory) {
+  public LoginController(LoginDisplayFactory displayFactory) {
     this.displayFactory = displayFactory;
   }
 

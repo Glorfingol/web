@@ -3,23 +3,26 @@ package cmpl.web.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import cmpl.web.factory.BackDisplayFactory;
 import cmpl.web.factory.CarouselFactory;
 import cmpl.web.factory.DisplayFactory;
+import cmpl.web.factory.FacebookDisplayFactory;
 import cmpl.web.factory.FooterFactory;
+import cmpl.web.factory.LoginDisplayFactory;
 import cmpl.web.factory.MenuFactory;
 import cmpl.web.factory.MetaElementFactory;
 import cmpl.web.factory.NewsDisplayFactory;
 import cmpl.web.factory.NewsManagerDisplayFactory;
-import cmpl.web.factory.impl.BackDisplayFactoryImpl;
 import cmpl.web.factory.impl.CarouselFactoryImpl;
 import cmpl.web.factory.impl.DisplayFactoryImpl;
+import cmpl.web.factory.impl.FacebookDisplayFactoryImpl;
 import cmpl.web.factory.impl.FooterFactoryImpl;
+import cmpl.web.factory.impl.LoginDisplayFactoryImpl;
 import cmpl.web.factory.impl.MenuFactoryImpl;
 import cmpl.web.factory.impl.MetaElementFactoryImpl;
 import cmpl.web.factory.impl.NewsDisplayFactoryImpl;
 import cmpl.web.factory.impl.NewsManagerDisplayFactoryImpl;
 import cmpl.web.message.impl.WebMessageSourceImpl;
+import cmpl.web.service.FacebookService;
 import cmpl.web.service.NewsEntryService;
 
 @Configuration
@@ -33,9 +36,9 @@ public class FactoryConfiguration {
   }
 
   @Bean
-  BackDisplayFactory backdisplayFactory(MenuFactory menuFactory, FooterFactory footerFactory,
+  LoginDisplayFactory loginDisplayFactory(MenuFactory menuFactory, FooterFactory footerFactory,
       WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory) {
-    return BackDisplayFactoryImpl.fromFactoriesAndMessageResource(menuFactory, footerFactory, messageSource,
+    return LoginDisplayFactoryImpl.fromFactoriesAndMessageResource(menuFactory, footerFactory, messageSource,
         metaElementFactory);
   }
 
@@ -52,6 +55,13 @@ public class FactoryConfiguration {
       WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
     return NewsManagerDisplayFactoryImpl.fromFactoriesAndMessageResource(menuFactory, footerFactory, messageSource,
         newsEntryService, metaElementFactory);
+  }
+
+  @Bean
+  FacebookDisplayFactory facebookDisplayFactory(MenuFactory menuFactory, FooterFactory footerFactory,
+      WebMessageSourceImpl messageSource, FacebookService facebookService, MetaElementFactory metaElementFactory) {
+    return FacebookDisplayFactoryImpl.fromFactoriesAndMessageResource(menuFactory, footerFactory, messageSource,
+        metaElementFactory, facebookService);
   }
 
   @Bean
@@ -73,4 +83,5 @@ public class FactoryConfiguration {
   CarouselFactory carouselFactory() {
     return CarouselFactoryImpl.fromVoid();
   }
+
 }

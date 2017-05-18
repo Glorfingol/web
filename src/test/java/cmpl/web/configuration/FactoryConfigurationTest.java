@@ -7,23 +7,26 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import cmpl.web.factory.BackDisplayFactory;
 import cmpl.web.factory.CarouselFactory;
 import cmpl.web.factory.DisplayFactory;
+import cmpl.web.factory.FacebookDisplayFactory;
 import cmpl.web.factory.FooterFactory;
+import cmpl.web.factory.LoginDisplayFactory;
 import cmpl.web.factory.MenuFactory;
 import cmpl.web.factory.MetaElementFactory;
 import cmpl.web.factory.NewsDisplayFactory;
 import cmpl.web.factory.NewsManagerDisplayFactory;
-import cmpl.web.factory.impl.BackDisplayFactoryImpl;
 import cmpl.web.factory.impl.CarouselFactoryImpl;
 import cmpl.web.factory.impl.DisplayFactoryImpl;
+import cmpl.web.factory.impl.FacebookDisplayFactoryImpl;
 import cmpl.web.factory.impl.FooterFactoryImpl;
+import cmpl.web.factory.impl.LoginDisplayFactoryImpl;
 import cmpl.web.factory.impl.MenuFactoryImpl;
 import cmpl.web.factory.impl.MetaElementFactoryImpl;
 import cmpl.web.factory.impl.NewsDisplayFactoryImpl;
 import cmpl.web.factory.impl.NewsManagerDisplayFactoryImpl;
 import cmpl.web.message.impl.WebMessageSourceImpl;
+import cmpl.web.service.FacebookService;
 import cmpl.web.service.NewsEntryService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -41,6 +44,8 @@ public class FactoryConfigurationTest {
   private WebMessageSourceImpl messageSource;
   @Mock
   private NewsEntryService newsEntryService;
+  @Mock
+  private FacebookService facebookService;
 
   @Spy
   private FactoryConfiguration configuration;
@@ -55,11 +60,11 @@ public class FactoryConfigurationTest {
   }
 
   @Test
-  public void testBackdisplayFactory() throws Exception {
-    BackDisplayFactory result = configuration.backdisplayFactory(menuFactory, footerFactory, messageSource,
+  public void testLogindisplayFactory() throws Exception {
+    LoginDisplayFactory result = configuration.loginDisplayFactory(menuFactory, footerFactory, messageSource,
         metaElementFactory);
 
-    Assert.assertEquals(BackDisplayFactoryImpl.class, result.getClass());
+    Assert.assertEquals(LoginDisplayFactoryImpl.class, result.getClass());
   }
 
   @Test
@@ -105,6 +110,14 @@ public class FactoryConfigurationTest {
     CarouselFactory result = configuration.carouselFactory();
 
     Assert.assertEquals(CarouselFactoryImpl.class, result.getClass());
+  }
+
+  @Test
+  public void testFacebookDisplayFactory() throws Exception {
+    FacebookDisplayFactory result = configuration.facebookDisplayFactory(menuFactory, footerFactory, messageSource,
+        facebookService, metaElementFactory);
+
+    Assert.assertEquals(FacebookDisplayFactoryImpl.class, result.getClass());
   }
 
 }

@@ -14,14 +14,14 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.servlet.ModelAndView;
 
-import cmpl.web.factory.BackDisplayFactory;
+import cmpl.web.factory.LoginDisplayFactory;
 import cmpl.web.model.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoginControllerTest {
 
   @Mock
-  private BackDisplayFactory displayFactory;
+  private LoginDisplayFactory displayFactory;
 
   @Spy
   @InjectMocks
