@@ -61,6 +61,8 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
       return computeModelAndViewForFacebookAccessPage(locale);
     }
     facebookImport.addObject("feeds", computeRecentFeeds());
+    facebookImport.addObject("importAllLabel", computeImportAll(locale));
+    facebookImport.addObject("importOneLabel", computeImportOne(locale));
     return facebookImport;
 
   }
@@ -71,6 +73,14 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
 
   String computeAccessInformation(Locale locale) {
     return getI18nValue("access.information", locale);
+  }
+
+  String computeImportOne(Locale locale) {
+    return getI18nValue("import.one", locale);
+  }
+
+  String computeImportAll(Locale locale) {
+    return getI18nValue("import.all", locale);
   }
 
   List<ImportablePost> computeRecentFeeds() {

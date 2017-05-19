@@ -61,7 +61,13 @@ public class FacebookServiceImpl implements FacebookService {
     post.setVideoUrl(feed.getSource());
     post.setTitle(computeTitle(feed));
     post.setType(feed.getType());
+    post.setFacebookId(feed.getId());
+    post.setOnclick(computeOnclick(feed));
     return post;
+  }
+
+  private String computeOnclick(Post feed) {
+    return "toggleImport('" + feed.getId() + "')";
   }
 
   private String computeTitle(Post feed) {

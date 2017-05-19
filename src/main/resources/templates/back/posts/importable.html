@@ -1,7 +1,16 @@
 <div class="panel-heading">
-    <h3 th:text="${feed.title}"/>
+    <div class="form-group">
+        <div class="checkbox pull-right">
+	         <label>
+	            <input type="checkbox" th:id="${'checkbox-'+feed.facebookId}" value="" th:onclick="${feed.onclick}"/>
+	            <span th:text="${importOneLabel}"/>
+	         </label>
+	    </div>
+	     <h3 th:text="${feed.title}"/>
+    </div>
 </div>
 <div th:if="${feed.link}" th:include="back/posts/link" />
 <div th:if="${feed.photo}" th:include="back/posts/photo" />
 <div th:if="${feed.status}" th:include="back/posts/status" />
 <div th:if="${feed.video}" th:include="back/posts/video" />
+<input type="hidden" th:value="${feed}" th:id="${feed.facebookId}"/>

@@ -9,9 +9,27 @@
             <div class="col-xs-12">
 	            <div class="panel panel-default">
 		             <div th:if="${feeds}" class="panel-body">
-			              <div class="panel panel-default" th:each="feed : ${feeds}">
-			                 <div th:replace="back/posts/importable"/>
-			              </div>
+		             <div class="panel panel-default">
+		             <div class="panel-body">
+		             <form>
+		                  <div class="form-group">
+			                  <div class="checkbox">
+	                              <label>
+	                                  <input type="checkbox" id="importAll" value=""/>
+	                                  <span th:text="${importAllLabel}"/>
+	                              </label>
+	                          </div>
+                          </div>
+                          <div class="pull-right">
+	                        <a class="btn btn-lg btn-primary glyphicon glyphicon-floppy-save"  onclick="importSelection()"/>
+	                      </div>
+		             </form>
+		                 
+		             </div>
+		             </div>
+		              <div class="panel panel-default" th:each="feed : ${feeds}">
+		                 <div th:replace="back/posts/importable"/>
+		              </div>
 		             </div>     
 	            </div>
             </div>

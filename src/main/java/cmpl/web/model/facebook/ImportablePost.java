@@ -11,6 +11,9 @@ public class ImportablePost {
   private String photoUrl;
   private String videoUrl;
   private String linkUrl;
+  private String facebookId;
+
+  private String onclick;
 
   public String getAuthor() {
     return author;
@@ -82,6 +85,22 @@ public class ImportablePost {
 
   public boolean isVideo() {
     return PostType.VIDEO.equals(this.type);
+  }
+
+  public String getFacebookId() {
+    return facebookId;
+  }
+
+  public void setFacebookId(String facebookId) {
+    this.facebookId = facebookId;
+  }
+
+  public String getOnclick() {
+    return onclick;
+  }
+
+  public void setOnclick(String onclick) {
+    this.onclick = onclick;
   }
 
 }
