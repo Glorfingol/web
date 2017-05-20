@@ -201,7 +201,6 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     String newsImageId = newsEntry.getImageId();
     if (!StringUtils.isEmpty(newsImageId)) {
       NewsImageDTO image = newsImageService.getEntity(Long.parseLong(newsImageId));
-      image.setBase64Src(image.getBase64Src());
       newsEntryDTO.setNewsImage(image);
 
     }

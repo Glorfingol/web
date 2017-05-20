@@ -2,7 +2,7 @@ body{
 	text-overflow: ellipsis;
 }
 
-.newsImage {
+.soonImage, .newsImage {
     width: 100%;
     height: auto;
 }

@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,14 +37,14 @@ public class NewsManagerController {
     this.dispatcher = dispatcher;
   }
 
-  @RequestMapping(value = "/manager/news", method = RequestMethod.GET)
+  @GetMapping(value = "/manager/news")
   public ModelAndView printViewNews() {
 
     LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_VIEW.name());
     return newsManagerDisplayFactory.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, Locale.FRANCE);
   }
 
-  @RequestMapping(value = "/manager/news", method = RequestMethod.POST, produces = "application/json")
+  @PostMapping(value = "/manager/news", produces = "application/json")
   @ResponseBody
   public ResponseEntity<NewsEntryResponse> createNewsEntry(@RequestBody NewsEntryRequest newsEntryRequest) {
 
@@ -58,7 +60,7 @@ public class NewsManagerController {
 
   }
 
-  @RequestMapping(value = "/manager/news/{newsEntryId}", method = RequestMethod.PUT, produces = "application/json")
+  @PutMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
   @ResponseBody
   public ResponseEntity<NewsEntryResponse> updateNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId,
       @RequestBody NewsEntryRequest newsEntryRequest) {
@@ -75,14 +77,14 @@ public class NewsManagerController {
 
   }
 
-  @RequestMapping(value = "/manager/news/{newsEntryId}", method = RequestMethod.DELETE, produces = "application/json")
+  @DeleteMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
   @ResponseBody
   public ResponseEntity<NewsEntryResponse> deleteNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId) {
     LOGGER.info("Tentative de suppression d'une entrée d'id " + newsEntryId + ", action interdite");
     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
   }
 
-  @RequestMapping(value = "/manager/news/{newsEntryId}", method = RequestMethod.GET)
+  @GetMapping(value = "/manager/news/{newsEntryId}")
   public ModelAndView getNewsEntity(@PathVariable(value = "newsEntryId") String newsEntryId) {
 
     LOGGER.info("Récupération de l'entrée d'id " + newsEntryId);

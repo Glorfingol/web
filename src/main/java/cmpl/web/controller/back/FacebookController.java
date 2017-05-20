@@ -6,8 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.factory.FacebookDisplayFactory;
@@ -25,13 +24,13 @@ public class FacebookController {
     this.facebookDisplayFactory = facebookDisplayFactory;
   }
 
-  @RequestMapping(value = "/manager/facebook", method = RequestMethod.GET)
+  @GetMapping(value = "/manager/facebook")
   public ModelAndView printFacebookAccess() {
     LOGGER.info("Accès à la page " + BACK_PAGE.FACEBOOK_ACCESS.name());
     return facebookDisplayFactory.computeModelAndViewForFacebookAccessPage(Locale.FRANCE);
   }
 
-  @RequestMapping(value = "/manager/facebook/import", method = RequestMethod.GET)
+  @GetMapping(value = "/manager/facebook/import")
   public ModelAndView printFacebookImport() {
 
     LOGGER.info("Accès à la page " + BACK_PAGE.FACEBOOK_IMPORT.name());

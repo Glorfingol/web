@@ -26,7 +26,7 @@ public class WebSecurityConfigurationTest {
     String[] authorizedUrls = new String[]{"/", "/soins_medicaux", "/centre-medical", "/rendez-vous", "/contact",
         "/gynecologue", "/actualites", "/actualites/**", "/techniques", "/tarifs", "/horaires", "/robots", "/robot",
         "/robot.txt", "/robots.txt", "/bootstrap/**", "/jquery/**", "/js/**", "/img/**", "/css/**", "/**/favicon.ico",
-        "/sitemap.xml"};
+        "/sitemap.xml", "/soon"};
 
     String[] result = configuration.prepareAuthorizedUrls();
 
