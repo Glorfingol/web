@@ -10,7 +10,10 @@ public class SoonController {
   @GetMapping(value = "/soon")
   public ModelAndView printPrices() {
 
-    return new ModelAndView("pages/soon");
+    ModelAndView soon = new ModelAndView("pages/soon");
+    soon.addObject("facebookLink", "https://www.facebook.com/cm.paul.langevin/");
+
+    return soon;
   }
 
 }
