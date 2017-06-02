@@ -2,17 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <link rel="stylesheet" th:href="@{../../css/style.css}"/>
-        <link rel="stylesheet" th:href="@{../../bootstrap/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{../../bootstrap/v4/css/bootstrap.min.css}"/>
     </head>
 	<body class="main">
 		   <a th:href="${facebookLink}" class="hidden-md-down">
-		       <img class="img-responsive center-block" th:src="@{../../img/soon.jpg}" width="1920" height="1080" alt="Bientôt"/>
+		       <img class="img-responsive center-block" th:src="@{../../img/soon.jpg}"  alt="Bientôt"/>
 		   </a>
-		    <a th:href="${facebookLink}" class="hidden-sm-down hidden-md-up">
-               <img class="img-responsive center-block" th:src="@{../../img/soon_ipad.jpg}" width="2048" height="2732" alt="Bientôt"/>
+		    <a th:href="${facebookLink}" class="hidden-sm-down">
+               <img class="img-responsive center-block" th:src="@{../../img/soon_ipad.jpg}"  alt="Bientôt"/>
            </a>
-            <a th:href="${facebookLink}" class="hidden-md-up">
-               <img class="img-responsive center-block" th:src="@{../../img/soon_smartphone.jpg}" width="750" height="1334" alt="Bientôt"/>
+            <a th:href="${facebookLink}" class="hidden-md-up"> 
+               <img class="img-responsive center-block" th:src="@{../../img/soon_smartphone.jpg}"  alt="Bientôt"/>
            </a>
 	</body>
-</html>
+</html> 
