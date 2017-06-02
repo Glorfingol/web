@@ -15,7 +15,11 @@ spring:
       org.hibernate: ERROR
     pattern:
       console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
-
+  
+  social:
+    facebook:
+      appId: 1665545340392413
+      appSecret: 490697887bcb469947a5a70ccef070c4
 # HTTP Server
 server:
   port: 3232  # HTTP (Tomcat) port

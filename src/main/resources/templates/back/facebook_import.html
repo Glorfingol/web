@@ -1,39 +1,26 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:include="common/back_header"/>
-<body class="main">
-    <div class="container container-fluid">
-        <div th:include="common/back_logo"/>
-        <div th:include="common/menu"/>
-        <div class="row">
-            <div class="col-xs-12">
-	            <div class="panel panel-default">
-		             <div th:if="${feeds}" class="panel-body">
-		             <div class="panel panel-default">
-		             <div class="panel-body">
-		             <form>
-		                  <div class="form-group">
-			                  <div class="checkbox">
-	                              <label>
-	                                  <input type="checkbox" id="importAll" value=""/>
-	                                  <span th:text="${importAllLabel}"/>
-	                              </label>
-	                          </div>
-                          </div>
-                          <div class="pull-right">
-	                        <a class="btn btn-lg btn-primary glyphicon glyphicon-floppy-save"  onclick="importSelection()"/>
-	                      </div>
-		             </form>
-		                 
-		             </div>
-		             </div>
-		              <div class="panel panel-default" th:each="feed : ${feeds}">
-		                 <div th:replace="back/posts/importable"/>
-		              </div>
-		             </div>     
-	            </div>
-            </div>
-        </div>
-     </div>
-</body>
-</html>
+<div class="panel panel-default">
+  <div th:if="${feeds}" class="panel-body">
+  <div class="panel panel-default">
+  <div class="panel-body">
+  <form>
+       <div class="form-group">
+        <div class="checkbox">
+                  <label>
+                      <input type="checkbox" id="importAll" value=""/>
+                      <span th:text="${importAllLabel}"/>
+                  </label>
+              </div>
+             </div>
+             <div class="pull-right">
+            <a class="btn btn-lg btn-primary glyphicon glyphicon-floppy-save"  onclick="importSelection()"/>
+          </div>
+  </form>
+      
+  </div>
+  </div>
+   <div class="panel panel-default" th:each="feed : ${feeds}">
+      <div th:replace="back/posts/importable"/>
+   </div>
+  </div>     
+</div>
+           

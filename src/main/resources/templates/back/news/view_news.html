@@ -1,39 +1,26 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:include="common/back_header"/>
-<body class="main">
-    <div class="container container-fluid">
-        <div th:include="common/back_logo"/>
-        <div th:include="common/menu"/>
-        <div class="row">
-            <div class="col-xs-12">
-                <div id="accordion" class="panel-group">
-	               <div class="panel panel-default panel-body">
-                        <div class="collapse in" id="viewEntries">
-                            <div class="row">
-	                            <div class="col-xs-12">
-	                                <div class="pull-right ">
-	                                    <a class="btn btn-md btn-primary glyphicon glyphicon-plus" data-toggle="collapse" data-parent="#accordion" data-target="#creationForm" id="buttonAdd"/>
-	                                </div>
-	                            </div>
-                            </div>
-                            <div class="row">
-                                <div th:each="newsBean : ${newsEntries}" class="col-xs-12 newsElement">
-	                                <div th:replace="back/news/news_list_element"/>
-	                            </div>
-                            </div>
-                        </div>
-                        <div class="collapse" id="creationForm">
-                            <div class="row">
-	                            <div class="col-xs-12">
-	                               <div th:replace="back/news/create_news_entry"/>
-	                            </div>
-                            </div>
-                        </div>
-	                </div>
-	           </div>
+<div id="accordion" class="panel-group">
+    <div class="panel panel-default panel-body">
+            <div class="collapse in" id="viewEntries">
+                <div class="row">
+                 <div class="col-xs-12">
+                     <div class="pull-right ">
+                         <a class="btn btn-md btn-primary glyphicon glyphicon-plus" data-toggle="collapse" data-parent="#accordion" data-target="#creationForm" id="buttonAdd"/>
+                     </div>
+                 </div>
+                </div>
+                <div class="row">
+                    <div th:each="newsBean : ${newsEntries}" class="col-xs-12 newsElement">
+                     <div th:replace="back/news/news_list_element"/>
+                 </div>
+                </div>
             </div>
-        </div>
+            <div class="collapse" id="creationForm">
+                <div class="row">
+                 <div class="col-xs-12">
+                    <div th:replace="back/news/create_news_entry"/>
+                 </div>
+                </div>
+            </div>
      </div>
-</body>
-</html>
+</div>
+           

@@ -43,7 +43,7 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
   public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
 
     LOGGER.info("Construction de la page du back " + backPage.name());
-    ModelAndView model = new ModelAndView(computeTileName(backPage.getTile(), locale));
+    ModelAndView model = computeModelAndViewBaseTile(backPage, locale);
 
     LOGGER.info("Construction du menu pour la page " + backPage.name());
     model.addObject("menuItems", computeBackMenuItems(backPage, locale));
@@ -61,6 +61,18 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     LOGGER.info("Page du back " + backPage.name() + " prête");
 
     return model;
+  }
+
+  ModelAndView computeModelAndViewBaseTile(BACK_PAGE backPage, Locale locale) {
+
+    if (BACK_PAGE.LOGIN.equals(backPage)) {
+      return new ModelAndView(computeTileName(backPage.getTile(), locale));
+    }
+
+    ModelAndView model = new ModelAndView(computeDecoratorBackTileName(locale));
+    model.addObject("content", computeTileName(backPage.getTile(), locale));
+    return model;
+
   }
 
   List<MenuItem> computeBackMenuItems(BACK_PAGE backPage, Locale locale) {

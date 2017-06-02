@@ -25,4 +25,14 @@ public class BaseDisplayFactoryImpl extends BaseFactoryImpl implements BaseDispl
   public String computeHiddenLink(Locale locale) {
     return getI18nValue("back.news.href", locale);
   }
+
+  @Override
+  public String computeDecoratorFrontTileName(Locale locale) {
+    return getI18nValue("decorator.front", locale);
+  }
+
+  @Override
+  public String computeDecoratorBackTileName(Locale locale) {
+    return getI18nValue("decorator.back", locale);
+  }
 }

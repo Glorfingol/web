@@ -51,7 +51,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   public ModelAndView computeModelAndViewForPage(PAGE page, Locale locale) {
 
     LOGGER.info("Construction de la page  " + page.name());
-    ModelAndView model = new ModelAndView(computeTileName(page.getTileName(), locale));
+    ModelAndView model = new ModelAndView(computeDecoratorFrontTileName(locale));
+    model.addObject("content", computeTileName(page.getTileName(), locale));
 
     LOGGER.info("Construction du menu pour la page " + page.name());
     model.addObject("menuItems", computeMenuItems(page, locale));
