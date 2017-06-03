@@ -79,8 +79,8 @@ public class DisplayFactoryImplTest {
 
     List<MetaElement> metaElements = Lists.newArrayList(title, description, language, viewport);
 
-    BDDMockito.doReturn(metaElements).when(metaElementFactory)
-        .computeMetaElementsForPage(Mockito.eq(locale), Mockito.eq(PAGE.INDEX));
+    BDDMockito.doReturn(metaElements).when(metaElementFactory).computeMetaElementsForPage(Mockito.eq(locale),
+        Mockito.eq(PAGE.INDEX));
 
     List<MetaElement> result = displayFactory.computeMetaElements(locale, PAGE.INDEX);
 
@@ -125,6 +125,7 @@ public class DisplayFactoryImplTest {
     String href = "/";
     String label = "label";
     String title = "title";
+    String decoratorFront = "decorator_front";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
     MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
     MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
@@ -156,9 +157,10 @@ public class DisplayFactoryImplTest {
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
+    BDDMockito.doReturn(decoratorFront).when(displayFactory).computeDecoratorFrontTileName(Mockito.eq(locale));
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(metaElements).when(displayFactory)
-        .computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
+    BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale),
+        Mockito.any(PAGE.class));
     BDDMockito.doReturn(menu).when(displayFactory).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
@@ -167,8 +169,9 @@ public class DisplayFactoryImplTest {
 
     ModelAndView result = displayFactory.computeModelAndViewForPage(PAGE.INDEX, locale);
 
-    Assert.assertEquals(tile, result.getViewName());
+    Assert.assertEquals(decoratorFront, result.getViewName());
 
+    Assert.assertEquals(tile, result.getModel().get("content"));
     Assert.assertEquals(metaElements, result.getModel().get("metaItems"));
     Assert.assertEquals(menu, result.getModel().get("menuItems"));
     Assert.assertEquals(footer, result.getModel().get("footer"));
@@ -190,6 +193,7 @@ public class DisplayFactoryImplTest {
     String href = "/";
     String label = "label";
     String title = "title";
+    String decoratorFront = "decorator_front";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
     MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
     MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
@@ -221,9 +225,10 @@ public class DisplayFactoryImplTest {
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
+    BDDMockito.doReturn(decoratorFront).when(displayFactory).computeDecoratorFrontTileName(Mockito.eq(locale));
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(metaElements).when(displayFactory)
-        .computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
+    BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale),
+        Mockito.any(PAGE.class));
     BDDMockito.doReturn(menu).when(displayFactory).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
@@ -231,8 +236,9 @@ public class DisplayFactoryImplTest {
 
     ModelAndView result = displayFactory.computeModelAndViewForPage(PAGE.NEWS, locale);
 
-    Assert.assertEquals(tile, result.getViewName());
+    Assert.assertEquals(decoratorFront, result.getViewName());
 
+    Assert.assertEquals(tile, result.getModel().get("content"));
     Assert.assertEquals(metaElements, result.getModel().get("metaItems"));
     Assert.assertEquals(menu, result.getModel().get("menuItems"));
     Assert.assertEquals(footer, result.getModel().get("footer"));

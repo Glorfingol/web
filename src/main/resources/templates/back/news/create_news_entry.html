@@ -1,31 +1,31 @@
-<form id="newsEntryForm">
+<form id="newsEntryCreateForm" th:object="${newsFormBean}">
     <div class="form-group" id="formInputTitle">
         <label th:text="${newsFormLabels.titleLabel}" />
-        <input type="text" class="form-control" id="inputTitle"/>
+        <input type="text" class="form-control" th:field="*{title}"/>
         <div id="feedbackTitle" class="control-label"></div>
         <small class="form-text text-muted" th:text="${newsFormLabels.titleHelp}"/>
     </div>
     <div class="form-group" id="formInputAuthor">
         <label th:text="${newsFormLabels.authorLabel}" />
-        <input type="text" class="form-control" id="inputAuthor"/>
+        <input type="text" class="form-control" th:field="*{author}"/>
         <div id="feedbackAuthor" class="control-label" ></div>
         <small class="form-text text-muted" th:text="${newsFormLabels.authorHelp}"/>
     </div>
     <div class="form-group" id="formInputTags">
         <label th:text="${newsFormLabels.tagsLabel}" />
-        <input type="text" class="form-control" id="inputTags"/>
+        <input type="text" class="form-control" th:field="*{tags}"/>
          <div id="feedbackTags" class="control-label"></div>
         <small class="form-text text-muted" th:text="${newsFormLabels.tagsHelp}"/>
     </div>
     <div class="form-group" id="formInputContent">
         <label th:text="${newsFormLabels.contentLabel}" />
-        <textarea rows="3" class="form-control" id="inputContent"/>
+        <textarea rows="3" class="form-control" th:field="*{content.content}"/>
          <div id="feedbackContent" class="control-label"></div>
         <small class="form-text text-muted" th:text="${newsFormLabels.contentHelp}"/>
     </div>
     <div class="form-group" id="formInputImage">
         <label th:text="${newsFormLabels.imageLabel}" />
-        <input type="file" class="form-control-file" id="inputImage" onchange="previewFile()"/>
+        <input type="file" class="form-control-file" th:field="*{image.src}" onchange="previewFile()"/>
         <div id="feedbackImage" class="control-label"></div>
         <small class="form-text text-muted" th:text="${newsFormLabels.imageHelp}"/>
     </div>
@@ -34,13 +34,13 @@
      </div>
     <div class="form-group" id="formInputLegend">
         <label th:text="${newsFormLabels.legendLabel}" />
-        <input type="text" class="form-control" id="inputLegend"/>
+        <input type="text" class="form-control" th:field="*{image.legend}"/>
          <div id="feedbackLegend" class="control-label"></div>
         <small class="form-text text-muted" th:text="${newsFormLabels.legendHelp}"/>
     </div>
     <div class="form-group" id="formInputAlt">
         <label th:text="${newsFormLabels.altLabel}" />
-        <input type="text" class="form-control" id="inputAlt"/>
+        <input type="text" class="form-control" th:field="*{image.alt}"/>
          <div id="feedbackAlt" class="control-label"></div>
         <small class="form-text text-muted" th:text="${newsFormLabels.altHelp}"/>
     </div>

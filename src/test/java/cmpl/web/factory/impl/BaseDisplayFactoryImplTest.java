@@ -66,4 +66,28 @@ public class BaseDisplayFactoryImplTest {
 
   }
 
+  @Test
+  public void testComputeDecoratorFront() throws Exception {
+    String decoratorFront = "decorator_front";
+    BDDMockito.doReturn(decoratorFront).when(displayFactory).getI18nValue(Mockito.eq("decorator.front"),
+        Mockito.eq(locale));
+
+    String result = displayFactory.computeDecoratorFrontTileName(locale);
+
+    Assert.assertEquals(decoratorFront, result);
+
+  }
+
+  @Test
+  public void testComputeDecoratorBack() throws Exception {
+    String decoratorBack = "decorator_back";
+    BDDMockito.doReturn(decoratorBack).when(displayFactory).getI18nValue(Mockito.eq("decorator.back"),
+        Mockito.eq(locale));
+
+    String result = displayFactory.computeDecoratorBackTileName(locale);
+
+    Assert.assertEquals(decoratorBack, result);
+
+  }
+
 }

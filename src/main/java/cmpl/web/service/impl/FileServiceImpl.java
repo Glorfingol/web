@@ -19,20 +19,21 @@ import cmpl.web.service.ImageConverterService;
 public class FileServiceImpl implements FileService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ImageConverterServiceImpl.class);
-  private static final String FILE_BASE_PATH = "src/main/resources/static/img/actualites/";
   private static final String FILE_END_PATH = "/image.";
   private static final String COMMA = ",";
   private static final String SEMICOLON = ";";
   private static final String FORMAT_PREFIX = "image/";
 
-  private ImageConverterService imageConverterService;
+  private final ImageConverterService imageConverterService;
+  private final String fileBasePath;
 
-  private FileServiceImpl(ImageConverterService imageConverterService) {
+  private FileServiceImpl(String fileBasePath, ImageConverterService imageConverterService) {
+    this.fileBasePath = fileBasePath;
     this.imageConverterService = imageConverterService;
   }
 
-  public static FileServiceImpl fromService(ImageConverterService imageConverterService) {
-    return new FileServiceImpl(imageConverterService);
+  public static FileServiceImpl fromStringAndService(String fileBasePath, ImageConverterService imageConverterService) {
+    return new FileServiceImpl(fileBasePath, imageConverterService);
   }
 
   @Override
@@ -81,15 +82,15 @@ public class FileServiceImpl implements FileService {
   }
 
   Path computePath(String entityId, String format) {
-    return Paths.get(FILE_BASE_PATH + entityId + FILE_END_PATH + format);
+    return Paths.get(fileBasePath + entityId + FILE_END_PATH + format);
   }
 
   Path computeMainFolderPath() {
-    return Paths.get(FILE_BASE_PATH);
+    return Paths.get(fileBasePath);
   }
 
   Path computeFolderPath(String entityId) {
-    return Paths.get(FILE_BASE_PATH + entityId);
+    return Paths.get(fileBasePath + entityId);
   }
 
   File writeBufferedImageToFile(BufferedImage bufferedImage, File imageToSave, String format) throws BaseException {

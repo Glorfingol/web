@@ -1,31 +1,31 @@
-<form id="newsEntryForm">
-	<div class="form-group" id="formInputTitle">
+<form id="newsEntryEditForm" th:object="${newsFormBean}">
+	<div class="form-group" id="formInputTitle" >
 	    <label th:text="${newsFormLabels.titleLabel}" />
-	    <input type="text" class="form-control" id="inputTitle" th:value="${newsEditBean.title}"/>
+	    <input type="text" class="form-control" th:field="*{title}"/>
 	    <div id="feedbackTitle" class="control-label"></div>
 	    <small class="form-text text-muted" th:text="${newsFormLabels.titleHelp}"/>
 	</div>
 	<div class="form-group" id="formInputAuthor">
 	    <label th:text="${newsFormLabels.authorLabel}" />
-	    <input type="text" class="form-control" id="inputAuthor" th:value="${newsEditBean.author}"/>
+	    <input type="text" class="form-control"  th:field="*{author}"/>
 	    <div id="feedbackAuthor" class="control-label" ></div>
 	    <small class="form-text text-muted" th:text="${newsFormLabels.authorHelp}"/>
 	</div>
 	<div class="form-group" id="formInputTags">
 	    <label th:text="${newsFormLabels.tagsLabel}" />
-	    <input type="text" class="form-control" id="inputTags" th:value="${newsEditBean.tags}"/>
+	    <input type="text" class="form-control" th:field="*{tags}"/>
 	     <div id="feedbackTags" class="control-label"></div>
 	    <small class="form-text text-muted" th:text="${newsFormLabels.tagsHelp}"/>
 	</div>
 	<div class="form-group" id="formInputContent">
 	    <label th:text="${newsFormLabels.contentLabel}" />
-	    <textarea rows="3" class="form-control" id="inputContent" th:text="${newsEditBean.content}"/>
+	    <textarea rows="3" class="form-control"  th:field="*{content.content}"/>
 	     <div id="feedbackContent" class="control-label"></div>
 	    <small class="form-text text-muted" th:text="${newsFormLabels.contentHelp}"/>
 	</div>
 	<div class="form-group" id="formInputImage">
 	    <label th:text="${newsFormLabels.imageLabel}" />
-	    <input type="file" class="form-control-file" id="inputImage" onchange="previewFile()" th:value="${newsEditBean.src}"/>
+	    <input type="file" class="form-control-file"  onchange="previewFile()" th:field="*{image.src}"/>
 	    <div id="feedbackImage" class="control-label"></div>
 	    <small class="form-text text-muted" th:text="${newsFormLabels.imageHelp}"/>
 	</div>
@@ -34,25 +34,26 @@
 	 </div>
 	<div class="form-group" id="formInputLegend">
 	    <label th:text="${newsFormLabels.legendLabel}" />
-	    <input type="text" class="form-control" id="inputLegend" th:value="${newsEditBean.legend}"/>
+	    <input type="text" class="form-control" th:field="*{image.legend}"/>
 	     <div id="feedbackLegend" class="control-label"></div>
 	    <small class="form-text text-muted" th:text="${newsFormLabels.legendHelp}"/>
 	</div>
 	<div class="form-group" id="formInputAlt">
 	    <label th:text="${newsFormLabels.altLabel}" />
-	    <input type="text" class="form-control" id="inputAlt" th:value="${newsEditBean.alt}"/>
+	    <input type="text" class="form-control" th:field="*{image.alt}"/>
 	     <div id="feedbackAlt" class="control-label"></div>
 	    <small class="form-text text-muted" th:text="${newsFormLabels.altHelp}"/>
 	</div>
-	<input type="hidden" id="entryId" th:value="${newsEditBean.entryId}"/>
-	<input type="hidden" id="entryCreationDate" th:value="${newsEditBean.entryCreationDate}"/>
-	<input type="hidden" id="entryModificationDate" th:value="${newsEditBean.entryModificationDate}"/>
-	<input type="hidden" id="contentId" th:value="${newsEditBean.contentId}"/>
-	<input type="hidden" id="contentCreationDate" th:value="${newsEditBean.contentCreationDate}"/>
-	<input type="hidden" id="contentModificationDate" th:value="${newsEditBean.contentModificationDate}"/>
-	<input type="hidden" id="imageId" th:value="${newsEditBean.imageId}"/>
-	<input type="hidden" id="imageCreationDate" th:value="${newsEditBean.imageCreationDate}"/>
-	<input type="hidden" id="imageModificationDate" th:value="${newsEditBean.imageModificationDate}"/>
+	<input type="hidden"  th:field="*{id}"/>
+    <input type="hidden"  th:field="*{creationDate}"/>
+    <input type="hidden"  th:field="*{modificationDate}"/>
+    <input type="hidden"  th:field="*{content.id}"/>
+    <input type="hidden"  th:field="*{content.creationDate}"/>
+    <input type="hidden"  th:field="*{content.modificationDate}"/>
+    <input type="hidden"  th:field="*{image.id}"/>
+    <input type="hidden"  th:field="*{image.creationDate}"/>
+    <input type="hidden"  th:field="*{image.modificationDate}"/>
+	
 	<div class="pull-right">
 	  <a class="btn btn-md btn-danger glyphicon glyphicon-remove"  onclick="cancelUpdate()"/>
 	  <a class="btn btn-md btn-success glyphicon glyphicon-ok"  onclick="postUpdateNewsForm()"/>

@@ -1,5 +1,6 @@
 package cmpl.web.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.social.connect.ConnectionRepository;
@@ -26,6 +27,9 @@ import cmpl.web.service.impl.SitemapServiceImpl;
 
 @Configuration
 public class ServicesConfiguration {
+
+  @Value("${fileBasePath}")
+  private String fileBasePath;
 
   @Bean
   NewsEntryService newsEntryService(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
@@ -56,7 +60,7 @@ public class ServicesConfiguration {
 
   @Bean
   FileService fileService(ImageConverterService imageConverterService) {
-    return FileServiceImpl.fromService(imageConverterService);
+    return FileServiceImpl.fromStringAndService(fileBasePath, imageConverterService);
   }
 
   @Bean

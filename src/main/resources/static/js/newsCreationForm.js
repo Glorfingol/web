@@ -7,9 +7,9 @@ function validateAndCreateNewsEntry(){
 function computeNewsEntry(){
 	var newsEntry = {};
 	
-	var inputTitle = $("#inputTitle");
-	var inputAuthor = $("#inputAuthor");
-	var inputTags = $("#inputTags");
+	var inputTitle = $("#title");
+	var inputAuthor = $("#author");
+	var inputTags = $("#tags");
 	
 	newsEntry.title = inputTitle.val();
 	newsEntry.author = inputAuthor.val();
@@ -41,7 +41,7 @@ function hasImageMetaData(image){
 function computeNewsContent(){
 	var content = {};
 	
-	var inputContent = $("#inputContent");
+	var inputContent = $("#content\\.content");
 	
 	content.content = inputContent.val();
 	
@@ -51,8 +51,8 @@ function computeNewsContent(){
 function computeNewsImage(){
 	var image = {};
 	
-	var inputLegend = $("#inputLegend");
-	var inputAlt = $("#inputAlt");
+	var inputLegend = $("#image\\.legend");
+	var inputAlt = $("#image\\.alt");
 	
 	image.src= base64Image;
 	image.alt = inputAlt.val();

@@ -11,12 +11,12 @@ function cancelUpdate(){
 function computeNewsEntryUpdate(){
 	var newsEntry = {};
 	
-	var inputTitle = $("#inputTitle");
-	var inputAuthor = $("#inputAuthor");
-	var inputTags = $("#inputTags");
-	var inputId = $("#entryId");
-	var inputCreationDate = $("#entryCreationDate");
-	var inputModificationDate = $("#entryModificationDate");
+	var inputTitle = $("#title");
+	var inputAuthor = $("#author");
+	var inputTags = $("#tags");
+	var inputId = $("#id");
+	var inputCreationDate = $("#creationDate");
+	var inputModificationDate = $("#modificationDate");
 	
 	newsEntry.title = inputTitle.val();
 	newsEntry.author = inputAuthor.val();
@@ -41,10 +41,6 @@ function computeNewsEntryUpdate(){
 function computeNewsContentUpdate(){
 	var content = {};
 	
-	var inputContent = $("#inputContent");
-	var inputId = $("#contentId");
-	var inputCreationDate = $("#contentCreationDate");
-	var inputModificationDate = $("#contentModificationDate");
 	
 	content.content = inputContent.val();
 	if(inputId.val()){
@@ -62,11 +58,6 @@ function computeNewsContentUpdate(){
 function computeNewsImageUpdate(){
 	var image = {};
 	
-	var inputLegend = $("#inputLegend");
-	var inputAlt = $("#inputAlt");
-	var inputId = $("#imageId");
-	var inputCreationDate = $("#imageCreationDate");
-	var inputModificationDate = $("#imageModificationDate");
 	
 	image.src= base64Image;
 	image.alt = inputAlt.val();
