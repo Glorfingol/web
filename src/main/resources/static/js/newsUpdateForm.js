@@ -41,6 +41,10 @@ function computeNewsEntryUpdate(){
 function computeNewsContentUpdate(){
 	var content = {};
 	
+	var inputContent = $("#content\\.content");
+	var inputId = $("#content\\.id");
+	var inputCreationDate = $("#content\\.creationDate");
+	var inputModificationDate = $("#content\\.modificationDate");
 	
 	content.content = inputContent.val();
 	if(inputId.val()){
@@ -58,6 +62,11 @@ function computeNewsContentUpdate(){
 function computeNewsImageUpdate(){
 	var image = {};
 	
+	var inputLegend = $("#image\\.legend");
+	var inputAlt = $("#image\\.alt");
+	var inputId = $("#image\\.id");
+	var inputCreationDate = $("#image\\.creationDate");
+	var inputModificationDate = $("#image\\.modificationDate");
 	
 	image.src= base64Image;
 	image.alt = inputAlt.val();
