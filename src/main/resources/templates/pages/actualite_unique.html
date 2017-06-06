@@ -1,21 +1,21 @@
-<div class="panel panel-default">
-	<div class="panel-heading">
+<div class="card">
+	<div class="card-header">
 	    <h3 th:text="${newsEntry.title}"/>
 	    <div>
-	        <span th:text="${newsEntry.panelHeading}"/>
+	        <span class="card-text" th:text="${newsEntry.panelHeading}"/>
 	    </div>
 	</div>
-	<div class="panel-body" th:if="${newsEntry.displayContent || newsEntry.displayImage}">
+	<div class="card-block" th:if="${newsEntry.displayContent || newsEntry.displayImage}">
 	   <figure th:if="${newsEntry.displayImage}">
 	       <img class="newsImage" th:src="${newsEntry.image}" th:alt="${newsEntry.alt}" th:height="${newsEntry.imageHeight}" th:width="${newsEntry.imageWidth}"/>
 	       <figcaption class="text-right" th:text="${newsEntry.legend}"/>
 	   </figure> 
 	   <p th:if="${newsEntry.displayContent}" th:text="${newsEntry.content}"/>
 	</div>
-	<div class="panel-footer" th:if="${newsEntry.displayTags}">
+	<div class="card-footer" th:if="${newsEntry.displayTags}">
 	   <div class="form-inline">
-	       <div class="form-group">
-	          <span th:each="tag : ${newsEntry.tags}" class="badge" th:text="${tag}"/>
+	       <div>
+	          <span th:each="tag : ${newsEntry.tags}" class="badge badge-info" th:text="${tag}"/>
 	       </div>
 	   </div>
 	</div>

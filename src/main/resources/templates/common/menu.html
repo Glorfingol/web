@@ -1,18 +1,20 @@
 <div class="row">
-	<div class="col-xs-12">
-		<div class="nav-bar navbar-default">
-		    <div class="navbar-header">
-			    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-		          </button>
-		    </div>
-		     <div class="navbar-collapse collapse sidebar-navbar-collapse" id="navbarCollapse">
-			     <ul id="menu" class="nav navbar-nav">
-		            <li id="menu_index" class="menu-item dropdown" th:each="menuItem : ${menuItems}" th:classappend="${menuItem.customCssClass}">
+	<div class="col">
+		<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+		     <button type="button" class="navbar-toggler navbar-toggler-right" 
+                    data-toggle="collapse" 
+                    data-target="#navbarSupportedContent" 
+                    aria-controls="navbarSupportedContent" 
+                    aria-expanded="false"
+             >
+                <span class="navbar-toggler-icon"></span>
+             </button>
+             <a class="navbar-brand hidden-lg-up" href="#">Menu</a>
+		     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+			     <ul id="menu" class="navbar-nav mr-autov">
+		            <li id="menu_index" class="nav-item dropdown" th:each="menuItem : ${menuItems}" th:classappend="${menuItem.customCssClass}">
 		                <a th:if="${(menuItem.subMenuItems.size() > 0)}" 
-		                   class="dropdow-toggle"  
+		                   class="dropdow-toggle nav-link"  
 		                   data-toggle="dropdown" 
 		                   th:title="${menuItem.title}" 
 		                   th:href="${menuItem.href}" 
@@ -20,16 +22,17 @@
 		                   onhover="onhover()"/>
 		                <ul th:if="${(menuItem.subMenuItems.size() > 0)}" class="dropdown-menu multi-level">
 		                  <li class="dropdown-submenu"  th:each="subMenuItem : ${menuItem.subMenuItems}">
-		                       <a th:title="${subMenuItem.title}" th:href="${subMenuItem.href}" th:text="${subMenuItem.label}"/>
+		                       <a class="nav-link" th:title="${subMenuItem.title}" th:href="${subMenuItem.href}" th:text="${subMenuItem.label}"/>
 		                  </li>
 		                </ul>
-		                <a th:if="${!(menuItem.subMenuItems.size() > 0)}" 
+		                <a class="nav-link"
+		                   th:if="${!(menuItem.subMenuItems.size() > 0)}" 
 		                   th:title="${menuItem.title}" 
 		                   th:href="${menuItem.href}" 
 		                   th:text="${menuItem.label}"/>
 		            </li>
 		        </ul>
 		    </div>
-	    </div>
+	    </nav>
 	</div>
 </div>

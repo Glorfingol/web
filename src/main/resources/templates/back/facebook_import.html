@@ -1,24 +1,24 @@
-<div class="panel panel-default">
-  <div th:if="${feeds}" class="panel-body">
-  <div class="panel panel-default">
-  <div class="panel-body">
+<div class="card">
+  <div th:if="${feeds}" class="card-block">
+  <div class="card">
+  <div class="card-block">
   <form>
-       <div class="form-group">
+       <div class="form-control">
         <div class="checkbox">
-                  <label>
-                      <input type="checkbox" id="importAll" value=""/>
-                      <span th:text="${importAllLabel}"/>
-                  </label>
-              </div>
-             </div>
-             <div class="pull-right">
-            <a class="btn btn-lg btn-primary glyphicon glyphicon-floppy-save"  onclick="importSelection()"/>
-          </div>
+	        <label>
+	            <input type="checkbox" id="importAll" value=""/>
+	            <span th:text="${importAllLabel}"/>
+	        </label>
+        </div>
+      </div>
+      <div class="pull-right">
+        <a class="btn btn-lg btn-primary fa fa-cloud-download"  onclick="importSelection()"/>
+      </div>
   </form>
       
   </div>
   </div>
-   <div class="panel panel-default" th:each="feed : ${feeds}">
+   <div class="card" th:each="feed : ${feeds}">
       <div th:replace="back/posts/importable"/>
    </div>
   </div>     

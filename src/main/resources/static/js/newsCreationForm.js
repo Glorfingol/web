@@ -71,13 +71,13 @@ function displayError(error){
 			var message = cause.message;
 			
 			var errorTarget = getErrorTarget(code);
-			errorTarget.addClass("has-error");
+			errorTarget.addClass("has-danger");
 			
 			var feedbackDiv = getFeedBackDivInput(code);
 			feedbackDiv.html(message);
 			
 			var errorInput = getErrorInput(code);
-			errorInput.addClass("form-control-error");
+			errorInput.addClass("form-control-danger");
 			
 		}
 	}

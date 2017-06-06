@@ -1,51 +1,60 @@
 <form id="newsEntryCreateForm" th:object="${newsFormBean}">
-    <div class="form-group" id="formInputTitle">
-        <label th:text="${newsFormLabels.titleLabel}" />
-        <input type="text" class="form-control" th:field="*{title}"/>
-        <div id="feedbackTitle" class="control-label"></div>
-        <small class="form-text text-muted" th:text="${newsFormLabels.titleHelp}"/>
-    </div>
-    <div class="form-group" id="formInputAuthor">
-        <label th:text="${newsFormLabels.authorLabel}" />
-        <input type="text" class="form-control" th:field="*{author}"/>
-        <div id="feedbackAuthor" class="control-label" ></div>
-        <small class="form-text text-muted" th:text="${newsFormLabels.authorHelp}"/>
-    </div>
-    <div class="form-group" id="formInputTags">
-        <label th:text="${newsFormLabels.tagsLabel}" />
-        <input type="text" class="form-control" th:field="*{tags}"/>
-         <div id="feedbackTags" class="control-label"></div>
-        <small class="form-text text-muted" th:text="${newsFormLabels.tagsHelp}"/>
-    </div>
-    <div class="form-group" id="formInputContent">
-        <label th:text="${newsFormLabels.contentLabel}" />
-        <textarea rows="3" class="form-control" th:field="*{content.content}"/>
-         <div id="feedbackContent" class="control-label"></div>
-        <small class="form-text text-muted" th:text="${newsFormLabels.contentHelp}"/>
-    </div>
-    <div class="form-group" id="formInputImage">
-        <label th:text="${newsFormLabels.imageLabel}" />
-        <input type="file" class="form-control-file" th:field="*{image.src}" onchange="previewFile()"/>
-        <div id="feedbackImage" class="control-label"></div>
-        <small class="form-text text-muted" th:text="${newsFormLabels.imageHelp}"/>
-    </div>
-     <div class="form-group" id="formPreviewImage">
-        <img src="" id="imagePreview"/>
-     </div>
-    <div class="form-group" id="formInputLegend">
-        <label th:text="${newsFormLabels.legendLabel}" />
-        <input type="text" class="form-control" th:field="*{image.legend}"/>
-         <div id="feedbackLegend" class="control-label"></div>
-        <small class="form-text text-muted" th:text="${newsFormLabels.legendHelp}"/>
-    </div>
-    <div class="form-group" id="formInputAlt">
-        <label th:text="${newsFormLabels.altLabel}" />
-        <input type="text" class="form-control" th:field="*{image.alt}"/>
-         <div id="feedbackAlt" class="control-label"></div>
-        <small class="form-text text-muted" th:text="${newsFormLabels.altHelp}"/>
-    </div>
-    <div class="pull-right">
-        <a class="btn btn-md btn-danger collapsed glyphicon glyphicon-remove" role="button" data-toggle="collapse" data-parent="#accordion" href="#viewEntries" onclick="resetForm()"/>
-        <a class="btn btn-md btn-success glyphicon glyphicon glyphicon-ok"  onclick="postCreateNewsForm()"/>
+    <div class="card">
+        <div class="card-block">
+	        <div class="form-control mb-3" id="formInputTitle">
+		        <label th:text="${newsFormLabels.titleLabel}" />
+		        <input type="text" class="form-control" th:field="*{title}"/>
+		        <div id="feedbackTitle" class="form-control-label"></div>
+		        <small class="form-text text-muted" th:text="${newsFormLabels.titleHelp}"/>
+		    </div>
+		    <div class="form-control mb-3" id="formInputAuthor">
+		        <label th:text="${newsFormLabels.authorLabel}" />
+		        <input type="text" class="form-control" th:field="*{author}"/>
+		        <div id="feedbackAuthor" class="form-control-label" ></div>
+		        <small class="form-text text-muted" th:text="${newsFormLabels.authorHelp}"/>
+		    </div>
+		    <div class="form-control mb-3" id="formInputTags">
+		        <label th:text="${newsFormLabels.tagsLabel}" />
+		        <input type="text" class="form-control" th:field="*{tags}"/>
+		         <div id="feedbackTags" class="form-control-label"></div>
+		        <small class="form-text text-muted" th:text="${newsFormLabels.tagsHelp}"/>
+		    </div>
+		    <div class="form-control mb-3" id="formInputContent">
+		        <label th:text="${newsFormLabels.contentLabel}" />
+		        <textarea rows="3" class="form-control" th:field="*{content.content}"/>
+		         <div id="feedbackContent" class="form-control-label"></div>
+		        <small class="form-text text-muted" th:text="${newsFormLabels.contentHelp}"/>
+		    </div>
+		    <div class="form-control mb-3" id="formInputImage">
+		        <label th:text="${newsFormLabels.imageLabel}" />
+		        <input type="file" class="form-control-file" th:field="*{image.src}" onchange="previewFile()"/>
+		        <div id="feedbackImage" class="form-control-label"></div>
+		        <small class="form-text text-muted" th:text="${newsFormLabels.imageHelp}"/>
+		    </div>
+		     <div class="form-control mb-3" id="formPreviewImage">
+		        <img src="" id="imagePreview"/>
+		     </div>
+		    <div class="form-control mb-3" id="formInputLegend">
+		        <label th:text="${newsFormLabels.legendLabel}" />
+		        <input type="text" class="form-control" th:field="*{image.legend}"/>
+		         <div id="feedbackLegend" class="form-control-label"></div>
+		        <small class="form-text text-muted" th:text="${newsFormLabels.legendHelp}"/>
+		    </div>
+		    <div class="form-control mb-3" id="formInputAlt">
+		        <label th:text="${newsFormLabels.altLabel}" />
+		        <input type="text" class="form-control" th:field="*{image.alt}"/>
+		         <div id="feedbackAlt" class="form-control-label"></div>
+		        <small class="form-text text-muted" th:text="${newsFormLabels.altHelp}"/>
+		    </div>
+        </div>
+        <div class="card-footer">
+            <div class="float-right">
+		        <a class="btn btn-md btn-danger collapsed fa fa-times" role="button" data-toggle="collapse" data-parent="#accordion" href="#viewEntries" onclick="resetForm()"/>
+		        <a class="btn btn-md btn-success fa fa-check"  onclick="postCreateNewsForm()"/>
+		    </div>
+        </div>
     </div>
 </form>
+<div class="loader-form-container">
+    <div class="loader"/> 
+</div>

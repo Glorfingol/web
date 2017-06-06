@@ -1,21 +1,21 @@
-<div class="panel panel-default">
-	<div class="panel-heading">
+<div class="card mb-3">
+	<div class="card-header">
 	    <h3 th:text="${newsBean.title}"/>
 	    <div>
-		    <span th:text="${newsBean.panelHeading}"/>
+		    <span class="card-text" th:text="${newsBean.panelHeading}"/>
 	    </div>
 	</div>
-	<div class="panel-body" th:if="${newsBean.displayContent || newsBean.displayImage}">
+	<div class="card-block" th:if="${newsBean.displayContent || newsBean.displayImage}">
 	   <figure th:if="${newsBean.displayImage}">
 	       <img class="newsImage" th:src="${newsBean.image}" th:alt="${newsBean.alt}" th:height="${newsBean.imageHeight}" th:width="${newsBean.imageWidth}"/>
 	       <figcaption class="text-right" th:text="${newsBean.legend}"/>
 	   </figure> 
-	   <a th:text="${newsBean.newsEntryShowMore}" th:href="${newsBean.newsEntryShowHref}"></a>
+	   <a class="card-text" th:text="${newsBean.newsEntryShowMore}" th:href="${newsBean.newsEntryShowHref}"></a>
 	</div>
-	<div class="panel-footer" th:if="${newsBean.displayTags}">
+	<div class="card-footer" th:if="${newsBean.displayTags}">
 	   <div class="form-inline">
-		   <div class="form-group">
-		      <span th:each="tag : ${newsBean.tags}" class="badge" th:text="${tag}"/>
+		   <div>
+		      <span th:each="tag : ${newsBean.tags}" class="badge badge-info" th:text="${tag}"/>
 		   </div>
 	   </div>
 	</div>

@@ -40,17 +40,17 @@ public class FileServiceImplTest {
       existingFile.delete();
     }
 
-    File folderMain = new File("C:\\test\\img\\img\\actualites");
+    File folderMain = new File("src\\test\\resources\\img\\actualites");
     if (folderMain.exists()) {
       folderMain.delete();
     }
 
-    File subFolder = new File("C:\\test\\img\\actualites\\666");
+    File subFolder = new File("src\\test\\resources\\img\\actualites\\666");
     if (subFolder.exists()) {
       subFolder.delete();
     }
 
-    service = FileServiceImpl.fromStringAndService("C:\\test\\img\\actualites\\", imageConverterService);
+    service = FileServiceImpl.fromStringAndService("src\\test\\resources\\img\\actualites\\", imageConverterService);
     service = Mockito.spy(service);
 
   }
@@ -114,7 +114,7 @@ public class FileServiceImplTest {
 
   @Test
   public void testComputeFolderPath() throws Exception {
-    String path = "C:\\test\\img\\actualites\\666";
+    String path = "src\\test\\resources\\img\\actualites\\666";
 
     Path result = service.computeFolderPath("666");
 
@@ -123,7 +123,7 @@ public class FileServiceImplTest {
 
   @Test
   public void testComputeMainFolderPath() throws Exception {
-    String path = "C:\\test\\img\\actualites";
+    String path = "src\\test\\resources\\img\\actualites";
 
     Path result = service.computeMainFolderPath();
 
@@ -133,7 +133,7 @@ public class FileServiceImplTest {
   @Test
   public void testComputePath() throws Exception {
     String format = "jpg";
-    String path = "C:\\test\\img\\actualites\\666\\image.jpg";
+    String path = "src\\test\\resources\\img\\actualites\\666\\image.jpg";
 
     Path result = service.computePath("666", format);
 
@@ -142,13 +142,13 @@ public class FileServiceImplTest {
 
   @Test
   public void testCreateMainFolderIfRequired_required() throws Exception {
-    Path path = Paths.get("C:\\test\\img\\actualites");
+    Path path = Paths.get("src\\test\\resources\\img\\actualites");
 
     BDDMockito.doReturn(path).when(service).computeMainFolderPath();
 
     boolean result = service.createMainFolderIfRequired();
 
-    File file = new File("C:\\test\\img\\actualites");
+    File file = new File("src\\test\\resources\\img\\actualites");
     Assert.assertTrue(file.isDirectory());
     Assert.assertTrue(result);
 
@@ -156,10 +156,10 @@ public class FileServiceImplTest {
 
   @Test
   public void testCreateMainFolderIfRequired_not_required() throws Exception {
-    File directory = new File("C:\\test\\img\\actualites");
+    File directory = new File("src\\test\\resources\\img\\actualites");
     directory.mkdir();
 
-    Path path = Paths.get("C:\\test\\img\\actualites");
+    Path path = Paths.get("src\\test\\resources\\img\\actualites");
 
     BDDMockito.doReturn(path).when(service).computeMainFolderPath();
 
@@ -170,15 +170,15 @@ public class FileServiceImplTest {
 
   @Test
   public void testCreateSubFolderIfRequired() throws Exception {
-    File directory = new File("C:\\test\\img\\actualites");
+    File directory = new File("src\\test\\resources\\img\\actualites");
     directory.mkdir();
-    Path path = Paths.get("C:\\test\\img\\actualites\\666");
+    Path path = Paths.get("src\\test\\resources\\img\\actualites\\666");
 
     BDDMockito.doReturn(path).when(service).computeFolderPath(Mockito.anyString());
 
     boolean result = service.createSubFolderIfRequired("666");
 
-    File file = new File("C:\\test\\img\\actualites\\666");
+    File file = new File("src\\test\\resources\\img\\actualites\\666");
     Assert.assertTrue(file.isDirectory());
     Assert.assertTrue(result);
 
@@ -186,12 +186,12 @@ public class FileServiceImplTest {
 
   @Test
   public void testCreateSubFolderIfRequired_not_required() throws Exception {
-    File directory = new File("C:\\test\\img\\actualites");
+    File directory = new File("src\\test\\resources\\img\\actualites");
     directory.mkdir();
-    directory = new File("C:\\test\\img\\actualites\\666");
+    directory = new File("src\\test\\resources\\img\\actualites\\666");
     directory.mkdir();
 
-    Path path = Paths.get("C:\\test\\img\\actualites\\666");
+    Path path = Paths.get("src\\test\\resources\\img\\actualites\\666");
 
     BDDMockito.doReturn(path).when(service).computeFolderPath(Mockito.anyString());
 
@@ -291,7 +291,7 @@ public class FileServiceImplTest {
   public void testSaveFileOnSystem() throws Exception {
     String format = "png";
     File file = new File("someFile");
-    Path path = Paths.get("C:\\test\\img\\actualites\\666");
+    Path path = Paths.get("src\\test\\resources\\actualites\\666");
     byte[] data = new byte[]{1};
     BufferedImage bufferedImage = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 
@@ -300,13 +300,13 @@ public class FileServiceImplTest {
     BDDMockito.doReturn(format).when(service).extractFormatFromBase64(Mockito.anyString());
     BDDMockito.doReturn(path).when(service).computePath(Mockito.anyString(), Mockito.anyString());
     BDDMockito.doReturn(data).when(service).convertBase64ContentToBytes(Mockito.anyString(), Mockito.anyString());
-    BDDMockito.doReturn(bufferedImage).when(service).readBytesToBufferedImage(Mockito.anyString(),
-        Mockito.any(byte[].class));
+    BDDMockito.doReturn(bufferedImage).when(service)
+        .readBytesToBufferedImage(Mockito.anyString(), Mockito.any(byte[].class));
     BDDMockito.doReturn(file).when(service).instantiateFileFromPath(Mockito.any(Path.class));
     BDDMockito.doReturn(true).when(service).deleteFileIfExistsAndReturnResult(Mockito.any(File.class));
     BDDMockito.doNothing().when(service).createNewFile(Mockito.anyString(), Mockito.any(File.class));
-    BDDMockito.doReturn(file).when(service).writeBufferedImageToFile(Mockito.any(BufferedImage.class),
-        Mockito.any(File.class), Mockito.anyString());
+    BDDMockito.doReturn(file).when(service)
+        .writeBufferedImageToFile(Mockito.any(BufferedImage.class), Mockito.any(File.class), Mockito.anyString());
 
     File result = service.saveFileOnSystem("666", "someBase64");
 

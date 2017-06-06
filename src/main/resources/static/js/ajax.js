@@ -1,5 +1,11 @@
+$(document).ready(function(){
+	$(".loader-form-container").hide();
+});
+
 function postCreateNewsForm(){
 	
+	$("#newsEntryCreateForm").hide();
+	$(".loader-form-container").show();
 	var url = "/manager/news";
 	var data = JSON.stringify(validateAndCreateNewsEntry());
 	$.ajax({
@@ -10,6 +16,8 @@ function postCreateNewsForm(){
         crossDomain: true,
         dataType: "json",
         success: function (data) {
+        	$("#newsEntryCreateForm").show();
+        	$(".loader-form-container").hide();
         	if(data.error){
         		displayError(data.error);
         	}else{
@@ -21,6 +29,8 @@ function postCreateNewsForm(){
 
 function postUpdateNewsForm(){
 	
+	$("#newsEntryEditForm").hide();
+	$(".loader-form-container").show();
 	var newsEntryToUpdate = validateAndUpdateNewsEntry();
 	var url = "/manager/news/" + newsEntryToUpdate.id;
 	var urlFallback = "/manager/news";
@@ -33,6 +43,8 @@ function postUpdateNewsForm(){
         crossDomain: true,
         dataType: "json",
         success: function (data) {
+        	$("#newsEntryEditForm").show();
+    		$(".loader-form-container").hide();
         	if(data.error){
         		displayError(data.error);
         	}else{

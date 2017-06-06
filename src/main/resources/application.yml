@@ -25,5 +25,5 @@ server:
   port: 3232  # HTTP (Tomcat) port
   
   
-fileBasePath: "C:/test/img/actualites/"
+fileBasePath: "/home/lperrod/projets/cmpl/img/actualites/"
   

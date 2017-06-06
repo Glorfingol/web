@@ -1,20 +1,22 @@
 <div class="row">
-    <div class="col-xs-12">
-        <div class="nav-bar navbar-default">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-            </div>
-             <div class="navbar-collapse collapse sidebar-navbar-collapse" id="navbarCollapse">
-                 <ul id="menu" class="nav navbar-nav">
-                    <li id="menu_index" class="menu-item" th:each="menuItem : ${menuItems}">
-                        <a th:title="${menuItem.title}" th:href="${menuItem.href}" th:text="${menuItem.label}"></a>
+    <div class="col">
+        <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+             <button type="button" class="navbar-toggler navbar-toggler-right" 
+                    data-toggle="collapse" 
+                    data-target="#navbarSupportedContent" 
+                    aria-controls="navbarSupportedContent" 
+                    aria-expanded="false"
+             >
+                <span class="navbar-toggler-icon"></span>
+             </button>
+             <a class="navbar-brand hidden-lg-up" href="#">Menu</a>
+             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                 <ul id="menu" class="navbar-nav mr-auto">
+                    <li id="menu_index" class="nav-item" th:each="menuItem : ${menuItems}" th:classappend="${menuItem.customCssClass}">
+                        <a class="nav-link" th:title="${menuItem.title}" th:href="${menuItem.href}" th:text="${menuItem.label}"></a>
                     </li>
                 </ul>
             </div>
-        </div>
+        </nav>
     </div>
 </div>

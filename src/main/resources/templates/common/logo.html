@@ -1,12 +1,12 @@
 <div class="row">
-	<div class="col-xs-9 col-xs-offset-3 hidden-sm hidden-xs">
-	   <a th:href="${hiddenLink}">
-	      <img class="mainLogo" th:src="@{../../img/logo/logo.jpg}" width="727" height="398" alt="Logo Centre Médical Paul Langevin"/>
-	   </a>
-	</div>
-	   <div class="col-xs-8 col-xs-offset-4 hidden-lg hidden-md">
-	    <a th:href="${hiddenLink}">
-	       <img class="mainLogo" th:src="@{../../img/logo/logoSmall.jpg}" width="165" height="151" alt="Petit logo Centre Médical Paul Langevin"/>
-	    </a>
+    <div class="col align-self-center hidden-sm-down">
+       <a th:href="${hiddenLink}">
+          <img class="img-fluid mx-auto d-block" th:src="@{../../img/logo/logo.jpg}" width="727" height="398" alt="Logo Centre Médical Paul Langevin"/>
+       </a>
+    </div>
+       <div class="col align-self-center hidden-md-up">
+        <a th:href="${hiddenLink}">
+           <img class="img-fluid mx-auto d-block" th:src="@{../../img/logo/logoSmall.jpg}" width="165" height="151" alt="Petit logo Centre Médical Paul Langevin"/>
+        </a>
     </div>
 </div>

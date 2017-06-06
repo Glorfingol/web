@@ -51,7 +51,9 @@ public class NewsManagerController {
     LOGGER.info("Tentative de création d'une entrée de blog");
     try {
       NewsEntryResponse response = dispatcher.createEntity(newsEntryRequest, Locale.FRANCE);
-      LOGGER.info("Entrée crée, id " + response.getNewsEntry().getId());
+      if (response.getNewsEntry() != null) {
+        LOGGER.info("Entrée crée, id " + response.getNewsEntry().getId());
+      }
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
