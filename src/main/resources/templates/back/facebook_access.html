@@ -1,5 +1,5 @@
 <div id="accordion">
-    <form action="/connect/facebook" method="POST">
+    <form id="connectToFacebook" action="/connect/facebook" method="POST">
 	    <div class="card">
 		    <div class="card-header">
 		        <h3 th:text="${accessTitle}"/>
@@ -21,5 +21,8 @@
 		     </div>
 	     </div>
 	</form>
+	 <div class="card">
+        <div class="loader"/> 
+     </div>
 </div>
            

@@ -1,3 +1,4 @@
 <div class="card-block">
-   <span>Link: </span><span th:text="${feed.linkUrl}"></span>
+   <span>Link: </span>
+   <a class="card-text" th:href="${feed.linkUrl}" th:text="${feed.description}"/>
 </div>

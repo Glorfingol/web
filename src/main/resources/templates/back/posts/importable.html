@@ -6,7 +6,7 @@
 	            <span th:text="${importOneLabel}"/>
 	         </label>
 	    </div>
-	     <h3 th:text="${feed.title}"/>
+	     <h3 class="card-title" th:text="${feed.title}"/>
     </div>
 </div>
 <div th:if="${feed.link}" th:include="back/posts/link" />

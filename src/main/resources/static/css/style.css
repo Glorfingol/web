@@ -42,3 +42,23 @@ ul.dropdown-menu{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.card-block{
+	word-break:break-all;
+}
+
+.video-container{
+	position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container iframe{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}

@@ -1,3 +1,6 @@
 <div class="card-block">
-   <span>Video: </span><span th:text="${feed.videoUrl}"></span>
+   <div class="video-container">
+	   <iframe th:src="${feed.videoUrl}">
+		</iframe>
+	</div>
 </div>

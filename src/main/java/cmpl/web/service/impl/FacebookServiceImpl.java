@@ -36,18 +36,16 @@ public class FacebookServiceImpl implements FacebookService {
       throw new BaseException();
     }
 
-    PagedList<Post> recentFeeds = facebookConnector.feedOperations().getFeed();
+    PagedList<Post> recentPosts = facebookConnector.feedOperations().getPosts();
 
-    return computeImportablePosts(recentFeeds);
+    return computeImportablePosts(recentPosts);
   }
 
-  List<ImportablePost> computeImportablePosts(PagedList<Post> recentFeeds) {
+  List<ImportablePost> computeImportablePosts(PagedList<Post> recentPosts) {
     List<ImportablePost> importablePosts = new ArrayList<>();
-    for (Post feed : recentFeeds) {
-      if (!PostType.UNKNOWN.equals(feed.getType())) {
-        ImportablePost post = computeImportablePost(feed);
-        importablePosts.add(post);
-      }
+    for (Post recentPost : recentPosts) {
+      ImportablePost post = computeImportablePost(recentPost);
+      importablePosts.add(post);
     }
     return importablePosts;
   }
@@ -56,14 +54,32 @@ public class FacebookServiceImpl implements FacebookService {
     ImportablePost post = new ImportablePost();
     post.setAuthor(feed.getFrom().getName());
     post.setDescription(computeDescription(feed));
-    post.setPhotoUrl(feed.getPicture());
+    post.setPhotoUrl(computePhotoUrl(feed));
     post.setLinkUrl(feed.getLink());
-    post.setVideoUrl(feed.getSource());
+    post.setVideoUrl(computeVideoUrl(feed));
     post.setTitle(computeTitle(feed));
     post.setType(feed.getType());
     post.setFacebookId(feed.getId());
     post.setOnclick(computeOnclick(feed));
     return post;
+  }
+
+  private String computePhotoUrl(Post feed) {
+    if (!PostType.PHOTO.equals(feed.getType())) {
+      return "";
+    }
+    // Pour enregistrer image
+    // byte[] test = facebookConnector.mediaOperations().getAlbumImage(feed.getObjectId(), ImageType.NORMAL);
+    return feed.getPicture();
+  }
+
+  private String computeVideoUrl(Post feed) {
+    String videoUrl = feed.getSource();
+    if (StringUtils.isEmpty(videoUrl)) {
+      return videoUrl;
+    }
+    videoUrl = videoUrl.replace("autoplay=1", "autoplay=0");
+    return videoUrl;
   }
 
   private String computeOnclick(Post feed) {

@@ -7,10 +7,10 @@
 	</div>
 	<div class="card-block" th:if="${newsEntry.displayContent || newsEntry.displayImage}">
 	   <figure th:if="${newsEntry.displayImage}">
-	       <img class="newsImage" th:src="${newsEntry.image}" th:alt="${newsEntry.alt}" th:height="${newsEntry.imageHeight}" th:width="${newsEntry.imageWidth}"/>
+	       <img class="img-fluid mx-auto d-block" th:src="${newsEntry.image}" th:alt="${newsEntry.alt}" th:height="${newsEntry.imageHeight}" th:width="${newsEntry.imageWidth}"/>
 	       <figcaption class="text-right" th:text="${newsEntry.legend}"/>
 	   </figure> 
-	   <p th:if="${newsEntry.displayContent}" th:text="${newsEntry.content}"/>
+	   <p class="card-text" th:if="${newsEntry.displayContent}" th:text="${newsEntry.content}"/>
 	</div>
 	<div class="card-footer" th:if="${newsEntry.displayTags}">
 	   <div class="form-inline">

@@ -1,5 +1,14 @@
 $(document).ready(function(){
 	$(".loader").hide();
+	
+	$("#loginForm").submit(function(){
+		$(".loader").show();
+		$("#loginForm").hide();
+	});
+	$("#connectToFacebook").submit(function(){
+		$(".loader").show();
+		$("#connectToFacebook").hide();
+	});
 });
 
 function postCreateNewsForm(){
