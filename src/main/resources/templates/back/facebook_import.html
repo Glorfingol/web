@@ -1,26 +1,23 @@
-<div class="card">
-  <div th:if="${feeds}" class="card-block">
-  <div class="card">
-  <div class="card-block">
-  <form>
-       <div class="form-control">
+ <form>
+	<div class="card">
+	  <div class="card-header">
         <div class="checkbox">
-	        <label>
-	            <input type="checkbox" id="importAll" value=""/>
-	            <span th:text="${importAllLabel}"/>
-	        </label>
+            <label>
+                <input type="checkbox" id="importAll" value=""/>
+                <span th:text="${importAllLabel}"/>
+            </label>
         </div>
-      </div>
-      <div class="pull-right">
-        <a class="btn btn-lg btn-primary fa fa-cloud-download fa-white"  onclick="importSelection()"/>
-      </div>
-  </form>
-      
-  </div>
-  </div>
-   <div class="card" th:each="feed : ${feeds}">
-      <div th:replace="back/posts/importable"/>
-   </div>
-  </div>     
-</div>
+	  </div>
+	  <div th:if="${feeds}" class="card-block">
+		<div class="card mb-3" th:each="feed : ${feeds}">
+	        <div th:replace="back/posts/importable"/>
+		</div>
+	  </div>
+	  <div class="card-footer">
+		<div class="text-center">
+		    <a class="btn btn-lg btn-primary fa fa-cloud-download fa-white"  onclick="importSelection()"/>
+		</div>
+	  </div>     
+	</div>
+</form>
            

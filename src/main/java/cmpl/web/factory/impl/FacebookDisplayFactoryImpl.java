@@ -96,7 +96,7 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
     try {
       facebookService.getRecentFeed();
     } catch (BaseException e) {
-      LOGGER.info("Utilisateur non connecté", e);
+      LOGGER.info("Utilisateur facebook non connecté");
       return false;
     }
     return true;
