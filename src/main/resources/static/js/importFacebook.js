@@ -1,7 +1,6 @@
 var postsToImport = [];
+var checkBoxSelector = "input[type='checkbox']";
 $(document).ready(function(){
-	
-	var checkBoxSelector = "input[type='checkbox']";
 	$(checkBoxSelector).each(function(){
 		if(!isImportAllCheckBox(this.id)){
 			$(this).change(function(){

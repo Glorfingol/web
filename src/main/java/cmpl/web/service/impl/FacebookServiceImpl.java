@@ -45,9 +45,18 @@ public class FacebookServiceImpl implements FacebookService {
     List<ImportablePost> importablePosts = new ArrayList<>();
     for (Post recentPost : recentPosts) {
       ImportablePost post = computeImportablePost(recentPost);
-      importablePosts.add(post);
+      if (canImportPost(post)) {
+        importablePosts.add(post);
+      }
     }
     return importablePosts;
+  }
+
+  private boolean canImportPost(ImportablePost post) {
+    if (PostType.STATUS.equals(post.getType()) && StringUtils.isEmpty(post.getDescription())) {
+      return false;
+    }
+    return true;
   }
 
   private ImportablePost computeImportablePost(Post feed) {
