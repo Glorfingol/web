@@ -103,7 +103,7 @@ public class ServicesConfigurationTest {
 
   @Test
   public void testFacebookService() throws Exception {
-    FacebookService result = configuration.facebookService(facebookConnector, connectionRepository);
+    FacebookService result = configuration.facebookService(facebookConnector, connectionRepository, newsEntryService);
 
     Assert.assertEquals(FacebookServiceImpl.class, result.getClass());
   }

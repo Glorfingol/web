@@ -86,6 +86,25 @@ function computeIsToImport(facebookId){
 
 function computePostToImport(facebookId){
 	var postToImport = {};
+	
+	var inputAuthor = $("#feed_author_" + facebookId);
+	var inputTitle = $("#feed_title_"+ facebookId);
+	var inputType = $("#feed_type_"+ facebookId);
+	var inputDescription = $("#feed_description_"+ facebookId);
+	var inputPhotoUrl = $("#feed_photoUr_"+ facebookId);
+	var inputVideoUrl = $("#feed_videoUrl_"+ facebookId);
+	var inputLinkUrl = $("#feed_linkUrl_"+ facebookId);
+	var inputCreationDate = $("#feed_creationDate_"+ facebookId);
+	
 	postToImport.facebookId = facebookId;
+	postToImport.author = inputAuthor.val();
+	postToImport.title = inputTitle.val();
+	postToImport.type = inputType.val();
+	postToImport.description = inputDescription.val();
+	postToImport.photoUrl = inputPhotoUrl.val();
+	postToImport.videoUrl = inputVideoUrl.val();
+	postToImport.linkUrl = inputLinkUrl.val();
+	postToImport.creationDate = inputCreationDate.val();
+	
 	return postToImport;
 }

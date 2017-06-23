@@ -1,10 +1,8 @@
 package cmpl.web.model.facebook;
 
-import java.util.Date;
-
 import org.springframework.social.facebook.api.Post.PostType;
 
-public class ImportablePost {
+public class FacebookImportPost {
 
   private String author;
   private String title;
@@ -14,10 +12,7 @@ public class ImportablePost {
   private String videoUrl;
   private String linkUrl;
   private String facebookId;
-  private Date creationDate;
-  private String formattedDate;
-
-  private String onclick;
+  private String creationDate;
 
   public String getAuthor() {
     return author;
@@ -75,22 +70,6 @@ public class ImportablePost {
     this.linkUrl = linkUrl;
   }
 
-  public boolean isPhoto() {
-    return PostType.PHOTO.equals(this.type);
-  }
-
-  public boolean isStatus() {
-    return PostType.STATUS.equals(this.type);
-  }
-
-  public boolean isLink() {
-    return PostType.LINK.equals(this.type);
-  }
-
-  public boolean isVideo() {
-    return PostType.VIDEO.equals(this.type);
-  }
-
   public String getFacebookId() {
     return facebookId;
   }
@@ -99,28 +78,12 @@ public class ImportablePost {
     this.facebookId = facebookId;
   }
 
-  public String getOnclick() {
-    return onclick;
-  }
-
-  public void setOnclick(String onclick) {
-    this.onclick = onclick;
-  }
-
-  public Date getCreationDate() {
+  public String getCreationDate() {
     return creationDate;
   }
 
-  public void setCreationDate(Date creationDate) {
+  public void setCreationDate(String creationDate) {
     this.creationDate = creationDate;
-  }
-
-  public String getFormattedDate() {
-    return formattedDate;
-  }
-
-  public void setFormattedDate(String formattedDate) {
-    this.formattedDate = formattedDate;
   }
 
 }

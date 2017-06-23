@@ -1,5 +1,6 @@
 package cmpl.web.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,20 +14,26 @@ import org.springframework.util.StringUtils;
 import cmpl.web.model.BaseException;
 import cmpl.web.model.facebook.ImportablePost;
 import cmpl.web.service.FacebookService;
+import cmpl.web.service.NewsEntryService;
 
 public class FacebookServiceImpl implements FacebookService {
 
   private final Facebook facebookConnector;
   private final ConnectionRepository connectionRepository;
+  private final String dateFormat;
+  private final NewsEntryService newsEntryService;
 
-  private FacebookServiceImpl(Facebook facebookConnector, ConnectionRepository connectionRepository) {
+  private FacebookServiceImpl(Facebook facebookConnector, ConnectionRepository connectionRepository,
+      NewsEntryService newsEntryService, String dateFormat) {
     this.facebookConnector = facebookConnector;
     this.connectionRepository = connectionRepository;
+    this.dateFormat = dateFormat;
+    this.newsEntryService = newsEntryService;
   }
 
   public static FacebookServiceImpl fromFacebookConnector(Facebook facebookConnector,
-      ConnectionRepository connectionRepository) {
-    return new FacebookServiceImpl(facebookConnector, connectionRepository);
+      ConnectionRepository connectionRepository, NewsEntryService newsEntryService, String dateFormat) {
+    return new FacebookServiceImpl(facebookConnector, connectionRepository, newsEntryService, dateFormat);
   }
 
   @Override
@@ -42,9 +49,10 @@ public class FacebookServiceImpl implements FacebookService {
   }
 
   List<ImportablePost> computeImportablePosts(PagedList<Post> recentPosts) {
+    SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
     List<ImportablePost> importablePosts = new ArrayList<>();
     for (Post recentPost : recentPosts) {
-      ImportablePost post = computeImportablePost(recentPost);
+      ImportablePost post = computeImportablePost(recentPost, formatter);
       if (canImportPost(post)) {
         importablePosts.add(post);
       }
@@ -56,10 +64,13 @@ public class FacebookServiceImpl implements FacebookService {
     if (PostType.STATUS.equals(post.getType()) && StringUtils.isEmpty(post.getDescription())) {
       return false;
     }
+    if (newsEntryService.isAlreadyImportedFromFacebook(post.getFacebookId())) {
+      return false;
+    }
     return true;
   }
 
-  private ImportablePost computeImportablePost(Post feed) {
+  private ImportablePost computeImportablePost(Post feed, SimpleDateFormat formatter) {
     ImportablePost post = new ImportablePost();
     post.setAuthor(feed.getFrom().getName());
     post.setDescription(computeDescription(feed));
@@ -70,6 +81,10 @@ public class FacebookServiceImpl implements FacebookService {
     post.setType(feed.getType());
     post.setFacebookId(feed.getId());
     post.setOnclick(computeOnclick(feed));
+    post.setCreationDate(feed.getCreatedTime());
+
+    post.setFormattedDate(formatter.format(feed.getCreatedTime()));
+
     return post;
   }
 

@@ -10,6 +10,7 @@ import cmpl.web.message.WebMessageSource;
 import cmpl.web.repository.NewsContentRepository;
 import cmpl.web.repository.NewsEntryRepository;
 import cmpl.web.repository.NewsImageRepository;
+import cmpl.web.service.FacebookImportService;
 import cmpl.web.service.FacebookService;
 import cmpl.web.service.FileService;
 import cmpl.web.service.ImageConverterService;
@@ -17,6 +18,7 @@ import cmpl.web.service.NewsContentService;
 import cmpl.web.service.NewsEntryService;
 import cmpl.web.service.NewsImageService;
 import cmpl.web.service.SitemapService;
+import cmpl.web.service.impl.FacebookImportServiceImpl;
 import cmpl.web.service.impl.FacebookServiceImpl;
 import cmpl.web.service.impl.FileServiceImpl;
 import cmpl.web.service.impl.ImageConverterServiceImpl;
@@ -64,7 +66,15 @@ public class ServicesConfiguration {
   }
 
   @Bean
-  FacebookService facebookService(Facebook facebookConnector, ConnectionRepository connectionRepository) {
-    return FacebookServiceImpl.fromFacebookConnector(facebookConnector, connectionRepository);
+  FacebookService facebookService(Facebook facebookConnector, ConnectionRepository connectionRepository,
+      NewsEntryService newsEntryService) {
+    String dateFormat = "dd/MM/yy";
+    return FacebookServiceImpl.fromFacebookConnector(facebookConnector, connectionRepository, newsEntryService,
+        dateFormat);
+  }
+
+  @Bean
+  FacebookImportService facebookImportService(NewsEntryService newsEntryService) {
+    return FacebookImportServiceImpl.fromService(newsEntryService);
   }
 }
