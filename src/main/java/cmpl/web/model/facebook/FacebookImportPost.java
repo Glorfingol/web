@@ -13,6 +13,7 @@ public class FacebookImportPost {
   private String linkUrl;
   private String facebookId;
   private String creationDate;
+  private String objectId;
 
   public String getAuthor() {
     return author;
@@ -84,6 +85,14 @@ public class FacebookImportPost {
 
   public void setCreationDate(String creationDate) {
     this.creationDate = creationDate;
+  }
+
+  public String getObjectId() {
+    return objectId;
+  }
+
+  public void setObjectId(String objectId) {
+    this.objectId = objectId;
   }
 
 }

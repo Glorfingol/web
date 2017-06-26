@@ -74,7 +74,7 @@ public class ServicesConfiguration {
   }
 
   @Bean
-  FacebookImportService facebookImportService(NewsEntryService newsEntryService) {
-    return FacebookImportServiceImpl.fromService(newsEntryService);
+  FacebookImportService facebookImportService(NewsEntryService newsEntryService, Facebook facebookConnector) {
+    return FacebookImportServiceImpl.fromService(newsEntryService, facebookConnector);
   }
 }

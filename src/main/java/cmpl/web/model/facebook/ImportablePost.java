@@ -16,6 +16,7 @@ public class ImportablePost {
   private String facebookId;
   private Date creationDate;
   private String formattedDate;
+  private String objectId;
 
   private String onclick;
 
@@ -121,6 +122,14 @@ public class ImportablePost {
 
   public void setFormattedDate(String formattedDate) {
     this.formattedDate = formattedDate;
+  }
+
+  public String getObjectId() {
+    return objectId;
+  }
+
+  public void setObjectId(String objectId) {
+    this.objectId = objectId;
   }
 
 }

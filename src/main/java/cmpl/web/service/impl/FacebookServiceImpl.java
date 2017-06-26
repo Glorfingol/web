@@ -82,6 +82,7 @@ public class FacebookServiceImpl implements FacebookService {
     post.setFacebookId(feed.getId());
     post.setOnclick(computeOnclick(feed));
     post.setCreationDate(feed.getCreatedTime());
+    post.setObjectId(feed.getObjectId());
 
     post.setFormattedDate(formatter.format(feed.getCreatedTime()));
 

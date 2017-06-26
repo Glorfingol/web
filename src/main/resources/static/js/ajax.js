@@ -74,7 +74,7 @@ function postImportFacebook(){
 	$("#facebookImportForm").hide();
 	$(".loader").show();
 	var url = "/manager/facebook/import";
-	var urlFallback = "/manager/facebook/import";
+	var urlFallback = "/manager/news";
 	var request = {};
 	request.postsToImport = postsToImport;
 	var data = JSON.stringify(request);

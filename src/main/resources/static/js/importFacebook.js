@@ -95,6 +95,7 @@ function computePostToImport(facebookId){
 	var inputVideoUrl = $("#feed_videoUrl_"+ facebookId);
 	var inputLinkUrl = $("#feed_linkUrl_"+ facebookId);
 	var inputCreationDate = $("#feed_creationDate_"+ facebookId);
+	var inputObjectId = $("#feed_objectId_" + facebookId);
 	
 	postToImport.facebookId = facebookId;
 	postToImport.author = inputAuthor.val();
@@ -105,6 +106,7 @@ function computePostToImport(facebookId){
 	postToImport.videoUrl = inputVideoUrl.val();
 	postToImport.linkUrl = inputLinkUrl.val();
 	postToImport.creationDate = inputCreationDate.val();
+	postToImport.objectId = inputObjectId.val();
 	
 	return postToImport;
 }
