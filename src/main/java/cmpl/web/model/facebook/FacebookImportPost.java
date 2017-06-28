@@ -2,6 +2,12 @@ package cmpl.web.model.facebook;
 
 import org.springframework.social.facebook.api.Post.PostType;
 
+/**
+ * Objet pour importer un post facebook via un WS REST
+ * 
+ * @author Louis
+ *
+ */
 public class FacebookImportPost {
 
   private String author;

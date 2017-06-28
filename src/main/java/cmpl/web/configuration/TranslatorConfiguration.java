@@ -8,6 +8,12 @@ import cmpl.web.translator.NewsEntryTranslator;
 import cmpl.web.translator.impl.FacebookImportTranslatorImpl;
 import cmpl.web.translator.impl.NewsEntryTranslatorImpl;
 
+/**
+ * Configuration des translator
+ * 
+ * @author Louis
+ *
+ */
 @Configuration
 public class TranslatorConfiguration {
 

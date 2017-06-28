@@ -8,12 +8,23 @@ import cmpl.web.model.facebook.FacebookImportResponse;
 import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.translator.FacebookImportTranslator;
 
+/**
+ * Implementation du Translator pour les request d'import de post facebook
+ * 
+ * @author Louis
+ *
+ */
 public class FacebookImportTranslatorImpl implements FacebookImportTranslator {
 
   private FacebookImportTranslatorImpl() {
 
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @return
+   */
   public static FacebookImportTranslatorImpl fromVoid() {
     return new FacebookImportTranslatorImpl();
   }

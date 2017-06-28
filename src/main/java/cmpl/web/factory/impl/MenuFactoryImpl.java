@@ -13,12 +13,24 @@ import cmpl.web.model.menu.SUB_MENU;
 import cmpl.web.model.page.BACK_PAGE;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Implementation de l'interface pour la factory du menu
+ * 
+ * @author Louis
+ *
+ */
 public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
 
   private MenuFactoryImpl(WebMessageSourceImpl messageSource) {
     super(messageSource);
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param messageSource
+   * @return
+   */
   public static MenuFactoryImpl fromMessageSource(WebMessageSourceImpl messageSource) {
     return new MenuFactoryImpl(messageSource);
   }
@@ -89,8 +101,7 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
   }
 
   String computeCustomCssClass(PAGE page, MENU menu) {
-    String customCssClass = page.getTitle().equals(menu.getTitle()) ? "active" : "";
-    return customCssClass;
+    return page.getTitle().equals(menu.getTitle()) ? "active" : "";
   }
 
   MenuItem computeMenuItem(BACK_PAGE backPage, BACK_MENU backMenu, Locale locale) {

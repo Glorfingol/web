@@ -2,6 +2,12 @@ package cmpl.web.model.menu;
 
 import java.util.List;
 
+/**
+ * Objet representant un element du menu
+ * 
+ * @author Louis
+ *
+ */
 public class MenuItem {
 
   private String title;

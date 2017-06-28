@@ -1,5 +1,11 @@
 package cmpl.web.model.news.display;
 
+/**
+ * Bean pour les labels du formulaire de NewsEntry
+ * 
+ * @author Louis
+ *
+ */
 public class NewsFormDisplayBean {
 
   private String titleLabel;

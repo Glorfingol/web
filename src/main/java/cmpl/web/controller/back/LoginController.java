@@ -12,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.factory.LoginDisplayFactory;
 import cmpl.web.model.page.BACK_PAGE;
 
+/**
+ * Controller pour afficher la page de login
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class LoginController {
 
@@ -19,11 +25,21 @@ public class LoginController {
 
   private final LoginDisplayFactory displayFactory;
 
+  /**
+   * Constructeur en autowired
+   * 
+   * @param displayFactory
+   */
   @Autowired
-  public LoginController(LoginDisplayFactory displayFactory) {
+  LoginController(LoginDisplayFactory displayFactory) {
     this.displayFactory = displayFactory;
   }
 
+  /**
+   * Mapping pour la page de login
+   * 
+   * @return
+   */
   @GetMapping(value = "/login")
   public ModelAndView printLogin() {
 

@@ -1,5 +1,11 @@
 package cmpl.web.model.menu;
 
+/**
+ * Enumeration pour les sous menu du menu du front office
+ * 
+ * @author Louis
+ *
+ */
 public enum SUB_MENU {
 
   LASER_SOPRANO("soprano.href", "soprano.label", MENU.TECHNICS),

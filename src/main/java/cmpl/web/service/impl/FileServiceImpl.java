@@ -16,6 +16,12 @@ import cmpl.web.model.BaseException;
 import cmpl.web.service.FileService;
 import cmpl.web.service.ImageConverterService;
 
+/**
+ * Implementation de l'interface pour gerer les fichiers
+ * 
+ * @author Louis
+ *
+ */
 public class FileServiceImpl implements FileService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ImageConverterServiceImpl.class);
@@ -32,6 +38,13 @@ public class FileServiceImpl implements FileService {
     this.imageConverterService = imageConverterService;
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param fileBasePath
+   * @param imageConverterService
+   * @return
+   */
   public static FileServiceImpl fromStringAndService(String fileBasePath, ImageConverterService imageConverterService) {
     return new FileServiceImpl(fileBasePath, imageConverterService);
   }

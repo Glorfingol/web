@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cmpl.web.model.BaseException;
 import cmpl.web.service.SitemapService;
 
+/**
+ * Controller du sitemap
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class SitemapController {
 
@@ -24,6 +30,11 @@ public class SitemapController {
     this.sitemapService = sitemapService;
   }
 
+  /**
+   * Mapping pour le sitemap
+   * 
+   * @return
+   */
   @GetMapping(value = {"/sitemap.xml"}, produces = "application/xml")
   @ResponseBody
   public String printSitemap() {

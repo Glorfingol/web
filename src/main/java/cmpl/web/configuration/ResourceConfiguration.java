@@ -5,9 +5,20 @@ import org.springframework.context.annotation.Configuration;
 
 import cmpl.web.message.impl.WebMessageSourceImpl;
 
+/**
+ * Configuration des cles i18n
+ * 
+ * @author Louis
+ *
+ */
 @Configuration
 public class ResourceConfiguration {
 
+  /**
+   * Declaration des sources de cles i18n
+   * 
+   * @return
+   */
   @Bean
   public WebMessageSourceImpl messageSource() {
     WebMessageSourceImpl source = new WebMessageSourceImpl();

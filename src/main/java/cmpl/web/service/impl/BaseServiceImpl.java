@@ -12,10 +12,23 @@ import cmpl.web.model.news.dto.BaseDTO;
 import cmpl.web.repository.BaseRepository;
 import cmpl.web.service.BaseService;
 
+/**
+ * Implementation abstraire du service lie aux DAO
+ * 
+ * @author Louis
+ *
+ * @param <D>
+ * @param <E>
+ */
 public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> implements BaseService<D> {
 
   private final BaseRepository<E> entityRepository;
 
+  /**
+   * Constructeur a appeler via super
+   * 
+   * @param entityRepository
+   */
   public BaseServiceImpl(BaseRepository<E> entityRepository) {
     this.entityRepository = entityRepository;
   }

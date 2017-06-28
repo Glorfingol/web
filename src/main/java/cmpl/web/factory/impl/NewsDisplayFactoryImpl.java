@@ -18,6 +18,12 @@ import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.model.page.PAGE;
 import cmpl.web.service.NewsEntryService;
 
+/**
+ * Implementation de l'interface pour la factory des pages d'actualite sur le front
+ * 
+ * @author Louis
+ *
+ */
 public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDisplayFactory {
 
   private NewsEntryService newsEntryService;
@@ -30,6 +36,17 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     this.newsEntryService = newsEntryService;
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param menuFactory
+   * @param footerFactory
+   * @param metaElementFactory
+   * @param carouselFactory
+   * @param messageSource
+   * @param newsEntryService
+   * @return
+   */
   public static NewsDisplayFactoryImpl fromFactoriesAndMessageResourceAndServices(MenuFactory menuFactory,
       FooterFactory footerFactory, MetaElementFactory metaElementFactory, CarouselFactory carouselFactory,
       WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {

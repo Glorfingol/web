@@ -17,6 +17,12 @@ import cmpl.web.model.news.rest.news.NewsEntryRequest;
 import cmpl.web.model.news.rest.news.NewsImageRequest;
 import cmpl.web.validator.NewsEntryRequestValidator;
 
+/**
+ * Implementation de l'interface de validation des modifications de NewsEntry
+ * 
+ * @author Louis
+ *
+ */
 public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator {
 
   private final WebMessageSourceImpl messageSource;
@@ -25,6 +31,12 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
     this.messageSource = messageSource;
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param messageSource
+   * @return
+   */
   public static NewsEntryRequestValidatorImpl fromMessageSource(WebMessageSourceImpl messageSource) {
     return new NewsEntryRequestValidatorImpl(messageSource);
   }

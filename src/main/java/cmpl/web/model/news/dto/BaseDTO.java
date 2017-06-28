@@ -2,6 +2,12 @@ package cmpl.web.model.news.dto;
 
 import java.util.Date;
 
+/**
+ * DTO commun
+ * 
+ * @author Louis
+ *
+ */
 public abstract class BaseDTO {
 
   private Long id;

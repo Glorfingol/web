@@ -27,6 +27,12 @@ import com.redfin.sitemapgenerator.ChangeFreq;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
 
+/**
+ * Implementation de l'interface gerant le sitemap
+ * 
+ * @author Louis
+ *
+ */
 public class SitemapServiceImpl implements SitemapService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SitemapServiceImpl.class);
@@ -37,11 +43,18 @@ public class SitemapServiceImpl implements SitemapService {
 
   private final NewsEntryService newsEntryService;
 
-  public SitemapServiceImpl(NewsEntryService newsEntryService, WebMessageSource messageSource) {
+  private SitemapServiceImpl(NewsEntryService newsEntryService, WebMessageSource messageSource) {
     this.newsEntryService = newsEntryService;
     this.messageSource = messageSource;
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param newsEntryService
+   * @param messageSource
+   * @return
+   */
   public static SitemapServiceImpl fromService(NewsEntryService newsEntryService, WebMessageSource messageSource) {
     return new SitemapServiceImpl(newsEntryService, messageSource);
   }

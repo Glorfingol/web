@@ -12,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Controller pour les horaires d'ouverture
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class OpeningHoursController {
 
@@ -23,6 +29,11 @@ public class OpeningHoursController {
     this.displayFactory = displayFactory;
   }
 
+  /**
+   * Mapping pour les horaires d'ouverture
+   * 
+   * @return
+   */
   @GetMapping(value = "/horaires")
   public ModelAndView printOpeningHours() {
 

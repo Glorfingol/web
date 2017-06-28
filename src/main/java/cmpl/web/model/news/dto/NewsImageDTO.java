@@ -1,5 +1,11 @@
 package cmpl.web.model.news.dto;
 
+/**
+ * DTO NewsImage
+ * 
+ * @author Louis
+ *
+ */
 public class NewsImageDTO extends BaseDTO {
 
   private String src;

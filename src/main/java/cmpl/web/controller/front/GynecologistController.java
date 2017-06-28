@@ -12,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Controller pour la page Gynecologie
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class GynecologistController {
 
@@ -23,6 +29,11 @@ public class GynecologistController {
     this.displayFactory = displayFactory;
   }
 
+  /**
+   * Mapping pour la page gynecologie
+   * 
+   * @return
+   */
   @GetMapping(value = "/gynecologue")
   public ModelAndView printGenitalAesthetic() {
 

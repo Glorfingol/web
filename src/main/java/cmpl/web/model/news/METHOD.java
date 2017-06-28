@@ -1,5 +1,11 @@
 package cmpl.web.model.news;
 
+/**
+ * Enumeration listant les mutateurs possibles
+ * 
+ * @author Louis
+ *
+ */
 public enum METHOD {
 
   SETTER("set"),

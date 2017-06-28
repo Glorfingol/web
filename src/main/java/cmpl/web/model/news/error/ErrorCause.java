@@ -1,5 +1,11 @@
 package cmpl.web.model.news.error;
 
+/**
+ * Cause d'erreur
+ * 
+ * @author Louis
+ *
+ */
 public class ErrorCause {
 
   private String code;

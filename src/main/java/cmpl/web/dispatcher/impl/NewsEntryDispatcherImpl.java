@@ -12,6 +12,12 @@ import cmpl.web.service.NewsEntryService;
 import cmpl.web.translator.NewsEntryTranslator;
 import cmpl.web.validator.NewsEntryRequestValidator;
 
+/**
+ * Implementation du dispatcher pour les NewsEntry
+ * 
+ * @author Louis
+ *
+ */
 public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
 
   private final NewsEntryRequestValidator validator;
@@ -25,6 +31,14 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
     this.newsEntryService = newsEntryService;
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param validator
+   * @param translator
+   * @param newsEntryService
+   * @return
+   */
   public static NewsEntryDispatcherImpl fromValidatorAndTranslator(NewsEntryRequestValidator validator,
       NewsEntryTranslator translator, NewsEntryService newsEntryService) {
     return new NewsEntryDispatcherImpl(validator, translator, newsEntryService);

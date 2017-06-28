@@ -1,5 +1,11 @@
 package cmpl.web.model.meta;
 
+/**
+ * Objet representant un meta element pour les pages du site
+ * 
+ * @author Louis
+ *
+ */
 public class MetaElement {
 
   private String name;

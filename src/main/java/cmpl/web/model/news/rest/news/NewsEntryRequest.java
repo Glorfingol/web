@@ -2,6 +2,12 @@ package cmpl.web.model.news.rest.news;
 
 import java.util.Date;
 
+/**
+ * Requete NewsEntry
+ * 
+ * @author Louis
+ *
+ */
 public class NewsEntryRequest {
 
   private String author;

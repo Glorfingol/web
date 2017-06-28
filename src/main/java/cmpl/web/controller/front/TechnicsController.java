@@ -12,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Controller pour les techniques de soin
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class TechnicsController {
 
@@ -24,6 +30,11 @@ public class TechnicsController {
     this.displayFactory = displayFactory;
   }
 
+  /**
+   * Mapping pour les techniques de soin
+   * 
+   * @return
+   */
   @GetMapping(value = "/techniques")
   public ModelAndView printTechnicsTreatment() {
 

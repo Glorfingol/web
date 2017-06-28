@@ -2,6 +2,12 @@ package cmpl.web.model.facebook;
 
 import java.util.List;
 
+/**
+ * Requete poru importer des post facebook via WS REST
+ * 
+ * @author Louis
+ *
+ */
 public class FacebookImportRequest {
 
   private List<FacebookImportPost> postsToImport;

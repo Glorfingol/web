@@ -5,6 +5,12 @@ import java.util.Locale;
 import cmpl.web.factory.BaseDisplayFactory;
 import cmpl.web.message.WebMessageSource;
 
+/**
+ * Implementation de l'nterface commune de factory pour les pages
+ * 
+ * @author Louis
+ *
+ */
 public class BaseDisplayFactoryImpl extends BaseFactoryImpl implements BaseDisplayFactory {
 
   protected BaseDisplayFactoryImpl(WebMessageSource messageSource) {

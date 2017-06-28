@@ -7,6 +7,12 @@ import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.validator.NewsEntryRequestValidator;
 import cmpl.web.validator.impl.NewsEntryRequestValidatorImpl;
 
+/**
+ * Configuration des validator de requetes
+ * 
+ * @author Louis
+ *
+ */
 @Configuration
 public class ValidatorConfiguration {
 

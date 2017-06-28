@@ -23,6 +23,12 @@ import cmpl.web.model.news.rest.news.NewsEntryRequest;
 import cmpl.web.model.news.rest.news.NewsEntryResponse;
 import cmpl.web.model.page.BACK_PAGE;
 
+/**
+ * Controller pour la gestion des NewsEntry dans le back office
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class NewsManagerController {
 
@@ -37,6 +43,11 @@ public class NewsManagerController {
     this.dispatcher = dispatcher;
   }
 
+  /**
+   * Mapping pour la page d'affichage de toute les NewsEntry
+   * 
+   * @return
+   */
   @GetMapping(value = "/manager/news")
   public ModelAndView printViewNews() {
 
@@ -44,6 +55,12 @@ public class NewsManagerController {
     return newsManagerDisplayFactory.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, Locale.FRANCE);
   }
 
+  /**
+   * Mapping pour la creation d'une NewsEntry
+   * 
+   * @param newsEntryRequest
+   * @return
+   */
   @PostMapping(value = "/manager/news", produces = "application/json")
   @ResponseBody
   public ResponseEntity<NewsEntryResponse> createNewsEntry(@RequestBody NewsEntryRequest newsEntryRequest) {
@@ -62,6 +79,13 @@ public class NewsManagerController {
 
   }
 
+  /**
+   * Mapping pour la modification d'une NewsEntry
+   * 
+   * @param newsEntryId
+   * @param newsEntryRequest
+   * @return
+   */
   @PutMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
   @ResponseBody
   public ResponseEntity<NewsEntryResponse> updateNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId,
@@ -79,6 +103,12 @@ public class NewsManagerController {
 
   }
 
+  /**
+   * Mapping pour la suppression d'une NewsEntry
+   * 
+   * @param newsEntryId
+   * @return
+   */
   @DeleteMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
   @ResponseBody
   public ResponseEntity<NewsEntryResponse> deleteNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId) {
@@ -86,6 +116,12 @@ public class NewsManagerController {
     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
   }
 
+  /**
+   * Mapping pour la recuperation d'une NewsEntry
+   * 
+   * @param newsEntryId
+   * @return
+   */
   @GetMapping(value = "/manager/news/{newsEntryId}")
   public ModelAndView getNewsEntity(@PathVariable(value = "newsEntryId") String newsEntryId) {
 

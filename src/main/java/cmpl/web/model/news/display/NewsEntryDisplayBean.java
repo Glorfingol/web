@@ -10,6 +10,12 @@ import org.springframework.util.StringUtils;
 
 import cmpl.web.model.news.dto.NewsEntryDTO;
 
+/**
+ * Bean pour l'affichage des actualites sur le site
+ * 
+ * @author Louis
+ *
+ */
 public class NewsEntryDisplayBean {
 
   private final NewsEntryDTO newsEntryDTO;
@@ -20,6 +26,15 @@ public class NewsEntryDisplayBean {
   private static final String SPACE = " ";
   private static final String SEMICOLON = ";";
 
+  /**
+   * Constructeur a partir d'une NewsEntry, de labels et d'un format de date
+   * 
+   * @param newsEntryDTO
+   * @param labelPar
+   * @param labelLe
+   * @param dateFormat
+   * @param labelAccroche
+   */
   public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO, String labelPar, String labelLe, String dateFormat,
       String labelAccroche) {
     this.newsEntryDTO = newsEntryDTO;

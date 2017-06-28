@@ -12,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Controller pour la page des rendez-vous
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class AppointmentController {
 
@@ -23,6 +29,11 @@ public class AppointmentController {
     this.displayFactory = displayFactory;
   }
 
+  /**
+   * Mapping pour la page des rendez-vous
+   * 
+   * @return
+   */
   @GetMapping(value = "/rendez-vous")
   public ModelAndView printAppointments() {
 

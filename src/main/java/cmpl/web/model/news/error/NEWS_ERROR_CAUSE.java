@@ -1,5 +1,11 @@
 package cmpl.web.model.news.error;
 
+/**
+ * Enumeration des causes d'erreur
+ * 
+ * @author Louis
+ *
+ */
 public enum NEWS_ERROR_CAUSE {
 
   EMPTY_NEWS_ID("empty.id"),

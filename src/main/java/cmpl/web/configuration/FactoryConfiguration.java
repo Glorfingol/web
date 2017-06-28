@@ -25,6 +25,12 @@ import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.service.FacebookService;
 import cmpl.web.service.NewsEntryService;
 
+/**
+ * Configuration des factory
+ * 
+ * @author Louis
+ *
+ */
 @Configuration
 public class FactoryConfiguration {
 

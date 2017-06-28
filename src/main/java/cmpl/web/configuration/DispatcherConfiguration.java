@@ -13,6 +13,12 @@ import cmpl.web.translator.FacebookImportTranslator;
 import cmpl.web.translator.NewsEntryTranslator;
 import cmpl.web.validator.NewsEntryRequestValidator;
 
+/**
+ * Configuration des dispacther
+ * 
+ * @author Louis
+ *
+ */
 @Configuration
 public class DispatcherConfiguration {
 

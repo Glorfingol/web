@@ -13,6 +13,12 @@ import org.slf4j.LoggerFactory;
 import cmpl.web.model.news.dto.NewsImageDTO;
 import cmpl.web.service.ImageConverterService;
 
+/**
+ * Implementation de l'interface de gestion des images
+ * 
+ * @author Louis
+ *
+ */
 public class ImageConverterServiceImpl implements ImageConverterService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ImageConverterServiceImpl.class);
@@ -21,6 +27,11 @@ public class ImageConverterServiceImpl implements ImageConverterService {
   private ImageConverterServiceImpl() {
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @return
+   */
   public static ImageConverterServiceImpl fromVoid() {
     return new ImageConverterServiceImpl();
   }

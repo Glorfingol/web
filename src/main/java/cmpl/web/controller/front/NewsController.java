@@ -13,6 +13,12 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.factory.NewsDisplayFactory;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Controller sur les NewsEntry
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class NewsController {
 
@@ -24,6 +30,11 @@ public class NewsController {
     this.newsDisplayFactory = newsDisplayFactory;
   }
 
+  /**
+   * Mapping pour afficher toutes les NewsEntry
+   * 
+   * @return
+   */
   @GetMapping(value = "/actualites")
   public ModelAndView printNews() {
 
@@ -31,6 +42,12 @@ public class NewsController {
     return newsDisplayFactory.computeModelAndViewForPage(PAGE.NEWS, Locale.FRANCE);
   }
 
+  /**
+   * Mapping pour afficher une NewsEntry
+   * 
+   * @param newsEntryId
+   * @return
+   */
   @GetMapping(value = "/actualites/{newsEntryId}")
   public ModelAndView printNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId) {
 

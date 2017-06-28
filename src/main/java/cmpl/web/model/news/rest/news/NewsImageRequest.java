@@ -2,6 +2,12 @@ package cmpl.web.model.news.rest.news;
 
 import java.util.Date;
 
+/**
+ * Requete NewsImage
+ * 
+ * @author Louis
+ *
+ */
 public class NewsImageRequest {
 
   private String src;

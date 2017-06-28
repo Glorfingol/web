@@ -11,19 +11,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * Controller pour le robot d'indexation google et autres
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class RobotsController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RobotsController.class);
 
+  /**
+   * Mapping pour le robot d'indexation google et autres
+   * 
+   * @param response
+   */
   @GetMapping(value = {"/robots", "/robot", "/robot.txt", "/robots.txt"})
   @ResponseBody
   public void printRobot(HttpServletResponse response) {
 
     LOGGER.info("Accès à la page des robots");
-    InputStream resourceAsStream = null;
     ClassLoader classLoader = getClass().getClassLoader();
-    resourceAsStream = classLoader.getResourceAsStream("robot.txt");
+    InputStream resourceAsStream = classLoader.getResourceAsStream("robot.txt");
     modifyResponse(response, resourceAsStream);
 
   }

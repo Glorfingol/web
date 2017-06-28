@@ -1,5 +1,11 @@
 package cmpl.web.model.footer;
 
+/**
+ * Objet representant le footer du site
+ * 
+ * @author Louis
+ *
+ */
 public class Footer {
 
   private String libelle;

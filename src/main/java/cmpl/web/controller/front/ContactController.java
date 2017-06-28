@@ -12,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Controller pour la page de contact
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class ContactController {
 
@@ -23,6 +29,11 @@ public class ContactController {
     this.displayFactory = displayFactory;
   }
 
+  /**
+   * Mapping pour la page de contact
+   * 
+   * @return
+   */
   @GetMapping(value = "/contact")
   public ModelAndView printContact() {
 

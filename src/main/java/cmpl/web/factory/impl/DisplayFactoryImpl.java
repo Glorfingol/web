@@ -24,6 +24,12 @@ import cmpl.web.model.menu.MenuItem;
 import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Implementation de l'interface de factory pur generer des model and view pour les pages du site
+ * 
+ * @author Louis
+ *
+ */
 public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements DisplayFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(DisplayFactoryImpl.class);
@@ -41,6 +47,16 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     this.carouselFactory = carouselFactory;
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param menuFactory
+   * @param footerFactory
+   * @param metaElementFactory
+   * @param carouselFactory
+   * @param messageSource
+   * @return
+   */
   public static DisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory,
       FooterFactory footerFactory, MetaElementFactory metaElementFactory, CarouselFactory carouselFactory,
       WebMessageSourceImpl messageSource) {

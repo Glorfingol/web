@@ -7,6 +7,7 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 
 import cmpl.web.message.WebMessageSource;
+import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.repository.NewsContentRepository;
 import cmpl.web.repository.NewsEntryRepository;
 import cmpl.web.repository.NewsImageRepository;
@@ -27,6 +28,12 @@ import cmpl.web.service.impl.NewsEntryServiceImpl;
 import cmpl.web.service.impl.NewsImageServiceImpl;
 import cmpl.web.service.impl.SitemapServiceImpl;
 
+/**
+ * Configuration des services
+ * 
+ * @author Louis
+ *
+ */
 @Configuration
 public class ServicesConfiguration {
 
@@ -74,7 +81,8 @@ public class ServicesConfiguration {
   }
 
   @Bean
-  FacebookImportService facebookImportService(NewsEntryService newsEntryService, Facebook facebookConnector) {
-    return FacebookImportServiceImpl.fromService(newsEntryService, facebookConnector);
+  FacebookImportService facebookImportService(NewsEntryService newsEntryService, Facebook facebookConnector,
+      WebMessageSourceImpl messageSource) {
+    return FacebookImportServiceImpl.fromService(newsEntryService, facebookConnector, messageSource);
   }
 }

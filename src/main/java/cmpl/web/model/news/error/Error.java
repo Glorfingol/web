@@ -2,6 +2,12 @@ package cmpl.web.model.news.error;
 
 import java.util.List;
 
+/**
+ * Classe d'erreur contenant des causes
+ * 
+ * @author Louis
+ *
+ */
 public class Error extends ErrorCause {
 
   private List<ErrorCause> causes;

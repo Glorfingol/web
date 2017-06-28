@@ -1,5 +1,11 @@
 package cmpl.web.model.page;
 
+/**
+ * Enumeration pour les pages du front office du site
+ * 
+ * @author Louis
+ *
+ */
 public enum PAGE {
 
   APPOINTMENT("appointment.tile", "appointment.title", "appointment.description", false),

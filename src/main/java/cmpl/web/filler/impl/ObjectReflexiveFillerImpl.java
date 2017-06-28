@@ -13,6 +13,12 @@ import org.slf4j.LoggerFactory;
 import cmpl.web.filler.ObjectReflexiveFiller;
 import cmpl.web.model.news.METHOD;
 
+/**
+ * Implementation de l'interface permettant de remplir un objet destination avec un objet d'origine
+ * 
+ * @author Louis
+ *
+ */
 public class ObjectReflexiveFillerImpl implements ObjectReflexiveFiller {
 
   private Object origin;
@@ -25,6 +31,13 @@ public class ObjectReflexiveFillerImpl implements ObjectReflexiveFiller {
     this.destination = destination;
   }
 
+  /**
+   * Construteur definissant l'ogirine et la destination du transfert de valeurs
+   * 
+   * @param origin
+   * @param destination
+   * @return
+   */
   public static ObjectReflexiveFillerImpl fromOriginAndDestination(Object origin, Object destination) {
     return new ObjectReflexiveFillerImpl(origin, destination);
   }

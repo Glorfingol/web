@@ -21,6 +21,12 @@ import cmpl.web.service.NewsContentService;
 import cmpl.web.service.NewsEntryService;
 import cmpl.web.service.NewsImageService;
 
+/**
+ * Implementation de l'interface pour la gestion des NewsEntry
+ * 
+ * @author Louis
+ *
+ */
 public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntry> implements NewsEntryService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(NewsEntryServiceImpl.class);
@@ -41,6 +47,16 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     this.fileService = fileService;
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param newsEntryRepository
+   * @param newsImageService
+   * @param newsContentService
+   * @param imageConverterService
+   * @param fileService
+   * @return
+   */
   public static NewsEntryServiceImpl fromRepositoriesAndServices(NewsEntryRepository newsEntryRepository,
       NewsImageService newsImageService, NewsContentService newsContentService,
       ImageConverterService imageConverterService, FileService fileService) {

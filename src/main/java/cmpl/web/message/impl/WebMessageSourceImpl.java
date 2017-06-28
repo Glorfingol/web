@@ -6,6 +6,12 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 import cmpl.web.message.WebMessageSource;
 
+/**
+ * Implementation de l'interface de i18n
+ * 
+ * @author Louis
+ *
+ */
 public class WebMessageSourceImpl extends ResourceBundleMessageSource implements WebMessageSource {
 
   @Override

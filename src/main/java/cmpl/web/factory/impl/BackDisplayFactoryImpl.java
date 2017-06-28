@@ -18,6 +18,12 @@ import cmpl.web.model.menu.MenuItem;
 import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.BACK_PAGE;
 
+/**
+ * Implementation de l'interface commune de factory pour le back
+ * 
+ * @author Louis
+ *
+ */
 public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements BackDisplayFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(BackDisplayFactoryImpl.class);
@@ -34,6 +40,15 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     this.metaElementFactory = metaElementFactory;
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param menuFactory
+   * @param footerFactory
+   * @param messageSource
+   * @param metaElementFactory
+   * @return
+   */
   public static BackDisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory,
       FooterFactory footerFactory, WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory) {
     return new BackDisplayFactoryImpl(menuFactory, footerFactory, messageSource, metaElementFactory);

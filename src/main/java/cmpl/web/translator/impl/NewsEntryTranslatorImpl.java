@@ -9,12 +9,23 @@ import cmpl.web.model.news.rest.news.NewsEntryResponse;
 import cmpl.web.model.news.rest.news.NewsImageRequest;
 import cmpl.web.translator.NewsEntryTranslator;
 
+/**
+ * Implementation du Translator pour les requetes de creation/modification de NewsEntry
+ * 
+ * @author Louis
+ *
+ */
 public class NewsEntryTranslatorImpl implements NewsEntryTranslator {
 
   private NewsEntryTranslatorImpl() {
 
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @return
+   */
   public static NewsEntryTranslatorImpl fromVoid() {
     return new NewsEntryTranslatorImpl();
   }

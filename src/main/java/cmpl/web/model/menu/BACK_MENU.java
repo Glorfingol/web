@@ -1,5 +1,11 @@
 package cmpl.web.model.menu;
 
+/**
+ * Enumeration pour les elements du menu du back office du site
+ * 
+ * @author Louis
+ *
+ */
 public enum BACK_MENU {
 
   BACK_NEWS("back.news.title", "back.news.href", "back.news.label"),

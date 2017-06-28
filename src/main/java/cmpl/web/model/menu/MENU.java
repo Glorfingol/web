@@ -2,6 +2,12 @@ package cmpl.web.model.menu;
 
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Enumeration pour les elements du menu des pages du front office du site
+ * 
+ * @author Louis
+ *
+ */
 public enum MENU {
 
   INDEX(PAGE.INDEX.getTitle(), "index.href", "index.label"),

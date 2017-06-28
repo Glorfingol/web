@@ -3,6 +3,12 @@ package cmpl.web.model.news.rest.news;
 import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.model.news.rest.BaseResponse;
 
+/**
+ * Reponse NewsEntry
+ * 
+ * @author Louis
+ *
+ */
 public class NewsEntryResponse extends BaseResponse {
 
   private NewsEntryDTO newsEntry;

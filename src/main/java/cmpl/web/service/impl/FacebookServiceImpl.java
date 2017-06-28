@@ -16,6 +16,12 @@ import cmpl.web.model.facebook.ImportablePost;
 import cmpl.web.service.FacebookService;
 import cmpl.web.service.NewsEntryService;
 
+/**
+ * Implementation de l'interface qui va recuperer les posts facebook d'unutilisateur
+ * 
+ * @author Louis
+ *
+ */
 public class FacebookServiceImpl implements FacebookService {
 
   private final Facebook facebookConnector;
@@ -31,6 +37,15 @@ public class FacebookServiceImpl implements FacebookService {
     this.newsEntryService = newsEntryService;
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param facebookConnector
+   * @param connectionRepository
+   * @param newsEntryService
+   * @param dateFormat
+   * @return
+   */
   public static FacebookServiceImpl fromFacebookConnector(Facebook facebookConnector,
       ConnectionRepository connectionRepository, NewsEntryService newsEntryService, String dateFormat) {
     return new FacebookServiceImpl(facebookConnector, connectionRepository, newsEntryService, dateFormat);

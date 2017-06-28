@@ -6,12 +6,24 @@ import cmpl.web.factory.FooterFactory;
 import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.footer.Footer;
 
+/**
+ * Implementation de l'interface pour la factory du footer du site
+ * 
+ * @author Louis
+ *
+ */
 public class FooterFactoryImpl extends BaseFactoryImpl implements FooterFactory {
 
   private FooterFactoryImpl(WebMessageSourceImpl messageSource) {
     super(messageSource);
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param messageSource
+   * @return
+   */
   public static FooterFactoryImpl fromMessageSource(WebMessageSourceImpl messageSource) {
     return new FooterFactoryImpl(messageSource);
   }

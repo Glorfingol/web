@@ -16,6 +16,12 @@ import cmpl.web.model.facebook.ImportablePost;
 import cmpl.web.model.page.BACK_PAGE;
 import cmpl.web.service.FacebookService;
 
+/**
+ * Implementation de l'interface de factory pour le spages back de facebook
+ * 
+ * @author Louis
+ *
+ */
 public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implements FacebookDisplayFactory {
 
   private final FacebookService facebookService;
@@ -26,6 +32,16 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
     this.facebookService = facebookService;
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param menuFactory
+   * @param footerFactory
+   * @param messageSource
+   * @param metaElementFactory
+   * @param facebookService
+   * @return
+   */
   public static FacebookDisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory,
       FooterFactory footerFactory, WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory,
       FacebookService facebookService) {
@@ -96,7 +112,7 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
     try {
       facebookService.getRecentFeed();
     } catch (BaseException e) {
-      LOGGER.info("Utilisateur facebook non connecté");
+      LOGGER.debug("Utilisateur facebook non connecté", e);
       return false;
     }
     return true;

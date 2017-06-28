@@ -9,12 +9,24 @@ import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.meta.MetaElement;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Implementation de l'interface pour la factory des meta elements du site pour le SEO
+ * 
+ * @author Louis
+ *
+ */
 public class MetaElementFactoryImpl extends BaseFactoryImpl implements MetaElementFactory {
 
   private MetaElementFactoryImpl(WebMessageSourceImpl messageSource) {
     super(messageSource);
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param messageSource
+   * @return
+   */
   public static MetaElementFactoryImpl fromMessageSource(WebMessageSourceImpl messageSource) {
     return new MetaElementFactoryImpl(messageSource);
   }

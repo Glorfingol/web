@@ -21,6 +21,12 @@ import cmpl.web.model.facebook.FacebookImportRequest;
 import cmpl.web.model.facebook.FacebookImportResponse;
 import cmpl.web.model.page.BACK_PAGE;
 
+/**
+ * Controller pour la gestion de l'import des posts facebook
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class FacebookController {
 
@@ -30,17 +36,27 @@ public class FacebookController {
   private final FacebookDispatcher facebookDispatcher;
 
   @Autowired
-  public FacebookController(FacebookDisplayFactory facebookDisplayFactory, FacebookDispatcher facebookDispatcher) {
+  FacebookController(FacebookDisplayFactory facebookDisplayFactory, FacebookDispatcher facebookDispatcher) {
     this.facebookDisplayFactory = facebookDisplayFactory;
     this.facebookDispatcher = facebookDispatcher;
   }
 
+  /**
+   * Mapping pour acceder a la partie facebook
+   * 
+   * @return
+   */
   @GetMapping(value = "/manager/facebook")
   public ModelAndView printFacebookAccess() {
     LOGGER.info("Accès à la page " + BACK_PAGE.FACEBOOK_ACCESS.name());
     return facebookDisplayFactory.computeModelAndViewForFacebookAccessPage(Locale.FRANCE);
   }
 
+  /**
+   * Mapping pour l'affichage des imports possibles
+   * 
+   * @return
+   */
   @GetMapping(value = "/manager/facebook/import")
   public ModelAndView printFacebookImport() {
 
@@ -48,6 +64,12 @@ public class FacebookController {
     return facebookDisplayFactory.computeModelAndViewForFacebookImportPage(Locale.FRANCE);
   }
 
+  /**
+   * Mapping pour l'import de posts
+   * 
+   * @param facebookImportRequest
+   * @return
+   */
   @PostMapping(value = "/manager/facebook/import")
   @ResponseBody
   public ResponseEntity<FacebookImportResponse> createNewsEntry(@RequestBody FacebookImportRequest facebookImportRequest) {

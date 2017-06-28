@@ -1,5 +1,11 @@
 package cmpl.web.model.login;
 
+/**
+ * Bean pour les labels du formulaire de login
+ * 
+ * @author Louis
+ *
+ */
 public class LoginFormDisplayBean {
 
   private String userLabel;

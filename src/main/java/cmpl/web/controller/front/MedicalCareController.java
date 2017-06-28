@@ -12,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Controller pour la page des soins
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class MedicalCareController {
 
@@ -23,6 +29,11 @@ public class MedicalCareController {
     this.displayFactory = displayFactory;
   }
 
+  /**
+   * Mapping pour la page des soins
+   * 
+   * @return
+   */
   @GetMapping(value = "/soins_medicaux")
   public ModelAndView printFacialInjections() {
 

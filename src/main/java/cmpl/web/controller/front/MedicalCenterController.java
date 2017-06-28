@@ -12,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Controller pour la page du centre medical
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class MedicalCenterController {
 
@@ -23,6 +29,11 @@ public class MedicalCenterController {
     this.displayFactory = displayFactory;
   }
 
+  /**
+   * Mapping pour la page du centre medical
+   * 
+   * @return
+   */
   @GetMapping(value = "/centre-medical")
   public ModelAndView printMedicalCenter() {
 

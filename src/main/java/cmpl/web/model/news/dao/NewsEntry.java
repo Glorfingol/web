@@ -4,6 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * DAO NewsEntry
+ * 
+ * @author Louis
+ *
+ */
 @Entity(name = "newsEntry")
 @Table(name = "news_entry")
 public class NewsEntry extends BaseEntity {

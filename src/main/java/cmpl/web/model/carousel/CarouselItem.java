@@ -1,5 +1,11 @@
 package cmpl.web.model.carousel;
 
+/**
+ * Object pour les carousel d'image
+ * 
+ * @author Louis
+ *
+ */
 public class CarouselItem {
 
   String src;

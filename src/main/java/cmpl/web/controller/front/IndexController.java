@@ -12,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Controller pour la page d'accueil
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class IndexController {
 
@@ -23,6 +29,11 @@ public class IndexController {
     this.displayFactory = displayFactory;
   }
 
+  /**
+   * Mapping pour la page d'accueil
+   * 
+   * @return
+   */
   @GetMapping(value = "/")
   public ModelAndView printIndex() {
 

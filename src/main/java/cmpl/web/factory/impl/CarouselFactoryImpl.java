@@ -10,6 +10,12 @@ import org.slf4j.LoggerFactory;
 import cmpl.web.factory.CarouselFactory;
 import cmpl.web.model.carousel.CarouselItem;
 
+/**
+ * Implementation de l'interface de factory pour creer les elements d'un carousel a partir d'images
+ * 
+ * @author Louis
+ *
+ */
 public class CarouselFactoryImpl implements CarouselFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(CarouselFactoryImpl.class);
@@ -18,6 +24,11 @@ public class CarouselFactoryImpl implements CarouselFactory {
 
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @return
+   */
   public static CarouselFactoryImpl fromVoid() {
     return new CarouselFactoryImpl();
   }

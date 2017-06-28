@@ -11,6 +11,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import cmpl.web.model.BaseException;
 
+/**
+ * Configuration de la securite
+ * 
+ * @author Louis
+ *
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -24,6 +30,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .loginPage("/login").permitAll().and().logout().permitAll();
   }
 
+  /**
+   * Configuration du user et mdp pour l'acces au back office
+   * 
+   * @param auth
+   * @throws BaseException
+   */
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws BaseException {
     try {

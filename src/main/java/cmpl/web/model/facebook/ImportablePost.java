@@ -4,6 +4,12 @@ import java.util.Date;
 
 import org.springframework.social.facebook.api.Post.PostType;
 
+/**
+ * Objet representant un post facebook importable en tant que NewsEntry
+ * 
+ * @author Louis
+ *
+ */
 public class ImportablePost {
 
   private String author;

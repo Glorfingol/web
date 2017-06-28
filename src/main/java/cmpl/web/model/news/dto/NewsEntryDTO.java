@@ -1,5 +1,11 @@
 package cmpl.web.model.news.dto;
 
+/**
+ * DTO NewsEntry
+ * 
+ * @author Louis
+ *
+ */
 public class NewsEntryDTO extends BaseDTO {
 
   private NewsContentDTO newsContent;

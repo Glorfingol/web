@@ -23,6 +23,12 @@ import cmpl.web.model.news.rest.news.NewsImageRequest;
 import cmpl.web.model.page.BACK_PAGE;
 import cmpl.web.service.NewsEntryService;
 
+/**
+ * Implementation de l'interface pour la factory des pages d'actualite sur le back
+ * 
+ * @author Louis
+ *
+ */
 public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implements NewsManagerDisplayFactory {
 
   private NewsEntryService newsEntryService;
@@ -34,6 +40,16 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     this.newsEntryService = newsEntryService;
   }
 
+  /**
+   * Constructeur static pour la configuration
+   * 
+   * @param menuFactory
+   * @param footerFactory
+   * @param messageSource
+   * @param newsEntryService
+   * @param metaElementFactory
+   * @return
+   */
   public static NewsManagerDisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory,
       FooterFactory footerFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService,
       MetaElementFactory metaElementFactory) {
@@ -109,8 +125,7 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
       dto.setNewsContent(new NewsContentDTO());
     }
 
-    NewsEntryRequest request = computeNewsEntryRequest(dto);
-    return request;
+    return computeNewsEntryRequest(dto);
 
   }
 

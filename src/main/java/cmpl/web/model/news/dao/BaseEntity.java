@@ -8,6 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 
+/**
+ * Objet DAO commun
+ * 
+ * @author Louis
+ *
+ */
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -21,6 +27,9 @@ public abstract class BaseEntity {
   @Column(name = "modification_date")
   private Date modificationDate;
 
+  /**
+   * S'assure que les elements not nullable commun sont renseignes (id, creationDate, modificationDate)
+   */
   @PrePersist
   public void ensureFields() {
     if (id == null) {

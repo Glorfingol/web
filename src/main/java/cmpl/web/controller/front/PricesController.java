@@ -12,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.factory.DisplayFactory;
 import cmpl.web.model.page.PAGE;
 
+/**
+ * Controller pour les tarifs
+ * 
+ * @author Louis
+ *
+ */
 @Controller
 public class PricesController {
 
@@ -23,6 +29,11 @@ public class PricesController {
     this.displayFactory = displayFactory;
   }
 
+  /**
+   * Mapping pour les tarifs
+   * 
+   * @return
+   */
   @GetMapping(value = "/tarifs")
   public ModelAndView printPrices() {
 
