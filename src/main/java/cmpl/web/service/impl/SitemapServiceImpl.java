@@ -14,7 +14,6 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 
 import cmpl.web.message.WebMessageSource;
 import cmpl.web.model.BaseException;
@@ -60,7 +59,6 @@ public class SitemapServiceImpl implements SitemapService {
   }
 
   @Override
-  @Cacheable("sitemap")
   public String createSiteMap(Locale locale) throws BaseException {
 
     try {

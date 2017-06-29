@@ -33,9 +33,13 @@ public class FooterFactoryImpl extends BaseFactoryImpl implements FooterFactory 
 
     Footer footer = new Footer();
 
-    footer.setAdresse(getI18nValue("footer.address", locale));
+    footer.setRue(getI18nValue("footer.address.street", locale));
+    footer.setVille(getI18nValue("footer.address.city", locale));
     footer.setLibelle(getI18nValue("footer.label", locale));
     footer.setTelephone(getI18nValue("footer.phone", locale));
+    footer.setEmail(getI18nValue("footer.email", locale));
+    footer.setFacebook(getI18nValue("footer.facebook", locale));
+    footer.setGooglePlus(getI18nValue("footer.google", locale));
 
     return footer;
   }

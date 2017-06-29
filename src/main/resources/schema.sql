@@ -26,8 +26,8 @@ ON news_entry (facebook_id);
 CREATE TABLE IF NOT EXISTS  news_content (
     id BIGINT(20) NOT NULL,
     content VARCHAR(200) NOT NULL,
-    videoUrl VARCHAR(200) NULLABLE,
-    linkUrl VARCHAR(200) NULLABLE,
+    videoUrl VARCHAR(200),
+    linkUrl VARCHAR(200),
     creation_date DATETIME NOT NULL,
     modification_date DATETIME NOT NULL,
     PRIMARY KEY (`id`)

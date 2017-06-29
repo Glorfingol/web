@@ -14,10 +14,6 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 public class WebLauncher {
 
-  private WebLauncher() {
-
-  }
-
   /**
    * Main du projet, lance un SpringApplication
    * 

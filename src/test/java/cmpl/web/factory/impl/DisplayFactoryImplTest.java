@@ -79,8 +79,8 @@ public class DisplayFactoryImplTest {
 
     List<MetaElement> metaElements = Lists.newArrayList(title, description, language, viewport);
 
-    BDDMockito.doReturn(metaElements).when(metaElementFactory).computeMetaElementsForPage(Mockito.eq(locale),
-        Mockito.eq(PAGE.INDEX));
+    BDDMockito.doReturn(metaElements).when(metaElementFactory)
+        .computeMetaElementsForPage(Mockito.eq(locale), Mockito.eq(PAGE.INDEX));
 
     List<MetaElement> result = displayFactory.computeMetaElements(locale, PAGE.INDEX);
 
@@ -90,7 +90,7 @@ public class DisplayFactoryImplTest {
   @Test
   public void testComputeFooter() throws Exception {
     Footer footer = new Footer();
-    footer.setAdresse("an adress");
+    footer.setRue("an adress");
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
@@ -153,14 +153,14 @@ public class DisplayFactoryImplTest {
     List<MetaElement> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
 
     Footer footer = new Footer();
-    footer.setAdresse("an adress");
+    footer.setRue("an adress");
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
     BDDMockito.doReturn(decoratorFront).when(displayFactory).computeDecoratorFrontTileName(Mockito.eq(locale));
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale),
-        Mockito.any(PAGE.class));
+    BDDMockito.doReturn(metaElements).when(displayFactory)
+        .computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
     BDDMockito.doReturn(menu).when(displayFactory).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
@@ -221,14 +221,14 @@ public class DisplayFactoryImplTest {
     List<MetaElement> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
 
     Footer footer = new Footer();
-    footer.setAdresse("an adress");
+    footer.setRue("an adress");
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
     BDDMockito.doReturn(decoratorFront).when(displayFactory).computeDecoratorFrontTileName(Mockito.eq(locale));
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale),
-        Mockito.any(PAGE.class));
+    BDDMockito.doReturn(metaElements).when(displayFactory)
+        .computeMetaElements(Mockito.eq(locale), Mockito.any(PAGE.class));
     BDDMockito.doReturn(menu).when(displayFactory).computeMenuItems(Mockito.any(PAGE.class), Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));

@@ -80,6 +80,8 @@ public class FacebookImportServiceImpl implements FacebookImportService {
     if (hasContent(facebookPost)) {
       NewsContentDTO content = new NewsContentDTO();
       content.setContent(facebookPost.getDescription());
+      content.setLinkUrl(facebookPost.getLinkUrl());
+      content.setVideoUrl(facebookPost.getVideoUrl());
       convertedPost.setNewsContent(content);
     }
 

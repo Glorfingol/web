@@ -54,8 +54,8 @@ public class MenuFactoryImplTest {
     MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
 
     BDDMockito.doReturn(index).when(menuFactory).computeIndexMenuElement(Mockito.eq(locale));
-    BDDMockito.doReturn(index).when(menuFactory).computeMenuItem(Mockito.any(BACK_PAGE.class),
-        Mockito.any(BACK_MENU.class), Mockito.eq(locale));
+    BDDMockito.doReturn(index).when(menuFactory)
+        .computeMenuItem(Mockito.any(BACK_PAGE.class), Mockito.any(BACK_MENU.class), Mockito.eq(locale));
 
     List<MenuItem> result = menuFactory.computeBackMenuItems(BACK_PAGE.NEWS_CREATE, locale);
     Assert.assertTrue(BACK_MENU.values().length + 1 == result.size());
@@ -89,10 +89,10 @@ public class MenuFactoryImplTest {
     String href = "/";
     String label = "label";
 
-    BDDMockito.doReturn(href).when(menuFactory).getI18nValue(Mockito.eq(SUB_MENU.EXILIS_GENITAL.getHref()),
-        Mockito.eq(locale));
-    BDDMockito.doReturn(label).when(menuFactory).getI18nValue(Mockito.eq(SUB_MENU.EXILIS_GENITAL.getLabel()),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(href).when(menuFactory)
+        .getI18nValue(Mockito.eq(SUB_MENU.EXILIS_GENITAL.getHref()), Mockito.eq(locale));
+    BDDMockito.doReturn(label).when(menuFactory)
+        .getI18nValue(Mockito.eq(SUB_MENU.EXILIS_GENITAL.getLabel()), Mockito.eq(locale));
 
     MenuItem result = menuFactory.computeMenuItem(SUB_MENU.EXILIS_GENITAL, locale);
 
@@ -108,12 +108,12 @@ public class MenuFactoryImplTest {
     String label = "label";
     String title = "title";
 
-    BDDMockito.doReturn(href).when(menuFactory).getI18nValue(Mockito.eq(BACK_MENU.BACK_NEWS.getHref()),
-        Mockito.eq(locale));
-    BDDMockito.doReturn(label).when(menuFactory).getI18nValue(Mockito.eq(BACK_MENU.BACK_NEWS.getLabel()),
-        Mockito.eq(locale));
-    BDDMockito.doReturn(title).when(menuFactory).getI18nValue(Mockito.eq(BACK_MENU.BACK_NEWS.getTitle()),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(href).when(menuFactory)
+        .getI18nValue(Mockito.eq(BACK_MENU.BACK_NEWS.getHref()), Mockito.eq(locale));
+    BDDMockito.doReturn(label).when(menuFactory)
+        .getI18nValue(Mockito.eq(BACK_MENU.BACK_NEWS.getLabel()), Mockito.eq(locale));
+    BDDMockito.doReturn(title).when(menuFactory)
+        .getI18nValue(Mockito.eq(BACK_MENU.BACK_NEWS.getTitle()), Mockito.eq(locale));
 
     MenuItem result = menuFactory.computeMenuItem(BACK_PAGE.NEWS_CREATE, BACK_MENU.BACK_NEWS, locale);
 
@@ -133,8 +133,8 @@ public class MenuFactoryImplTest {
     BDDMockito.doReturn(href).when(menuFactory).getI18nValue(Mockito.eq(MENU.INDEX.getHref()), Mockito.eq(locale));
     BDDMockito.doReturn(label).when(menuFactory).getI18nValue(Mockito.eq(MENU.INDEX.getLabel()), Mockito.eq(locale));
     BDDMockito.doReturn(title).when(menuFactory).getI18nValue(Mockito.eq(MENU.INDEX.getTitle()), Mockito.eq(locale));
-    BDDMockito.doReturn(Lists.newArrayList()).when(menuFactory).computeSubMenuItems(Mockito.eq(MENU.INDEX),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(Lists.newArrayList()).when(menuFactory)
+        .computeSubMenuItems(Mockito.eq(MENU.INDEX), Mockito.eq(locale));
 
     MenuItem result = menuFactory.computeIndexMenuElement(locale);
 

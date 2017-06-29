@@ -108,8 +108,6 @@ public class FacebookServiceImpl implements FacebookService {
     if (!PostType.PHOTO.equals(feed.getType())) {
       return "";
     }
-    // Pour enregistrer image
-    // byte[] test = facebookConnector.mediaOperations().getAlbumImage(feed.getObjectId(), ImageType.NORMAL);
     return feed.getPicture();
   }
 

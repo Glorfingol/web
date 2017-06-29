@@ -1,5 +1,7 @@
 package cmpl.web.model.page;
 
+import cmpl.web.model.menu.BACK_MENU;
+
 /**
  * Enumeration pour les pages du back office du site
  * 
@@ -9,9 +11,9 @@ package cmpl.web.model.page;
 public enum BACK_PAGE {
 
   LOGIN("login.tile", ""),
-  NEWS_VIEW("news.view", "back.news.view.title"),
-  NEWS_CREATE("news.create", "back.news.create.title"),
-  NEWS_UPDATE("news.update", "back.news.update.title"),
+  NEWS_VIEW("news.view", BACK_MENU.BACK_NEWS.getTitle()),
+  NEWS_CREATE("news.create", BACK_MENU.BACK_NEWS.getTitle()),
+  NEWS_UPDATE("news.update", BACK_MENU.BACK_NEWS.getTitle()),
   FACEBOOK_ACCESS("facebook.access.tile", "facebook.access.title"),
   FACEBOOK_IMPORT("facebook.import.tile", "facebook.access.title");
 

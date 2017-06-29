@@ -5,7 +5,7 @@
 		    <span class="card-text" th:text="${newsBean.panelHeading}"/>
 	    </div>
 	</div>
-	<div class="card-block" th:if="${newsBean.displayContent || newsBean.displayImage}">
+	<div class="card-block" th:if="${newsBean.displayContent || newsBean.displayImage || newsBean.displayLink || newsBean.displayVideo}">
 	   <figure th:if="${newsBean.displayImage}">
 	       <img class="img-fluid mx-auto d-block" th:src="${newsBean.image}" th:alt="${newsBean.alt}" th:height="${newsBean.imageHeight}" th:width="${newsBean.imageWidth}"/>
 	       <figcaption class="text-right" th:text="${newsBean.legend}"/>

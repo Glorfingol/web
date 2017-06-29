@@ -123,11 +123,19 @@ public class NewsEntryDisplayBean {
   }
 
   public boolean isDisplayContent() {
-    return displayContent();
+    return displayContent() && StringUtils.isEmpty(newsEntryDTO.getNewsContent().getLinkUrl());
   }
 
   public boolean isDisplayTags() {
     return !CollectionUtils.isEmpty(getTags());
+  }
+
+  public boolean isDisplayLink() {
+    return displayContent() && !StringUtils.isEmpty(newsEntryDTO.getNewsContent().getLinkUrl());
+  }
+
+  public boolean isDisplayVideo() {
+    return displayContent() && !StringUtils.isEmpty(newsEntryDTO.getNewsContent().getVideoUrl());
   }
 
   public String getNewsEntryId() {
@@ -148,5 +156,13 @@ public class NewsEntryDisplayBean {
 
   public String getNewsEntryShowMore() {
     return labelAccroche;
+  }
+
+  public String getLinkUrl() {
+    return newsEntryDTO.getNewsContent().getLinkUrl();
+  }
+
+  public String getVideoUrl() {
+    return newsEntryDTO.getNewsContent().getVideoUrl();
   }
 }

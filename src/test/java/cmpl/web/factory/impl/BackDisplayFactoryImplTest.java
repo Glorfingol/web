@@ -76,7 +76,7 @@ public class BackDisplayFactoryImplTest {
   public void testComputeFooter() throws Exception {
 
     Footer footer = new Footer();
-    footer.setAdresse("an adress");
+    footer.setRue("an adress");
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
@@ -170,7 +170,7 @@ public class BackDisplayFactoryImplTest {
     List<MetaElement> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
 
     Footer footer = new Footer();
-    footer.setAdresse("an adress");
+    footer.setRue("an adress");
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
