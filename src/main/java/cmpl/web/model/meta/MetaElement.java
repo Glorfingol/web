@@ -10,6 +10,7 @@ public class MetaElement {
 
   private String name;
   private String content;
+  private String property;
 
   public String getName() {
     return name;
@@ -25,6 +26,14 @@ public class MetaElement {
 
   public void setContent(String content) {
     this.content = content;
+  }
+
+  public String getProperty() {
+    return property;
+  }
+
+  public void setProperty(String property) {
+    this.property = property;
   }
 
 }

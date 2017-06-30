@@ -81,8 +81,8 @@ public class FactoryConfiguration {
   }
 
   @Bean
-  MetaElementFactory metaElementFactory(WebMessageSourceImpl messageSource) {
-    return MetaElementFactoryImpl.fromMessageSource(messageSource);
+  MetaElementFactory metaElementFactory(WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
+    return MetaElementFactoryImpl.fromMessageSource(messageSource, newsEntryService);
   }
 
   @Bean

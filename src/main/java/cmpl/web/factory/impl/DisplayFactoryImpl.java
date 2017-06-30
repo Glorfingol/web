@@ -74,6 +74,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     model.addObject("menuItems", computeMenuItems(page, locale));
     LOGGER.info("Construction des éléments meta pour la page  " + page.name());
     model.addObject("metaItems", computeMetaElements(locale, page));
+    LOGGER.info("Construction des éléments meta open graph pour la page  " + page.name());
+    model.addObject("openGraphMetaItems", computeOpenGraphMetaElements(locale, page));
     LOGGER.info("Construction du footer pour la page   " + page.name());
     model.addObject("footer", computeFooter(locale));
     LOGGER.info("Construction du titre principal pour la page  " + page.name());
@@ -101,6 +103,18 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
   List<MetaElement> computeMetaElements(Locale locale, PAGE page) {
     return metaElementFactory.computeMetaElementsForPage(locale, page);
+  }
+
+  List<MetaElement> computeMetaElementsForNewsEntry(Locale locale, PAGE page, String newsEntryId) {
+    return metaElementFactory.computeMetaElementsForNewsEntry(locale, page, newsEntryId);
+  }
+
+  List<MetaElement> computeOpenGraphMetaElementsForNewsEntry(Locale locale, PAGE page, String newsEntryId) {
+    return metaElementFactory.computeOpenGraphMetaElementsNewsEntry(locale, page, newsEntryId);
+  }
+
+  List<MetaElement> computeOpenGraphMetaElements(Locale locale, PAGE page) {
+    return metaElementFactory.computeOpenGraphMetaElementsForPage(locale, page);
   }
 
   List<CarouselItem> computeCarouselItems(Locale locale) {

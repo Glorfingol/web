@@ -100,7 +100,7 @@ public class FactoryConfigurationTest {
 
   @Test
   public void testMetaElementFactory() throws Exception {
-    MetaElementFactory result = configuration.metaElementFactory(messageSource);
+    MetaElementFactory result = configuration.metaElementFactory(messageSource, newsEntryService);
 
     Assert.assertEquals(MetaElementFactoryImpl.class, result.getClass());
   }

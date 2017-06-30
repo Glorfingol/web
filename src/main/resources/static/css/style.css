@@ -2,8 +2,15 @@
 COMMON
 */
 
+html,body{
+	height: 100%;
+	margin: 0;
+    padding: 0;
+}
 body{
     text-overflow: ellipsis;
+    position: relative;
+    min-height: 100%;
 }
 
 .loader {
@@ -29,6 +36,15 @@ body{
 
 .card-block{
     word-break:break-all;
+}
+
+.full-size{
+	min-height: 100%;
+}
+
+.full-size:after{
+	display: block;
+	
 }
 
 
@@ -83,6 +99,13 @@ FOOTER
 footer{
 	color: #ffffff;
 	background-color: #4DA6B3;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+footer .full-size:after{
+	height: 269px;
 }
 
 footer .footer-social a:hover, footer .footer-social a:focus{

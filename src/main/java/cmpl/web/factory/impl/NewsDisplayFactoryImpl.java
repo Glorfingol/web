@@ -85,6 +85,11 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
   @Override
   public ModelAndView computeModelAndViewForNewsEntry(Locale locale, String newsEntryId) {
     ModelAndView newsModelAndView = super.computeModelAndViewForPage(PAGE.NEWS_ENTRY, locale);
+    LOGGER.info("Surcharge des meta elements pour la page de l'entree " + newsEntryId);
+    newsModelAndView.addObject("metaItems", computeMetaElementsForNewsEntry(locale, PAGE.NEWS_ENTRY, newsEntryId));
+    LOGGER.info("Surcharge des open graph meta elements pour la page de l'entree " + newsEntryId);
+    newsModelAndView.addObject("openGraphMetaItems",
+        computeOpenGraphMetaElementsForNewsEntry(locale, PAGE.NEWS_ENTRY, newsEntryId));
     LOGGER.info("Construction de l'entrée de blog pour la page " + PAGE.NEWS_ENTRY.name());
     newsModelAndView.addObject("newsEntry", computeNewsEntry(locale, newsEntryId));
 
