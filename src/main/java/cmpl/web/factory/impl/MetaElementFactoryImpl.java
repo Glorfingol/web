@@ -162,7 +162,7 @@ public class MetaElementFactoryImpl extends BaseFactoryImpl implements MetaEleme
   MetaElement computeOpenGraphDescriptionForNewsEntry(Locale locale, PAGE page, NewsEntryDTO newsEntry) {
     NewsContentDTO content = newsEntry.getNewsContent();
     if (content == null || StringUtils.isEmpty(content.getContent())) {
-      return computeMetaElement(OG_DESCRIPTION, getI18nValue(page.getDescription(), locale));
+      return computeOpenGraphMetaElement(OG_DESCRIPTION, getI18nValue(page.getDescription(), locale));
     }
     return computeOpenGraphMetaElement(OG_DESCRIPTION, content.getContent());
   }
