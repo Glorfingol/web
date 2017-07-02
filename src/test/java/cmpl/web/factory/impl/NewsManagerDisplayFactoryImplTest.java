@@ -23,10 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.builder.MenuItemBuilder;
 import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.builder.NewsContentDTOBuilder;
+import cmpl.web.builder.NewsContentRequestBuilder;
 import cmpl.web.builder.NewsEntryDTOBuilder;
 import cmpl.web.builder.NewsEntryRequestBuilder;
 import cmpl.web.builder.NewsFormDisplayBeanBuilder;
 import cmpl.web.builder.NewsImageDTOBuilder;
+import cmpl.web.builder.NewsImageRequestBuilder;
 import cmpl.web.factory.FooterFactory;
 import cmpl.web.factory.MenuFactory;
 import cmpl.web.factory.MetaElementFactory;
@@ -40,7 +42,9 @@ import cmpl.web.model.news.display.NewsFormDisplayBean;
 import cmpl.web.model.news.dto.NewsContentDTO;
 import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.model.news.dto.NewsImageDTO;
+import cmpl.web.model.news.rest.news.NewsContentRequest;
 import cmpl.web.model.news.rest.news.NewsEntryRequest;
+import cmpl.web.model.news.rest.news.NewsImageRequest;
 import cmpl.web.model.page.BACK_PAGE;
 import cmpl.web.service.NewsEntryService;
 
@@ -101,8 +105,8 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(tagsLabel).when(displayFactory).getI18nValue(Mockito.eq("tags.label"), Mockito.eq(locale));
     BDDMockito.doReturn(tagsHelp).when(displayFactory).getI18nValue(Mockito.eq("tags.help"), Mockito.eq(locale));
 
-    BDDMockito.doReturn(contentLabel).when(displayFactory)
-        .getI18nValue(Mockito.eq("content.label"), Mockito.eq(locale));
+    BDDMockito.doReturn(contentLabel).when(displayFactory).getI18nValue(Mockito.eq("content.label"),
+        Mockito.eq(locale));
     BDDMockito.doReturn(contentHelp).when(displayFactory).getI18nValue(Mockito.eq("content.help"), Mockito.eq(locale));
 
     BDDMockito.doReturn(imageLabel).when(displayFactory).getI18nValue(Mockito.eq("image.label"), Mockito.eq(locale));
@@ -145,11 +149,12 @@ public class NewsManagerDisplayFactoryImplTest {
     String labelLe = "le";
     String labelAccroche = "accroche";
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, labelPar, labelLe, dateFormat, labelAccroche);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, labelPar, labelLe, dateFormat,
+        labelAccroche);
 
     BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.any(Long.class));
-    BDDMockito.doReturn(displayBean).when(displayFactory)
-        .computeNewsEntryDisplayBean(Mockito.eq(locale), Mockito.eq(newsEntry));
+    BDDMockito.doReturn(displayBean).when(displayFactory).computeNewsEntryDisplayBean(Mockito.eq(locale),
+        Mockito.eq(newsEntry));
 
     NewsEntryDisplayBean result = displayFactory.computeNewsEntryDisplayBean(locale, newsEntry);
 
@@ -268,8 +273,8 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(Mockito.eq(locale));
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
-    BDDMockito.doReturn(backMenu).when(displayFactory)
-        .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
+    BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
+        Mockito.eq(locale));
     BDDMockito.doReturn(bean).when(displayFactory).computeLoginFormDisplayBean(Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
@@ -366,15 +371,16 @@ public class NewsManagerDisplayFactoryImplTest {
     String labelLe = "le";
     String labelAccroche = "accroche";
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, labelPar, labelLe, dateFormat, labelAccroche);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, labelPar, labelLe, dateFormat,
+        labelAccroche);
 
     NewsFormDisplayBean form = new NewsFormDisplayBeanBuilder().toNewsFormDisplayBean();
 
     BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(Mockito.eq(locale));
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
-    BDDMockito.doReturn(backMenu).when(displayFactory)
-        .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
+    BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
+        Mockito.eq(locale));
     BDDMockito.doReturn(bean).when(displayFactory).computeLoginFormDisplayBean(Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
@@ -398,6 +404,172 @@ public class NewsManagerDisplayFactoryImplTest {
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeNewsEntryDisplayBeans(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeForm(Mockito.eq(locale));
+  }
+
+  @Test
+  public void testComputeNewsContentRequest() throws Exception {
+    NewsContentDTO newsContent = new NewsContentDTOBuilder().id(123456789L).content("someContent")
+        .creationDate(new Date()).modificationDate(new Date()).toNewsContentDTO();
+    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().newsContent(newsContent).toNewsEntryDTO();
+
+    NewsContentRequest result = displayFactory.computeNewsContentRequest(newsEntry);
+
+    Assert.assertEquals(newsContent.getContent(), result.getContent());
+    Assert.assertEquals(newsContent.getId(), result.getId());
+    Assert.assertEquals(newsContent.getCreationDate(), result.getCreationDate());
+    Assert.assertEquals(newsContent.getModificationDate(), result.getCreationDate());
+  }
+
+  @Test
+  public void testComputeNewsImageRequest() throws Exception {
+    NewsImageDTO newsImage = new NewsImageDTOBuilder().id(123456789L).src("someSrc").creationDate(new Date())
+        .modificationDate(new Date()).alt("someAlt").legend("someLegend").toNewsImageDTO();
+    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().newsImage(newsImage).toNewsEntryDTO();
+
+    NewsImageRequest result = displayFactory.computeNewsImageRequest(newsEntry);
+
+    Assert.assertEquals(newsImage.getAlt(), result.getAlt());
+    Assert.assertEquals(newsImage.getSrc(), result.getSrc());
+    Assert.assertEquals(newsImage.getLegend(), result.getLegend());
+    Assert.assertEquals(newsImage.getId(), result.getId());
+    Assert.assertEquals(newsImage.getCreationDate(), result.getCreationDate());
+    Assert.assertEquals(newsImage.getModificationDate(), result.getCreationDate());
+  }
+
+  @Test
+  public void testComputeNewsEntryRequest() throws Exception {
+
+    Date creationDate = new Date();
+    Date modificationDate = new Date();
+    long id = 123456789L;
+    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().tags("aTag").author("someAuthor").title("someTitle").id(id)
+        .creationDate(creationDate).modificationDate(modificationDate).toNewsEntryDTO();
+
+    NewsContentRequest contentRequest = new NewsContentRequestBuilder().id(id).content("someContent")
+        .creationDate(creationDate).modificationDate(modificationDate).toNewsContentRequest();
+    NewsImageRequest imageRequest = new NewsImageRequestBuilder().id(id).creationDate(creationDate)
+        .modificationDate(modificationDate).alt("someAlt").legend("someLegend").src("someSrc").toNewsImageRequest();
+
+    BDDMockito.doReturn(imageRequest).when(displayFactory).computeNewsImageRequest(Mockito.eq(newsEntry));
+    BDDMockito.doReturn(contentRequest).when(displayFactory).computeNewsContentRequest(Mockito.eq(newsEntry));
+    NewsEntryRequest result = displayFactory.computeNewsEntryRequest(newsEntry);
+
+    Assert.assertEquals(newsEntry.getTags(), result.getTags());
+    Assert.assertEquals(newsEntry.getTitle(), result.getTitle());
+    Assert.assertEquals(newsEntry.getAuthor(), result.getAuthor());
+    Assert.assertEquals(newsEntry.getId(), result.getId());
+    Assert.assertEquals(newsEntry.getCreationDate(), result.getCreationDate());
+    Assert.assertEquals(newsEntry.getModificationDate(), result.getCreationDate());
+
+    NewsContentRequest resultContentRequest = result.getContent();
+    Assert.assertEquals(contentRequest, resultContentRequest);
+
+    NewsImageRequest resultImageRequest = result.getImage();
+    Assert.assertEquals(imageRequest, resultImageRequest);
+  }
+
+  @Test
+  public void testComputeNewsRequestForEditForm_No_Image_Content() throws Exception {
+
+    Date creationDate = new Date();
+    Date modificationDate = new Date();
+    long id = 123456789L;
+
+    NewsContentDTO newsContent = new NewsContentDTOBuilder().id(id).content("someContent").creationDate(new Date())
+        .modificationDate(new Date()).toNewsContentDTO();
+    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().id(id).newsContent(newsContent).toNewsEntryDTO();
+
+    NewsContentRequest contentRequest = new NewsContentRequestBuilder().id(id).content("someContent")
+        .creationDate(creationDate).modificationDate(modificationDate).toNewsContentRequest();
+    NewsImageRequest imageRequest = new NewsImageRequestBuilder().toNewsImageRequest();
+    NewsEntryRequest newsEntryRequest = new NewsEntryRequestBuilder().id(123456789L).content(contentRequest)
+        .image(imageRequest).toNewsEntryRequest();
+
+    BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.anyLong());
+    BDDMockito.doReturn(newsEntryRequest).when(displayFactory).computeNewsEntryRequest(Mockito.eq(newsEntry));
+
+    NewsEntryRequest result = displayFactory.computeNewsRequestForEditForm("123456789");
+
+    Assert.assertEquals(newsEntryRequest, result);
+    Assert.assertNull(result.getImage().getId());
+    Assert.assertNotNull(result.getContent().getId());
+
+  }
+
+  @Test
+  public void testComputeNewsRequestForEditForm_No_Image_No_Content() throws Exception {
+    Date creationDate = new Date();
+    Date modificationDate = new Date();
+    long id = 123456789L;
+
+    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().id(id).toNewsEntryDTO();
+    NewsContentRequest contentRequest = new NewsContentRequestBuilder().toNewsContentRequest();
+    NewsImageRequest imageRequest = new NewsImageRequestBuilder().toNewsImageRequest();
+    NewsEntryRequest newsEntryRequest = new NewsEntryRequestBuilder().id(id).content(contentRequest).image(imageRequest)
+        .toNewsEntryRequest();
+
+    BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.anyLong());
+    BDDMockito.doReturn(newsEntryRequest).when(displayFactory).computeNewsEntryRequest(Mockito.eq(newsEntry));
+
+    NewsEntryRequest result = displayFactory.computeNewsRequestForEditForm("123456789");
+
+    Assert.assertEquals(newsEntryRequest, result);
+    Assert.assertNull(result.getImage().getId());
+    Assert.assertNull(result.getContent().getId());
+  }
+
+  @Test
+  public void testComputeNewsRequestForEditForm_Image_No_Content() throws Exception {
+    Date creationDate = new Date();
+    Date modificationDate = new Date();
+    long id = 123456789L;
+
+    NewsImageDTO newsImage = new NewsImageDTOBuilder().id(id).toNewsImageDTO();
+    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().id(id).newsImage(newsImage).toNewsEntryDTO();
+
+    NewsContentRequest contentRequest = new NewsContentRequestBuilder().toNewsContentRequest();
+    NewsImageRequest imageRequest = new NewsImageRequestBuilder().id(id).creationDate(creationDate)
+        .modificationDate(modificationDate).alt("someAlt").legend("someLegend").src("someSrc").toNewsImageRequest();
+    NewsEntryRequest newsEntryRequest = new NewsEntryRequestBuilder().id(id).content(contentRequest).image(imageRequest)
+        .toNewsEntryRequest();
+
+    BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.anyLong());
+    BDDMockito.doReturn(newsEntryRequest).when(displayFactory).computeNewsEntryRequest(Mockito.eq(newsEntry));
+
+    NewsEntryRequest result = displayFactory.computeNewsRequestForEditForm("123456789");
+
+    Assert.assertEquals(newsEntryRequest, result);
+    Assert.assertNotNull(result.getImage().getId());
+    Assert.assertNull(result.getContent().getId());
+  }
+
+  @Test
+  public void testComputeNewsRequestForEditForm_Image_Content() throws Exception {
+    Date creationDate = new Date();
+    Date modificationDate = new Date();
+    long id = 123456789L;
+
+    NewsImageDTO newsImage = new NewsImageDTOBuilder().id(id).toNewsImageDTO();
+    NewsContentDTO newsContent = new NewsContentDTOBuilder().id(id).content("someContent").creationDate(new Date())
+        .modificationDate(new Date()).toNewsContentDTO();
+    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().id(id).newsImage(newsImage).newsContent(newsContent)
+        .toNewsEntryDTO();
+
+    NewsContentRequest contentRequest = new NewsContentRequestBuilder().id(id).content("someContent")
+        .creationDate(creationDate).modificationDate(modificationDate).toNewsContentRequest();
+    NewsImageRequest imageRequest = new NewsImageRequestBuilder().id(id).creationDate(creationDate)
+        .modificationDate(modificationDate).alt("someAlt").legend("someLegend").src("someSrc").toNewsImageRequest();
+    NewsEntryRequest newsEntryRequest = new NewsEntryRequestBuilder().id(id).content(contentRequest).image(imageRequest)
+        .toNewsEntryRequest();
+
+    BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.anyLong());
+    BDDMockito.doReturn(newsEntryRequest).when(displayFactory).computeNewsEntryRequest(Mockito.eq(newsEntry));
+
+    NewsEntryRequest result = displayFactory.computeNewsRequestForEditForm("123456789");
+
+    Assert.assertEquals(newsEntryRequest, result);
+    Assert.assertNotNull(result.getImage().getId());
+    Assert.assertNotNull(result.getContent().getId());
   }
 
 }

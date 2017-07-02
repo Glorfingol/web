@@ -146,7 +146,7 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     return request;
   }
 
-  private NewsImageRequest computeNewsImageRequest(NewsEntryDTO dto) {
+  NewsImageRequest computeNewsImageRequest(NewsEntryDTO dto) {
     NewsImageRequest imageRequest = new NewsImageRequest();
     imageRequest.setAlt(dto.getNewsImage().getAlt());
     imageRequest.setId(dto.getNewsImage().getId());
@@ -157,7 +157,7 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     return imageRequest;
   }
 
-  private NewsContentRequest computeNewsContentRequest(NewsEntryDTO dto) {
+  NewsContentRequest computeNewsContentRequest(NewsEntryDTO dto) {
     NewsContentRequest contentRequest = new NewsContentRequest();
     contentRequest.setContent(dto.getNewsContent().getContent());
     contentRequest.setId(dto.getNewsContent().getId());
