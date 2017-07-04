@@ -43,7 +43,7 @@ public class NewsEntryDispatcherImplTest {
   private Locale locale;
 
   @Before
-  public void setUpd() {
+  public void setUp() {
     locale = Locale.FRANCE;
   }
 

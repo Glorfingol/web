@@ -10,6 +10,8 @@ public class NewsContentDTOBuilder {
   private Long id;
   private Date creationDate;
   private Date modificationDate;
+  private String linkUrl;
+  private String videoUrl;
 
   public NewsContentDTOBuilder id(Long id) {
     this.id = id;
@@ -18,6 +20,16 @@ public class NewsContentDTOBuilder {
 
   public NewsContentDTOBuilder content(String content) {
     this.content = content;
+    return this;
+  }
+
+  public NewsContentDTOBuilder linkUrl(String linkUrl) {
+    this.linkUrl = linkUrl;
+    return this;
+  }
+
+  public NewsContentDTOBuilder videoUrl(String videoUrl) {
+    this.videoUrl = videoUrl;
     return this;
   }
 
@@ -38,6 +50,8 @@ public class NewsContentDTOBuilder {
     newsContentDTO.setCreationDate(creationDate);
     newsContentDTO.setModificationDate(modificationDate);
     newsContentDTO.setContent(content);
+    newsContentDTO.setLinkUrl(linkUrl);
+    newsContentDTO.setVideoUrl(videoUrl);
 
     return newsContentDTO;
   }

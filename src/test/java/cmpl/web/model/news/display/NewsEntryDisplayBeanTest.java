@@ -98,8 +98,8 @@ public class NewsEntryDisplayBeanTest {
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, labelPar, labelLe, dateFormat, labelAccroche);
 
-    String result = displayBean.getNewsEntryModifyHref();
-    Assert.assertEquals("/manager/news/666", result);
+    String result = displayBean.getNewsEntryReadHref();
+    Assert.assertEquals("/news/666", result);
   }
 
   @Test
@@ -156,8 +156,18 @@ public class NewsEntryDisplayBeanTest {
     boolean result = displayBean.isDisplayContent();
     Assert.assertFalse(result);
 
-    result = displayBean.displayContent();
+  }
+
+  @Test
+  public void testIsDisplayContent_False_Link() {
+    NewsContentDTO content = new NewsContentDTOBuilder().linkUrl("someLink").toNewsContentDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, labelPar, labelLe, dateFormat, labelAccroche);
+
+    boolean result = displayBean.isDisplayContent();
     Assert.assertFalse(result);
+
   }
 
   @Test
@@ -371,6 +381,102 @@ public class NewsEntryDisplayBeanTest {
     String result = displayBean.getPanelHeading();
     Assert.assertEquals(panelHeadingBuilder.toString(), result);
 
+  }
+
+  @Test
+  public void testGetLinkUrl() throws Exception {
+    NewsContentDTO content = new NewsContentDTOBuilder().linkUrl("link").toNewsContentDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, labelPar, labelLe, dateFormat, labelAccroche);
+
+    String result = displayBean.getLinkUrl();
+    Assert.assertEquals("link", result);
+  }
+
+  @Test
+  public void testGetVideoUrl() throws Exception {
+    NewsContentDTO content = new NewsContentDTOBuilder().videoUrl("video").toNewsContentDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, labelPar, labelLe, dateFormat, labelAccroche);
+
+    String result = displayBean.getVideoUrl();
+    Assert.assertEquals("video", result);
+  }
+
+  @Test
+  public void testIsDisplayLink_True() throws Exception {
+    NewsContentDTO content = new NewsContentDTOBuilder().linkUrl("link").toNewsContentDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, labelPar, labelLe, dateFormat, labelAccroche);
+
+    boolean result = displayBean.isDisplayLink();
+    Assert.assertTrue(result);
+  }
+
+  @Test
+  public void testIsDisplayLink_False_No_Content() throws Exception {
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, labelPar, labelLe, dateFormat, labelAccroche);
+
+    boolean result = displayBean.isDisplayLink();
+    Assert.assertFalse(result);
+  }
+
+  @Test
+  public void testIsDisplayLink_False_No_Link() throws Exception {
+    NewsContentDTO content = new NewsContentDTOBuilder().toNewsContentDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, labelPar, labelLe, dateFormat, labelAccroche);
+
+    boolean result = displayBean.isDisplayLink();
+    Assert.assertFalse(result);
+  }
+
+  @Test
+  public void testIsDisplayVideo() throws Exception {
+    NewsContentDTO content = new NewsContentDTOBuilder().videoUrl("video").toNewsContentDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, labelPar, labelLe, dateFormat, labelAccroche);
+
+    boolean result = displayBean.isDisplayVideo();
+    Assert.assertTrue(result);
+  }
+
+  @Test
+  public void testIsDisplayVideo_False_No_Content() throws Exception {
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, labelPar, labelLe, dateFormat, labelAccroche);
+
+    boolean result = displayBean.isDisplayVideo();
+    Assert.assertFalse(result);
+  }
+
+  @Test
+  public void testIsDisplayVideo_False_No_Video() throws Exception {
+    NewsContentDTO content = new NewsContentDTOBuilder().toNewsContentDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, labelPar, labelLe, dateFormat, labelAccroche);
+
+    boolean result = displayBean.isDisplayVideo();
+    Assert.assertFalse(result);
+  }
+
+  @Test
+  public void testGetNewsEntryModifyHref() throws Exception {
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().id(123456789L).toNewsEntryDTO();
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, labelPar, labelLe, dateFormat, labelAccroche);
+
+    String result = displayBean.getNewsEntryModifyHref();
+
+    Assert.assertEquals("/manager/news/123456789", result);
   }
 
 }

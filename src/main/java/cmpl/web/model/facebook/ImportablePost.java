@@ -23,7 +23,6 @@ public class ImportablePost {
   private Date creationDate;
   private String formattedDate;
   private String objectId;
-
   private String onclick;
 
   public String getAuthor() {
