@@ -1,5 +1,7 @@
 package cmpl.web.configuration;
 
+import java.text.SimpleDateFormat;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,7 +9,6 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 
 import cmpl.web.message.WebMessageSource;
-import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.repository.NewsContentRepository;
 import cmpl.web.repository.NewsEntryRepository;
 import cmpl.web.repository.NewsImageRepository;
@@ -77,12 +78,12 @@ public class ServicesConfiguration {
       NewsEntryService newsEntryService) {
     String dateFormat = "dd/MM/yy";
     return FacebookServiceImpl.fromFacebookConnector(facebookConnector, connectionRepository, newsEntryService,
-        dateFormat);
+        new SimpleDateFormat(dateFormat));
   }
 
   @Bean
   FacebookImportService facebookImportService(NewsEntryService newsEntryService, Facebook facebookConnector,
-      WebMessageSourceImpl messageSource) {
+      WebMessageSource messageSource) {
     return FacebookImportServiceImpl.fromService(newsEntryService, facebookConnector, messageSource);
   }
 }

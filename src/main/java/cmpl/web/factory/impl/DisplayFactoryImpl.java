@@ -130,7 +130,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     ClassLoader classLoader = getClass().getClassLoader();
     for (String imageSrc : imagesSrcs) {
       URL resource = classLoader.getResource(imageSrc);
-      if (resource != null && !StringUtils.isEmpty(resource.getFile())) {
+      if (resource != null && StringUtils.hasText(resource.getFile())) {
         File file = new File(resource.getFile());
         imagesForCarousel.add(file);
       } else {

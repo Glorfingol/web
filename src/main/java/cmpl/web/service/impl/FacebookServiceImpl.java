@@ -2,10 +2,12 @@ package cmpl.web.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.FeedOperations;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Post;
 import org.springframework.social.facebook.api.Post.PostType;
@@ -26,11 +28,11 @@ public class FacebookServiceImpl implements FacebookService {
 
   private final Facebook facebookConnector;
   private final ConnectionRepository connectionRepository;
-  private final String dateFormat;
+  private final SimpleDateFormat dateFormat;
   private final NewsEntryService newsEntryService;
 
   private FacebookServiceImpl(Facebook facebookConnector, ConnectionRepository connectionRepository,
-      NewsEntryService newsEntryService, String dateFormat) {
+      NewsEntryService newsEntryService, SimpleDateFormat dateFormat) {
     this.facebookConnector = facebookConnector;
     this.connectionRepository = connectionRepository;
     this.dateFormat = dateFormat;
@@ -47,7 +49,7 @@ public class FacebookServiceImpl implements FacebookService {
    * @return
    */
   public static FacebookServiceImpl fromFacebookConnector(Facebook facebookConnector,
-      ConnectionRepository connectionRepository, NewsEntryService newsEntryService, String dateFormat) {
+      ConnectionRepository connectionRepository, NewsEntryService newsEntryService, SimpleDateFormat dateFormat) {
     return new FacebookServiceImpl(facebookConnector, connectionRepository, newsEntryService, dateFormat);
   }
 
@@ -58,16 +60,19 @@ public class FacebookServiceImpl implements FacebookService {
       throw new BaseException();
     }
 
-    PagedList<Post> recentPosts = facebookConnector.feedOperations().getPosts();
+    PagedList<Post> recentPosts = getFeedOperations().getPosts();
 
     return computeImportablePosts(recentPosts);
   }
 
+  FeedOperations getFeedOperations() {
+    return facebookConnector.feedOperations();
+  }
+
   List<ImportablePost> computeImportablePosts(PagedList<Post> recentPosts) {
-    SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
     List<ImportablePost> importablePosts = new ArrayList<>();
     for (Post recentPost : recentPosts) {
-      ImportablePost post = computeImportablePost(recentPost, formatter);
+      ImportablePost post = computeImportablePost(recentPost, dateFormat);
       if (canImportPost(post)) {
         importablePosts.add(post);
       }
@@ -75,8 +80,8 @@ public class FacebookServiceImpl implements FacebookService {
     return importablePosts;
   }
 
-  private boolean canImportPost(ImportablePost post) {
-    if (PostType.STATUS.equals(post.getType()) && StringUtils.isEmpty(post.getDescription())) {
+  boolean canImportPost(ImportablePost post) {
+    if (PostType.STATUS.equals(post.getType()) && !StringUtils.hasText(post.getDescription())) {
       return false;
     }
     if (newsEntryService.isAlreadyImportedFromFacebook(post.getFacebookId())) {
@@ -85,59 +90,91 @@ public class FacebookServiceImpl implements FacebookService {
     return true;
   }
 
-  private ImportablePost computeImportablePost(Post feed, SimpleDateFormat formatter) {
+  ImportablePost computeImportablePost(Post feed, SimpleDateFormat formatter) {
+
     ImportablePost post = new ImportablePost();
-    post.setAuthor(feed.getFrom().getName());
+    post.setAuthor(computeAuthor(feed));
     post.setDescription(computeDescription(feed));
     post.setPhotoUrl(computePhotoUrl(feed));
-    post.setLinkUrl(feed.getLink());
+    post.setLinkUrl(computeLink(feed));
     post.setVideoUrl(computeVideoUrl(feed));
     post.setTitle(computeTitle(feed));
-    post.setType(feed.getType());
-    post.setFacebookId(feed.getId());
+    post.setType(computeType(feed));
+    post.setFacebookId(computeId(feed));
     post.setOnclick(computeOnclick(feed));
-    post.setCreationDate(feed.getCreatedTime());
-    post.setObjectId(feed.getObjectId());
-
-    post.setFormattedDate(formatter.format(feed.getCreatedTime()));
+    post.setCreationDate(computeCreatedTime(feed));
+    post.setObjectId(computeObjectId(feed));
+    post.setFormattedDate(computeFormattedDate(feed, formatter));
 
     return post;
   }
 
-  private String computePhotoUrl(Post feed) {
-    if (!PostType.PHOTO.equals(feed.getType())) {
+  String computeFormattedDate(Post feed, SimpleDateFormat formatter) {
+    return formatter.format(computeCreatedTime(feed));
+  }
+
+  String computeObjectId(Post feed) {
+    return feed.getObjectId();
+  }
+
+  Date computeCreatedTime(Post feed) {
+    return feed.getCreatedTime();
+  }
+
+  String computeId(Post feed) {
+    return feed.getId();
+  }
+
+  PostType computeType(Post feed) {
+    return feed.getType();
+  }
+
+  String computeLink(Post feed) {
+    return feed.getLink();
+  }
+
+  String computeAuthor(Post feed) {
+    return feed.getFrom().getName();
+  }
+
+  String computePhotoUrl(Post feed) {
+    if (!PostType.PHOTO.equals(computeType(feed))) {
       return "";
     }
     return feed.getPicture();
   }
 
-  private String computeVideoUrl(Post feed) {
+  String computeVideoUrl(Post feed) {
     String videoUrl = feed.getSource();
-    if (StringUtils.isEmpty(videoUrl)) {
+    if (!StringUtils.hasText(videoUrl)) {
       return videoUrl;
     }
-    videoUrl = videoUrl.replace("autoplay=1", "autoplay=0");
+    videoUrl = makeVideoNotAutoplay(videoUrl);
     return videoUrl;
   }
 
-  private String computeOnclick(Post feed) {
-    return "toggleImport('" + feed.getId() + "')";
+  String makeVideoNotAutoplay(String videoUrl) {
+    return videoUrl.replace("autoplay=1", "autoplay=0");
   }
 
-  private String computeTitle(Post feed) {
+  String computeOnclick(Post feed) {
+    return "toggleImport('" + computeId(feed) + "')";
+  }
+
+  String computeTitle(Post feed) {
     String title = feed.getName();
-    if (StringUtils.isEmpty(title)) {
+    if (!StringUtils.hasText(title)) {
       title = feed.getCaption();
     }
-    if (StringUtils.isEmpty(title)) {
-      title = "Type " + feed.getType().name();
+    if (!StringUtils.hasText(title)) {
+      title = "Type " + computeType(feed).name();
     }
     return title;
   }
 
-  private String computeDescription(Post feed) {
+  String computeDescription(Post feed) {
     String message = feed.getMessage();
-    if (StringUtils.isEmpty(message)) {
+    if (!StringUtils.hasText(message)) {
       return feed.getDescription();
     }
     return message;

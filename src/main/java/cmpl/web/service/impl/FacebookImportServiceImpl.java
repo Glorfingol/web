@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.ImageType;
+import org.springframework.social.facebook.api.MediaOperations;
 import org.springframework.util.StringUtils;
 
 import cmpl.web.message.WebMessageSource;
@@ -78,38 +79,48 @@ public class FacebookImportServiceImpl implements FacebookImportService {
     convertedPost.setTitle(computeTitle(locale));
 
     if (hasContent(facebookPost)) {
-      NewsContentDTO content = new NewsContentDTO();
-      content.setContent(facebookPost.getDescription());
-      content.setLinkUrl(facebookPost.getLinkUrl());
-      content.setVideoUrl(facebookPost.getVideoUrl());
+      NewsContentDTO content = computeNewsContentFromPost(facebookPost);
       convertedPost.setNewsContent(content);
     }
 
     if (hasImage(facebookPost)) {
-      NewsImageDTO image = new NewsImageDTO();
-      image.setAlt(computeAlt(facebookPost, locale));
-      image.setLegend(computeLegend(locale));
-      image.setBase64Src(getFacebookImageBase64Src(facebookPost));
+      NewsImageDTO image = computeNewsImageFromPost(facebookPost, locale);
       convertedPost.setNewsImage(image);
     }
 
     return convertedPost;
   }
 
-  private String computeLegend(Locale locale) {
+  NewsImageDTO computeNewsImageFromPost(FacebookImportPost facebookPost, Locale locale) {
+    NewsImageDTO image = new NewsImageDTO();
+    image.setAlt(computeAlt(facebookPost, locale));
+    image.setLegend(computeLegend(locale));
+    image.setBase64Src(getFacebookImageBase64Src(facebookPost));
+    return image;
+  }
+
+  NewsContentDTO computeNewsContentFromPost(FacebookImportPost facebookPost) {
+    NewsContentDTO content = new NewsContentDTO();
+    content.setContent(facebookPost.getDescription());
+    content.setLinkUrl(facebookPost.getLinkUrl());
+    content.setVideoUrl(facebookPost.getVideoUrl());
+    return content;
+  }
+
+  String computeLegend(Locale locale) {
     return messageSource.getI18n("facebook.image.legend", locale);
   }
 
-  private String computeAlt(FacebookImportPost facebookPost, Locale locale) {
+  String computeAlt(FacebookImportPost facebookPost, Locale locale) {
     return messageSource.getI18n("facebook.image.alt", locale) + facebookPost.getFacebookId();
   }
 
   boolean hasContent(FacebookImportPost facebookPost) {
-    return !StringUtils.isEmpty(facebookPost.getDescription());
+    return StringUtils.hasText(facebookPost.getDescription());
   }
 
   boolean hasImage(FacebookImportPost facebookPost) {
-    return !StringUtils.isEmpty(facebookPost.getPhotoUrl());
+    return StringUtils.hasText(facebookPost.getPhotoUrl());
   }
 
   String getFacebookImageBase64Src(FacebookImportPost facebookPost) {
@@ -123,7 +134,7 @@ public class FacebookImportServiceImpl implements FacebookImportService {
     base64SrcBuilder.append(DATA_START);
 
     String contentType = computeContentTypeFromBytes(facebookPost, data);
-    if (StringUtils.isEmpty(contentType)) {
+    if (!StringUtils.hasText(contentType)) {
       return "";
     }
 
@@ -133,33 +144,34 @@ public class FacebookImportServiceImpl implements FacebookImportService {
     return base64SrcBuilder.toString();
   }
 
-  private String computeTags(Locale locale) {
+  String computeTags(Locale locale) {
     return messageSource.getI18n("facebook.news.tag", locale);
   }
 
-  private String computeTitle(Locale locale) {
+  String computeTitle(Locale locale) {
     return messageSource.getI18n("facebook.news.title", locale);
   }
 
-  private byte[] recoverImageBytes(FacebookImportPost facebookPost) {
-    byte[] data = null;
-    try {
-      data = facebookConnector.mediaOperations().getAlbumImage(facebookPost.getObjectId(), ImageType.NORMAL);
-    } catch (Exception e) {
-      LOGGER.warn("Impossible de retrouver l'image sur facebook pour l'objet ", facebookPost.getObjectId(), e);
-      return new byte[]{};
-    }
-    return data;
+  byte[] recoverImageBytes(FacebookImportPost facebookPost) {
+    return getMediaOperations().getAlbumImage(facebookPost.getObjectId(), ImageType.NORMAL);
   }
 
-  private String computeContentTypeFromBytes(FacebookImportPost facebookPost, byte[] data) {
+  MediaOperations getMediaOperations() {
+    return facebookConnector.mediaOperations();
+  }
+
+  String computeContentTypeFromBytes(FacebookImportPost facebookPost, byte[] data) {
     String contentType = "";
     try {
-      contentType = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(data));
+      contentType = URLConnection.guessContentTypeFromStream(prepareInputStream(data));
     } catch (IOException e) {
       LOGGER.warn("Impossible de determiner le type de l'image pour l'album ", facebookPost.getObjectId(), e);
     }
     return contentType;
+  }
+
+  ByteArrayInputStream prepareInputStream(byte[] data) {
+    return new ByteArrayInputStream(data);
   }
 
 }

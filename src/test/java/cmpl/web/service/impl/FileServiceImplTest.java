@@ -11,7 +11,9 @@ import java.nio.file.Paths;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
@@ -25,6 +27,9 @@ import cmpl.web.service.ImageConverterService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FileServiceImplTest {
+
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 
   @Mock
   private ImageConverterService imageConverterService;
@@ -89,12 +94,8 @@ public class FileServiceImplTest {
   public void testCreateNewFile_Error() throws Exception {
     File fileTest = new File("plodfdfdf/test");
 
-    try {
-      service.createNewFile("SomeId", fileTest);
-      Assert.fail();
-    } catch (Exception e) {
-      Assert.assertEquals(BaseException.class, e.getClass());
-    }
+    exception.expect(BaseException.class);
+    service.createNewFile("SomeId", fileTest);
 
     Assert.assertFalse(fileTest.exists());
   }
@@ -229,12 +230,8 @@ public class FileServiceImplTest {
   public void testWriteBufferedImageToFile_exception() throws Exception {
     BufferedImage bufferedImage = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 
-    try {
-      service.writeBufferedImageToFile(bufferedImage, new File(""), "png");
-      Assert.fail();
-    } catch (Exception e) {
-      Assert.assertEquals(BaseException.class, e.getClass());
-    }
+    exception.expect(BaseException.class);
+    service.writeBufferedImageToFile(bufferedImage, new File(""), "png");
   }
 
   @Test
@@ -250,12 +247,8 @@ public class FileServiceImplTest {
   @Test
   public void testReadBytesToBufferedImage_Exception() throws Exception {
 
-    try {
-      service.readBytesToBufferedImage("666", null);
-      Assert.fail();
-    } catch (Exception e) {
-      Assert.assertEquals(BaseException.class, e.getClass());
-    }
+    exception.expect(BaseException.class);
+    service.readBytesToBufferedImage("666", null);
 
   }
 
@@ -276,13 +269,9 @@ public class FileServiceImplTest {
   @Test
   public void testConvertBase64ContentToBytes_Exception() throws Exception {
 
+    exception.expect(BaseException.class);
     BDDMockito.doThrow(new IOException()).when(imageConverterService).getImageByteArray(Mockito.anyString());
-    try {
-      service.convertBase64ContentToBytes("666", null);
-      Assert.fail();
-    } catch (Exception e) {
-      Assert.assertEquals(BaseException.class, e.getClass());
-    }
+    service.convertBase64ContentToBytes("666", null);
 
     Mockito.verify(imageConverterService, Mockito.times(1)).getImageByteArray(Mockito.anyString());
   }

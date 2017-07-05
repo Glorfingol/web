@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.assertj.core.util.Lists;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -17,6 +19,9 @@ import cmpl.web.model.BaseException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WebSecurityConfigurationTest {
+
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 
   @Spy
   WebSecurityConfiguration configuration;
@@ -63,13 +68,9 @@ public class WebSecurityConfigurationTest {
   }
 
   @Test
-  public void testConfigureGlobal_Exception() {
-    try {
-      configuration.configureGlobal(null);
-      Assert.fail();
-    } catch (Exception e) {
-      Assert.assertEquals(BaseException.class, e.getClass());
-    }
+  public void testConfigureGlobal_Exception() throws Exception {
+    exception.expect(BaseException.class);
+    configuration.configureGlobal(null);
 
   }
 }

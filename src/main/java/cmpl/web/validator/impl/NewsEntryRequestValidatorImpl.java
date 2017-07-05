@@ -175,7 +175,7 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
   }
 
   boolean isStringValid(String stringToValidate) {
-    return !StringUtils.isEmpty(stringToValidate) && !StringUtils.isEmpty(stringToValidate.trim());
+    return StringUtils.hasText(stringToValidate);
   }
 
   String getI18n(String key, Locale locale) {

@@ -210,12 +210,12 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     NewsEntryDTO newsEntryDTO = toDTO(newsEntry);
 
     String newsContentId = newsEntry.getContentId();
-    if (!StringUtils.isEmpty(newsContentId)) {
+    if (StringUtils.hasText(newsContentId)) {
       newsEntryDTO.setNewsContent(newsContentService.getEntity(Long.parseLong(newsContentId)));
     }
 
     String newsImageId = newsEntry.getImageId();
-    if (!StringUtils.isEmpty(newsImageId)) {
+    if (StringUtils.hasText(newsImageId)) {
       NewsImageDTO image = newsImageService.getEntity(Long.parseLong(newsImageId));
       newsEntryDTO.setNewsImage(image);
 

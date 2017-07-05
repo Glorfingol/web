@@ -133,7 +133,7 @@ public class MetaElementFactoryImpl extends BaseFactoryImpl implements MetaEleme
 
   MetaElement computeDescriptionForNewsEntry(Locale locale, PAGE page, NewsEntryDTO newsEntry) {
     NewsContentDTO content = newsEntry.getNewsContent();
-    if (content == null || StringUtils.isEmpty(content.getContent())) {
+    if (content == null || !StringUtils.hasText(content.getContent())) {
       return computeMetaElement(DESCRIPTION, getI18nValue(page.getDescription(), locale));
     }
     return computeMetaElement(DESCRIPTION, content.getContent());
@@ -161,7 +161,7 @@ public class MetaElementFactoryImpl extends BaseFactoryImpl implements MetaEleme
 
   MetaElement computeOpenGraphDescriptionForNewsEntry(Locale locale, PAGE page, NewsEntryDTO newsEntry) {
     NewsContentDTO content = newsEntry.getNewsContent();
-    if (content == null || StringUtils.isEmpty(content.getContent())) {
+    if (content == null || !StringUtils.hasText(content.getContent())) {
       return computeOpenGraphMetaElement(OG_DESCRIPTION, getI18nValue(page.getDescription(), locale));
     }
     return computeOpenGraphMetaElement(OG_DESCRIPTION, content.getContent());
@@ -172,12 +172,12 @@ public class MetaElementFactoryImpl extends BaseFactoryImpl implements MetaEleme
   }
 
   MetaElement computeOpenGraphUrl(Locale locale, PAGE page) {
-    MENU pageMenu = MENU.getByPage(page);
+    MENU pageMenu = MENU.getByPageTitle(page);
     return computeOpenGraphMetaElement(OG_URL, BASE_URL + getI18nValue(pageMenu.getHref(), locale));
   }
 
   MetaElement computeOpenGraphUrlForNewsEntry(Locale locale, NewsEntryDTO newsEntry) {
-    MENU pageMenu = MENU.getByPage(PAGE.NEWS);
+    MENU pageMenu = MENU.getByPageTitle(PAGE.NEWS);
     return computeOpenGraphMetaElement(OG_URL,
         BASE_URL + getI18nValue(pageMenu.getHref(), locale) + SLASH + +newsEntry.getId());
   }

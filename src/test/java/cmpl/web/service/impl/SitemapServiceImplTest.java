@@ -14,7 +14,9 @@ import java.util.Locale;
 import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
@@ -23,9 +25,6 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.redfin.sitemapgenerator.ChangeFreq;
-import com.redfin.sitemapgenerator.WebSitemapUrl;
-
 import cmpl.web.builder.NewsEntryDTOBuilder;
 import cmpl.web.message.WebMessageSource;
 import cmpl.web.model.BaseException;
@@ -33,8 +32,14 @@ import cmpl.web.model.menu.MENU;
 import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.service.NewsEntryService;
 
+import com.redfin.sitemapgenerator.ChangeFreq;
+import com.redfin.sitemapgenerator.WebSitemapUrl;
+
 @RunWith(MockitoJUnitRunner.class)
 public class SitemapServiceImplTest {
+
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 
   @Mock
   private WebMessageSource messageSource;
@@ -217,8 +222,8 @@ public class SitemapServiceImplTest {
     BDDMockito.doReturn(entries).when(newsEntryService).getEntities();
     BDDMockito.doReturn(Lists.newArrayList(urlMenu)).when(service).computeMenuUrls(Mockito.eq(locale));
     BDDMockito.doReturn(urlNews).when(service).computeUrlForMenuNews(Mockito.eq(dateModification), Mockito.eq(locale));
-    BDDMockito.doReturn(Lists.newArrayList(urlNewsEntry)).when(service).computeNewsEntriesUrls(Mockito.eq(locale),
-        Mockito.eq(entries));
+    BDDMockito.doReturn(Lists.newArrayList(urlNewsEntry)).when(service)
+        .computeNewsEntriesUrls(Mockito.eq(locale), Mockito.eq(entries));
     BDDMockito.doReturn(dateModification).when(service).computeLastModified(Mockito.eq(entries));
 
     service.writeSitemap(path, locale);
@@ -249,16 +254,12 @@ public class SitemapServiceImplTest {
   }
 
   @Test
-  public void testCreateSiteMap_Exception() throws BaseException, IOException {
+  public void testCreateSiteMap_Exception() throws Exception {
 
+    exception.expect(BaseException.class);
     BDDMockito.doThrow(new IOException("")).when(service).writeSitemap(Mockito.any(Path.class), Mockito.eq(locale));
 
-    try {
-      service.createSiteMap(locale);
-      Assert.fail();
-    } catch (BaseException e) {
-
-    }
+    service.createSiteMap(locale);
 
   }
 

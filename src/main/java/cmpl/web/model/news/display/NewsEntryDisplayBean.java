@@ -45,7 +45,7 @@ public class NewsEntryDisplayBean {
   }
 
   public List<String> getTags() {
-    if (StringUtils.isEmpty(newsEntryDTO.getTags())) {
+    if (!StringUtils.hasText(newsEntryDTO.getTags())) {
       return new ArrayList<>();
     }
     String[] splittedTags = newsEntryDTO.getTags().split(SEMICOLON);
@@ -123,7 +123,7 @@ public class NewsEntryDisplayBean {
   }
 
   public boolean isDisplayContent() {
-    return displayContent() && StringUtils.isEmpty(newsEntryDTO.getNewsContent().getLinkUrl());
+    return displayContent() && !StringUtils.hasText(newsEntryDTO.getNewsContent().getLinkUrl());
   }
 
   public boolean isDisplayTags() {
@@ -131,11 +131,11 @@ public class NewsEntryDisplayBean {
   }
 
   public boolean isDisplayLink() {
-    return displayContent() && !StringUtils.isEmpty(newsEntryDTO.getNewsContent().getLinkUrl());
+    return displayContent() && StringUtils.hasText(newsEntryDTO.getNewsContent().getLinkUrl());
   }
 
   public boolean isDisplayVideo() {
-    return displayContent() && !StringUtils.isEmpty(newsEntryDTO.getNewsContent().getVideoUrl());
+    return displayContent() && StringUtils.hasText(newsEntryDTO.getNewsContent().getVideoUrl());
   }
 
   public String getNewsEntryId() {

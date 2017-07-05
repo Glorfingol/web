@@ -191,7 +191,7 @@ public class MenuFactoryImplTest {
   public void testComputeCustomCssClass_PAGE_empty() {
 
     String result = menuFactory.computeCustomCssClass(PAGE.APPOINTMENT, MENU.INDEX);
-    Assert.assertTrue(StringUtils.isEmpty(result));
+    Assert.assertTrue(!StringUtils.hasText(result));
   }
 
   @Test
@@ -205,6 +205,6 @@ public class MenuFactoryImplTest {
   public void testComputeCustomCssClass_BACK_PAGE_empty() {
 
     String result = menuFactory.computeCustomCssClass(BACK_PAGE.LOGIN, BACK_MENU.BACK_NEWS);
-    Assert.assertTrue(StringUtils.isEmpty(result));
+    Assert.assertTrue(!StringUtils.hasText(result));
   }
 }

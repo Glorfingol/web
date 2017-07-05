@@ -5,7 +5,9 @@ import java.util.Locale;
 import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
@@ -28,6 +30,9 @@ import cmpl.web.validator.NewsEntryRequestValidator;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsEntryDispatcherImplTest {
+
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 
   @Mock
   private NewsEntryRequestValidator validator;
@@ -59,7 +64,7 @@ public class NewsEntryDispatcherImplTest {
   }
 
   @Test
-  public void testDeleteEntity_Ko() {
+  public void testDeleteEntity_Ko() throws Exception {
 
     ErrorCause errorCause = new ErrorCause();
     errorCause.setCode(NEWS_ERROR_CAUSE.EMPTY_NEWS_ID.toString());
@@ -69,13 +74,12 @@ public class NewsEntryDispatcherImplTest {
     error.setCode(NEWS_ERROR.INVALID_REQUEST.toString());
     error.setCauses(Lists.newArrayList(errorCause));
 
+    exception.expect(BaseException.class);
+    exception.expectMessage(errorCause.getMessage());
+
     BDDMockito.doReturn(error).when(validator).validateDelete(Mockito.anyString(), Mockito.eq(locale));
 
-    try {
-      dispatcher.deleteEntity(String.valueOf(1L), locale);
-    } catch (BaseException e) {
-      Assert.assertEquals(e.getMessage(), errorCause.getMessage());
-    }
+    dispatcher.deleteEntity(String.valueOf(1L), locale);
 
     Mockito.verify(validator, Mockito.times(1)).validateDelete(Mockito.anyString(), Mockito.eq(locale));
     Mockito.verify(newsEntryService, Mockito.times(0)).deleteEntity(Mockito.anyLong());

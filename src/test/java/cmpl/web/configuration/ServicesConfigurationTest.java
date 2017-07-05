@@ -13,6 +13,7 @@ import cmpl.web.message.WebMessageSource;
 import cmpl.web.repository.NewsContentRepository;
 import cmpl.web.repository.NewsEntryRepository;
 import cmpl.web.repository.NewsImageRepository;
+import cmpl.web.service.FacebookImportService;
 import cmpl.web.service.FacebookService;
 import cmpl.web.service.FileService;
 import cmpl.web.service.ImageConverterService;
@@ -20,6 +21,7 @@ import cmpl.web.service.NewsContentService;
 import cmpl.web.service.NewsEntryService;
 import cmpl.web.service.NewsImageService;
 import cmpl.web.service.SitemapService;
+import cmpl.web.service.impl.FacebookImportServiceImpl;
 import cmpl.web.service.impl.FacebookServiceImpl;
 import cmpl.web.service.impl.FileServiceImpl;
 import cmpl.web.service.impl.ImageConverterServiceImpl;
@@ -106,6 +108,15 @@ public class ServicesConfigurationTest {
     FacebookService result = configuration.facebookService(facebookConnector, connectionRepository, newsEntryService);
 
     Assert.assertEquals(FacebookServiceImpl.class, result.getClass());
+  }
+
+  @Test
+  public void testFacebookImportService() throws Exception {
+
+    FacebookImportService result = configuration.facebookImportService(newsEntryService, facebookConnector,
+        messageSource);
+
+    Assert.assertEquals(FacebookImportServiceImpl.class, result.getClass());
   }
 
 }
