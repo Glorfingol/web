@@ -31,7 +31,13 @@ public enum MENU {
     this.href = href;
   }
 
-  public static MENU getByPage(PAGE page) {
+  /**
+   * Retrouve le menu front associe a la page front via le titre
+   * 
+   * @param page
+   * @return
+   */
+  public static MENU getByPageTitle(PAGE page) {
     for (MENU menu : MENU.values()) {
       if (menu.getTitle().equals(page.getTitle())) {
         return menu;
