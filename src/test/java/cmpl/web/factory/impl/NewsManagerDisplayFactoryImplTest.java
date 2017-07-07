@@ -182,6 +182,7 @@ public class NewsManagerDisplayFactoryImplTest {
     NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().author(autor).creationDate(date).id(1L).toNewsEntryDTO();
     List<NewsEntryDTO> newsEntries = Lists.newArrayList(newsEntry);
 
+    BDDMockito.doReturn(new SimpleDateFormat("dd/MM/yy")).when(contextHolder).getDateFormat();
     BDDMockito.doReturn(newsEntries).when(newsEntryService).getEntities();
     BDDMockito.doReturn(labelPar).when(displayFactory).getI18nValue(Mockito.eq("news.entry.by"), Mockito.eq(locale));
     BDDMockito.doReturn(labelLe).when(displayFactory).getI18nValue(Mockito.eq("news.entry.the"), Mockito.eq(locale));

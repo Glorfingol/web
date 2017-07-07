@@ -18,10 +18,10 @@ import cmpl.web.model.context.ContextHolder;
 public class ContextConfiguration {
 
   @Value("${fileBasePath}")
-  private String fileBasePath;
+  String fileBasePath;
 
   @Value("${imageDisplaySrc}")
-  private String imageDisplaySrc;
+  String imageDisplaySrc;
 
   @Bean
   ContextHolder contextHolder() {

@@ -37,7 +37,7 @@ public class NewsEntryDisplayBeanTest {
     labelLe = "le";
     labelAccroche = "En savoir plus";
     dateFormat = new SimpleDateFormat("dd/MM/yy");
-    imageDisplaySrc = "http://cm-pl.com";
+    imageDisplaySrc = "http://cm-pl.com/";
   }
 
   @Test
@@ -338,7 +338,7 @@ public class NewsEntryDisplayBeanTest {
         labelAccroche);
 
     String result = displayBean.getImage();
-    Assert.assertEquals("src", result);
+    Assert.assertEquals(imageDisplaySrc + "src", result);
   }
 
   @Test

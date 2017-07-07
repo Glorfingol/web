@@ -396,6 +396,7 @@ public class FacebookServiceImplTest {
 
     ImportablePost importable = new ImportablePostBuilder().toImportablePost();
 
+    BDDMockito.doReturn(new SimpleDateFormat("dd/MM/yy")).when(contextHolder).getDateFormat();
     BDDMockito.doReturn(importable).when(facebookService)
         .computeImportablePost(Mockito.eq(postToImport), Mockito.any(SimpleDateFormat.class));
     BDDMockito.doReturn(true).when(facebookService).canImportPost(Mockito.eq(importable));
@@ -417,6 +418,7 @@ public class FacebookServiceImplTest {
 
     ImportablePost importable = new ImportablePostBuilder().toImportablePost();
 
+    BDDMockito.doReturn(new SimpleDateFormat("dd/MM/yy")).when(contextHolder).getDateFormat();
     BDDMockito.doReturn(importable).when(facebookService)
         .computeImportablePost(Mockito.eq(postToImport), Mockito.any(SimpleDateFormat.class));
     BDDMockito.doReturn(false).when(facebookService).canImportPost(Mockito.eq(importable));

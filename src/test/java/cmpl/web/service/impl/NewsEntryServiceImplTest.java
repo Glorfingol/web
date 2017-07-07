@@ -660,8 +660,24 @@ public class NewsEntryServiceImplTest {
   }
 
   @Test
-  public void testIsAlreadyImportedFromFacebook() throws Exception {
-    throw new RuntimeException("not yet implemented");
+  public void testIsAlreadyImportedFromFacebook_True() throws Exception {
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+
+    BDDMockito.doReturn(Lists.newArrayList(entry)).when(repository).findByFacebookId(Mockito.anyString());
+
+    boolean result = service.isAlreadyImportedFromFacebook("123456789");
+
+    Assert.assertTrue(result);
+  }
+
+  @Test
+  public void testIsAlreadyImportedFromFacebook_False() throws Exception {
+
+    BDDMockito.doReturn(Lists.newArrayList()).when(repository).findByFacebookId(Mockito.anyString());
+
+    boolean result = service.isAlreadyImportedFromFacebook("123456789");
+
+    Assert.assertFalse(result);
   }
 
 }

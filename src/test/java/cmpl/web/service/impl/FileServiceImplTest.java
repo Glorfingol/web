@@ -62,6 +62,8 @@ public class FileServiceImplTest {
     service = FileServiceImpl.fromStringAndService(contextHolder, imageConverterService);
     service = Mockito.spy(service);
 
+    BDDMockito.doReturn("src\\test\\resources\\img\\actualites\\").when(contextHolder).getImageFileSrc();
+
   }
 
   @Test
