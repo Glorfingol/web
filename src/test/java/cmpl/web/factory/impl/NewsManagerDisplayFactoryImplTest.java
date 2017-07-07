@@ -590,4 +590,16 @@ public class NewsManagerDisplayFactoryImplTest {
     Assert.assertEquals("http://cm-pl.com/someSrc", result);
 
   }
+
+  @Test
+  public void testComputeImageSrc_Null() throws Exception {
+
+    NewsImageDTO image = new NewsImageDTOBuilder().toNewsImageDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).toNewsEntryDTO();
+
+    String result = displayFactory.computeImageSrc(entry);
+
+    Assert.assertNull(result);
+
+  }
 }
