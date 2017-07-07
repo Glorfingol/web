@@ -4,10 +4,12 @@ $(document).ready(function() {
 	holder.on("dragover", function(event){
 	    event.preventDefault();  
 	    event.stopPropagation();
+	    $(this).addClass("dropping");
 	});
 	holder.on("dragleave", function(event) {
 	    event.preventDefault();  
 	    event.stopPropagation();
+	    $(this).removeClass("dropping");
 	});
 	holder.on("drop", function(event){
 		 event.preventDefault();
@@ -22,6 +24,7 @@ $(document).ready(function() {
 		      previewFile();
 		 }
 		 reader.readAsDataURL(file);
+		 $(this).removeClass("dropping");
 	});
 });
 

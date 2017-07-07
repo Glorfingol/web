@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.factory.FooterFactory;
@@ -162,7 +163,11 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   String computeImageSrc(NewsEntryDTO dto) {
-    return contextHolder.getImageDisplaySrc() + dto.getNewsImage().getSrc();
+    String src = dto.getNewsImage().getSrc();
+    if (StringUtils.hasText(src)) {
+      return contextHolder.getImageDisplaySrc() + src;
+    }
+    return null;
   }
 
   NewsContentRequest computeNewsContentRequest(NewsEntryDTO dto) {

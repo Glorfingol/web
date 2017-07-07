@@ -63,6 +63,11 @@ body{
     color: #bbb;
 }
 
+.dropping{
+	color: #025aa5 !important;
+	border: 2px dashed #025aa5 !important;
+}
+
 
 /**
 PAGE SOON
