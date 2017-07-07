@@ -22,6 +22,7 @@ import cmpl.web.factory.impl.MetaElementFactoryImpl;
 import cmpl.web.factory.impl.NewsDisplayFactoryImpl;
 import cmpl.web.factory.impl.NewsManagerDisplayFactoryImpl;
 import cmpl.web.message.impl.WebMessageSourceImpl;
+import cmpl.web.model.context.ContextHolder;
 import cmpl.web.service.FacebookService;
 import cmpl.web.service.NewsEntryService;
 
@@ -49,18 +50,19 @@ public class FactoryConfiguration {
   }
 
   @Bean
-  NewsDisplayFactory newsDisplayFactory(MenuFactory menuFactory, FooterFactory footerFactory,
-      MetaElementFactory metaElementFactory, CarouselFactory carouselFactory, WebMessageSourceImpl messageSource,
-      NewsEntryService newsEntryService) {
-    return NewsDisplayFactoryImpl.fromFactoriesAndMessageResourceAndServices(menuFactory, footerFactory,
+  NewsDisplayFactory newsDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
+      FooterFactory footerFactory, MetaElementFactory metaElementFactory, CarouselFactory carouselFactory,
+      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
+    return NewsDisplayFactoryImpl.fromFactoriesAndMessageResourceAndServices(contextHolder, menuFactory, footerFactory,
         metaElementFactory, carouselFactory, messageSource, newsEntryService);
   }
 
   @Bean
-  NewsManagerDisplayFactory newsManagerDisplayFactory(MenuFactory menuFactory, FooterFactory footerFactory,
-      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
-    return NewsManagerDisplayFactoryImpl.fromFactoriesAndMessageResource(menuFactory, footerFactory, messageSource,
-        newsEntryService, metaElementFactory);
+  NewsManagerDisplayFactory newsManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
+      FooterFactory footerFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService,
+      MetaElementFactory metaElementFactory) {
+    return NewsManagerDisplayFactoryImpl.fromFactoriesAndMessageResource(contextHolder, menuFactory, footerFactory,
+        messageSource, newsEntryService, metaElementFactory);
   }
 
   @Bean

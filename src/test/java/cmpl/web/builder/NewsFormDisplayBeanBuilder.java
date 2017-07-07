@@ -18,6 +18,7 @@ public class NewsFormDisplayBeanBuilder {
 
   private String imageLabel;
   private String imageHelp;
+  private String imageDropLabel;
 
   private String legendLabel;
   private String legendHelp;
@@ -70,6 +71,11 @@ public class NewsFormDisplayBeanBuilder {
     return this;
   }
 
+  public NewsFormDisplayBeanBuilder imageDropLabel(String imageDropLabel) {
+    this.imageDropLabel = imageDropLabel;
+    return this;
+  }
+
   public NewsFormDisplayBeanBuilder imageHelp(String imageHelp) {
     this.imageHelp = imageHelp;
     return this;
@@ -106,6 +112,7 @@ public class NewsFormDisplayBeanBuilder {
     newsFormDisplayBean.setContentLabel(contentLabel);
     newsFormDisplayBean.setImageHelp(imageHelp);
     newsFormDisplayBean.setImageLabel(imageLabel);
+    newsFormDisplayBean.setImageDropLabel(imageDropLabel);
     newsFormDisplayBean.setLegendHelp(legendHelp);
     newsFormDisplayBean.setLegendLabel(legendLabel);
     newsFormDisplayBean.setTagsHelp(tagsHelp);

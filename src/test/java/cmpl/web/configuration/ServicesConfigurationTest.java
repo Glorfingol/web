@@ -10,6 +10,7 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 
 import cmpl.web.message.WebMessageSource;
+import cmpl.web.model.context.ContextHolder;
 import cmpl.web.repository.NewsContentRepository;
 import cmpl.web.repository.NewsEntryRepository;
 import cmpl.web.repository.NewsImageRepository;
@@ -55,6 +56,8 @@ public class ServicesConfigurationTest {
   private Facebook facebookConnector;
   @Mock
   private ConnectionRepository connectionRepository;
+  @Mock
+  private ContextHolder contextHolder;
 
   @Spy
   private ServicesConfiguration configuration;
@@ -98,14 +101,15 @@ public class ServicesConfigurationTest {
 
   @Test
   public void testFileService() throws Exception {
-    FileService result = configuration.fileService(imageConverterService);
+    FileService result = configuration.fileService(contextHolder, imageConverterService);
 
     Assert.assertEquals(FileServiceImpl.class, result.getClass());
   }
 
   @Test
   public void testFacebookService() throws Exception {
-    FacebookService result = configuration.facebookService(facebookConnector, connectionRepository, newsEntryService);
+    FacebookService result = configuration.facebookService(contextHolder, facebookConnector, connectionRepository,
+        newsEntryService);
 
     Assert.assertEquals(FacebookServiceImpl.class, result.getClass());
   }

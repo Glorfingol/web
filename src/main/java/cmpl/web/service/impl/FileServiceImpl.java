@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cmpl.web.model.BaseException;
+import cmpl.web.model.context.ContextHolder;
 import cmpl.web.service.FileService;
 import cmpl.web.service.ImageConverterService;
 
@@ -31,10 +32,10 @@ public class FileServiceImpl implements FileService {
   private static final String FORMAT_PREFIX = "image/";
 
   private final ImageConverterService imageConverterService;
-  private final String fileBasePath;
+  private final ContextHolder contextHolder;
 
-  private FileServiceImpl(String fileBasePath, ImageConverterService imageConverterService) {
-    this.fileBasePath = fileBasePath;
+  private FileServiceImpl(ContextHolder contextHolder, ImageConverterService imageConverterService) {
+    this.contextHolder = contextHolder;
     this.imageConverterService = imageConverterService;
   }
 
@@ -45,8 +46,9 @@ public class FileServiceImpl implements FileService {
    * @param imageConverterService
    * @return
    */
-  public static FileServiceImpl fromStringAndService(String fileBasePath, ImageConverterService imageConverterService) {
-    return new FileServiceImpl(fileBasePath, imageConverterService);
+  public static FileServiceImpl fromStringAndService(ContextHolder contextHolder,
+      ImageConverterService imageConverterService) {
+    return new FileServiceImpl(contextHolder, imageConverterService);
   }
 
   @Override
@@ -95,15 +97,15 @@ public class FileServiceImpl implements FileService {
   }
 
   Path computePath(String entityId, String format) {
-    return Paths.get(fileBasePath + entityId + FILE_END_PATH + format);
+    return Paths.get(contextHolder.getImageFileSrc() + entityId + FILE_END_PATH + format);
   }
 
   Path computeMainFolderPath() {
-    return Paths.get(fileBasePath);
+    return Paths.get(contextHolder.getImageFileSrc());
   }
 
   Path computeFolderPath(String entityId) {
-    return Paths.get(fileBasePath + entityId);
+    return Paths.get(contextHolder.getImageFileSrc() + entityId);
   }
 
   File writeBufferedImageToFile(BufferedImage bufferedImage, File imageToSave, String format) throws BaseException {

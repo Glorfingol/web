@@ -1,14 +1,12 @@
 package cmpl.web.configuration;
 
-import java.text.SimpleDateFormat;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 
 import cmpl.web.message.WebMessageSource;
+import cmpl.web.model.context.ContextHolder;
 import cmpl.web.repository.NewsContentRepository;
 import cmpl.web.repository.NewsEntryRepository;
 import cmpl.web.repository.NewsImageRepository;
@@ -38,9 +36,6 @@ import cmpl.web.service.impl.SitemapServiceImpl;
 @Configuration
 public class ServicesConfiguration {
 
-  @Value("${fileBasePath}")
-  private String fileBasePath;
-
   @Bean
   NewsEntryService newsEntryService(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
       NewsContentService newsContentService, ImageConverterService imageConverterService, FileService fileService) {
@@ -69,16 +64,15 @@ public class ServicesConfiguration {
   }
 
   @Bean
-  FileService fileService(ImageConverterService imageConverterService) {
-    return FileServiceImpl.fromStringAndService(fileBasePath, imageConverterService);
+  FileService fileService(ContextHolder contextHolder, ImageConverterService imageConverterService) {
+    return FileServiceImpl.fromStringAndService(contextHolder, imageConverterService);
   }
 
   @Bean
-  FacebookService facebookService(Facebook facebookConnector, ConnectionRepository connectionRepository,
-      NewsEntryService newsEntryService) {
-    String dateFormat = "dd/MM/yy";
-    return FacebookServiceImpl.fromFacebookConnector(facebookConnector, connectionRepository, newsEntryService,
-        new SimpleDateFormat(dateFormat));
+  FacebookService facebookService(ContextHolder contextHolder, Facebook facebookConnector,
+      ConnectionRepository connectionRepository, NewsEntryService newsEntryService) {
+    return FacebookServiceImpl.fromFacebookConnector(contextHolder, facebookConnector, connectionRepository,
+        newsEntryService);
   }
 
   @Bean

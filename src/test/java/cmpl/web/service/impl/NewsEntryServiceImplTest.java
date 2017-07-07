@@ -659,4 +659,9 @@ public class NewsEntryServiceImplTest {
     Assert.assertNull(result);
   }
 
+  @Test
+  public void testIsAlreadyImportedFromFacebook() throws Exception {
+    throw new RuntimeException("not yet implemented");
+  }
+
 }

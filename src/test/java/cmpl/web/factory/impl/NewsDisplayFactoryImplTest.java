@@ -28,6 +28,7 @@ import cmpl.web.factory.FooterFactory;
 import cmpl.web.factory.MenuFactory;
 import cmpl.web.factory.MetaElementFactory;
 import cmpl.web.message.impl.WebMessageSourceImpl;
+import cmpl.web.model.context.ContextHolder;
 import cmpl.web.model.footer.Footer;
 import cmpl.web.model.menu.MenuItem;
 import cmpl.web.model.meta.MetaElement;
@@ -51,6 +52,8 @@ public class NewsDisplayFactoryImplTest {
   private NewsEntryService newsEntryService;
   @Mock
   private CarouselFactory carouselFactory;
+  @Mock
+  private ContextHolder contextHolder;
 
   @InjectMocks
   @Spy
@@ -66,7 +69,8 @@ public class NewsDisplayFactoryImplTest {
   @Test
   public void testComputeNewsEntryDisplayBean() throws Exception {
 
-    String dateFormat = "dd/MM/yy";
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+    String imageDisplaySrc = "http://cm-pl.com";
 
     String autor = "author";
     Date date = new Date();
@@ -76,7 +80,8 @@ public class NewsDisplayFactoryImplTest {
     String labelLe = "le";
     String labelAccroche = "accroche";
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, labelPar, labelLe, dateFormat, labelAccroche);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
+        dateFormat, labelAccroche);
 
     BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.any(Long.class));
     BDDMockito.doReturn(displayBean).when(displayFactory)

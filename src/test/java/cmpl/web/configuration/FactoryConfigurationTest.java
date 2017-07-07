@@ -26,6 +26,7 @@ import cmpl.web.factory.impl.MetaElementFactoryImpl;
 import cmpl.web.factory.impl.NewsDisplayFactoryImpl;
 import cmpl.web.factory.impl.NewsManagerDisplayFactoryImpl;
 import cmpl.web.message.impl.WebMessageSourceImpl;
+import cmpl.web.model.context.ContextHolder;
 import cmpl.web.service.FacebookService;
 import cmpl.web.service.NewsEntryService;
 
@@ -46,6 +47,8 @@ public class FactoryConfigurationTest {
   private NewsEntryService newsEntryService;
   @Mock
   private FacebookService facebookService;
+  @Mock
+  private ContextHolder contextHolder;
 
   @Spy
   private FactoryConfiguration configuration;
@@ -69,16 +72,16 @@ public class FactoryConfigurationTest {
 
   @Test
   public void testNewsDisplayFactory() throws Exception {
-    NewsDisplayFactory result = configuration.newsDisplayFactory(menuFactory, footerFactory, metaElementFactory,
-        carouselFactory, messageSource, newsEntryService);
+    NewsDisplayFactory result = configuration.newsDisplayFactory(contextHolder, menuFactory, footerFactory,
+        metaElementFactory, carouselFactory, messageSource, newsEntryService);
 
     Assert.assertEquals(NewsDisplayFactoryImpl.class, result.getClass());
   }
 
   @Test
   public void testNewsManagerDisplayFactory() throws Exception {
-    NewsManagerDisplayFactory result = configuration.newsManagerDisplayFactory(menuFactory, footerFactory,
-        messageSource, newsEntryService, metaElementFactory);
+    NewsManagerDisplayFactory result = configuration.newsManagerDisplayFactory(contextHolder, menuFactory,
+        footerFactory, messageSource, newsEntryService, metaElementFactory);
 
     Assert.assertEquals(NewsManagerDisplayFactoryImpl.class, result.getClass());
   }

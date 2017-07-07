@@ -12,6 +12,7 @@ import cmpl.web.factory.MenuFactory;
 import cmpl.web.factory.MetaElementFactory;
 import cmpl.web.factory.NewsManagerDisplayFactory;
 import cmpl.web.message.impl.WebMessageSourceImpl;
+import cmpl.web.model.context.ContextHolder;
 import cmpl.web.model.news.display.NewsEntryDisplayBean;
 import cmpl.web.model.news.display.NewsFormDisplayBean;
 import cmpl.web.model.news.dto.NewsContentDTO;
@@ -31,13 +32,15 @@ import cmpl.web.service.NewsEntryService;
  */
 public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implements NewsManagerDisplayFactory {
 
-  private NewsEntryService newsEntryService;
-  private static final String DAY_MONTH_YEAR_FORMAT = "dd/MM/yy";
+  private final NewsEntryService newsEntryService;
+  private final ContextHolder contextHolder;
 
-  protected NewsManagerDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
-      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
+  protected NewsManagerDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory,
+      FooterFactory footerFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService,
+      MetaElementFactory metaElementFactory) {
     super(menuFactory, footerFactory, messageSource, metaElementFactory);
     this.newsEntryService = newsEntryService;
+    this.contextHolder = contextHolder;
   }
 
   /**
@@ -50,11 +53,11 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
    * @param metaElementFactory
    * @return
    */
-  public static NewsManagerDisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory,
-      FooterFactory footerFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService,
-      MetaElementFactory metaElementFactory) {
-    return new NewsManagerDisplayFactoryImpl(menuFactory, footerFactory, messageSource, newsEntryService,
-        metaElementFactory);
+  public static NewsManagerDisplayFactoryImpl fromFactoriesAndMessageResource(ContextHolder contextHolder,
+      MenuFactory menuFactory, FooterFactory footerFactory, WebMessageSourceImpl messageSource,
+      NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
+    return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, footerFactory, messageSource,
+        newsEntryService, metaElementFactory);
   }
 
   @Override
@@ -91,7 +94,8 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     String labelLe = getI18nValue("news.entry.the", locale);
     String labelAccroche = getI18nValue("news.entry.call", locale);
 
-    return new NewsEntryDisplayBean(newsEntryDTO, labelPar, labelLe, DAY_MONTH_YEAR_FORMAT, labelAccroche);
+    return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
+        contextHolder.getDateFormat(), labelAccroche);
   }
 
   @Override
@@ -183,6 +187,7 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
 
     formBean.setImageLabel(getI18nValue("image.label", locale));
     formBean.setImageHelp(getI18nValue("image.help", locale));
+    formBean.setImageDropLabel(getI18nValue("image.drop.label", locale));
 
     formBean.setLegendLabel(getI18nValue("legend.label", locale));
     formBean.setLegendHelp(getI18nValue("legend.help", locale));

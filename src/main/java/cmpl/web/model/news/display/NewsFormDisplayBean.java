@@ -22,6 +22,7 @@ public class NewsFormDisplayBean {
 
   private String imageLabel;
   private String imageHelp;
+  private String imageDropLabel;
 
   private String legendLabel;
   private String legendHelp;
@@ -139,6 +140,14 @@ public class NewsFormDisplayBean {
 
   public void setAltHelp(String altHelp) {
     this.altHelp = altHelp;
+  }
+
+  public String getImageDropLabel() {
+    return imageDropLabel;
+  }
+
+  public void setImageDropLabel(String imageDropLabel) {
+    this.imageDropLabel = imageDropLabel;
   }
 
 }

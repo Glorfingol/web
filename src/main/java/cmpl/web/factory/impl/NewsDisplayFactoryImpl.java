@@ -13,6 +13,7 @@ import cmpl.web.factory.MenuFactory;
 import cmpl.web.factory.MetaElementFactory;
 import cmpl.web.factory.NewsDisplayFactory;
 import cmpl.web.message.impl.WebMessageSourceImpl;
+import cmpl.web.model.context.ContextHolder;
 import cmpl.web.model.news.display.NewsEntryDisplayBean;
 import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.model.page.PAGE;
@@ -27,18 +28,20 @@ import cmpl.web.service.NewsEntryService;
 public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDisplayFactory {
 
   private NewsEntryService newsEntryService;
-  private static final String DAY_MONTH_YEAR_FORMAT = "dd/MM/yy";
+  private final ContextHolder contextHolder;
 
-  private NewsDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
+  private NewsDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory, FooterFactory footerFactory,
       MetaElementFactory metaElementFactory, CarouselFactory carouselFactory, WebMessageSourceImpl messageSource,
       NewsEntryService newsEntryService) {
     super(menuFactory, footerFactory, metaElementFactory, carouselFactory, messageSource);
     this.newsEntryService = newsEntryService;
+    this.contextHolder = contextHolder;
   }
 
   /**
    * Constructeur static pour la configuration
    * 
+   * @param contextHolder
    * @param menuFactory
    * @param footerFactory
    * @param metaElementFactory
@@ -47,11 +50,11 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
    * @param newsEntryService
    * @return
    */
-  public static NewsDisplayFactoryImpl fromFactoriesAndMessageResourceAndServices(MenuFactory menuFactory,
-      FooterFactory footerFactory, MetaElementFactory metaElementFactory, CarouselFactory carouselFactory,
-      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
-    return new NewsDisplayFactoryImpl(menuFactory, footerFactory, metaElementFactory, carouselFactory, messageSource,
-        newsEntryService);
+  public static NewsDisplayFactoryImpl fromFactoriesAndMessageResourceAndServices(ContextHolder contextHolder,
+      MenuFactory menuFactory, FooterFactory footerFactory, MetaElementFactory metaElementFactory,
+      CarouselFactory carouselFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
+    return new NewsDisplayFactoryImpl(contextHolder, menuFactory, footerFactory, metaElementFactory, carouselFactory,
+        messageSource, newsEntryService);
   }
 
   @Override
@@ -108,6 +111,7 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     String labelLe = getI18nValue("news.entry.the", locale);
     String labelAccroche = getI18nValue("news.entry.call", locale);
 
-    return new NewsEntryDisplayBean(newsEntryDTO, labelPar, labelLe, DAY_MONTH_YEAR_FORMAT, labelAccroche);
+    return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
+        contextHolder.getDateFormat(), labelAccroche);
   }
 }

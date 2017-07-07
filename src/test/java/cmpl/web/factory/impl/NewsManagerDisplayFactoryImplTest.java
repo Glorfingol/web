@@ -33,6 +33,7 @@ import cmpl.web.factory.FooterFactory;
 import cmpl.web.factory.MenuFactory;
 import cmpl.web.factory.MetaElementFactory;
 import cmpl.web.message.impl.WebMessageSourceImpl;
+import cmpl.web.model.context.ContextHolder;
 import cmpl.web.model.footer.Footer;
 import cmpl.web.model.login.LoginFormDisplayBean;
 import cmpl.web.model.menu.MenuItem;
@@ -61,6 +62,8 @@ public class NewsManagerDisplayFactoryImplTest {
   private WebMessageSourceImpl messageSource;
   @Mock
   private NewsEntryService newsEntryService;
+  @Mock
+  private ContextHolder contextHolder;
 
   @InjectMocks
   @Spy
@@ -139,7 +142,8 @@ public class NewsManagerDisplayFactoryImplTest {
   @Test
   public void testComputeNewsEditBeanDisplayBean() throws Exception {
 
-    String dateFormat = "dd/MM/yy";
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+    String imageDisplaySrc = "http://cm-pl.com";
 
     String autor = "author";
     Date date = new Date();
@@ -149,7 +153,8 @@ public class NewsManagerDisplayFactoryImplTest {
     String labelLe = "le";
     String labelAccroche = "accroche";
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, labelPar, labelLe, dateFormat, labelAccroche);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
+        dateFormat, labelAccroche);
 
     BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.any(Long.class));
     BDDMockito.doReturn(displayBean).when(displayFactory)
@@ -364,13 +369,15 @@ public class NewsManagerDisplayFactoryImplTest {
     NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().author(author).creationDate(date).tags(tags).id(1L).title(title)
         .newsContent(newsContent).newsImage(newsImage).modificationDate(date).toNewsEntryDTO();
 
-    String dateFormat = "dd/MM/yy";
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+    String imageDisplaySrc = "http://cm-pl.com";
 
     String labelPar = "par";
     String labelLe = "le";
     String labelAccroche = "accroche";
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, labelPar, labelLe, dateFormat, labelAccroche);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
+        dateFormat, labelAccroche);
 
     NewsFormDisplayBean form = new NewsFormDisplayBeanBuilder().toNewsFormDisplayBean();
 

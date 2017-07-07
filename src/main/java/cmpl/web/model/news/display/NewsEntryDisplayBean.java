@@ -22,9 +22,10 @@ public class NewsEntryDisplayBean {
   private final String labelPar;
   private final String labelLe;
   private final String labelAccroche;
-  private final String dateFormat;
+  private final SimpleDateFormat dateFormat;
   private static final String SPACE = " ";
   private static final String SEMICOLON = ";";
+  private final String imageBaseSrc;
 
   /**
    * Constructeur a partir d'une NewsEntry, de labels et d'un format de date
@@ -35,9 +36,10 @@ public class NewsEntryDisplayBean {
    * @param dateFormat
    * @param labelAccroche
    */
-  public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO, String labelPar, String labelLe, String dateFormat,
-      String labelAccroche) {
+  public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO, String imageBaseSrc, String labelPar, String labelLe,
+      SimpleDateFormat dateFormat, String labelAccroche) {
     this.newsEntryDTO = newsEntryDTO;
+    this.imageBaseSrc = imageBaseSrc;
     this.labelLe = labelLe;
     this.labelPar = labelPar;
     this.dateFormat = dateFormat;
@@ -67,7 +69,7 @@ public class NewsEntryDisplayBean {
     if (!displayImage()) {
       return "";
     }
-    return newsEntryDTO.getNewsImage().getSrc();
+    return imageBaseSrc + newsEntryDTO.getNewsImage().getSrc();
   }
 
   public String getLegend() {
@@ -114,8 +116,7 @@ public class NewsEntryDisplayBean {
   }
 
   String getPublicationDate() {
-    SimpleDateFormat formatted = new SimpleDateFormat(dateFormat);
-    return formatted.format(newsEntryDTO.getCreationDate());
+    return dateFormat.format(newsEntryDTO.getCreationDate());
   }
 
   public boolean isDisplayImage() {

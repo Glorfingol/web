@@ -14,6 +14,7 @@ import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.util.StringUtils;
 
 import cmpl.web.model.BaseException;
+import cmpl.web.model.context.ContextHolder;
 import cmpl.web.model.facebook.ImportablePost;
 import cmpl.web.service.FacebookService;
 import cmpl.web.service.NewsEntryService;
@@ -28,14 +29,14 @@ public class FacebookServiceImpl implements FacebookService {
 
   private final Facebook facebookConnector;
   private final ConnectionRepository connectionRepository;
-  private final SimpleDateFormat dateFormat;
+  private final ContextHolder contextHolder;
   private final NewsEntryService newsEntryService;
 
   private FacebookServiceImpl(Facebook facebookConnector, ConnectionRepository connectionRepository,
-      NewsEntryService newsEntryService, SimpleDateFormat dateFormat) {
+      NewsEntryService newsEntryService, ContextHolder contextHolder) {
     this.facebookConnector = facebookConnector;
     this.connectionRepository = connectionRepository;
-    this.dateFormat = dateFormat;
+    this.contextHolder = contextHolder;
     this.newsEntryService = newsEntryService;
   }
 
@@ -48,9 +49,9 @@ public class FacebookServiceImpl implements FacebookService {
    * @param dateFormat
    * @return
    */
-  public static FacebookServiceImpl fromFacebookConnector(Facebook facebookConnector,
-      ConnectionRepository connectionRepository, NewsEntryService newsEntryService, SimpleDateFormat dateFormat) {
-    return new FacebookServiceImpl(facebookConnector, connectionRepository, newsEntryService, dateFormat);
+  public static FacebookServiceImpl fromFacebookConnector(ContextHolder contextHolder, Facebook facebookConnector,
+      ConnectionRepository connectionRepository, NewsEntryService newsEntryService) {
+    return new FacebookServiceImpl(facebookConnector, connectionRepository, newsEntryService, contextHolder);
   }
 
   @Override
@@ -72,7 +73,7 @@ public class FacebookServiceImpl implements FacebookService {
   List<ImportablePost> computeImportablePosts(PagedList<Post> recentPosts) {
     List<ImportablePost> importablePosts = new ArrayList<>();
     for (Post recentPost : recentPosts) {
-      ImportablePost post = computeImportablePost(recentPost, dateFormat);
+      ImportablePost post = computeImportablePost(recentPost, contextHolder.getDateFormat());
       if (canImportPost(post)) {
         importablePosts.add(post);
       }

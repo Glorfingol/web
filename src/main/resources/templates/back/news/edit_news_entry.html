@@ -26,13 +26,22 @@
 		        <small class="form-text text-muted" th:text="${newsFormLabels.contentHelp}"/>
 		    </div>
 		    <div class="form-control mb-3" id="formInputImage">
-		        <label th:text="${newsFormLabels.imageLabel}" />
-		        <input type="file" class="form-control-file"  onchange="previewFile()" th:field="*{image.src}"/>
+		        <div class="dragndrop">
+                    <div class="drop_zone">
+                       <span th:text="${newsFormLabels.imageDropLabel}"/>
+                       <br/>
+                       <label class="btn btn-primary mt-3" id="clickHere">
+                             <span th:text="${newsFormLabels.imageLabel}"/>
+                             <i class="fa fa-upload"/>
+                            <input type="file" class="form-control-file" th:field="*{image.src}" onchange="previewFile()"/>
+                       </label>
+                    </div>
+                </div>
 		        <div id="feedbackImage" class="form-control-label"></div>
 		        <small class="form-text text-muted" th:text="${newsFormLabels.imageHelp}"/>
 		    </div>
-		     <div class="form-control mb-3" id="formPreviewImage">
-		        <img src="" id="imagePreview"/>
+		     <div class="mb-3" id="formPreviewImage">
+		        <img class="img-fluid mx-auto d-block" th:src="*{image.src}" id="imagePreview"/>
 		     </div>
 		    <div class="form-control mb-3" id="formInputLegend">
 		        <label th:text="${newsFormLabels.legendLabel}" />

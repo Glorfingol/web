@@ -33,6 +33,7 @@ import cmpl.web.builder.ImportablePostBuilder;
 import cmpl.web.builder.PostBuilder;
 import cmpl.web.builder.ReferenceBuilder;
 import cmpl.web.model.BaseException;
+import cmpl.web.model.context.ContextHolder;
 import cmpl.web.model.facebook.ImportablePost;
 import cmpl.web.service.NewsEntryService;
 
@@ -53,6 +54,9 @@ public class FacebookServiceImplTest {
 
   @Mock
   private ConnectionRepository connectionRepository;
+
+  @Mock
+  private ContextHolder contextHolder;
 
   @InjectMocks
   @Spy

@@ -23,6 +23,7 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import cmpl.web.model.BaseException;
+import cmpl.web.model.context.ContextHolder;
 import cmpl.web.service.ImageConverterService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,6 +34,9 @@ public class FileServiceImplTest {
 
   @Mock
   private ImageConverterService imageConverterService;
+
+  @Mock
+  private ContextHolder contextHolder;
 
   @InjectMocks
   @Spy
@@ -55,7 +59,7 @@ public class FileServiceImplTest {
       subFolder.delete();
     }
 
-    service = FileServiceImpl.fromStringAndService("src\\test\\resources\\img\\actualites\\", imageConverterService);
+    service = FileServiceImpl.fromStringAndService(contextHolder, imageConverterService);
     service = Mockito.spy(service);
 
   }

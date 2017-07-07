@@ -26,4 +26,5 @@ server:
   
   
 fileBasePath: "/home/lperrod/projets/cmpl/img/actualites/"
+imageDisplaySrc: "http://cm-pl.com/"
   
