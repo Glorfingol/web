@@ -157,8 +157,12 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     imageRequest.setCreationDate(dto.getNewsImage().getCreationDate());
     imageRequest.setModificationDate(dto.getNewsImage().getModificationDate());
     imageRequest.setLegend(dto.getNewsImage().getLegend());
-    imageRequest.setSrc(dto.getNewsImage().getSrc());
+    imageRequest.setSrc(computeImageSrc(dto));
     return imageRequest;
+  }
+
+  String computeImageSrc(NewsEntryDTO dto) {
+    return contextHolder.getImageDisplaySrc() + dto.getNewsImage().getSrc();
   }
 
   NewsContentRequest computeNewsContentRequest(NewsEntryDTO dto) {

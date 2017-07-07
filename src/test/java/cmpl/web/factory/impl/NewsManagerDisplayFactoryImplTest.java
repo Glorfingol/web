@@ -432,10 +432,11 @@ public class NewsManagerDisplayFactoryImplTest {
         .modificationDate(new Date()).alt("someAlt").legend("someLegend").toNewsImageDTO();
     NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().newsImage(newsImage).toNewsEntryDTO();
 
+    BDDMockito.doReturn("http://cm-pl.com/someSrc").when(displayFactory).computeImageSrc(Mockito.eq(newsEntry));
     NewsImageRequest result = displayFactory.computeNewsImageRequest(newsEntry);
 
     Assert.assertEquals(newsImage.getAlt(), result.getAlt());
-    Assert.assertEquals(newsImage.getSrc(), result.getSrc());
+    Assert.assertEquals("http://cm-pl.com/someSrc", result.getSrc());
     Assert.assertEquals(newsImage.getLegend(), result.getLegend());
     Assert.assertEquals(newsImage.getId(), result.getId());
     Assert.assertEquals(newsImage.getCreationDate(), result.getCreationDate());
@@ -576,4 +577,17 @@ public class NewsManagerDisplayFactoryImplTest {
     Assert.assertNotNull(result.getContent().getId());
   }
 
+  @Test
+  public void testComputeImageSrc() throws Exception {
+
+    NewsImageDTO image = new NewsImageDTOBuilder().src("someSrc").toNewsImageDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).toNewsEntryDTO();
+
+    BDDMockito.doReturn("http://cm-pl.com/").when(contextHolder).getImageDisplaySrc();
+
+    String result = displayFactory.computeImageSrc(entry);
+
+    Assert.assertEquals("http://cm-pl.com/someSrc", result);
+
+  }
 }
