@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,6 +30,7 @@ import cmpl.web.service.NewsEntryService;
  */
 public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDisplayFactory {
 
+  private static final int ELEMENTS_PER_PAGE = 1;
   private NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
 
@@ -70,6 +74,17 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
 
   }
 
+  @Override
+  public ModelAndView computeModelAndViewForPage(PAGE page, Locale locale, int pageNumber) {
+    ModelAndView newsModelAndView = super.computeModelAndViewForPage(page, locale);
+    if (PAGE.NEWS.equals(page)) {
+      LOGGER.info("Construction des entrées de blog pour la page " + page.name());
+      newsModelAndView.addObject("newsEntries", computeNewsEntries(locale));
+    }
+
+    return newsModelAndView;
+  }
+
   List<NewsEntryDisplayBean> computeNewsEntries(Locale locale) {
     List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
 
@@ -83,6 +98,22 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     }
 
     return newsEntries;
+  }
+
+  Page<NewsEntryDisplayBean> computeNewsEntries(Locale locale, int pageNumber) {
+    List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
+
+    Page<NewsEntryDTO> pagedNewsEntries = newsEntryService
+        .getPagedEntities(new PageRequest(pageNumber, ELEMENTS_PER_PAGE));
+    if (CollectionUtils.isEmpty(pagedNewsEntries.getContent())) {
+      return new PageImpl<>(newsEntries);
+    }
+
+    for (NewsEntryDTO newsEntryFromDB : pagedNewsEntries.getContent()) {
+      newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB));
+    }
+
+    return new PageImpl<>(newsEntries);
   }
 
   @Override
@@ -114,4 +145,5 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
         contextHolder.getDateFormat(), labelAccroche);
   }
+
 }

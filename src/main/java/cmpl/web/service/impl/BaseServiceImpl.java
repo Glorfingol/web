@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import cmpl.web.filler.impl.ObjectReflexiveFillerImpl;
@@ -59,6 +62,23 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
   @Override
   public List<D> getEntities() {
     return toListDTO(entityRepository.findAll(new Sort("creationDate")));
+  }
+
+  @Override
+  public Page<D> getPagedEntities(PageRequest pageRequest) {
+    return toPageDTO(entityRepository.findAll(pageRequest));
+  }
+
+  protected Page<D> toPageDTO(Page<E> pagedEntities) {
+
+    List<D> dtos = new ArrayList<>();
+
+    for (E entity : pagedEntities.getContent()) {
+      dtos.add(toDTO(entity));
+    }
+
+    Page<D> page = new PageImpl<>(dtos);
+    return page;
   }
 
   protected List<D> toListDTO(List<E> entities) {

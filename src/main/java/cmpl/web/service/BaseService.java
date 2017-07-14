@@ -2,6 +2,9 @@ package cmpl.web.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import cmpl.web.model.news.dto.BaseDTO;
 
 /**
@@ -50,5 +53,13 @@ public interface BaseService<T extends BaseDTO> {
    * @return
    */
   List<T> getEntities();
+
+  /**
+   * Recuperer une page d'entites
+   * 
+   * @param page
+   * @return
+   */
+  Page<T> getPagedEntities(PageRequest pageRequest);
 
 }

@@ -24,6 +24,15 @@ public interface NewsDisplayFactory {
   ModelAndView computeModelAndViewForPage(PAGE page, Locale locale);
 
   /**
+   * Creer le model and view pour une page d'acutalites
+   * 
+   * @param page
+   * @param locale
+   * @return
+   */
+  ModelAndView computeModelAndViewForPage(PAGE page, Locale locale, int pageNumber);
+
+  /**
    * Creer le model and view pour une actualite
    * 
    * @param locale

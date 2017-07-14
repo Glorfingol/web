@@ -43,6 +43,18 @@ public class NewsController {
   }
 
   /**
+   * Mapping pour afficher une page de newsEntry
+   * 
+   * @return
+   */
+  @GetMapping(value = "/actualites")
+  public ModelAndView printNews(@PathVariable(name = "p") int pageNumber) {
+
+    LOGGER.info("Accès à la page " + PAGE.NEWS.name());
+    return newsDisplayFactory.computeModelAndViewForPage(PAGE.NEWS, Locale.FRANCE);
+  }
+
+  /**
    * Mapping pour afficher une NewsEntry
    * 
    * @param newsEntryId
