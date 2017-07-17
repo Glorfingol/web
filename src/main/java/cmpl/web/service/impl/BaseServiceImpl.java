@@ -66,10 +66,10 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
 
   @Override
   public Page<D> getPagedEntities(PageRequest pageRequest) {
-    return toPageDTO(entityRepository.findAll(pageRequest));
+    return toPageDTO(entityRepository.findAll(pageRequest), pageRequest);
   }
 
-  protected Page<D> toPageDTO(Page<E> pagedEntities) {
+  protected Page<D> toPageDTO(Page<E> pagedEntities, PageRequest pageRequest) {
 
     List<D> dtos = new ArrayList<>();
 
@@ -77,8 +77,7 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
       dtos.add(toDTO(entity));
     }
 
-    Page<D> page = new PageImpl<>(dtos);
-    return page;
+    return new PageImpl<>(dtos, pageRequest, pagedEntities.getTotalElements());
   }
 
   protected List<D> toListDTO(List<E> entities) {

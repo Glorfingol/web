@@ -42,7 +42,7 @@ public class NewsControllerTest {
     BDDMockito.doReturn(view).when(displayFactory)
         .computeModelAndViewForPage(Mockito.eq(PAGE.NEWS), Mockito.eq(locale));
 
-    ModelAndView result = controller.printNews();
+    ModelAndView result = controller.printNews(0);
 
     Assert.assertEquals(view, result);
 

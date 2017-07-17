@@ -79,7 +79,18 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     ModelAndView newsModelAndView = super.computeModelAndViewForPage(page, locale);
     if (PAGE.NEWS.equals(page)) {
       LOGGER.info("Construction des entrées de blog pour la page " + page.name());
-      newsModelAndView.addObject("newsEntries", computeNewsEntries(locale));
+      Page<NewsEntryDisplayBean> pagedNewsEntries = computeNewsEntries(locale, pageNumber);
+
+      boolean isFirstPage = pagedNewsEntries.isFirst();
+      boolean isLastPage = pagedNewsEntries.isLast();
+      int totalPages = pagedNewsEntries.getTotalPages();
+      int currentPageNumber = pagedNewsEntries.getNumber();
+
+      newsModelAndView.addObject("isFirstPage", isFirstPage);
+      newsModelAndView.addObject("isLastPage", isLastPage);
+      newsModelAndView.addObject("currentPageNumber", currentPageNumber);
+      newsModelAndView.addObject("totalPages", totalPages);
+      newsModelAndView.addObject("pagedNewsEntries", pagedNewsEntries);
     }
 
     return newsModelAndView;
@@ -103,8 +114,8 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
   Page<NewsEntryDisplayBean> computeNewsEntries(Locale locale, int pageNumber) {
     List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
 
-    Page<NewsEntryDTO> pagedNewsEntries = newsEntryService
-        .getPagedEntities(new PageRequest(pageNumber, ELEMENTS_PER_PAGE));
+    PageRequest pageRequest = new PageRequest(pageNumber, ELEMENTS_PER_PAGE);
+    Page<NewsEntryDTO> pagedNewsEntries = newsEntryService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedNewsEntries.getContent())) {
       return new PageImpl<>(newsEntries);
     }
@@ -113,7 +124,7 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
       newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB));
     }
 
-    return new PageImpl<>(newsEntries);
+    return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
   }
 
   @Override
