@@ -35,6 +35,7 @@ public class NewsEntryDisplayBean {
    * @param labelLe
    * @param dateFormat
    * @param labelAccroche
+   * @param imageBaseSrc
    */
   public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO, String imageBaseSrc, String labelPar, String labelLe,
       SimpleDateFormat dateFormat, String labelAccroche) {

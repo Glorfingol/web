@@ -1,7 +1,7 @@
 # Spring properties
 spring:
   application:
-     name: cmpl
+     name: cmplWeb
   datasource:
     platform: h2
     url: jdbc:h2:file:./target/cmpl
@@ -25,6 +25,6 @@ server:
   port: 3232  # HTTP (Tomcat) port
   
   
-fileBasePath: "/home/lperrod/projets/cmpl/img/actualites/"
-imageDisplaySrc: "http://cm-pl.com/"
+fileBasePath: "C:/test/img/actualites/"
+imageDisplaySrc: "http://poc.lperrod.cardiweb.com/"
   

@@ -42,7 +42,7 @@ public class FileServiceImpl implements FileService {
   /**
    * Constructeur static pour la configuration
    * 
-   * @param fileBasePath
+   * @param contextHolder
    * @param imageConverterService
    * @return
    */

@@ -1,3 +1,46 @@
-<div th:each="newsBean : ${newsEntries}">
-    <div th:replace="pages/actualites/news_entry"/>
+<div id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="card">
+        <div th:each="newsPage : ${newEntriesPaged}" th:id="${'page_' + newsPage.pageNumber}" class="collapse fast-collapsing" th:classappend="${ newsPage.pageNumber == 1 } ? show" role="tabpanel">
+	        <div th:each="newsBean : ${newsPage.elements}">
+	            <div th:replace="pages/actualites/news_entry"/>
+	        </div>
+	        <nav>
+	            <ul class="pagination justify-content-center">
+	                <li class="page-item" th:classappend="${!newsPage.hasPrevious}  ? disabled : ''">
+	                   <a  class="page-link" 
+	                       th:href="${'#page_' + (newsPage.pageNumber - 1)}" 
+	                       data-parent="#accordion"  
+	                       th:attr="aria-controls=${'#page_' + (newsPage.pageNumber - 1)}" 
+	                       data-toggle="collapse"
+	                       >
+	                       <i class="fa fa-arrow-left"/>
+	                   </a>
+	                </li>
+	                <li class="page-item" th:each="newsPageForPager : ${newEntriesPaged}" 
+	                    th:classappend="${newsPageForPager.pageNumber == newsPage.pageNumber} ? disabled : ''">
+		                <a  class="page-link" 
+                           th:href="${'#page_' + newsPageForPager.pageNumber}" 
+                           data-parent="#accordion"  
+                           th:attr="aria-controls=${'#page_' + newsPageForPager.pageNumber}" 
+                           data-toggle="collapse"
+                           th:text="${newsPageForPager.pageNumber}"
+                           >
+                       </a>
+	                </li >
+	                 <li class="page-item"  th:classappend="${!newsPage.hasNext} ? disabled : ''">
+	                   <a class="page-link" 
+	                      th:href="${'#page_' + (newsPage.pageNumber + 1)}" 
+	                      data-toggle="collapse"
+	                      data-parent="#accordion"  
+	                      th:attr="aria-controls=${'#page_' + (newsPage.pageNumber + 1)}" 
+	                      >
+	                      <i class="fa fa-arrow-right"/>
+	                   </a>
+	                </li>
+	              </ul>
+	        </nav>
+	    </div>
+    </div>
 </div>
+
+

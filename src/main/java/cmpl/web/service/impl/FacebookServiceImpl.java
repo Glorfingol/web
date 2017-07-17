@@ -43,10 +43,10 @@ public class FacebookServiceImpl implements FacebookService {
   /**
    * Constructeur static pour la configuration
    * 
+   * @param contextHolder
    * @param facebookConnector
    * @param connectionRepository
    * @param newsEntryService
-   * @param dateFormat
    * @return
    */
   public static FacebookServiceImpl fromFacebookConnector(ContextHolder contextHolder, Facebook facebookConnector,

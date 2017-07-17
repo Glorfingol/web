@@ -47,6 +47,7 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   /**
    * Constructeur static pour la configuration
    * 
+   * @param contextHolder
    * @param menuFactory
    * @param footerFactory
    * @param messageSource
