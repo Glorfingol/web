@@ -33,4 +33,13 @@ public interface NewsManagerDisplayFactory {
    */
   ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale);
 
+  /**
+   * Creer le model and view pour l'affichage de la creation d'une entree
+   * 
+   * @param backPage
+   * @param locale
+   * @return
+   */
+  ModelAndView computeModelAndViewForBackPageCreateNews(BACK_PAGE backPage, Locale locale);
+
 }

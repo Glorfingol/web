@@ -34,13 +34,15 @@ public class NewsController {
   /**
    * Mapping pour afficher une page de newsEntry
    * 
+   * @param pageNumber le numero de la page a afficher
    * @return
    */
   @GetMapping(value = "/actualites")
-  public ModelAndView printNews(@RequestParam(name = "p") int pageNumber) {
+  public ModelAndView printNews(@RequestParam(name = "p", required = false) Integer pageNumber) {
 
+    int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     LOGGER.info("Accès à la page " + PAGE.NEWS.name());
-    return newsDisplayFactory.computeModelAndViewForPage(PAGE.NEWS, Locale.FRANCE, pageNumber);
+    return newsDisplayFactory.computeModelAndViewForPage(PAGE.NEWS, Locale.FRANCE, pageNumberToUse);
   }
 
   /**
@@ -54,6 +56,14 @@ public class NewsController {
 
     LOGGER.info("Accès à la page " + PAGE.NEWS_ENTRY.name());
     return newsDisplayFactory.computeModelAndViewForNewsEntry(Locale.FRANCE, newsEntryId);
+  }
+
+  int computePageNumberFromRequest(Integer pageNumber) {
+    if (pageNumber == null) {
+      return 0;
+    }
+    return pageNumber.intValue();
+
   }
 
 }

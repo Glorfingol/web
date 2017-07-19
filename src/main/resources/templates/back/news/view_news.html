@@ -1,31 +1,16 @@
-<div id="accordion" role="tablist" aria-multiselectable="true">
-    <div class="card card-block">
-            <div class="collapse show" id="viewEntries" role="tabpanel">
-                <div class="row">
-                 <div class="col">
-                     <div class="pull-right ">
-                         <a class="btn btn-md btn-primary fa fa-plus fa-white" 
-                            data-toggle="collapse" 
-                            data-parent="#accordion"  
-                            href="#creationForm" 
-                            aria-expanded="true" 
-                            aria-controls="collapseOne" 
-                            id="buttonAdd"/>
-                     </div>
-                 </div>
-                </div>
-                <div class="row">
-                    <div th:each="newsBean : ${newsEntries}" class="col-12 newsElement">
-                     <div th:replace="back/news/news_list_element"/>
-                 </div>
-                </div>
-            </div>
-            <div class="collapse" id="creationForm" role="tabpanel">
-                <div class="row">
-                 <div class="col">
-                    <div th:replace="back/news/create_news_entry"/>
-                 </div>
-                </div>
-            </div>
-     </div>
-</div>
+<div class="card card-block">
+	<div class="row">
+		 <div class="col">
+		     <div class="pull-right ">
+		         <a class="btn btn-md btn-primary fa fa-plus fa-white" 
+		            href="/manager/news/_create" 
+		            id="buttonAdd"/>
+		     </div>
+		 </div>
+	</div>
+	<div class="row">
+	    <div th:each="newsBean : ${newsEntries}" class="col-12 newsElement">
+	     <div th:replace="back/news/news_list_element"/>
+	 </div>
+	</div>
+ </div>

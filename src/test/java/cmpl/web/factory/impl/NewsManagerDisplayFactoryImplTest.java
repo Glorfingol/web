@@ -409,6 +409,110 @@ public class NewsManagerDisplayFactoryImplTest {
     Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeNewsEntryDisplayBeans(Mockito.eq(locale));
+  }
+
+  @Test
+  public void testComputeModelAndViewForBackPageCreateNews() throws Exception {
+    String tile = "login";
+    String href = "/";
+    String label = "label";
+    String title = "title";
+    String decoratorBack = "decorator_back";
+    List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
+    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
+    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
+
+    List<MenuItem> backMenu = Lists.newArrayList(index, news);
+
+    String viewPortName = "viewport";
+    String viewPortContent = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
+
+    String languageName = "viewport";
+    String languageContent = locale.getLanguage();
+
+    String titleName = "title";
+    String titleContent = "title";
+
+    String descriptionName = "description";
+    String descriptionContent = "description";
+
+    MetaElement viewport = new MetaElementBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
+    MetaElement language = new MetaElementBuilder().name(languageName).content(languageContent).toMetaElement();
+    MetaElement titleMeta = new MetaElementBuilder().name(titleName).content(titleContent).toMetaElement();
+    MetaElement description = new MetaElementBuilder().name(descriptionName).content(descriptionContent)
+        .toMetaElement();
+
+    List<MetaElement> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
+
+    Footer footer = new Footer();
+    footer.setRue("an adress");
+    footer.setLibelle("a label");
+    footer.setTelephone("0100000000");
+
+    String name = "name";
+    String password = "password";
+    String logout = "logout";
+    String error = "error";
+
+    LoginFormDisplayBean bean = new LoginFormDisplayBean();
+    bean.setUserLabel(name);
+    bean.setErrorLabel(error);
+    bean.setTimeoutLabel(logout);
+    bean.setPasswordLabel(password);
+
+    String author = "author";
+    Date date = new Date();
+    String tags = "tag;lol";
+    String content = "content";
+    String alt = "alt";
+
+    NewsContentDTO newsContent = new NewsContentDTOBuilder().content(content).id(1L).creationDate(date)
+        .modificationDate(date).toNewsContentDTO();
+
+    NewsImageDTO newsImage = new NewsImageDTOBuilder().id(1L).creationDate(date).modificationDate(date).alt(alt)
+        .toNewsImageDTO();
+
+    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().author(author).creationDate(date).tags(tags).id(1L).title(title)
+        .newsContent(newsContent).newsImage(newsImage).modificationDate(date).toNewsEntryDTO();
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+    String imageDisplaySrc = "http://cm-pl.com";
+
+    String labelPar = "par";
+    String labelLe = "le";
+    String labelAccroche = "accroche";
+
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
+        dateFormat, labelAccroche);
+
+    NewsFormDisplayBean form = new NewsFormDisplayBeanBuilder().toNewsFormDisplayBean();
+
+    BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(Mockito.eq(locale));
+    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
+    BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
+    BDDMockito.doReturn(backMenu).when(displayFactory)
+        .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
+    BDDMockito.doReturn(bean).when(displayFactory).computeLoginFormDisplayBean(Mockito.eq(locale));
+    BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
+    BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
+    BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
+    BDDMockito.doReturn(Lists.newArrayList(displayBean)).when(displayFactory)
+        .computeNewsEntryDisplayBeans(Mockito.eq(locale));
+    BDDMockito.doReturn(form).when(displayFactory).computeForm(Mockito.eq(locale));
+
+    ModelAndView result = displayFactory.computeModelAndViewForBackPageCreateNews(BACK_PAGE.NEWS_VIEW, locale);
+
+    Assert.assertEquals(decoratorBack, result.getViewName());
+    Assert.assertEquals(tile, result.getModel().get("content"));
+
+    Mockito.verify(displayFactory, Mockito.times(1)).computeTileName(Mockito.anyString(), Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
+        Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeLoginFormDisplayBean(Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeForm(Mockito.eq(locale));
   }
 

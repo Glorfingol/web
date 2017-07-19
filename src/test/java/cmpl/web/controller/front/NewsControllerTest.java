@@ -40,14 +40,14 @@ public class NewsControllerTest {
     ModelAndView view = new ModelAndView("pages/actualites");
 
     BDDMockito.doReturn(view).when(displayFactory)
-        .computeModelAndViewForPage(Mockito.eq(PAGE.NEWS), Mockito.eq(locale));
+        .computeModelAndViewForPage(Mockito.eq(PAGE.NEWS), Mockito.eq(locale), Mockito.anyInt());
 
     ModelAndView result = controller.printNews(0);
 
     Assert.assertEquals(view, result);
 
     Mockito.verify(displayFactory, Mockito.times(1)).computeModelAndViewForPage(Mockito.eq(PAGE.NEWS),
-        Mockito.eq(locale));
+        Mockito.eq(locale), Mockito.eq(0));
   }
 
   @Test

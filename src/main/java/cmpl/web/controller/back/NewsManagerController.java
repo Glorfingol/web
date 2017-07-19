@@ -58,6 +58,18 @@ public class NewsManagerController {
   /**
    * Mapping pour la creation d'une NewsEntry
    * 
+   * @return
+   */
+  @GetMapping(value = "/manager/news/_create")
+  public ModelAndView printCreateNews() {
+
+    LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_VIEW.name());
+    return newsManagerDisplayFactory.computeModelAndViewForBackPageCreateNews(BACK_PAGE.NEWS_CREATE, Locale.FRANCE);
+  }
+
+  /**
+   * Mapping pour la creation d'une NewsEntry
+   * 
    * @param newsEntryRequest
    * @return
    */
