@@ -19,6 +19,7 @@ import cmpl.web.message.impl.WebMessageSourceImpl;
 import cmpl.web.model.context.ContextHolder;
 import cmpl.web.model.news.display.NewsEntryDisplayBean;
 import cmpl.web.model.news.dto.NewsEntryDTO;
+import cmpl.web.model.news.page.PageWrapper;
 import cmpl.web.model.page.PAGE;
 import cmpl.web.service.NewsEntryService;
 
@@ -30,7 +31,6 @@ import cmpl.web.service.NewsEntryService;
  */
 public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDisplayFactory {
 
-  private static final int ELEMENTS_PER_PAGE = 1;
   private NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
 
@@ -86,11 +86,15 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
       int totalPages = pagedNewsEntries.getTotalPages();
       int currentPageNumber = pagedNewsEntries.getNumber();
 
-      newsModelAndView.addObject("isFirstPage", isFirstPage);
-      newsModelAndView.addObject("isLastPage", isLastPage);
-      newsModelAndView.addObject("currentPageNumber", currentPageNumber);
-      newsModelAndView.addObject("totalPages", totalPages);
-      newsModelAndView.addObject("pagedNewsEntries", pagedNewsEntries);
+      PageWrapper pagedNewsWrapped = new PageWrapper();
+      pagedNewsWrapped.setCurrentPageNumber(currentPageNumber);
+      pagedNewsWrapped.setFirstPage(isFirstPage);
+      pagedNewsWrapped.setLastPage(isLastPage);
+      pagedNewsWrapped.setPage(pagedNewsEntries);
+      pagedNewsWrapped.setTotalPages(totalPages);
+      pagedNewsWrapped.setPageBaseUrl("/actualites");
+
+      newsModelAndView.addObject("wrappedNews", pagedNewsWrapped);
     }
 
     return newsModelAndView;
@@ -114,7 +118,7 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
   Page<NewsEntryDisplayBean> computeNewsEntries(Locale locale, int pageNumber) {
     List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
 
-    PageRequest pageRequest = new PageRequest(pageNumber, ELEMENTS_PER_PAGE);
+    PageRequest pageRequest = new PageRequest(pageNumber, contextHolder.getElementsPerPage());
     Page<NewsEntryDTO> pagedNewsEntries = newsEntryService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedNewsEntries.getContent())) {
       return new PageImpl<>(newsEntries);

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,10 +50,12 @@ public class NewsManagerController {
    * @return
    */
   @GetMapping(value = "/manager/news")
-  public ModelAndView printViewNews() {
+  public ModelAndView printViewNews(@RequestParam(name = "p", required = false) Integer pageNumber) {
 
+    int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_VIEW.name());
-    return newsManagerDisplayFactory.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, Locale.FRANCE);
+    return newsManagerDisplayFactory
+        .computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, Locale.FRANCE, pageNumberToUse);
   }
 
   /**
@@ -140,5 +143,13 @@ public class NewsManagerController {
     LOGGER.info("Récupération de l'entrée d'id " + newsEntryId);
     return newsManagerDisplayFactory.computeModelAndViewForOneNewsEntry(BACK_PAGE.NEWS_UPDATE, Locale.FRANCE,
         newsEntryId);
+  }
+
+  int computePageNumberFromRequest(Integer pageNumber) {
+    if (pageNumber == null) {
+      return 0;
+    }
+    return pageNumber.intValue();
+
   }
 }

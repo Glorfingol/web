@@ -13,6 +13,7 @@ public class ContextHolder {
   private SimpleDateFormat dateFormat;
   private String imageDisplaySrc;
   private String imageFileSrc;
+  private int elementsPerPage;
 
   public SimpleDateFormat getDateFormat() {
     return dateFormat;
@@ -36,6 +37,14 @@ public class ContextHolder {
 
   public void setImageFileSrc(String imageFileSrc) {
     this.imageFileSrc = imageFileSrc;
+  }
+
+  public int getElementsPerPage() {
+    return elementsPerPage;
+  }
+
+  public void setElementsPerPage(int elementsPerPage) {
+    this.elementsPerPage = elementsPerPage;
   }
 
 }

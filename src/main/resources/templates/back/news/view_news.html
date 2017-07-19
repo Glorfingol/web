@@ -9,8 +9,9 @@
 		 </div>
 	</div>
 	<div class="row">
-	    <div th:each="newsBean : ${newsEntries}" class="col-12 newsElement">
+	    <div th:each="newsBean : ${wrappedNews.page.content}" class="col-12 newsElement">
 	     <div th:replace="back/news/news_list_element"/>
 	 </div>
 	</div>
+	<div th:replace="common/pagination"/>
  </div>

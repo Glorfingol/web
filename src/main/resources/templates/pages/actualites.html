@@ -1,32 +1,8 @@
 <div class="card">
-     <div th:each="newsBean : ${pagedNewsEntries.content}">
+     <div th:each="newsBean : ${wrappedNews.page.content}">
          <div th:replace="pages/actualites/news_entry"/>
      </div>
-     <nav>
-         <ul class="pagination justify-content-center">
-             <li class="page-item" th:classappend="${isFirstPage}  ? disabled : ''">
-                <a  class="page-link" 
-                    th:href="${'/actualites?p=0'}" 
-                    >
-                    <i class="fa fa-arrow-left"/>
-                </a>
-             </li>
-             <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1,totalPages)}">
-                <a class="page-link" 
-                   th:href="${'/actualites?p=' + (pageNumber - 1)}" 
-                   >
-                   <span th:text="${pageNumber}"/>
-                </a>
-             </li>
-              <li class="page-item"  th:classappend="${isLastPage} ? disabled : ''">
-                <a class="page-link" 
-                   th:href="${'/actualites?p=' + (currentPageNumber + 1)}" 
-                   >
-                   <i class="fa fa-arrow-right"/>
-                </a>
-             </li>
-           </ul>
-     </nav>
+     <div th:replace="common/pagination"/>
 </div>
 
 

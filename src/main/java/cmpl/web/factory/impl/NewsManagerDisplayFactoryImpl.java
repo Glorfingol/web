@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +22,7 @@ import cmpl.web.model.news.display.NewsFormDisplayBean;
 import cmpl.web.model.news.dto.NewsContentDTO;
 import cmpl.web.model.news.dto.NewsEntryDTO;
 import cmpl.web.model.news.dto.NewsImageDTO;
+import cmpl.web.model.news.page.PageWrapper;
 import cmpl.web.model.news.rest.news.NewsContentRequest;
 import cmpl.web.model.news.rest.news.NewsEntryRequest;
 import cmpl.web.model.news.rest.news.NewsImageRequest;
@@ -63,10 +67,27 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   @Override
-  public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
+  public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale, int pageNumber) {
     ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction des entrées de blog pour la page " + backPage.name());
-    newsManager.addObject("newsEntries", computeNewsEntryDisplayBeans(locale));
+
+    Page<NewsEntryDisplayBean> pagedNewsEntries = computeNewsEntries(locale, pageNumber);
+
+    boolean isFirstPage = pagedNewsEntries.isFirst();
+    boolean isLastPage = pagedNewsEntries.isLast();
+    int totalPages = pagedNewsEntries.getTotalPages();
+    int currentPageNumber = pagedNewsEntries.getNumber();
+
+    PageWrapper pagedNewsWrapped = new PageWrapper();
+    pagedNewsWrapped.setCurrentPageNumber(currentPageNumber);
+    pagedNewsWrapped.setFirstPage(isFirstPage);
+    pagedNewsWrapped.setLastPage(isLastPage);
+    pagedNewsWrapped.setPage(pagedNewsEntries);
+    pagedNewsWrapped.setTotalPages(totalPages);
+    pagedNewsWrapped.setPageBaseUrl("/manager/news");
+
+    newsManager.addObject("wrappedNews", pagedNewsWrapped);
+
     return newsManager;
   }
 
@@ -78,6 +99,22 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     newsManager.addObject("newsFormBean", computeNewsRequestForCreateForm());
 
     return newsManager;
+  }
+
+  Page<NewsEntryDisplayBean> computeNewsEntries(Locale locale, int pageNumber) {
+    List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
+
+    PageRequest pageRequest = new PageRequest(pageNumber, contextHolder.getElementsPerPage());
+    Page<NewsEntryDTO> pagedNewsEntries = newsEntryService.getPagedEntities(pageRequest);
+    if (CollectionUtils.isEmpty(pagedNewsEntries.getContent())) {
+      return new PageImpl<>(newsEntries);
+    }
+
+    for (NewsEntryDTO newsEntryFromDB : pagedNewsEntries.getContent()) {
+      newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB));
+    }
+
+    return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
   }
 
   List<NewsEntryDisplayBean> computeNewsEntryDisplayBeans(Locale locale) {

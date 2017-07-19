@@ -34,6 +34,7 @@ public class ContextConfiguration {
     contextHolder.setDateFormat(dateFormat);
     contextHolder.setImageDisplaySrc(imageDisplaySrc);
     contextHolder.setImageFileSrc(fileBasePath);
+    contextHolder.setElementsPerPage(2);
     return contextHolder;
 
   }

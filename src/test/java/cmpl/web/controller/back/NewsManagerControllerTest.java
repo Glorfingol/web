@@ -129,9 +129,9 @@ public class NewsManagerControllerTest {
     ModelAndView model = new ModelAndView("back/news/view_news");
 
     BDDMockito.doReturn(model).when(newsManagerDisplayFactory)
-        .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.NEWS_VIEW), Mockito.eq(locale));
+        .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.NEWS_VIEW), Mockito.eq(locale), Mockito.anyInt());
 
-    ModelAndView result = controller.printViewNews();
+    ModelAndView result = controller.printViewNews(0);
 
     Assert.assertEquals(model, result);
   }

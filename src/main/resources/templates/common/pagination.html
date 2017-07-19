@@ -1,0 +1,25 @@
+<nav>
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${wrappedNews.firstPage}  ? disabled : ''">
+           <a  class="page-link" 
+               th:href="${wrappedNews.pageBaseUrl + '?p=0'}" 
+               >
+               <i class="fa fa-arrow-left"/>
+           </a>
+        </li>
+        <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1,wrappedNews.totalPages)}" th:classappend="${wrappedNews.currentPageNumber == pageNumber - 1} ? disabled : ''">
+           <a class="page-link" 
+              th:href="${wrappedNews.pageBaseUrl + '?p=' +  (pageNumber - 1)}" 
+              >
+              <span th:text="${pageNumber}"/>
+           </a>
+        </li>
+         <li class="page-item"  th:classappend="${wrappedNews.lastPage} ? disabled : ''">
+           <a class="page-link" 
+              th:href="${wrappedNews.pageBaseUrl + '?p=' + (wrappedNews.currentPageNumber + 1)}" 
+              >
+              <i class="fa fa-arrow-right"/>
+           </a>
+        </li>
+      </ul>
+</nav>
