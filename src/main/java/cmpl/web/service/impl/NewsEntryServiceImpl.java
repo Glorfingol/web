@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -204,6 +207,19 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     }
 
     return entries;
+  }
+
+  @Override
+  protected Page<NewsEntryDTO> toPageDTO(Page<NewsEntry> pagedNewsEntries, PageRequest pageRequest) {
+
+    List<NewsEntryDTO> dtos = new ArrayList<>();
+
+    for (NewsEntry entity : pagedNewsEntries.getContent()) {
+      dtos.add(computeNewsEntryDTO(entity));
+    }
+
+    return new PageImpl<>(dtos, pageRequest, pagedNewsEntries.getTotalElements());
+
   }
 
   NewsEntryDTO computeNewsEntryDTO(NewsEntry newsEntry) {
