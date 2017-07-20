@@ -39,8 +39,8 @@ public class ServicesConfiguration {
   @Bean
   NewsEntryService newsEntryService(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
       NewsContentService newsContentService, ImageConverterService imageConverterService, FileService fileService) {
-    return NewsEntryServiceImpl.fromRepositoriesAndServices(newsEntryRepository, newsImageService, newsContentService,
-        imageConverterService, fileService);
+    return new NewsEntryServiceImpl(newsEntryRepository, newsImageService, newsContentService, imageConverterService,
+        fileService);
   }
 
   @Bean
@@ -60,7 +60,7 @@ public class ServicesConfiguration {
 
   @Bean
   SitemapService sitemapService(NewsEntryService newsEntryService, WebMessageSource messageSource) {
-    return SitemapServiceImpl.fromService(newsEntryService, messageSource);
+    return new SitemapServiceImpl(newsEntryService, messageSource);
   }
 
   @Bean

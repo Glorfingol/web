@@ -1,7 +1,7 @@
 package cmpl.web.model.news.display;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.junit.Assert;
@@ -25,7 +25,7 @@ public class NewsEntryDisplayBeanTest {
 
   private String labelLe;
 
-  private SimpleDateFormat dateFormat;
+  private DateTimeFormatter dateFormat;
 
   private String labelAccroche;
 
@@ -36,7 +36,7 @@ public class NewsEntryDisplayBeanTest {
     labelPar = "Par";
     labelLe = "le";
     labelAccroche = "En savoir plus";
-    dateFormat = new SimpleDateFormat("dd/MM/yy");
+    dateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
     imageDisplaySrc = "http://cm-pl.com/";
   }
 
@@ -380,17 +380,14 @@ public class NewsEntryDisplayBeanTest {
   @Test
   public void testGetPublicationDate() {
 
-    Calendar calendar = Calendar.getInstance();
-    calendar.set(Calendar.YEAR, 2017);
-    calendar.set(Calendar.MONTH, 9);
-    calendar.set(Calendar.DATE, 10);
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().creationDate(calendar.getTime()).toNewsEntryDTO();
+    LocalDate publicationDate = LocalDate.of(2017, 9, 10);
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().creationDate(publicationDate).toNewsEntryDTO();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche);
 
     String result = displayBean.getPublicationDate();
-    Assert.assertEquals("10/10/17", result);
+    Assert.assertEquals("10/09/17", result);
 
   }
 
@@ -398,18 +395,15 @@ public class NewsEntryDisplayBeanTest {
   public void testGetPanelHeading() {
 
     String SPACE = " ";
-    Calendar calendar = Calendar.getInstance();
-    calendar.set(Calendar.YEAR, 2017);
-    calendar.set(Calendar.MONTH, 9);
-    calendar.set(Calendar.DATE, 10);
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().author("Test").creationDate(calendar.getTime()).toNewsEntryDTO();
+    LocalDate publicationDate = LocalDate.of(2017, 9, 10);
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().author("Test").creationDate(publicationDate).toNewsEntryDTO();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche);
 
     StringBuilder panelHeadingBuilder = new StringBuilder();
     panelHeadingBuilder.append(labelPar).append(SPACE).append("Test").append(SPACE).append(labelLe).append(SPACE)
-        .append("10/10/17");
+        .append("10/09/17");
 
     String result = displayBean.getPanelHeading();
     Assert.assertEquals(panelHeadingBuilder.toString(), result);

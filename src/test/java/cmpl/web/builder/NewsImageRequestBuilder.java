@@ -1,6 +1,6 @@
 package cmpl.web.builder;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import cmpl.web.model.news.rest.news.NewsImageRequest;
 
@@ -10,8 +10,8 @@ public class NewsImageRequestBuilder {
   private String legend;
   private String alt;
   private Long id;
-  private Date creationDate;
-  private Date modificationDate;
+  private LocalDate creationDate;
+  private LocalDate modificationDate;
 
   public NewsImageRequestBuilder src(String src) {
     this.src = src;
@@ -33,12 +33,12 @@ public class NewsImageRequestBuilder {
     return this;
   }
 
-  public NewsImageRequestBuilder creationDate(Date creationDate) {
+  public NewsImageRequestBuilder creationDate(LocalDate creationDate) {
     this.creationDate = creationDate;
     return this;
   }
 
-  public NewsImageRequestBuilder modificationDate(Date modificationDate) {
+  public NewsImageRequestBuilder modificationDate(LocalDate modificationDate) {
     this.modificationDate = modificationDate;
     return this;
   }

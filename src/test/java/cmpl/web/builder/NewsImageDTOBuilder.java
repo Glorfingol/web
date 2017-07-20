@@ -1,14 +1,14 @@
 package cmpl.web.builder;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import cmpl.web.model.news.dto.NewsImageDTO;
 
 public class NewsImageDTOBuilder {
 
   private Long id;
-  private Date creationDate;
-  private Date modificationDate;
+  private LocalDate creationDate;
+  private LocalDate modificationDate;
 
   private String src;
   private String legend;
@@ -22,12 +22,12 @@ public class NewsImageDTOBuilder {
     return this;
   }
 
-  public NewsImageDTOBuilder creationDate(Date creationDate) {
+  public NewsImageDTOBuilder creationDate(LocalDate creationDate) {
     this.creationDate = creationDate;
     return this;
   }
 
-  public NewsImageDTOBuilder modificationDate(Date modificationDate) {
+  public NewsImageDTOBuilder modificationDate(LocalDate modificationDate) {
     this.modificationDate = modificationDate;
     return this;
   }

@@ -1,3 +1,6 @@
+<div class="text-center mb-3">
+    <span th:text="${wrappedNews.pageLabel}"/>
+</div>
 <nav>
     <ul class="pagination justify-content-center">
         <li class="page-item" th:classappend="${wrappedNews.firstPage}  ? disabled : ''">
@@ -7,7 +10,9 @@
                <i class="fa fa-arrow-left"/>
            </a>
         </li>
-        <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1,wrappedNews.totalPages)}" th:classappend="${wrappedNews.currentPageNumber == pageNumber - 1} ? disabled : ''">
+        <li class="page-item" 
+            th:each="pageNumber : ${#numbers.sequence(1,wrappedNews.totalPages)}"
+            th:classappend="${wrappedNews.currentPageNumber == pageNumber - 1} ? disabled : ''">
            <a class="page-link" 
               th:href="${wrappedNews.pageBaseUrl + '?p=' +  (pageNumber - 1)}" 
               >

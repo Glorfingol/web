@@ -1,7 +1,6 @@
 package cmpl.web.service.impl;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.assertj.core.util.Lists;
@@ -58,9 +57,9 @@ public class NewsContentServiceImplTest {
 
   @Test
   public void testFillObject() throws Exception {
-
-    NewsContentDTO dto = new NewsContentDTOBuilder().content("someContent").id(1L).creationDate(new Date())
-        .modificationDate(new Date()).toNewsContentDTO();
+    LocalDate date = LocalDate.now();
+    NewsContentDTO dto = new NewsContentDTOBuilder().content("someContent").id(1L).creationDate(date)
+        .modificationDate(date).toNewsContentDTO();
 
     NewsContent destination = new NewsContent();
 
@@ -81,10 +80,12 @@ public class NewsContentServiceImplTest {
     NewsContent content2 = new NewsContent();
     content2.setContent("content2");
 
-    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(new Date())
-        .modificationDate(new Date()).toNewsContentDTO();
-    NewsContentDTO contentDTO2 = new NewsContentDTOBuilder().content("content2").id(1L).creationDate(new Date())
-        .modificationDate(new Date()).toNewsContentDTO();
+    LocalDate date = LocalDate.now();
+
+    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
+        .modificationDate(date).toNewsContentDTO();
+    NewsContentDTO contentDTO2 = new NewsContentDTOBuilder().content("content2").id(1L).creationDate(date)
+        .modificationDate(date).toNewsContentDTO();
 
     BDDMockito.doReturn(contentDTO1).when(service).toDTO(Mockito.eq(content1));
     BDDMockito.doReturn(contentDTO2).when(service).toDTO(Mockito.eq(content2));
@@ -126,12 +127,14 @@ public class NewsContentServiceImplTest {
     NewsContent content2 = new NewsContent();
     content2.setContent("content2");
 
+    LocalDate date = LocalDate.now();
+
     List<NewsContent> contents = Lists.newArrayList(content1, content2);
 
-    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(new Date())
-        .modificationDate(new Date()).toNewsContentDTO();
-    NewsContentDTO contentDTO2 = new NewsContentDTOBuilder().content("content2").id(1L).creationDate(new Date())
-        .modificationDate(new Date()).toNewsContentDTO();
+    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
+        .modificationDate(date).toNewsContentDTO();
+    NewsContentDTO contentDTO2 = new NewsContentDTOBuilder().content("content2").id(1L).creationDate(date)
+        .modificationDate(date).toNewsContentDTO();
 
     List<NewsContentDTO> contentsDTO = Lists.newArrayList(contentDTO1, contentDTO2);
 
@@ -150,10 +153,11 @@ public class NewsContentServiceImplTest {
 
     NewsContent content1 = new NewsContent();
     content1.setContent("content1");
-    Calendar customCalendar = Calendar.getInstance();
-    customCalendar.add(Calendar.DATE, -1);
-    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L)
-        .creationDate(customCalendar.getTime()).modificationDate(customCalendar.getTime()).toNewsContentDTO();
+
+    LocalDate date = LocalDate.now();
+    date = date.minusDays(1);
+    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
+        .modificationDate(date).toNewsContentDTO();
 
     BDDMockito.doReturn(content1).when(service).toEntity(Mockito.eq(contentDTO1));
     BDDMockito.doReturn(contentDTO1).when(service).toDTO(Mockito.eq(content1));
@@ -161,7 +165,7 @@ public class NewsContentServiceImplTest {
 
     NewsContentDTO result = service.updateEntity(contentDTO1);
 
-    Assert.assertTrue(customCalendar.getTime().before(result.getModificationDate()));
+    Assert.assertTrue(date.isBefore(result.getModificationDate()));
 
   }
 
@@ -180,10 +184,11 @@ public class NewsContentServiceImplTest {
 
     NewsContent content1 = new NewsContent();
     content1.setContent("content1");
-    Calendar customCalendar = Calendar.getInstance();
-    customCalendar.add(Calendar.DATE, -1);
-    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L)
-        .creationDate(customCalendar.getTime()).modificationDate(customCalendar.getTime()).toNewsContentDTO();
+
+    LocalDate date = LocalDate.now();
+    date = date.minusDays(1);
+    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
+        .modificationDate(date).toNewsContentDTO();
 
     BDDMockito.doReturn(content1).when(repository).findOne(Mockito.anyLong());
     BDDMockito.doReturn(contentDTO1).when(service).toDTO(Mockito.eq(content1));
@@ -198,10 +203,10 @@ public class NewsContentServiceImplTest {
 
     NewsContent content1 = new NewsContent();
     content1.setContent("content1");
-    Calendar customCalendar = Calendar.getInstance();
-    customCalendar.add(Calendar.DATE, -1);
-    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L)
-        .creationDate(customCalendar.getTime()).modificationDate(customCalendar.getTime()).toNewsContentDTO();
+    LocalDate date = LocalDate.now();
+    date = date.minusDays(1);
+    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
+        .modificationDate(date).toNewsContentDTO();
 
     BDDMockito.doReturn(content1).when(service).toEntity(Mockito.eq(contentDTO1));
     BDDMockito.doReturn(contentDTO1).when(service).toDTO(Mockito.eq(content1));
@@ -209,7 +214,7 @@ public class NewsContentServiceImplTest {
 
     NewsContentDTO result = service.createEntity(contentDTO1);
 
-    Assert.assertTrue(customCalendar.getTime().before(result.getModificationDate()));
+    Assert.assertTrue(date.isBefore(result.getModificationDate()));
 
   }
 }

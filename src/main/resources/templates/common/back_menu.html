@@ -1,21 +1,23 @@
 <div class="row">
     <div class="col">
         <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-             <button type="button" class="navbar-toggler navbar-toggler-right" 
-                    data-toggle="collapse" 
-                    data-target="#navbarSupportedContent" 
-                    aria-controls="navbarSupportedContent" 
-                    aria-expanded="false"
-             >
-                <span class="navbar-toggler-icon"></span>
-             </button>
-             <a class="navbar-brand hidden-lg-up" href="#">Menu</a>
-             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                 <ul id="menu" class="navbar-nav mr-auto">
-                    <li id="menu_index" class="nav-item" th:each="menuItem : ${menuItems}" th:classappend="${menuItem.customCssClass}">
-                        <a class="nav-link" th:title="${menuItem.title}" th:href="${menuItem.href}" th:text="${menuItem.label}"></a>
-                    </li>
-                </ul>
+            <div class="container">
+	             <button type="button" class="navbar-toggler navbar-toggler-right" 
+	                    data-toggle="collapse" 
+	                    data-target="#navbarSupportedContent" 
+	                    aria-controls="navbarSupportedContent" 
+	                    aria-expanded="false"
+	             >
+	                <span class="navbar-toggler-icon"></span>
+	             </button>
+	             <a class="navbar-brand hidden-lg-up" href="#">Menu</a>
+	             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	                 <ul id="menu" class="navbar-nav mr-auto">
+	                    <li id="menu_index" class="nav-item" th:each="menuItem : ${menuItems}" th:classappend="${menuItem.customCssClass}">
+	                        <a class="nav-link" th:title="${menuItem.title}" th:href="${menuItem.href}" th:text="${menuItem.label}"></a>
+	                    </li>
+	                </ul>
+	            </div>
             </div>
         </nav>
     </div>

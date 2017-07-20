@@ -1,6 +1,6 @@
 package cmpl.web.configuration;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,8 +26,7 @@ public class ContextConfiguration {
   @Bean
   ContextHolder contextHolder() {
 
-    String dayMonthYearEuropeanPattern = "dd/MM/yy";
-    SimpleDateFormat dateFormat = new SimpleDateFormat(dayMonthYearEuropeanPattern);
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
 
     ContextHolder contextHolder = new ContextHolder();
 

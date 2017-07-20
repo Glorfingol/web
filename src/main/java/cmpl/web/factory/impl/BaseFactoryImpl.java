@@ -24,4 +24,9 @@ public class BaseFactoryImpl implements BaseFactory {
     return messageSource.getI18n(key, locale);
   }
 
+  @Override
+  public String getI18nValue(String key, Locale locale, Object... args) {
+    return messageSource.getI18n(key, locale, args);
+  }
+
 }

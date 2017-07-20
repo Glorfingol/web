@@ -1,6 +1,6 @@
 package cmpl.web.builder;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import cmpl.web.model.news.dto.NewsContentDTO;
 
@@ -8,8 +8,8 @@ public class NewsContentDTOBuilder {
 
   private String content;
   private Long id;
-  private Date creationDate;
-  private Date modificationDate;
+  private LocalDate creationDate;
+  private LocalDate modificationDate;
   private String linkUrl;
   private String videoUrl;
 
@@ -33,12 +33,12 @@ public class NewsContentDTOBuilder {
     return this;
   }
 
-  public NewsContentDTOBuilder creationDate(Date creationDate) {
+  public NewsContentDTOBuilder creationDate(LocalDate creationDate) {
     this.creationDate = creationDate;
     return this;
   }
 
-  public NewsContentDTOBuilder modificationDate(Date modificationDate) {
+  public NewsContentDTOBuilder modificationDate(LocalDate modificationDate) {
     this.modificationDate = modificationDate;
     return this;
   }

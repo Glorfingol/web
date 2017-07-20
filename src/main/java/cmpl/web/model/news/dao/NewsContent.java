@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Table(name = "news_content")
 public class NewsContent extends BaseEntity {
 
-  @Column(name = "content")
+  @Column(name = "content", length = 21844)
   private String content;
 
   @Column(name = "videoUrl")

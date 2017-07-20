@@ -71,6 +71,14 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction des entrées de blog pour la page " + backPage.name());
 
+    PageWrapper pagedNewsWrapped = computePageWrapperOfNews(locale, pageNumber);
+
+    newsManager.addObject("wrappedNews", pagedNewsWrapped);
+
+    return newsManager;
+  }
+
+  PageWrapper computePageWrapperOfNews(Locale locale, int pageNumber) {
     Page<NewsEntryDisplayBean> pagedNewsEntries = computeNewsEntries(locale, pageNumber);
 
     boolean isFirstPage = pagedNewsEntries.isFirst();
@@ -85,10 +93,8 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     pagedNewsWrapped.setPage(pagedNewsEntries);
     pagedNewsWrapped.setTotalPages(totalPages);
     pagedNewsWrapped.setPageBaseUrl("/manager/news");
-
-    newsManager.addObject("wrappedNews", pagedNewsWrapped);
-
-    return newsManager;
+    pagedNewsWrapped.setPageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages));
+    return pagedNewsWrapped;
   }
 
   @Override

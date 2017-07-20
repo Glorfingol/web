@@ -1,7 +1,7 @@
 package cmpl.web.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -38,7 +38,7 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
 
   @Override
   public D createEntity(D dto) {
-    dto.setModificationDate(new Date(System.currentTimeMillis()));
+    dto.setModificationDate(LocalDate.now());
     return toDTO(entityRepository.save(toEntity(dto)));
   }
 
@@ -50,7 +50,7 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
 
   @Override
   public D updateEntity(D dto) {
-    dto.setModificationDate(new Date(System.currentTimeMillis()));
+    dto.setModificationDate(LocalDate.now());
     return toDTO(entityRepository.save(toEntity(dto)));
   }
 

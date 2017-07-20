@@ -1,6 +1,6 @@
 package cmpl.web.model.news.display;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +22,7 @@ public class NewsEntryDisplayBean {
   private final String labelPar;
   private final String labelLe;
   private final String labelAccroche;
-  private final SimpleDateFormat dateFormat;
+  private final DateTimeFormatter dateFormat;
   private static final String SPACE = " ";
   private static final String SEMICOLON = ";";
   private final String imageBaseSrc;
@@ -38,7 +38,7 @@ public class NewsEntryDisplayBean {
    * @param imageBaseSrc
    */
   public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO, String imageBaseSrc, String labelPar, String labelLe,
-      SimpleDateFormat dateFormat, String labelAccroche) {
+      DateTimeFormatter dateFormat, String labelAccroche) {
     this.newsEntryDTO = newsEntryDTO;
     this.imageBaseSrc = imageBaseSrc;
     this.labelLe = labelLe;

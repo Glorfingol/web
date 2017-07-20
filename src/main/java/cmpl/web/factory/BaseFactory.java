@@ -19,4 +19,13 @@ public interface BaseFactory {
    */
   String getI18nValue(String key, Locale locale);
 
+  /**
+   * Recupere une valeur i18n en fonction de la locale et de la cle et de parametres
+   * 
+   * @param key
+   * @param locale
+   * @return
+   */
+  String getI18nValue(String key, Locale locale, Object... args);
+
 }

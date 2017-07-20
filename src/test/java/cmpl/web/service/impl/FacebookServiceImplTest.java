@@ -1,6 +1,9 @@
 package cmpl.web.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -120,10 +123,11 @@ public class FacebookServiceImplTest {
 
   @Test
   public void testComputeCreatedTime() throws Exception {
-    Date createdTime = new Date();
-    Post post = new PostBuilder().createdTime(createdTime).toPost();
+    ZoneId defaultZoneId = ZoneId.systemDefault();
+    LocalDate createdTime = LocalDate.now();
+    Post post = new PostBuilder().createdTime(Date.from(createdTime.atStartOfDay(defaultZoneId).toInstant())).toPost();
 
-    Date result = facebookService.computeCreatedTime(post);
+    LocalDate result = facebookService.computeCreatedTime(post);
 
     Assert.assertEquals(createdTime, result);
   }
@@ -266,15 +270,16 @@ public class FacebookServiceImplTest {
     String id = "123456789";
     String description = "someDescription";
     String author = "author";
-    Date createdTime = new Date();
+    LocalDate createdTime = LocalDate.now();
     String formattedDate = "24/10/89";
     String onclick = "toggleImport(" + id + ");";
 
-    String dateFormat = "dd/MM/yy";
-    SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+    ZoneId defaultZoneId = ZoneId.systemDefault();
 
     Post post = new PostBuilder().id(id).objectId(objectId).name(name).caption(caption).description(description)
-        .source(source).message(message).picture(picture).link(link).type(type).createdTime(createdTime).toPost();
+        .source(source).message(message).picture(picture).link(link).type(type)
+        .createdTime(Date.from(createdTime.atStartOfDay(defaultZoneId).toInstant())).toPost();
 
     BDDMockito.doReturn(author).when(facebookService).computeAuthor(Mockito.eq(post));
     BDDMockito.doReturn(description).when(facebookService).computeDescription(Mockito.eq(post));
@@ -323,8 +328,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeFormattedDate() throws Exception {
 
-    String dateFormat = "dd/MM/yy";
-    SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 
     Calendar calendar = Calendar.getInstance();
     calendar.set(2017, 10, 15);
@@ -389,6 +393,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeImportablePosts_Importable() throws Exception {
 
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
     Post postToImport = new PostBuilder().toPost();
     PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
     PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
@@ -396,9 +401,9 @@ public class FacebookServiceImplTest {
 
     ImportablePost importable = new ImportablePostBuilder().toImportablePost();
 
-    BDDMockito.doReturn(new SimpleDateFormat("dd/MM/yy")).when(contextHolder).getDateFormat();
+    BDDMockito.doReturn(formatter).when(contextHolder).getDateFormat();
     BDDMockito.doReturn(importable).when(facebookService)
-        .computeImportablePost(Mockito.eq(postToImport), Mockito.any(SimpleDateFormat.class));
+        .computeImportablePost(Mockito.eq(postToImport), Mockito.any(DateTimeFormatter.class));
     BDDMockito.doReturn(true).when(facebookService).canImportPost(Mockito.eq(importable));
 
     List<ImportablePost> postsImportable = facebookService.computeImportablePosts(postsToImport);
@@ -411,6 +416,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeImportablePosts_Already_Imported() throws Exception {
 
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
     Post postToImport = new PostBuilder().toPost();
     PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
     PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
@@ -418,9 +424,9 @@ public class FacebookServiceImplTest {
 
     ImportablePost importable = new ImportablePostBuilder().toImportablePost();
 
-    BDDMockito.doReturn(new SimpleDateFormat("dd/MM/yy")).when(contextHolder).getDateFormat();
+    BDDMockito.doReturn(formatter).when(contextHolder).getDateFormat();
     BDDMockito.doReturn(importable).when(facebookService)
-        .computeImportablePost(Mockito.eq(postToImport), Mockito.any(SimpleDateFormat.class));
+        .computeImportablePost(Mockito.eq(postToImport), Mockito.any(DateTimeFormatter.class));
     BDDMockito.doReturn(false).when(facebookService).canImportPost(Mockito.eq(importable));
 
     List<ImportablePost> postsImportable = facebookService.computeImportablePosts(postsToImport);

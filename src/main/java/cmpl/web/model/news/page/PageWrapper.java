@@ -12,6 +12,7 @@ public class PageWrapper {
   private int totalPages;
   private int currentPageNumber;
   private String pageBaseUrl;
+  private String pageLabel;
 
   public Page<NewsEntryDisplayBean> getPage() {
     return page;
@@ -59,6 +60,14 @@ public class PageWrapper {
 
   public void setPageBaseUrl(String pageBaseUrl) {
     this.pageBaseUrl = pageBaseUrl;
+  }
+
+  public String getPageLabel() {
+    return pageLabel;
+  }
+
+  public void setPageLabel(String pageLabel) {
+    this.pageLabel = pageLabel;
   }
 
 }

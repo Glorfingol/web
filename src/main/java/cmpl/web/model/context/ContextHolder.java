@@ -1,6 +1,6 @@
 package cmpl.web.model.context;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Holder des donnees de configuration globales de l'application
@@ -10,16 +10,16 @@ import java.text.SimpleDateFormat;
  */
 public class ContextHolder {
 
-  private SimpleDateFormat dateFormat;
+  private DateTimeFormatter dateFormat;
   private String imageDisplaySrc;
   private String imageFileSrc;
   private int elementsPerPage;
 
-  public SimpleDateFormat getDateFormat() {
+  public DateTimeFormatter getDateFormat() {
     return dateFormat;
   }
 
-  public void setDateFormat(SimpleDateFormat dateFormat) {
+  public void setDateFormat(DateTimeFormatter dateFormat) {
     this.dateFormat = dateFormat;
   }
 

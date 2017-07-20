@@ -7,6 +7,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 
 import cmpl.web.message.WebMessageSource;
 import cmpl.web.model.BaseException;
@@ -42,23 +45,13 @@ public class SitemapServiceImpl implements SitemapService {
 
   private final NewsEntryService newsEntryService;
 
-  private SitemapServiceImpl(NewsEntryService newsEntryService, WebMessageSource messageSource) {
+  public SitemapServiceImpl(NewsEntryService newsEntryService, WebMessageSource messageSource) {
     this.newsEntryService = newsEntryService;
     this.messageSource = messageSource;
   }
 
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param newsEntryService
-   * @param messageSource
-   * @return
-   */
-  public static SitemapServiceImpl fromService(NewsEntryService newsEntryService, WebMessageSource messageSource) {
-    return new SitemapServiceImpl(newsEntryService, messageSource);
-  }
-
   @Override
+  @Cacheable(sync = true)
   public String createSiteMap(Locale locale) throws BaseException {
 
     try {
@@ -77,7 +70,7 @@ public class SitemapServiceImpl implements SitemapService {
     WebSitemapGenerator sitemap = WebSitemapGenerator.builder(BASE_URL, temporarySitemapFile.toFile()).build();
 
     List<NewsEntryDTO> entries = newsEntryService.getEntities();
-    Date lastModified = computeLastModified(entries);
+    LocalDate lastModified = computeLastModified(entries);
     List<WebSitemapUrl> newsEntriesUrls = computeNewsEntriesUrls(locale, entries);
     List<WebSitemapUrl> menuUrls = computeMenuUrls(locale);
     sitemap.addUrls(menuUrls);
@@ -128,21 +121,25 @@ public class SitemapServiceImpl implements SitemapService {
         .priority(1d).build();
   }
 
-  WebSitemapUrl computeUrlForMenuNews(Date lastModified, Locale locale) throws MalformedURLException {
-    return new WebSitemapUrl.Options(BASE_URL + getI18nValue(MENU.NEWS.getHref(), locale)).lastMod(lastModified)
-        .priority(1d).changeFreq(ChangeFreq.YEARLY).build();
+  WebSitemapUrl computeUrlForMenuNews(LocalDate lastModified, Locale locale) throws MalformedURLException {
+    ZoneId defaultZoneId = ZoneId.systemDefault();
+    return new WebSitemapUrl.Options(BASE_URL + getI18nValue(MENU.NEWS.getHref(), locale))
+        .lastMod(Date.from(lastModified.atStartOfDay(defaultZoneId).toInstant())).priority(1d)
+        .changeFreq(ChangeFreq.YEARLY).build();
   }
 
   WebSitemapUrl computeUrlForNewsEntry(NewsEntryDTO newsEntry, Locale locale) throws MalformedURLException {
+    ZoneId defaultZoneId = ZoneId.systemDefault();
     return new WebSitemapUrl.Options(BASE_URL + getI18nValue(MENU.NEWS.getHref(), locale) + "/" + newsEntry.getId())
-        .lastMod(newsEntry.getModificationDate()).changeFreq(ChangeFreq.YEARLY).priority(0.5d).build();
+        .lastMod(Date.from(newsEntry.getModificationDate().atStartOfDay(defaultZoneId).toInstant()))
+        .changeFreq(ChangeFreq.YEARLY).priority(0.5d).build();
   }
 
-  Date computeLastModified(List<NewsEntryDTO> entries) {
-    Date lastModified = entries.get(0).getModificationDate();
+  LocalDate computeLastModified(List<NewsEntryDTO> entries) {
+    LocalDate lastModified = entries.get(0).getModificationDate();
     for (NewsEntryDTO newsEntry : entries) {
-      Date dateModification = newsEntry.getModificationDate();
-      if (dateModification.after(lastModified)) {
+      LocalDate dateModification = newsEntry.getModificationDate();
+      if (dateModification.isAfter(lastModified)) {
         lastModified = dateModification;
       }
     }

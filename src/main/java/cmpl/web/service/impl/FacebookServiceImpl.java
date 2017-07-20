@@ -1,8 +1,9 @@
 package cmpl.web.service.impl;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.social.connect.ConnectionRepository;
@@ -91,7 +92,7 @@ public class FacebookServiceImpl implements FacebookService {
     return true;
   }
 
-  ImportablePost computeImportablePost(Post feed, SimpleDateFormat formatter) {
+  ImportablePost computeImportablePost(Post feed, DateTimeFormatter formatter) {
 
     ImportablePost post = new ImportablePost();
     post.setAuthor(computeAuthor(feed));
@@ -110,7 +111,7 @@ public class FacebookServiceImpl implements FacebookService {
     return post;
   }
 
-  String computeFormattedDate(Post feed, SimpleDateFormat formatter) {
+  String computeFormattedDate(Post feed, DateTimeFormatter formatter) {
     return formatter.format(computeCreatedTime(feed));
   }
 
@@ -118,8 +119,8 @@ public class FacebookServiceImpl implements FacebookService {
     return feed.getObjectId();
   }
 
-  Date computeCreatedTime(Post feed) {
-    return feed.getCreatedTime();
+  LocalDate computeCreatedTime(Post feed) {
+    return feed.getCreatedTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
   }
 
   String computeId(Post feed) {

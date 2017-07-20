@@ -79,25 +79,32 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     ModelAndView newsModelAndView = super.computeModelAndViewForPage(page, locale);
     if (PAGE.NEWS.equals(page)) {
       LOGGER.info("Construction des entrées de blog pour la page " + page.name());
-      Page<NewsEntryDisplayBean> pagedNewsEntries = computeNewsEntries(locale, pageNumber);
-
-      boolean isFirstPage = pagedNewsEntries.isFirst();
-      boolean isLastPage = pagedNewsEntries.isLast();
-      int totalPages = pagedNewsEntries.getTotalPages();
-      int currentPageNumber = pagedNewsEntries.getNumber();
-
-      PageWrapper pagedNewsWrapped = new PageWrapper();
-      pagedNewsWrapped.setCurrentPageNumber(currentPageNumber);
-      pagedNewsWrapped.setFirstPage(isFirstPage);
-      pagedNewsWrapped.setLastPage(isLastPage);
-      pagedNewsWrapped.setPage(pagedNewsEntries);
-      pagedNewsWrapped.setTotalPages(totalPages);
-      pagedNewsWrapped.setPageBaseUrl("/actualites");
+      PageWrapper pagedNewsWrapped = computePageWrapperOfNews(locale, pageNumber);
 
       newsModelAndView.addObject("wrappedNews", pagedNewsWrapped);
+      newsModelAndView.addObject("emptyMessage", getI18nValue("actualites.empty", locale));
     }
 
     return newsModelAndView;
+  }
+
+  PageWrapper computePageWrapperOfNews(Locale locale, int pageNumber) {
+    Page<NewsEntryDisplayBean> pagedNewsEntries = computeNewsEntries(locale, pageNumber);
+
+    boolean isFirstPage = pagedNewsEntries.isFirst();
+    boolean isLastPage = pagedNewsEntries.isLast();
+    int totalPages = pagedNewsEntries.getTotalPages();
+    int currentPageNumber = pagedNewsEntries.getNumber();
+
+    PageWrapper pagedNewsWrapped = new PageWrapper();
+    pagedNewsWrapped.setCurrentPageNumber(currentPageNumber);
+    pagedNewsWrapped.setFirstPage(isFirstPage);
+    pagedNewsWrapped.setLastPage(isLastPage);
+    pagedNewsWrapped.setPage(pagedNewsEntries);
+    pagedNewsWrapped.setTotalPages(totalPages);
+    pagedNewsWrapped.setPageBaseUrl("/actualites");
+    pagedNewsWrapped.setPageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages));
+    return pagedNewsWrapped;
   }
 
   List<NewsEntryDisplayBean> computeNewsEntries(Locale locale) {

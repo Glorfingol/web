@@ -68,6 +68,36 @@ body{
 	border: 2px dashed #025aa5 !important;
 }
 
+/**
+CAROUSEL
+*/
+
+.carousel-indicators li{
+	background-color: #38A6B2;
+    height: 20px;
+    max-width: 20px;
+	border-radius: 50%;
+	margin-top: 2.5px;
+}
+
+.carousel-indicators .active{
+    background-color: #1C5359;
+    height: 25px;
+    max-width: 25px;
+    margin-top: 0px;
+}
+
+.carousel-control-next-icon {
+    background-image : url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#38A6B2' viewBox='0 0 8 8'%3E%3Cpath d='M1.5 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+.carousel-control-prev-icon{
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#38A6B2' viewBox='0 0 8 8'%3E%3Cpath d='M4 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+.carousel-indicators > li {
+ 
+}
 
 /**
 PAGE SOON
@@ -112,6 +142,25 @@ ACTUALITES
     width: 100%;
     height: 100%;
 }
+
+.stickyImport{
+       position: fixed;
+       right: 0;
+       top: 50%;
+       margin: 0 1% 0 0;
+       z-index: 9999;
+}
+   
+@media (min-width: 1800px) {
+	.stickyImport{
+		position: fixed;
+	    right: 0;
+	    top: 50%;
+	    margin: 0 8% 0 0;
+	    z-index: 9999;
+	}
+}
+
 
 /**
 FOOTER

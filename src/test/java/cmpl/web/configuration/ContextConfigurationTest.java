@@ -1,7 +1,7 @@
 package cmpl.web.configuration;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,11 +26,11 @@ public class ContextConfigurationTest {
     configuration.fileBasePath = fileBasePath;
     configuration.imageDisplaySrc = imageDisplaySrc;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
 
     ContextHolder holder = configuration.contextHolder();
 
-    Date dateToFormat = new Date();
+    LocalDate dateToFormat = LocalDate.now();
     Assert.assertEquals(dateFormat.format(dateToFormat), holder.getDateFormat().format(dateToFormat));
     Assert.assertEquals(fileBasePath, holder.getImageFileSrc());
     Assert.assertEquals(imageDisplaySrc, holder.getImageDisplaySrc());

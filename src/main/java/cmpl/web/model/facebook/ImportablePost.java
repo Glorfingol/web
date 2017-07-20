@@ -1,6 +1,6 @@
 package cmpl.web.model.facebook;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.springframework.social.facebook.api.Post.PostType;
 
@@ -20,7 +20,7 @@ public class ImportablePost {
   private String videoUrl;
   private String linkUrl;
   private String facebookId;
-  private Date creationDate;
+  private LocalDate creationDate;
   private String formattedDate;
   private String objectId;
   private String onclick;
@@ -113,11 +113,11 @@ public class ImportablePost {
     this.onclick = onclick;
   }
 
-  public Date getCreationDate() {
+  public LocalDate getCreationDate() {
     return creationDate;
   }
 
-  public void setCreationDate(Date creationDate) {
+  public void setCreationDate(LocalDate creationDate) {
     this.creationDate = creationDate;
   }
 

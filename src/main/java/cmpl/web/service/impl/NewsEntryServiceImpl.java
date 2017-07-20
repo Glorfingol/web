@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -40,7 +41,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   private final ImageConverterService imageConverterService;
   private final FileService fileService;
 
-  private NewsEntryServiceImpl(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
+  public NewsEntryServiceImpl(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
       NewsContentService newsContentService, ImageConverterService imageConverterService, FileService fileService) {
     super(newsEntryRepository);
     this.newsEntryRepository = newsEntryRepository;
@@ -50,24 +51,8 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     this.fileService = fileService;
   }
 
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param newsEntryRepository
-   * @param newsImageService
-   * @param newsContentService
-   * @param imageConverterService
-   * @param fileService
-   * @return
-   */
-  public static NewsEntryServiceImpl fromRepositoriesAndServices(NewsEntryRepository newsEntryRepository,
-      NewsImageService newsImageService, NewsContentService newsContentService,
-      ImageConverterService imageConverterService, FileService fileService) {
-    return new NewsEntryServiceImpl(newsEntryRepository, newsImageService, newsContentService, imageConverterService,
-        fileService);
-  }
-
   @Override
+  @Transactional
   public NewsEntryDTO createEntity(NewsEntryDTO dto) {
 
     LOGGER.info("Creation d'une nouvelle entrée de blog");
@@ -117,6 +102,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   }
 
   @Override
+  @Transactional
   public NewsEntryDTO updateEntity(NewsEntryDTO dto) {
 
     LOGGER.info("Mise à jour d'une entrée de blog d'id " + dto.getId());

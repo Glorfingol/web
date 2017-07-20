@@ -5,8 +5,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -65,25 +66,23 @@ public class SitemapServiceImplTest {
 
   @Test
   public void testComputeLastModified() throws Exception {
-    Calendar today = Calendar.getInstance();
-    Calendar yesterday = Calendar.getInstance();
-    yesterday.add(Calendar.MONTH, -1);
-    Calendar twoDaysAgo = Calendar.getInstance();
-    twoDaysAgo.add(Calendar.MONTH, -2);
 
-    NewsEntryDTO newsEntryToday = new NewsEntryDTOBuilder().modificationDate(today.getTime()).toNewsEntryDTO();
-    NewsEntryDTO newsEntryYesterday = new NewsEntryDTOBuilder().modificationDate(yesterday.getTime()).toNewsEntryDTO();
-    NewsEntryDTO newsEntryTwoDaysAgo = new NewsEntryDTOBuilder().modificationDate(twoDaysAgo.getTime())
-        .toNewsEntryDTO();
+    LocalDate today = LocalDate.now();
+    LocalDate yesterday = today.minusDays(1);
+    LocalDate twoDaysAgo = yesterday.minusDays(1);
+
+    NewsEntryDTO newsEntryToday = new NewsEntryDTOBuilder().modificationDate(today).toNewsEntryDTO();
+    NewsEntryDTO newsEntryYesterday = new NewsEntryDTOBuilder().modificationDate(yesterday).toNewsEntryDTO();
+    NewsEntryDTO newsEntryTwoDaysAgo = new NewsEntryDTOBuilder().modificationDate(twoDaysAgo).toNewsEntryDTO();
 
     List<NewsEntryDTO> entries = new ArrayList<>();
     entries.add(newsEntryTwoDaysAgo);
     entries.add(newsEntryToday);
     entries.add(newsEntryYesterday);
 
-    Date result = service.computeLastModified(entries);
+    LocalDate result = service.computeLastModified(entries);
 
-    Assert.assertEquals(today.getTime(), result);
+    Assert.assertEquals(today, result);
   }
 
   @Test
@@ -104,7 +103,8 @@ public class SitemapServiceImplTest {
     String newsHref = "/actualites";
     String key = "news.href";
     Long id = Long.valueOf("666");
-    Date dateModification = new Date();
+    LocalDate dateModification = LocalDate.now();
+    ZoneId defaultZoneId = ZoneId.systemDefault();
     Double priority = Double.valueOf("0.5");
     NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().id(id.longValue()).modificationDate(dateModification)
         .toNewsEntryDTO();
@@ -114,7 +114,7 @@ public class SitemapServiceImplTest {
     WebSitemapUrl result = service.computeUrlForNewsEntry(newsEntry, locale);
 
     Assert.assertEquals(url, result.getUrl().toExternalForm());
-    Assert.assertEquals(dateModification, result.getLastMod());
+    Assert.assertEquals(Date.from(dateModification.atStartOfDay(defaultZoneId).toInstant()), result.getLastMod());
     Assert.assertEquals(ChangeFreq.YEARLY, result.getChangeFreq());
     Assert.assertEquals(priority, result.getPriority());
 
@@ -125,7 +125,8 @@ public class SitemapServiceImplTest {
     String url = "http://cmpl.com/actualites";
     String newsHref = "/actualites";
     String key = "news.href";
-    Date dateModification = new Date();
+    LocalDate dateModification = LocalDate.now();
+    ZoneId defaultZoneId = ZoneId.systemDefault();
     Double priority = Double.valueOf("1.0");
 
     BDDMockito.doReturn(newsHref).when(service).getI18nValue(Mockito.eq(key), Mockito.eq(locale));
@@ -133,7 +134,7 @@ public class SitemapServiceImplTest {
     WebSitemapUrl result = service.computeUrlForMenuNews(dateModification, locale);
 
     Assert.assertEquals(url, result.getUrl().toExternalForm());
-    Assert.assertEquals(dateModification, result.getLastMod());
+    Assert.assertEquals(Date.from(dateModification.atStartOfDay(defaultZoneId).toInstant()), result.getLastMod());
     Assert.assertEquals(ChangeFreq.YEARLY, result.getChangeFreq());
     Assert.assertEquals(priority, result.getPriority());
 
@@ -169,9 +170,9 @@ public class SitemapServiceImplTest {
 
   @Test
   public void testComputeNewsEntriesUrls() throws MalformedURLException {
-
-    NewsEntryDTO entry1 = new NewsEntryDTOBuilder().toNewsEntryDTO();
-    NewsEntryDTO entry2 = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    LocalDate modificationDate = LocalDate.now();
+    NewsEntryDTO entry1 = new NewsEntryDTOBuilder().modificationDate(modificationDate).toNewsEntryDTO();
+    NewsEntryDTO entry2 = new NewsEntryDTOBuilder().modificationDate(modificationDate).toNewsEntryDTO();
 
     List<NewsEntryDTO> entries = Lists.newArrayList(entry1, entry2);
 
@@ -208,16 +209,19 @@ public class SitemapServiceImplTest {
     String host = "http://cmpl.com/";
     NewsEntryDTO entry1 = new NewsEntryDTOBuilder().toNewsEntryDTO();
     NewsEntryDTO entry2 = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    ZoneId defaultZoneId = ZoneId.systemDefault();
 
     List<NewsEntryDTO> entries = Lists.newArrayList(entry1, entry2);
-    Date dateModification = new Date();
+    LocalDate dateModification = LocalDate.now();
 
     WebSitemapUrl urlMenu = new WebSitemapUrl.Options(host + "techniques").priority(1d).changeFreq(ChangeFreq.NEVER)
         .build();
-    WebSitemapUrl urlNews = new WebSitemapUrl.Options(host + "actualites").lastMod(dateModification).priority(1d)
+    WebSitemapUrl urlNews = new WebSitemapUrl.Options(host + "actualites")
+        .lastMod(Date.from(dateModification.atStartOfDay(defaultZoneId).toInstant())).priority(1d)
         .changeFreq(ChangeFreq.YEARLY).build();
-    WebSitemapUrl urlNewsEntry = new WebSitemapUrl.Options(host + "actualites/666").lastMod(dateModification)
-        .priority(1d).changeFreq(ChangeFreq.YEARLY).build();
+    WebSitemapUrl urlNewsEntry = new WebSitemapUrl.Options(host + "actualites/666")
+        .lastMod(Date.from(dateModification.atStartOfDay(defaultZoneId).toInstant())).priority(1d)
+        .changeFreq(ChangeFreq.YEARLY).build();
 
     BDDMockito.doReturn(entries).when(newsEntryService).getEntities();
     BDDMockito.doReturn(Lists.newArrayList(urlMenu)).when(service).computeMenuUrls(Mockito.eq(locale));

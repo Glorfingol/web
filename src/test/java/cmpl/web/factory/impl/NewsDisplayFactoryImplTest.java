@@ -1,8 +1,8 @@
 package cmpl.web.factory.impl;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -69,12 +69,12 @@ public class NewsDisplayFactoryImplTest {
   @Test
   public void testComputeNewsEntryDisplayBean() throws Exception {
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
     String imageDisplaySrc = "http://cm-pl.com";
 
     String autor = "author";
-    Date date = new Date();
-    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().author(autor).creationDate(date).id(1L).toNewsEntryDTO();
+    LocalDate now = LocalDate.now();
+    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().author(autor).creationDate(now).id(1L).toNewsEntryDTO();
 
     String labelPar = "par";
     String labelLe = "le";
@@ -97,18 +97,18 @@ public class NewsDisplayFactoryImplTest {
   @Test
   public void testComputeNewsEntryDisplayBeanLocaleNewsEntryDTO() throws Exception {
 
-    SimpleDateFormat formatted = new SimpleDateFormat("dd/MM/yy");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 
     String autor = "author";
-    Date date = new Date();
-    String formattedDate = formatted.format(date);
-    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().author(autor).creationDate(date).id(1L).toNewsEntryDTO();
+    LocalDate now = LocalDate.now();
+    String formattedDate = formatter.format(now);
+    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().author(autor).creationDate(now).id(1L).toNewsEntryDTO();
 
     String labelPar = "par";
     String labelLe = "le";
     String labelAccroche = "accroche";
 
-    BDDMockito.doReturn(new SimpleDateFormat("dd/MM/yy")).when(contextHolder).getDateFormat();
+    BDDMockito.doReturn(formatter).when(contextHolder).getDateFormat();
     BDDMockito.doReturn(labelPar).when(displayFactory).getI18nValue(Mockito.eq("news.entry.by"), Mockito.eq(locale));
     BDDMockito.doReturn(labelLe).when(displayFactory).getI18nValue(Mockito.eq("news.entry.the"), Mockito.eq(locale));
     BDDMockito.doReturn(labelAccroche).when(displayFactory)
@@ -308,11 +308,11 @@ public class NewsDisplayFactoryImplTest {
   @Test
   public void testComputeNewsEntries() throws Exception {
 
-    SimpleDateFormat formatted = new SimpleDateFormat("dd/MM/yy");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 
     String autor = "author";
-    Date date = new Date();
-    String formattedDate = formatted.format(date);
+    LocalDate date = LocalDate.now();
+    String formattedDate = formatter.format(date);
 
     String labelPar = "par";
     String labelLe = "le";
@@ -320,7 +320,7 @@ public class NewsDisplayFactoryImplTest {
     NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().author(autor).creationDate(date).id(1L).toNewsEntryDTO();
     List<NewsEntryDTO> newsEntries = Lists.newArrayList(newsEntry);
 
-    BDDMockito.doReturn(new SimpleDateFormat("dd/MM/yy")).when(contextHolder).getDateFormat();
+    BDDMockito.doReturn(formatter).when(contextHolder).getDateFormat();
     BDDMockito.doReturn(newsEntries).when(newsEntryService).getEntities();
     BDDMockito.doReturn(labelPar).when(displayFactory).getI18nValue(Mockito.eq("news.entry.by"), Mockito.eq(locale));
     BDDMockito.doReturn(labelLe).when(displayFactory).getI18nValue(Mockito.eq("news.entry.the"), Mockito.eq(locale));

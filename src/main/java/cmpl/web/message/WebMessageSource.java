@@ -19,4 +19,13 @@ public interface WebMessageSource {
    */
   String getI18n(String code, Locale locale);
 
+  /**
+   * Recupere une valeur i18n en fonction de sa cle et de parametres
+   * 
+   * @param code
+   * @param locale
+   * @return
+   */
+  String getI18n(String code, Locale locale, Object... args);
+
 }
