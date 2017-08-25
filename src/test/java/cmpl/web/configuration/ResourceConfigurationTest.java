@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import cmpl.web.message.impl.WebMessageSourceImpl;
+import cmpl.web.message.WebMessageSourceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ResourceConfigurationTest {

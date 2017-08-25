@@ -7,28 +7,30 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import cmpl.web.factory.CarouselFactory;
-import cmpl.web.factory.DisplayFactory;
-import cmpl.web.factory.FacebookDisplayFactory;
-import cmpl.web.factory.FooterFactory;
-import cmpl.web.factory.LoginDisplayFactory;
-import cmpl.web.factory.MenuFactory;
-import cmpl.web.factory.MetaElementFactory;
-import cmpl.web.factory.NewsDisplayFactory;
-import cmpl.web.factory.NewsManagerDisplayFactory;
-import cmpl.web.factory.impl.CarouselFactoryImpl;
-import cmpl.web.factory.impl.DisplayFactoryImpl;
-import cmpl.web.factory.impl.FacebookDisplayFactoryImpl;
-import cmpl.web.factory.impl.FooterFactoryImpl;
-import cmpl.web.factory.impl.LoginDisplayFactoryImpl;
-import cmpl.web.factory.impl.MenuFactoryImpl;
-import cmpl.web.factory.impl.MetaElementFactoryImpl;
-import cmpl.web.factory.impl.NewsDisplayFactoryImpl;
-import cmpl.web.factory.impl.NewsManagerDisplayFactoryImpl;
-import cmpl.web.message.impl.WebMessageSourceImpl;
-import cmpl.web.model.context.ContextHolder;
-import cmpl.web.service.FacebookService;
-import cmpl.web.service.NewsEntryService;
+import cmpl.web.carousel.CarouselFactory;
+import cmpl.web.carousel.CarouselFactoryImpl;
+import cmpl.web.core.context.ContextHolder;
+import cmpl.web.core.factory.DisplayFactory;
+import cmpl.web.core.factory.DisplayFactoryImpl;
+import cmpl.web.facebook.FacebookDisplayFactory;
+import cmpl.web.facebook.FacebookDisplayFactoryImpl;
+import cmpl.web.facebook.FacebookService;
+import cmpl.web.footer.FooterFactory;
+import cmpl.web.footer.FooterFactoryImpl;
+import cmpl.web.login.LoginDisplayFactory;
+import cmpl.web.login.LoginDisplayFactoryImpl;
+import cmpl.web.menu.MenuFactory;
+import cmpl.web.menu.MenuFactoryImpl;
+import cmpl.web.menu.MenuService;
+import cmpl.web.message.WebMessageSourceImpl;
+import cmpl.web.meta.MetaElementFactory;
+import cmpl.web.meta.MetaElementFactoryImpl;
+import cmpl.web.news.NewsDisplayFactory;
+import cmpl.web.news.NewsDisplayFactoryImpl;
+import cmpl.web.news.NewsEntryService;
+import cmpl.web.news.NewsManagerDisplayFactory;
+import cmpl.web.news.NewsManagerDisplayFactoryImpl;
+import cmpl.web.page.PageService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FactoryConfigurationTest {
@@ -49,6 +51,10 @@ public class FactoryConfigurationTest {
   private FacebookService facebookService;
   @Mock
   private ContextHolder contextHolder;
+  @Mock
+  private PageService pageService;
+  @Mock
+  private MenuService menuService;
 
   @Spy
   private FactoryConfiguration configuration;
@@ -57,7 +63,7 @@ public class FactoryConfigurationTest {
   public void testDisplayFactory() throws Exception {
 
     DisplayFactory result = configuration.displayFactory(menuFactory, footerFactory, metaElementFactory,
-        carouselFactory, messageSource);
+        carouselFactory, messageSource, pageService);
 
     Assert.assertEquals(DisplayFactoryImpl.class, result.getClass());
   }
@@ -73,7 +79,7 @@ public class FactoryConfigurationTest {
   @Test
   public void testNewsDisplayFactory() throws Exception {
     NewsDisplayFactory result = configuration.newsDisplayFactory(contextHolder, menuFactory, footerFactory,
-        metaElementFactory, carouselFactory, messageSource, newsEntryService);
+        metaElementFactory, carouselFactory, messageSource, newsEntryService, pageService);
 
     Assert.assertEquals(NewsDisplayFactoryImpl.class, result.getClass());
   }
@@ -88,7 +94,7 @@ public class FactoryConfigurationTest {
 
   @Test
   public void testMenuFactory() throws Exception {
-    MenuFactory result = configuration.menuFactory(messageSource);
+    MenuFactory result = configuration.menuFactory(messageSource, menuService);
 
     Assert.assertEquals(MenuFactoryImpl.class, result.getClass());
 

@@ -2,7 +2,7 @@ package cmpl.web.builder;
 
 import org.springframework.social.facebook.api.Post.PostType;
 
-import cmpl.web.model.facebook.FacebookImportPost;
+import cmpl.web.facebook.FacebookImportPost;
 
 public class FacebookImportPostBuilder {
 

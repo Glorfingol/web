@@ -1,6 +1,6 @@
 package cmpl.web.builder;
 
-import cmpl.web.model.meta.MetaElement;
+import cmpl.web.meta.MetaElementToDelete;
 
 public class MetaElementBuilder {
 
@@ -23,8 +23,8 @@ public class MetaElementBuilder {
     return this;
   }
 
-  public MetaElement toMetaElement() {
-    MetaElement metaElement = new MetaElement();
+  public MetaElementToDelete toMetaElement() {
+    MetaElementToDelete metaElement = new MetaElementToDelete();
     metaElement.setName(name);
     metaElement.setContent(content);
     metaElement.setProperty(property);

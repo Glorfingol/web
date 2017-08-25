@@ -2,9 +2,9 @@ package cmpl.web.builder;
 
 import java.time.LocalDate;
 
-import cmpl.web.model.news.dto.NewsContentDTO;
-import cmpl.web.model.news.dto.NewsEntryDTO;
-import cmpl.web.model.news.dto.NewsImageDTO;
+import cmpl.web.news.NewsContentDTO;
+import cmpl.web.news.NewsEntryDTO;
+import cmpl.web.news.NewsImageDTO;
 
 public class NewsEntryDTOBuilder {
 

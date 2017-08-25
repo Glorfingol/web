@@ -2,7 +2,7 @@ package cmpl.web.builder;
 
 import java.util.List;
 
-import cmpl.web.model.menu.MenuItem;
+import cmpl.web.menu.MenuItem;
 
 public class MenuItemBuilder {
 

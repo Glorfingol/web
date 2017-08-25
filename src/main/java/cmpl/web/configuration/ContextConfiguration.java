@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import cmpl.web.model.context.ContextHolder;
+import cmpl.web.core.context.ContextHolder;
 
 /**
  * COnfiguration du contextHolder a partir de donnes du fichier yaml

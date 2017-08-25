@@ -40,11 +40,7 @@ function hasImageMetaData(image){
 
 function computeNewsContent(){
 	var content = {};
-	
-	var inputContent = $("#content\\.content");
-	
-	content.content = inputContent.val();
-	
+	content.content = CKEDITOR.instances.newsContent.getData();
 	return content;
 }
 
@@ -171,5 +167,4 @@ function resetForm(){
 	});
 	$("#imagePreview").attr("src","");
 }
-
 

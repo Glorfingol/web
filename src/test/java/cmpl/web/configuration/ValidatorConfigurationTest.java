@@ -7,9 +7,9 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import cmpl.web.message.impl.WebMessageSourceImpl;
-import cmpl.web.validator.NewsEntryRequestValidator;
-import cmpl.web.validator.impl.NewsEntryRequestValidatorImpl;
+import cmpl.web.message.WebMessageSourceImpl;
+import cmpl.web.news.NewsEntryRequestValidator;
+import cmpl.web.news.NewsEntryRequestValidatorImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ValidatorConfigurationTest {

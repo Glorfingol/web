@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import cmpl.web.model.context.ContextHolder;
+import cmpl.web.core.context.ContextHolder;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ContextConfigurationTest {

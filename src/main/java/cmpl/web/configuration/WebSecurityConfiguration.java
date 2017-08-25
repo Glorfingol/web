@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import cmpl.web.model.BaseException;
+import cmpl.web.core.model.BaseException;
 
 /**
  * Configuration de la securite
@@ -47,9 +47,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   }
 
   String[] prepareAuthorizedUrls() {
-    return new String[]{"/", "/soins_medicaux", "/centre-medical", "/rendez-vous", "/contact", "/gynecologue",
-        "/actualites", "/actualites/**", "/techniques", "/tarifs", "/horaires", "/robots", "/robot", "/robot.txt",
-        "/robots.txt", "/bootstrap/**", "/jquery/**", "/tether/**", "/fontawesome/**", "/js/**", "/img/**", "/css/**",
-        "/**/favicon.ico", "/sitemap.xml", "/soon"};
+    return new String[]{"/", "/pages/**", "/soins_medicaux", "/centre-medical", "/rendez-vous", "/contact",
+        "/gynecologue", "/actualites", "/actualites/**", "/techniques", "/tarifs", "/horaires", "/robots", "/robot",
+        "/robot.txt", "/robots.txt", "/bootstrap/**", "/jquery/**", "/tether/**", "/fontawesome/**", "/ckeditor/**",
+        "/js/**", "/img/**", "/css/**", "/**/favicon.ico", "/sitemap.xml", "/soon"};
   }
 }

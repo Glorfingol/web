@@ -5,27 +5,39 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 
+import cmpl.web.core.context.ContextHolder;
+import cmpl.web.facebook.FacebookImportService;
+import cmpl.web.facebook.FacebookImportServiceImpl;
+import cmpl.web.facebook.FacebookService;
+import cmpl.web.facebook.FacebookServiceImpl;
+import cmpl.web.file.FileService;
+import cmpl.web.file.FileServiceImpl;
+import cmpl.web.file.ImageConverterService;
+import cmpl.web.file.ImageConverterServiceImpl;
+import cmpl.web.menu.MenuRepository;
+import cmpl.web.menu.MenuService;
+import cmpl.web.menu.MenuServiceImpl;
 import cmpl.web.message.WebMessageSource;
-import cmpl.web.model.context.ContextHolder;
-import cmpl.web.repository.NewsContentRepository;
-import cmpl.web.repository.NewsEntryRepository;
-import cmpl.web.repository.NewsImageRepository;
-import cmpl.web.service.FacebookImportService;
-import cmpl.web.service.FacebookService;
-import cmpl.web.service.FileService;
-import cmpl.web.service.ImageConverterService;
-import cmpl.web.service.NewsContentService;
-import cmpl.web.service.NewsEntryService;
-import cmpl.web.service.NewsImageService;
-import cmpl.web.service.SitemapService;
-import cmpl.web.service.impl.FacebookImportServiceImpl;
-import cmpl.web.service.impl.FacebookServiceImpl;
-import cmpl.web.service.impl.FileServiceImpl;
-import cmpl.web.service.impl.ImageConverterServiceImpl;
-import cmpl.web.service.impl.NewsContentServiceImpl;
-import cmpl.web.service.impl.NewsEntryServiceImpl;
-import cmpl.web.service.impl.NewsImageServiceImpl;
-import cmpl.web.service.impl.SitemapServiceImpl;
+import cmpl.web.meta.MetaElementRepository;
+import cmpl.web.meta.MetaElementService;
+import cmpl.web.meta.MetaElementServiceImpl;
+import cmpl.web.meta.OpenGraphMetaElementRepository;
+import cmpl.web.meta.OpenGraphMetaElementService;
+import cmpl.web.meta.OpenGraphMetaElementServiceImpl;
+import cmpl.web.news.NewsContentRepository;
+import cmpl.web.news.NewsContentService;
+import cmpl.web.news.NewsContentServiceImpl;
+import cmpl.web.news.NewsEntryRepository;
+import cmpl.web.news.NewsEntryService;
+import cmpl.web.news.NewsEntryServiceImpl;
+import cmpl.web.news.NewsImageRepository;
+import cmpl.web.news.NewsImageService;
+import cmpl.web.news.NewsImageServiceImpl;
+import cmpl.web.page.PageRepository;
+import cmpl.web.page.PageService;
+import cmpl.web.page.PageServiceImpl;
+import cmpl.web.sitemap.SitemapService;
+import cmpl.web.sitemap.SitemapServiceImpl;
 
 /**
  * Configuration des services
@@ -79,5 +91,26 @@ public class ServicesConfiguration {
   FacebookImportService facebookImportService(NewsEntryService newsEntryService, Facebook facebookConnector,
       WebMessageSource messageSource) {
     return FacebookImportServiceImpl.fromService(newsEntryService, facebookConnector, messageSource);
+  }
+
+  @Bean
+  PageService pageService(PageRepository pageRepository, MetaElementService metaElementService,
+      OpenGraphMetaElementService openGraphMetaElementService) {
+    return PageServiceImpl.fromRepository(pageRepository, metaElementService, openGraphMetaElementService);
+  }
+
+  @Bean
+  MetaElementService metaElementService(MetaElementRepository repository) {
+    return MetaElementServiceImpl.fromRepository(repository);
+  }
+
+  @Bean
+  OpenGraphMetaElementService openGraphMetaElementService(OpenGraphMetaElementRepository repository) {
+    return OpenGraphMetaElementServiceImpl.fromRepository(repository);
+  }
+
+  @Bean
+  MenuService menuService(MenuRepository menuRepository) {
+    return MenuServiceImpl.fromRepository(menuRepository);
   }
 }

@@ -41,12 +41,11 @@ function computeNewsEntryUpdate(){
 function computeNewsContentUpdate(){
 	var content = {};
 	
-	var inputContent = $("#content\\.content");
 	var inputId = $("#content\\.id");
 	var inputCreationDate = $("#content\\.creationDate");
 	var inputModificationDate = $("#content\\.modificationDate");
 	
-	content.content = inputContent.val();
+	content.content = CKEDITOR.instances.newsContent.getData();
 	if(inputId.val()){
 		content.id = inputId.val();	
 	}
@@ -84,5 +83,5 @@ function computeNewsImageUpdate(){
 }
 
 function formatDate(date){
-	return new Date(date);
+	return date;
 }

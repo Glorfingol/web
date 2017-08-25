@@ -3,10 +3,10 @@ package cmpl.web.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import cmpl.web.translator.FacebookImportTranslator;
-import cmpl.web.translator.NewsEntryTranslator;
-import cmpl.web.translator.impl.FacebookImportTranslatorImpl;
-import cmpl.web.translator.impl.NewsEntryTranslatorImpl;
+import cmpl.web.facebook.FacebookImportTranslator;
+import cmpl.web.facebook.FacebookImportTranslatorImpl;
+import cmpl.web.news.NewsEntryTranslator;
+import cmpl.web.news.NewsEntryTranslatorImpl;
 
 /**
  * Configuration des translator

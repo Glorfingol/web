@@ -2,9 +2,9 @@ package cmpl.web.builder;
 
 import java.time.LocalDate;
 
-import cmpl.web.model.news.rest.news.NewsContentRequest;
-import cmpl.web.model.news.rest.news.NewsEntryRequest;
-import cmpl.web.model.news.rest.news.NewsImageRequest;
+import cmpl.web.news.NewsContentRequest;
+import cmpl.web.news.NewsEntryRequest;
+import cmpl.web.news.NewsImageRequest;
 
 public class NewsEntryRequestBuilder {
 

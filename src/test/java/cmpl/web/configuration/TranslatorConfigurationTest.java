@@ -6,10 +6,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import cmpl.web.translator.FacebookImportTranslator;
-import cmpl.web.translator.NewsEntryTranslator;
-import cmpl.web.translator.impl.FacebookImportTranslatorImpl;
-import cmpl.web.translator.impl.NewsEntryTranslatorImpl;
+import cmpl.web.facebook.FacebookImportTranslator;
+import cmpl.web.facebook.FacebookImportTranslatorImpl;
+import cmpl.web.news.NewsEntryTranslator;
+import cmpl.web.news.NewsEntryTranslatorImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TranslatorConfigurationTest {

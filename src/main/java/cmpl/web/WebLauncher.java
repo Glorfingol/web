@@ -11,10 +11,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.annotation.Transactional;
 
-import cmpl.web.model.news.dao.NewsContent;
-import cmpl.web.model.news.dao.NewsEntry;
-import cmpl.web.repository.NewsContentRepository;
-import cmpl.web.repository.NewsEntryRepository;
+import cmpl.web.menu.MenuRepository;
+import cmpl.web.meta.MetaElementRepository;
+import cmpl.web.meta.OpenGraphMetaElementRepository;
+import cmpl.web.news.NewsContent;
+import cmpl.web.news.NewsContentRepository;
+import cmpl.web.news.NewsEntry;
+import cmpl.web.news.NewsEntryRepository;
+import cmpl.web.page.PageRepository;
 
 /**
  * Main du projet, lance une application springboot
@@ -39,12 +43,16 @@ public class WebLauncher {
   @Profile("dev")
   @Transactional
   public CommandLineRunner init(final NewsEntryRepository newsEntryRepository,
-      final NewsContentRepository newsContentRepository) {
+      final NewsContentRepository newsContentRepository, final PageRepository pageRepository,
+      final MetaElementRepository metaElementRepository,
+      final OpenGraphMetaElementRepository openGraphMetaElementRepository, final MenuRepository menuRepository) {
     return (args) -> {
 
       NewsContent newsContent = createNewsContent(newsContentRepository);
 
       newsEntryRepository.save(createNewsEntries(newsContent));
+
+      PageFactory.createPages(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository);
 
     };
   }
@@ -82,4 +90,5 @@ public class WebLauncher {
     return newsContentRepository.save(newsContent);
 
   }
+
 }

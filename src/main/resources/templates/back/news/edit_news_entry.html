@@ -21,7 +21,7 @@
 		    </div>
 		    <div class="form-control mb-3" id="formInputContent">
 		        <label th:text="${newsFormLabels.contentLabel}" />
-		        <textarea rows="3" class="form-control"  th:field="*{content.content}"/>
+		        <textarea rows="3" class="form-control" id="newsContent" th:field="*{content.content}"/>
 		         <div id="feedbackContent" class="form-control-label"></div>
 		        <small class="form-text text-muted" th:text="${newsFormLabels.contentHelp}"/>
 		    </div>
@@ -76,6 +76,12 @@
 <div class="card">
     <div class="loader"/> 
 </div>
+<script type="text/javascript">
+
+$(document).ready(function(){
+        CKEDITOR.replace("newsContent");
+});
+</script>
 
 
            

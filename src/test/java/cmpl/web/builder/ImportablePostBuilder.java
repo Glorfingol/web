@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.social.facebook.api.Post.PostType;
 
-import cmpl.web.model.facebook.ImportablePost;
+import cmpl.web.facebook.ImportablePost;
 
 public class ImportablePostBuilder {
 

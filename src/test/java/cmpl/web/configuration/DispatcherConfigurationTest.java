@@ -7,15 +7,15 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import cmpl.web.dispatcher.FacebookDispatcher;
-import cmpl.web.dispatcher.NewsEntryDispatcher;
-import cmpl.web.dispatcher.impl.FacebookDispatcherImpl;
-import cmpl.web.dispatcher.impl.NewsEntryDispatcherImpl;
-import cmpl.web.service.FacebookImportService;
-import cmpl.web.service.NewsEntryService;
-import cmpl.web.translator.FacebookImportTranslator;
-import cmpl.web.translator.NewsEntryTranslator;
-import cmpl.web.validator.NewsEntryRequestValidator;
+import cmpl.web.facebook.FacebookDispatcher;
+import cmpl.web.facebook.FacebookDispatcherImpl;
+import cmpl.web.facebook.FacebookImportService;
+import cmpl.web.facebook.FacebookImportTranslator;
+import cmpl.web.news.NewsEntryDispatcher;
+import cmpl.web.news.NewsEntryDispatcherImpl;
+import cmpl.web.news.NewsEntryRequestValidator;
+import cmpl.web.news.NewsEntryService;
+import cmpl.web.news.NewsEntryTranslator;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DispatcherConfigurationTest {

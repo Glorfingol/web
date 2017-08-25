@@ -1,6 +1,6 @@
 package cmpl.web.builder;
 
-import cmpl.web.model.news.display.NewsFormDisplayBean;
+import cmpl.web.news.NewsFormDisplayBean;
 
 public class NewsFormDisplayBeanBuilder {
 
