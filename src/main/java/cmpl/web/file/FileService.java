@@ -1,11 +1,9 @@
 package cmpl.web.file;
 
-import java.io.File;
-
 import cmpl.web.core.model.BaseException;
 
 /**
- * Interface pour gerer les fichiers
+ * Interface d'enregistrement de fichier
  * 
  * @author Louis
  *
@@ -13,13 +11,21 @@ import cmpl.web.core.model.BaseException;
 public interface FileService {
 
   /**
-   * Enregistre une image sur le systeme
+   * Enregistre un fichier sur le systeme dans le classpath Remplace un fichier existant avec le contenu
    * 
-   * @param entityId
-   * @param base64FileContent
+   * @param fileName
+   * @param content
    * @return
    * @throws BaseException
    */
-  File saveFileOnSystem(String entityId, String base64FileContent) throws BaseException;
+  void saveFileOnSystem(String fileName, String content);
+
+  /**
+   * Lire le contenu d'un fichier du classpath
+   * 
+   * @param fileName
+   * @return
+   */
+  String readFileContentFromSystem(String fileName);
 
 }

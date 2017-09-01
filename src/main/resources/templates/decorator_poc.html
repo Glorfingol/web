@@ -3,18 +3,18 @@
     <head th:include="common/header"/>
     <body class="main">
         <div class="container-fluid full-size">
-            <div th:include="common/logo"/>
-            <div th:include="common/menu"/>
+            <div th:include="common/logo :: logo(${hiddenLink})"/>
+            <div th:include="common/menu :: menu(${menuItems})"/>
             <div class="row">
                 <div class="col">
                    <div class="card">
                          <div class="card-block">
-                           <div th:utext="${content}"/>
+                           <div th:replace="${content}"/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <footer th:include="common/footer" class="mt-3"></footer>
+        <footer th:include="common/footer :: footer(${footer})" class="mt-3"></footer>
     </body>
 </html>

@@ -1,13 +1,7 @@
 package cmpl.web.news;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.carousel.CarouselFactory;
@@ -29,15 +23,11 @@ import cmpl.web.page.PageService;
  */
 public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDisplayFactory {
 
-  private NewsEntryService newsEntryService;
-  private final ContextHolder contextHolder;
-
   private NewsDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory, FooterFactory footerFactory,
       MetaElementFactory metaElementFactory, CarouselFactory carouselFactory, WebMessageSourceImpl messageSource,
       NewsEntryService newsEntryService, PageService pageService) {
-    super(menuFactory, footerFactory, metaElementFactory, carouselFactory, messageSource, pageService);
-    this.newsEntryService = newsEntryService;
-    this.contextHolder = contextHolder;
+    super(menuFactory, footerFactory, metaElementFactory, carouselFactory, messageSource, pageService,
+        newsEntryService, contextHolder);
   }
 
   /**
@@ -78,63 +68,13 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     ModelAndView newsModelAndView = super.computeModelAndViewForPage(page, locale);
     if (PAGES.NEWS.equals(page)) {
       LOGGER.info("Construction des entrées de blog pour la page " + page.name());
-      PageWrapper pagedNewsWrapped = computePageWrapperOfNews(locale, pageNumber);
+      PageWrapper pagedNewsWrapped = computePageWrapperOfNews(null, locale, pageNumber);
 
       newsModelAndView.addObject("wrappedNews", pagedNewsWrapped);
       newsModelAndView.addObject("emptyMessage", getI18nValue("actualites.empty", locale));
     }
 
     return newsModelAndView;
-  }
-
-  PageWrapper computePageWrapperOfNews(Locale locale, int pageNumber) {
-    Page<NewsEntryDisplayBean> pagedNewsEntries = computeNewsEntries(locale, pageNumber);
-
-    boolean isFirstPage = pagedNewsEntries.isFirst();
-    boolean isLastPage = pagedNewsEntries.isLast();
-    int totalPages = pagedNewsEntries.getTotalPages();
-    int currentPageNumber = pagedNewsEntries.getNumber();
-
-    PageWrapper pagedNewsWrapped = new PageWrapper();
-    pagedNewsWrapped.setCurrentPageNumber(currentPageNumber);
-    pagedNewsWrapped.setFirstPage(isFirstPage);
-    pagedNewsWrapped.setLastPage(isLastPage);
-    pagedNewsWrapped.setPage(pagedNewsEntries);
-    pagedNewsWrapped.setTotalPages(totalPages);
-    pagedNewsWrapped.setPageBaseUrl("/actualites");
-    pagedNewsWrapped.setPageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages));
-    return pagedNewsWrapped;
-  }
-
-  List<NewsEntryDisplayBean> computeNewsEntries(Locale locale) {
-    List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
-
-    List<NewsEntryDTO> newsEntriesFromDB = newsEntryService.getEntities();
-    if (CollectionUtils.isEmpty(newsEntriesFromDB)) {
-      return newsEntries;
-    }
-
-    for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
-      newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB));
-    }
-
-    return newsEntries;
-  }
-
-  Page<NewsEntryDisplayBean> computeNewsEntries(Locale locale, int pageNumber) {
-    List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
-
-    PageRequest pageRequest = new PageRequest(pageNumber, contextHolder.getElementsPerPage());
-    Page<NewsEntryDTO> pagedNewsEntries = newsEntryService.getPagedEntities(pageRequest);
-    if (CollectionUtils.isEmpty(pagedNewsEntries.getContent())) {
-      return new PageImpl<>(newsEntries);
-    }
-
-    for (NewsEntryDTO newsEntryFromDB : pagedNewsEntries.getContent()) {
-      newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB));
-    }
-
-    return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
   }
 
   @Override
@@ -149,22 +89,6 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     newsModelAndView.addObject("newsEntry", computeNewsEntry(locale, newsEntryId));
 
     return newsModelAndView;
-  }
-
-  NewsEntryDisplayBean computeNewsEntry(Locale locale, String newsEntryId) {
-
-    NewsEntryDTO newsEntryFromDB = newsEntryService.getEntity(Long.valueOf(newsEntryId));
-    return computeNewsEntryDisplayBean(locale, newsEntryFromDB);
-  }
-
-  NewsEntryDisplayBean computeNewsEntryDisplayBean(Locale locale, NewsEntryDTO newsEntryDTO) {
-
-    String labelPar = getI18nValue("news.entry.by", locale);
-    String labelLe = getI18nValue("news.entry.the", locale);
-    String labelAccroche = getI18nValue("news.entry.call", locale);
-
-    return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
-        contextHolder.getDateFormat(), labelAccroche);
   }
 
 }

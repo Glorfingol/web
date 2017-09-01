@@ -138,9 +138,6 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
   public List<MenuItem> computeMenuItems(PageDTO page, Locale locale) {
     List<MenuItem> menuItems = new ArrayList<>();
 
-    menuItems.add(computeIndexMenuElement(locale));
-    menuItems.add(computeNewsMenuElement(locale));
-
     List<MenuDTO> menus = menuService.getMenus();
     for (MenuDTO menuItem : menus) {
       menuItems.add(computeMenuItem(page, menuItem));

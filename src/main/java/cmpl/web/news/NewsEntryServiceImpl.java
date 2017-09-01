@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 
 import cmpl.web.core.model.BaseException;
 import cmpl.web.core.service.BaseServiceImpl;
-import cmpl.web.file.FileService;
+import cmpl.web.file.ImageService;
 import cmpl.web.file.ImageConverterService;
 
 /**
@@ -32,16 +32,16 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   private final NewsImageService newsImageService;
   private final NewsContentService newsContentService;
   private final ImageConverterService imageConverterService;
-  private final FileService fileService;
+  private final ImageService imageService;
 
   public NewsEntryServiceImpl(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
-      NewsContentService newsContentService, ImageConverterService imageConverterService, FileService fileService) {
+      NewsContentService newsContentService, ImageConverterService imageConverterService, ImageService imageService) {
     super(newsEntryRepository);
     this.newsEntryRepository = newsEntryRepository;
     this.newsImageService = newsImageService;
     this.newsContentService = newsContentService;
     this.imageConverterService = imageConverterService;
-    this.fileService = fileService;
+    this.imageService = imageService;
   }
 
   @Override
@@ -87,7 +87,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
   File saveToFileSystem(NewsImageDTO imageToCreate, String imageId) {
     try {
-      return fileService.saveFileOnSystem(imageId, imageToCreate.getBase64Src());
+      return imageService.saveFileOnSystem(imageId, imageToCreate.getBase64Src());
     } catch (BaseException e) {
       LOGGER.error("Impossible d'enregistrer l'image sur le filesystem", e);
     }

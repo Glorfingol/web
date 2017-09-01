@@ -38,7 +38,7 @@ public class IndexController {
   public ModelAndView printIndex() {
 
     LOGGER.info("Accès à la page " + PAGES.INDEX.name());
-    return displayFactory.computeModelAndViewForPage(PAGES.INDEX, Locale.FRANCE);
+    return displayFactory.computeModelAndViewForPage("accueil", Locale.FRANCE, 0);
   }
 
 }

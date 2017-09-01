@@ -1,8 +1,8 @@
 <div class="card"  th:if="${not #lists.isEmpty(wrappedNews.page.content)}">
      <div th:each="newsBean : ${wrappedNews.page.content}">
-         <div th:replace="pages/actualites/news_entry"/>
+         <div th:replace="pages/actualites/news_entry :: newsEntry(${newsBean})"/>
      </div>
-     <div th:replace="common/pagination"/>
+     <div th:replace="common/pagination :: pagination(${wrappedNews})"/>
 </div>
 
 <div th:if="${#lists.isEmpty(wrappedNews.page.content)}" class="text-center">

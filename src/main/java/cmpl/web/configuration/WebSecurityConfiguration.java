@@ -27,7 +27,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     String[] authorizedUrls = prepareAuthorizedUrls();
     http.authorizeRequests().antMatchers(authorizedUrls).permitAll().anyRequest().authenticated().and().formLogin()
-        .loginPage("/login").permitAll().and().logout().permitAll();
+        .loginPage("/login").permitAll().and().logout().permitAll().and().csrf().ignoringAntMatchers("/h2console/**")
+        .and().headers().frameOptions().sameOrigin();
+
   }
 
   /**

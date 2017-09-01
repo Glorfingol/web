@@ -1,4 +1,4 @@
-<div id="carousel" class="carousel slide" data-ride="carousel">
+<div id="carousel" class="carousel slide" data-ride="carousel" th:fragment="carousel(carouselItems)">
   <ol class="carousel-indicators">
      <li data-target="#carousel"  
          th:each="carouselItem,status : ${carouselItems}" 

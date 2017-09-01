@@ -20,16 +20,8 @@ public class Page extends BaseEntity {
   private String name;
   @Column(name = "menu_title")
   private String menuTitle;
-  @Column(name = "body", length = 21844)
-  private String body;
-
-  public String getBody() {
-    return body;
-  }
-
-  public void setBody(String body) {
-    this.body = body;
-  }
+  @Column(name = "with_news")
+  private boolean withNews;
 
   public String getName() {
     return name;
@@ -45,6 +37,14 @@ public class Page extends BaseEntity {
 
   public void setMenuTitle(String menuTitle) {
     this.menuTitle = menuTitle;
+  }
+
+  public boolean isWithNews() {
+    return withNews;
+  }
+
+  public void setWithNews(boolean withNews) {
+    this.withNews = withNews;
   }
 
 }

@@ -24,6 +24,7 @@ public class NewsEntryDisplayBean {
   private static final String SPACE = " ";
   private static final String SEMICOLON = ";";
   private final String imageBaseSrc;
+  private final String showHref;
 
   /**
    * Constructeur a partir d'une NewsEntry, de labels et d'un format de date
@@ -36,13 +37,14 @@ public class NewsEntryDisplayBean {
    * @param imageBaseSrc
    */
   public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO, String imageBaseSrc, String labelPar, String labelLe,
-      DateTimeFormatter dateFormat, String labelAccroche) {
+      DateTimeFormatter dateFormat, String labelAccroche, String showHref) {
     this.newsEntryDTO = newsEntryDTO;
     this.imageBaseSrc = imageBaseSrc;
     this.labelLe = labelLe;
     this.labelPar = labelPar;
     this.dateFormat = dateFormat;
     this.labelAccroche = labelAccroche;
+    this.showHref = showHref;
   }
 
   public List<String> getTags() {
@@ -151,7 +153,7 @@ public class NewsEntryDisplayBean {
   }
 
   public String getNewsEntryShowHref() {
-    return "/actualites/" + newsEntryDTO.getId();
+    return showHref;
   }
 
   public String getNewsEntryShowMore() {

@@ -9,6 +9,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import cmpl.web.carousel.CarouselFactory;
 import cmpl.web.carousel.CarouselFactoryImpl;
+import cmpl.web.carousel.CarouselService;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.core.factory.DisplayFactory;
 import cmpl.web.core.factory.DisplayFactoryImpl;
@@ -55,6 +56,8 @@ public class FactoryConfigurationTest {
   private PageService pageService;
   @Mock
   private MenuService menuService;
+  @Mock
+  private CarouselService carouselService;
 
   @Spy
   private FactoryConfiguration configuration;
@@ -63,7 +66,7 @@ public class FactoryConfigurationTest {
   public void testDisplayFactory() throws Exception {
 
     DisplayFactory result = configuration.displayFactory(menuFactory, footerFactory, metaElementFactory,
-        carouselFactory, messageSource, pageService);
+        carouselFactory, messageSource, pageService, newsEntryService, contextHolder);
 
     Assert.assertEquals(DisplayFactoryImpl.class, result.getClass());
   }
@@ -116,7 +119,7 @@ public class FactoryConfigurationTest {
 
   @Test
   public void testCarouselFactory() throws Exception {
-    CarouselFactory result = configuration.carouselFactory();
+    CarouselFactory result = configuration.carouselFactory(carouselService);
 
     Assert.assertEquals(CarouselFactoryImpl.class, result.getClass());
   }

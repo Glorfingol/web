@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import cmpl.web.carousel.CarouselFactory;
 import cmpl.web.carousel.CarouselFactoryImpl;
+import cmpl.web.carousel.CarouselService;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.core.factory.DisplayFactory;
 import cmpl.web.core.factory.DisplayFactoryImpl;
@@ -40,9 +41,9 @@ public class FactoryConfiguration {
   @Bean
   DisplayFactory displayFactory(MenuFactory menuFactory, FooterFactory footerFactory,
       MetaElementFactory metaElementFactory, CarouselFactory carouselFactory, WebMessageSourceImpl messageSource,
-      PageService pageService) {
+      PageService pageService, NewsEntryService newsEntryService, ContextHolder contextHolder) {
     return DisplayFactoryImpl.fromFactoriesAndMessageResource(menuFactory, footerFactory, metaElementFactory,
-        carouselFactory, messageSource, pageService);
+        carouselFactory, messageSource, pageService, newsEntryService, contextHolder);
   }
 
   @Bean
@@ -91,8 +92,8 @@ public class FactoryConfiguration {
   }
 
   @Bean
-  CarouselFactory carouselFactory() {
-    return CarouselFactoryImpl.fromVoid();
+  CarouselFactory carouselFactory(CarouselService carouselService) {
+    return CarouselFactoryImpl.fromService(carouselService);
   }
 
 }

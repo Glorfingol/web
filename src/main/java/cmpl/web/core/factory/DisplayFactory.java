@@ -15,7 +15,7 @@ import cmpl.web.page.PAGES;
 public interface DisplayFactory {
 
   /**
-   * Creer le model and view correpsondant a la page front du site
+   * Creer le model and view correspondant a la page front du site
    * 
    * @param page
    * @param locale
@@ -24,12 +24,23 @@ public interface DisplayFactory {
   ModelAndView computeModelAndViewForPage(PAGES page, Locale locale);
 
   /**
-   * Creer le model and view correpsondant a la page front du site
+   * Creer le model and view correspondant a la page front du site
    * 
-   * @param page
+   * @param pageName
    * @param locale
+   * @param pageNumber
    * @return
    */
-  ModelAndView computeModelAndViewForPage(String pageName, Locale locale);
+  ModelAndView computeModelAndViewForPage(String pageName, Locale locale, int pageNumber);
+
+  /**
+   * Creer le model and view correspondant a la page front du site pour une entite
+   * 
+   * @param pageName
+   * @param locale
+   * @param entity
+   * @return
+   */
+  ModelAndView computeModelAndViewForPage(String pageName, Locale locale, String entity);
 
 }

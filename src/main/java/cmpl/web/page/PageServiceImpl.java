@@ -3,7 +3,10 @@ package cmpl.web.page;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import cmpl.web.core.service.BaseServiceImpl;
+import cmpl.web.file.FileService;
 import cmpl.web.meta.MetaElementDTO;
 import cmpl.web.meta.MetaElementService;
 import cmpl.web.meta.OpenGraphMetaElementDTO;
@@ -20,13 +23,15 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   private final PageRepository pageRepository;
   private final MetaElementService metaElementService;
   private final OpenGraphMetaElementService openGraphMetaElementService;
+  private final FileService fileService;
 
-  private PageServiceImpl(PageRepository pageRepository, MetaElementService metaElementService,
-      OpenGraphMetaElementService openGraphMetaElementService) {
+  public PageServiceImpl(PageRepository pageRepository, MetaElementService metaElementService,
+      OpenGraphMetaElementService openGraphMetaElementService, FileService fileService) {
     super(pageRepository);
     this.pageRepository = pageRepository;
     this.metaElementService = metaElementService;
     this.openGraphMetaElementService = openGraphMetaElementService;
+    this.fileService = fileService;
   }
 
   /**
@@ -38,8 +43,18 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
    * @return
    */
   public static PageServiceImpl fromRepository(PageRepository pageRepository, MetaElementService metaElementService,
-      OpenGraphMetaElementService openGraphMetaElementService) {
-    return new PageServiceImpl(pageRepository, metaElementService, openGraphMetaElementService);
+      OpenGraphMetaElementService openGraphMetaElementService, FileService fileService) {
+    return new PageServiceImpl(pageRepository, metaElementService, openGraphMetaElementService, fileService);
+  }
+
+  @Override
+  @Transactional
+  public PageDTO createEntity(PageDTO dto) {
+    PageDTO createdPage = super.createEntity(dto);
+
+    fileService.saveFileOnSystem("pages/" + dto.getName(), dto.getBody());
+    return createdPage;
+
   }
 
   @Override

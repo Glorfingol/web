@@ -15,9 +15,12 @@ import org.slf4j.LoggerFactory;
  */
 public class CarouselFactoryImpl implements CarouselFactory {
 
+  private final CarouselService carouselService;
+
   protected static final Logger LOGGER = LoggerFactory.getLogger(CarouselFactoryImpl.class);
 
-  private CarouselFactoryImpl() {
+  private CarouselFactoryImpl(CarouselService carouselService) {
+    this.carouselService = carouselService;
 
   }
 
@@ -26,8 +29,8 @@ public class CarouselFactoryImpl implements CarouselFactory {
    * 
    * @return
    */
-  public static CarouselFactoryImpl fromVoid() {
-    return new CarouselFactoryImpl();
+  public static CarouselFactoryImpl fromService(CarouselService carouselService) {
+    return new CarouselFactoryImpl(carouselService);
   }
 
   @Override
@@ -59,6 +62,11 @@ public class CarouselFactoryImpl implements CarouselFactory {
     int lastIndex = filePath.indexOf('.');
 
     return filePath.substring(firstIndex + 1, lastIndex);
+  }
+
+  @Override
+  public List<CarouselDTO> computeCarouselsForPage(String pageId) {
+    return carouselService.findByPageId(pageId);
   }
 
 }

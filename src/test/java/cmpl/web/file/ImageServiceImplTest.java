@@ -26,7 +26,7 @@ import cmpl.web.core.context.ContextHolder;
 import cmpl.web.core.model.BaseException;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FileServiceImplTest {
+public class ImageServiceImplTest {
 
   @Rule
   public ExpectedException exception = ExpectedException.none();
@@ -39,7 +39,7 @@ public class FileServiceImplTest {
 
   @InjectMocks
   @Spy
-  private FileServiceImpl service;
+  private ImageServiceImpl service;
 
   @Before
   public void setUp() {
@@ -58,7 +58,7 @@ public class FileServiceImplTest {
       subFolder.delete();
     }
 
-    service = FileServiceImpl.fromStringAndService(contextHolder, imageConverterService);
+    service = ImageServiceImpl.fromStringAndService(contextHolder, imageConverterService);
     service = Mockito.spy(service);
 
     BDDMockito.doReturn("src\\test\\resources\\img\\actualites\\").when(contextHolder).getImageFileSrc();

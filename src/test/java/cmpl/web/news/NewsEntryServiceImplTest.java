@@ -19,7 +19,7 @@ import cmpl.web.builder.NewsContentDTOBuilder;
 import cmpl.web.builder.NewsEntryDTOBuilder;
 import cmpl.web.builder.NewsImageDTOBuilder;
 import cmpl.web.core.model.BaseException;
-import cmpl.web.file.FileService;
+import cmpl.web.file.ImageService;
 import cmpl.web.file.ImageConverterService;
 import cmpl.web.news.NewsContentService;
 import cmpl.web.news.NewsEntryRepository;
@@ -41,7 +41,7 @@ public class NewsEntryServiceImplTest {
   private ImageConverterService imageConverterService;
 
   @Mock
-  private FileService fileService;
+  private ImageService imageService;
 
   @InjectMocks
   @Spy
@@ -640,7 +640,7 @@ public class NewsEntryServiceImplTest {
     String extension = ".png";
     File testFile = new File(basePath + alt + extension);
 
-    BDDMockito.doReturn(testFile).when(fileService).saveFileOnSystem(Mockito.anyString(), Mockito.anyString());
+    BDDMockito.doReturn(testFile).when(imageService).saveFileOnSystem(Mockito.anyString(), Mockito.anyString());
 
     File result = service.saveToFileSystem(new NewsImageDTO(), "666");
     Assert.assertEquals(testFile, result);
@@ -648,7 +648,7 @@ public class NewsEntryServiceImplTest {
 
   @Test
   public void testSaveToFileSystem_With_Exception_Should_Return_Null() throws Exception {
-    BDDMockito.doThrow(new BaseException("")).when(fileService)
+    BDDMockito.doThrow(new BaseException("")).when(imageService)
         .saveFileOnSystem(Mockito.anyString(), Mockito.anyString());
 
     File result = service.saveToFileSystem(new NewsImageDTO(), "666");

@@ -19,4 +19,12 @@ public interface CarouselFactory {
    */
   List<CarouselItem> computeCarouselItems(List<File> images);
 
+  /**
+   * Transofme la liste d'images en elements de carousel
+   * 
+   * @param pageId, l'id de la page
+   * @return
+   */
+  List<CarouselDTO> computeCarouselsForPage(String pageId);
+
 }

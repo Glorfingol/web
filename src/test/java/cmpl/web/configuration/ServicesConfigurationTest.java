@@ -14,8 +14,8 @@ import cmpl.web.facebook.FacebookImportService;
 import cmpl.web.facebook.FacebookImportServiceImpl;
 import cmpl.web.facebook.FacebookService;
 import cmpl.web.facebook.FacebookServiceImpl;
-import cmpl.web.file.FileService;
-import cmpl.web.file.FileServiceImpl;
+import cmpl.web.file.ImageService;
+import cmpl.web.file.ImageServiceImpl;
 import cmpl.web.file.ImageConverterService;
 import cmpl.web.file.ImageConverterServiceImpl;
 import cmpl.web.message.WebMessageSource;
@@ -51,7 +51,7 @@ public class ServicesConfigurationTest {
   @Mock
   private WebMessageSource messageSource;
   @Mock
-  private FileService fileService;
+  private ImageService imageService;
   @Mock
   private Facebook facebookConnector;
   @Mock
@@ -65,7 +65,7 @@ public class ServicesConfigurationTest {
   @Test
   public void testNewsEntryService() throws Exception {
     NewsEntryService result = configuration.newsEntryService(newsEntryRepository, newsImageService, newsContentService,
-        imageConverterService, fileService);
+        imageConverterService, imageService);
 
     Assert.assertEquals(NewsEntryServiceImpl.class, result.getClass());
   }
@@ -100,11 +100,11 @@ public class ServicesConfigurationTest {
   }
 
   @Test
-  public void testFileService() throws Exception {
-    FileService result = configuration.fileService(contextHolder, imageConverterService);
-
-    Assert.assertEquals(FileServiceImpl.class, result.getClass());
-  }
+    public void testImageService() throws Exception {
+      ImageService result = configuration.imageService(contextHolder, imageConverterService);
+  
+      Assert.assertEquals(ImageServiceImpl.class, result.getClass());
+    }
 
   @Test
   public void testFacebookService() throws Exception {

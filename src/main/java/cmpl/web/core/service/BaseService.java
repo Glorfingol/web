@@ -57,7 +57,7 @@ public interface BaseService<T extends BaseDTO> {
   /**
    * Recuperer une page d'entites
    * 
-   * @param page
+   * @param pageRequest
    * @return
    */
   Page<T> getPagedEntities(PageRequest pageRequest);

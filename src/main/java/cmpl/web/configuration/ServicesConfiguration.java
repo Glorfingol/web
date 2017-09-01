@@ -5,6 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 
+import cmpl.web.carousel.CarouselItemRepository;
+import cmpl.web.carousel.CarouselItemService;
+import cmpl.web.carousel.CarouselItemServiceImpl;
+import cmpl.web.carousel.CarouselRepository;
+import cmpl.web.carousel.CarouselService;
+import cmpl.web.carousel.CarouselServiceImpl;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.facebook.FacebookImportService;
 import cmpl.web.facebook.FacebookImportServiceImpl;
@@ -14,6 +20,8 @@ import cmpl.web.file.FileService;
 import cmpl.web.file.FileServiceImpl;
 import cmpl.web.file.ImageConverterService;
 import cmpl.web.file.ImageConverterServiceImpl;
+import cmpl.web.file.ImageService;
+import cmpl.web.file.ImageServiceImpl;
 import cmpl.web.menu.MenuRepository;
 import cmpl.web.menu.MenuService;
 import cmpl.web.menu.MenuServiceImpl;
@@ -50,9 +58,9 @@ public class ServicesConfiguration {
 
   @Bean
   NewsEntryService newsEntryService(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
-      NewsContentService newsContentService, ImageConverterService imageConverterService, FileService fileService) {
+      NewsContentService newsContentService, ImageConverterService imageConverterService, ImageService imageService) {
     return new NewsEntryServiceImpl(newsEntryRepository, newsImageService, newsContentService, imageConverterService,
-        fileService);
+        imageService);
   }
 
   @Bean
@@ -76,8 +84,8 @@ public class ServicesConfiguration {
   }
 
   @Bean
-  FileService fileService(ContextHolder contextHolder, ImageConverterService imageConverterService) {
-    return FileServiceImpl.fromStringAndService(contextHolder, imageConverterService);
+  ImageService imageService(ContextHolder contextHolder, ImageConverterService imageConverterService) {
+    return ImageServiceImpl.fromStringAndService(contextHolder, imageConverterService);
   }
 
   @Bean
@@ -95,8 +103,8 @@ public class ServicesConfiguration {
 
   @Bean
   PageService pageService(PageRepository pageRepository, MetaElementService metaElementService,
-      OpenGraphMetaElementService openGraphMetaElementService) {
-    return PageServiceImpl.fromRepository(pageRepository, metaElementService, openGraphMetaElementService);
+      OpenGraphMetaElementService openGraphMetaElementService, FileService fileService) {
+    return new PageServiceImpl(pageRepository, metaElementService, openGraphMetaElementService, fileService);
   }
 
   @Bean
@@ -112,5 +120,20 @@ public class ServicesConfiguration {
   @Bean
   MenuService menuService(MenuRepository menuRepository) {
     return MenuServiceImpl.fromRepository(menuRepository);
+  }
+
+  @Bean
+  FileService fileService() {
+    return FileServiceImpl.voidConstructor();
+  }
+
+  @Bean
+  CarouselItemService carouselItemService(CarouselItemRepository carouselItemRepository) {
+    return new CarouselItemServiceImpl(carouselItemRepository);
+  }
+
+  @Bean
+  CarouselService carouselService(CarouselRepository carouselRepository, CarouselItemService carouselItemService) {
+    return new CarouselServiceImpl(carouselRepository, carouselItemService);
   }
 }

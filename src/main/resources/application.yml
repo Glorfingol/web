@@ -14,9 +14,21 @@ spring:
     facebook:
       appId: 1665545340392413
       appSecret: 490697887bcb469947a5a70ccef070c4
+  # h2 settings
+  h2:
+    console:
+      enabled: true
+      path: /h2console
+      authorize-mode: NONE
+      
 # HTTP Server
 server:
   port: 3232  # HTTP (Tomcat) port
+  
+  
+  
+  
+
   
   
 fileBasePath: "C:/test/img/actualites/"
