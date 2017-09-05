@@ -14,19 +14,9 @@ public class MetaElementServiceImpl extends BaseServiceImpl<MetaElementDTO, Meta
 
   private final MetaElementRepository metaElementRepository;
 
-  private MetaElementServiceImpl(MetaElementRepository metaElementRepository) {
+  public MetaElementServiceImpl(MetaElementRepository metaElementRepository) {
     super(metaElementRepository);
     this.metaElementRepository = metaElementRepository;
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param metaElementRepository
-   * @return
-   */
-  public static MetaElementServiceImpl fromRepository(MetaElementRepository metaElementRepository) {
-    return new MetaElementServiceImpl(metaElementRepository);
   }
 
   @Override

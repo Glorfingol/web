@@ -57,7 +57,7 @@ function computeNewsImage(){
 	return image;
 }
 
-function displayError(error){
+function displayNewsError(error){
 	
 	var causes = error.causes;
 	if(causes && causes.length > 0){
@@ -107,25 +107,25 @@ function getFeedBackDivInput(code){
 
 function getErrorInput(code){
 	if(code.indexOf("TITLE") !== -1){
-		return  $("#inputTitle");
+		return  $("#title");
 	}
 	if(code.indexOf("AUTHOR") !== -1){
-		return $("#inputAuthor");
+		return $("#zuthor");
 	}	
 	if(code.indexOf("CONTENT") !== -1){
-		return $("#formInputContent");
+		return $("#content");
 	}	
 	if(code.indexOf("LEGEND") !== -1){
-		return $("#formInputLegend");
+		return $("#legend");
 	}	
 	if(code.indexOf("SRC") !== -1){
-		return $("#formInputImage");
+		return $("#image");
 	}	
 	if(code.indexOf("FORMAT") !== -1){
-		return $("#formInputImage");
+		return $("#image");
 	}	
 	if(code.indexOf("ALT") !== -1){
-		return $("#formInputAlt");
+		return $("#alt");
 	}	
 	return null;
 }
@@ -154,17 +154,32 @@ function getErrorTarget(code){
 	}	
 	return null;
 }
-function resetForm(){
-	$("input").each(function(){
-		$(this).val("");
-		$(this).removeClass("form-control-error");
-	});
-	$(".form-group").each(function(){
-		$(this).removeClass("has-error");
-	});
-	$(".control-label").each(function(){
-		$(this).html("");
-	});
-	$("#imagePreview").attr("src","");
+
+function postCreateNewsForm(){
+	
+	$("#newsEntryCreateForm").hide();
+	$(".loader").show();
+	var url = "/manager/news";
+	var data = JSON.stringify(validateAndCreateNewsEntry());
+	$.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        dataType: "json",
+        success: function (data) {
+        	$("#newsEntryCreateForm").show();
+        	$(".loader").hide();
+        	if(data.error){
+        		displayNewsError(data.error);
+        	}else{
+        		window.location.href= url;
+        	}
+        },
+        error: function(){
+        	window.location.href= url;
+        }
+     });
 }
 

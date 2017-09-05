@@ -20,19 +20,9 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
 
   private final MenuService menuService;
 
-  private MenuFactoryImpl(WebMessageSourceImpl messageSource, MenuService menuService) {
+  public MenuFactoryImpl(WebMessageSourceImpl messageSource, MenuService menuService) {
     super(messageSource);
     this.menuService = menuService;
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param messageSource
-   * @return
-   */
-  public static MenuFactoryImpl fromMessageSource(WebMessageSourceImpl messageSource, MenuService menuService) {
-    return new MenuFactoryImpl(messageSource, menuService);
   }
 
   @Override

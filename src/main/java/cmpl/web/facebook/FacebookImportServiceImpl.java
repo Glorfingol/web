@@ -38,24 +38,11 @@ public class FacebookImportServiceImpl implements FacebookImportService {
   private final Facebook facebookConnector;
   private final WebMessageSource messageSource;
 
-  private FacebookImportServiceImpl(NewsEntryService newsEntryService, Facebook facebookConnector,
+  public FacebookImportServiceImpl(NewsEntryService newsEntryService, Facebook facebookConnector,
       WebMessageSource messageSource) {
     this.newsEntryService = newsEntryService;
     this.facebookConnector = facebookConnector;
     this.messageSource = messageSource;
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param newsEntryService
-   * @param facebookConnector
-   * @param messageSource
-   * @return
-   */
-  public static FacebookImportServiceImpl fromService(NewsEntryService newsEntryService, Facebook facebookConnector,
-      WebMessageSource messageSource) {
-    return new FacebookImportServiceImpl(newsEntryService, facebookConnector, messageSource);
   }
 
   @Override

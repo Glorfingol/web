@@ -32,21 +32,9 @@ public class ImageServiceImpl implements ImageService {
   private final ImageConverterService imageConverterService;
   private final ContextHolder contextHolder;
 
-  private ImageServiceImpl(ContextHolder contextHolder, ImageConverterService imageConverterService) {
+  public ImageServiceImpl(ContextHolder contextHolder, ImageConverterService imageConverterService) {
     this.contextHolder = contextHolder;
     this.imageConverterService = imageConverterService;
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param contextHolder
-   * @param imageConverterService
-   * @return
-   */
-  public static ImageServiceImpl fromStringAndService(ContextHolder contextHolder,
-      ImageConverterService imageConverterService) {
-    return new ImageServiceImpl(contextHolder, imageConverterService);
   }
 
   @Override

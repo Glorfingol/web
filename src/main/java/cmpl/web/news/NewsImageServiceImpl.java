@@ -10,18 +10,8 @@ import cmpl.web.core.service.BaseServiceImpl;
  */
 public class NewsImageServiceImpl extends BaseServiceImpl<NewsImageDTO, NewsImage> implements NewsImageService {
 
-  private NewsImageServiceImpl(NewsImageRepository newsImageRepository) {
+  public NewsImageServiceImpl(NewsImageRepository newsImageRepository) {
     super(newsImageRepository);
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param newsImageRepository
-   * @return
-   */
-  public static NewsImageServiceImpl fromRepositories(NewsImageRepository newsImageRepository) {
-    return new NewsImageServiceImpl(newsImageRepository);
   }
 
   @Override

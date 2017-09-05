@@ -21,18 +21,8 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
 
   private final WebMessageSourceImpl messageSource;
 
-  private NewsEntryRequestValidatorImpl(WebMessageSourceImpl messageSource) {
+  public NewsEntryRequestValidatorImpl(WebMessageSourceImpl messageSource) {
     this.messageSource = messageSource;
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param messageSource
-   * @return
-   */
-  public static NewsEntryRequestValidatorImpl fromMessageSource(WebMessageSourceImpl messageSource) {
-    return new NewsEntryRequestValidatorImpl(messageSource);
   }
 
   @Override

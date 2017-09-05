@@ -110,3 +110,30 @@ function computePostToImport(facebookId){
 	
 	return postToImport;
 }
+
+function postImportFacebook(){
+	
+	$("#facebookImportForm").hide();
+	$(".loader").show();
+	var url = "/manager/facebook/import";
+	var urlFallback = "/manager/news";
+	var request = {};
+	request.postsToImport = postsToImport;
+	var data = JSON.stringify(request);
+	$.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        dataType: "json",
+        success: function () {
+        	$("#facebookImportForm").show();
+    		$(".loader").hide();
+    		window.location.href= urlFallback;
+        },
+        error: function(){
+        	window.location.href= urlFallback;
+        }
+     });
+}

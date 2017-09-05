@@ -19,18 +19,9 @@ public class CarouselFactoryImpl implements CarouselFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(CarouselFactoryImpl.class);
 
-  private CarouselFactoryImpl(CarouselService carouselService) {
+  public CarouselFactoryImpl(CarouselService carouselService) {
     this.carouselService = carouselService;
 
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @return
-   */
-  public static CarouselFactoryImpl fromService(CarouselService carouselService) {
-    return new CarouselFactoryImpl(carouselService);
   }
 
   @Override

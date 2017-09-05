@@ -17,19 +17,9 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDTO, Menu> implements M
 
   private final MenuRepository menuRepository;
 
-  private MenuServiceImpl(MenuRepository menuRepository) {
+  public MenuServiceImpl(MenuRepository menuRepository) {
     super(menuRepository);
     this.menuRepository = menuRepository;
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param menuRepository
-   * @return
-   */
-  public static MenuServiceImpl fromRepository(MenuRepository menuRepository) {
-    return new MenuServiceImpl(menuRepository);
   }
 
   @Override

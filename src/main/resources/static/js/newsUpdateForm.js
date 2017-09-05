@@ -4,7 +4,7 @@ function validateAndUpdateNewsEntry(){
 	return newsEntry;
 }
 
-function cancelUpdate(){
+function cancelUpdateNews(){
 	window.location.href="/manager/news";
 }
 
@@ -84,4 +84,34 @@ function computeNewsImageUpdate(){
 
 function formatDate(date){
 	return date;
+}
+
+function postUpdateNewsForm(){
+	
+	$("#newsEntryEditForm").hide();
+	$(".loader").show();
+	var newsEntryToUpdate = validateAndUpdateNewsEntry();
+	var url = "/manager/news/" + newsEntryToUpdate.id;
+	var urlFallback = "/manager/news";
+	var data = JSON.stringify(newsEntryToUpdate);
+	$.ajax({
+        type: "PUT",
+        url: url,
+        data: data,
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        dataType: "json",
+        success: function (data) {
+        	$("#newsEntryEditForm").show();
+    		$(".loader").hide();
+        	if(data.error){
+        		displayNewsError(data.error);
+        	}else{
+        		window.location.href= urlFallback;
+        	}
+        },
+        error: function(){
+        	window.location.href= urlFallback;
+        }
+     });
 }

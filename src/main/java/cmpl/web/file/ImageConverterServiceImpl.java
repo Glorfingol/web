@@ -23,18 +23,6 @@ public class ImageConverterServiceImpl implements ImageConverterService {
   private static final Logger LOGGER = LoggerFactory.getLogger(ImageConverterServiceImpl.class);
   private static final String COMMA = ",";
 
-  private ImageConverterServiceImpl() {
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @return
-   */
-  public static ImageConverterServiceImpl fromVoid() {
-    return new ImageConverterServiceImpl();
-  }
-
   @Override
   public NewsImageDTO computeNewsImageFromString(String base64) {
 

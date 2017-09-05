@@ -17,24 +17,11 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   private final NewsEntryTranslator translator;
   private final NewsEntryService newsEntryService;
 
-  private NewsEntryDispatcherImpl(NewsEntryRequestValidator validator, NewsEntryTranslator translator,
+  public NewsEntryDispatcherImpl(NewsEntryRequestValidator validator, NewsEntryTranslator translator,
       NewsEntryService newsEntryService) {
     this.validator = validator;
     this.translator = translator;
     this.newsEntryService = newsEntryService;
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param validator
-   * @param translator
-   * @param newsEntryService
-   * @return
-   */
-  public static NewsEntryDispatcherImpl fromValidatorAndTranslator(NewsEntryRequestValidator validator,
-      NewsEntryTranslator translator, NewsEntryService newsEntryService) {
-    return new NewsEntryDispatcherImpl(validator, translator, newsEntryService);
   }
 
   @Override

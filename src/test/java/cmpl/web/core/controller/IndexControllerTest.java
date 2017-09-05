@@ -15,7 +15,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.core.factory.DisplayFactory;
-import cmpl.web.page.PAGES;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IndexControllerTest {
@@ -39,13 +38,13 @@ public class IndexControllerTest {
     ModelAndView view = new ModelAndView("pages/accueil");
 
     BDDMockito.doReturn(view).when(displayFactory)
-        .computeModelAndViewForPage(Mockito.eq(PAGES.INDEX), Mockito.eq(locale));
+        .computeModelAndViewForPage(Mockito.anyString(), Mockito.eq(locale), Mockito.anyInt());
 
     ModelAndView result = controller.printIndex();
 
     Assert.assertEquals(view, result);
 
-    Mockito.verify(displayFactory, Mockito.times(1)).computeModelAndViewForPage(Mockito.eq(PAGES.INDEX),
-        Mockito.eq(locale));
+    Mockito.verify(displayFactory, Mockito.times(1)).computeModelAndViewForPage(Mockito.anyString(),
+        Mockito.eq(locale), Mockito.anyInt());
   }
 }

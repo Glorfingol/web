@@ -31,7 +31,7 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   private final NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
 
-  protected NewsManagerDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory,
+  public NewsManagerDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory,
       FooterFactory footerFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService,
       MetaElementFactory metaElementFactory) {
     super(menuFactory, footerFactory, messageSource, metaElementFactory);
@@ -39,37 +39,19 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     this.contextHolder = contextHolder;
   }
 
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param contextHolder
-   * @param menuFactory
-   * @param footerFactory
-   * @param messageSource
-   * @param newsEntryService
-   * @param metaElementFactory
-   * @return
-   */
-  public static NewsManagerDisplayFactoryImpl fromFactoriesAndMessageResource(ContextHolder contextHolder,
-      MenuFactory menuFactory, FooterFactory footerFactory, WebMessageSourceImpl messageSource,
-      NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
-    return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, footerFactory, messageSource,
-        newsEntryService, metaElementFactory);
-  }
-
   @Override
   public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale, int pageNumber) {
     ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction des entrées de blog pour la page " + backPage.name());
 
-    PageWrapper pagedNewsWrapped = computePageWrapperOfNews(locale, pageNumber);
+    PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = computePageWrapperOfNews(locale, pageNumber);
 
     newsManager.addObject("wrappedNews", pagedNewsWrapped);
 
     return newsManager;
   }
 
-  PageWrapper computePageWrapperOfNews(Locale locale, int pageNumber) {
+  PageWrapper<NewsEntryDisplayBean> computePageWrapperOfNews(Locale locale, int pageNumber) {
     Page<NewsEntryDisplayBean> pagedNewsEntries = computeNewsEntries(locale, pageNumber);
 
     boolean isFirstPage = pagedNewsEntries.isFirst();
@@ -77,7 +59,7 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     int totalPages = pagedNewsEntries.getTotalPages();
     int currentPageNumber = pagedNewsEntries.getNumber();
 
-    PageWrapper pagedNewsWrapped = new PageWrapper();
+    PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = new PageWrapper<>();
     pagedNewsWrapped.setCurrentPageNumber(currentPageNumber);
     pagedNewsWrapped.setFirstPage(isFirstPage);
     pagedNewsWrapped.setLastPage(isLastPage);
@@ -136,7 +118,7 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     String labelAccroche = getI18nValue("news.entry.call", locale);
 
     return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
-        contextHolder.getDateFormat(), labelAccroche);
+        contextHolder.getDateFormat(), labelAccroche, "");
   }
 
   @Override

@@ -1,0 +1,49 @@
+<form id="pageCreateForm" th:object="${createForm}">
+    <div class="card">
+        <div class="card-block">
+	        <div class="form-control mb-3" id="formInputName">
+		        <label th:text="${createForm.nameLabel}" />
+		        <input type="text" class="form-control" th:field="*{name}"/>
+		        <div id="feedbackName" class="form-control-label"></div>
+		        <small class="form-text text-muted" th:text="${createForm.nameHelp}"/>
+		    </div>
+		    <div class="form-control mb-3" id="formInputMenuTitle">
+		        <label th:text="${createForm.menuTitleLabel}" />
+		        <input type="text" class="form-control" th:field="*{menuTitle}"/>
+		        <div id="feedbackMenuTitle" class="form-control-label" ></div>
+		        <small class="form-text text-muted" th:text="${createForm.menuTitleHelp}"/>
+		    </div>
+		    <div class="form-control mb-3 " id="formInputWithNews">
+                <label th:text="${createForm.withNewsLabel}" />
+                <div class="form-control-label onoffswitch">
+                    <input type="checkbox" id="withNews" name="onoffswitch" class="onoffswitch-checkbox" th:value="${createForm.withNews}" th:checked="${createForm.withNews}"/>
+                    <label class="onoffswitch-label" for="withNews">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch"></span>
+                    </label>
+                </div>
+                <small class="form-text text-muted" th:text="${createForm.withNewsHelp}"/>
+            </div>
+		    <div class="form-control mb-3" id="formInputContent">
+                <label th:text="${createForm.withNewsLabel}" />
+                <textarea rows="3" id="pageBody" class="form-control" th:field="*{body}"/>
+                <div id="feedbackBody" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="${createForm.withNewsHelp}"/>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="float-right">
+		        <a class="btn btn-md btn-danger collapsed fa fa-times fa-white" 
+		           href="/manager/pages" 
+		        />
+		        <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postCreatePageForm()"/>
+		    </div>
+        </div>
+    </div>
+</form>
+<div class="loader"/> 
+<script type="text/javascript">
+$(document).ready(function(){
+        CKEDITOR.replace("pageBody");
+});
+</script>

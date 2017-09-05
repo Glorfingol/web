@@ -76,9 +76,10 @@ public class NewsDisplayFactoryImplTest {
     String labelPar = "par";
     String labelLe = "le";
     String labelAccroche = "accroche";
+    String labelShowHref = "/pages/actualites/666";
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
-        dateFormat, labelAccroche);
+        dateFormat, labelAccroche, labelShowHref);
 
     BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.any(Long.class));
     BDDMockito.doReturn(displayBean).when(displayFactory)

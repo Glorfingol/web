@@ -12,19 +12,6 @@ import cmpl.web.news.NewsEntryDTO;
  */
 public class FacebookImportTranslatorImpl implements FacebookImportTranslator {
 
-  private FacebookImportTranslatorImpl() {
-
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @return
-   */
-  public static FacebookImportTranslatorImpl fromVoid() {
-    return new FacebookImportTranslatorImpl();
-  }
-
   @Override
   public List<FacebookImportPost> fromRequestToPosts(FacebookImportRequest request) {
     return request.getPostsToImport();

@@ -23,31 +23,11 @@ import cmpl.web.page.PageService;
  */
 public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDisplayFactory {
 
-  private NewsDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory, FooterFactory footerFactory,
+  public NewsDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory, FooterFactory footerFactory,
       MetaElementFactory metaElementFactory, CarouselFactory carouselFactory, WebMessageSourceImpl messageSource,
       NewsEntryService newsEntryService, PageService pageService) {
     super(menuFactory, footerFactory, metaElementFactory, carouselFactory, messageSource, pageService,
         newsEntryService, contextHolder);
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param contextHolder
-   * @param menuFactory
-   * @param footerFactory
-   * @param metaElementFactory
-   * @param carouselFactory
-   * @param messageSource
-   * @param newsEntryService
-   * @return
-   */
-  public static NewsDisplayFactoryImpl fromFactoriesAndMessageResourceAndServices(ContextHolder contextHolder,
-      MenuFactory menuFactory, FooterFactory footerFactory, MetaElementFactory metaElementFactory,
-      CarouselFactory carouselFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService,
-      PageService pageService) {
-    return new NewsDisplayFactoryImpl(contextHolder, menuFactory, footerFactory, metaElementFactory, carouselFactory,
-        messageSource, newsEntryService, pageService);
   }
 
   @Override
@@ -68,7 +48,7 @@ public class NewsDisplayFactoryImpl extends DisplayFactoryImpl implements NewsDi
     ModelAndView newsModelAndView = super.computeModelAndViewForPage(page, locale);
     if (PAGES.NEWS.equals(page)) {
       LOGGER.info("Construction des entrées de blog pour la page " + page.name());
-      PageWrapper pagedNewsWrapped = computePageWrapperOfNews(null, locale, pageNumber);
+      PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = computePageWrapperOfNews(null, locale, pageNumber);
 
       newsModelAndView.addObject("wrappedNews", pagedNewsWrapped);
       newsModelAndView.addObject("emptyMessage", getI18nValue("actualites.empty", locale));

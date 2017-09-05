@@ -47,27 +47,6 @@ body{
 	
 }
 
-.form-control-file{
-	display: none;
-}
-
-.dragndrop{
-    padding: 10px;
-}
-
-.drop_zone{
-	border: 2px dashed #bbb;
-	border-radius: 5px;
-    padding: 25px;
-    text-align: center;
-    color: #bbb;
-}
-
-.dropping{
-	color: #025aa5 !important;
-	border: 2px dashed #025aa5 !important;
-}
-
 /**
 CAROUSEL
 */
@@ -206,3 +185,4 @@ FONT AWESOME
 .fa-2{
 	font-size: 2em;
 }
+

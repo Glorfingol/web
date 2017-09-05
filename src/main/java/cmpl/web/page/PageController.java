@@ -42,7 +42,7 @@ public class PageController {
       @RequestParam(name = "p", required = false) Integer pageNumber) {
 
     LOGGER.info("Accès à la page " + pageName);
-    return displayFactory.computeModelAndViewForPage(pageName, Locale.FRANCE, pageNumber == null ? 0 : pageNumber);
+    return displayFactory.computeModelAndViewForPage(pageName, Locale.FRANCE, computePageNumberFromRequest(pageNumber));
   }
 
   /**
@@ -58,5 +58,13 @@ public class PageController {
 
     LOGGER.info("Accès à la page " + pageName);
     return displayFactory.computeModelAndViewForPage(pageName, Locale.FRANCE, entityId);
+  }
+
+  int computePageNumberFromRequest(Integer pageNumber) {
+    if (pageNumber == null) {
+      return 0;
+    }
+    return pageNumber.intValue();
+
   }
 }

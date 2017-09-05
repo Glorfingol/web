@@ -52,7 +52,7 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   public PageDTO createEntity(PageDTO dto) {
     PageDTO createdPage = super.createEntity(dto);
 
-    fileService.saveFileOnSystem("pages/" + dto.getName(), dto.getBody());
+    fileService.saveFileOnSystem(dto.getName() + ".html", dto.getBody());
     return createdPage;
 
   }

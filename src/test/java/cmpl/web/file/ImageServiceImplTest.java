@@ -58,7 +58,7 @@ public class ImageServiceImplTest {
       subFolder.delete();
     }
 
-    service = ImageServiceImpl.fromStringAndService(contextHolder, imageConverterService);
+    service = new ImageServiceImpl(contextHolder, imageConverterService);
     service = Mockito.spy(service);
 
     BDDMockito.doReturn("src\\test\\resources\\img\\actualites\\").when(contextHolder).getImageFileSrc();

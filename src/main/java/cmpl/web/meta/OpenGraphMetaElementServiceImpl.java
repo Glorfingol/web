@@ -15,20 +15,9 @@ public class OpenGraphMetaElementServiceImpl extends BaseServiceImpl<OpenGraphMe
 
   private final OpenGraphMetaElementRepository openGraphMetaElementRepository;
 
-  private OpenGraphMetaElementServiceImpl(OpenGraphMetaElementRepository openGraphMetaElementRepository) {
+  public OpenGraphMetaElementServiceImpl(OpenGraphMetaElementRepository openGraphMetaElementRepository) {
     super(openGraphMetaElementRepository);
     this.openGraphMetaElementRepository = openGraphMetaElementRepository;
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param openGraphMetaElementRepository
-   * @return
-   */
-  public static OpenGraphMetaElementServiceImpl fromRepository(
-      OpenGraphMetaElementRepository openGraphMetaElementRepository) {
-    return new OpenGraphMetaElementServiceImpl(openGraphMetaElementRepository);
   }
 
   @Override

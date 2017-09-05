@@ -13,6 +13,7 @@ public class ContextHolder {
   private DateTimeFormatter dateFormat;
   private String imageDisplaySrc;
   private String imageFileSrc;
+  private String templateBasePath;
   private int elementsPerPage;
 
   public DateTimeFormatter getDateFormat() {
@@ -45,6 +46,14 @@ public class ContextHolder {
 
   public void setElementsPerPage(int elementsPerPage) {
     this.elementsPerPage = elementsPerPage;
+  }
+
+  public String getTemplateBasePath() {
+    return templateBasePath;
+  }
+
+  public void setTemplateBasePath(String templateBasePath) {
+    this.templateBasePath = templateBasePath;
   }
 
 }

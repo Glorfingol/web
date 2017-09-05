@@ -37,21 +37,9 @@ public class MetaElementFactoryImpl extends BaseFactoryImpl implements MetaEleme
   private static final String SLASH = "/";
   private static final String BASE_URL = "http://cm-pl.com";
 
-  private MetaElementFactoryImpl(WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
+  public MetaElementFactoryImpl(WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
     super(messageSource);
     this.newsEntryService = newsEntryService;
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param messageSource
-   * @param newsEntryService
-   * @return
-   */
-  public static MetaElementFactoryImpl fromMessageSource(WebMessageSourceImpl messageSource,
-      NewsEntryService newsEntryService) {
-    return new MetaElementFactoryImpl(messageSource, newsEntryService);
   }
 
   @Override

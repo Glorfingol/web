@@ -1,6 +1,5 @@
 package cmpl.web.news;
 
-
 /**
  * Implementation du Translator pour les requetes de creation/modification de NewsEntry
  * 
@@ -8,19 +7,6 @@ package cmpl.web.news;
  *
  */
 public class NewsEntryTranslatorImpl implements NewsEntryTranslator {
-
-  private NewsEntryTranslatorImpl() {
-
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @return
-   */
-  public static NewsEntryTranslatorImpl fromVoid() {
-    return new NewsEntryTranslatorImpl();
-  }
 
   @Override
   public NewsEntryDTO fromRequestToDTO(NewsEntryRequest request) {

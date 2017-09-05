@@ -1,0 +1,40 @@
+<div th:fragment="mainForm(updateForm)">
+	<form id="newsEntryEditForm" th:object="${updateForm}">
+	    <div class="card">
+	        <div class="card-block">
+	           <div class="form-control mb-3" id="formInputName">
+	                <label th:text="${updateForm.nameLabel}" />
+	                <input type="text" class="form-control" th:field="*{name}"/>
+	                <div id="feedbackName" class="form-control-label"></div>
+	                <small class="form-text text-muted" th:text="${updateForm.nameHelp}"/>
+	            </div>
+	            <div class="form-control mb-3" id="formInputMenuTitle">
+	                <label th:text="${updateForm.menuTitleLabel}" />
+	                <input type="text" class="form-control" th:field="*{menuTitle}"/>
+	                <div id="feedbackMenuTitle" class="form-control-label" ></div>
+	                <small class="form-text text-muted" th:text="${updateForm.menuTitleHelp}"/>
+	            </div>
+	            <div class="form-control mb-3 " id="formInputWithNews">
+	                <label th:text="${updateForm.withNewsLabel}" />
+	                <div class="form-control-label onoffswitch">
+	                    <input type="checkbox" id="withNews" name="onoffswitch" class="onoffswitch-checkbox" th:value="${updateForm.withNews}" th:checked="${updateForm.withNews}"/>
+	                    <label class="onoffswitch-label" for="withNews">
+	                      <span class="onoffswitch-inner"></span>
+	                      <span class="onoffswitch-switch"></span>
+	                    </label>
+	                </div>
+	                <small class="form-text text-muted" th:text="${updateForm.withNewsHelp}"/>
+	            </div>
+	            <input type="hidden"  th:field="*{id}"/>
+	            <input type="hidden"  th:field="*{creationDate}"/>
+	            <input type="hidden"  th:field="*{modificationDate}"/>
+	        </div>
+	        <div class="card-footer">
+	            <div class="float-right">
+	              <a class="btn btn-md btn-danger fa fa-times fa-white"  onclick="cancelUpdatePage()"/>
+	              <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postUpdatePageForm()"/>
+	            </div>
+	        </div>
+	    </div>
+	</form>
+</div>

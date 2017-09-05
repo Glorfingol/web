@@ -13,18 +13,8 @@ import cmpl.web.message.WebMessageSourceImpl;
  */
 public class FooterFactoryImpl extends BaseFactoryImpl implements FooterFactory {
 
-  private FooterFactoryImpl(WebMessageSourceImpl messageSource) {
+  public FooterFactoryImpl(WebMessageSourceImpl messageSource) {
     super(messageSource);
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param messageSource
-   * @return
-   */
-  public static FooterFactoryImpl fromMessageSource(WebMessageSourceImpl messageSource) {
-    return new FooterFactoryImpl(messageSource);
   }
 
   @Override

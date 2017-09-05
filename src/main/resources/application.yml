@@ -32,5 +32,6 @@ server:
   
   
 fileBasePath: "C:/test/img/actualites/"
+templateBasePath: "C:/test/pages/"
 imageDisplaySrc: "http://poc.lperrod.cardiweb.com/"
   

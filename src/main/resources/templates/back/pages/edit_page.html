@@ -1,0 +1,42 @@
+<div role="tabpanel">
+    <ul class="nav nav-tabs" id="pageTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" ariat-controls="main" aria-expanded="true">
+                Main data
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="body-tab" data-toggle="tab" href="#body" role="tab" ariat-controls="body" aria-expanded="false">
+                Body data
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="meta-tab" data-toggle="tab" href="#meta" role="tab" ariat-controls="meta" aria-expanded="false">
+                Meta Items
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="pageTabContent">
+        <div role="tabpanel" class="tab-pane fade active show" id="main" aria-labelled-by="main-tab" arias-expanded="true">
+            <div th:include="back/pages/edit/tab_main :: mainForm(${updateForm})"></div> 
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="body" aria-labelled-by="body-tab" arias-expanded="false">
+            <div th:include="back/pages/edit/tab_body :: bodyForm(${updateForm})"></div> 
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="meta" aria-labelled-by="meta-tab" arias-expanded="false">
+            <div th:include="back/pages/edit/tab_meta :: meta"></div> 
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="loader"/> 
+</div>
+<script type="text/javascript">
+
+$(document).ready(function(){
+        CKEDITOR.replace("pageBody");
+});
+</script>
+
+
+           

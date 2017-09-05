@@ -17,22 +17,10 @@ public class FacebookDispatcherImpl implements FacebookDispatcher {
   private final FacebookImportService facebookImportService;
   private final FacebookImportTranslator facebookImportTranslator;
 
-  private FacebookDispatcherImpl(FacebookImportService facebookImportService,
+  public FacebookDispatcherImpl(FacebookImportService facebookImportService,
       FacebookImportTranslator facebookImportTranslator) {
     this.facebookImportService = facebookImportService;
     this.facebookImportTranslator = facebookImportTranslator;
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param facebookImportService
-   * @param facebookImportTranslator
-   * @return
-   */
-  public static FacebookDispatcherImpl fromService(FacebookImportService facebookImportService,
-      FacebookImportTranslator facebookImportTranslator) {
-    return new FacebookDispatcherImpl(facebookImportService, facebookImportTranslator);
   }
 
   @Override

@@ -10,18 +10,8 @@ import cmpl.web.core.service.BaseServiceImpl;
  */
 public class NewsContentServiceImpl extends BaseServiceImpl<NewsContentDTO, NewsContent> implements NewsContentService {
 
-  private NewsContentServiceImpl(NewsContentRepository newsContentRepository) {
+  public NewsContentServiceImpl(NewsContentRepository newsContentRepository) {
     super(newsContentRepository);
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param newsContentRepository
-   * @return
-   */
-  public static NewsContentServiceImpl fromRepositories(NewsContentRepository newsContentRepository) {
-    return new NewsContentServiceImpl(newsContentRepository);
   }
 
   @Override

@@ -2,11 +2,9 @@ package cmpl.web.core.model;
 
 import org.springframework.data.domain.Page;
 
-import cmpl.web.news.NewsEntryDisplayBean;
+public class PageWrapper<T> {
 
-public class PageWrapper {
-
-  private Page<NewsEntryDisplayBean> page;
+  private Page<T> page;
   private boolean isFirstPage;
   private boolean isLastPage;
   private int totalPages;
@@ -14,11 +12,11 @@ public class PageWrapper {
   private String pageBaseUrl;
   private String pageLabel;
 
-  public Page<NewsEntryDisplayBean> getPage() {
+  public Page<T> getPage() {
     return page;
   }
 
-  public void setPage(Page<NewsEntryDisplayBean> page) {
+  public void setPage(Page<T> page) {
     this.page = page;
   }
 

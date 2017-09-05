@@ -31,26 +31,12 @@ public class FacebookServiceImpl implements FacebookService {
   private final ContextHolder contextHolder;
   private final NewsEntryService newsEntryService;
 
-  private FacebookServiceImpl(Facebook facebookConnector, ConnectionRepository connectionRepository,
-      NewsEntryService newsEntryService, ContextHolder contextHolder) {
+  public FacebookServiceImpl(ContextHolder contextHolder, Facebook facebookConnector,
+      ConnectionRepository connectionRepository, NewsEntryService newsEntryService) {
     this.facebookConnector = facebookConnector;
     this.connectionRepository = connectionRepository;
     this.contextHolder = contextHolder;
     this.newsEntryService = newsEntryService;
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param contextHolder
-   * @param facebookConnector
-   * @param connectionRepository
-   * @param newsEntryService
-   * @return
-   */
-  public static FacebookServiceImpl fromFacebookConnector(ContextHolder contextHolder, Facebook facebookConnector,
-      ConnectionRepository connectionRepository, NewsEntryService newsEntryService) {
-    return new FacebookServiceImpl(facebookConnector, connectionRepository, newsEntryService, contextHolder);
   }
 
   @Override

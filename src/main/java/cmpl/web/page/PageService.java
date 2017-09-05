@@ -2,13 +2,15 @@ package cmpl.web.page;
 
 import java.util.List;
 
+import cmpl.web.core.service.BaseService;
+
 /**
  * Interface des pages
  * 
  * @author Louis
  *
  */
-public interface PageService {
+public interface PageService extends BaseService<PageDTO> {
 
   /**
    * Trouver une page via son nom

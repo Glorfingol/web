@@ -14,23 +14,9 @@ import cmpl.web.meta.MetaElementFactory;
  */
 public class LoginDisplayFactoryImpl extends BackDisplayFactoryImpl implements LoginDisplayFactory {
 
-  protected LoginDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
+  public LoginDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
       WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory) {
     super(menuFactory, footerFactory, messageSource, metaElementFactory);
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param menuFactory
-   * @param footerFactory
-   * @param messageSource
-   * @param metaElementFactory
-   * @return
-   */
-  public static LoginDisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory,
-      FooterFactory footerFactory, WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory) {
-    return new LoginDisplayFactoryImpl(menuFactory, footerFactory, messageSource, metaElementFactory);
   }
 
 }

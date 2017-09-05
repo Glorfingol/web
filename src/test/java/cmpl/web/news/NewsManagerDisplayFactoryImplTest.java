@@ -40,8 +40,6 @@ import cmpl.web.menu.MenuItem;
 import cmpl.web.message.WebMessageSourceImpl;
 import cmpl.web.meta.MetaElementFactory;
 import cmpl.web.meta.MetaElementToDelete;
-import cmpl.web.news.NewsEntryService;
-import cmpl.web.news.NewsManagerDisplayFactoryImpl;
 import cmpl.web.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -147,9 +145,10 @@ public class NewsManagerDisplayFactoryImplTest {
     String labelPar = "par";
     String labelLe = "le";
     String labelAccroche = "accroche";
+    String labelShowHref = "/pages/actualites/666";
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
-        dateFormat, labelAccroche);
+        dateFormat, labelAccroche, labelShowHref);
 
     BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.any(Long.class));
     BDDMockito.doReturn(displayBean).when(displayFactory)
@@ -371,13 +370,14 @@ public class NewsManagerDisplayFactoryImplTest {
     String labelPar = "par";
     String labelLe = "le";
     String labelAccroche = "accroche";
+    String labelShowHref = "/pages/actualites/666";
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
-        dateFormat, labelAccroche);
+        dateFormat, labelAccroche, labelShowHref);
 
     NewsFormDisplayBean form = new NewsFormDisplayBeanBuilder().toNewsFormDisplayBean();
 
-    PageWrapper pageWrapper = new PageWrapper();
+    PageWrapper<NewsEntryDisplayBean> pageWrapper = new PageWrapper<>();
     pageWrapper.setPage(new PageImpl<>(Lists.newArrayList(displayBean)));
 
     BDDMockito.doReturn(25).when(contextHolder).getElementsPerPage();
@@ -480,9 +480,10 @@ public class NewsManagerDisplayFactoryImplTest {
     String labelPar = "par";
     String labelLe = "le";
     String labelAccroche = "accroche";
+    String labelShowHref = "/pages/actualites/666";
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
-        dateFormat, labelAccroche);
+        dateFormat, labelAccroche, labelShowHref);
 
     NewsFormDisplayBean form = new NewsFormDisplayBeanBuilder().toNewsFormDisplayBean();
 
