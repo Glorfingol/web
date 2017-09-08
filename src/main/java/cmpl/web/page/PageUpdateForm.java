@@ -25,9 +25,13 @@ public class PageUpdateForm {
   private String menuTitleHelp = "";
   private String withNewsHelp = "";
   private String bodyHelp = "";
+  private String mainTabLabel = "";
+  private String bodyTabLabel = "";
+  private String metaTabLabel = "";
 
   public PageUpdateForm(PageDTO page, String nameLabel, String menuTitleLabel, String withNewsLabel, String bodyLabel,
-      String nameHelp, String menuTitleHelp, String withNewsHelp, String bodyHelp) {
+      String nameHelp, String menuTitleHelp, String withNewsHelp, String bodyHelp, String mainTabLabel,
+      String bodyTabLabel, String metaTabLabel) {
     this.name = page.getName();
     this.menuTitle = page.getMenuTitle();
     this.withNews = page.isWithNews();
@@ -43,6 +47,9 @@ public class PageUpdateForm {
     this.menuTitleHelp = menuTitleHelp;
     this.withNewsHelp = withNewsHelp;
     this.bodyHelp = bodyHelp;
+    this.bodyTabLabel = bodyTabLabel;
+    this.metaTabLabel = metaTabLabel;
+    this.mainTabLabel = mainTabLabel;
   }
 
   public String getName() {
@@ -163,6 +170,30 @@ public class PageUpdateForm {
 
   public void setModificationDate(LocalDate modificationDate) {
     this.modificationDate = modificationDate;
+  }
+
+  public String getMainTabLabel() {
+    return mainTabLabel;
+  }
+
+  public void setMainTabLabel(String mainTabLabel) {
+    this.mainTabLabel = mainTabLabel;
+  }
+
+  public String getBodyTabLabel() {
+    return bodyTabLabel;
+  }
+
+  public void setBodyTabLabel(String bodyTabLabel) {
+    this.bodyTabLabel = bodyTabLabel;
+  }
+
+  public String getMetaTabLabel() {
+    return metaTabLabel;
+  }
+
+  public void setMetaTabLabel(String metaTabLabel) {
+    this.metaTabLabel = metaTabLabel;
   }
 
 }

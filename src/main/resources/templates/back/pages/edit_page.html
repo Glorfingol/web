@@ -1,40 +1,54 @@
 <div role="tabpanel">
     <ul class="nav nav-tabs" id="pageTabs" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" ariat-controls="main" aria-expanded="true">
-                Main data
+            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"  onclick="goToMainTab()">
+                <span th:text="${updateForm.mainTabLabel}"/>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="body-tab" data-toggle="tab" href="#body" role="tab" ariat-controls="body" aria-expanded="false">
-                Body data
+            <a class="nav-link" id="body-tab" data-toggle="tab" href="#" role="tab"  onclick="goToBodyTab()" >
+              <span th:text="${updateForm.bodyTabLabel}"/>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="meta-tab" data-toggle="tab" href="#meta" role="tab" ariat-controls="meta" aria-expanded="false">
-                Meta Items
+            <a class="nav-link" id="meta-tab" data-toggle="tab" href="#" role="tab"  onclick="goToMetaTab()" >
+               <span th:text="${updateForm.metaTabLabel}"/>
             </a>
         </li>
     </ul>
     <div class="tab-content" id="pageTabContent">
-        <div role="tabpanel" class="tab-pane fade active show" id="main" aria-labelled-by="main-tab" arias-expanded="true">
-            <div th:include="back/pages/edit/tab_main :: mainForm(${updateForm})"></div> 
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="body" aria-labelled-by="body-tab" arias-expanded="false">
-            <div th:include="back/pages/edit/tab_body :: bodyForm(${updateForm})"></div> 
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="meta" aria-labelled-by="meta-tab" arias-expanded="false">
-            <div th:include="back/pages/edit/tab_meta :: meta"></div> 
+        <div role="tabpanel" class="tab-pane fade active show" id="ajaxTab">
         </div>
     </div>
 </div>
 <div class="card">
     <div class="loader"/> 
 </div>
-<script type="text/javascript">
+<script th:inline="javascript">
+var goToBodyTab =  function(){
+	var url = "/manager/pages/"+[[''+${updateForm.id}+'']]+"/_body";
+    $.get(url, function (data) {
+     $("#ajaxTab").html(data);
+     CKEDITOR.replace("pageBody");
+   });
+};
+
+var goToMetaTab =  function (){
+	var url = "/manager/pages/"+[[''+${updateForm.id}+'']]+"/_meta";
+	 $.get(url, function (data) {
+	     $("#ajaxTab").html(data);
+	   });
+};
+
+var goToMainTab =  function(){
+	var url = "/manager/pages/"+[[''+${updateForm.id}+'']]+"/_main";
+	 $.get(url, function (data) {
+	     $("#ajaxTab").html(data);
+	   });
+};
 
 $(document).ready(function(){
-        CKEDITOR.replace("pageBody");
+        goToMainTab();
 });
 </script>
 

@@ -103,10 +103,10 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
 
   @Override
   public ModelAndView computeModelAndViewForCreatePage(BACK_PAGE backPage, Locale locale) {
-    ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
+    ModelAndView pageManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du formulaire de creation des pages ");
-    newsManager.addObject("createForm", computeCreateForm(locale));
-    return newsManager;
+    pageManager.addObject("createForm", computeCreateForm(locale));
+    return pageManager;
   }
 
   PageUpdateForm createUpdateForm(PageDTO page, Locale locale) {
@@ -119,8 +119,35 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
     String withNewsHelp = getI18nValue("page.withNews.help", locale);
     String bodyLabel = getI18nValue("page.body.label", locale);
     String bodyHelp = getI18nValue("page.body.help", locale);
+    String bodyTabLabel = getI18nValue("page.tab.body", locale);
+    String mainTabLabel = getI18nValue("page.tab.main", locale);
+    String metaTabLabel = getI18nValue("page.tab.meta", locale);
 
     return new PageUpdateForm(page, nameLabel, menuTitleLabel, withNewsLabel, bodyLabel, nameHelp, menuTitleHelp,
-        withNewsHelp, bodyHelp);
+        withNewsHelp, bodyHelp, mainTabLabel, bodyTabLabel, metaTabLabel);
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForUpdatePageMain(Locale locale, String pageId) {
+    ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_main");
+    PageDTO page = pageService.getEntity(Long.parseLong(pageId));
+    pageManager.addObject("updateForm", createUpdateForm(page, locale));
+    return pageManager;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForUpdatePageBody(Locale locale, String pageId) {
+    ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_body");
+    PageDTO page = pageService.getEntity(Long.parseLong(pageId));
+    pageManager.addObject("updateForm", createUpdateForm(page, locale));
+    return pageManager;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForUpdatePageMeta(Locale locale, String pageId) {
+    ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_meta");
+    PageDTO page = pageService.getEntity(Long.parseLong(pageId));
+    pageManager.addObject("updateForm", createUpdateForm(page, locale));
+    return pageManager;
   }
 }
