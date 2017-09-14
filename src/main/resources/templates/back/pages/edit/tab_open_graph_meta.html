@@ -2,21 +2,21 @@
     <div class="card mb-3">
         <div class="card-block">
              <div class="form-control mb-3" id="formInputName">
-                <label th:text="#{meta.name.label}" />
-                <input type="text" class="form-control" th:field="*{name}"/>
-                <div id="feedbackName" class="form-control-label"></div>
-                <small class="form-text text-muted" th:text="#{meta.name.help}"/>
+                <label th:text="#{meta.property.label}" />
+                <input type="text" class="form-control" th:field="*{property}"/>
+                <div id="feedbackProperty" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{meta.property.help}"/>
             </div>
             <div class="form-control mb-3" id="formInputContent">
                 <label th:text="#{meta.content.label}" />
                 <input type="text" class="form-control" th:field="*{content}"/>
                 <div id="feedbackContent" class="form-control-label" ></div>
-                <small class="form-text text-muted" th:text="#{meta.content.help=}"/>
+                <small class="form-text text-muted" th:text="#{meta.content.help}"/>
             </div>
         </div>
         <div class="card-footer">
             <div class="float-right">
-              <a class="btn btn-md btn-success fa fa-plus fa-white"  onclick="postCreateMetaForm()"/>
+              <a class="btn btn-md btn-success fa fa-plus fa-white"  onclick="postCreateOpenGraphMetaForm()"/>
             </div>
         </div>
     </div>
@@ -25,31 +25,31 @@
     <div class="row">
         <div th:each="metaElement : ${metaElements}" class="col-12 metaElements">
          <div class="card mb-3">
-		    <div class="card-block">
-	           <div class="form-control">
-	                <label th:text="#{meta.name.label}" />
-	                <input type="text" class="form-control" th:value="${metaElement.name}" disabled="true"/>
-	            </div>
-	            <div class="form-control">
+            <div class="card-block">
+               <div class="form-control">
+                    <label th:text="#{meta.property.label}" />
+                    <input type="text" class="form-control" th:value="${metaElement.property}" disabled="true"/>
+                </div>
+                <div class="form-control">
                    <label th:text="#{meta.content.label}" />
                    <input type="text" class="form-control" th:value="${metaElement.content}" disabled="true"/>
-	            </div>
-		    </div>
-		</div>
+                </div>
+            </div>
+        </div>
      </div>
     </div>
 </div>
 <script th:inline="javascript">
-var postCreateMetaForm = function(){
+var postCreateOpenGraphMetaForm = function(){
 	$("#metaElementForm").hide();
     $(".loader").show();
-	var url = "/manager/pages/"+[[''+${createForm.pageId}+'']]+"/metas";
-	 
-	var metaForm = {};
-    var inputName = $("#name");
+    var url = "/manager/pages/"+[[''+${createForm.pageId}+'']]+"/openGraphMetas";
+     
+    var metaForm = {};
+    var inputProperty= $("#property");
     var inputContent = $("#content");
     
-    metaForm.name = inputName.val();
+    metaForm.property = inputProperty.val();
     metaForm.content = inputContent.val();
     
     var data = JSON.stringify(metaForm);
@@ -61,10 +61,10 @@ var postCreateMetaForm = function(){
         crossDomain: true,
         dataType: "json",
         success: function (data) {
-        	goToMetaTab();
+        	goToOpenGraphMetaTab();
         },
         error: function(){
-        	goToMetaTab();
+        	goToOpenGraphMetaTab();
         }
      });
 }

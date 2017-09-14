@@ -16,19 +16,30 @@ import cmpl.web.core.model.PageWrapper;
 import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.message.WebMessageSourceImpl;
+import cmpl.web.meta.MetaElementCreateForm;
+import cmpl.web.meta.MetaElementDTO;
 import cmpl.web.meta.MetaElementFactory;
+import cmpl.web.meta.MetaElementService;
+import cmpl.web.meta.OpenGraphMetaElementCreateForm;
+import cmpl.web.meta.OpenGraphMetaElementDTO;
+import cmpl.web.meta.OpenGraphMetaElementService;
 
 public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implements PagesManagerDisplayFactory {
 
   private final PageService pageService;
+  private final OpenGraphMetaElementService openGraphMetaElementService;
+  private final MetaElementService metaElementService;
   private final ContextHolder contextHolder;
 
   public PagesManagerDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
       WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory, PageService pageService,
-      ContextHolder contextHolder) {
+      ContextHolder contextHolder, MetaElementService metaElementService,
+      OpenGraphMetaElementService openGraphMetaElementService) {
     super(menuFactory, footerFactory, messageSource, metaElementFactory);
     this.pageService = pageService;
     this.contextHolder = contextHolder;
+    this.metaElementService = metaElementService;
+    this.openGraphMetaElementService = openGraphMetaElementService;
   }
 
   @Override
@@ -78,26 +89,15 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
     return new PageImpl<>(pageEntries, pageRequest, pagedPageDTOEntries.getTotalElements());
   }
 
-  PageCreateForm computeCreateForm(Locale locale) {
-    PageCreateForm createForm = new PageCreateForm();
-
-    createForm.setNameHelp(getI18nValue("page.name.help", locale));
-    createForm.setMenuTitleHelp(getI18nValue("page.menuTitle.help", locale));
-    createForm.setWithNewsHelp(getI18nValue("page.withNews.help", locale));
-    createForm.setNameLabel(getI18nValue("page.name.label", locale));
-    createForm.setBodyLabel(getI18nValue("page.body.label", locale));
-    createForm.setMenuTitleLabel(getI18nValue("page.menuTitle.label", locale));
-    createForm.setWithNewsLabel(getI18nValue("page.withNews.label", locale));
-    createForm.setBodyHelp(getI18nValue("page.body.help", locale));
-
-    return createForm;
+  PageCreateForm computeCreateForm() {
+    return new PageCreateForm();
   }
 
   @Override
   public ModelAndView computeModelAndViewForUpdatePage(BACK_PAGE backPage, Locale locale, String pageId) {
     ModelAndView pageManager = super.computeModelAndViewForBackPage(backPage, locale);
     PageDTO page = pageService.getEntity(Long.parseLong(pageId));
-    pageManager.addObject("updateForm", createUpdateForm(page, locale));
+    pageManager.addObject("updateForm", createUpdateForm(page));
     return pageManager;
   }
 
@@ -105,33 +105,19 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
   public ModelAndView computeModelAndViewForCreatePage(BACK_PAGE backPage, Locale locale) {
     ModelAndView pageManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du formulaire de creation des pages ");
-    pageManager.addObject("createForm", computeCreateForm(locale));
+    pageManager.addObject("createForm", computeCreateForm());
     return pageManager;
   }
 
-  PageUpdateForm createUpdateForm(PageDTO page, Locale locale) {
-
-    String nameLabel = getI18nValue("page.name.label", locale);
-    String nameHelp = getI18nValue("page.name.help", locale);
-    String menuTitleLabel = getI18nValue("page.menuTitle.label", locale);
-    String menuTitleHelp = getI18nValue("page.menuTitle.help", locale);
-    String withNewsLabel = getI18nValue("page.withNews.label", locale);
-    String withNewsHelp = getI18nValue("page.withNews.help", locale);
-    String bodyLabel = getI18nValue("page.body.label", locale);
-    String bodyHelp = getI18nValue("page.body.help", locale);
-    String bodyTabLabel = getI18nValue("page.tab.body", locale);
-    String mainTabLabel = getI18nValue("page.tab.main", locale);
-    String metaTabLabel = getI18nValue("page.tab.meta", locale);
-
-    return new PageUpdateForm(page, nameLabel, menuTitleLabel, withNewsLabel, bodyLabel, nameHelp, menuTitleHelp,
-        withNewsHelp, bodyHelp, mainTabLabel, bodyTabLabel, metaTabLabel);
+  PageUpdateForm createUpdateForm(PageDTO page) {
+    return new PageUpdateForm(page);
   }
 
   @Override
   public ModelAndView computeModelAndViewForUpdatePageMain(Locale locale, String pageId) {
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_main");
     PageDTO page = pageService.getEntity(Long.parseLong(pageId));
-    pageManager.addObject("updateForm", createUpdateForm(page, locale));
+    pageManager.addObject("updateForm", createUpdateForm(page));
     return pageManager;
   }
 
@@ -139,15 +125,37 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
   public ModelAndView computeModelAndViewForUpdatePageBody(Locale locale, String pageId) {
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_body");
     PageDTO page = pageService.getEntity(Long.parseLong(pageId));
-    pageManager.addObject("updateForm", createUpdateForm(page, locale));
+    pageManager.addObject("updateForm", createUpdateForm(page));
     return pageManager;
   }
 
   @Override
   public ModelAndView computeModelAndViewForUpdatePageMeta(Locale locale, String pageId) {
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_meta");
-    PageDTO page = pageService.getEntity(Long.parseLong(pageId));
-    pageManager.addObject("updateForm", createUpdateForm(page, locale));
+    List<MetaElementDTO> metaElements = metaElementService.findMetaElementsByPageId(pageId);
+    pageManager.addObject("metaElements", metaElements);
+    pageManager.addObject("createForm", createMetaElementCreateForm(pageId, locale));
     return pageManager;
+  }
+
+  MetaElementCreateForm createMetaElementCreateForm(String pageId, Locale locale) {
+    MetaElementCreateForm createForm = new MetaElementCreateForm();
+    createForm.setPageId(pageId);
+    return createForm;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForUpdatePageOpenGraphMeta(Locale locale, String pageId) {
+    ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_open_graph_meta");
+    List<OpenGraphMetaElementDTO> metaElements = openGraphMetaElementService.findOpenGraphMetaElementsByPageId(pageId);
+    pageManager.addObject("metaElements", metaElements);
+    pageManager.addObject("createForm", createOpenGraphMetaElementCreateForm(pageId, locale));
+    return pageManager;
+  }
+
+  OpenGraphMetaElementCreateForm createOpenGraphMetaElementCreateForm(String pageId, Locale locale) {
+    OpenGraphMetaElementCreateForm createForm = new OpenGraphMetaElementCreateForm();
+    createForm.setPageId(pageId);
+    return createForm;
   }
 }

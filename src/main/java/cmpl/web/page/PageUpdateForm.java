@@ -17,21 +17,7 @@ public class PageUpdateForm {
   @DateTimeFormat(iso = ISO.DATE)
   private LocalDate modificationDate;
 
-  private String nameLabel = "";
-  private String menuTitleLabel = "";
-  private String bodyLabel = "";
-  private String withNewsLabel = "";
-  private String nameHelp = "";
-  private String menuTitleHelp = "";
-  private String withNewsHelp = "";
-  private String bodyHelp = "";
-  private String mainTabLabel = "";
-  private String bodyTabLabel = "";
-  private String metaTabLabel = "";
-
-  public PageUpdateForm(PageDTO page, String nameLabel, String menuTitleLabel, String withNewsLabel, String bodyLabel,
-      String nameHelp, String menuTitleHelp, String withNewsHelp, String bodyHelp, String mainTabLabel,
-      String bodyTabLabel, String metaTabLabel) {
+  public PageUpdateForm(PageDTO page) {
     this.name = page.getName();
     this.menuTitle = page.getMenuTitle();
     this.withNews = page.isWithNews();
@@ -39,17 +25,6 @@ public class PageUpdateForm {
     this.id = page.getId();
     this.creationDate = page.getCreationDate();
     this.modificationDate = page.getModificationDate();
-    this.nameLabel = nameLabel;
-    this.menuTitleLabel = menuTitleLabel;
-    this.withNewsLabel = withNewsLabel;
-    this.bodyLabel = bodyLabel;
-    this.nameHelp = nameHelp;
-    this.menuTitleHelp = menuTitleHelp;
-    this.withNewsHelp = withNewsHelp;
-    this.bodyHelp = bodyHelp;
-    this.bodyTabLabel = bodyTabLabel;
-    this.metaTabLabel = metaTabLabel;
-    this.mainTabLabel = mainTabLabel;
   }
 
   public String getName() {
@@ -84,70 +59,6 @@ public class PageUpdateForm {
     this.body = body;
   }
 
-  public String getNameLabel() {
-    return nameLabel;
-  }
-
-  public void setNameLabel(String nameLabel) {
-    this.nameLabel = nameLabel;
-  }
-
-  public String getMenuTitleLabel() {
-    return menuTitleLabel;
-  }
-
-  public void setMenuTitleLabel(String menuTitleLabel) {
-    this.menuTitleLabel = menuTitleLabel;
-  }
-
-  public String getWithNewsLabel() {
-    return withNewsLabel;
-  }
-
-  public void setWithNewsLabel(String withNewsLabel) {
-    this.withNewsLabel = withNewsLabel;
-  }
-
-  public String getNameHelp() {
-    return nameHelp;
-  }
-
-  public void setNameHelp(String nameHelp) {
-    this.nameHelp = nameHelp;
-  }
-
-  public String getMenuTitleHelp() {
-    return menuTitleHelp;
-  }
-
-  public void setMenuTitleHelp(String menuTitleHelp) {
-    this.menuTitleHelp = menuTitleHelp;
-  }
-
-  public String getWithNewsHelp() {
-    return withNewsHelp;
-  }
-
-  public void setWithNewsHelp(String withNewsHelp) {
-    this.withNewsHelp = withNewsHelp;
-  }
-
-  public String getBodyLabel() {
-    return bodyLabel;
-  }
-
-  public void setBodyLabel(String bodyLabel) {
-    this.bodyLabel = bodyLabel;
-  }
-
-  public String getBodyHelp() {
-    return bodyHelp;
-  }
-
-  public void setBodyHelp(String bodyHelp) {
-    this.bodyHelp = bodyHelp;
-  }
-
   public Long getId() {
     return id;
   }
@@ -170,30 +81,6 @@ public class PageUpdateForm {
 
   public void setModificationDate(LocalDate modificationDate) {
     this.modificationDate = modificationDate;
-  }
-
-  public String getMainTabLabel() {
-    return mainTabLabel;
-  }
-
-  public void setMainTabLabel(String mainTabLabel) {
-    this.mainTabLabel = mainTabLabel;
-  }
-
-  public String getBodyTabLabel() {
-    return bodyTabLabel;
-  }
-
-  public void setBodyTabLabel(String bodyTabLabel) {
-    this.bodyTabLabel = bodyTabLabel;
-  }
-
-  public String getMetaTabLabel() {
-    return metaTabLabel;
-  }
-
-  public void setMetaTabLabel(String metaTabLabel) {
-    this.metaTabLabel = metaTabLabel;
   }
 
 }

@@ -24,4 +24,20 @@ public class MetaConfiguration {
     return new OpenGraphMetaElementServiceImpl(repository);
   }
 
+  @Bean
+  MetaElementDispatcher metaElementDispatcher(MetaElementService metaElementService,
+      OpenGraphMetaElementService openGraphMetaElementService, MetaElementTranslator translator,
+      MetaElementValidator validator) {
+    return new MetaElementDispatcherImpl(metaElementService, openGraphMetaElementService, translator, validator);
+  }
+
+  @Bean
+  MetaElementValidator metaElementValidator(WebMessageSourceImpl messageSource) {
+    return new MetaElementValidatorImpl(messageSource);
+  }
+
+  @Bean
+  MetaElementTranslator metaElementTranslator() {
+    return new MetaElementTranslatorImpl();
+  }
 }

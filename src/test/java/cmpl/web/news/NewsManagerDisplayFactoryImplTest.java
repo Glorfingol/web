@@ -27,14 +27,12 @@ import cmpl.web.builder.NewsContentDTOBuilder;
 import cmpl.web.builder.NewsContentRequestBuilder;
 import cmpl.web.builder.NewsEntryDTOBuilder;
 import cmpl.web.builder.NewsEntryRequestBuilder;
-import cmpl.web.builder.NewsFormDisplayBeanBuilder;
 import cmpl.web.builder.NewsImageDTOBuilder;
 import cmpl.web.builder.NewsImageRequestBuilder;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.core.model.PageWrapper;
 import cmpl.web.footer.Footer;
 import cmpl.web.footer.FooterFactory;
-import cmpl.web.login.LoginFormDisplayBean;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.menu.MenuItem;
 import cmpl.web.message.WebMessageSourceImpl;
@@ -67,69 +65,6 @@ public class NewsManagerDisplayFactoryImplTest {
   @Before
   public void setUp() {
     locale = Locale.FRANCE;
-  }
-
-  @Test
-  public void testComputeForm() throws Exception {
-    String titleLabel = "title";
-    String titleHelp = "titleHelp";
-
-    String authorLabel = "label";
-    String authorHelp = "labelHelp";
-
-    String tagsLabel = "tags";
-    String tagsHelp = "tagsHelp";
-
-    String contentLabel = "content";
-    String contentHelp = "contentHelp";
-
-    String imageLabel = "image";
-    String imageHelp = "imageHelp";
-
-    String legendLabel = "legend";
-    String legendHelp = "legendHelp";
-
-    String altLabel = "alt";
-    String altHelp = "altHelp";
-
-    BDDMockito.doReturn(titleLabel).when(displayFactory).getI18nValue(Mockito.eq("title.label"), Mockito.eq(locale));
-    BDDMockito.doReturn(titleHelp).when(displayFactory).getI18nValue(Mockito.eq("title.help"), Mockito.eq(locale));
-
-    BDDMockito.doReturn(authorLabel).when(displayFactory).getI18nValue(Mockito.eq("author.label"), Mockito.eq(locale));
-    BDDMockito.doReturn(authorHelp).when(displayFactory).getI18nValue(Mockito.eq("author.help"), Mockito.eq(locale));
-
-    BDDMockito.doReturn(tagsLabel).when(displayFactory).getI18nValue(Mockito.eq("tags.label"), Mockito.eq(locale));
-    BDDMockito.doReturn(tagsHelp).when(displayFactory).getI18nValue(Mockito.eq("tags.help"), Mockito.eq(locale));
-
-    BDDMockito.doReturn(contentLabel).when(displayFactory)
-        .getI18nValue(Mockito.eq("content.label"), Mockito.eq(locale));
-    BDDMockito.doReturn(contentHelp).when(displayFactory).getI18nValue(Mockito.eq("content.help"), Mockito.eq(locale));
-
-    BDDMockito.doReturn(imageLabel).when(displayFactory).getI18nValue(Mockito.eq("image.label"), Mockito.eq(locale));
-    BDDMockito.doReturn(imageHelp).when(displayFactory).getI18nValue(Mockito.eq("image.help"), Mockito.eq(locale));
-
-    BDDMockito.doReturn(legendLabel).when(displayFactory).getI18nValue(Mockito.eq("legend.label"), Mockito.eq(locale));
-    BDDMockito.doReturn(legendHelp).when(displayFactory).getI18nValue(Mockito.eq("legend.help"), Mockito.eq(locale));
-
-    BDDMockito.doReturn(altLabel).when(displayFactory).getI18nValue(Mockito.eq("alt.label"), Mockito.eq(locale));
-    BDDMockito.doReturn(altHelp).when(displayFactory).getI18nValue(Mockito.eq("alt.help"), Mockito.eq(locale));
-
-    NewsFormDisplayBean result = displayFactory.computeForm(locale);
-
-    Assert.assertEquals(titleLabel, result.getTitleLabel());
-    Assert.assertEquals(titleHelp, result.getTitleHelp());
-    Assert.assertEquals(authorLabel, result.getAuthorLabel());
-    Assert.assertEquals(authorHelp, result.getAuthorHelp());
-    Assert.assertEquals(tagsLabel, result.getTagsLabel());
-    Assert.assertEquals(tagsHelp, result.getTagsHelp());
-    Assert.assertEquals(contentLabel, result.getContentLabel());
-    Assert.assertEquals(contentHelp, result.getContentHelp());
-    Assert.assertEquals(imageLabel, result.getImageLabel());
-    Assert.assertEquals(imageHelp, result.getImageHelp());
-    Assert.assertEquals(legendLabel, result.getLegendLabel());
-    Assert.assertEquals(legendHelp, result.getLegendHelp());
-    Assert.assertEquals(altLabel, result.getAltLabel());
-    Assert.assertEquals(altHelp, result.getAltHelp());
   }
 
   @Test
@@ -239,17 +174,6 @@ public class NewsManagerDisplayFactoryImplTest {
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
-    String name = "name";
-    String password = "password";
-    String logout = "logout";
-    String error = "error";
-
-    LoginFormDisplayBean bean = new LoginFormDisplayBean();
-    bean.setUserLabel(name);
-    bean.setErrorLabel(error);
-    bean.setTimeoutLabel(logout);
-    bean.setPasswordLabel(password);
-
     String author = "author";
     LocalDate date = LocalDate.now();
     String tags = "tag;lol";
@@ -267,20 +191,16 @@ public class NewsManagerDisplayFactoryImplTest {
     NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().author(author).creationDate(date).tags(tags).id(1L).title(title)
         .newsContent(newsContent).newsImage(newsImage).modificationDate(date).toNewsEntryDTO();
 
-    NewsFormDisplayBean form = new NewsFormDisplayBeanBuilder().toNewsFormDisplayBean();
-
     BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(Mockito.eq(locale));
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(displayFactory)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(bean).when(displayFactory).computeLoginFormDisplayBean(Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(request).when(displayFactory).computeNewsEntryRequest(Mockito.any(NewsEntryDTO.class));
     BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.anyLong());
-    BDDMockito.doReturn(form).when(displayFactory).computeForm(Mockito.eq(locale));
 
     ModelAndView result = displayFactory.computeModelAndViewForOneNewsEntry(BACK_PAGE.NEWS_UPDATE, locale, "123");
 
@@ -291,12 +211,10 @@ public class NewsManagerDisplayFactoryImplTest {
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
         Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeLoginFormDisplayBean(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeNewsEntryRequest(Mockito.any(NewsEntryDTO.class));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeForm(Mockito.eq(locale));
 
   }
 
@@ -338,17 +256,6 @@ public class NewsManagerDisplayFactoryImplTest {
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
-    String name = "name";
-    String password = "password";
-    String logout = "logout";
-    String error = "error";
-
-    LoginFormDisplayBean bean = new LoginFormDisplayBean();
-    bean.setUserLabel(name);
-    bean.setErrorLabel(error);
-    bean.setTimeoutLabel(logout);
-    bean.setPasswordLabel(password);
-
     String author = "author";
     LocalDate date = LocalDate.now();
     String tags = "tag;lol";
@@ -375,8 +282,6 @@ public class NewsManagerDisplayFactoryImplTest {
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
         dateFormat, labelAccroche, labelShowHref);
 
-    NewsFormDisplayBean form = new NewsFormDisplayBeanBuilder().toNewsFormDisplayBean();
-
     PageWrapper<NewsEntryDisplayBean> pageWrapper = new PageWrapper<>();
     pageWrapper.setPage(new PageImpl<>(Lists.newArrayList(displayBean)));
 
@@ -386,13 +291,11 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(displayFactory)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(bean).when(displayFactory).computeLoginFormDisplayBean(Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(pageWrapper).when(displayFactory)
         .computePageWrapperOfNews(Mockito.eq(locale), Mockito.anyInt());
-    BDDMockito.doReturn(form).when(displayFactory).computeForm(Mockito.eq(locale));
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, locale, 0);
 
@@ -403,7 +306,6 @@ public class NewsManagerDisplayFactoryImplTest {
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
         Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeLoginFormDisplayBean(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
@@ -448,17 +350,6 @@ public class NewsManagerDisplayFactoryImplTest {
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
-    String name = "name";
-    String password = "password";
-    String logout = "logout";
-    String error = "error";
-
-    LoginFormDisplayBean bean = new LoginFormDisplayBean();
-    bean.setUserLabel(name);
-    bean.setErrorLabel(error);
-    bean.setTimeoutLabel(logout);
-    bean.setPasswordLabel(password);
-
     String author = "author";
     LocalDate date = LocalDate.now();
     String tags = "tag;lol";
@@ -485,20 +376,16 @@ public class NewsManagerDisplayFactoryImplTest {
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
         dateFormat, labelAccroche, labelShowHref);
 
-    NewsFormDisplayBean form = new NewsFormDisplayBeanBuilder().toNewsFormDisplayBean();
-
     BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(Mockito.eq(locale));
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(displayFactory)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(bean).when(displayFactory).computeLoginFormDisplayBean(Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(Lists.newArrayList(displayBean)).when(displayFactory)
         .computeNewsEntryDisplayBeans(Mockito.eq(locale));
-    BDDMockito.doReturn(form).when(displayFactory).computeForm(Mockito.eq(locale));
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPageCreateNews(BACK_PAGE.NEWS_VIEW, locale);
 
@@ -509,11 +396,9 @@ public class NewsManagerDisplayFactoryImplTest {
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
         Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeLoginFormDisplayBean(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeForm(Mockito.eq(locale));
   }
 
   @Test

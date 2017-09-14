@@ -74,7 +74,6 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   public ModelAndView computeModelAndViewForBackPageCreateNews(BACK_PAGE backPage, Locale locale) {
     ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du formulaire d'entrées de blog pour la page " + backPage.name());
-    newsManager.addObject("newsFormLabels", computeForm(locale));
     newsManager.addObject("newsFormBean", computeNewsRequestForCreateForm());
 
     return newsManager;
@@ -125,7 +124,6 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   public ModelAndView computeModelAndViewForOneNewsEntry(BACK_PAGE backPage, Locale locale, String newsEntryId) {
     ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
     newsManager.addObject("newsFormBean", computeNewsRequestForEditForm(newsEntryId));
-    newsManager.addObject("newsFormLabels", computeForm(locale));
 
     return newsManager;
   }
@@ -201,31 +199,4 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     return contentRequest;
   }
 
-  NewsFormDisplayBean computeForm(Locale locale) {
-    NewsFormDisplayBean formBean = new NewsFormDisplayBean();
-
-    formBean.setTitleLabel(getI18nValue("title.label", locale));
-    formBean.setTitleHelp(getI18nValue("title.help", locale));
-
-    formBean.setAuthorLabel(getI18nValue("author.label", locale));
-    formBean.setAuthorHelp(getI18nValue("author.help", locale));
-
-    formBean.setTagsLabel(getI18nValue("tags.label", locale));
-    formBean.setTagsHelp(getI18nValue("tags.help", locale));
-
-    formBean.setContentLabel(getI18nValue("content.label", locale));
-    formBean.setContentHelp(getI18nValue("content.help", locale));
-
-    formBean.setImageLabel(getI18nValue("image.label", locale));
-    formBean.setImageHelp(getI18nValue("image.help", locale));
-    formBean.setImageDropLabel(getI18nValue("image.drop.label", locale));
-
-    formBean.setLegendLabel(getI18nValue("legend.label", locale));
-    formBean.setLegendHelp(getI18nValue("legend.help", locale));
-
-    formBean.setAltLabel(getI18nValue("alt.label", locale));
-    formBean.setAltHelp(getI18nValue("alt.help", locale));
-
-    return formBean;
-  }
 }

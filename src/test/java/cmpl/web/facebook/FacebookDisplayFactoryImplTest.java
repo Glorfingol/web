@@ -22,9 +22,7 @@ import cmpl.web.builder.ImportablePostBuilder;
 import cmpl.web.builder.MenuItemBuilder;
 import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.core.model.BaseException;
-import cmpl.web.facebook.FacebookDisplayFactoryImpl;
 import cmpl.web.footer.Footer;
-import cmpl.web.login.LoginFormDisplayBean;
 import cmpl.web.menu.MenuItem;
 import cmpl.web.meta.MetaElementToDelete;
 import cmpl.web.page.BACK_PAGE;
@@ -88,58 +86,6 @@ public class FacebookDisplayFactoryImplTest {
   }
 
   @Test
-  public void testComputeImportAll() throws Exception {
-
-    String importAll = "Tout importer";
-
-    BDDMockito.doReturn(importAll).when(facebookDisplayFactoryImpl)
-        .getI18nValue(Mockito.eq("import.all"), Mockito.eq(locale));
-
-    String result = facebookDisplayFactoryImpl.computeImportAll(locale);
-
-    Assert.assertEquals(importAll, result);
-  }
-
-  @Test
-  public void testComputeImportOne() throws Exception {
-
-    String importOne = "Importer";
-
-    BDDMockito.doReturn(importOne).when(facebookDisplayFactoryImpl)
-        .getI18nValue(Mockito.eq("import.one"), Mockito.eq(locale));
-
-    String result = facebookDisplayFactoryImpl.computeImportOne(locale);
-
-    Assert.assertEquals(importOne, result);
-  }
-
-  @Test
-  public void testComputeAccessInformation() throws Exception {
-
-    String accessInformation = "Acces facebook";
-
-    BDDMockito.doReturn(accessInformation).when(facebookDisplayFactoryImpl)
-        .getI18nValue(Mockito.eq("access.information"), Mockito.eq(locale));
-
-    String result = facebookDisplayFactoryImpl.computeAccessInformation(locale);
-
-    Assert.assertEquals(accessInformation, result);
-  }
-
-  @Test
-  public void testComputeAccessTitle() throws Exception {
-
-    String accessTitle = "Acces";
-
-    BDDMockito.doReturn(accessTitle).when(facebookDisplayFactoryImpl)
-        .getI18nValue(Mockito.eq("access.title"), Mockito.eq(locale));
-
-    String result = facebookDisplayFactoryImpl.computeAccessTitle(locale);
-
-    Assert.assertEquals(accessTitle, result);
-  }
-
-  @Test
   public void testComputeModelAndViewForFacebookAccessPage_Not_Connected() throws Exception {
     ModelAndView model = new ModelAndView("facebook_access");
 
@@ -179,42 +125,24 @@ public class FacebookDisplayFactoryImplTest {
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
-    String name = "name";
-    String password = "password";
-    String logout = "logout";
-    String error = "error";
-
-    LoginFormDisplayBean bean = new LoginFormDisplayBean();
-    bean.setUserLabel(name);
-    bean.setErrorLabel(error);
-    bean.setTimeoutLabel(logout);
-    bean.setPasswordLabel(password);
-
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
         .computeDecoratorBackTileName(Mockito.eq(locale));
     BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     BDDMockito.doReturn(metaElements).when(facebookDisplayFactoryImpl).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(bean).when(facebookDisplayFactoryImpl).computeLoginFormDisplayBean(Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(facebookDisplayFactoryImpl).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(facebookDisplayFactoryImpl).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(false).when(facebookDisplayFactoryImpl).isAlreadyConnected();
     BDDMockito.doReturn(model).when(facebookDisplayFactoryImpl)
         .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.FACEBOOK_ACCESS), Mockito.eq(locale));
-    BDDMockito.doReturn("title").when(facebookDisplayFactoryImpl).computeAccessTitle(Mockito.eq(locale));
-    BDDMockito.doReturn("access").when(facebookDisplayFactoryImpl).computeAccessInformation(Mockito.eq(locale));
 
     ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookAccessPage(locale);
 
     Assert.assertEquals("title", result.getModel().get("accessTitle"));
     Assert.assertEquals("access", result.getModel().get("accessInformation"));
 
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeAccessTitle(Mockito.eq(locale));
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeAccessInformation(Mockito.eq(locale));
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeImportAll(Mockito.eq(locale));
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeImportOne(Mockito.eq(locale));
     Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeModelAndViewForFacebookImportPage(
         Mockito.eq(locale));
     Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeRecentFeeds();
@@ -262,17 +190,6 @@ public class FacebookDisplayFactoryImplTest {
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
-    String name = "name";
-    String password = "password";
-    String logout = "logout";
-    String error = "error";
-
-    LoginFormDisplayBean bean = new LoginFormDisplayBean();
-    bean.setUserLabel(name);
-    bean.setErrorLabel(error);
-    bean.setTimeoutLabel(logout);
-    bean.setPasswordLabel(password);
-
     ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").toImportablePost();
     List<ImportablePost> postsToReturn = Lists.newArrayList(post);
 
@@ -283,15 +200,12 @@ public class FacebookDisplayFactoryImplTest {
     BDDMockito.doReturn(metaElements).when(facebookDisplayFactoryImpl).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(bean).when(facebookDisplayFactoryImpl).computeLoginFormDisplayBean(Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(facebookDisplayFactoryImpl).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(facebookDisplayFactoryImpl).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(true).when(facebookDisplayFactoryImpl).isAlreadyConnected();
     BDDMockito.doReturn(model).when(facebookDisplayFactoryImpl)
         .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.FACEBOOK_ACCESS), Mockito.eq(locale));
-    BDDMockito.doReturn("importAll").when(facebookDisplayFactoryImpl).computeImportAll(Mockito.eq(locale));
-    BDDMockito.doReturn("importOne").when(facebookDisplayFactoryImpl).computeImportOne(Mockito.eq(locale));
 
     ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookAccessPage(locale);
 
@@ -299,11 +213,7 @@ public class FacebookDisplayFactoryImplTest {
     Assert.assertEquals("importOne", result.getModel().get("importOneLabel"));
     Assert.assertEquals(postsToReturn, result.getModel().get("feeds"));
 
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeAccessTitle(Mockito.eq(locale));
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeAccessInformation(Mockito.eq(locale));
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeImportAll(Mockito.eq(locale));
     Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeRecentFeeds();
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeImportOne(Mockito.eq(locale));
     Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeModelAndViewForFacebookImportPage(
         Mockito.eq(locale));
   }
@@ -348,42 +258,24 @@ public class FacebookDisplayFactoryImplTest {
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
-    String name = "name";
-    String password = "password";
-    String logout = "logout";
-    String error = "error";
-
-    LoginFormDisplayBean bean = new LoginFormDisplayBean();
-    bean.setUserLabel(name);
-    bean.setErrorLabel(error);
-    bean.setTimeoutLabel(logout);
-    bean.setPasswordLabel(password);
-
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
         .computeDecoratorBackTileName(Mockito.eq(locale));
     BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     BDDMockito.doReturn(metaElements).when(facebookDisplayFactoryImpl).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(bean).when(facebookDisplayFactoryImpl).computeLoginFormDisplayBean(Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(facebookDisplayFactoryImpl).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(facebookDisplayFactoryImpl).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(false).when(facebookDisplayFactoryImpl).isAlreadyConnected();
     BDDMockito.doReturn(model).when(facebookDisplayFactoryImpl)
         .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.FACEBOOK_ACCESS), Mockito.eq(locale));
-    BDDMockito.doReturn("title").when(facebookDisplayFactoryImpl).computeAccessTitle(Mockito.eq(locale));
-    BDDMockito.doReturn("access").when(facebookDisplayFactoryImpl).computeAccessInformation(Mockito.eq(locale));
 
     ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookImportPage(locale);
 
     Assert.assertEquals("title", result.getModel().get("accessTitle"));
     Assert.assertEquals("access", result.getModel().get("accessInformation"));
 
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeAccessTitle(Mockito.eq(locale));
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeAccessInformation(Mockito.eq(locale));
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeImportAll(Mockito.eq(locale));
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeImportOne(Mockito.eq(locale));
     Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeModelAndViewForFacebookAccessPage(
         Mockito.eq(locale));
     Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeRecentFeeds();
@@ -430,17 +322,6 @@ public class FacebookDisplayFactoryImplTest {
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
-    String name = "name";
-    String password = "password";
-    String logout = "logout";
-    String error = "error";
-
-    LoginFormDisplayBean bean = new LoginFormDisplayBean();
-    bean.setUserLabel(name);
-    bean.setErrorLabel(error);
-    bean.setTimeoutLabel(logout);
-    bean.setPasswordLabel(password);
-
     ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").toImportablePost();
     List<ImportablePost> postsToReturn = Lists.newArrayList(post);
 
@@ -451,15 +332,12 @@ public class FacebookDisplayFactoryImplTest {
     BDDMockito.doReturn(metaElements).when(facebookDisplayFactoryImpl).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(bean).when(facebookDisplayFactoryImpl).computeLoginFormDisplayBean(Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(facebookDisplayFactoryImpl).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(facebookDisplayFactoryImpl).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(true).when(facebookDisplayFactoryImpl).isAlreadyConnected();
     BDDMockito.doReturn(model).when(facebookDisplayFactoryImpl)
         .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.FACEBOOK_ACCESS), Mockito.eq(locale));
-    BDDMockito.doReturn("importAll").when(facebookDisplayFactoryImpl).computeImportAll(Mockito.eq(locale));
-    BDDMockito.doReturn("importOne").when(facebookDisplayFactoryImpl).computeImportOne(Mockito.eq(locale));
 
     ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookImportPage(locale);
 
@@ -467,11 +345,7 @@ public class FacebookDisplayFactoryImplTest {
     Assert.assertEquals("importOne", result.getModel().get("importOneLabel"));
     Assert.assertEquals(postsToReturn, result.getModel().get("feeds"));
 
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeAccessTitle(Mockito.eq(locale));
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeAccessInformation(Mockito.eq(locale));
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeImportAll(Mockito.eq(locale));
     Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeRecentFeeds();
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeImportOne(Mockito.eq(locale));
     Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeModelAndViewForFacebookAccessPage(
         Mockito.eq(locale));
   }

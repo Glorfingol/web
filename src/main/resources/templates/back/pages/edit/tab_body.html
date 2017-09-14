@@ -1,11 +1,11 @@
-<form id="newsEntryEditForm" th:object="${updateForm}">
+<form id="pageBodyForm" th:object="${updateForm}">
     <div class="card">
         <div class="card-block">
             <div class="form-control mb-3" id="formInputBody">
-                <label th:text="${updateForm.bodyLabel}" />
+                <label th:text="#{page.body.label}" />
                 <textarea rows="3" id="pageBody" class="form-control" th:field="*{body}"/>
                 <div id="feedbackBody" class="form-control-label"></div>
-                <small class="form-text text-muted" th:text="${updateForm.bodyHelp}"/>
+                <small class="form-text text-muted" th:text="#{page.body.help}"/>
             </div>
             <input type="hidden"  th:field="*{id}"/>
             <input type="hidden"  th:field="*{id}"/>

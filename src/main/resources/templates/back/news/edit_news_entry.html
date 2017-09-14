@@ -2,58 +2,58 @@
 	<div class="card">
 	    <div class="card-block">
 	        <div class="form-control mb-3" id="formInputTitle" >
-		        <label th:text="${newsFormLabels.titleLabel}" />
+		        <label th:text="#{title.label}" />
 		        <input type="text" class="form-control" th:field="*{title}"/>
 		        <div id="feedbackTitle" class="form-control-label"></div>
-		        <small class="form-text text-muted" th:text="${newsFormLabels.titleHelp}"/>
+		        <small class="form-text text-muted" th:text="#{title.help}"/>
 		    </div>
 		    <div class="form-control mb-3" id="formInputAuthor">
-		        <label th:text="${newsFormLabels.authorLabel}" />
+		        <label th:text="#{author.label}" />
 		        <input type="text" class="form-control"  th:field="*{author}"/>
 		        <div id="feedbackAuthor" class="form-control-label" ></div>
-		        <small class="form-text text-muted" th:text="${newsFormLabels.authorHelp}"/>
+		        <small class="form-text text-muted" th:text="#{author.help}"/>
 		    </div>
 		    <div class="form-control mb-3" id="formInputTags">
-		        <label th:text="${newsFormLabels.tagsLabel}" />
+		        <label th:text="#{tags.label}" />
 		        <input type="text" class="form-control" th:field="*{tags}"/>
 		         <div id="feedbackTags" class="form-control-label"></div>
-		        <small class="form-text text-muted" th:text="${newsFormLabels.tagsHelp}"/>
+		        <small class="form-text text-muted" th:text="#{tags.help}"/>
 		    </div>
 		    <div class="form-control mb-3" id="formInputContent">
-		        <label th:text="${newsFormLabels.contentLabel}" />
+		        <label th:text="#{content.label}" />
 		        <textarea rows="3" class="form-control" id="newsContent" th:field="*{content.content}"/>
 		         <div id="feedbackContent" class="form-control-label"></div>
-		        <small class="form-text text-muted" th:text="${newsFormLabels.contentHelp}"/>
+		        <small class="form-text text-muted" th:text="#{content.help}"/>
 		    </div>
 		    <div class="form-control mb-3" id="formInputImage">
 		        <div class="dragndrop">
                     <div class="drop_zone">
-                       <span th:text="${newsFormLabels.imageDropLabel}"/>
+                       <span th:text="#{image.drop.label}"/>
                        <br/>
                        <label class="btn btn-primary mt-3" id="clickHere">
-                             <span th:text="${newsFormLabels.imageLabel}"/>
+                             <span th:text="#{image.label}"/>
                              <i class="fa fa-upload"/>
                             <input type="file" class="form-control-file" th:field="*{image.src}" onchange="previewFile()"/>
                        </label>
                     </div>
                 </div>
 		        <div id="feedbackImage" class="form-control-label"></div>
-		        <small class="form-text text-muted" th:text="${newsFormLabels.imageHelp}"/>
+		        <small class="form-text text-muted" th:text="#{image.help}"/>
 		    </div>
 		     <div class="mb-3" id="formPreviewImage">
 		        <img class="img-fluid mx-auto d-block" th:src="*{image.src}" id="imagePreview"/>
 		     </div>
 		    <div class="form-control mb-3" id="formInputLegend">
-		        <label th:text="${newsFormLabels.legendLabel}" />
+		        <label th:text="#{legend.label}" />
 		        <input type="text" class="form-control" th:field="*{image.legend}"/>
 		         <div id="feedbackLegend" class="form-control-label"></div>
-		        <small class="form-text text-muted" th:text="${newsFormLabels.legendHelp}"/>
+		        <small class="form-text text-muted" th:text="#{legend.help}"/>
 		    </div>
 		    <div class="form-control mb-3" id="formInputAlt">
-		        <label th:text="${newsFormLabels.altLabel}" />
+		        <label th:text="#{alt.label}" />
 		        <input type="text" class="form-control" th:field="*{image.alt}"/>
 		         <div id="feedbackAlt" class="form-control-label"></div>
-		        <small class="form-text text-muted" th:text="${newsFormLabels.altHelp}"/>
+		        <small class="form-text text-muted" th:text="#{alt.help}"/>
 		    </div>
 		    <input type="hidden"  th:field="*{id}"/>
 		    <input type="hidden"  th:field="*{creationDate}"/>

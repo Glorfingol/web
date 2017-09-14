@@ -18,9 +18,10 @@ public class PageConfiguration {
   @Bean
   PagesManagerDisplayFactory pagesManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
       FooterFactory footerFactory, WebMessageSourceImpl messageSource, PageService pageService,
-      MetaElementFactory metaElementFactory) {
+      MetaElementFactory metaElementFactory, MetaElementService metaElementService,
+      OpenGraphMetaElementService openGraphMetaElementService) {
     return new PagesManagerDisplayFactoryImpl(menuFactory, footerFactory, messageSource, metaElementFactory,
-        pageService, contextHolder);
+        pageService, contextHolder, metaElementService, openGraphMetaElementService);
   }
 
   @Bean

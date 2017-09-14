@@ -2,12 +2,13 @@ package cmpl.web.meta;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 import cmpl.web.core.model.BaseEntity;
 
 @Entity(name = "openGraphMetaElement")
-@Table(name = "open_graph_meta_element")
+@Table(name = "open_graph_meta_element", indexes = {@Index(name = "IDX_META", columnList = "page_id,property", unique = true)})
 public class OpenGraphMetaElement extends BaseEntity {
 
   @Column(name = "page_id")

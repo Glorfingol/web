@@ -2,17 +2,22 @@
     <ul class="nav nav-tabs" id="pageTabs" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"  onclick="goToMainTab()">
-                <span th:text="${updateForm.mainTabLabel}"/>
+                <span th:text="#{page.tab.main}"/>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="body-tab" data-toggle="tab" href="#" role="tab"  onclick="goToBodyTab()" >
-              <span th:text="${updateForm.bodyTabLabel}"/>
+              <span th:text="#{page.tab.body}"/>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="meta-tab" data-toggle="tab" href="#" role="tab"  onclick="goToMetaTab()" >
-               <span th:text="${updateForm.metaTabLabel}"/>
+               <span th:text="#{page.tab.meta}"/>
+            </a>
+        </li>
+         <li class="nav-item">
+            <a class="nav-link" id="meta-tab" data-toggle="tab" href="#" role="tab"  onclick="goToOpenGraphMetaTab()" >
+               <span th:text="#{page.tab.open.meta}"/>
             </a>
         </li>
     </ul>
@@ -38,6 +43,13 @@ var goToMetaTab =  function (){
 	 $.get(url, function (data) {
 	     $("#ajaxTab").html(data);
 	   });
+};
+
+var goToOpenGraphMetaTab =  function (){
+    var url = "/manager/pages/"+[[''+${updateForm.id}+'']]+"/_open_graph_meta";
+     $.get(url, function (data) {
+         $("#ajaxTab").html(data);
+       });
 };
 
 var goToMainTab =  function(){

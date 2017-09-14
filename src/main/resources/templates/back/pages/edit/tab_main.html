@@ -1,20 +1,20 @@
-<form id="newsEntryEditForm" th:object="${updateForm}">
+<form id="pageMainForm" th:object="${updateForm}">
     <div class="card">
         <div class="card-block">
            <div class="form-control mb-3" id="formInputName">
-                <label th:text="${updateForm.nameLabel}" />
+                <label th:text="#{page.name.label}" />
                 <input type="text" class="form-control" th:field="*{name}"/>
                 <div id="feedbackName" class="form-control-label"></div>
-                <small class="form-text text-muted" th:text="${updateForm.nameHelp}"/>
+                <small class="form-text text-muted" th:text="#{page.name.help}"/>
             </div>
             <div class="form-control mb-3" id="formInputMenuTitle">
-                <label th:text="${updateForm.menuTitleLabel}" />
+                <label th:text="#{page.menuTitle.label=}" />
                 <input type="text" class="form-control" th:field="*{menuTitle}"/>
                 <div id="feedbackMenuTitle" class="form-control-label" ></div>
-                <small class="form-text text-muted" th:text="${updateForm.menuTitleHelp}"/>
+                <small class="form-text text-muted" th:text="#{page.menuTitle.help}"/>
             </div>
             <div class="form-control mb-3 " id="formInputWithNews">
-                <label th:text="${updateForm.withNewsLabel}" />
+                <label th:text="#{page.withNews.label}" />
                 <div class="form-control-label onoffswitch">
                     <input type="checkbox" id="withNews" name="onoffswitch" class="onoffswitch-checkbox" th:value="${updateForm.withNews}" th:checked="${updateForm.withNews}"/>
                     <label class="onoffswitch-label" for="withNews">
@@ -22,7 +22,7 @@
                       <span class="onoffswitch-switch"></span>
                     </label>
                 </div>
-                <small class="form-text text-muted" th:text="${updateForm.withNewsHelp}"/>
+                <small class="form-text text-muted" th:text="#{page.withNews.help}"/>
             </div>
             <input type="hidden"  th:field="*{id}"/>
             <input type="hidden"  th:field="*{creationDate}"/>

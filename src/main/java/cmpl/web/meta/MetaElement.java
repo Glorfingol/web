@@ -2,12 +2,13 @@ package cmpl.web.meta;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 import cmpl.web.core.model.BaseEntity;
 
 @Entity(name = "metaElement")
-@Table(name = "meta_element")
+@Table(name = "meta_element", indexes = {@Index(name = "IDX_META", columnList = "page_id,name", unique = true)})
 public class MetaElement extends BaseEntity {
 
   @Column(name = "page_id")

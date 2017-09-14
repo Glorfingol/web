@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.footer.Footer;
 import cmpl.web.footer.FooterFactory;
-import cmpl.web.login.LoginFormDisplayBean;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.menu.MenuItem;
 import cmpl.web.message.WebMessageSourceImpl;
@@ -67,8 +66,6 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     model.addObject("mainTitle", computeMainTitle(locale));
     LOGGER.info("Construction des éléments meta pour la page " + backPage.name());
     model.addObject("metaItems", computeMetaElements(locale));
-    LOGGER.info("Construction du formulaire de login pour la page " + backPage.name());
-    model.addObject("loginForm", computeLoginFormDisplayBean(locale));
     LOGGER.info("Construction du lien du back pour la page " + backPage.name());
     model.addObject("hiddenLink", computeHiddenLink(locale));
 
@@ -99,17 +96,6 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
 
   public List<MetaElementToDelete> computeMetaElements(Locale locale) {
     return metaElementFactory.computeMetaElementsForBackPage(locale);
-  }
-
-  public LoginFormDisplayBean computeLoginFormDisplayBean(Locale locale) {
-    LoginFormDisplayBean loginFormDisplayBean = new LoginFormDisplayBean();
-
-    loginFormDisplayBean.setUserLabel(getI18nValue("user.name", locale));
-    loginFormDisplayBean.setPasswordLabel(getI18nValue("user.password", locale));
-    loginFormDisplayBean.setErrorLabel(getI18nValue("user.error", locale));
-    loginFormDisplayBean.setTimeoutLabel(getI18nValue("user.logout", locale));
-
-    return loginFormDisplayBean;
   }
 
 }

@@ -21,7 +21,6 @@ import cmpl.web.builder.MenuItemBuilder;
 import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.footer.Footer;
 import cmpl.web.footer.FooterFactory;
-import cmpl.web.login.LoginFormDisplayBean;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.menu.MenuItem;
 import cmpl.web.message.WebMessageSourceImpl;
@@ -50,26 +49,6 @@ public class BackDisplayFactoryImplTest {
   @Before
   public void setUp() {
     locale = Locale.FRANCE;
-  }
-
-  @Test
-  public void testComputeLoginFormDisplayBean() throws Exception {
-
-    String name = "name";
-    String password = "password";
-    String logout = "logout";
-    String error = "error";
-
-    BDDMockito.doReturn(name).when(displayFactory).getI18nValue(Mockito.eq("user.name"), Mockito.eq(locale));
-    BDDMockito.doReturn(password).when(displayFactory).getI18nValue(Mockito.eq("user.password"), Mockito.eq(locale));
-    BDDMockito.doReturn(logout).when(displayFactory).getI18nValue(Mockito.eq("user.logout"), Mockito.eq(locale));
-    BDDMockito.doReturn(error).when(displayFactory).getI18nValue(Mockito.eq("user.error"), Mockito.eq(locale));
-
-    LoginFormDisplayBean result = displayFactory.computeLoginFormDisplayBean(locale);
-    Assert.assertEquals(name, result.getUserLabel());
-    Assert.assertEquals(password, result.getPasswordLabel());
-    Assert.assertEquals(logout, result.getTimeoutLabel());
-    Assert.assertEquals(error, result.getErrorLabel());
   }
 
   @Test
@@ -174,22 +153,10 @@ public class BackDisplayFactoryImplTest {
     footer.setLibelle("a label");
     footer.setTelephone("0100000000");
 
-    String name = "name";
-    String password = "password";
-    String logout = "logout";
-    String error = "error";
-
-    LoginFormDisplayBean bean = new LoginFormDisplayBean();
-    bean.setUserLabel(name);
-    bean.setErrorLabel(error);
-    bean.setTimeoutLabel(logout);
-    bean.setPasswordLabel(password);
-
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(displayFactory)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(bean).when(displayFactory).computeLoginFormDisplayBean(Mockito.eq(locale));
     BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
     BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
@@ -200,7 +167,6 @@ public class BackDisplayFactoryImplTest {
 
     Assert.assertEquals(metaElements, result.getModel().get("metaItems"));
     Assert.assertEquals(backMenu, result.getModel().get("menuItems"));
-    Assert.assertEquals(bean, result.getModel().get("loginForm"));
     Assert.assertEquals(footer, result.getModel().get("footer"));
     Assert.assertEquals(title, result.getModel().get("mainTitle"));
     Assert.assertEquals(href, result.getModel().get("hiddenLink"));
@@ -209,7 +175,6 @@ public class BackDisplayFactoryImplTest {
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
         Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeLoginFormDisplayBean(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));

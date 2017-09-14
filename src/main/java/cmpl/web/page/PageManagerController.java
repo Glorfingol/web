@@ -106,4 +106,10 @@ public class PageManagerController {
     return pagesManagerDisplayFactory.computeModelAndViewForUpdatePageMeta(Locale.FRANCE, pageId);
   }
 
+  @GetMapping(value = "/manager/pages/{pageId}/_open_graph_meta")
+  public ModelAndView printViewUpdatePageOpenGraphMeta(@PathVariable(value = "pageId") String pageId) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie meta");
+    return pagesManagerDisplayFactory.computeModelAndViewForUpdatePageOpenGraphMeta(Locale.FRANCE, pageId);
+  }
+
 }
