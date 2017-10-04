@@ -10,4 +10,6 @@ public interface MetaElementValidator {
 
   Error validateCreate(String pageId, OpenGraphMetaElementCreateForm form, Locale locale);
 
+  Error validateDelete(String id, Locale locale);
+
 }

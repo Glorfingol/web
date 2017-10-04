@@ -2,6 +2,7 @@ package cmpl.web.meta;
 
 public enum META_ELEMENT_ERROR_CAUSE {
 
+  EMPTY_ID("empty.meta.id"),
   EMPTY_NAME("empty.meta.name"),
   EMPTY_CONTENT("empty.meta.content"),
   EMPTY_PAGE_ID("empty.meta.pageId"),

@@ -1,0 +1,49 @@
+<form id="menuEditForm" th:object="${updateForm}">
+    <div class="card">
+        <div class="card-block">
+            <div class="form-control mb-3" id="formInputTitle" >
+                <label th:text="#{menu.title.label}" />
+                <input type="text" class="form-control" th:field="*{title}"/>
+                <div id="feedbackTitle" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{menu.title.help}"/>
+            </div>
+            <div class="form-control mb-3" id="formInputContent">
+                <label th:text="#{menu.page.label}" />
+                 <select th:field="*{pageId}" class="form-control">
+                    <option th:each="page : ${pagesThatCanBeLinkedTo}" th:value="${page.id}" th:text="${page.name}"></option>
+                 </select>
+                 <div id="feedbackPage" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{menu.page.help}"/>
+            </div>
+            <div class="form-control mb-3" id="formInputContent">
+                <label th:text="#{menu.parent.label}" />
+                <select th:field="*{parentId}" class="form-control">
+                    <option value=""></option>
+                    <option th:each="menu : ${menusThatCanBeParents}" th:value="${menu.id}" th:text="${menu.title}"></option>
+                </select>
+                 <div id="feedbackParent" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{menu.parent.help}"/>
+            </div>
+             <div class="form-control mb-3" id="formInputContent">
+                <label th:text="#{menu.order.label}" />
+                <input type="number" class="form-control" th:field="*{orderInMenu}"/>
+                 <div id="feedbackOrder" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{menu.order.help}"/>
+            </div>
+            <input type="hidden"  th:field="*{id}"/>
+            <input type="hidden"  th:field="*{href}"/>
+            <input type="hidden"  th:field="*{label}"/>
+            <input type="hidden"  th:field="*{creationDate}"/>
+            <input type="hidden"  th:field="*{modificationDate}"/>
+        </div>
+        <div class="card-footer">
+            <div class="float-right">
+              <a class="btn btn-md btn-danger fa fa-times fa-white"  onclick="cancelUpdateMenu()"/>
+              <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postUpdateMenuForm()"/>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="card">
+    <div class="loader"/> 
+</div>

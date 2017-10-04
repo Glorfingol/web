@@ -83,4 +83,17 @@ public class MetaElementValidatorImpl implements MetaElementValidator {
   String getI18n(String key, Locale locale) {
     return messageSource.getMessage(key, null, locale);
   }
+
+  @Override
+  public Error validateDelete(String id, Locale locale) {
+    List<ErrorCause> causes = new ArrayList<>();
+    if (!isStringValid(id)) {
+      causes.add(computeCause(META_ELEMENT_ERROR_CAUSE.EMPTY_CONTENT, locale));
+    }
+    if (!CollectionUtils.isEmpty(causes)) {
+      return computeError(causes);
+    }
+
+    return null;
+  }
 }

@@ -1,0 +1,14 @@
+<div class="card mb-3" th:fragment="menuElement(menuBean)">
+    <div class="card-block">
+        <div class="form-inline">
+           <div>
+              <span th:text="${menuBean.title}"/>
+           </div>
+       </div>
+    </div>
+    <div class="card-footer">
+        <div class="float-right">
+            <a  th:href="'/manager/menus/' + ${menuBean.id}" class=" btn-md btn bt-primary fa fa-edit"/>
+        </div>
+    </div>
+</div>

@@ -59,4 +59,21 @@ public class PageValidatorImpl implements PageValidator {
     return messageSource.getMessage(key, null, locale);
   }
 
+  @Override
+  public Error validateUpdate(PageUpdateForm form, Locale locale) {
+    List<ErrorCause> causes = new ArrayList<>();
+    if (!isStringValid(form.getName())) {
+      causes.add(computeCause(PAGE_ERROR_CAUSE.EMPTY_NAME, locale));
+    }
+    if (!isStringValid(form.getMenuTitle())) {
+      causes.add(computeCause(PAGE_ERROR_CAUSE.EMPTY_MENU_TITLE, locale));
+    }
+
+    if (!CollectionUtils.isEmpty(causes)) {
+      return computeError(causes);
+    }
+
+    return null;
+  }
+
 }

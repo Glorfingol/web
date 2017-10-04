@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cmpl.web.core.model.BaseException;
+
 @Controller
 public class MetaManagerController {
 
@@ -46,8 +48,15 @@ public class MetaManagerController {
   }
 
   @DeleteMapping(value = "/manager/pages/{pageId}/metas/{metaId}", produces = "application/json")
-  public void deleteMetaElement() {
-
+  public ResponseEntity<MetaElementResponse> deleteMetaElement(@PathVariable(name = "metaId") String metaId) {
+    LOGGER.info("Tentative de création d'un meta element");
+    try {
+      dispatcher.deleteMetaEntity(metaId, Locale.FRANCE);
+    } catch (BaseException e) {
+      LOGGER.error("Echec de la suppression de la balise meta " + metaId, e);
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PostMapping(value = "/manager/pages/{pageId}/openGraphMetas", produces = "application/json")
@@ -70,7 +79,17 @@ public class MetaManagerController {
   }
 
   @DeleteMapping(value = "/manager/pages/{pageId}/openGraphMetas/{openGraphMetaId}", produces = "application/json")
-  public void deleteOpenGraphMetaElement() {
+  public ResponseEntity<MetaElementResponse> deleteOpenGraphMetaElement(
+      @PathVariable(name = "openGraphMetaId") String openGraphMetaId) {
+
+    LOGGER.info("Tentative de création d'un meta element");
+    try {
+      dispatcher.deleteOpenGraphMetaEntity(openGraphMetaId, Locale.FRANCE);
+    } catch (BaseException e) {
+      LOGGER.error("Echec de la suppression de la balise open graph meta " + openGraphMetaId, e);
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    return new ResponseEntity<>(HttpStatus.OK);
 
   }
 

@@ -31,6 +31,10 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
   private final MetaElementService metaElementService;
   private final ContextHolder contextHolder;
 
+  private static final String CREATE_FORM = "createForm";
+  private static final String UPDATE_FORM = "updateForm";
+  private static final String META_ELEMENTS = "metaElements";
+
   public PagesManagerDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
       WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory, PageService pageService,
       ContextHolder contextHolder, MetaElementService metaElementService,
@@ -47,14 +51,14 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
     ModelAndView pagesManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction des pages pour la page " + backPage.name());
 
-    PageWrapper<PageDTO> pagedPageDTOWrapped = computePageWrapperOfNews(locale, pageNumber);
+    PageWrapper<PageDTO> pagedPageDTOWrapped = computePageWrapperOfPages(locale, pageNumber);
 
     pagesManager.addObject("wrappedPages", pagedPageDTOWrapped);
 
     return pagesManager;
   }
 
-  PageWrapper<PageDTO> computePageWrapperOfNews(Locale locale, int pageNumber) {
+  PageWrapper<PageDTO> computePageWrapperOfPages(Locale locale, int pageNumber) {
     Page<PageDTO> pagedPageDTOEntries = computePagesEntries(pageNumber);
 
     boolean isFirstPage = pagedPageDTOEntries.isFirst();
@@ -97,7 +101,7 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
   public ModelAndView computeModelAndViewForUpdatePage(BACK_PAGE backPage, Locale locale, String pageId) {
     ModelAndView pageManager = super.computeModelAndViewForBackPage(backPage, locale);
     PageDTO page = pageService.getEntity(Long.parseLong(pageId));
-    pageManager.addObject("updateForm", createUpdateForm(page));
+    pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
     return pageManager;
   }
 
@@ -105,7 +109,7 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
   public ModelAndView computeModelAndViewForCreatePage(BACK_PAGE backPage, Locale locale) {
     ModelAndView pageManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du formulaire de creation des pages ");
-    pageManager.addObject("createForm", computeCreateForm());
+    pageManager.addObject(CREATE_FORM, computeCreateForm());
     return pageManager;
   }
 
@@ -117,7 +121,7 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
   public ModelAndView computeModelAndViewForUpdatePageMain(Locale locale, String pageId) {
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_main");
     PageDTO page = pageService.getEntity(Long.parseLong(pageId));
-    pageManager.addObject("updateForm", createUpdateForm(page));
+    pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
     return pageManager;
   }
 
@@ -125,7 +129,7 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
   public ModelAndView computeModelAndViewForUpdatePageBody(Locale locale, String pageId) {
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_body");
     PageDTO page = pageService.getEntity(Long.parseLong(pageId));
-    pageManager.addObject("updateForm", createUpdateForm(page));
+    pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
     return pageManager;
   }
 
@@ -133,12 +137,12 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
   public ModelAndView computeModelAndViewForUpdatePageMeta(Locale locale, String pageId) {
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_meta");
     List<MetaElementDTO> metaElements = metaElementService.findMetaElementsByPageId(pageId);
-    pageManager.addObject("metaElements", metaElements);
-    pageManager.addObject("createForm", createMetaElementCreateForm(pageId, locale));
+    pageManager.addObject(META_ELEMENTS, metaElements);
+    pageManager.addObject(CREATE_FORM, createMetaElementCreateForm(pageId));
     return pageManager;
   }
 
-  MetaElementCreateForm createMetaElementCreateForm(String pageId, Locale locale) {
+  MetaElementCreateForm createMetaElementCreateForm(String pageId) {
     MetaElementCreateForm createForm = new MetaElementCreateForm();
     createForm.setPageId(pageId);
     return createForm;
@@ -148,12 +152,12 @@ public class PagesManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
   public ModelAndView computeModelAndViewForUpdatePageOpenGraphMeta(Locale locale, String pageId) {
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_open_graph_meta");
     List<OpenGraphMetaElementDTO> metaElements = openGraphMetaElementService.findOpenGraphMetaElementsByPageId(pageId);
-    pageManager.addObject("metaElements", metaElements);
-    pageManager.addObject("createForm", createOpenGraphMetaElementCreateForm(pageId, locale));
+    pageManager.addObject(META_ELEMENTS, metaElements);
+    pageManager.addObject(CREATE_FORM, createOpenGraphMetaElementCreateForm(pageId));
     return pageManager;
   }
 
-  OpenGraphMetaElementCreateForm createOpenGraphMetaElementCreateForm(String pageId, Locale locale) {
+  OpenGraphMetaElementCreateForm createOpenGraphMetaElementCreateForm(String pageId) {
     OpenGraphMetaElementCreateForm createForm = new OpenGraphMetaElementCreateForm();
     createForm.setPageId(pageId);
     return createForm;

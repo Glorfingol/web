@@ -2,6 +2,7 @@ package cmpl.web.meta;
 
 import java.util.Locale;
 
+import cmpl.web.core.model.BaseException;
 import cmpl.web.core.model.Error;
 
 public class MetaElementDispatcherImpl implements MetaElementDispatcher {
@@ -49,6 +50,24 @@ public class MetaElementDispatcherImpl implements MetaElementDispatcher {
     OpenGraphMetaElementDTO metaElementToCreate = translator.fromCreateFormToDTO(pageId, form);
     OpenGraphMetaElementDTO createdMetaElement = openGraphMetaElementService.createEntity(metaElementToCreate);
     return translator.fromDTOToResponse(createdMetaElement);
+  }
+
+  @Override
+  public void deleteMetaEntity(String metaId, Locale locale) throws BaseException {
+    Error error = validator.validateDelete(metaId, locale);
+    if (error != null) {
+      throw new BaseException(error.getCauses().get(0).getMessage());
+    }
+    metaElementService.deleteEntity(Long.parseLong(metaId));
+  }
+
+  @Override
+  public void deleteOpenGraphMetaEntity(String openGraphMetaId, Locale locale) throws BaseException {
+    Error error = validator.validateDelete(openGraphMetaId, locale);
+    if (error != null) {
+      throw new BaseException(error.getCauses().get(0).getMessage());
+    }
+    openGraphMetaElementService.deleteEntity(Long.parseLong(openGraphMetaId));
   }
 
 }

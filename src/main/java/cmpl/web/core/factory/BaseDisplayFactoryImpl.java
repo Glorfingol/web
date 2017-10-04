@@ -28,7 +28,7 @@ public class BaseDisplayFactoryImpl extends BaseFactoryImpl implements BaseDispl
 
   @Override
   public String computeHiddenLink(Locale locale) {
-    return getI18nValue("back.news.href", locale);
+    return getI18nValue("back.pages.href", locale);
   }
 
   @Override

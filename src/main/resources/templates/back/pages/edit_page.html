@@ -1,62 +1,81 @@
-<div role="tabpanel">
-    <ul class="nav nav-tabs" id="pageTabs" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"  onclick="goToMainTab()">
-                <span th:text="#{page.tab.main}"/>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="body-tab" data-toggle="tab" href="#" role="tab"  onclick="goToBodyTab()" >
-              <span th:text="#{page.tab.body}"/>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="meta-tab" data-toggle="tab" href="#" role="tab"  onclick="goToMetaTab()" >
-               <span th:text="#{page.tab.meta}"/>
-            </a>
-        </li>
-         <li class="nav-item">
-            <a class="nav-link" id="meta-tab" data-toggle="tab" href="#" role="tab"  onclick="goToOpenGraphMetaTab()" >
-               <span th:text="#{page.tab.open.meta}"/>
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content" id="pageTabContent">
-        <div role="tabpanel" class="tab-pane fade active show" id="ajaxTab">
-        </div>
-    </div>
+<div class="card">
+	<div role="tabpanel" class="card-header">
+	    <div class="mb-3">
+		    <span th:text="#{page.current}"></span>
+		    <span th:text="${updateForm.name}"></span>
+		</div>
+	    <ul class="nav nav-tabs card-header-tabs" id="pageTabs" role="tablist">
+	        <li class="nav-item">
+	            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"  onclick="goToMainTab()">
+	                <span th:text="#{page.tab.main}"/>
+	            </a>
+	        </li>
+	        <li class="nav-item">
+	            <a class="nav-link" id="body-tab" data-toggle="tab" href="#" role="tab"  onclick="goToBodyTab()" >
+	              <span th:text="#{page.tab.body}"/>
+	            </a>
+	        </li>
+	        <li class="nav-item">
+	            <a class="nav-link" id="meta-tab" data-toggle="tab" href="#" role="tab"  onclick="goToMetaTab()" >
+	               <span th:text="#{page.tab.meta}"/>
+	            </a>
+	        </li>
+	         <li class="nav-item">
+	            <a class="nav-link" id="meta-tab" data-toggle="tab" href="#" role="tab"  onclick="goToOpenGraphMetaTab()" >
+	               <span th:text="#{page.tab.open.meta}"/>
+	            </a>
+	        </li>
+	    </ul>
+	</div>
+	<div class="tab-content card-block" id="pageTabContent">
+	    <div role="tabpanel" class="tab-pane fade active show" id="ajaxTab">
+	    </div>
+	</div>
 </div>
 <div class="card">
     <div class="loader"/> 
 </div>
 <script th:inline="javascript">
+var currentTab = "";
 var goToBodyTab =  function(){
-	var url = "/manager/pages/"+[[''+${updateForm.id}+'']]+"/_body";
-    $.get(url, function (data) {
-     $("#ajaxTab").html(data);
-     CKEDITOR.replace("pageBody");
-   });
+	if(currentTab !== "body"){
+	  var url = "/manager/pages/"+[[''+${updateForm.id}+'']]+"/_body";
+	    $.get(url, function (data) {
+	     $("#ajaxTab").html(data);
+	     CKEDITOR.replace("pageBody");
+	     currentTab = "body";
+	   });
+	}
 };
 
 var goToMetaTab =  function (){
-	var url = "/manager/pages/"+[[''+${updateForm.id}+'']]+"/_meta";
-	 $.get(url, function (data) {
-	     $("#ajaxTab").html(data);
-	   });
+    if(currentTab !== "meta"){
+	   var url = "/manager/pages/"+[[''+${updateForm.id}+'']]+"/_meta";
+	     $.get(url, function (data) {
+	         $("#ajaxTab").html(data);
+	         currentTab = "meta";
+	       });
+    }
 };
 
 var goToOpenGraphMetaTab =  function (){
-    var url = "/manager/pages/"+[[''+${updateForm.id}+'']]+"/_open_graph_meta";
-     $.get(url, function (data) {
-         $("#ajaxTab").html(data);
-       });
+	if(currentTab !== "open_graph_meta"){
+       var url = "/manager/pages/"+[[''+${updateForm.id}+'']]+"/_open_graph_meta";
+       $.get(url, function (data) {
+           $("#ajaxTab").html(data);
+           currentTab = "open_graph_meta";
+         });
+    }
 };
 
 var goToMainTab =  function(){
-	var url = "/manager/pages/"+[[''+${updateForm.id}+'']]+"/_main";
-	 $.get(url, function (data) {
-	     $("#ajaxTab").html(data);
-	   });
+	if(currentTab !== "main"){
+	 var url = "/manager/pages/"+[[''+${updateForm.id}+'']]+"/_main";
+     $.get(url, function (data) {
+         $("#ajaxTab").html(data);
+         currentTab = "main";
+       });
+	 }
 };
 
 $(document).ready(function(){

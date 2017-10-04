@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -77,6 +78,24 @@ public class PageManagerController {
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
+      return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+  }
+
+  @PutMapping(value = "/manager/pages/{pageId}", produces = "application/json")
+  @ResponseBody
+  public ResponseEntity<PageResponse> updatePage(@RequestBody PageUpdateForm updateForm) {
+
+    LOGGER.info("Tentative de modification d'une page");
+    try {
+      PageResponse response = pageDispatcher.updateEntity(updateForm, Locale.FRANCE);
+      if (response.getPage() != null) {
+        LOGGER.info("Entrée modifiée, id " + response.getPage().getId());
+      }
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      LOGGER.error("Echec de la modification de l'entrée", e);
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 

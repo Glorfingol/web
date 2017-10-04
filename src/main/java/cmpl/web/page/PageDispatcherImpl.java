@@ -32,4 +32,26 @@ public class PageDispatcherImpl implements PageDispatcher {
     return translator.fromDTOToResponse(createdPage);
   }
 
+  @Override
+  public PageResponse updateEntity(PageUpdateForm form, Locale locale) {
+
+    Error error = validator.validateUpdate(form, locale);
+
+    if (error != null) {
+      PageResponse response = new PageResponse();
+      response.setError(error);
+      return response;
+    }
+
+    PageDTO pageToUpdate = pageService.getEntity(form.getId());
+    pageToUpdate.setBody(form.getBody());
+    pageToUpdate.setMenuTitle(form.getMenuTitle());
+    pageToUpdate.setName(form.getName());
+    pageToUpdate.setWithNews(form.isWithNews());
+
+    PageDTO updatedPage = pageService.updateEntity(pageToUpdate);
+
+    return translator.fromDTOToResponse(updatedPage);
+  }
+
 }
