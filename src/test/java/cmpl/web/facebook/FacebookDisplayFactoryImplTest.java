@@ -22,7 +22,6 @@ import cmpl.web.builder.ImportablePostBuilder;
 import cmpl.web.builder.MenuItemBuilder;
 import cmpl.web.builder.MetaElementBuilder;
 import cmpl.web.core.model.BaseException;
-import cmpl.web.footer.Footer;
 import cmpl.web.menu.MenuItem;
 import cmpl.web.meta.MetaElementToDelete;
 import cmpl.web.page.BACK_PAGE;
@@ -120,28 +119,19 @@ public class FacebookDisplayFactoryImplTest {
 
     List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
 
-    Footer footer = new Footer();
-    footer.setRue("an adress");
-    footer.setLibelle("a label");
-    footer.setTelephone("0100000000");
-
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
         .computeDecoratorBackTileName(Mockito.eq(locale));
     BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     BDDMockito.doReturn(metaElements).when(facebookDisplayFactoryImpl).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(footer).when(facebookDisplayFactoryImpl).computeFooter(Mockito.eq(locale));
-    BDDMockito.doReturn(title).when(facebookDisplayFactoryImpl).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(false).when(facebookDisplayFactoryImpl).isAlreadyConnected();
     BDDMockito.doReturn(model).when(facebookDisplayFactoryImpl)
         .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.FACEBOOK_ACCESS), Mockito.eq(locale));
 
     ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookAccessPage(locale);
-
-    Assert.assertEquals("title", result.getModel().get("accessTitle"));
-    Assert.assertEquals("access", result.getModel().get("accessInformation"));
+    Assert.assertEquals("login", result.getModel().get("content"));
 
     Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeModelAndViewForFacebookImportPage(
         Mockito.eq(locale));
@@ -185,11 +175,6 @@ public class FacebookDisplayFactoryImplTest {
 
     List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
 
-    Footer footer = new Footer();
-    footer.setRue("an adress");
-    footer.setLibelle("a label");
-    footer.setTelephone("0100000000");
-
     ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").toImportablePost();
     List<ImportablePost> postsToReturn = Lists.newArrayList(post);
 
@@ -200,8 +185,6 @@ public class FacebookDisplayFactoryImplTest {
     BDDMockito.doReturn(metaElements).when(facebookDisplayFactoryImpl).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(footer).when(facebookDisplayFactoryImpl).computeFooter(Mockito.eq(locale));
-    BDDMockito.doReturn(title).when(facebookDisplayFactoryImpl).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(true).when(facebookDisplayFactoryImpl).isAlreadyConnected();
     BDDMockito.doReturn(model).when(facebookDisplayFactoryImpl)
@@ -209,8 +192,6 @@ public class FacebookDisplayFactoryImplTest {
 
     ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookAccessPage(locale);
 
-    Assert.assertEquals("importAll", result.getModel().get("importAllLabel"));
-    Assert.assertEquals("importOne", result.getModel().get("importOneLabel"));
     Assert.assertEquals(postsToReturn, result.getModel().get("feeds"));
 
     Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeRecentFeeds();
@@ -253,28 +234,19 @@ public class FacebookDisplayFactoryImplTest {
 
     List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
 
-    Footer footer = new Footer();
-    footer.setRue("an adress");
-    footer.setLibelle("a label");
-    footer.setTelephone("0100000000");
-
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
         .computeDecoratorBackTileName(Mockito.eq(locale));
     BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     BDDMockito.doReturn(metaElements).when(facebookDisplayFactoryImpl).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(footer).when(facebookDisplayFactoryImpl).computeFooter(Mockito.eq(locale));
-    BDDMockito.doReturn(title).when(facebookDisplayFactoryImpl).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(false).when(facebookDisplayFactoryImpl).isAlreadyConnected();
     BDDMockito.doReturn(model).when(facebookDisplayFactoryImpl)
         .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.FACEBOOK_ACCESS), Mockito.eq(locale));
 
     ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookImportPage(locale);
-
-    Assert.assertEquals("title", result.getModel().get("accessTitle"));
-    Assert.assertEquals("access", result.getModel().get("accessInformation"));
+    Assert.assertEquals("login", result.getModel().get("content"));
 
     Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeModelAndViewForFacebookAccessPage(
         Mockito.eq(locale));
@@ -317,11 +289,6 @@ public class FacebookDisplayFactoryImplTest {
 
     List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
 
-    Footer footer = new Footer();
-    footer.setRue("an adress");
-    footer.setLibelle("a label");
-    footer.setTelephone("0100000000");
-
     ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").toImportablePost();
     List<ImportablePost> postsToReturn = Lists.newArrayList(post);
 
@@ -332,8 +299,6 @@ public class FacebookDisplayFactoryImplTest {
     BDDMockito.doReturn(metaElements).when(facebookDisplayFactoryImpl).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(footer).when(facebookDisplayFactoryImpl).computeFooter(Mockito.eq(locale));
-    BDDMockito.doReturn(title).when(facebookDisplayFactoryImpl).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(true).when(facebookDisplayFactoryImpl).isAlreadyConnected();
     BDDMockito.doReturn(model).when(facebookDisplayFactoryImpl)
@@ -341,8 +306,6 @@ public class FacebookDisplayFactoryImplTest {
 
     ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookImportPage(locale);
 
-    Assert.assertEquals("importAll", result.getModel().get("importAllLabel"));
-    Assert.assertEquals("importOne", result.getModel().get("importOneLabel"));
     Assert.assertEquals(postsToReturn, result.getModel().get("feeds"));
 
     Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeRecentFeeds();
