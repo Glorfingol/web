@@ -10,7 +10,6 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 
 import cmpl.web.core.context.ContextHolder;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.message.WebMessageSourceImpl;
 import cmpl.web.meta.MetaElementFactory;
@@ -30,9 +29,6 @@ public class FacebookConfigurationTest {
 
   @Mock
   private MenuFactory menuFactory;
-
-  @Mock
-  private FooterFactory footerFactory;
 
   @Mock
   private MetaElementFactory metaElementFactory;
@@ -74,8 +70,8 @@ public class FacebookConfigurationTest {
 
   @Test
   public void testFacebookDisplayFactory() throws Exception {
-    FacebookDisplayFactory result = configuration.facebookDisplayFactory(menuFactory, footerFactory, messageSource,
-        facebookService, metaElementFactory);
+    FacebookDisplayFactory result = configuration.facebookDisplayFactory(menuFactory, messageSource, facebookService,
+        metaElementFactory);
 
     Assert.assertEquals(FacebookDisplayFactoryImpl.class, result.getClass());
   }

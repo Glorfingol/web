@@ -24,11 +24,23 @@
                 </div>
                 <small class="form-text text-muted" th:text="#{page.withNews.help}"/>
             </div>
-		    <div class="form-control mb-3" id="formInputContent">
+		    <div class="form-control mb-3" id="formInputBody">
                 <label th:text="#{page.body.label}" />
                 <textarea rows="3" id="pageBody" class="form-control" th:field="*{body}"/>
                 <div id="feedbackBody" class="form-control-label"></div>
                 <small class="form-text text-muted" th:text="#{page.body.help}"/>
+            </div>
+            <div class="form-control mb-3" id="formInputHeader">
+                <label th:text="#{page.header.label}" />
+                <textarea rows="3" id="pageHeader" class="form-control" th:field="*{header}"/>
+                <div id="feedbackHeader" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{page.header.help}"/>
+            </div>
+            <div class="form-control mb-3" id="formInputFooter">
+                <label th:text="#{page.footer.label}" />
+                <textarea rows="3" id="pageFooter" class="form-control" th:field="*{footer}"/>
+                <div id="feedbackFooter" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{page.footer.help}"/>
             </div>
         </div>
         <div class="card-footer">
@@ -45,5 +57,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
         CKEDITOR.replace("pageBody");
+        CKEDITOR.replace("pageHeader");
+        CKEDITOR.replace("pageFooter");
 });
 </script>

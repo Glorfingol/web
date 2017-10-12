@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
+import cmpl.web.core.error.ERROR_CAUSE;
 import cmpl.web.core.model.Error;
 import cmpl.web.core.model.ErrorCause;
+import cmpl.web.core.validator.BaseValidator;
 import cmpl.web.message.WebMessageSourceImpl;
 
 /**
@@ -17,12 +18,10 @@ import cmpl.web.message.WebMessageSourceImpl;
  * @author Louis
  *
  */
-public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator {
-
-  private final WebMessageSourceImpl messageSource;
+public class NewsEntryRequestValidatorImpl extends BaseValidator implements NewsEntryRequestValidator {
 
   public NewsEntryRequestValidatorImpl(WebMessageSourceImpl messageSource) {
-    this.messageSource = messageSource;
+    super(messageSource);
   }
 
   @Override
@@ -79,7 +78,7 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
     List<ErrorCause> causes = new ArrayList<>();
     if (!isStringValid(id)) {
 
-      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_NEWS_ID, locale);
+      ErrorCause cause = computeCause(ERROR_CAUSE.EMPTY_NEWS_ID, locale);
       causes.add(cause);
     }
     return causes;
@@ -91,7 +90,7 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
       return causes;
     }
     if (!isNewsContentValid(content)) {
-      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_CONTENT, locale);
+      ErrorCause cause = computeCause(ERROR_CAUSE.EMPTY_NEWS_CONTENT, locale);
       causes.add(cause);
     }
     return causes;
@@ -105,12 +104,12 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
     }
 
     if (!isStringValid(entry.getTitle())) {
-      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_TITLE, locale);
+      ErrorCause cause = computeCause(ERROR_CAUSE.EMPTY_NEWS_TITLE, locale);
       causes.add(cause);
 
     }
     if (!isStringValid(entry.getAuthor())) {
-      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_AUTHOR, locale);
+      ErrorCause cause = computeCause(ERROR_CAUSE.EMPTY_NEWS_AUTHOR, locale);
       causes.add(cause);
     }
     return causes;
@@ -124,46 +123,24 @@ public class NewsEntryRequestValidatorImpl implements NewsEntryRequestValidator 
     }
 
     if (!isStringValid(imageRequest.getAlt())) {
-      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_ALT, locale);
+      ErrorCause cause = computeCause(ERROR_CAUSE.EMPTY_NEWS_ALT, locale);
       causes.add(cause);
 
     }
     if (!isStringValid(imageRequest.getLegend())) {
-      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_LEGEND, locale);
+      ErrorCause cause = computeCause(ERROR_CAUSE.EMPTY_NEWS_LEGEND, locale);
       causes.add(cause);
     }
     if (!isStringValid(imageRequest.getSrc())) {
-      ErrorCause cause = computeCause(NEWS_ERROR_CAUSE.EMPTY_SRC, locale);
+      ErrorCause cause = computeCause(ERROR_CAUSE.EMPTY_NEWS_SRC, locale);
       causes.add(cause);
     }
 
     return causes;
   }
 
-  Error computeError(List<ErrorCause> causes) {
-    Error error = new Error();
-    error.setCode(NEWS_ERROR.INVALID_REQUEST.toString());
-    error.setCauses(causes);
-    return error;
-  }
-
-  ErrorCause computeCause(NEWS_ERROR_CAUSE errorCause, Locale locale) {
-    ErrorCause cause = new ErrorCause();
-    cause.setCode(errorCause.toString());
-    cause.setMessage(getI18n(errorCause.getCauseKey(), locale));
-    return cause;
-  }
-
   boolean isNewsContentValid(NewsContentRequest content) {
     return isStringValid(content.getContent());
-  }
-
-  boolean isStringValid(String stringToValidate) {
-    return StringUtils.hasText(stringToValidate);
-  }
-
-  String getI18n(String key, Locale locale) {
-    return messageSource.getMessage(key, null, locale);
   }
 
 }

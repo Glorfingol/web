@@ -26,6 +26,12 @@ public class ContextConfiguration {
   @Value("${templateBasePath}")
   String templateBasePath;
 
+  @Value("${mediaBasePath}")
+  String mediaBasePath;
+
+  @Value("${mediaDisplayPath}")
+  String mediaDisplayPath;
+
   @Bean
   ContextHolder contextHolder() {
 
@@ -38,6 +44,8 @@ public class ContextConfiguration {
     contextHolder.setImageFileSrc(fileBasePath);
     contextHolder.setElementsPerPage(10);
     contextHolder.setTemplateBasePath(templateBasePath);
+    contextHolder.setMediaBasePath(mediaBasePath);
+    contextHolder.setMediaDisplayPath(mediaDisplayPath);
     return contextHolder;
 
   }

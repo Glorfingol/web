@@ -31,8 +31,6 @@ import cmpl.web.builder.NewsImageDTOBuilder;
 import cmpl.web.builder.NewsImageRequestBuilder;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.core.model.PageWrapper;
-import cmpl.web.footer.Footer;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.menu.MenuItem;
 import cmpl.web.message.WebMessageSourceImpl;
@@ -45,8 +43,6 @@ public class NewsManagerDisplayFactoryImplTest {
 
   @Mock
   private MenuFactory menuFactory;
-  @Mock
-  private FooterFactory footerFactory;
   @Mock
   private MetaElementFactory metaElementFactory;
   @Mock
@@ -169,11 +165,6 @@ public class NewsManagerDisplayFactoryImplTest {
 
     List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
 
-    Footer footer = new Footer();
-    footer.setRue("an adress");
-    footer.setLibelle("a label");
-    footer.setTelephone("0100000000");
-
     String author = "author";
     LocalDate date = LocalDate.now();
     String tags = "tag;lol";
@@ -196,8 +187,6 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(displayFactory)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
-    BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(request).when(displayFactory).computeNewsEntryRequest(Mockito.any(NewsEntryDTO.class));
     BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.anyLong());
@@ -211,8 +200,6 @@ public class NewsManagerDisplayFactoryImplTest {
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
         Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeNewsEntryRequest(Mockito.any(NewsEntryDTO.class));
 
@@ -251,11 +238,6 @@ public class NewsManagerDisplayFactoryImplTest {
 
     List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
 
-    Footer footer = new Footer();
-    footer.setRue("an adress");
-    footer.setLibelle("a label");
-    footer.setTelephone("0100000000");
-
     String author = "author";
     LocalDate date = LocalDate.now();
     String tags = "tag;lol";
@@ -291,8 +273,6 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(displayFactory)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
-    BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(pageWrapper).when(displayFactory)
         .computePageWrapperOfNews(Mockito.eq(locale), Mockito.anyInt());
@@ -306,8 +286,6 @@ public class NewsManagerDisplayFactoryImplTest {
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
         Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computePageWrapperOfNews(Mockito.eq(locale), Mockito.anyInt());
   }
@@ -345,11 +323,6 @@ public class NewsManagerDisplayFactoryImplTest {
 
     List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
 
-    Footer footer = new Footer();
-    footer.setRue("an adress");
-    footer.setLibelle("a label");
-    footer.setTelephone("0100000000");
-
     String author = "author";
     LocalDate date = LocalDate.now();
     String tags = "tag;lol";
@@ -381,8 +354,6 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(displayFactory)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
-    BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
     BDDMockito.doReturn(Lists.newArrayList(displayBean)).when(displayFactory)
         .computeNewsEntryDisplayBeans(Mockito.eq(locale));
@@ -396,8 +367,6 @@ public class NewsManagerDisplayFactoryImplTest {
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
         Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
   }
 

@@ -11,7 +11,6 @@ import cmpl.web.carousel.CarouselFactory;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.file.ImageConverterService;
 import cmpl.web.file.ImageService;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.message.WebMessageSourceImpl;
 import cmpl.web.meta.MetaElementFactory;
@@ -37,9 +36,6 @@ public class NewsConfigurationTest {
 
   @Mock
   private MenuFactory menuFactory;
-
-  @Mock
-  private FooterFactory footerFactory;
 
   @Mock
   private MetaElementFactory metaElementFactory;
@@ -98,17 +94,9 @@ public class NewsConfigurationTest {
   }
 
   @Test
-  public void testNewsDisplayFactory() throws Exception {
-    NewsDisplayFactory result = configuration.newsDisplayFactory(contextHolder, menuFactory, footerFactory,
-        metaElementFactory, carouselFactory, messageSource, newsEntryService, pageService);
-
-    Assert.assertEquals(NewsDisplayFactoryImpl.class, result.getClass());
-  }
-
-  @Test
   public void testNewsManagerDisplayFactory() throws Exception {
     NewsManagerDisplayFactory result = configuration.newsManagerDisplayFactory(contextHolder, menuFactory,
-        footerFactory, messageSource, newsEntryService, metaElementFactory);
+        messageSource, newsEntryService, metaElementFactory);
 
     Assert.assertEquals(NewsManagerDisplayFactoryImpl.class, result.getClass());
   }

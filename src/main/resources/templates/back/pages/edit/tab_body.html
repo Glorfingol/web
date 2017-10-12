@@ -1,4 +1,4 @@
-<form id="pageBodyForm" th:object="${updateForm}">
+<form id="pageUpdateForm" th:object="${updateForm}">
     <div class="form-control mb-3" id="formInputBody">
         <label th:text="#{page.body.label}" />
         <textarea rows="3" id="pageBody" class="form-control" th:field="*{body}"/>
@@ -9,6 +9,8 @@
     <input type="hidden"  th:field="*{id}"/>
     <input type="hidden"  th:field="*{name}"/>
     <input type="hidden"  th:field="*{menuTitle}"/>
+    <input type="hidden"  th:field="*{header}"/>
+    <input type="hidden"  th:field="*{footer}"/>
     <div class="float-right">
       <a class="btn btn-md btn-danger fa fa-times fa-white"  onclick="cancelUpdatePage()"/>
       <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postUpdatePageForm()"/>

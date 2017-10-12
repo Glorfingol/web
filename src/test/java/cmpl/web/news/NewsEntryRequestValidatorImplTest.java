@@ -17,10 +17,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.util.CollectionUtils;
 
 import cmpl.web.builder.NewsContentRequestBuilder;
+import cmpl.web.core.error.ERROR;
+import cmpl.web.core.error.ERROR_CAUSE;
 import cmpl.web.core.model.Error;
 import cmpl.web.core.model.ErrorCause;
 import cmpl.web.message.WebMessageSource;
-import cmpl.web.news.NewsEntryRequestValidatorImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsEntryRequestValidatorImplTest {
@@ -37,30 +38,6 @@ public class NewsEntryRequestValidatorImplTest {
   @Before
   public void setUp() {
     locale = Locale.FRANCE;
-  }
-
-  @Test
-  public void testIsStringValid_True() throws Exception {
-    boolean result = validator.isStringValid("someString");
-    Assert.assertTrue(result);
-  }
-
-  @Test
-  public void testIsStringValid_False_null() throws Exception {
-    boolean result = validator.isStringValid(null);
-    Assert.assertFalse(result);
-  }
-
-  @Test
-  public void testIsStringValid_False_empty() throws Exception {
-    boolean result = validator.isStringValid("");
-    Assert.assertFalse(result);
-  }
-
-  @Test
-  public void testIsStringValid_False_blank() throws Exception {
-    boolean result = validator.isStringValid(" ");
-    Assert.assertFalse(result);
   }
 
   @Test
@@ -101,37 +78,6 @@ public class NewsEntryRequestValidatorImplTest {
   }
 
   @Test
-  public void testComputeCause() throws Exception {
-
-    BDDMockito.doReturn("someCause").when(validator).getI18n(Mockito.anyString(), Mockito.eq(locale));
-
-    ErrorCause result = validator.computeCause(NEWS_ERROR_CAUSE.INVALID_FORMAT, locale);
-
-    Assert.assertEquals(NEWS_ERROR_CAUSE.INVALID_FORMAT.toString(), result.getCode());
-    Assert.assertEquals("someCause", result.getMessage());
-  }
-
-  @Test
-  public void testComputeError() throws Exception {
-
-    ErrorCause errorCause1 = new ErrorCause();
-    errorCause1.setCode("someCode1");
-    errorCause1.setMessage("someMessage1");
-
-    ErrorCause errorCause2 = new ErrorCause();
-    errorCause2.setCode("someCode2");
-    errorCause2.setMessage("someMessage2");
-
-    List<ErrorCause> causes = Lists.newArrayList(errorCause1, errorCause2);
-
-    Error result = validator.computeError(causes);
-
-    Assert.assertEquals(2, result.getCauses().size());
-    Assert.assertEquals(NEWS_ERROR.INVALID_REQUEST.toString(), result.getCode());
-
-  }
-
-  @Test
   public void testIsNewsImageValid_True_With_Request() {
 
     NewsImageRequest imageRequest = new NewsImageRequest();
@@ -165,14 +111,14 @@ public class NewsEntryRequestValidatorImplTest {
     imageRequest.setSrc(src);
 
     ErrorCause errorCauseEmptyAlt = new ErrorCause();
-    errorCauseEmptyAlt.setCode(NEWS_ERROR_CAUSE.EMPTY_ALT.toString());
+    errorCauseEmptyAlt.setCode(ERROR_CAUSE.EMPTY_NEWS_ALT.toString());
     errorCauseEmptyAlt.setMessage("someMessage1");
 
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(alt));
     BDDMockito.doReturn(true).when(validator).isStringValid(Mockito.eq(legend));
     BDDMockito.doReturn(true).when(validator).isStringValid(Mockito.eq(src));
-    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_ALT),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_ALT), Mockito.eq(locale));
 
     List<ErrorCause> result = validator.isNewsImageValid(imageRequest, locale);
 
@@ -191,20 +137,20 @@ public class NewsEntryRequestValidatorImplTest {
     imageRequest.setSrc(src);
 
     ErrorCause errorCauseEmptyAlt = new ErrorCause();
-    errorCauseEmptyAlt.setCode(NEWS_ERROR_CAUSE.EMPTY_ALT.toString());
+    errorCauseEmptyAlt.setCode(ERROR_CAUSE.EMPTY_NEWS_ALT.toString());
     errorCauseEmptyAlt.setMessage("someMessage1");
 
     ErrorCause errorCauseEmptySrc = new ErrorCause();
-    errorCauseEmptySrc.setCode(NEWS_ERROR_CAUSE.EMPTY_ALT.toString());
+    errorCauseEmptySrc.setCode(ERROR_CAUSE.EMPTY_NEWS_ALT.toString());
     errorCauseEmptySrc.setMessage("someMessage1");
 
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(alt));
     BDDMockito.doReturn(true).when(validator).isStringValid(Mockito.eq(legend));
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(src));
-    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_ALT),
-        Mockito.eq(locale));
-    BDDMockito.doReturn(errorCauseEmptySrc).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_SRC),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_ALT), Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptySrc).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_SRC), Mockito.eq(locale));
 
     List<ErrorCause> result = validator.isNewsImageValid(imageRequest, locale);
 
@@ -224,20 +170,20 @@ public class NewsEntryRequestValidatorImplTest {
     imageRequest.setSrc(src);
 
     ErrorCause errorCauseEmptyAlt = new ErrorCause();
-    errorCauseEmptyAlt.setCode(NEWS_ERROR_CAUSE.EMPTY_ALT.toString());
+    errorCauseEmptyAlt.setCode(ERROR_CAUSE.EMPTY_NEWS_ALT.toString());
     errorCauseEmptyAlt.setMessage("someMessage1");
 
     ErrorCause errorCauseEmptyLegend = new ErrorCause();
-    errorCauseEmptyLegend.setCode(NEWS_ERROR_CAUSE.EMPTY_LEGEND.toString());
+    errorCauseEmptyLegend.setCode(ERROR_CAUSE.EMPTY_NEWS_LEGEND.toString());
     errorCauseEmptyLegend.setMessage("someMessage1");
 
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(alt));
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(legend));
     BDDMockito.doReturn(true).when(validator).isStringValid(Mockito.eq(src));
-    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_ALT),
-        Mockito.eq(locale));
-    BDDMockito.doReturn(errorCauseEmptyLegend).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_LEGEND),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_ALT), Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyLegend).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_LEGEND), Mockito.eq(locale));
 
     List<ErrorCause> result = validator.isNewsImageValid(imageRequest, locale);
 
@@ -257,20 +203,20 @@ public class NewsEntryRequestValidatorImplTest {
     imageRequest.setSrc(src);
 
     ErrorCause errorCauseEmptySrc = new ErrorCause();
-    errorCauseEmptySrc.setCode(NEWS_ERROR_CAUSE.EMPTY_ALT.toString());
+    errorCauseEmptySrc.setCode(ERROR_CAUSE.EMPTY_NEWS_ALT.toString());
     errorCauseEmptySrc.setMessage("someMessage1");
 
     ErrorCause errorCauseEmptyLegend = new ErrorCause();
-    errorCauseEmptyLegend.setCode(NEWS_ERROR_CAUSE.EMPTY_LEGEND.toString());
+    errorCauseEmptyLegend.setCode(ERROR_CAUSE.EMPTY_NEWS_LEGEND.toString());
     errorCauseEmptyLegend.setMessage("someMessage1");
 
     BDDMockito.doReturn(true).when(validator).isStringValid(Mockito.eq(alt));
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(legend));
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(src));
-    BDDMockito.doReturn(errorCauseEmptySrc).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_SRC),
-        Mockito.eq(locale));
-    BDDMockito.doReturn(errorCauseEmptyLegend).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_LEGEND),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptySrc).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_SRC), Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyLegend).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_LEGEND), Mockito.eq(locale));
 
     List<ErrorCause> result = validator.isNewsImageValid(imageRequest, locale);
 
@@ -290,26 +236,26 @@ public class NewsEntryRequestValidatorImplTest {
     imageRequest.setSrc(src);
 
     ErrorCause errorCauseEmptySrc = new ErrorCause();
-    errorCauseEmptySrc.setCode(NEWS_ERROR_CAUSE.EMPTY_ALT.toString());
+    errorCauseEmptySrc.setCode(ERROR_CAUSE.EMPTY_NEWS_ALT.toString());
     errorCauseEmptySrc.setMessage("someMessage1");
 
     ErrorCause errorCauseEmptyLegend = new ErrorCause();
-    errorCauseEmptyLegend.setCode(NEWS_ERROR_CAUSE.EMPTY_LEGEND.toString());
+    errorCauseEmptyLegend.setCode(ERROR_CAUSE.EMPTY_NEWS_LEGEND.toString());
     errorCauseEmptyLegend.setMessage("someMessage1");
 
     ErrorCause errorCauseEmptyAlt = new ErrorCause();
-    errorCauseEmptyAlt.setCode(NEWS_ERROR_CAUSE.EMPTY_ALT.toString());
+    errorCauseEmptyAlt.setCode(ERROR_CAUSE.EMPTY_NEWS_ALT.toString());
     errorCauseEmptyAlt.setMessage("someMessage1");
 
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(alt));
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(legend));
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(src));
-    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_ALT),
-        Mockito.eq(locale));
-    BDDMockito.doReturn(errorCauseEmptySrc).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_SRC),
-        Mockito.eq(locale));
-    BDDMockito.doReturn(errorCauseEmptyLegend).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_LEGEND),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_ALT), Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptySrc).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_SRC), Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyLegend).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_LEGEND), Mockito.eq(locale));
 
     List<ErrorCause> result = validator.isNewsImageValid(imageRequest, locale);
 
@@ -330,14 +276,14 @@ public class NewsEntryRequestValidatorImplTest {
     imageRequest.setSrc(src);
 
     ErrorCause errorCauseEmptySrc = new ErrorCause();
-    errorCauseEmptySrc.setCode(NEWS_ERROR_CAUSE.EMPTY_SRC.toString());
+    errorCauseEmptySrc.setCode(ERROR_CAUSE.EMPTY_NEWS_SRC.toString());
     errorCauseEmptySrc.setMessage("someMessage1");
 
     BDDMockito.doReturn(true).when(validator).isStringValid(Mockito.eq(alt));
     BDDMockito.doReturn(true).when(validator).isStringValid(Mockito.eq(legend));
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(src));
-    BDDMockito.doReturn(errorCauseEmptySrc).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_SRC),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptySrc).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_SRC), Mockito.eq(locale));
 
     List<ErrorCause> result = validator.isNewsImageValid(imageRequest, locale);
 
@@ -356,14 +302,14 @@ public class NewsEntryRequestValidatorImplTest {
     imageRequest.setSrc(src);
 
     ErrorCause errorCauseEmptyLegend = new ErrorCause();
-    errorCauseEmptyLegend.setCode(NEWS_ERROR_CAUSE.EMPTY_LEGEND.toString());
+    errorCauseEmptyLegend.setCode(ERROR_CAUSE.EMPTY_NEWS_LEGEND.toString());
     errorCauseEmptyLegend.setMessage("someMessage1");
 
     BDDMockito.doReturn(true).when(validator).isStringValid(Mockito.eq(alt));
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(legend));
     BDDMockito.doReturn(true).when(validator).isStringValid(Mockito.eq(src));
-    BDDMockito.doReturn(errorCauseEmptyLegend).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_LEGEND),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyLegend).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_LEGEND), Mockito.eq(locale));
 
     List<ErrorCause> result = validator.isNewsImageValid(imageRequest, locale);
 
@@ -407,13 +353,13 @@ public class NewsEntryRequestValidatorImplTest {
     request.setAuthor(author);
 
     ErrorCause errorCauseEmptyTitle = new ErrorCause();
-    errorCauseEmptyTitle.setCode(NEWS_ERROR_CAUSE.EMPTY_TITLE.toString());
+    errorCauseEmptyTitle.setCode(ERROR_CAUSE.EMPTY_NEWS_TITLE.toString());
     errorCauseEmptyTitle.setMessage("someMessage1");
 
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(title));
     BDDMockito.doReturn(true).when(validator).isStringValid(Mockito.eq(author));
-    BDDMockito.doReturn(errorCauseEmptyTitle).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_TITLE),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyTitle).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_TITLE), Mockito.eq(locale));
 
     List<ErrorCause> result = validator.isNewsEntryValid(request, locale);
 
@@ -431,13 +377,13 @@ public class NewsEntryRequestValidatorImplTest {
     request.setAuthor(author);
 
     ErrorCause errorCauseEmptyAuhtor = new ErrorCause();
-    errorCauseEmptyAuhtor.setCode(NEWS_ERROR_CAUSE.EMPTY_AUTHOR.toString());
+    errorCauseEmptyAuhtor.setCode(ERROR_CAUSE.EMPTY_NEWS_AUTHOR.toString());
     errorCauseEmptyAuhtor.setMessage("someMessage1");
 
     BDDMockito.doReturn(true).when(validator).isStringValid(Mockito.eq(title));
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(author));
-    BDDMockito.doReturn(errorCauseEmptyAuhtor).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_AUTHOR),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyAuhtor).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_AUTHOR), Mockito.eq(locale));
 
     List<ErrorCause> result = validator.isNewsEntryValid(request, locale);
 
@@ -455,19 +401,19 @@ public class NewsEntryRequestValidatorImplTest {
     request.setAuthor(author);
 
     ErrorCause errorCauseEmptyTitle = new ErrorCause();
-    errorCauseEmptyTitle.setCode(NEWS_ERROR_CAUSE.EMPTY_TITLE.toString());
+    errorCauseEmptyTitle.setCode(ERROR_CAUSE.EMPTY_NEWS_TITLE.toString());
     errorCauseEmptyTitle.setMessage("someMessage1");
 
     ErrorCause errorCauseEmptyAuhtor = new ErrorCause();
-    errorCauseEmptyAuhtor.setCode(NEWS_ERROR_CAUSE.EMPTY_AUTHOR.toString());
+    errorCauseEmptyAuhtor.setCode(ERROR_CAUSE.EMPTY_NEWS_AUTHOR.toString());
     errorCauseEmptyAuhtor.setMessage("someMessage1");
 
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(title));
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(author));
-    BDDMockito.doReturn(errorCauseEmptyTitle).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_TITLE),
-        Mockito.eq(locale));
-    BDDMockito.doReturn(errorCauseEmptyAuhtor).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_AUTHOR),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyTitle).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_TITLE), Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyAuhtor).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_AUTHOR), Mockito.eq(locale));
 
     List<ErrorCause> result = validator.isNewsEntryValid(request, locale);
 
@@ -507,12 +453,12 @@ public class NewsEntryRequestValidatorImplTest {
     contentRequest.setContent(content);
 
     ErrorCause errorCauseEmptyContent = new ErrorCause();
-    errorCauseEmptyContent.setCode(NEWS_ERROR_CAUSE.EMPTY_CONTENT.toString());
+    errorCauseEmptyContent.setCode(ERROR_CAUSE.EMPTY_NEWS_CONTENT.toString());
     errorCauseEmptyContent.setMessage("someMessage1");
 
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(content));
-    BDDMockito.doReturn(errorCauseEmptyContent).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_CONTENT),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyContent).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_CONTENT), Mockito.eq(locale));
 
     List<ErrorCause> result = validator.isContentValid(contentRequest, locale);
 
@@ -539,12 +485,12 @@ public class NewsEntryRequestValidatorImplTest {
     String id = "";
 
     ErrorCause errorCauseEmptyNewsId = new ErrorCause();
-    errorCauseEmptyNewsId.setCode(NEWS_ERROR_CAUSE.EMPTY_NEWS_ID.toString());
+    errorCauseEmptyNewsId.setCode(ERROR_CAUSE.EMPTY_NEWS_ID.toString());
     errorCauseEmptyNewsId.setMessage("someMessage1");
 
     BDDMockito.doReturn(false).when(validator).isStringValid(Mockito.eq(id));
-    BDDMockito.doReturn(errorCauseEmptyNewsId).when(validator).computeCause(Mockito.eq(NEWS_ERROR_CAUSE.EMPTY_NEWS_ID),
-        Mockito.eq(locale));
+    BDDMockito.doReturn(errorCauseEmptyNewsId).when(validator)
+        .computeCause(Mockito.eq(ERROR_CAUSE.EMPTY_NEWS_ID), Mockito.eq(locale));
 
     List<ErrorCause> result = validator.isIdValid(id, locale);
 
@@ -570,20 +516,20 @@ public class NewsEntryRequestValidatorImplTest {
     String id = "id";
 
     ErrorCause errorCauseEmptyNewsId = new ErrorCause();
-    errorCauseEmptyNewsId.setCode(NEWS_ERROR_CAUSE.EMPTY_NEWS_ID.toString());
+    errorCauseEmptyNewsId.setCode(ERROR_CAUSE.EMPTY_NEWS_ID.toString());
     errorCauseEmptyNewsId.setMessage("someMessage1");
     List<ErrorCause> causes = Lists.newArrayList(errorCauseEmptyNewsId);
 
     Error error = new Error();
     error.setCauses(causes);
-    error.setCode(NEWS_ERROR.INVALID_REQUEST.toString());
+    error.setCode(ERROR.INVALID_REQUEST.toString());
 
     BDDMockito.doReturn(causes).when(validator).isIdValid(Mockito.eq(id), Mockito.eq(locale));
     BDDMockito.doReturn(error).when(validator).computeError(Mockito.eq(causes));
 
     Error result = validator.validateGet(id, locale);
 
-    Assert.assertEquals(NEWS_ERROR.INVALID_REQUEST.toString(), result.getCode());
+    Assert.assertEquals(ERROR.INVALID_REQUEST.toString(), result.getCode());
     Assert.assertEquals(errorCauseEmptyNewsId, result.getCauses().get(0));
 
   }
@@ -606,20 +552,20 @@ public class NewsEntryRequestValidatorImplTest {
     String id = "id";
 
     ErrorCause errorCauseEmptyNewsId = new ErrorCause();
-    errorCauseEmptyNewsId.setCode(NEWS_ERROR_CAUSE.EMPTY_NEWS_ID.toString());
+    errorCauseEmptyNewsId.setCode(ERROR_CAUSE.EMPTY_NEWS_ID.toString());
     errorCauseEmptyNewsId.setMessage("someMessage1");
     List<ErrorCause> causes = Lists.newArrayList(errorCauseEmptyNewsId);
 
     Error error = new Error();
     error.setCauses(causes);
-    error.setCode(NEWS_ERROR.INVALID_REQUEST.toString());
+    error.setCode(ERROR.INVALID_REQUEST.toString());
 
     BDDMockito.doReturn(causes).when(validator).isIdValid(Mockito.eq(id), Mockito.eq(locale));
     BDDMockito.doReturn(error).when(validator).computeError(Mockito.eq(causes));
 
     Error result = validator.validateDelete(id, locale);
 
-    Assert.assertEquals(NEWS_ERROR.INVALID_REQUEST.toString(), result.getCode());
+    Assert.assertEquals(ERROR.INVALID_REQUEST.toString(), result.getCode());
     Assert.assertEquals(errorCauseEmptyNewsId, result.getCauses().get(0));
 
   }
@@ -659,14 +605,14 @@ public class NewsEntryRequestValidatorImplTest {
     NewsImageRequest image = new NewsImageRequest();
 
     ErrorCause errorCauseEmptyNewsId = new ErrorCause();
-    errorCauseEmptyNewsId.setCode(NEWS_ERROR_CAUSE.EMPTY_NEWS_ID.toString());
+    errorCauseEmptyNewsId.setCode(ERROR_CAUSE.EMPTY_NEWS_ID.toString());
     errorCauseEmptyNewsId.setMessage("someMessage1");
 
     List<ErrorCause> causes = Lists.newArrayList(errorCauseEmptyNewsId);
 
     Error error = new Error();
     error.setCauses(causes);
-    error.setCode(NEWS_ERROR.INVALID_REQUEST.toString());
+    error.setCode(ERROR.INVALID_REQUEST.toString());
 
     request.setContent(content);
     request.setImage(image);
@@ -712,21 +658,21 @@ public class NewsEntryRequestValidatorImplTest {
   }
 
   @Test
-  public void testValidateCreate_Ko_Empty_Author() {
+  public void testValidateCreate_Ko_EMPTY_NEWS_AUTHOR() {
 
     NewsEntryRequest request = new NewsEntryRequest();
     NewsContentRequest content = new NewsContentRequest();
     NewsImageRequest image = new NewsImageRequest();
 
     ErrorCause errorCauseEmptyAuthor = new ErrorCause();
-    errorCauseEmptyAuthor.setCode(NEWS_ERROR_CAUSE.EMPTY_AUTHOR.toString());
+    errorCauseEmptyAuthor.setCode(ERROR_CAUSE.EMPTY_NEWS_AUTHOR.toString());
     errorCauseEmptyAuthor.setMessage("someMessage1");
 
     List<ErrorCause> causes = Lists.newArrayList(errorCauseEmptyAuthor);
 
     Error error = new Error();
     error.setCauses(causes);
-    error.setCode(NEWS_ERROR.INVALID_REQUEST.toString());
+    error.setCode(ERROR.INVALID_REQUEST.toString());
 
     request.setContent(content);
     request.setImage(image);

@@ -21,17 +21,12 @@ import cmpl.web.carousel.CarouselFactory;
 import cmpl.web.carousel.CarouselItem;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.core.model.PageWrapper;
-import cmpl.web.footer.Footer;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.menu.MenuItem;
 import cmpl.web.message.WebMessageSourceImpl;
-import cmpl.web.meta.MetaElementFactory;
-import cmpl.web.meta.MetaElementToDelete;
 import cmpl.web.news.NewsEntryDTO;
 import cmpl.web.news.NewsEntryDisplayBean;
 import cmpl.web.news.NewsEntryService;
-import cmpl.web.page.PAGES;
 import cmpl.web.page.PageDTO;
 import cmpl.web.page.PageService;
 
@@ -45,79 +40,20 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(DisplayFactoryImpl.class);
   private final MenuFactory menuFactory;
-  private final FooterFactory footerFactory;
-  private final MetaElementFactory metaElementFactory;
   private final CarouselFactory carouselFactory;
   private final PageService pageService;
   private final NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
 
-  public DisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
-      MetaElementFactory metaElementFactory, CarouselFactory carouselFactory, WebMessageSourceImpl messageSource,
-      PageService pageService, NewsEntryService newsEntryService, ContextHolder contextHolder) {
+  public DisplayFactoryImpl(MenuFactory menuFactory, CarouselFactory carouselFactory,
+      WebMessageSourceImpl messageSource, PageService pageService, NewsEntryService newsEntryService,
+      ContextHolder contextHolder) {
     super(messageSource);
     this.menuFactory = menuFactory;
-    this.footerFactory = footerFactory;
-    this.metaElementFactory = metaElementFactory;
     this.carouselFactory = carouselFactory;
     this.pageService = pageService;
     this.contextHolder = contextHolder;
     this.newsEntryService = newsEntryService;
-  }
-
-  @Override
-  public ModelAndView computeModelAndViewForPage(PAGES page, Locale locale) {
-
-    LOGGER.info("Construction de la page  " + page.name());
-    ModelAndView model = new ModelAndView(computeDecoratorFrontTileName(locale));
-    model.addObject("content", computeTileName(page.getTileName(), locale));
-
-    LOGGER.info("Construction du menu pour la page " + page.name());
-    model.addObject("menuItems", computeMenuItems(page, locale));
-    LOGGER.info("Construction des éléments meta pour la page  " + page.name());
-    model.addObject("metaItems", computeMetaElements(locale, page));
-    LOGGER.info("Construction des éléments meta open graph pour la page  " + page.name());
-    model.addObject("openGraphMetaItems", computeOpenGraphMetaElements(locale, page));
-    LOGGER.info("Construction du footer pour la page   " + page.name());
-    model.addObject("footer", computeFooter(locale));
-    LOGGER.info("Construction du titre principal pour la page  " + page.name());
-    model.addObject("mainTitle", computeMainTitle(locale));
-    LOGGER.info("Construction du lien du back pour la page " + page.name());
-    model.addObject("hiddenLink", computeHiddenLink(locale));
-
-    if (page.isWithCarousel()) {
-      LOGGER.info("Construction du carousel pour la page " + page.name());
-      model.addObject("carouselItems", computeCarouselItems(locale));
-    }
-    LOGGER.info("Page " + page.name() + " prête");
-
-    return model;
-
-  }
-
-  public List<MenuItem> computeMenuItems(PAGES page, Locale locale) {
-    return menuFactory.computeMenuItems(page, locale);
-  }
-
-  public Footer computeFooter(Locale locale) {
-    return footerFactory.computeFooter(locale);
-  }
-
-  public List<MetaElementToDelete> computeMetaElements(Locale locale, PAGES page) {
-    return metaElementFactory.computeMetaElementsForPage(locale, page);
-  }
-
-  protected List<MetaElementToDelete> computeMetaElementsForNewsEntry(Locale locale, PAGES page, String newsEntryId) {
-    return metaElementFactory.computeMetaElementsForNewsEntry(locale, page, newsEntryId);
-  }
-
-  protected List<MetaElementToDelete> computeOpenGraphMetaElementsForNewsEntry(Locale locale, PAGES page,
-      String newsEntryId) {
-    return metaElementFactory.computeOpenGraphMetaElementsNewsEntry(locale, page, newsEntryId);
-  }
-
-  List<MetaElementToDelete> computeOpenGraphMetaElements(Locale locale, PAGES page) {
-    return metaElementFactory.computeOpenGraphMetaElementsForPage(locale, page);
   }
 
   List<CarouselItem> computeCarouselItems(Locale locale) {
@@ -150,7 +86,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     PageDTO page = pageService.getPageByName(pageName);
 
-    ModelAndView model = new ModelAndView("decorator_poc");
+    ModelAndView model = new ModelAndView("decorator");
     model.addObject("content", computePageContent(page));
     LOGGER.info("Construction du menu pour la page " + pageName);
     model.addObject("menuItems", computeMenuItems(page, locale));
@@ -159,9 +95,9 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     LOGGER.info("Construction des éléments meta open graph pour la page  " + pageName);
     model.addObject("openGraphMetaItems", page.getOpenGraphMetaElements());
     LOGGER.info("Construction du footer pour la page   " + pageName);
-    model.addObject("footer", computeFooter(locale));
-    LOGGER.info("Construction du titre principal pour la page  " + pageName);
-    model.addObject("mainTitle", computeMainTitle(locale));
+    model.addObject("footerTemplate", computePageFooter(page));
+    LOGGER.info("Construction du header pour la page   " + pageName);
+    model.addObject("header", computePageHeader(page));
     LOGGER.info("Construction du lien du back pour la page " + pageName);
     model.addObject("hiddenLink", computeHiddenLink(locale));
     LOGGER.info("Construction des carousels pour la page " + pageName);
@@ -187,6 +123,14 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
   private String computePageContent(PageDTO page) {
     return page.getName();
+  }
+
+  private String computePageHeader(PageDTO page) {
+    return page.getName() + "_header";
+  }
+
+  private String computePageFooter(PageDTO page) {
+    return page.getName() + "_footer";
   }
 
   public List<MenuItem> computeMenuItems(PageDTO page, Locale locale) {
@@ -288,38 +232,6 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
         contextHolder.getDateFormat(), labelAccroche, "/pages/" + page.getName() + "/" + newsEntryDTO.getId());
-  }
-
-  @Override
-  public ModelAndView computeModelAndViewForPage(String pageName, Locale locale, String entityId) {
-    LOGGER.info("Construction de la page  " + pageName);
-
-    PageDTO page = pageService.getPageByName(pageName);
-    ModelAndView model = new ModelAndView("decorator_poc");
-    model.addObject("content", computePageContent(page) + "_unique");
-    LOGGER.info("Construction du menu pour la page " + pageName);
-    model.addObject("menuItems", computeMenuItems(page, locale));
-    LOGGER.info("Construction du footer pour la page   " + pageName);
-    model.addObject("footer", computeFooter(locale));
-    LOGGER.info("Construction du titre principal pour la page  " + pageName);
-    model.addObject("mainTitle", computeMainTitle(locale));
-    LOGGER.info("Construction du lien du back pour la page " + pageName);
-    model.addObject("hiddenLink", computeHiddenLink(locale));
-    LOGGER.info("Construction des carousels pour la page " + pageName);
-    List<CarouselDTO> carousels = computeCarouselsForPage(page);
-    for (CarouselDTO carousel : carousels) {
-      model.addObject("carousel_" + carousel.getName(), carousel);
-    }
-    ModelAndView newsModelAndView = computeModelAndViewForPage(PAGES.NEWS_ENTRY, locale);
-    LOGGER.info("Surcharge des meta elements pour la page de l'entree " + entityId);
-    newsModelAndView.addObject("metaItems", computeMetaElementsForNewsEntry(locale, PAGES.NEWS_ENTRY, entityId));
-    LOGGER.info("Surcharge des open graph meta elements pour la page de l'entree " + entityId);
-    newsModelAndView.addObject("openGraphMetaItems",
-        computeOpenGraphMetaElementsForNewsEntry(locale, PAGES.NEWS_ENTRY, entityId));
-    LOGGER.info("Construction de l'entrée de blog pour la page " + PAGES.NEWS_ENTRY.name());
-    newsModelAndView.addObject("newsEntry", computeNewsEntry(page, locale, entityId));
-
-    return newsModelAndView;
   }
 
 }

@@ -21,6 +21,14 @@ public interface FileService {
   void saveFileOnSystem(String fileName, String content);
 
   /**
+   * Enregistre un media sur le systeme dans le classpath Remplace un fichier existant avec le contenu
+   * 
+   * @param fileName
+   * @param content
+   */
+  void saveMediaOnSystem(String fileName, byte[] content);
+
+  /**
    * Lire le contenu d'un fichier du classpath
    * 
    * @param fileName

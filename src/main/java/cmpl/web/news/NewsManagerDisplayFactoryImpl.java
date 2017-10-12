@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.core.factory.BackDisplayFactoryImpl;
 import cmpl.web.core.model.PageWrapper;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.message.WebMessageSourceImpl;
 import cmpl.web.meta.MetaElementFactory;
@@ -32,9 +31,8 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   private final ContextHolder contextHolder;
 
   public NewsManagerDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory,
-      FooterFactory footerFactory, WebMessageSourceImpl messageSource, NewsEntryService newsEntryService,
-      MetaElementFactory metaElementFactory) {
-    super(menuFactory, footerFactory, messageSource, metaElementFactory);
+      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
+    super(menuFactory, messageSource, metaElementFactory);
     this.newsEntryService = newsEntryService;
     this.contextHolder = contextHolder;
   }

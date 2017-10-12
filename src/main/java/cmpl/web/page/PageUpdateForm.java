@@ -11,17 +11,25 @@ public class PageUpdateForm {
   private String menuTitle;
   private boolean withNews;
   private String body;
+  private String header;
+  private String footer;
   private Long id;
   @DateTimeFormat(iso = ISO.DATE)
   private LocalDate creationDate;
   @DateTimeFormat(iso = ISO.DATE)
   private LocalDate modificationDate;
 
+  public PageUpdateForm() {
+
+  }
+
   public PageUpdateForm(PageDTO page) {
     this.name = page.getName();
     this.menuTitle = page.getMenuTitle();
     this.withNews = page.isWithNews();
     this.body = page.getBody();
+    this.footer = page.getFooter();
+    this.header = page.getHeader();
     this.id = page.getId();
     this.creationDate = page.getCreationDate();
     this.modificationDate = page.getModificationDate();
@@ -81,6 +89,22 @@ public class PageUpdateForm {
 
   public void setModificationDate(LocalDate modificationDate) {
     this.modificationDate = modificationDate;
+  }
+
+  public String getHeader() {
+    return header;
+  }
+
+  public void setHeader(String header) {
+    this.header = header;
+  }
+
+  public String getFooter() {
+    return footer;
+  }
+
+  public void setFooter(String footer) {
+    this.footer = footer;
   }
 
 }

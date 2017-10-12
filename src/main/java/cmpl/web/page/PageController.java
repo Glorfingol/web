@@ -45,21 +45,6 @@ public class PageController {
     return displayFactory.computeModelAndViewForPage(pageName, Locale.FRANCE, computePageNumberFromRequest(pageNumber));
   }
 
-  /**
-   * Mapping pour les pages
-   * 
-   * @param pageName
-   * @param entityId
-   * @return
-   */
-  @GetMapping(value = "/pages/{pageName}/{entityId")
-  public ModelAndView printPageWithEntity(@PathVariable(value = "pageName") String pageName,
-      @PathVariable(value = "entityId") String entityId) {
-
-    LOGGER.info("Accès à la page " + pageName);
-    return displayFactory.computeModelAndViewForPage(pageName, Locale.FRANCE, entityId);
-  }
-
   int computePageNumberFromRequest(Integer pageNumber) {
     if (pageNumber == null) {
       return 0;

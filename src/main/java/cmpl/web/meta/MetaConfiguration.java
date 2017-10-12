@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import cmpl.web.message.WebMessageSourceImpl;
-import cmpl.web.news.NewsEntryService;
 
 @Configuration
 public class MetaConfiguration {
@@ -15,8 +14,8 @@ public class MetaConfiguration {
   }
 
   @Bean
-  MetaElementFactory metaElementFactory(WebMessageSourceImpl messageSource, NewsEntryService newsEntryService) {
-    return new MetaElementFactoryImpl(messageSource, newsEntryService);
+  MetaElementFactory metaElementFactory(WebMessageSourceImpl messageSource) {
+    return new MetaElementFactoryImpl(messageSource);
   }
 
   @Bean

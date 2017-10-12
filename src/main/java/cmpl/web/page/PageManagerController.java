@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,16 +25,17 @@ import org.springframework.web.servlet.ModelAndView;
  *
  */
 @Controller
+@RequestMapping(value = "/manager/pages")
 public class PageManagerController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PageManagerController.class);
 
-  private final PagesManagerDisplayFactory pagesManagerDisplayFactory;
+  private final PageManagerDisplayFactory pageManagerDisplayFactory;
   private final PageDispatcher pageDispatcher;
 
   @Autowired
-  public PageManagerController(PagesManagerDisplayFactory pagesManagerDisplayFactory, PageDispatcher pageDispatcher) {
-    this.pagesManagerDisplayFactory = pagesManagerDisplayFactory;
+  public PageManagerController(PageManagerDisplayFactory pageManagerDisplayFactory, PageDispatcher pageDispatcher) {
+    this.pageManagerDisplayFactory = pageManagerDisplayFactory;
     this.pageDispatcher = pageDispatcher;
   }
 
@@ -42,12 +44,12 @@ public class PageManagerController {
    * 
    * @return
    */
-  @GetMapping(value = "/manager/pages")
+  @GetMapping
   public ModelAndView printViewPages(@RequestParam(name = "p", required = false) Integer pageNumber) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_VIEW.name());
-    return pagesManagerDisplayFactory.computeModelAndViewForViewAllPages(BACK_PAGE.PAGES_VIEW, Locale.FRANCE,
+    return pageManagerDisplayFactory.computeModelAndViewForViewAllPages(BACK_PAGE.PAGES_VIEW, Locale.FRANCE,
         pageNumberToUse);
   }
 
@@ -59,13 +61,13 @@ public class PageManagerController {
 
   }
 
-  @GetMapping(value = "/manager/pages/_create")
+  @GetMapping(value = "/_create")
   public ModelAndView printCreatePage() {
     LOGGER.info("Accès à la page de création des pages");
-    return pagesManagerDisplayFactory.computeModelAndViewForCreatePage(BACK_PAGE.PAGES_CREATE, Locale.FRANCE);
+    return pageManagerDisplayFactory.computeModelAndViewForCreatePage(BACK_PAGE.PAGES_CREATE, Locale.FRANCE);
   }
 
-  @PostMapping(value = "/manager/pages", produces = "application/json")
+  @PostMapping
   @ResponseBody
   public ResponseEntity<PageResponse> createPage(@RequestBody PageCreateForm createForm) {
 
@@ -83,7 +85,7 @@ public class PageManagerController {
 
   }
 
-  @PutMapping(value = "/manager/pages/{pageId}", produces = "application/json")
+  @PutMapping(value = "/{pageId}", produces = "application/json")
   @ResponseBody
   public ResponseEntity<PageResponse> updatePage(@RequestBody PageUpdateForm updateForm) {
 
@@ -101,34 +103,46 @@ public class PageManagerController {
 
   }
 
-  @GetMapping(value = "/manager/pages/{pageId}")
+  @GetMapping(value = "/{pageId}")
   public ModelAndView printViewUpdatePage(@PathVariable(value = "pageId") String pageId) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId);
-    return pagesManagerDisplayFactory.computeModelAndViewForUpdatePage(BACK_PAGE.PAGES_UPDATE, Locale.FRANCE, pageId);
+    return pageManagerDisplayFactory.computeModelAndViewForUpdatePage(BACK_PAGE.PAGES_UPDATE, Locale.FRANCE, pageId);
   }
 
-  @GetMapping(value = "/manager/pages/{pageId}/_main")
+  @GetMapping(value = "/{pageId}/_main")
   public ModelAndView printViewUpdatePageMain(@PathVariable(value = "pageId") String pageId) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie main");
-    return pagesManagerDisplayFactory.computeModelAndViewForUpdatePageMain(Locale.FRANCE, pageId);
+    return pageManagerDisplayFactory.computeModelAndViewForUpdatePageMain(Locale.FRANCE, pageId);
   }
 
-  @GetMapping(value = "/manager/pages/{pageId}/_body")
+  @GetMapping(value = "/{pageId}/_body")
   public ModelAndView printViewUpdatePageBody(@PathVariable(value = "pageId") String pageId) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie body");
-    return pagesManagerDisplayFactory.computeModelAndViewForUpdatePageBody(Locale.FRANCE, pageId);
+    return pageManagerDisplayFactory.computeModelAndViewForUpdatePageBody(Locale.FRANCE, pageId);
   }
 
-  @GetMapping(value = "/manager/pages/{pageId}/_meta")
+  @GetMapping(value = "/{pageId}/_header")
+  public ModelAndView printViewUpdatePageHeader(@PathVariable(value = "pageId") String pageId) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie header");
+    return pageManagerDisplayFactory.computeModelAndViewForUpdatePageHeader(Locale.FRANCE, pageId);
+  }
+
+  @GetMapping(value = "/{pageId}/_footer")
+  public ModelAndView printViewUpdatePageFooter(@PathVariable(value = "pageId") String pageId) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie footer");
+    return pageManagerDisplayFactory.computeModelAndViewForUpdatePageFooter(Locale.FRANCE, pageId);
+  }
+
+  @GetMapping(value = "/{pageId}/_meta")
   public ModelAndView printViewUpdatePageMeta(@PathVariable(value = "pageId") String pageId) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie meta");
-    return pagesManagerDisplayFactory.computeModelAndViewForUpdatePageMeta(Locale.FRANCE, pageId);
+    return pageManagerDisplayFactory.computeModelAndViewForUpdatePageMeta(Locale.FRANCE, pageId);
   }
 
-  @GetMapping(value = "/manager/pages/{pageId}/_open_graph_meta")
+  @GetMapping(value = "/{pageId}/_open_graph_meta")
   public ModelAndView printViewUpdatePageOpenGraphMeta(@PathVariable(value = "pageId") String pageId) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie meta");
-    return pagesManagerDisplayFactory.computeModelAndViewForUpdatePageOpenGraphMeta(Locale.FRANCE, pageId);
+    return pageManagerDisplayFactory.computeModelAndViewForUpdatePageOpenGraphMeta(Locale.FRANCE, pageId);
   }
 
 }

@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import cmpl.web.core.context.ContextHolder;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.message.WebMessageSourceImpl;
 import cmpl.web.meta.MetaElementFactory;
 import cmpl.web.page.PageService;
@@ -23,8 +22,8 @@ public class MenuConfiguration {
   }
 
   @Bean
-  MenuValidator menuValidator() {
-    return new MenuValidatorImpl();
+  MenuValidator menuValidator(WebMessageSourceImpl messageSource) {
+    return new MenuValidatorImpl(messageSource);
   }
 
   @Bean
@@ -33,15 +32,16 @@ public class MenuConfiguration {
   }
 
   @Bean
-  MenuDispatcher menuDispatcher() {
-    return new MenuDispatcherImpl();
+  MenuDispatcher menuDispatcher(MenuValidator validator, MenuTranslator translator, MenuService menuService,
+      PageService pageService) {
+    return new MenuDispatcherImpl(validator, translator, menuService, pageService);
   }
 
   @Bean
-  MenuManagerDisplayFactory menuManagerDisplayFactory(MenuFactory menuFactory, FooterFactory footerFactory,
-      WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory, MenuService menuService,
-      PageService pageService, ContextHolder contextHolder) {
-    return new MenuManagerDisplayFactoryImpl(menuFactory, footerFactory, messageSource, metaElementFactory,
-        menuService, pageService, contextHolder);
+  MenuManagerDisplayFactory menuManagerDisplayFactory(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+      MetaElementFactory metaElementFactory, MenuService menuService, PageService pageService,
+      ContextHolder contextHolder) {
+    return new MenuManagerDisplayFactoryImpl(menuFactory, messageSource, metaElementFactory, menuService, pageService,
+        contextHolder);
   }
 }

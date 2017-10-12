@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.file.FileService;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.message.WebMessageSourceImpl;
 import cmpl.web.meta.MetaElementFactory;
@@ -16,12 +15,11 @@ import cmpl.web.meta.OpenGraphMetaElementService;
 public class PageConfiguration {
 
   @Bean
-  PagesManagerDisplayFactory pagesManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
-      FooterFactory footerFactory, WebMessageSourceImpl messageSource, PageService pageService,
-      MetaElementFactory metaElementFactory, MetaElementService metaElementService,
-      OpenGraphMetaElementService openGraphMetaElementService) {
-    return new PagesManagerDisplayFactoryImpl(menuFactory, footerFactory, messageSource, metaElementFactory,
-        pageService, contextHolder, metaElementService, openGraphMetaElementService);
+  PageManagerDisplayFactory pageManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
+      WebMessageSourceImpl messageSource, PageService pageService, MetaElementFactory metaElementFactory,
+      MetaElementService metaElementService, OpenGraphMetaElementService openGraphMetaElementService) {
+    return new PageManagerDisplayFactoryImpl(menuFactory, messageSource, metaElementFactory, pageService,
+        contextHolder, metaElementService, openGraphMetaElementService);
   }
 
   @Bean

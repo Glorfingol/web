@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Locale;
 
 import cmpl.web.page.BACK_PAGE;
-import cmpl.web.page.PAGES;
 import cmpl.web.page.PageDTO;
 
 /**
@@ -14,15 +13,6 @@ import cmpl.web.page.PageDTO;
  *
  */
 public interface MenuFactory {
-
-  /**
-   * Creer le menu front pour la page du front
-   * 
-   * @param page
-   * @param locale
-   * @return
-   */
-  List<MenuItem> computeMenuItems(PAGES page, Locale locale);
 
   /**
    * Creer le menu front pour la page du front

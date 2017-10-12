@@ -43,4 +43,13 @@ public class FileServiceImpl implements FileService {
     }
     return null;
   }
+
+  @Override
+  public void saveMediaOnSystem(String fileName, byte[] content) {
+    try {
+      Files.write(Paths.get(contextHolder.getMediaBasePath() + fileName), content);
+    } catch (IOException e) {
+      LOGGER.error("Impossible d'enregistrer le fichier " + fileName, e);
+    }
+  }
 }

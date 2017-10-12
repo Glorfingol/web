@@ -8,13 +8,9 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import cmpl.web.message.WebMessageSourceImpl;
-import cmpl.web.news.NewsEntryService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MetaConfigurationTest {
-
-  @Mock
-  NewsEntryService newsEntryService;
 
   @Mock
   private WebMessageSourceImpl messageSource;
@@ -24,7 +20,7 @@ public class MetaConfigurationTest {
 
   @Test
   public void testMetaElementFactory() throws Exception {
-    MetaElementFactory result = configuration.metaElementFactory(messageSource, newsEntryService);
+    MetaElementFactory result = configuration.metaElementFactory(messageSource);
 
     Assert.assertEquals(MetaElementFactoryImpl.class, result.getClass());
   }

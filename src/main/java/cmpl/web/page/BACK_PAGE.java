@@ -21,7 +21,9 @@ public enum BACK_PAGE {
   MENUS_UPDATE("menus.update", BACK_MENU.BACK_MENUS.getTitle()),
   PAGES_VIEW("pages.view", BACK_MENU.BACK_PAGES.getTitle()),
   PAGES_CREATE("pages.create", BACK_MENU.BACK_PAGES.getTitle()),
-  PAGES_UPDATE("pages.update", BACK_MENU.BACK_PAGES.getTitle());
+  PAGES_UPDATE("pages.update", BACK_MENU.BACK_PAGES.getTitle()),
+  MEDIA_VIEW("medias.view", BACK_MENU.BACK_MEDIAS.getTitle()),
+  MEDIA_UPLOAD("medias.upload", BACK_MENU.BACK_MEDIAS.getTitle());
 
   private String tile;
   private String title;

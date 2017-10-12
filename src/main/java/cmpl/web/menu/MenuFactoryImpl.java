@@ -7,7 +7,6 @@ import java.util.Locale;
 import cmpl.web.core.factory.BaseFactoryImpl;
 import cmpl.web.message.WebMessageSourceImpl;
 import cmpl.web.page.BACK_PAGE;
-import cmpl.web.page.PAGES;
 import cmpl.web.page.PageDTO;
 
 /**
@@ -26,34 +25,8 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
   }
 
   @Override
-  public List<MenuItem> computeMenuItems(PAGES page, Locale locale) {
-    List<MenuItem> menuItems = new ArrayList<>();
-
-    for (MENUS menu : MENUS.values()) {
-      MenuItem menuItem = computeMenuItem(page, menu, locale);
-      menuItems.add(menuItem);
-    }
-
-    return menuItems;
-  }
-
-  List<MenuItem> computeSubMenuItems(MENUS menu, Locale locale) {
-    List<MenuItem> subMenuItems = new ArrayList<>();
-    for (SUB_MENU subMenu : SUB_MENU.values()) {
-      if (menu.equals(subMenu.getParent())) {
-        MenuItem subMenuItem = computeMenuItem(subMenu, locale);
-        subMenuItems.add(subMenuItem);
-      }
-    }
-
-    return subMenuItems;
-  }
-
-  @Override
   public List<MenuItem> computeBackMenuItems(BACK_PAGE backPage, Locale locale) {
     List<MenuItem> menuItems = new ArrayList<>();
-
-    menuItems.add(computeIndexMenuElement(locale));
 
     for (BACK_MENU backMenu : BACK_MENU.values()) {
       MenuItem menuItem = computeMenuItem(backPage, backMenu, locale);
@@ -61,41 +34,6 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
     }
 
     return menuItems;
-  }
-
-  MenuItem computeIndexMenuElement(Locale locale) {
-    return computeMenuItem(MENUS.INDEX, locale);
-  }
-
-  MenuItem computeNewsMenuElement(Locale locale) {
-    return computeMenuItem(MENUS.NEWS, locale);
-  }
-
-  MenuItem computeMenuItem(MENUS menu, Locale locale) {
-    MenuItem menuItem = new MenuItem();
-    menuItem.setHref(getI18nValue(menu.getHref(), locale));
-    menuItem.setLabel(getI18nValue(menu.getLabel(), locale));
-    menuItem.setTitle(getI18nValue(menu.getTitle(), locale));
-    menuItem.setSubMenuItems(computeSubMenuItems(menu, locale));
-    menuItem.setCustomCssClass("");
-
-    return menuItem;
-  }
-
-  MenuItem computeMenuItem(PAGES page, MENUS menu, Locale locale) {
-    MenuItem menuItem = new MenuItem();
-    menuItem.setHref(getI18nValue(menu.getHref(), locale));
-    menuItem.setLabel(getI18nValue(menu.getLabel(), locale));
-    menuItem.setTitle(getI18nValue(menu.getTitle(), locale));
-    menuItem.setSubMenuItems(computeSubMenuItems(menu, locale));
-    String customCssClass = computeCustomCssClass(page, menu);
-    menuItem.setCustomCssClass(customCssClass);
-
-    return menuItem;
-  }
-
-  String computeCustomCssClass(PAGES page, MENUS menu) {
-    return page.getTitle().equals(menu.getTitle()) ? "active" : "";
   }
 
   MenuItem computeMenuItem(BACK_PAGE backPage, BACK_MENU backMenu, Locale locale) {
@@ -112,16 +50,6 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
 
   String computeCustomCssClass(BACK_PAGE backPage, BACK_MENU backMenu) {
     return backPage.getTitle().equals(backMenu.getTitle()) ? "active" : "";
-  }
-
-  MenuItem computeMenuItem(SUB_MENU subMenu, Locale locale) {
-    MenuItem menuItem = new MenuItem();
-    menuItem.setHref(getI18nValue(subMenu.getHref(), locale));
-    menuItem.setLabel(getI18nValue(subMenu.getLabel(), locale));
-    menuItem.setTitle(getI18nValue(subMenu.getLabel(), locale));
-    menuItem.setSubMenuItems(new ArrayList<MenuItem>());
-
-    return menuItem;
   }
 
   @Override

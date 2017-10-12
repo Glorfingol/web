@@ -16,13 +16,11 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import cmpl.web.core.error.ERROR;
+import cmpl.web.core.error.ERROR_CAUSE;
 import cmpl.web.core.model.BaseException;
 import cmpl.web.core.model.Error;
 import cmpl.web.core.model.ErrorCause;
-import cmpl.web.news.NewsEntryDispatcherImpl;
-import cmpl.web.news.NewsEntryRequestValidator;
-import cmpl.web.news.NewsEntryService;
-import cmpl.web.news.NewsEntryTranslator;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsEntryDispatcherImplTest {
@@ -63,11 +61,11 @@ public class NewsEntryDispatcherImplTest {
   public void testDeleteEntity_Ko() throws Exception {
 
     ErrorCause errorCause = new ErrorCause();
-    errorCause.setCode(NEWS_ERROR_CAUSE.EMPTY_NEWS_ID.toString());
+    errorCause.setCode(ERROR_CAUSE.EMPTY_NEWS_ID.toString());
     errorCause.setMessage("Empty id");
 
     Error error = new Error();
-    error.setCode(NEWS_ERROR.INVALID_REQUEST.toString());
+    error.setCode(ERROR.INVALID_REQUEST.toString());
     error.setCauses(Lists.newArrayList(errorCause));
 
     exception.expect(BaseException.class);
@@ -106,11 +104,11 @@ public class NewsEntryDispatcherImplTest {
   public void testUpdateEntity_Ko() throws Exception {
 
     ErrorCause errorCause = new ErrorCause();
-    errorCause.setCode(NEWS_ERROR_CAUSE.EMPTY_NEWS_ID.toString());
+    errorCause.setCode(ERROR_CAUSE.EMPTY_NEWS_ID.toString());
     errorCause.setMessage("Empty id");
 
     Error error = new Error();
-    error.setCode(NEWS_ERROR.INVALID_REQUEST.toString());
+    error.setCode(ERROR.INVALID_REQUEST.toString());
     error.setCauses(Lists.newArrayList(errorCause));
 
     NewsEntryResponse response = new NewsEntryResponse();
@@ -155,11 +153,11 @@ public class NewsEntryDispatcherImplTest {
   public void testCreateEntity_Ko() throws Exception {
 
     ErrorCause errorCause = new ErrorCause();
-    errorCause.setCode(NEWS_ERROR_CAUSE.EMPTY_NEWS_ID.toString());
+    errorCause.setCode(ERROR_CAUSE.EMPTY_NEWS_ID.toString());
     errorCause.setMessage("Empty id");
 
     Error error = new Error();
-    error.setCode(NEWS_ERROR.INVALID_REQUEST.toString());
+    error.setCode(ERROR.INVALID_REQUEST.toString());
     error.setCauses(Lists.newArrayList(errorCause));
 
     NewsEntryResponse response = new NewsEntryResponse();

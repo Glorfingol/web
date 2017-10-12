@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.core.factory.DisplayFactory;
-import cmpl.web.page.PAGES;
 
 /**
  * Controller pour la page d'accueil
@@ -37,7 +36,7 @@ public class IndexController {
   @GetMapping(value = "/")
   public ModelAndView printIndex() {
 
-    LOGGER.info("Accès à la page " + PAGES.INDEX.name());
+    LOGGER.info("Accès à la page d'index");
     return displayFactory.computeModelAndViewForPage("accueil", Locale.FRANCE, 0);
   }
 

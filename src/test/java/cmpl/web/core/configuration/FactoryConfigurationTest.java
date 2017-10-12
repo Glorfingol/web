@@ -11,10 +11,8 @@ import cmpl.web.carousel.CarouselFactory;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.core.factory.DisplayFactory;
 import cmpl.web.core.factory.DisplayFactoryImpl;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.message.WebMessageSourceImpl;
-import cmpl.web.meta.MetaElementFactory;
 import cmpl.web.news.NewsEntryService;
 import cmpl.web.page.PageService;
 
@@ -23,10 +21,6 @@ public class FactoryConfigurationTest {
 
   @Mock
   private MenuFactory menuFactory;
-  @Mock
-  private FooterFactory footerFactory;
-  @Mock
-  private MetaElementFactory metaElementFactory;
   @Mock
   private CarouselFactory carouselFactory;
   @Mock
@@ -44,8 +38,8 @@ public class FactoryConfigurationTest {
   @Test
   public void testDisplayFactory() throws Exception {
 
-    DisplayFactory result = configuration.displayFactory(menuFactory, footerFactory, metaElementFactory,
-        carouselFactory, messageSource, pageService, newsEntryService, contextHolder);
+    DisplayFactory result = configuration.displayFactory(menuFactory, carouselFactory, messageSource, pageService,
+        newsEntryService, contextHolder);
 
     Assert.assertEquals(DisplayFactoryImpl.class, result.getClass());
   }

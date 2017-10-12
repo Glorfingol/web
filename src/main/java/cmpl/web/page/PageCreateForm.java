@@ -6,6 +6,8 @@ public class PageCreateForm {
   private String menuTitle = "";
   private boolean withNews = false;
   private String body = "";
+  private String header = "";
+  private String footer = "";
 
   public String getName() {
     return name;
@@ -37,6 +39,22 @@ public class PageCreateForm {
 
   public void setBody(String body) {
     this.body = body;
+  }
+
+  public String getHeader() {
+    return header;
+  }
+
+  public void setHeader(String header) {
+    this.header = header;
+  }
+
+  public String getFooter() {
+    return footer;
+  }
+
+  public void setFooter(String footer) {
+    this.footer = footer;
   }
 
 }

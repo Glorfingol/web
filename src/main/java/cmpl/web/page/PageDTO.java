@@ -18,6 +18,8 @@ public class PageDTO extends BaseDTO {
   private String menuTitle;
   private String body;
   private boolean withNews;
+  private String header;
+  private String footer;
 
   private List<MetaElementDTO> metaElements;
   private List<OpenGraphMetaElementDTO> openGraphMetaElements;
@@ -68,6 +70,22 @@ public class PageDTO extends BaseDTO {
 
   public void setWithNews(boolean withNews) {
     this.withNews = withNews;
+  }
+
+  public String getHeader() {
+    return header;
+  }
+
+  public void setHeader(String header) {
+    this.header = header;
+  }
+
+  public String getFooter() {
+    return footer;
+  }
+
+  public void setFooter(String footer) {
+    this.footer = footer;
   }
 
 }

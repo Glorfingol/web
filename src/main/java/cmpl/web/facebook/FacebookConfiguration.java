@@ -6,7 +6,6 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 
 import cmpl.web.core.context.ContextHolder;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.message.WebMessageSource;
 import cmpl.web.message.WebMessageSourceImpl;
@@ -22,10 +21,9 @@ public class FacebookConfiguration {
   }
 
   @Bean
-  FacebookDisplayFactory facebookDisplayFactory(MenuFactory menuFactory, FooterFactory footerFactory,
-      WebMessageSourceImpl messageSource, FacebookService facebookService, MetaElementFactory metaElementFactory) {
-    return FacebookDisplayFactoryImpl.fromFactoriesAndMessageResource(menuFactory, footerFactory, messageSource,
-        metaElementFactory, facebookService);
+  FacebookDisplayFactory facebookDisplayFactory(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+      FacebookService facebookService, MetaElementFactory metaElementFactory) {
+    return new FacebookDisplayFactoryImpl(menuFactory, messageSource, metaElementFactory, facebookService);
   }
 
   @Bean

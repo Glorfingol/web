@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.menu.MenuService;
 import cmpl.web.message.WebMessageSourceImpl;
@@ -26,9 +25,6 @@ public class LoginConfigurationTest {
   private MetaElementFactory metaElementFactory;
 
   @Mock
-  private FooterFactory footerFactory;
-
-  @Mock
   private MenuService menuService;
 
   @Spy
@@ -36,8 +32,7 @@ public class LoginConfigurationTest {
 
   @Test
   public void testLogindisplayFactory() throws Exception {
-    LoginDisplayFactory result = configuration.loginDisplayFactory(menuFactory, footerFactory, messageSource,
-        metaElementFactory);
+    LoginDisplayFactory result = configuration.loginDisplayFactory(menuFactory, messageSource, metaElementFactory);
 
     Assert.assertEquals(LoginDisplayFactoryImpl.class, result.getClass());
   }

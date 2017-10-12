@@ -1,0 +1,18 @@
+<form id="pageUpdateForm" th:object="${updateForm}">
+    <div class="form-control mb-3" id="formInputFooter">
+        <label th:text="#{page.footer.label}" />
+        <textarea rows="3" id="pageFooter" class="form-control" th:field="*{footer}"/>
+        <div id="feedbackfooter" class="form-control-label"></div>
+        <small class="form-text text-muted" th:text="#{page.footer.help}"/>
+    </div>
+    <input type="hidden"  th:field="*{id}"/>
+    <input type="hidden"  th:field="*{id}"/>
+    <input type="hidden"  th:field="*{name}"/>
+    <input type="hidden"  th:field="*{menuTitle}"/>
+    <input type="hidden"  th:field="*{body}"/>
+    <input type="hidden"  th:field="*{header}"/>
+    <div class="float-right">
+      <a class="btn btn-md btn-danger fa fa-times fa-white"  onclick="cancelUpdatePage()"/>
+      <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postUpdatePageForm()"/>
+    </div>
+</form>

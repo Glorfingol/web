@@ -8,7 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.core.factory.BackDisplayFactoryImpl;
 import cmpl.web.core.model.BaseException;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.message.WebMessageSourceImpl;
 import cmpl.web.meta.MetaElementFactory;
@@ -24,27 +23,10 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
 
   private final FacebookService facebookService;
 
-  protected FacebookDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
-      WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory, FacebookService facebookService) {
-    super(menuFactory, footerFactory, messageSource, metaElementFactory);
+  public FacebookDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+      MetaElementFactory metaElementFactory, FacebookService facebookService) {
+    super(menuFactory, messageSource, metaElementFactory);
     this.facebookService = facebookService;
-  }
-
-  /**
-   * Constructeur static pour la configuration
-   * 
-   * @param menuFactory
-   * @param footerFactory
-   * @param messageSource
-   * @param metaElementFactory
-   * @param facebookService
-   * @return
-   */
-  public static FacebookDisplayFactoryImpl fromFactoriesAndMessageResource(MenuFactory menuFactory,
-      FooterFactory footerFactory, WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory,
-      FacebookService facebookService) {
-    return new FacebookDisplayFactoryImpl(menuFactory, footerFactory, messageSource, metaElementFactory,
-        facebookService);
   }
 
   @Override
@@ -56,9 +38,7 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
       return computeModelAndViewForFacebookImportPage(locale);
     }
 
-    ModelAndView facebookAccess = super.computeModelAndViewForBackPage(BACK_PAGE.FACEBOOK_ACCESS, locale);
-
-    return facebookAccess;
+    return super.computeModelAndViewForBackPage(BACK_PAGE.FACEBOOK_ACCESS, locale);
   }
 
   @Override

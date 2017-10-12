@@ -1,7 +1,6 @@
 package cmpl.web.login;
 
 import cmpl.web.core.factory.BackDisplayFactoryImpl;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.message.WebMessageSourceImpl;
 import cmpl.web.meta.MetaElementFactory;
@@ -14,9 +13,9 @@ import cmpl.web.meta.MetaElementFactory;
  */
 public class LoginDisplayFactoryImpl extends BackDisplayFactoryImpl implements LoginDisplayFactory {
 
-  public LoginDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
-      WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory) {
-    super(menuFactory, footerFactory, messageSource, metaElementFactory);
+  public LoginDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+      MetaElementFactory metaElementFactory) {
+    super(menuFactory, messageSource, metaElementFactory);
   }
 
 }

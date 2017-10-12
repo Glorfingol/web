@@ -1,0 +1,80 @@
+<form id="menuCreateForm" th:object="${createForm}">
+    <div class="card">
+        <div class="card-block">
+            <div class="form-control mb-3" id="formInputTitle" >
+                <label th:text="#{menu.title.label}" />
+                <input type="text" class="form-control" th:field="*{title}"/>
+                <div id="feedbackTitle" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{menu.title.help}"/>
+            </div>
+            <div class="form-control mb-3" id="formInputPage">
+                <label th:text="#{menu.page.label}" />
+                 <select th:field="*{pageId}" class="form-control">
+                    <option th:each="page : ${pagesThatCanBeLinkedTo}" th:value="${page.id}" th:text="${page.name}"></option>
+                 </select>
+                 <div id="feedbackPage" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{menu.page.help}"/>
+            </div>
+            <div class="form-control mb-3" id="formInputParent">
+                <label th:text="#{menu.parent.label}" />
+                <select th:field="*{parentId}" class="form-control">
+                    <option value=""></option>
+                    <option th:each="menu : ${menusThatCanBeParents}" th:value="${menu.id}" th:text="${menu.title}"></option>
+                </select>
+                 <div id="feedbackParent" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{menu.parent.help}"/>
+            </div>
+            <div class="form-control mb-3" id="formInputLabel" >
+                <label th:text="#{menu.label.label}" />
+                <input type="text" class="form-control" th:field="*{label}" readonly="readonly"/>
+                <div id="feedbackLabel" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{menu.label.help}"/>
+            </div>
+            <div class="form-control mb-3" id="formInputHref" >
+                <label th:text="#{menu.href.label}" />
+                <input type="text" class="form-control" th:field="*{href}"/>
+                <div id="feedbackHref" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{menu.href.help}"/>
+            </div>
+             <div class="form-control mb-3" id="formInputOrder">
+                <label th:text="#{menu.order.label}" />
+                <input type="number" class="form-control" th:field="*{orderInMenu}"/>
+                 <div id="feedbackOrder" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{menu.order.help}"/>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="float-right">
+              <a class="btn btn-md btn-danger fa fa-times fa-white"  onclick="cancelCreateMenu()"/>
+              <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postCreateMenuForm()"/>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="card">
+    <div class="loader"/> 
+</div>
+<script>
+
+var toggleFields =  function (parentValue){
+    var hrefElement = $("#formInputHref");
+    var labelElement = $("#formInputLabel");
+    
+    if("" === parentValue){
+        hrefElement.hide();
+        labelElement.hide();
+    }else{
+        hrefElement.show();
+        labelElement.show();
+    }
+    
+}
+
+$(document).ready(function(){
+    var parentSelect = $("#parentId");
+    toggleFields(parentSelect.val());
+    parentSelect.on('change', function() {
+        toggleFields(parentSelect.val());
+    })
+});
+</script>

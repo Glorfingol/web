@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.core.factory.BackDisplayFactoryImpl;
 import cmpl.web.core.model.PageWrapper;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.message.WebMessageSourceImpl;
 import cmpl.web.meta.MetaElementFactory;
 import cmpl.web.page.BACK_PAGE;
@@ -31,10 +30,10 @@ public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   private static final String MENUS_PARENTS = "menusThatCanBeParents";
   private static final String PAGES_LINKABLE = "pagesThatCanBeLinkedTo";
 
-  public MenuManagerDisplayFactoryImpl(MenuFactory menuFactory, FooterFactory footerFactory,
-      WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory, MenuService menuService,
-      PageService pageService, ContextHolder contextHolder) {
-    super(menuFactory, footerFactory, messageSource, metaElementFactory);
+  public MenuManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+      MetaElementFactory metaElementFactory, MenuService menuService, PageService pageService,
+      ContextHolder contextHolder) {
+    super(menuFactory, messageSource, metaElementFactory);
     this.menuService = menuService;
     this.contextHolder = contextHolder;
     this.pageService = pageService;
@@ -62,6 +61,9 @@ public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
 
     List<PageDTO> pagesThatCanBeLinkedTo = pageService.getPages();
     menusManager.addObject(PAGES_LINKABLE, pagesThatCanBeLinkedTo);
+
+    MenuCreateForm createForm = new MenuCreateForm();
+    menusManager.addObject(CREATE_FORM, createForm);
 
     return menusManager;
   }

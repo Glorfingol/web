@@ -19,8 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.builder.MenuItemBuilder;
 import cmpl.web.builder.MetaElementBuilder;
-import cmpl.web.footer.Footer;
-import cmpl.web.footer.FooterFactory;
 import cmpl.web.menu.MenuFactory;
 import cmpl.web.menu.MenuItem;
 import cmpl.web.message.WebMessageSourceImpl;
@@ -33,8 +31,6 @@ public class BackDisplayFactoryImplTest {
 
   @Mock
   private MenuFactory menuFactory;
-  @Mock
-  private FooterFactory footerFactory;
   @Mock
   private MetaElementFactory metaElementFactory;
   @Mock
@@ -49,21 +45,6 @@ public class BackDisplayFactoryImplTest {
   @Before
   public void setUp() {
     locale = Locale.FRANCE;
-  }
-
-  @Test
-  public void testComputeFooter() throws Exception {
-
-    Footer footer = new Footer();
-    footer.setRue("an adress");
-    footer.setLibelle("a label");
-    footer.setTelephone("0100000000");
-
-    BDDMockito.doReturn(footer).when(footerFactory).computeFooter(Mockito.eq(locale));
-
-    Footer result = displayFactory.computeFooter(locale);
-
-    Assert.assertEquals(footer, result);
   }
 
   @Test
@@ -148,17 +129,10 @@ public class BackDisplayFactoryImplTest {
 
     List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
 
-    Footer footer = new Footer();
-    footer.setRue("an adress");
-    footer.setLibelle("a label");
-    footer.setTelephone("0100000000");
-
     BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
     BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
     BDDMockito.doReturn(backMenu).when(displayFactory)
         .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(footer).when(displayFactory).computeFooter(Mockito.eq(locale));
-    BDDMockito.doReturn(title).when(displayFactory).computeMainTitle(Mockito.eq(locale));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPage(BACK_PAGE.LOGIN, locale);
@@ -167,7 +141,6 @@ public class BackDisplayFactoryImplTest {
 
     Assert.assertEquals(metaElements, result.getModel().get("metaItems"));
     Assert.assertEquals(backMenu, result.getModel().get("menuItems"));
-    Assert.assertEquals(footer, result.getModel().get("footer"));
     Assert.assertEquals(title, result.getModel().get("mainTitle"));
     Assert.assertEquals(href, result.getModel().get("hiddenLink"));
 
@@ -175,8 +148,6 @@ public class BackDisplayFactoryImplTest {
     Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
         Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeFooter(Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeMainTitle(Mockito.eq(locale));
     Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
   }
 

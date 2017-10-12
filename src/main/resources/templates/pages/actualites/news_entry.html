@@ -1,22 +1,29 @@
 <div class="card mb-3" th:fragment="newsEntry(newsBean)">
 	<div class="card-header">
-	    <h3 th:text="${newsBean.title}"/>
-	    <div>
-		    <span class="card-text" th:text="${newsBean.panelHeading}"/>
-	    </div>
-	</div>
-	<div class="card-block" th:if="${newsBean.displayContent || newsBean.displayImage || newsBean.displayLink || newsBean.displayVideo}">
-	   <figure th:if="${newsBean.displayImage}">
-	       <img class="img-fluid mx-auto d-block" th:src="${newsBean.image}" th:alt="${newsBean.alt}" th:height="${newsBean.imageHeight}" th:width="${newsBean.imageWidth}"/>
-	       <figcaption class="text-right" th:text="${newsBean.legend}"/>
-	   </figure> 
-	   <a class="card-text" th:text="${newsBean.newsEntryShowMore}" th:href="${newsBean.newsEntryShowHref}"></a>
-	</div>
-	<div class="card-footer" th:if="${newsBean.displayTags}">
-	   <div class="form-inline">
-		   <div>
-		      <span th:each="tag : ${newsBean.tags}" class="badge badge-info" th:text="${tag}"/>
-		   </div>
-	   </div>
-	</div>
+        <h3 th:text="${newsBean.title}"/>
+        <div>
+            <span class="card-text" th:text="${newsBean.panelHeading}"/>
+        </div>
+    </div>
+    <div class="card-block" th:if="${newsBean.displayContent || newsBean.displayImage || newsBean.displayLink || newsBean.displayVideo}">
+       <figure th:if="${newsBean.displayImage}">
+           <img class="img-fluid mx-auto d-block" th:src="${newsBean.image}" th:alt="${newsBean.alt}" th:height="${newsBean.imageHeight}" th:width="${newsBean.imageWidth}"/>
+           <figcaption class="text-right" th:text="${newsBean.legend}"/>
+       </figure> 
+       <p class="card-text" th:if="${newsBean.displayContent}" th:text="${newsBean.content}"/>
+       <p class="card-text" th:if="${newsBean.displayLink}">
+           <a th:src="${newsBean.linkUrl}" th:text="${newsBean.content}"></a>
+       </p>
+       <div class="video-container" th:if="${newsBean.displayVideo}">
+           <iframe th:src="${newsBean.videoUrl}">
+            </iframe>
+       </div>
+    </div>
+    <div class="card-footer" th:if="${newsBean.displayTags}">
+       <div class="form-inline">
+           <div>
+              <span th:each="tag : ${newsBean.tags}" class="badge badge-info" th:text="${tag}"/>
+           </div>
+       </div>
+    </div>
 </div>
