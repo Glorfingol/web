@@ -3,17 +3,14 @@ package cmpl.web.carousel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import cmpl.web.media.MediaService;
+
 @Configuration
 public class CarouselConfiguration {
 
   @Bean
-  CarouselFactory carouselFactory(CarouselService carouselService) {
-    return new CarouselFactoryImpl(carouselService);
-  }
-
-  @Bean
-  CarouselItemService carouselItemService(CarouselItemRepository carouselItemRepository) {
-    return new CarouselItemServiceImpl(carouselItemRepository);
+  CarouselItemService carouselItemService(CarouselItemRepository carouselItemRepository, MediaService mediaService) {
+    return new CarouselItemServiceImpl(carouselItemRepository, mediaService);
   }
 
   @Bean

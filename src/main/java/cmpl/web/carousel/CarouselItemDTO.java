@@ -1,36 +1,28 @@
 package cmpl.web.carousel;
 
 import cmpl.web.core.model.BaseDTO;
+import cmpl.web.media.MediaDTO;
 
 public class CarouselItemDTO extends BaseDTO {
 
-  private String src;
-  private String alt;
-  private String pageId;
+  private MediaDTO media;
+  private String carouselId;
   private int orderInCarousel;
 
-  public String getSrc() {
-    return src;
+  public MediaDTO getMedia() {
+    return media;
   }
 
-  public void setSrc(String src) {
-    this.src = src;
+  public void setMedia(MediaDTO media) {
+    this.media = media;
   }
 
-  public String getAlt() {
-    return alt;
+  public String getCarouselId() {
+    return carouselId;
   }
 
-  public void setAlt(String alt) {
-    this.alt = alt;
-  }
-
-  public String getPageId() {
-    return pageId;
-  }
-
-  public void setPageId(String pageId) {
-    this.pageId = pageId;
+  public void setCarouselId(String carouselId) {
+    this.carouselId = carouselId;
   }
 
   public int getOrderInCarousel() {

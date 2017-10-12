@@ -3,7 +3,7 @@ package cmpl.web.core.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import cmpl.web.carousel.CarouselFactory;
+import cmpl.web.carousel.CarouselService;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.core.factory.DisplayFactory;
 import cmpl.web.core.factory.DisplayFactoryImpl;
@@ -22,10 +22,10 @@ import cmpl.web.page.PageService;
 public class FactoryConfiguration {
 
   @Bean
-  DisplayFactory displayFactory(MenuFactory menuFactory, CarouselFactory carouselFactory,
+  DisplayFactory displayFactory(MenuFactory menuFactory, CarouselService carouselService,
       WebMessageSourceImpl messageSource, PageService pageService, NewsEntryService newsEntryService,
       ContextHolder contextHolder) {
-    return new DisplayFactoryImpl(menuFactory, carouselFactory, messageSource, pageService, newsEntryService,
+    return new DisplayFactoryImpl(menuFactory, carouselService, messageSource, pageService, newsEntryService,
         contextHolder);
   }
 

@@ -16,30 +16,12 @@ import cmpl.web.core.model.BaseEntity;
 @Table(name = "carouse_item")
 public class CarouselItem extends BaseEntity {
 
-  @Column(name = "src")
-  private String src;
-  @Column(name = "alt")
-  private String alt;
+  @Column(name = "mediaId")
+  private String mediaId;
   @Column(name = "carousel_id")
   private String carouselId;
   @Column(name = "order_in_carousel")
   private int orderInCarousel;
-
-  public String getSrc() {
-    return src;
-  }
-
-  public void setSrc(String src) {
-    this.src = src;
-  }
-
-  public String getAlt() {
-    return alt;
-  }
-
-  public void setAlt(String alt) {
-    this.alt = alt;
-  }
 
   public String getCarouselId() {
     return carouselId;
@@ -55,6 +37,14 @@ public class CarouselItem extends BaseEntity {
 
   public void setOrderInCarousel(int orderInCarousel) {
     this.orderInCarousel = orderInCarousel;
+  }
+
+  public String getMediaId() {
+    return mediaId;
+  }
+
+  public void setMediaId(String mediaId) {
+    this.mediaId = mediaId;
   }
 
 }

@@ -1,9 +1,6 @@
 package cmpl.web.core.factory;
 
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,12 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import cmpl.web.carousel.CarouselDTO;
-import cmpl.web.carousel.CarouselFactory;
-import cmpl.web.carousel.CarouselItem;
+import cmpl.web.carousel.CarouselService;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.core.model.PageWrapper;
 import cmpl.web.menu.MenuFactory;
@@ -40,44 +35,20 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(DisplayFactoryImpl.class);
   private final MenuFactory menuFactory;
-  private final CarouselFactory carouselFactory;
+  private final CarouselService carouselService;
   private final PageService pageService;
   private final NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
 
-  public DisplayFactoryImpl(MenuFactory menuFactory, CarouselFactory carouselFactory,
+  public DisplayFactoryImpl(MenuFactory menuFactory, CarouselService carouselService,
       WebMessageSourceImpl messageSource, PageService pageService, NewsEntryService newsEntryService,
       ContextHolder contextHolder) {
     super(messageSource);
     this.menuFactory = menuFactory;
-    this.carouselFactory = carouselFactory;
+    this.carouselService = carouselService;
     this.pageService = pageService;
     this.contextHolder = contextHolder;
     this.newsEntryService = newsEntryService;
-  }
-
-  List<CarouselItem> computeCarouselItems(Locale locale) {
-    List<File> imagesForCarousel = computeCarouselImagesFiles(locale);
-    return carouselFactory.computeCarouselItems(imagesForCarousel);
-  }
-
-  public List<File> computeCarouselImagesFiles(Locale locale) {
-
-    String carouselImagesSrc = getI18nValue("carousel.src", locale);
-    List<String> imagesSrcs = Arrays.asList(carouselImagesSrc.split(";"));
-    List<File> imagesForCarousel = new ArrayList<>();
-    ClassLoader classLoader = getClass().getClassLoader();
-    for (String imageSrc : imagesSrcs) {
-      URL resource = classLoader.getResource(imageSrc);
-      if (resource != null && StringUtils.hasText(resource.getFile())) {
-        File file = new File(resource.getFile());
-        imagesForCarousel.add(file);
-      } else {
-        LOGGER.error("Image introuvable : " + imageSrc);
-      }
-
-    }
-    return imagesForCarousel;
   }
 
   @Override
@@ -118,7 +89,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   }
 
   private List<CarouselDTO> computeCarouselsForPage(PageDTO page) {
-    return carouselFactory.computeCarouselsForPage(String.valueOf(page.getId()));
+    return carouselService.findByPageId(String.valueOf(page.getId()));
   }
 
   private String computePageContent(PageDTO page) {

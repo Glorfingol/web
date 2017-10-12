@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cmpl.web.carousel.CarouselItemRepository;
 import cmpl.web.carousel.CarouselRepository;
+import cmpl.web.media.MediaRepository;
 import cmpl.web.menu.MenuRepository;
 import cmpl.web.meta.MetaElementRepository;
 import cmpl.web.meta.OpenGraphMetaElementRepository;
@@ -48,7 +49,8 @@ public class WebLauncher {
       final NewsContentRepository newsContentRepository, final PageRepository pageRepository,
       final MetaElementRepository metaElementRepository,
       final OpenGraphMetaElementRepository openGraphMetaElementRepository, final MenuRepository menuRepository,
-      final CarouselRepository carouselRepository, final CarouselItemRepository carouselItemRepository) {
+      final CarouselRepository carouselRepository, final CarouselItemRepository carouselItemRepository,
+      final MediaRepository mediaRepository) {
     return (args) -> {
 
       NewsContent newsContent = createNewsContent(newsContentRepository);
@@ -56,7 +58,7 @@ public class WebLauncher {
       newsEntryRepository.save(createNewsEntries(newsContent));
 
       PageFactory.createPages(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository,
-          carouselRepository, carouselItemRepository);
+          carouselRepository, carouselItemRepository, mediaRepository);
 
     };
   }

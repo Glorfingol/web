@@ -6,6 +6,8 @@ import cmpl.web.carousel.Carousel;
 import cmpl.web.carousel.CarouselItem;
 import cmpl.web.carousel.CarouselItemRepository;
 import cmpl.web.carousel.CarouselRepository;
+import cmpl.web.media.Media;
+import cmpl.web.media.MediaRepository;
 import cmpl.web.menu.Menu;
 import cmpl.web.menu.MenuRepository;
 import cmpl.web.meta.MetaElement;
@@ -27,9 +29,10 @@ public class PageFactory {
 
   public static void createPages(PageRepository pageRepository, MenuRepository menuRepository,
       MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository,
-      CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository) {
+      CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
+      MediaRepository mediaRepository) {
     createIndex(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository,
-        carouselRepository, carouselItemRepository);
+        carouselRepository, carouselItemRepository, mediaRepository);
     createActualites(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository);
     createAppointment(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository);
     createCenter(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository);
@@ -44,7 +47,8 @@ public class PageFactory {
 
   public static void createIndex(PageRepository pageRepository, MenuRepository menuRepository,
       MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository,
-      CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository) {
+      CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
+      MediaRepository mediaRepository) {
 
     Page index = new Page();
     index.setMenuTitle("Accueil");
@@ -79,17 +83,33 @@ public class PageFactory {
     carouselHome = carouselRepository.save(carouselHome);
     String carouselId = String.valueOf(carouselHome.getId());
 
+    Media firstMedia = new Media();
+    firstMedia.setContentType("image/jpg");
+    firstMedia.setExtension(".jpg");
+    firstMedia.setName("epilation_verso.jpg");
+    firstMedia.setSrc("http://poc.lperrod.cardiweb.com/static/medias/epilation_verso.jpg");
+    firstMedia.setSize(114688l);
+
+    firstMedia = mediaRepository.save(firstMedia);
+
     CarouselItem firstImage = new CarouselItem();
-    firstImage.setAlt("Premiere image carousel home");
-    firstImage.setSrc("img/carousel/epilation_verso.jpg");
+    firstImage.setMediaId(String.valueOf(firstMedia.getId()));
     firstImage.setCarouselId(carouselId);
     firstImage.setOrderInCarousel(1);
+
+    Media secondMedia = new Media();
+    secondMedia.setContentType("image/jpg");
+    secondMedia.setExtension(".jpg");
+    secondMedia.setName("epilation_verso.jpg");
+    secondMedia.setSrc("http://poc.lperrod.cardiweb.com/static/medias/epilation_recto.jpg");
+    secondMedia.setSize(61440l);
+
+    secondMedia = mediaRepository.save(secondMedia);
 
     carouselItemRepository.save(firstImage);
 
     CarouselItem secondImage = new CarouselItem();
-    secondImage.setAlt("Seconde image carousel home");
-    secondImage.setSrc("img/carousel/epilation_recto.jpg");
+    secondImage.setMediaId(String.valueOf(secondMedia.getId()));
     secondImage.setOrderInCarousel(2);
     secondImage.setCarouselId(carouselId);
 
