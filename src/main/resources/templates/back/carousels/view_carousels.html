@@ -1,0 +1,17 @@
+<div class="card card-block">
+    <div class="row">
+         <div class="col">
+             <div class="pull-right ">
+                 <a class="btn btn-md btn-primary fa fa-plus fa-white" 
+                    href="/manager/carousels/_create" 
+                    id="buttonAdd"/>
+             </div>
+         </div>
+    </div>
+    <div class="row">
+        <div th:each="carouselBean : ${wrappedCarousels.page.content}" class="col-12 pagesElement">
+         <div th:replace="back/carousels/carousel_list_element :: carouselElement(${carouselBean})"/>
+     </div>
+    </div>
+    <div th:replace="common/pagination :: pagination(${wrappedCarousels})"/>
+</div>

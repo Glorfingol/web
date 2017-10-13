@@ -1,18 +1,8 @@
 package cmpl.web.carousel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+public class CarouselCreateForm {
 
-import cmpl.web.core.model.BaseEntity;
-
-@Entity(name = "carousel")
-@Table(name = "carousel")
-public class Carousel extends BaseEntity {
-
-  @Column(name = "name", unique = true)
   private String name;
-  @Column(name = "page_id")
   private String pageId;
 
   public String getName() {

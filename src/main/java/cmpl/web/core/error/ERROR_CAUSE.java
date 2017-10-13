@@ -24,7 +24,12 @@ public enum ERROR_CAUSE {
 
   EMPTY_MENU_TITLE("empty.menu.title"),
   EMPTY_PAGE("empty.menu.page"),
-  BAD_ORDER("bad.menu.order");
+  BAD_ORDER("bad.menu.order"),
+
+  EMPTY_CAROUSEL_NAME("empty.carousel.name"),
+  EMPTY_CAROUSEL_ID("empty.carousel.id"),
+  EMPTY_MEDIA_ID("empty.media.id"),
+  EMPTY_CAROUSEL_PAGE("empty.carousel.page");
 
   private String causeKey;
 

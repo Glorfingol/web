@@ -43,4 +43,14 @@ public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, Ca
 
     return entity;
   }
+
+  @Override
+  public CarouselItemDTO createEntity(CarouselItemDTO dto) {
+
+    CarouselItem carouselItem = new CarouselItem();
+    fillObject(dto, carouselItem);
+    carouselItem.setMediaId(String.valueOf(dto.getMedia().getId()));
+
+    return toDTO(carouselItemRepository.save(carouselItem));
+  }
 }

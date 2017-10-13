@@ -23,7 +23,10 @@ public enum BACK_PAGE {
   PAGES_CREATE("pages.create", BACK_MENU.BACK_PAGES.getTitle()),
   PAGES_UPDATE("pages.update", BACK_MENU.BACK_PAGES.getTitle()),
   MEDIA_VIEW("medias.view", BACK_MENU.BACK_MEDIAS.getTitle()),
-  MEDIA_UPLOAD("medias.upload", BACK_MENU.BACK_MEDIAS.getTitle());
+  MEDIA_UPLOAD("medias.upload", BACK_MENU.BACK_MEDIAS.getTitle()),
+  CAROUSELS_VIEW("carousels.view", BACK_MENU.BACK_CAROUSELS.getTitle()),
+  CAROUSELS_UPDATE("carousels.update", BACK_MENU.BACK_CAROUSELS.getTitle()),
+  CAROUSELS_CREATE("carousels.create", BACK_MENU.BACK_CAROUSELS.getTitle());
 
   private String tile;
   private String title;

@@ -10,6 +10,7 @@ public enum BACK_MENU {
 
   BACK_INDEX("back.index.title", "back.index.href", "back.index.label"),
   BACK_PAGES("back.pages.title", "back.pages.href", "back.pages.label"),
+  BACK_CAROUSELS("back.carousels.title", "back.carousels.href", "back.carousels.label"),
   BACK_MENUS("back.menus.title", "back.menus.href", "back.menus.label"),
   BACK_MEDIAS("back.medias.title", "back.medias.href", "back.medias.label"),
   BACK_NEWS("back.news.title", "back.news.href", "back.news.label"),
