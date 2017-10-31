@@ -1,16 +1,19 @@
 package cmpl.web.carousel;
 
 import java.time.LocalDate;
-import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 public class CarouselUpdateForm {
 
   private String name;
   private String pageId;
   private Long id;
+  @DateTimeFormat(iso = ISO.DATE)
   private LocalDate creationDate;
+  @DateTimeFormat(iso = ISO.DATE)
   private LocalDate modificationDate;
-  private List<CarouselItemDTO> items;
 
   public CarouselUpdateForm() {
   }
@@ -21,7 +24,6 @@ public class CarouselUpdateForm {
     this.id = carousel.getId();
     this.creationDate = carousel.getCreationDate();
     this.modificationDate = carousel.getModificationDate();
-    this.items = carousel.getCarouselItems();
   }
 
   public String getName() {
@@ -62,14 +64,6 @@ public class CarouselUpdateForm {
 
   public void setModificationDate(LocalDate modificationDate) {
     this.modificationDate = modificationDate;
-  }
-
-  public List<CarouselItemDTO> getItems() {
-    return items;
-  }
-
-  public void setItems(List<CarouselItemDTO> items) {
-    this.items = items;
   }
 
 }

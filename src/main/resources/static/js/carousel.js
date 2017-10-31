@@ -2,7 +2,7 @@ function cancelUpdateCarousel(){
 	window.location.href="/manager/carousels";
 }
 
-function cancelCreateCarousels(){
+function cancelCreateCarousel(){
 	window.location.href="/manager/carousels";
 }
 
@@ -22,14 +22,12 @@ function computeCarouselToUpdate(){
 	
 	var inputName = $("#name");
 	var inputPageId = $("#pageId");
-	var inputItems = $("#items");
 	var inputId = $("#id");
 	var inputCreationDate = $("#creationDate");
 	var inputModificationDate = $("#modificationDate");
 	
 	carousel.name = inputName.val();
 	carousel.pageId = inputPageId.val();
-	carousel.items = inputItems.val();
 	carousel.id = inputId.val();
 	carousel.creationDate = formatDate(inputCreationDate.val());
 	carousel.modificationDate = formatDate(inputModificationDate.val());
@@ -54,8 +52,8 @@ function computeCarouselToCreate(){
 
 function postUpdateCarouselForm(){
 	var carouselToUpdate = validateAndUpdateCarousel();
-	var url = "/manager/carousels/" + menuToUpdate.id;
-	var urlFallback = "/manager/carousels/" + menuToUpdate.id;
+	var url = "/manager/carousels/" + carouselToUpdate.id;
+	var urlFallback = "/manager/carousels/" + carouselToUpdate.id;
 	update($("#carouselEditForm"),$(".loader"),url,urlFallback,carouselToUpdate);
 }
 

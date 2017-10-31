@@ -32,16 +32,8 @@ public class CarouselServiceImpl extends BaseServiceImpl<CarouselDTO, Carousel> 
   @Override
   protected Carousel toEntity(CarouselDTO dto) {
     Carousel carousel = new Carousel();
-    fillObject(carousel, dto);
+    fillObject(dto, carousel);
     return carousel;
-  }
-
-  @Override
-  public CarouselDTO updateEntity(CarouselDTO dto) {
-    for (CarouselItemDTO carouselItem : dto.getCarouselItems()) {
-      carouselItemService.updateEntity(carouselItem);
-    }
-    return super.updateEntity(dto);
   }
 
 }

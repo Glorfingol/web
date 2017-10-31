@@ -51,7 +51,6 @@ public class CarouselDispatcherImpl implements CarouselDispatcher {
     CarouselDTO carouselToUpdate = carouselService.getEntity(form.getId());
     carouselToUpdate.setName(form.getName());
     carouselToUpdate.setPageId(form.getPageId());
-    carouselToUpdate.setCarouselItems(form.getItems());
 
     CarouselDTO updatedCarousel = carouselService.updateEntity(carouselToUpdate);
 
