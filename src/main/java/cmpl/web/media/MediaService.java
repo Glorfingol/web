@@ -11,6 +11,8 @@ public interface MediaService extends BaseService<MediaDTO> {
 
   MediaDTO upload(MultipartFile multipartFile) throws Exception;
 
-  InputStream download(long mediaId) throws SQLException;
+  InputStream download(String mediaName) throws SQLException;
+
+  MediaDTO findByName(String name);
 
 }

@@ -1,5 +1,7 @@
 package cmpl.web.file;
 
+import java.io.InputStream;
+
 import cmpl.web.core.model.BaseException;
 
 /**
@@ -35,5 +37,13 @@ public interface FileService {
    * @return
    */
   String readFileContentFromSystem(String fileName);
+
+  /**
+   * Lire le contenu d'un fichier dans un InputStream
+   * 
+   * @param fileName
+   * @return
+   */
+  InputStream read(String fileName);
 
 }

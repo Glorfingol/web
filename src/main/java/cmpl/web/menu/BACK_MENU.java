@@ -13,6 +13,7 @@ public enum BACK_MENU {
   BACK_CAROUSELS("back.carousels.title", "back.carousels.href", "back.carousels.label"),
   BACK_MENUS("back.menus.title", "back.menus.href", "back.menus.label"),
   BACK_MEDIAS("back.medias.title", "back.medias.href", "back.medias.label"),
+  BACK_STYLE("back.style.title", "back.style..href", "back.style.label"),
   BACK_NEWS("back.news.title", "back.news.href", "back.news.label"),
   BACK_FACEBOOK("facebook.access.title", "facebook.access.href", "facebook.access.label");
 

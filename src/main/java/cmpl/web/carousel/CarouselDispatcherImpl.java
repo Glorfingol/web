@@ -2,6 +2,7 @@ package cmpl.web.carousel;
 
 import java.util.Locale;
 
+import cmpl.web.core.model.BaseException;
 import cmpl.web.core.model.Error;
 import cmpl.web.media.MediaDTO;
 import cmpl.web.media.MediaService;
@@ -73,6 +74,15 @@ public class CarouselDispatcherImpl implements CarouselDispatcher {
     CarouselItemDTO createdItem = carouselItemService.createEntity(itemToCreate);
 
     return translator.fromDTOToResponse(createdItem);
+  }
+
+  @Override
+  public void deleteCarouselItemEntity(String carouselItemId, Locale locale) throws BaseException {
+    Error error = validator.validateDelete(carouselItemId, locale);
+    if (error != null) {
+      throw new BaseException(error.getCauses().get(0).getMessage());
+    }
+    carouselItemService.deleteEntity(Long.valueOf(carouselItemId));
   }
 
 }

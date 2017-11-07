@@ -26,7 +26,9 @@ public enum BACK_PAGE {
   MEDIA_UPLOAD("medias.upload", BACK_MENU.BACK_MEDIAS.getTitle()),
   CAROUSELS_VIEW("carousels.view", BACK_MENU.BACK_CAROUSELS.getTitle()),
   CAROUSELS_UPDATE("carousels.update", BACK_MENU.BACK_CAROUSELS.getTitle()),
-  CAROUSELS_CREATE("carousels.create", BACK_MENU.BACK_CAROUSELS.getTitle());
+  CAROUSELS_CREATE("carousels.create", BACK_MENU.BACK_CAROUSELS.getTitle()),
+  STYLES_VIEW("styles.view", BACK_MENU.BACK_STYLE.getTitle()),
+  STYLES_UPDATE("styles.update", BACK_MENU.BACK_STYLE.getTitle());
 
   private String tile;
   private String title;

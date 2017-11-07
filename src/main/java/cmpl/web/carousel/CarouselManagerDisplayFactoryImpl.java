@@ -122,8 +122,6 @@ public class CarouselManagerDisplayFactoryImpl extends BackDisplayFactoryImpl im
   public ModelAndView computeModelAndViewForUpdateCarouselItems(Locale locale, String carouselId) {
     ModelAndView carouselManager = new ModelAndView("back/carousels/edit/tab_items");
     carouselManager.addObject(CREATE_FORM, computeItemCreateForm(carouselId));
-    List<PageDTO> pages = pageService.getEntities();
-    carouselManager.addObject(PAGES, pages);
     List<MediaDTO> medias = mediaService.getEntities();
     carouselManager.addObject(MEDIAS, medias);
     List<CarouselItemDTO> items = carouselItemService.getByCarouselId(carouselId);

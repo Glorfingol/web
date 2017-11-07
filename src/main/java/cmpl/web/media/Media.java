@@ -12,7 +12,7 @@ public class Media extends BaseEntity {
 
   @Column(name = "src", nullable = false)
   private String src;
-  @Column(name = "name", nullable = false)
+  @Column(name = "name", nullable = false, unique = true)
   private String name;
   @Column(name = "extension", nullable = false)
   private String extension;

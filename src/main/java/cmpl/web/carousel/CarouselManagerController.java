@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import cmpl.web.core.model.BaseException;
 import cmpl.web.page.BACK_PAGE;
 
 @Controller
@@ -109,14 +111,14 @@ public class CarouselManagerController {
     return carouselDisplayFactory.computeModelAndViewForUpdateCarouselMain(Locale.FRANCE, carouselId);
   }
 
-  @GetMapping(value = "/{carouselId}/_body")
+  @GetMapping(value = "/{carouselId}/_items")
   public ModelAndView printViewUpdateCarouselItems(@PathVariable(value = "carouselId") String carouselId) {
     LOGGER.info("Accès à la page " + BACK_PAGE.CAROUSELS_UPDATE.name() + " pour " + carouselId
         + " pour la partie items");
     return carouselDisplayFactory.computeModelAndViewForUpdateCarouselItems(Locale.FRANCE, carouselId);
   }
 
-  @PostMapping(value = "/items")
+  @PostMapping(value = "/{carouselId}/items")
   @ResponseBody
   public ResponseEntity<CarouselItemResponse> createCarouselItem(@RequestBody CarouselItemCreateForm createForm) {
 
@@ -134,4 +136,18 @@ public class CarouselManagerController {
 
   }
 
+  @DeleteMapping(value = "/{carouselId}/items/{carouselItemId}")
+  @ResponseBody
+  public ResponseEntity<CarouselItemResponse> deleteCarouselItem(
+      @PathVariable(value = "carouselItemId") String carouselItemId, @RequestBody CarouselItemCreateForm createForm) {
+
+    LOGGER.info("Tentative de suppression d'un élément de carousel");
+    try {
+      carouselDispatcher.deleteCarouselItemEntity(carouselItemId, Locale.FRANCE);
+    } catch (BaseException e) {
+      LOGGER.error("Echec de la suppression de l'élément de carousel " + carouselItemId, e);
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 }

@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
-import cmpl.web.core.configuration.WebSecurityConfiguration;
 import cmpl.web.core.model.BaseException;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,10 +28,9 @@ public class WebSecurityConfigurationTest {
 
   @Test
   public void testPrepareAuthorizedUrls() throws Exception {
-    String[] authorizedUrls = new String[]{"/", "/pages/**", "/soins_medicaux", "/centre-medical", "/rendez-vous",
-        "/contact", "/gynecologue", "/actualites", "/actualites/**", "/techniques", "/tarifs", "/horaires", "/robots",
-        "/robot", "/robot.txt", "/robots.txt", "/bootstrap/**", "/jquery/**", "/tether/**", "/fontawesome/**",
-        "/ckeditor/**", "/js/**", "/img/**", "/css/**", "/**/favicon.ico", "/sitemap.xml", "/soon"};
+    String[] authorizedUrls = new String[]{"/", "/pages/**", "/robots", "/robot", "/robot.txt", "/robots.txt",
+        "/bootstrap/**", "/jquery/**", "/tether/**", "/fontawesome/**", "/ckeditor/**", "/js/**", "/img/**", "/css/**",
+        "/**/favicon.ico", "/sitemap.xml", "/soon", "/public/**"};
 
     String[] result = configuration.prepareAuthorizedUrls();
 

@@ -67,4 +67,13 @@ public class CarouselValidatorImpl extends BaseValidator implements CarouselVali
     return null;
   }
 
+  @Override
+  public Error validateDelete(String carouselItemId, Locale locale) {
+    List<ErrorCause> causes = new ArrayList<>();
+    if (!isStringValid(carouselItemId)) {
+      causes.add(computeCause(ERROR_CAUSE.EMPTY_CAROUSEL_ITEM_ID, locale));
+    }
+    return null;
+  }
+
 }

@@ -1,33 +1,52 @@
-<form id="carouselEditForm" th:object="${updateForm}">
-    <div class="card">
-        <div class="card-block">
-            <div class="form-control mb-3" id="formInputName" >
-                <label th:text="#{carousel.name.label}" />
-                <input type="text" class="form-control" th:field="*{name}"/>
-                <div id="feedbackName" class="form-control-label"></div>
-                <small class="form-text text-muted" th:text="#{carousel.name.help}"/>
-            </div>
-            <div class="form-control mb-3" id="formInputPage">
-                <label th:text="#{carousel.page.label}" />
-                <select th:field="*{pageId}" class="form-control">
-                    <option value=""></option>
-                    <option th:each="page : ${pages}" th:value="${page.id}" th:text="${page.name}"></option>
-                </select>
-                 <div id="feedbackPage" class="form-control-label"></div>
-                <small class="form-text text-muted" th:text="#{carousel.page.help}"/>
-            </div>
-            <input type="hidden"  th:field="*{id}"/>
-            <input type="hidden"  th:field="*{creationDate}"/>
-            <input type="hidden"  th:field="*{modificationDate}"/>
+<div class="card">
+    <div role="tabpanel" class="card-header">
+        <div class="mb-3">
+            <span th:text="#{carousel.current}"></span>
+            <span th:text="${updateForm.name}"></span>
         </div>
-        <div class="card-footer">
-            <div class="float-right">
-              <a class="btn btn-md btn-danger fa fa-times fa-white"  onclick="cancelUpdateCarousel()"/>
-              <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postUpdateCarouselForm()"/>
-            </div>
+        <ul class="nav nav-tabs card-header-tabs" id="pageTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"  onclick="goToMainTab()">
+                    <span th:text="#{carousel.tab.main}"/>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="body-tab" data-toggle="tab" href="#" role="tab"  onclick="goToItemsTab()" >
+                  <span th:text="#{carousel.tab.items}"/>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content card-block" id="pageTabContent">
+        <div role="tabpanel" class="tab-pane fade active show" id="ajaxTab">
         </div>
     </div>
-</form>
+</div>
 <div class="card">
     <div class="loader"/> 
 </div>
+<script th:inline="javascript">
+var currentTab = "";
+var goToItemsTab =  function (){
+    if(currentTab !== "items"){
+       var url = "/manager/carousels/"+[[''+${updateForm.id}+'']]+"/_items";
+       $.get(url, function (data) {
+           $("#ajaxTab").html(data);
+           currentTab = "items";
+         });
+    }
+};
+var goToMainTab =  function(){
+    if(currentTab !== "main"){
+     var url = "/manager/carousels/"+[[''+${updateForm.id}+'']]+"/_main";
+     $.get(url, function (data) {
+         $("#ajaxTab").html(data);
+         currentTab = "main";
+       });
+     }
+};
+
+$(document).ready(function(){
+        goToMainTab();
+});
+</script>

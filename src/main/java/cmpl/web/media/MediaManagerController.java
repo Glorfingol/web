@@ -81,7 +81,7 @@ public class MediaManagerController {
       res.setHeader(HttpHeaders.CONTENT_LENGTH, fileDTO.getSize() + "");
       res.setHeader(HttpHeaders.CONTENT_DISPOSITION, "Content-Disposition: inline; filename=\"" + fileDTO.getName()
           + "\"");
-      StreamUtils.copy(mediaService.download(Long.valueOf(mediaId)), res.getOutputStream());
+      StreamUtils.copy(mediaService.download(fileDTO.getName()), res.getOutputStream());
       return;
     }
     res.setStatus(HttpStatus.NOT_FOUND.value());

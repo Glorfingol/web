@@ -12,4 +12,5 @@ public interface CarouselValidator {
 
   Error validateUpdate(CarouselUpdateForm form, Locale locale);
 
+  Error validateDelete(String carouselItemId, Locale locale);
 }

@@ -49,9 +49,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   }
 
   String[] prepareAuthorizedUrls() {
-    return new String[]{"/", "/pages/**", "/soins_medicaux", "/centre-medical", "/rendez-vous", "/contact",
-        "/gynecologue", "/actualites", "/actualites/**", "/techniques", "/tarifs", "/horaires", "/robots", "/robot",
-        "/robot.txt", "/robots.txt", "/bootstrap/**", "/jquery/**", "/tether/**", "/fontawesome/**", "/ckeditor/**",
-        "/js/**", "/img/**", "/css/**", "/**/favicon.ico", "/sitemap.xml", "/soon"};
+    return new String[]{"/", "/pages/**", "/robots", "/robot", "/robot.txt", "/robots.txt", "/bootstrap/**",
+        "/jquery/**", "/tether/**", "/fontawesome/**", "/ckeditor/**", "/js/**", "/img/**", "/css/**",
+        "/**/favicon.ico", "/sitemap.xml", "/soon", "/public/**"};
   }
 }

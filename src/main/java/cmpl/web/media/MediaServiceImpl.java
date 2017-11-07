@@ -15,11 +15,13 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
 
   private final ContextHolder contextHolder;
   private final FileService fileService;
+  private final MediaRepository mediaRepository;
 
   public MediaServiceImpl(MediaRepository entityRepository, FileService fileService, ContextHolder contextHolder) {
     super(entityRepository);
     this.fileService = fileService;
     this.contextHolder = contextHolder;
+    this.mediaRepository = entityRepository;
   }
 
   @Override
@@ -45,8 +47,8 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
   }
 
   @Override
-  public InputStream download(long mediaId) throws SQLException {
-    return null;
+  public InputStream download(String mediaName) throws SQLException {
+    return fileService.read(mediaName);
   }
 
   @Override
@@ -61,6 +63,11 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
     Media entity = new Media();
     fillObject(dto, entity);
     return entity;
+  }
+
+  @Override
+  public MediaDTO findByName(String name) {
+    return toDTO(mediaRepository.findByName(name));
   }
 
 }

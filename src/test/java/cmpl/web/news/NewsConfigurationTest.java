@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import cmpl.web.carousel.CarouselFactory;
 import cmpl.web.core.context.ContextHolder;
 import cmpl.web.file.ImageConverterService;
 import cmpl.web.file.ImageService;
@@ -42,9 +41,6 @@ public class NewsConfigurationTest {
 
   @Mock
   private PageService pageService;
-
-  @Mock
-  private CarouselFactory carouselFactory;
 
   @Mock
   private NewsEntryRepository newsEntryRepository;
