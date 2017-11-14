@@ -21,8 +21,8 @@ public class ResourceConfigurationTest {
   @Test
   public void testMessageSource() throws Exception {
 
-    Set<String> baseNames = Sets.newHashSet(Lists.newArrayList("i18n/menu", "i18n/footer", "i18n/keys", "i18n/back",
-        "i18n/error", "i18n/form"));
+    Set<String> baseNames = Sets.newHashSet(Lists.newArrayList("i18n/footer", "i18n/keys", "i18n/back", "i18n/error",
+        "i18n/form"));
     WebMessageSourceImpl result = configuration.messageSource();
 
     Assert.assertEquals(baseNames, result.getBasenameSet());

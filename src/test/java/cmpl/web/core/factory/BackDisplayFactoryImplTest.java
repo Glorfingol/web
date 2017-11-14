@@ -141,7 +141,6 @@ public class BackDisplayFactoryImplTest {
 
     Assert.assertEquals(metaElements, result.getModel().get("metaItems"));
     Assert.assertEquals(backMenu, result.getModel().get("menuItems"));
-    Assert.assertEquals(title, result.getModel().get("mainTitle"));
     Assert.assertEquals(href, result.getModel().get("hiddenLink"));
 
     Mockito.verify(displayFactory, Mockito.times(1)).computeTileName(Mockito.anyString(), Mockito.eq(locale));
