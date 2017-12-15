@@ -54,6 +54,37 @@
             <artifactId>spring-social-facebook</artifactId>
         </dependency>
         
+        <!-- CSV -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.5</version>
+        </dependency>
+        
+        <!-- JOB -->
+        <dependency>
+	      <groupId>org.quartz-scheduler</groupId>
+	      <artifactId>quartz</artifactId>
+	      <version>2.3.0</version>
+	    </dependency>
+	    
+	    <!-- Connexion google drive -->
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>1.23.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.oauth-client</groupId>
+            <artifactId>google-oauth-client-jetty</artifactId>
+            <version>1.23.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-drive</artifactId>
+            <version>v3-rev90-1.23.0</version>
+        </dependency>
+    
         <!-- TUs -->
         <dependency>
             <groupId>org.powermock</groupId>

@@ -24,10 +24,3 @@ spring:
 # HTTP Server
 server:
   port: 3232  # HTTP (Tomcat) port
-  
-fileBasePath: "/services/web/medias/actualites/"
-templateBasePath: "/services/web/pages/"
-mediaBasePath: "/services/web/medias/"
-mediaDisplayPath: "http://poc.lperrod.cardiweb.com/public/medias/"
-imageDisplaySrc: "http://poc.lperrod.cardiweb.com/public/medias/"
-  

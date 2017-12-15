@@ -1,0 +1,25 @@
+<div class="card card-block">
+	<form id="styleViewForm" th:object="${style}">
+	    <div class="form-control mb-3" id="formInputContent">
+	        <label th:text="#{style.content.label}" />
+	        <textarea rows="3" id="styleContent" class="form-control" th:field="*{content}"/>
+	        <div id="feedbackContent" class="form-control-label"></div>
+	        <small class="form-text text-muted" th:text="#{style.content.help}"/>
+	    </div>
+	    <div class="float-right">
+	      <a class="btn btn-md btn-success fa fa-edit fa-white" onclick="goToUpdateStyle()"/>
+	    </div>
+	</form>
+ </div>
+<script th:inline="javascript">
+CKEDITOR.config.startupMode = 'source';
+CKEDITOR.config.readOnly = true;
+$(document).ready(function(){
+	CKEDITOR.replace("styleContent");
+});
+
+
+var goToUpdateStyle =  function(){
+    window.location.href = "/manager/styles/_edit";
+};
+</script>
