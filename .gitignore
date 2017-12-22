@@ -1,5 +1,13 @@
-*.classpath
-.project
-target/
+.classpath
+*.project
 .settings/org.eclipse.core.resources.prefs
 *.prefs
+data/*
+target/*
+/target/
+
+.settings/org.eclipse.wst.common.component
+.settings/org.eclipse.wst.common.project.facet.core.xml
+*.iml
+.idea/
+.idea\
