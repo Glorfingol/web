@@ -49,6 +49,15 @@ public class BackupImportConfiguration {
   @Value("${backupFilePath}")
   String backupFilePath;
 
+  @Value("${actualitesFilePath}")
+  String actualitesFilePath;
+
+  @Value("${pagesFilePath}")
+  String pagesFilePath;
+
+  @Value("${mediaFilePath}")
+  String mediaFilePath;
+
   DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
   @Bean
@@ -78,7 +87,7 @@ public class BackupImportConfiguration {
 
   @Bean
   public BackupImporter backupImporter(CSVReader csvReader) {
-    return new BackupImporter(csvReader, backupFilePath);
+    return new BackupImporter(csvReader, backupFilePath, mediaFilePath, pagesFilePath, actualitesFilePath);
   }
 
   @Bean

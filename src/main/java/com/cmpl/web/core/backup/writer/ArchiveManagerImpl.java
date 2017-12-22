@@ -14,6 +14,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.drive.Drive;
@@ -21,13 +22,25 @@ import com.google.api.services.drive.Drive;
 public class ArchiveManagerImpl implements ArchiveManager {
 
   private final String backupFilePath;
+  private final String mediaFilePath;
+  private final String pagesFilePath;
+  private final String actualitesFilePath;
   private final DateTimeFormatter dateTimeFormatter;
   private final Drive driveService;
 
+  private static final String DOT = ".";
+  private static final String CSV_EXTENSION = "csv";
+  private static final String ZIP_EXTENSION = "zip";
+  private static final long TEN_DAYS_MILLISECONDS = 10 * 24 * 60 * 60 * 1000;
+
   private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveManagerImpl.class);
 
-  public ArchiveManagerImpl(String backupFilePath, Drive driveService) {
+  public ArchiveManagerImpl(String backupFilePath, String mediaFilePath, String pagesFilePath,
+      String actualitesFilePath, Drive driveService) {
     this.backupFilePath = backupFilePath;
+    this.mediaFilePath = mediaFilePath;
+    this.pagesFilePath = pagesFilePath;
+    this.actualitesFilePath = actualitesFilePath;
     this.dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
     this.driveService = driveService;
   }
@@ -36,14 +49,19 @@ public class ArchiveManagerImpl implements ArchiveManager {
   public void archiveData() {
 
     LOGGER.info("Recuperation des fichiers a archiver");
-    List<File> filesToZip = getCSVFiles();
+    List<File> csvFiles = getCSVFiles();
+    List<File> pagesFiles = getPagesFiles();
+    List<File> mediaFiles = getMediaFiles();
+    List<File> actualitesFiles = getActualitesFiles();
+
     LOGGER.info("Archivage des fichiers");
-    File zipFile = zipFiles(filesToZip);
-    LOGGER.info("Suppression des fichiers CSV");
-    deleteCSVFiles(filesToZip);
+    File zipFile = zipFiles(csvFiles, pagesFiles, mediaFiles, actualitesFiles);
+    if (!CollectionUtils.isEmpty(csvFiles)) {
+      LOGGER.info("Suppression des fichiers CSV");
+      deleteCSVFiles(csvFiles);
+    }
     if (zipFile != null && zipFile.exists()) {
       copyZipToGoogleDrive(zipFile);
-
     }
     LOGGER.info("Suppression des backup de plus de 10 jours");
     deleteOlderThanTenDaysFiles();
@@ -56,25 +74,66 @@ public class ArchiveManagerImpl implements ArchiveManager {
     if (!directory.exists()) {
       return csvFiles;
     }
-    csvFiles = Arrays.asList(directory.listFiles((dir, name) -> name.endsWith(".csv")));
+    csvFiles = Arrays.asList(directory.listFiles((dir, name) -> name.endsWith(DOT + CSV_EXTENSION)));
     return csvFiles;
   }
 
-  private File zipFiles(List<File> filesToZip) {
+  private List<File> getMediaFiles() {
+    List<File> mediaFiles = new ArrayList<>();
+    File directory = new File(mediaFilePath);
+    if (!directory.exists()) {
+      return mediaFiles;
+    }
+    mediaFiles = Arrays.asList(directory.listFiles());
+    return mediaFiles;
+  }
+
+  private List<File> getActualitesFiles() {
+    List<File> actualitsFiles = new ArrayList<>();
+    File directory = new File(actualitesFilePath);
+    if (!directory.exists()) {
+      return actualitsFiles;
+    }
+    actualitsFiles = Arrays.asList(directory.listFiles());
+    return actualitsFiles;
+  }
+
+  private List<File> getPagesFiles() {
+    List<File> pagesFiles = new ArrayList<>();
+    File directory = new File(pagesFilePath);
+    if (!directory.exists()) {
+      return pagesFiles;
+    }
+    pagesFiles = Arrays.asList(directory.listFiles());
+    return pagesFiles;
+  }
+
+  private File zipFiles(List<File> csvFiles, List<File> pagesFiles, List<File> mediaFiles, List<File> actualitesFiles) {
     File directory = new File(backupFilePath);
 
     if (directory.exists()) {
       try {
         String zipFile = backupFilePath + File.separator + "backup_web_"
-            + LocalDateTime.now().format(dateTimeFormatter) + ".zip";
+            + LocalDateTime.now().format(dateTimeFormatter) + DOT + ZIP_EXTENSION;
         FileOutputStream fos = new FileOutputStream(zipFile);
         ZipOutputStream zos = new ZipOutputStream(fos);
-        filesToZip.stream().forEach(file -> zipFile(zos, file));
+        if (!CollectionUtils.isEmpty(csvFiles)) {
+          csvFiles.stream().forEach(file -> zipCSVFile(zos, file));
+        }
+        if (!CollectionUtils.isEmpty(pagesFiles)) {
+          pagesFiles.stream().forEach(file -> zipPageFile(zos, file));
+        }
+        if (!CollectionUtils.isEmpty(mediaFiles)) {
+          mediaFiles.stream().forEach(file -> zipMediaFile(zos, file));
+        }
+        if (!CollectionUtils.isEmpty(actualitesFiles)) {
+          actualitesFiles.stream().forEach(file -> zipActualiteFile(zos, file));
+        }
         zos.closeEntry();
         zos.close();
         return new File(zipFile);
       } catch (Exception e) {
-        LOGGER.info("Erreur lors de l'archivage des fichiers CSV", e);
+        LOGGER.info("Erreur lors de l'archivage des fichiers", e);
       }
 
     }
@@ -82,7 +141,7 @@ public class ArchiveManagerImpl implements ArchiveManager {
 
   }
 
-  private void zipFile(ZipOutputStream zos, File fileToZip) {
+  private void zipCSVFile(ZipOutputStream zos, File fileToZip) {
     try {
       byte[] buffer = new byte[1024];
       ZipEntry ze = new ZipEntry(fileToZip.getName());
@@ -94,7 +153,61 @@ public class ArchiveManagerImpl implements ArchiveManager {
       }
       in.close();
     } catch (Exception e) {
-      LOGGER.info("Erreur lors de l'archivage du fichiers CSV " + fileToZip.getName(), e);
+      LOGGER.info("Erreur lors de l'archivage du fichier " + fileToZip.getName(), e);
+
+    }
+
+  }
+
+  private void zipMediaFile(ZipOutputStream zos, File fileToZip) {
+    try {
+      byte[] buffer = new byte[1024];
+      ZipEntry ze = new ZipEntry(File.separator + "media" + File.separator + fileToZip.getName());
+      zos.putNextEntry(ze);
+      FileInputStream in = new FileInputStream(fileToZip);
+      int len;
+      while ((len = in.read(buffer)) > 0) {
+        zos.write(buffer, 0, len);
+      }
+      in.close();
+    } catch (Exception e) {
+      LOGGER.info("Erreur lors de l'archivage du fichier " + fileToZip.getName(), e);
+
+    }
+
+  }
+
+  private void zipPageFile(ZipOutputStream zos, File fileToZip) {
+    try {
+      byte[] buffer = new byte[1024];
+      ZipEntry ze = new ZipEntry(File.separator + "pages" + File.separator + fileToZip.getName());
+      zos.putNextEntry(ze);
+      FileInputStream in = new FileInputStream(fileToZip);
+      int len;
+      while ((len = in.read(buffer)) > 0) {
+        zos.write(buffer, 0, len);
+      }
+      in.close();
+    } catch (Exception e) {
+      LOGGER.info("Erreur lors de l'archivage du fichier " + fileToZip.getName(), e);
+
+    }
+
+  }
+
+  private void zipActualiteFile(ZipOutputStream zos, File fileToZip) {
+    try {
+      byte[] buffer = new byte[1024];
+      ZipEntry ze = new ZipEntry(File.separator + "actualites" + File.separator + fileToZip.getName());
+      zos.putNextEntry(ze);
+      FileInputStream in = new FileInputStream(fileToZip);
+      int len;
+      while ((len = in.read(buffer)) > 0) {
+        zos.write(buffer, 0, len);
+      }
+      in.close();
+    } catch (Exception e) {
+      LOGGER.info("Erreur lors de l'archivage du fichier " + fileToZip.getName(), e);
 
     }
 
@@ -117,8 +230,7 @@ public class ArchiveManagerImpl implements ArchiveManager {
   private void deleteFileIfOlderThanTenDays(File fileToExamine) {
     long diff = new Date().getTime() - fileToExamine.lastModified();
 
-    long tenDaysInMilliseconds = 10 * 24 * 60 * 60 * 1000;
-    if (diff > tenDaysInMilliseconds) {
+    if (diff > TEN_DAYS_MILLISECONDS) {
       fileToExamine.delete();
     }
   }

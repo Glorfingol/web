@@ -51,11 +51,20 @@ public class BackupExportConfiguration {
   @Value("${backupFilePath}")
   String backupFilePath;
 
+  @Value("${actualitesFilePath}")
+  String actualitesFilePath;
+
+  @Value("${pagesFilePath}")
+  String pagesFilePath;
+
+  @Value("${mediaFilePath}")
+  String mediaFilePath;
+
   DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
   @Bean
   public ArchiveManager archiveManager(Drive driveService) {
-    return new ArchiveManagerImpl(backupFilePath, driveService);
+    return new ArchiveManagerImpl(backupFilePath, mediaFilePath, pagesFilePath, actualitesFilePath, driveService);
   }
 
   @Bean

@@ -23,10 +23,21 @@ public class BackupImporter {
 
   private final CSVReader csvReader;
   private final String backupFilePath;
+  private final String mediaFilePath;
+  private final String pagesFilePath;
+  private final String actualitesFilePath;
 
-  public BackupImporter(CSVReader csvReader, String backupFilePath) {
+  private static final String DOT = ".";
+  private static final String HTML_EXTENSION = "html";
+  private static final long TEN_DAYS_MILLISECONDS = 10 * 24 * 60 * 60 * 1000;
+
+  public BackupImporter(CSVReader csvReader, String backupFilePath, String mediaFilePath, String pagesFilePath,
+      String actualitesFilePath) {
     this.csvReader = csvReader;
     this.backupFilePath = backupFilePath;
+    this.mediaFilePath = mediaFilePath;
+    this.pagesFilePath = pagesFilePath;
+    this.actualitesFilePath = actualitesFilePath;
   }
 
   public void importBackup() {
@@ -134,8 +145,7 @@ public class BackupImporter {
   private void deleteFileIfOlderThanTenDays(File fileToExamine) {
     long diff = new Date().getTime() - fileToExamine.lastModified();
 
-    long tenDaysInMilliseconds = 10 * 24 * 60 * 60 * 1000;
-    if (diff > tenDaysInMilliseconds) {
+    if (diff > TEN_DAYS_MILLISECONDS) {
       fileToExamine.delete();
     }
   }
@@ -148,6 +158,13 @@ public class BackupImporter {
     }
     csvFiles = Arrays.asList(directory.listFiles((dir, name) -> name.endsWith(".csv")));
     return csvFiles;
+  }
+
+  private void importMediaFiles() {
+    File backupDirectory = new File(backupFilePath);
+    List<File> mediaFiles = Arrays
+        .asList(backupDirectory.listFiles((dir, name) -> !name.endsWith(DOT + HTML_EXTENSION)));
+    mediaFiles.forEach(file -> file.renameTo(new File(mediaFiles + File.separator + file.getName())));
   }
 
 }
