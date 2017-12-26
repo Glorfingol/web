@@ -14,7 +14,7 @@ import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.menu.MenuFactory;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.BACK_PAGE;
 
@@ -23,7 +23,7 @@ public class MediaManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
   private final MediaService mediaService;
   private final ContextHolder contextHolder;
 
-  protected MediaManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+  protected MediaManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       MetaElementFactory metaElementFactory, MediaService mediaService, ContextHolder contextHolder) {
     super(menuFactory, messageSource, metaElementFactory);
     this.mediaService = mediaService;
@@ -31,9 +31,9 @@ public class MediaManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
   }
 
   @Override
-  public ModelAndView computeModelAndViewForViewAllMedias(BACK_PAGE backPage, Locale locale, int pageNumber) {
-    ModelAndView pagesManager = super.computeModelAndViewForBackPage(backPage, locale);
-    LOGGER.info("Construction des medias pour la page " + backPage.name());
+  public ModelAndView computeModelAndViewForViewAllMedias(Locale locale, int pageNumber) {
+    ModelAndView pagesManager = super.computeModelAndViewForBackPage(BACK_PAGE.MEDIA_VIEW, locale);
+    LOGGER.info("Construction des medias pour la page " + BACK_PAGE.MEDIA_VIEW.name());
 
     PageWrapper<MediaDTO> pagedMediaDTOWrapped = computePageWrapperOfMedias(locale, pageNumber);
 
@@ -70,16 +70,14 @@ public class MediaManagerDisplayFactoryImpl extends BackDisplayFactoryImpl imple
       return new PageImpl<>(mediaEntries);
     }
 
-    for (MediaDTO mediaDTOFromDB : pagedMediaDTOEntries.getContent()) {
-      mediaEntries.add(mediaDTOFromDB);
-    }
+    mediaEntries.addAll(pagedMediaDTOEntries.getContent());
 
     return new PageImpl<>(mediaEntries, pageRequest, pagedMediaDTOEntries.getTotalElements());
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUploadMedia(BACK_PAGE backPage, Locale locale) {
-    ModelAndView mediaManager = super.computeModelAndViewForBackPage(backPage, locale);
+  public ModelAndView computeModelAndViewForUploadMedia(Locale locale) {
+    ModelAndView mediaManager = super.computeModelAndViewForBackPage(BACK_PAGE.MEDIA_UPLOAD, locale);
     LOGGER.info("Construction du formulaire d'upload de media ");
     return mediaManager;
   }

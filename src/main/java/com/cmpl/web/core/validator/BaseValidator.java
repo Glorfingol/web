@@ -9,13 +9,13 @@ import com.cmpl.web.core.error.ERROR;
 import com.cmpl.web.core.error.ERROR_CAUSE;
 import com.cmpl.web.core.model.Error;
 import com.cmpl.web.core.model.ErrorCause;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 
 public class BaseValidator {
 
-  private final WebMessageSourceImpl messageSource;
+  private final WebMessageSource messageSource;
 
-  public BaseValidator(WebMessageSourceImpl messageSource) {
+  public BaseValidator(WebMessageSource messageSource) {
     this.messageSource = messageSource;
   }
 

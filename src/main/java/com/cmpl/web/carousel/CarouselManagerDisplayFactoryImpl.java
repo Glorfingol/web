@@ -16,7 +16,7 @@ import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.media.MediaDTO;
 import com.cmpl.web.media.MediaService;
 import com.cmpl.web.menu.MenuFactory;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.BACK_PAGE;
 import com.cmpl.web.page.PageDTO;
@@ -36,7 +36,7 @@ public class CarouselManagerDisplayFactoryImpl extends BackDisplayFactoryImpl im
   private static final String MEDIAS = "medias";
   private static final String ITEMS = "items";
 
-  public CarouselManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+  public CarouselManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       MetaElementFactory metaElementFactory, CarouselService carouselService, CarouselItemService carouselItemService,
       PageService pageService, MediaService mediaService, ContextHolder contextHolder) {
     super(menuFactory, messageSource, metaElementFactory);
@@ -48,9 +48,9 @@ public class CarouselManagerDisplayFactoryImpl extends BackDisplayFactoryImpl im
   }
 
   @Override
-  public ModelAndView computeModelAndViewForViewAllCarousels(BACK_PAGE backPage, Locale locale, int pageNumber) {
-    ModelAndView carouselsManager = super.computeModelAndViewForBackPage(backPage, locale);
-    LOGGER.info("Construction des carousels pour la page " + backPage.name());
+  public ModelAndView computeModelAndViewForViewAllCarousels(Locale locale, int pageNumber) {
+    ModelAndView carouselsManager = super.computeModelAndViewForBackPage(BACK_PAGE.CAROUSELS_VIEW, locale);
+    LOGGER.info("Construction des carousels pour la page " + BACK_PAGE.CAROUSELS_VIEW.name());
 
     PageWrapper<CarouselDTO> pagedCarouselDTOWrapped = computePageWrapperOfCarousels(locale, pageNumber);
 
@@ -95,8 +95,8 @@ public class CarouselManagerDisplayFactoryImpl extends BackDisplayFactoryImpl im
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdateCarousel(BACK_PAGE backPage, Locale locale, String carouselId) {
-    ModelAndView carouselManager = super.computeModelAndViewForBackPage(backPage, locale);
+  public ModelAndView computeModelAndViewForUpdateCarousel(Locale locale, String carouselId) {
+    ModelAndView carouselManager = super.computeModelAndViewForBackPage(BACK_PAGE.CAROUSELS_UPDATE, locale);
     CarouselDTO carousel = carouselService.getEntity(Long.parseLong(carouselId));
     carouselManager.addObject(UPDATE_FORM, createUpdateForm(carousel));
     List<PageDTO> pages = pageService.getEntities();
@@ -130,8 +130,8 @@ public class CarouselManagerDisplayFactoryImpl extends BackDisplayFactoryImpl im
   }
 
   @Override
-  public ModelAndView computeModelAndViewForCreateCarousel(BACK_PAGE backPage, Locale locale) {
-    ModelAndView carouselManager = super.computeModelAndViewForBackPage(backPage, locale);
+  public ModelAndView computeModelAndViewForCreateCarousel(Locale locale) {
+    ModelAndView carouselManager = super.computeModelAndViewForBackPage(BACK_PAGE.CAROUSELS_CREATE, locale);
     carouselManager.addObject(CREATE_FORM, computeCreateForm());
     List<PageDTO> pages = pageService.getEntities();
     carouselManager.addObject(PAGES, pages);

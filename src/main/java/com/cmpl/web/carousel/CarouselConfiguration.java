@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.media.MediaService;
 import com.cmpl.web.menu.MenuFactory;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.PageService;
 
@@ -29,15 +29,14 @@ public class CarouselConfiguration {
   }
 
   @Bean
-  CarouselValidator carouselValidator(WebMessageSourceImpl messageSource) {
+  CarouselValidator carouselValidator(WebMessageSource messageSource) {
     return new CarouselValidatorImpl(messageSource);
   }
 
   @Bean
-  CarouselManagerDisplayFactory carouselManagerDisplayFactory(MenuFactory menuFactory,
-      WebMessageSourceImpl messageSource, MetaElementFactory metaElementFactory, CarouselService carouselService,
-      CarouselItemService carouselItemService, PageService pageService, MediaService mediaService,
-      ContextHolder contextHolder) {
+  CarouselManagerDisplayFactory carouselManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
+      MetaElementFactory metaElementFactory, CarouselService carouselService, CarouselItemService carouselItemService,
+      PageService pageService, MediaService mediaService, ContextHolder contextHolder) {
     return new CarouselManagerDisplayFactoryImpl(menuFactory, messageSource, metaElementFactory, carouselService,
         carouselItemService, pageService, mediaService, contextHolder);
   }

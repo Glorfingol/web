@@ -2,7 +2,7 @@ package com.cmpl.web.login;
 
 import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
 import com.cmpl.web.menu.MenuFactory;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.meta.MetaElementFactory;
 
 /**
@@ -13,7 +13,7 @@ import com.cmpl.web.meta.MetaElementFactory;
  */
 public class LoginDisplayFactoryImpl extends BackDisplayFactoryImpl implements LoginDisplayFactory {
 
-  public LoginDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+  public LoginDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       MetaElementFactory metaElementFactory) {
     super(menuFactory, messageSource, metaElementFactory);
   }

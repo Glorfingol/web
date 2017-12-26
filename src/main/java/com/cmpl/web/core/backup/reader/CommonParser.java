@@ -242,7 +242,7 @@ public abstract class CommonParser<T extends BaseEntity> {
     return Arrays.asList(stringToParse.split(";"));
   }
 
-  private CSVFormat buildCSVFormat() {
+  protected CSVFormat buildCSVFormat() {
     return CSVFormat.EXCEL.withHeader().withQuoteMode(QuoteMode.ALL);
   }
 

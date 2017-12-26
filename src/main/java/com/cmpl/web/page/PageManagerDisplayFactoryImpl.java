@@ -14,7 +14,7 @@ import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.menu.MenuFactory;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.meta.MetaElementCreateForm;
 import com.cmpl.web.meta.MetaElementDTO;
 import com.cmpl.web.meta.MetaElementFactory;
@@ -34,7 +34,7 @@ public class PageManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   private static final String UPDATE_FORM = "updateForm";
   private static final String META_ELEMENTS = "metaElements";
 
-  public PageManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+  public PageManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       MetaElementFactory metaElementFactory, PageService pageService, ContextHolder contextHolder,
       MetaElementService metaElementService, OpenGraphMetaElementService openGraphMetaElementService) {
     super(menuFactory, messageSource, metaElementFactory);
@@ -45,9 +45,9 @@ public class PageManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   @Override
-  public ModelAndView computeModelAndViewForViewAllPages(BACK_PAGE backPage, Locale locale, int pageNumber) {
-    ModelAndView pagesManager = super.computeModelAndViewForBackPage(backPage, locale);
-    LOGGER.info("Construction des pages pour la page " + backPage.name());
+  public ModelAndView computeModelAndViewForViewAllPages(Locale locale, int pageNumber) {
+    ModelAndView pagesManager = super.computeModelAndViewForBackPage(BACK_PAGE.PAGES_VIEW, locale);
+    LOGGER.info("Construction des pages pour la page " + BACK_PAGE.PAGES_VIEW.name());
 
     PageWrapper<PageDTO> pagedPageDTOWrapped = computePageWrapperOfPages(locale, pageNumber);
 
@@ -96,16 +96,16 @@ public class PageManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdatePage(BACK_PAGE backPage, Locale locale, String pageId) {
-    ModelAndView pageManager = super.computeModelAndViewForBackPage(backPage, locale);
+  public ModelAndView computeModelAndViewForUpdatePage(Locale locale, String pageId) {
+    ModelAndView pageManager = super.computeModelAndViewForBackPage(BACK_PAGE.PAGES_UPDATE, locale);
     PageDTO page = pageService.getEntity(Long.parseLong(pageId));
     pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
     return pageManager;
   }
 
   @Override
-  public ModelAndView computeModelAndViewForCreatePage(BACK_PAGE backPage, Locale locale) {
-    ModelAndView pageManager = super.computeModelAndViewForBackPage(backPage, locale);
+  public ModelAndView computeModelAndViewForCreatePage(Locale locale) {
+    ModelAndView pageManager = super.computeModelAndViewForBackPage(BACK_PAGE.PAGES_CREATE, locale);
     LOGGER.info("Construction du formulaire de creation des pages ");
     pageManager.addObject(CREATE_FORM, computeCreateForm());
     return pageManager;

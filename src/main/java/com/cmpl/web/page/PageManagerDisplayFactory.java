@@ -13,7 +13,7 @@ public interface PageManagerDisplayFactory {
    * @param locale
    * @return
    */
-  ModelAndView computeModelAndViewForViewAllPages(BACK_PAGE backPage, Locale locale, int pageNumber);
+  ModelAndView computeModelAndViewForViewAllPages(Locale locale, int pageNumber);
 
   /**
    * Creer le model and view pour l'edition d'une page
@@ -23,7 +23,7 @@ public interface PageManagerDisplayFactory {
    * @param pageId
    * @return
    */
-  ModelAndView computeModelAndViewForUpdatePage(BACK_PAGE backPage, Locale locale, String pageId);
+  ModelAndView computeModelAndViewForUpdatePage(Locale locale, String pageId);
 
   /**
    * Creer le model and view pour l'edition d'une page
@@ -92,5 +92,5 @@ public interface PageManagerDisplayFactory {
    * @param locale
    * @return
    */
-  ModelAndView computeModelAndViewForCreatePage(BACK_PAGE backPage, Locale locale);
+  ModelAndView computeModelAndViewForCreatePage(Locale locale);
 }

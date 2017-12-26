@@ -10,11 +10,11 @@ import com.cmpl.web.core.error.ERROR_CAUSE;
 import com.cmpl.web.core.model.Error;
 import com.cmpl.web.core.model.ErrorCause;
 import com.cmpl.web.core.validator.BaseValidator;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 
 public class CarouselValidatorImpl extends BaseValidator implements CarouselValidator {
 
-  public CarouselValidatorImpl(WebMessageSourceImpl messageSource) {
+  public CarouselValidatorImpl(WebMessageSource messageSource) {
     super(messageSource);
   }
 

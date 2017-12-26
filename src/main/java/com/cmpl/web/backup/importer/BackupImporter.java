@@ -59,6 +59,22 @@ public class BackupImporter {
     } catch (Exception e) {
       LOGGER.error("Echec de l'import des donnees venant des fichiers csv");
     }
+    try {
+      importPagesFiles();
+    } catch (Exception e) {
+      LOGGER.error("Echec de l'import des pages");
+    }
+    try {
+      importMediaFiles();
+    } catch (Exception e) {
+      LOGGER.error("Echec de l'import des media");
+    }
+
+    try {
+      importActualitesFiles();
+    } catch (Exception e) {
+      LOGGER.error("Echec de l'import des actualites");
+    }
 
     LOGGER.info("Suppression des fichiers desarchives");
     deleteUnzippedFiles();
@@ -84,7 +100,7 @@ public class BackupImporter {
       }
 
     }
-    LOGGER.info("Dossier de backup inexistant ou pas de zip" + backupFolder.getAbsolutePath());
+    LOGGER.info("Dossier de backup inexistant ou pas de zip " + backupFolder.getAbsolutePath());
     return false;
   }
 
@@ -161,10 +177,22 @@ public class BackupImporter {
   }
 
   private void importMediaFiles() {
-    File backupDirectory = new File(backupFilePath);
+    File backupDirectory = new File(backupFilePath + File.separator + "medias");
     List<File> mediaFiles = Arrays
         .asList(backupDirectory.listFiles((dir, name) -> !name.endsWith(DOT + HTML_EXTENSION)));
-    mediaFiles.forEach(file -> file.renameTo(new File(mediaFiles + File.separator + file.getName())));
+    mediaFiles.forEach(file -> file.renameTo(new File(mediaFilePath + File.separator + file.getName())));
+  }
+
+  private void importPagesFiles() {
+    File backupDirectory = new File(backupFilePath + File.separator + "pages");
+    List<File> pageFiles = Arrays.asList(backupDirectory.listFiles());
+    pageFiles.forEach(file -> file.renameTo(new File(pagesFilePath + File.separator + file.getName())));
+  }
+
+  private void importActualitesFiles() {
+    File backupDirectory = new File(backupFilePath + File.separator + "actualites");
+    List<File> actualitesFiles = Arrays.asList(backupDirectory.listFiles());
+    actualitesFiles.forEach(file -> file.renameTo(new File(actualitesFilePath + File.separator + file.getName())));
   }
 
 }

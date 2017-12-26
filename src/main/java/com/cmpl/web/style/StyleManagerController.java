@@ -32,13 +32,13 @@ public class StyleManagerController {
   @GetMapping
   public ModelAndView printViewStyle() {
     LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_VIEW.name());
-    return displayFactory.computeModelAndViewForViewStyles(BACK_PAGE.STYLES_VIEW, Locale.FRANCE);
+    return displayFactory.computeModelAndViewForViewStyles(Locale.FRANCE);
   }
 
   @GetMapping(value = "/_edit")
   public ModelAndView printEditStyle() {
     LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_VIEW.name());
-    return displayFactory.computeModelAndViewForUpdateStyles(BACK_PAGE.STYLES_UPDATE, Locale.FRANCE);
+    return displayFactory.computeModelAndViewForUpdateStyles(Locale.FRANCE);
   }
 
   @PutMapping(value = "/_edit", produces = "application/json")

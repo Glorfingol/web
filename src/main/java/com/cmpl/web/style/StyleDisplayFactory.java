@@ -4,12 +4,10 @@ import java.util.Locale;
 
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.page.BACK_PAGE;
-
 public interface StyleDisplayFactory {
 
-  ModelAndView computeModelAndViewForViewStyles(BACK_PAGE backPage, Locale locale);
+  ModelAndView computeModelAndViewForViewStyles(Locale locale);
 
-  ModelAndView computeModelAndViewForUpdateStyles(BACK_PAGE backPage, Locale locale);
+  ModelAndView computeModelAndViewForUpdateStyles(Locale locale);
 
 }

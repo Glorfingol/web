@@ -55,8 +55,7 @@ public class MediaManagerController {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     LOGGER.info("Accès à la page " + BACK_PAGE.MEDIA_VIEW.name());
-    return mediaManagerDisplayFactory.computeModelAndViewForViewAllMedias(BACK_PAGE.MEDIA_VIEW, Locale.FRANCE,
-        pageNumberToUse);
+    return mediaManagerDisplayFactory.computeModelAndViewForViewAllMedias(Locale.FRANCE, pageNumberToUse);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -70,7 +69,7 @@ public class MediaManagerController {
   @GetMapping(value = "/_upload")
   public ModelAndView printUploadMedia() {
     LOGGER.info("Accès à la page " + BACK_PAGE.MEDIA_UPLOAD.name());
-    return mediaManagerDisplayFactory.computeModelAndViewForUploadMedia(BACK_PAGE.MEDIA_UPLOAD, Locale.FRANCE);
+    return mediaManagerDisplayFactory.computeModelAndViewForUploadMedia(Locale.FRANCE);
   }
 
   @GetMapping("/{mediaId}")

@@ -50,8 +50,7 @@ public class NewsManagerController {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_VIEW.name());
-    return newsManagerDisplayFactory
-        .computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, Locale.FRANCE, pageNumberToUse);
+    return newsManagerDisplayFactory.computeModelAndViewForBackPage(Locale.FRANCE, pageNumberToUse);
   }
 
   /**
@@ -62,8 +61,8 @@ public class NewsManagerController {
   @GetMapping(value = "/manager/news/_create")
   public ModelAndView printCreateNews() {
 
-    LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_VIEW.name());
-    return newsManagerDisplayFactory.computeModelAndViewForBackPageCreateNews(BACK_PAGE.NEWS_CREATE, Locale.FRANCE);
+    LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_CREATE.name());
+    return newsManagerDisplayFactory.computeModelAndViewForBackPageCreateNews(Locale.FRANCE);
   }
 
   /**
@@ -137,8 +136,7 @@ public class NewsManagerController {
   public ModelAndView getNewsEntity(@PathVariable(value = "newsEntryId") String newsEntryId) {
 
     LOGGER.info("Récupération de l'entrée d'id " + newsEntryId);
-    return newsManagerDisplayFactory.computeModelAndViewForOneNewsEntry(BACK_PAGE.NEWS_UPDATE, Locale.FRANCE,
-        newsEntryId);
+    return newsManagerDisplayFactory.computeModelAndViewForOneNewsEntry(Locale.FRANCE, newsEntryId);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {

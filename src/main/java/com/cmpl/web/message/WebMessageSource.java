@@ -28,4 +28,6 @@ public interface WebMessageSource {
    */
   String getI18n(String code, Locale locale, Object... args);
 
+  String getMessage(String code, Locale locale, Object... args);
+
 }

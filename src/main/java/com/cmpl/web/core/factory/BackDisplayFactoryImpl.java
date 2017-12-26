@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.menu.MenuItem;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.meta.MetaElementToDelete;
 import com.cmpl.web.page.BACK_PAGE;
@@ -27,7 +27,7 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
   private final MenuFactory menuFactory;
   private final MetaElementFactory metaElementFactory;
 
-  public BackDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+  public BackDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       MetaElementFactory metaElementFactory) {
     super(messageSource);
     this.menuFactory = menuFactory;

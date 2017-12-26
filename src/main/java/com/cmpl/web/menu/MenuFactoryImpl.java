@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.cmpl.web.core.factory.BaseFactoryImpl;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.page.BACK_PAGE;
 import com.cmpl.web.page.PageDTO;
 
@@ -19,7 +19,7 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
 
   private final MenuService menuService;
 
-  public MenuFactoryImpl(WebMessageSourceImpl messageSource, MenuService menuService) {
+  public MenuFactoryImpl(WebMessageSource messageSource, MenuService menuService) {
     super(messageSource);
     this.menuService = menuService;
   }

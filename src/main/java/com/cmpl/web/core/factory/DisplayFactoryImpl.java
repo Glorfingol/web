@@ -18,7 +18,7 @@ import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.menu.MenuItem;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.news.NewsEntryDTO;
 import com.cmpl.web.news.NewsEntryDisplayBean;
 import com.cmpl.web.news.NewsEntryService;
@@ -40,9 +40,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   private final NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
 
-  public DisplayFactoryImpl(MenuFactory menuFactory, CarouselService carouselService,
-      WebMessageSourceImpl messageSource, PageService pageService, NewsEntryService newsEntryService,
-      ContextHolder contextHolder) {
+  public DisplayFactoryImpl(MenuFactory menuFactory, CarouselService carouselService, WebMessageSource messageSource,
+      PageService pageService, NewsEntryService newsEntryService, ContextHolder contextHolder) {
     super(messageSource);
     this.menuFactory = menuFactory;
     this.carouselService = carouselService;
@@ -88,19 +87,19 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     return model;
   }
 
-  private List<CarouselDTO> computeCarouselsForPage(PageDTO page) {
+  List<CarouselDTO> computeCarouselsForPage(PageDTO page) {
     return carouselService.findByPageId(String.valueOf(page.getId()));
   }
 
-  private String computePageContent(PageDTO page) {
+  String computePageContent(PageDTO page) {
     return page.getName();
   }
 
-  private String computePageHeader(PageDTO page) {
+  String computePageHeader(PageDTO page) {
     return page.getName() + "_header";
   }
 
-  private String computePageFooter(PageDTO page) {
+  String computePageFooter(PageDTO page) {
     return page.getName() + "_footer";
   }
 
@@ -127,36 +126,6 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     return pagedNewsWrapped;
   }
 
-  public List<NewsEntryDisplayBean> computeNewsEntries(PageDTO page, Locale locale) {
-    List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
-
-    List<NewsEntryDTO> newsEntriesFromDB = newsEntryService.getEntities();
-    if (CollectionUtils.isEmpty(newsEntriesFromDB)) {
-      return newsEntries;
-    }
-
-    for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
-      newsEntries.add(computeNewsEntryDisplayBean(page, locale, newsEntryFromDB));
-    }
-
-    return newsEntries;
-  }
-
-  public List<NewsEntryDisplayBean> computeNewsEntries(Locale locale) {
-    List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
-
-    List<NewsEntryDTO> newsEntriesFromDB = newsEntryService.getEntities();
-    if (CollectionUtils.isEmpty(newsEntriesFromDB)) {
-      return newsEntries;
-    }
-
-    for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
-      newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB));
-    }
-
-    return newsEntries;
-  }
-
   public Page<NewsEntryDisplayBean> computeNewsEntries(PageDTO page, Locale locale, int pageNumber) {
     List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
 
@@ -173,26 +142,10 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
   }
 
-  public NewsEntryDisplayBean computeNewsEntry(Locale locale, String newsEntryId) {
-
-    NewsEntryDTO newsEntryFromDB = newsEntryService.getEntity(Long.valueOf(newsEntryId));
-    return computeNewsEntryDisplayBean(locale, newsEntryFromDB);
-  }
-
   public NewsEntryDisplayBean computeNewsEntry(PageDTO page, Locale locale, String newsEntryId) {
 
     NewsEntryDTO newsEntryFromDB = newsEntryService.getEntity(Long.valueOf(newsEntryId));
     return computeNewsEntryDisplayBean(page, locale, newsEntryFromDB);
-  }
-
-  public NewsEntryDisplayBean computeNewsEntryDisplayBean(Locale locale, NewsEntryDTO newsEntryDTO) {
-
-    String labelPar = getI18nValue("news.entry.by", locale);
-    String labelLe = getI18nValue("news.entry.the", locale);
-    String labelAccroche = getI18nValue("news.entry.call", locale);
-
-    return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
-        contextHolder.getDateFormat(), labelAccroche, "");
   }
 
   public NewsEntryDisplayBean computeNewsEntryDisplayBean(PageDTO page, Locale locale, NewsEntryDTO newsEntryDTO) {

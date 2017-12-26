@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.cmpl.web.core.context.ContextHolder;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.PageService;
 
@@ -17,12 +17,12 @@ public class MenuConfiguration {
   }
 
   @Bean
-  MenuFactory menuFactory(WebMessageSourceImpl messageSource, MenuService menuService) {
+  MenuFactory menuFactory(WebMessageSource messageSource, MenuService menuService) {
     return new MenuFactoryImpl(messageSource, menuService);
   }
 
   @Bean
-  MenuValidator menuValidator(WebMessageSourceImpl messageSource) {
+  MenuValidator menuValidator(WebMessageSource messageSource) {
     return new MenuValidatorImpl(messageSource);
   }
 
@@ -38,7 +38,7 @@ public class MenuConfiguration {
   }
 
   @Bean
-  MenuManagerDisplayFactory menuManagerDisplayFactory(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+  MenuManagerDisplayFactory menuManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
       MetaElementFactory metaElementFactory, MenuService menuService, PageService pageService,
       ContextHolder contextHolder) {
     return new MenuManagerDisplayFactoryImpl(menuFactory, messageSource, metaElementFactory, menuService, pageService,

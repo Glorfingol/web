@@ -4,8 +4,6 @@ import java.util.Locale;
 
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.page.BACK_PAGE;
-
 /**
  * Interface pour la factory des pages d'actualite sur le back
  * 
@@ -22,7 +20,7 @@ public interface NewsManagerDisplayFactory {
    * @param newsEntryId
    * @return
    */
-  ModelAndView computeModelAndViewForOneNewsEntry(BACK_PAGE backPage, Locale locale, String newsEntryId);
+  ModelAndView computeModelAndViewForOneNewsEntry(Locale locale, String newsEntryId);
 
   /**
    * Creer le model and view pour l'affichage de toutes les NewsEntry modifiables
@@ -31,7 +29,7 @@ public interface NewsManagerDisplayFactory {
    * @param locale
    * @return
    */
-  ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale, int pageNumber);
+  ModelAndView computeModelAndViewForBackPage(Locale locale, int pageNumber);
 
   /**
    * Creer le model and view pour l'affichage de la creation d'une entree
@@ -40,6 +38,6 @@ public interface NewsManagerDisplayFactory {
    * @param locale
    * @return
    */
-  ModelAndView computeModelAndViewForBackPageCreateNews(BACK_PAGE backPage, Locale locale);
+  ModelAndView computeModelAndViewForBackPageCreateNews(Locale locale);
 
 }

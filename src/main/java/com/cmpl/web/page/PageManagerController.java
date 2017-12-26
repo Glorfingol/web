@@ -49,8 +49,7 @@ public class PageManagerController {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_VIEW.name());
-    return pageManagerDisplayFactory.computeModelAndViewForViewAllPages(BACK_PAGE.PAGES_VIEW, Locale.FRANCE,
-        pageNumberToUse);
+    return pageManagerDisplayFactory.computeModelAndViewForViewAllPages(Locale.FRANCE, pageNumberToUse);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -64,7 +63,7 @@ public class PageManagerController {
   @GetMapping(value = "/_create")
   public ModelAndView printCreatePage() {
     LOGGER.info("Accès à la page de création des pages");
-    return pageManagerDisplayFactory.computeModelAndViewForCreatePage(BACK_PAGE.PAGES_CREATE, Locale.FRANCE);
+    return pageManagerDisplayFactory.computeModelAndViewForCreatePage(Locale.FRANCE);
   }
 
   @PostMapping
@@ -106,7 +105,7 @@ public class PageManagerController {
   @GetMapping(value = "/{pageId}")
   public ModelAndView printViewUpdatePage(@PathVariable(value = "pageId") String pageId) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId);
-    return pageManagerDisplayFactory.computeModelAndViewForUpdatePage(BACK_PAGE.PAGES_UPDATE, Locale.FRANCE, pageId);
+    return pageManagerDisplayFactory.computeModelAndViewForUpdatePage(Locale.FRANCE, pageId);
   }
 
   @GetMapping(value = "/{pageId}/_main")

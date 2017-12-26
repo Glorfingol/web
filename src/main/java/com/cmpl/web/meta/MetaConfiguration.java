@@ -3,7 +3,7 @@ package com.cmpl.web.meta;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 
 @Configuration
 public class MetaConfiguration {
@@ -14,7 +14,7 @@ public class MetaConfiguration {
   }
 
   @Bean
-  MetaElementFactory metaElementFactory(WebMessageSourceImpl messageSource) {
+  MetaElementFactory metaElementFactory(WebMessageSource messageSource) {
     return new MetaElementFactoryImpl(messageSource);
   }
 
@@ -31,7 +31,7 @@ public class MetaConfiguration {
   }
 
   @Bean
-  MetaElementValidator metaElementValidator(WebMessageSourceImpl messageSource) {
+  MetaElementValidator metaElementValidator(WebMessageSource messageSource) {
     return new MetaElementValidatorImpl(messageSource);
   }
 

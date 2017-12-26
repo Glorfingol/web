@@ -10,7 +10,7 @@ import com.cmpl.web.core.error.ERROR_CAUSE;
 import com.cmpl.web.core.model.Error;
 import com.cmpl.web.core.model.ErrorCause;
 import com.cmpl.web.core.validator.BaseValidator;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 
 /**
  * Implementation de l'interface de validation des modifications de NewsEntry
@@ -20,7 +20,7 @@ import com.cmpl.web.message.WebMessageSourceImpl;
  */
 public class NewsEntryRequestValidatorImpl extends BaseValidator implements NewsEntryRequestValidator {
 
-  public NewsEntryRequestValidatorImpl(WebMessageSourceImpl messageSource) {
+  public NewsEntryRequestValidatorImpl(WebMessageSource messageSource) {
     super(messageSource);
   }
 

@@ -36,15 +36,6 @@ import com.cmpl.web.menu.MenuItem;
 import com.cmpl.web.message.WebMessageSourceImpl;
 import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.meta.MetaElementToDelete;
-import com.cmpl.web.news.NewsContentDTO;
-import com.cmpl.web.news.NewsContentRequest;
-import com.cmpl.web.news.NewsEntryDTO;
-import com.cmpl.web.news.NewsEntryDisplayBean;
-import com.cmpl.web.news.NewsEntryRequest;
-import com.cmpl.web.news.NewsEntryService;
-import com.cmpl.web.news.NewsImageDTO;
-import com.cmpl.web.news.NewsImageRequest;
-import com.cmpl.web.news.NewsManagerDisplayFactoryImpl;
 import com.cmpl.web.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -200,7 +191,7 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(request).when(displayFactory).computeNewsEntryRequest(Mockito.any(NewsEntryDTO.class));
     BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(Mockito.anyLong());
 
-    ModelAndView result = displayFactory.computeModelAndViewForOneNewsEntry(BACK_PAGE.NEWS_UPDATE, locale, "123");
+    ModelAndView result = displayFactory.computeModelAndViewForOneNewsEntry(locale, "123");
 
     Assert.assertEquals(decoratorBack, result.getViewName());
     Assert.assertEquals(tile, result.getModel().get("content"));
@@ -286,7 +277,7 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(pageWrapper).when(displayFactory)
         .computePageWrapperOfNews(Mockito.eq(locale), Mockito.anyInt());
 
-    ModelAndView result = displayFactory.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, locale, 0);
+    ModelAndView result = displayFactory.computeModelAndViewForBackPage(locale, 0);
 
     Assert.assertEquals(decoratorBack, result.getViewName());
     Assert.assertEquals(tile, result.getModel().get("content"));
@@ -367,7 +358,7 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(Lists.newArrayList(displayBean)).when(displayFactory)
         .computeNewsEntryDisplayBeans(Mockito.eq(locale));
 
-    ModelAndView result = displayFactory.computeModelAndViewForBackPageCreateNews(BACK_PAGE.NEWS_VIEW, locale);
+    ModelAndView result = displayFactory.computeModelAndViewForBackPageCreateNews(locale);
 
     Assert.assertEquals(decoratorBack, result.getViewName());
     Assert.assertEquals(tile, result.getModel().get("content"));

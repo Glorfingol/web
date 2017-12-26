@@ -2,6 +2,7 @@ package com.cmpl.web.google;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -65,9 +66,9 @@ public class GoogleConfiguration {
   @Bean
   public Credential credential(JsonFactory jsonFactory, HttpTransport httpTransport,
       FileDataStoreFactory fileDataStoreFactory) throws IOException {
-    File clientSecretJson = new File(clientSecret);
-    InputStream in = new FileInputStream(clientSecretJson);
-    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
+    InputStream in = clientSecretInputStream();
+    GoogleClientSecrets clientSecrets = googleClientSecrets(jsonFactory, in);
+
     List<String> scopes = new ArrayList<>();
     scopes.add(DriveScopes.DRIVE);
 
@@ -75,6 +76,15 @@ public class GoogleConfiguration {
         clientSecrets, scopes).setDataStoreFactory(fileDataStoreFactory).setAccessType("offline").build();
     return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
 
+  }
+
+  GoogleClientSecrets googleClientSecrets(JsonFactory jsonFactory, InputStream in) throws IOException {
+    return GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
+  }
+
+  InputStream clientSecretInputStream() throws FileNotFoundException {
+    File clientSecretJson = new File(clientSecret);
+    return new FileInputStream(clientSecretJson);
   }
 
 }

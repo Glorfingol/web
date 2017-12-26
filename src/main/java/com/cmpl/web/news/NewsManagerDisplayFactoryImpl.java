@@ -15,7 +15,7 @@ import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.menu.MenuFactory;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.BACK_PAGE;
 
@@ -31,16 +31,16 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   private final ContextHolder contextHolder;
 
   public NewsManagerDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
+      WebMessageSource messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
     super(menuFactory, messageSource, metaElementFactory);
     this.newsEntryService = newsEntryService;
     this.contextHolder = contextHolder;
   }
 
   @Override
-  public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale, int pageNumber) {
-    ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
-    LOGGER.info("Construction des entrées de blog pour la page " + backPage.name());
+  public ModelAndView computeModelAndViewForBackPage(Locale locale, int pageNumber) {
+    ModelAndView newsManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, locale);
+    LOGGER.info("Construction des entrées de blog pour la page " + BACK_PAGE.NEWS_VIEW.name());
 
     PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = computePageWrapperOfNews(locale, pageNumber);
 
@@ -69,9 +69,9 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   @Override
-  public ModelAndView computeModelAndViewForBackPageCreateNews(BACK_PAGE backPage, Locale locale) {
-    ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
-    LOGGER.info("Construction du formulaire d'entrées de blog pour la page " + backPage.name());
+  public ModelAndView computeModelAndViewForBackPageCreateNews(Locale locale) {
+    ModelAndView newsManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_CREATE, locale);
+    LOGGER.info("Construction du formulaire d'entrées de blog pour la page " + BACK_PAGE.NEWS_CREATE.name());
     newsManager.addObject("newsFormBean", computeNewsRequestForCreateForm());
 
     return newsManager;
@@ -119,8 +119,8 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   @Override
-  public ModelAndView computeModelAndViewForOneNewsEntry(BACK_PAGE backPage, Locale locale, String newsEntryId) {
-    ModelAndView newsManager = super.computeModelAndViewForBackPage(backPage, locale);
+  public ModelAndView computeModelAndViewForOneNewsEntry(Locale locale, String newsEntryId) {
+    ModelAndView newsManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_UPDATE, locale);
     newsManager.addObject("newsFormBean", computeNewsRequestForEditForm(newsEntryId));
 
     return newsManager;

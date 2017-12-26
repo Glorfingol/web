@@ -43,8 +43,7 @@ public class CarouselManagerController {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     LOGGER.info("Accès à la page " + BACK_PAGE.CAROUSELS_VIEW.name());
-    return carouselDisplayFactory.computeModelAndViewForViewAllCarousels(BACK_PAGE.CAROUSELS_VIEW, Locale.FRANCE,
-        pageNumberToUse);
+    return carouselDisplayFactory.computeModelAndViewForViewAllCarousels(Locale.FRANCE, pageNumberToUse);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -58,7 +57,7 @@ public class CarouselManagerController {
   @GetMapping(value = "/_create")
   public ModelAndView printCreateCarousel() {
     LOGGER.info("Accès à la page de création des carousels");
-    return carouselDisplayFactory.computeModelAndViewForCreateCarousel(BACK_PAGE.CAROUSELS_CREATE, Locale.FRANCE);
+    return carouselDisplayFactory.computeModelAndViewForCreateCarousel(Locale.FRANCE);
   }
 
   @PostMapping
@@ -100,8 +99,7 @@ public class CarouselManagerController {
   @GetMapping(value = "/{carouselId}")
   public ModelAndView printViewUpdateCarousel(@PathVariable(value = "carouselId") String carouselId) {
     LOGGER.info("Accès à la page " + BACK_PAGE.CAROUSELS_VIEW.name() + " pour " + carouselId);
-    return carouselDisplayFactory.computeModelAndViewForUpdateCarousel(BACK_PAGE.CAROUSELS_UPDATE, Locale.FRANCE,
-        carouselId);
+    return carouselDisplayFactory.computeModelAndViewForUpdateCarousel(Locale.FRANCE, carouselId);
   }
 
   @GetMapping(value = "/{carouselId}/_main")

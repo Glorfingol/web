@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.cmpl.web.core.factory.BaseFactoryImpl;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.news.NewsEntryDTO;
 
 /**
@@ -24,7 +24,7 @@ public class MetaElementFactoryImpl extends BaseFactoryImpl implements MetaEleme
   private static final String LANGUAGE = "language";
   private static final String WIDTH_DEVICE_WIDTH_INITIAL_SCALE_1_MAXIMUM_SCALE_1_USER_SCALABLE_NO = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
 
-  public MetaElementFactoryImpl(WebMessageSourceImpl messageSource) {
+  public MetaElementFactoryImpl(WebMessageSource messageSource) {
     super(messageSource);
   }
 

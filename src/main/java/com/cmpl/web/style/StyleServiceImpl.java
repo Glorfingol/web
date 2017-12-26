@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.service.BaseServiceImpl;
 import com.cmpl.web.file.FileService;
@@ -60,16 +61,22 @@ public class StyleServiceImpl extends BaseServiceImpl<StyleDTO, Style> implement
     StyleDTO dto = new StyleDTO();
 
     fillObject(entity, dto);
-    MediaDTO media = mediaService.getEntity(Long.valueOf(entity.getMediaId()));
+    if (!StringUtils.isEmpty(entity.getMediaId())) {
+      MediaDTO media = mediaService.getEntity(Long.valueOf(entity.getMediaId()));
 
-    if (media != null) {
-      dto.setMedia(media);
-      String content = new BufferedReader(new InputStreamReader(fileService.read(media.getName()))).lines().collect(
-          Collectors.joining("\n"));
-      dto.setContent(content);
+      if (media != null) {
+        dto.setMedia(media);
+        String content = readMediaContent(media);
+        dto.setContent(content);
+      }
     }
 
     return dto;
+  }
+
+  String readMediaContent(MediaDTO media) {
+    return new BufferedReader(new InputStreamReader(fileService.read(media.getName()))).lines().collect(
+        Collectors.joining("\n"));
   }
 
   @Override

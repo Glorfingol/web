@@ -61,7 +61,7 @@ public class ArchiveManagerImpl implements ArchiveManager {
       deleteCSVFiles(csvFiles);
     }
     if (zipFile != null && zipFile.exists()) {
-      copyZipToGoogleDrive(zipFile);
+      // copyZipToGoogleDrive(zipFile);
     }
     LOGGER.info("Suppression des backup de plus de 10 jours");
     deleteOlderThanTenDaysFiles();
@@ -84,18 +84,18 @@ public class ArchiveManagerImpl implements ArchiveManager {
     if (!directory.exists()) {
       return mediaFiles;
     }
-    mediaFiles = Arrays.asList(directory.listFiles());
+    mediaFiles = Arrays.asList(directory.listFiles(file -> !file.isDirectory()));
     return mediaFiles;
   }
 
   private List<File> getActualitesFiles() {
-    List<File> actualitsFiles = new ArrayList<>();
+    List<File> actualitesFiles = new ArrayList<>();
     File directory = new File(actualitesFilePath);
     if (!directory.exists()) {
-      return actualitsFiles;
+      return actualitesFiles;
     }
-    actualitsFiles = Arrays.asList(directory.listFiles());
-    return actualitsFiles;
+    actualitesFiles = Arrays.asList(directory.listFiles());
+    return actualitesFiles;
   }
 
   private List<File> getPagesFiles() {

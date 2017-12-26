@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
 import com.cmpl.web.core.model.PageWrapper;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.BACK_PAGE;
 import com.cmpl.web.page.PageDTO;
@@ -30,7 +30,7 @@ public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   private static final String MENUS_PARENTS = "menusThatCanBeParents";
   private static final String PAGES_LINKABLE = "pagesThatCanBeLinkedTo";
 
-  public MenuManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+  public MenuManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       MetaElementFactory metaElementFactory, MenuService menuService, PageService pageService,
       ContextHolder contextHolder) {
     super(menuFactory, messageSource, metaElementFactory);
@@ -40,9 +40,9 @@ public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   @Override
-  public ModelAndView computeModelAndViewForViewAllMenus(BACK_PAGE backPage, Locale locale, int pageNumber) {
-    ModelAndView menusManager = super.computeModelAndViewForBackPage(backPage, locale);
-    LOGGER.info("Construction des menus pour la page " + backPage.name());
+  public ModelAndView computeModelAndViewForViewAllMenus(Locale locale, int pageNumber) {
+    ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_VIEW, locale);
+    LOGGER.info("Construction des menus pour la page " + BACK_PAGE.MENUS_VIEW.name());
 
     PageWrapper<MenuDTO> pagedPageDTOWrapped = computePageWrapperOfMenus(locale, pageNumber);
 
@@ -52,9 +52,9 @@ public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   @Override
-  public ModelAndView computeModelAndViewForCreateMenu(BACK_PAGE backPage, Locale locale) {
-    ModelAndView menusManager = super.computeModelAndViewForBackPage(backPage, locale);
-    LOGGER.info("Construction d'un menu pour la page " + backPage.name());
+  public ModelAndView computeModelAndViewForCreateMenu(Locale locale) {
+    ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_CREATE, locale);
+    LOGGER.info("Construction d'un menu pour la page " + BACK_PAGE.MENUS_CREATE.name());
 
     List<MenuDTO> menusThatCanBeParents = menuService.getMenus();
     menusManager.addObject(MENUS_PARENTS, menusThatCanBeParents);
@@ -69,9 +69,9 @@ public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdateMenu(BACK_PAGE backPage, Locale locale, String menuId) {
-    ModelAndView menusManager = super.computeModelAndViewForBackPage(backPage, locale);
-    LOGGER.info("Construction d'un menu pour la page " + backPage.name());
+  public ModelAndView computeModelAndViewForUpdateMenu(Locale locale, String menuId) {
+    ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_UPDATE, locale);
+    LOGGER.info("Construction d'un menu pour la page " + BACK_PAGE.MENUS_UPDATE.name());
 
     List<MenuDTO> menus = menuService.getMenus();
     List<MenuDTO> menusThatCanBeParents = new ArrayList<>();

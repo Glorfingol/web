@@ -8,7 +8,6 @@ import org.springframework.social.facebook.api.Facebook;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.message.WebMessageSourceImpl;
 import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.news.NewsEntryService;
 
@@ -21,7 +20,7 @@ public class FacebookConfiguration {
   }
 
   @Bean
-  FacebookDisplayFactory facebookDisplayFactory(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+  FacebookDisplayFactory facebookDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
       FacebookService facebookService, MetaElementFactory metaElementFactory) {
     return new FacebookDisplayFactoryImpl(menuFactory, messageSource, metaElementFactory, facebookService);
   }

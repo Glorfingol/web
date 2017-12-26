@@ -10,11 +10,11 @@ import com.cmpl.web.core.error.ERROR_CAUSE;
 import com.cmpl.web.core.model.Error;
 import com.cmpl.web.core.model.ErrorCause;
 import com.cmpl.web.core.validator.BaseValidator;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 
 public class MetaElementValidatorImpl extends BaseValidator implements MetaElementValidator {
 
-  public MetaElementValidatorImpl(WebMessageSourceImpl messageSource) {
+  public MetaElementValidatorImpl(WebMessageSource messageSource) {
     super(messageSource);
   }
 

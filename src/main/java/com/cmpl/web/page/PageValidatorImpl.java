@@ -10,11 +10,11 @@ import com.cmpl.web.core.error.ERROR_CAUSE;
 import com.cmpl.web.core.model.Error;
 import com.cmpl.web.core.model.ErrorCause;
 import com.cmpl.web.core.validator.BaseValidator;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 
 public class PageValidatorImpl extends BaseValidator implements PageValidator {
 
-  public PageValidatorImpl(WebMessageSourceImpl messageSource) {
+  public PageValidatorImpl(WebMessageSource messageSource) {
     super(messageSource);
   }
 

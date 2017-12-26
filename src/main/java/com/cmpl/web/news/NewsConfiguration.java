@@ -7,7 +7,7 @@ import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.file.ImageConverterService;
 import com.cmpl.web.file.ImageService;
 import com.cmpl.web.menu.MenuFactory;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.meta.MetaElementFactory;
 
 @Configuration
@@ -21,7 +21,7 @@ public class NewsConfiguration {
 
   @Bean
   NewsManagerDisplayFactory newsManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSourceImpl messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
+      WebMessageSource messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
     return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, messageSource, newsEntryService,
         metaElementFactory);
   }
@@ -32,7 +32,7 @@ public class NewsConfiguration {
   }
 
   @Bean
-  NewsEntryRequestValidator newsEntryRequestValidator(WebMessageSourceImpl messageSource) {
+  NewsEntryRequestValidator newsEntryRequestValidator(WebMessageSource messageSource) {
     return new NewsEntryRequestValidatorImpl(messageSource);
   }
 

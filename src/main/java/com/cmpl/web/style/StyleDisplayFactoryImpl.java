@@ -9,7 +9,7 @@ import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
 import com.cmpl.web.media.MediaDTO;
 import com.cmpl.web.menu.MenuFactory;
-import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.BACK_PAGE;
 
@@ -18,7 +18,7 @@ public class StyleDisplayFactoryImpl extends BackDisplayFactoryImpl implements S
   private final StyleService styleService;
   private final ContextHolder contextHolder;
 
-  public StyleDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSourceImpl messageSource,
+  public StyleDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       MetaElementFactory metaElementFactory, StyleService styleService, ContextHolder contextHolder) {
     super(menuFactory, messageSource, metaElementFactory);
     this.styleService = styleService;
@@ -26,9 +26,9 @@ public class StyleDisplayFactoryImpl extends BackDisplayFactoryImpl implements S
   }
 
   @Override
-  public ModelAndView computeModelAndViewForViewStyles(BACK_PAGE backPage, Locale locale) {
+  public ModelAndView computeModelAndViewForViewStyles(Locale locale) {
 
-    ModelAndView stylesManager = super.computeModelAndViewForBackPage(backPage, locale);
+    ModelAndView stylesManager = super.computeModelAndViewForBackPage(BACK_PAGE.STYLES_VIEW, locale);
     StyleDTO style = styleService.getStyle();
 
     if (style == null) {
@@ -40,7 +40,7 @@ public class StyleDisplayFactoryImpl extends BackDisplayFactoryImpl implements S
     return stylesManager;
   }
 
-  private StyleDTO initStyle() {
+  StyleDTO initStyle() {
 
     StyleDTO style = new StyleDTO();
     style.setContent("");
@@ -52,7 +52,7 @@ public class StyleDisplayFactoryImpl extends BackDisplayFactoryImpl implements S
     return styleService.createEntity(style);
   }
 
-  private MediaDTO initMedia() {
+  MediaDTO initMedia() {
     MediaDTO media = new MediaDTO();
     media.setName("styles.css");
     media.setExtension(".css");
@@ -64,8 +64,8 @@ public class StyleDisplayFactoryImpl extends BackDisplayFactoryImpl implements S
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdateStyles(BACK_PAGE backPage, Locale locale) {
-    ModelAndView stylesManager = super.computeModelAndViewForBackPage(backPage, locale);
+  public ModelAndView computeModelAndViewForUpdateStyles(Locale locale) {
+    ModelAndView stylesManager = super.computeModelAndViewForBackPage(BACK_PAGE.STYLES_UPDATE, locale);
     StyleDTO style = styleService.getStyle();
     if (style == null) {
       style = initStyle();

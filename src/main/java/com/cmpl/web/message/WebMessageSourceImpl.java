@@ -22,4 +22,9 @@ public class WebMessageSourceImpl extends ResourceBundleMessageSource implements
     return getMessage(code, args, locale);
   }
 
+  @Override
+  public String getMessage(String code, Locale locale, Object... args) {
+    return getMessage(code, args, locale);
+  }
+
 }

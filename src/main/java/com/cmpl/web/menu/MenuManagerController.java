@@ -40,7 +40,7 @@ public class MenuManagerController {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     LOGGER.info("Accès à la page " + BACK_PAGE.MENUS_VIEW.name());
-    return displayFactory.computeModelAndViewForViewAllMenus(BACK_PAGE.MENUS_VIEW, Locale.FRANCE, pageNumberToUse);
+    return displayFactory.computeModelAndViewForViewAllMenus(Locale.FRANCE, pageNumberToUse);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -54,13 +54,13 @@ public class MenuManagerController {
   @GetMapping(value = "/_create")
   public ModelAndView printCreateMenu() {
     LOGGER.info("Accès à la page de création des menus");
-    return displayFactory.computeModelAndViewForCreateMenu(BACK_PAGE.MENUS_CREATE, Locale.FRANCE);
+    return displayFactory.computeModelAndViewForCreateMenu(Locale.FRANCE);
   }
 
   @GetMapping(value = "/{menuId}")
   public ModelAndView printViewUpdateMenu(@PathVariable(value = "menuId") String menuId) {
     LOGGER.info("Accès à la page " + BACK_PAGE.MENUS_UPDATE.name() + " pour " + menuId);
-    return displayFactory.computeModelAndViewForUpdateMenu(BACK_PAGE.MENUS_UPDATE, Locale.FRANCE, menuId);
+    return displayFactory.computeModelAndViewForUpdateMenu(Locale.FRANCE, menuId);
   }
 
   @PutMapping(value = "/{menuId}", produces = "application/json")

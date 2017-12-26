@@ -3,6 +3,7 @@ package com.cmpl.web.core.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.message.WebMessageSourceImpl;
 
 /**
@@ -20,7 +21,7 @@ public class ResourceConfiguration {
    * @return
    */
   @Bean
-  public WebMessageSourceImpl messageSource() {
+  public WebMessageSource messageSource() {
     WebMessageSourceImpl source = new WebMessageSourceImpl();
     source.setBasenames("i18n/footer", "i18n/keys", "i18n/back", "i18n/error", "i18n/form");
     source.setUseCodeAsDefaultMessage(true);

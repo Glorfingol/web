@@ -19,13 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cmpl.web.builder.NewsEntryDTOBuilder;
 import com.cmpl.web.builder.NewsEntryRequestBuilder;
 import com.cmpl.web.core.model.BaseException;
-import com.cmpl.web.news.NewsEntryDTO;
-import com.cmpl.web.news.NewsEntryDispatcher;
-import com.cmpl.web.news.NewsEntryRequest;
-import com.cmpl.web.news.NewsEntryResponse;
-import com.cmpl.web.news.NewsManagerController;
-import com.cmpl.web.news.NewsManagerDisplayFactory;
-import com.cmpl.web.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsManagerControllerTest {
@@ -58,11 +51,8 @@ public class NewsManagerControllerTest {
 
     ModelAndView model = new ModelAndView("back/news/edit_news_entry");
 
-    BDDMockito
-        .doReturn(model)
-        .when(newsManagerDisplayFactory)
-        .computeModelAndViewForOneNewsEntry(Mockito.eq(BACK_PAGE.NEWS_UPDATE), Mockito.eq(Locale.FRANCE),
-            Mockito.eq("666"));
+    BDDMockito.doReturn(model).when(newsManagerDisplayFactory)
+        .computeModelAndViewForOneNewsEntry(Mockito.eq(Locale.FRANCE), Mockito.eq("666"));
 
     ModelAndView result = controller.getNewsEntity("666");
 
@@ -130,7 +120,7 @@ public class NewsManagerControllerTest {
     ModelAndView model = new ModelAndView("back/news/view_news");
 
     BDDMockito.doReturn(model).when(newsManagerDisplayFactory)
-        .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.NEWS_VIEW), Mockito.eq(locale), Mockito.anyInt());
+        .computeModelAndViewForBackPage(Mockito.eq(locale), Mockito.anyInt());
 
     ModelAndView result = controller.printViewNews(0);
 
