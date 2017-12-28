@@ -14,6 +14,7 @@ import java.util.zip.ZipInputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.backup.reader.CSVReader;
 
@@ -86,7 +87,7 @@ public class BackupImporter {
 
   }
 
-  private boolean unzipLatestIfExists() throws IOException {
+  boolean unzipLatestIfExists() throws IOException {
 
     File backupFolder = new File(backupFilePath);
     LOGGER.info("Dossier de backup : " + backupFolder.getAbsolutePath());
@@ -104,22 +105,14 @@ public class BackupImporter {
     return false;
   }
 
-  private void unzipBackup(File latestBackup) throws FileNotFoundException, IOException {
+  void unzipBackup(File latestBackup) throws FileNotFoundException, IOException {
     ZipInputStream zis = new ZipInputStream(new FileInputStream(latestBackup));
     ZipEntry ze = zis.getNextEntry();
     byte[] buffer = new byte[1024];
     while (ze != null) {
       String fileName = ze.getName();
-      File newFile = new File(backupFilePath + File.separator + fileName);
-
-      FileOutputStream fos = new FileOutputStream(newFile);
-
-      int len;
-      while ((len = zis.read(buffer)) > 0) {
-        fos.write(buffer, 0, len);
-      }
-
-      fos.close();
+      File newFile = fetchFile(backupFilePath, fileName);
+      writeZipEntryToFile(zis, buffer, newFile);
       ze = zis.getNextEntry();
     }
 
@@ -127,7 +120,19 @@ public class BackupImporter {
     zis.close();
   }
 
-  private File computeLatestBackup(File[] files) {
+  private void writeZipEntryToFile(ZipInputStream zis, byte[] buffer, File newFile) throws FileNotFoundException,
+      IOException {
+    FileOutputStream fos = new FileOutputStream(newFile);
+
+    int len;
+    while ((len = zis.read(buffer)) > 0) {
+      fos.write(buffer, 0, len);
+    }
+
+    fos.close();
+  }
+
+  File computeLatestBackup(File[] files) {
     File latestBackup = null;
     long lastMod = Long.MIN_VALUE;
     for (File file : files) {
@@ -139,17 +144,17 @@ public class BackupImporter {
     return latestBackup;
   }
 
-  private void readCSVFilesAndImportData() {
+  void readCSVFilesAndImportData() {
     csvReader.extractAllDataFromCSVFiles();
   }
 
-  private void deleteUnzippedFiles() {
+  void deleteUnzippedFiles() {
     List<File> filesToDelete = getCSVFiles();
     filesToDelete.stream().forEach(file -> file.delete());
   }
 
-  private void deleteOlderThanTenDaysFiles() {
-    File directory = new File(backupFilePath);
+  void deleteOlderThanTenDaysFiles() {
+    File directory = fetchFile(backupFilePath, null);
     if (!directory.exists()) {
       return;
     }
@@ -158,7 +163,7 @@ public class BackupImporter {
 
   }
 
-  private void deleteFileIfOlderThanTenDays(File fileToExamine) {
+  void deleteFileIfOlderThanTenDays(File fileToExamine) {
     long diff = new Date().getTime() - fileToExamine.lastModified();
 
     if (diff > TEN_DAYS_MILLISECONDS) {
@@ -166,9 +171,9 @@ public class BackupImporter {
     }
   }
 
-  private List<File> getCSVFiles() {
+  List<File> getCSVFiles() {
     List<File> csvFiles = new ArrayList<>();
-    File directory = new File(backupFilePath);
+    File directory = fetchFile(backupFilePath, null);
     if (!directory.exists()) {
       return csvFiles;
     }
@@ -176,23 +181,34 @@ public class BackupImporter {
     return csvFiles;
   }
 
-  private void importMediaFiles() {
-    File backupDirectory = new File(backupFilePath + File.separator + "medias");
+  void importMediaFiles() {
+    File backupDirectory = fetchFile(backupFilePath, "medias");
     List<File> mediaFiles = Arrays
         .asList(backupDirectory.listFiles((dir, name) -> !name.endsWith(DOT + HTML_EXTENSION)));
-    mediaFiles.forEach(file -> file.renameTo(new File(mediaFilePath + File.separator + file.getName())));
+    mediaFiles.forEach(file -> moveFile(file, mediaFilePath));
   }
 
-  private void importPagesFiles() {
-    File backupDirectory = new File(backupFilePath + File.separator + "pages");
+  void importPagesFiles() {
+    File backupDirectory = fetchFile(backupFilePath, "pages");
     List<File> pageFiles = Arrays.asList(backupDirectory.listFiles());
-    pageFiles.forEach(file -> file.renameTo(new File(pagesFilePath + File.separator + file.getName())));
+    pageFiles.forEach(file -> moveFile(file, pagesFilePath));
   }
 
-  private void importActualitesFiles() {
-    File backupDirectory = new File(backupFilePath + File.separator + "actualites");
+  void importActualitesFiles() {
+    File backupDirectory = fetchFile(backupFilePath, "actualites");
     List<File> actualitesFiles = Arrays.asList(backupDirectory.listFiles());
-    actualitesFiles.forEach(file -> file.renameTo(new File(actualitesFilePath + File.separator + file.getName())));
+    actualitesFiles.forEach(file -> moveFile(file, actualitesFilePath));
+  }
+
+  File fetchFile(String basePath, String fileName) {
+    if (StringUtils.hasText(fileName)) {
+      return new File(basePath + File.separator + fileName);
+    }
+    return new File(basePath);
+  }
+
+  void moveFile(File fileToMove, String basePath) {
+    fileToMove.renameTo(new File(basePath + File.separator + fileToMove.getName()));
   }
 
 }

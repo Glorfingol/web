@@ -8,7 +8,9 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.QuoteMode;
 
-public class BaseCSVWriter {
+import com.cmpl.web.core.reflexion.CommonReflexion;
+
+public class BaseCSVWriter extends CommonReflexion {
 
   protected static final String NEW_LINE_SEPARATOR = "\n";
 

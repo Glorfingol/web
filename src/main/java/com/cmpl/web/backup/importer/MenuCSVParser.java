@@ -20,7 +20,7 @@ public class MenuCSVParser extends CommonParser<Menu> {
   protected Menu parseEntity(CSVRecord record) {
     Menu menuParsed = new Menu();
 
-    List<Field> fieldsToParse = getFieldsToParse(menuParsed.getClass());
+    List<Field> fieldsToParse = getFields(menuParsed.getClass());
 
     parseObject(record, menuParsed, fieldsToParse);
 

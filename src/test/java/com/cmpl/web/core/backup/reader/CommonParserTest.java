@@ -67,7 +67,7 @@ public class CommonParserTest {
     fields.addAll(Arrays.asList(Page.class.getDeclaredFields()));
     fields.addAll(Arrays.asList(BaseEntity.class.getDeclaredFields()));
 
-    Assert.assertEquals(fields, parser.getFieldsToParse(Page.class));
+    Assert.assertEquals(fields, parser.getFields(Page.class));
   }
 
 }

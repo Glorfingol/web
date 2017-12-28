@@ -20,7 +20,7 @@ public class PageCSVParser extends CommonParser<Page> {
   protected Page parseEntity(CSVRecord record) {
     Page pageParsed = new Page();
 
-    List<Field> fieldsToParse = getFieldsToParse(pageParsed.getClass());
+    List<Field> fieldsToParse = getFields(pageParsed.getClass());
 
     parseObject(record, pageParsed, fieldsToParse);
 

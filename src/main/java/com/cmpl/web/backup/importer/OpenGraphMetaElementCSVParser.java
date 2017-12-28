@@ -21,7 +21,7 @@ public class OpenGraphMetaElementCSVParser extends CommonParser<OpenGraphMetaEle
   protected OpenGraphMetaElement parseEntity(CSVRecord record) {
     OpenGraphMetaElement openGrapMetaElementParsed = new OpenGraphMetaElement();
 
-    List<Field> fieldsToParse = getFieldsToParse(openGrapMetaElementParsed.getClass());
+    List<Field> fieldsToParse = getFields(openGrapMetaElementParsed.getClass());
 
     parseObject(record, openGrapMetaElementParsed, fieldsToParse);
 

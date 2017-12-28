@@ -21,7 +21,7 @@ public class NewsImageCSVParser extends CommonParser<NewsImage> {
   protected NewsImage parseEntity(CSVRecord record) {
     NewsImage newsImageParsed = new NewsImage();
 
-    List<Field> fieldsToParse = getFieldsToParse(newsImageParsed.getClass());
+    List<Field> fieldsToParse = getFields(newsImageParsed.getClass());
 
     parseObject(record, newsImageParsed, fieldsToParse);
 

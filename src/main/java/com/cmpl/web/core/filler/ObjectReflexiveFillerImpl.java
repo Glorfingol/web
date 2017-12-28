@@ -3,8 +3,6 @@ package com.cmpl.web.core.filler;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,13 +10,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
+import com.cmpl.web.core.reflexion.CommonReflexion;
+import com.cmpl.web.core.reflexion.METHOD;
+
 /**
  * Implementation de l'interface permettant de remplir un objet destination avec un objet d'origine
  * 
  * @author Louis
  *
  */
-public class ObjectReflexiveFillerImpl implements ObjectReflexiveFiller {
+public class ObjectReflexiveFillerImpl extends CommonReflexion implements ObjectReflexiveFiller {
 
   private Object origin;
   private Object destination;
@@ -57,21 +58,6 @@ public class ObjectReflexiveFillerImpl implements ObjectReflexiveFiller {
         LOGGER.error("Impossible de remplir l'objet " + destination + " avec l'origine " + origin, e);
       }
     });
-  }
-
-  private List<Field> getFields(Class<?> classObject) {
-
-    List<Field> fields = new ArrayList<>();
-
-    List<Field> classFields = Arrays.asList(classObject.getDeclaredFields());
-    fields.addAll(classFields);
-
-    if (classObject.getSuperclass() != null) {
-      fields.addAll(getFields(classObject.getSuperclass()));
-    }
-
-    return fields;
-
   }
 
   private Method computeSetterDestination(Object destination, Field destinationField) throws NoSuchMethodException {

@@ -61,7 +61,7 @@ public class ArchiveManagerImpl implements ArchiveManager {
       deleteCSVFiles(csvFiles);
     }
     if (zipFile != null && zipFile.exists()) {
-      copyZipToGoogleDrive(zipFile);
+      // copyZipToGoogleDrive(zipFile);
     }
     LOGGER.info("Suppression des backup de plus de 10 jours");
     deleteOlderThanTenDaysFiles();

@@ -24,8 +24,9 @@ import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.backup.writer.DataManipulator;
 import com.cmpl.web.core.model.BaseEntity;
+import com.cmpl.web.core.reflexion.CommonReflexion;
 
-public abstract class CommonParser<T extends BaseEntity> {
+public abstract class CommonParser<T extends BaseEntity> extends CommonReflexion {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CommonParser.class);
 
@@ -55,17 +56,6 @@ public abstract class CommonParser<T extends BaseEntity> {
 
   protected void saveEntities(List<T> entities) {
     dataManipulator.insertData(entities);
-  }
-
-  protected List<Field> getFieldsToParse(Class<?> clazz) {
-    List<Field> fieldsToParse = new ArrayList<>();
-    fieldsToParse.addAll(Arrays.asList(clazz.getDeclaredFields()));
-
-    Class<?> superclass = clazz.getSuperclass();
-    if (superclass != null) {
-      fieldsToParse.addAll(getFieldsToParse(superclass));
-    }
-    return fieldsToParse;
   }
 
   protected void parseObject(CSVRecord record, T objectToFill, List<Field> fieldsToParse) {

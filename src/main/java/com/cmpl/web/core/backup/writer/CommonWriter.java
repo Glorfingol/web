@@ -7,7 +7,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,8 +61,7 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
   protected List<String> parseEntityToListString(T entityToWrite) {
 
     List<String> records = new ArrayList<>();
-    getFieldsToParse(entityToWrite.getClass()).forEach(
-        field -> records.add(parseObjectValueToString(field, entityToWrite)));
+    getFields(entityToWrite.getClass()).forEach(field -> records.add(parseObjectValueToString(field, entityToWrite)));
     return records;
 
   }
@@ -140,7 +138,7 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
 
   protected List<String> getFileHeader(T entity) {
 
-    List<Field> fieldsToParse = getFieldsToParse(entity.getClass());
+    List<Field> fieldsToParse = getFields(entity.getClass());
     List<String> fileHeader = new ArrayList<>();
     fieldsToParse.forEach(field -> {
       if (!field.isAccessible()) {
@@ -149,17 +147,6 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
       fileHeader.add(field.getName());
     });
     return fileHeader;
-  }
-
-  private List<Field> getFieldsToParse(Class<?> clazz) {
-    List<Field> fieldsToParse = new ArrayList<>();
-    fieldsToParse.addAll(Arrays.asList(clazz.getDeclaredFields()));
-
-    Class<?> superclass = clazz.getSuperclass();
-    if (superclass != null) {
-      fieldsToParse.addAll(getFieldsToParse(superclass));
-    }
-    return fieldsToParse;
   }
 
   public abstract String getWriterName();

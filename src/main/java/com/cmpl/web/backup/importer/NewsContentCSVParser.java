@@ -21,7 +21,7 @@ public class NewsContentCSVParser extends CommonParser<NewsContent> {
   protected NewsContent parseEntity(CSVRecord record) {
     NewsContent newsContentParsed = new NewsContent();
 
-    List<Field> fieldsToParse = getFieldsToParse(newsContentParsed.getClass());
+    List<Field> fieldsToParse = getFields(newsContentParsed.getClass());
 
     parseObject(record, newsContentParsed, fieldsToParse);
 

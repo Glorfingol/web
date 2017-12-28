@@ -21,7 +21,7 @@ public class CarouselCSVParser extends CommonParser<Carousel> {
   protected Carousel parseEntity(CSVRecord record) {
     Carousel carouselParsed = new Carousel();
 
-    List<Field> fieldsToParse = getFieldsToParse(carouselParsed.getClass());
+    List<Field> fieldsToParse = getFields(carouselParsed.getClass());
 
     parseObject(record, carouselParsed, fieldsToParse);
 

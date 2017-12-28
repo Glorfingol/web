@@ -20,7 +20,7 @@ public class StyleCSVParser extends CommonParser<Style> {
   protected Style parseEntity(CSVRecord record) {
     Style styleParsed = new Style();
 
-    List<Field> fieldsToParse = getFieldsToParse(styleParsed.getClass());
+    List<Field> fieldsToParse = getFields(styleParsed.getClass());
 
     parseObject(record, styleParsed, fieldsToParse);
 

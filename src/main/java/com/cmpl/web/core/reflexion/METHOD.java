@@ -1,4 +1,4 @@
-package com.cmpl.web.core.filler;
+package com.cmpl.web.core.reflexion;
 
 /**
  * Enumeration listant les mutateurs possibles

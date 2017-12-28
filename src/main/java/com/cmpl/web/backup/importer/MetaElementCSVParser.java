@@ -21,7 +21,7 @@ public class MetaElementCSVParser extends CommonParser<MetaElement> {
   protected MetaElement parseEntity(CSVRecord record) {
     MetaElement metaElementParsed = new MetaElement();
 
-    List<Field> fieldsToParse = getFieldsToParse(metaElementParsed.getClass());
+    List<Field> fieldsToParse = getFields(metaElementParsed.getClass());
 
     parseObject(record, metaElementParsed, fieldsToParse);
 

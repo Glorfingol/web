@@ -21,7 +21,7 @@ public class MediaCSVParser extends CommonParser<Media> {
   protected Media parseEntity(CSVRecord record) {
     Media mediaParsed = new MediaBuilder().build();
 
-    List<Field> fieldsToParse = getFieldsToParse(mediaParsed.getClass());
+    List<Field> fieldsToParse = getFields(mediaParsed.getClass());
 
     parseObject(record, mediaParsed, fieldsToParse);
 
