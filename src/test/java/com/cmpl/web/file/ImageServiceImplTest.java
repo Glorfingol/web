@@ -18,14 +18,13 @@ import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.model.BaseException;
-import com.cmpl.web.file.ImageConverterService;
-import com.cmpl.web.file.ImageServiceImpl;
+
+;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ImageServiceImplTest {
@@ -63,7 +62,7 @@ public class ImageServiceImplTest {
     }
 
     service = new ImageServiceImpl(contextHolder, imageConverterService);
-    service = Mockito.spy(service);
+    service = BDDMockito.spy(service);
 
     BDDMockito
         .doReturn(
@@ -196,7 +195,7 @@ public class ImageServiceImplTest {
     Path path = Paths.get("src" + File.separator + "test" + File.separator + "resources" + File.separator + "img"
         + File.separator + "actualites" + File.separator + "666");
 
-    BDDMockito.doReturn(path).when(service).computeFolderPath(Mockito.anyString());
+    BDDMockito.doReturn(path).when(service).computeFolderPath(BDDMockito.anyString());
 
     boolean result = service.createSubFolderIfRequired("666");
 
@@ -219,7 +218,7 @@ public class ImageServiceImplTest {
     Path path = Paths.get("src" + File.separator + "test" + File.separator + "resources" + File.separator + "img"
         + File.separator + "actualites" + File.separator + "666");
 
-    BDDMockito.doReturn(path).when(service).computeFolderPath(Mockito.anyString());
+    BDDMockito.doReturn(path).when(service).computeFolderPath(BDDMockito.anyString());
 
     boolean result = service.createSubFolderIfRequired("666");
 
@@ -230,12 +229,12 @@ public class ImageServiceImplTest {
   @Test
   public void testCreateFoldersIfRequired() throws Exception {
     BDDMockito.doReturn(true).when(service).createMainFolderIfRequired();
-    BDDMockito.doReturn(true).when(service).createSubFolderIfRequired(Mockito.anyString());
+    BDDMockito.doReturn(true).when(service).createSubFolderIfRequired(BDDMockito.anyString());
 
     service.createFoldersIfRequired("666");
 
-    Mockito.verify(service, Mockito.times(1)).createMainFolderIfRequired();
-    Mockito.verify(service, Mockito.times(1)).createSubFolderIfRequired(Mockito.eq("666"));
+    BDDMockito.verify(service, BDDMockito.times(1)).createMainFolderIfRequired();
+    BDDMockito.verify(service, BDDMockito.times(1)).createSubFolderIfRequired(BDDMockito.eq("666"));
   }
 
   @Test
@@ -283,22 +282,22 @@ public class ImageServiceImplTest {
 
     byte[] jpg = new byte[]{1};
 
-    BDDMockito.doReturn(jpg).when(imageConverterService).getImageByteArray(Mockito.eq(base64));
+    BDDMockito.doReturn(jpg).when(imageConverterService).getImageByteArray(BDDMockito.eq(base64));
     byte[] result = service.convertBase64ContentToBytes("666", base64);
 
     Assert.assertEquals(jpg, result);
 
-    Mockito.verify(imageConverterService, Mockito.times(1)).getImageByteArray(Mockito.eq(base64));
+    BDDMockito.verify(imageConverterService, BDDMockito.times(1)).getImageByteArray(BDDMockito.eq(base64));
   }
 
   @Test
   public void testConvertBase64ContentToBytes_Exception() throws Exception {
 
     exception.expect(BaseException.class);
-    BDDMockito.doThrow(new IOException()).when(imageConverterService).getImageByteArray(Mockito.anyString());
+    BDDMockito.doThrow(new IOException()).when(imageConverterService).getImageByteArray(BDDMockito.anyString());
     service.convertBase64ContentToBytes("666", null);
 
-    Mockito.verify(imageConverterService, Mockito.times(1)).getImageByteArray(Mockito.anyString());
+    BDDMockito.verify(imageConverterService, BDDMockito.times(1)).getImageByteArray(BDDMockito.anyString());
   }
 
   @Test
@@ -310,33 +309,38 @@ public class ImageServiceImplTest {
     byte[] data = new byte[]{1};
     BufferedImage bufferedImage = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 
-    BDDMockito.doNothing().when(service).createFoldersIfRequired(Mockito.anyString());
-    BDDMockito.doNothing().when(service).createFoldersIfRequired(Mockito.anyString());
-    BDDMockito.doReturn(format).when(service).extractFormatFromBase64(Mockito.anyString());
-    BDDMockito.doReturn(path).when(service).computePath(Mockito.anyString(), Mockito.anyString());
-    BDDMockito.doReturn(data).when(service).convertBase64ContentToBytes(Mockito.anyString(), Mockito.anyString());
+    BDDMockito.doNothing().when(service).createFoldersIfRequired(BDDMockito.anyString());
+    BDDMockito.doNothing().when(service).createFoldersIfRequired(BDDMockito.anyString());
+    BDDMockito.doReturn(format).when(service).extractFormatFromBase64(BDDMockito.anyString());
+    BDDMockito.doReturn(path).when(service).computePath(BDDMockito.anyString(), BDDMockito.anyString());
+    BDDMockito.doReturn(data).when(service).convertBase64ContentToBytes(BDDMockito.anyString(), BDDMockito.anyString());
     BDDMockito.doReturn(bufferedImage).when(service)
-        .readBytesToBufferedImage(Mockito.anyString(), Mockito.any(byte[].class));
-    BDDMockito.doReturn(file).when(service).instantiateFileFromPath(Mockito.any(Path.class));
-    BDDMockito.doReturn(true).when(service).deleteFileIfExistsAndReturnResult(Mockito.any(File.class));
-    BDDMockito.doNothing().when(service).createNewFile(Mockito.anyString(), Mockito.any(File.class));
-    BDDMockito.doReturn(file).when(service)
-        .writeBufferedImageToFile(Mockito.any(BufferedImage.class), Mockito.any(File.class), Mockito.anyString());
+        .readBytesToBufferedImage(BDDMockito.anyString(), BDDMockito.any(byte[].class));
+    BDDMockito.doReturn(file).when(service).instantiateFileFromPath(BDDMockito.any(Path.class));
+    BDDMockito.doReturn(true).when(service).deleteFileIfExistsAndReturnResult(BDDMockito.any(File.class));
+    BDDMockito.doNothing().when(service).createNewFile(BDDMockito.anyString(), BDDMockito.any(File.class));
+    BDDMockito
+        .doReturn(file)
+        .when(service)
+        .writeBufferedImageToFile(BDDMockito.any(BufferedImage.class), BDDMockito.any(File.class),
+            BDDMockito.anyString());
 
     File result = service.saveFileOnSystem("666", "someBase64");
 
     Assert.assertEquals(file, result);
 
-    Mockito.verify(service, Mockito.times(1)).createFoldersIfRequired(Mockito.anyString());
-    Mockito.verify(service, Mockito.times(1)).extractFormatFromBase64(Mockito.anyString());
-    Mockito.verify(service, Mockito.times(1)).computePath(Mockito.anyString(), Mockito.anyString());
-    Mockito.verify(service, Mockito.times(1)).convertBase64ContentToBytes(Mockito.anyString(), Mockito.anyString());
-    Mockito.verify(service, Mockito.times(1)).readBytesToBufferedImage(Mockito.anyString(), Mockito.any(byte[].class));
-    Mockito.verify(service, Mockito.times(1)).instantiateFileFromPath(Mockito.any(Path.class));
-    Mockito.verify(service, Mockito.times(1)).deleteFileIfExistsAndReturnResult(Mockito.any(File.class));
-    Mockito.verify(service, Mockito.times(1)).createNewFile(Mockito.anyString(), Mockito.any(File.class));
-    Mockito.verify(service, Mockito.times(1)).writeBufferedImageToFile(Mockito.any(BufferedImage.class),
-        Mockito.any(File.class), Mockito.anyString());
+    BDDMockito.verify(service, BDDMockito.times(1)).createFoldersIfRequired(BDDMockito.anyString());
+    BDDMockito.verify(service, BDDMockito.times(1)).extractFormatFromBase64(BDDMockito.anyString());
+    BDDMockito.verify(service, BDDMockito.times(1)).computePath(BDDMockito.anyString(), BDDMockito.anyString());
+    BDDMockito.verify(service, BDDMockito.times(1)).convertBase64ContentToBytes(BDDMockito.anyString(),
+        BDDMockito.anyString());
+    BDDMockito.verify(service, BDDMockito.times(1)).readBytesToBufferedImage(BDDMockito.anyString(),
+        BDDMockito.any(byte[].class));
+    BDDMockito.verify(service, BDDMockito.times(1)).instantiateFileFromPath(BDDMockito.any(Path.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).deleteFileIfExistsAndReturnResult(BDDMockito.any(File.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).createNewFile(BDDMockito.anyString(), BDDMockito.any(File.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).writeBufferedImageToFile(BDDMockito.any(BufferedImage.class),
+        BDDMockito.any(File.class), BDDMockito.anyString());
 
     file.delete();
 

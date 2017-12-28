@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.cmpl.web.media.MediaDTOBuilder;
+
 @RunWith(MockitoJUnitRunner.class)
 public class StyleDispatcherImplTest {
 
@@ -35,7 +37,9 @@ public class StyleDispatcherImplTest {
     response.setStyle(updatedDTO);
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(StyleDTO.class))).willReturn(response);
 
-    Assert.assertEquals(response, dispatcher.updateEntity(new StyleForm(), Locale.FRANCE));
+    StyleDTO dtoOfForm = new StyleDTOBuilder().content("someContent")
+        .media(new MediaDTOBuilder().name("someName").id(123456789l).build()).build();
+    Assert.assertEquals(response, dispatcher.updateEntity(new StyleForm(dtoOfForm), Locale.FRANCE));
   }
 
 }

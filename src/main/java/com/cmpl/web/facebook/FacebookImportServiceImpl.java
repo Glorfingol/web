@@ -17,9 +17,12 @@ import org.springframework.util.StringUtils;
 
 import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.news.NewsContentDTO;
+import com.cmpl.web.news.NewsContentDTOBuilder;
 import com.cmpl.web.news.NewsEntryDTO;
+import com.cmpl.web.news.NewsEntryDTOBuilder;
 import com.cmpl.web.news.NewsEntryService;
 import com.cmpl.web.news.NewsImageDTO;
+import com.cmpl.web.news.NewsImageDTOBuilder;
 
 /**
  * Service qui sert a importer des post facebook en tant que NewsEntry
@@ -48,48 +51,37 @@ public class FacebookImportServiceImpl implements FacebookImportService {
   @Override
   public List<NewsEntryDTO> importFacebookPost(List<FacebookImportPost> facebookPosts, Locale locale) {
     List<NewsEntryDTO> createdEntries = new ArrayList<>();
-    for (FacebookImportPost postToImport : facebookPosts) {
-      NewsEntryDTO createdPost = newsEntryService.createEntity(convertPostToNewsEntry(postToImport, locale));
-      createdEntries.add(createdPost);
-    }
+    facebookPosts.forEach(postToImport -> createdEntries.add(newsEntryService.createEntity(convertPostToNewsEntry(
+        postToImport, locale))));
     return createdEntries;
   }
 
   NewsEntryDTO convertPostToNewsEntry(FacebookImportPost facebookPost, Locale locale) {
-    NewsEntryDTO convertedPost = new NewsEntryDTO();
 
-    convertedPost.setAuthor(facebookPost.getAuthor());
-    convertedPost.setFacebookId(facebookPost.getFacebookId());
-    convertedPost.setTags(computeTags(locale));
-    convertedPost.setTitle(computeTitle(locale));
+    NewsEntryDTOBuilder convertedPostBuilder = new NewsEntryDTOBuilder().author(facebookPost.getAuthor())
+        .facebookId(facebookPost.getFacebookId()).tags(computeTags(locale)).title(computeTitle(locale));
 
     if (hasContent(facebookPost)) {
       NewsContentDTO content = computeNewsContentFromPost(facebookPost);
-      convertedPost.setNewsContent(content);
+      convertedPostBuilder.newsContent(content);
     }
 
     if (hasImage(facebookPost)) {
       NewsImageDTO image = computeNewsImageFromPost(facebookPost, locale);
-      convertedPost.setNewsImage(image);
+      convertedPostBuilder.newsImage(image);
     }
 
-    return convertedPost;
+    return convertedPostBuilder.build();
   }
 
   NewsImageDTO computeNewsImageFromPost(FacebookImportPost facebookPost, Locale locale) {
-    NewsImageDTO image = new NewsImageDTO();
-    image.setAlt(computeAlt(facebookPost, locale));
-    image.setLegend(computeLegend(locale));
-    image.setBase64Src(getFacebookImageBase64Src(facebookPost));
-    return image;
+    return new NewsImageDTOBuilder().alt(computeAlt(facebookPost, locale)).legend(computeLegend(locale))
+        .base64Src(getFacebookImageBase64Src(facebookPost)).build();
   }
 
   NewsContentDTO computeNewsContentFromPost(FacebookImportPost facebookPost) {
-    NewsContentDTO content = new NewsContentDTO();
-    content.setContent(facebookPost.getDescription());
-    content.setLinkUrl(facebookPost.getLinkUrl());
-    content.setVideoUrl(facebookPost.getVideoUrl());
-    return content;
+    return new NewsContentDTOBuilder().content(facebookPost.getDescription()).linkUrl(facebookPost.getLinkUrl())
+        .videoUrl(facebookPost.getVideoUrl()).build();
   }
 
   String computeLegend(Locale locale) {

@@ -4,23 +4,13 @@ public class MenuTranslatorImpl implements MenuTranslator {
 
   @Override
   public MenuDTO fromCreateFormToDTO(MenuCreateForm form) {
-
-    MenuDTO menu = new MenuDTO();
-    menu.setHref(form.getHref());
-    menu.setPageId(form.getPageId());
-    menu.setParentId(form.getParentId());
-    menu.setLabel(form.getLabel());
-    menu.setTitle(form.getTitle());
-    menu.setOrderInMenu(form.getOrderInMenu());
-
-    return menu;
+    return new MenuDTOBuilder().href(form.getHref()).pageId(form.getPageId()).parentId(form.getParentId())
+        .label(form.getLabel()).title(form.getTitle()).orderInMenu(form.getOrderInMenu()).build();
   }
 
   @Override
   public MenuResponse fromDTOToResponse(MenuDTO dto) {
-    MenuResponse response = new MenuResponse();
-    response.setMenu(dto);
-    return response;
+    return new MenuResponseBuilder().menu(dto).build();
   }
 
 }

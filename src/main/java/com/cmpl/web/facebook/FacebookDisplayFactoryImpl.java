@@ -10,7 +10,6 @@ import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
 import com.cmpl.web.core.model.BaseException;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.BACK_PAGE;
 
 /**
@@ -24,8 +23,8 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
   private final FacebookService facebookService;
 
   public FacebookDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      MetaElementFactory metaElementFactory, FacebookService facebookService) {
-    super(menuFactory, messageSource, metaElementFactory);
+      FacebookService facebookService) {
+    super(menuFactory, messageSource);
     this.facebookService = facebookService;
   }
 
@@ -74,4 +73,5 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
     }
     return true;
   }
+
 }

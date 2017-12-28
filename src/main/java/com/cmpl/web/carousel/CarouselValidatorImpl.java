@@ -20,28 +20,20 @@ public class CarouselValidatorImpl extends BaseValidator implements CarouselVali
 
   @Override
   public Error validateCreate(CarouselCreateForm form, Locale locale) {
-    List<ErrorCause> causes = new ArrayList<>();
-    if (!isStringValid(form.getName())) {
-      causes.add(computeCause(ERROR_CAUSE.EMPTY_CAROUSEL_NAME, locale));
-    }
-    if (!isStringValid(form.getPageId())) {
-      causes.add(computeCause(ERROR_CAUSE.EMPTY_CAROUSEL_PAGE, locale));
-    }
-
-    if (!CollectionUtils.isEmpty(causes)) {
-      return computeError(causes);
-    }
-
-    return null;
+    return validateCarousel(form.getName(), form.getPageId(), locale);
   }
 
   @Override
   public Error validateUpdate(CarouselUpdateForm form, Locale locale) {
+    return validateCarousel(form.getName(), form.getPageId(), locale);
+  }
+
+  Error validateCarousel(String name, String pageId, Locale locale) {
     List<ErrorCause> causes = new ArrayList<>();
-    if (!isStringValid(form.getName())) {
+    if (!isStringValid(name)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_CAROUSEL_NAME, locale));
     }
-    if (!isStringValid(form.getPageId())) {
+    if (!isStringValid(pageId)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_CAROUSEL_PAGE, locale));
     }
 
@@ -72,6 +64,9 @@ public class CarouselValidatorImpl extends BaseValidator implements CarouselVali
     List<ErrorCause> causes = new ArrayList<>();
     if (!isStringValid(carouselItemId)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_CAROUSEL_ITEM_ID, locale));
+    }
+    if (!CollectionUtils.isEmpty(causes)) {
+      return computeError(causes);
     }
     return null;
   }

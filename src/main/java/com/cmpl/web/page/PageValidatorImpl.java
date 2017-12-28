@@ -20,29 +20,20 @@ public class PageValidatorImpl extends BaseValidator implements PageValidator {
 
   @Override
   public Error validateCreate(PageCreateForm form, Locale locale) {
-
-    List<ErrorCause> causes = new ArrayList<>();
-    if (!isStringValid(form.getName())) {
-      causes.add(computeCause(ERROR_CAUSE.EMPTY_PAGE_NAME, locale));
-    }
-    if (!isStringValid(form.getMenuTitle())) {
-      causes.add(computeCause(ERROR_CAUSE.EMPTY_PAGE_MENU_TITLE, locale));
-    }
-
-    if (!CollectionUtils.isEmpty(causes)) {
-      return computeError(causes);
-    }
-
-    return null;
+    return validate(form.getName(), form.getMenuTitle(), locale);
   }
 
   @Override
   public Error validateUpdate(PageUpdateForm form, Locale locale) {
+    return validate(form.getName(), form.getMenuTitle(), locale);
+  }
+
+  Error validate(String name, String menutTitle, Locale locale) {
     List<ErrorCause> causes = new ArrayList<>();
-    if (!isStringValid(form.getName())) {
+    if (!isStringValid(name)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_PAGE_NAME, locale));
     }
-    if (!isStringValid(form.getMenuTitle())) {
+    if (!isStringValid(menutTitle)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_PAGE_MENU_TITLE, locale));
     }
 

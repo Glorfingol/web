@@ -106,14 +106,14 @@ public class CarouselManagerController {
   public ModelAndView printViewUpdateCarouselMain(@PathVariable(value = "carouselId") String carouselId) {
     LOGGER
         .info("Accès à la page " + BACK_PAGE.CAROUSELS_UPDATE.name() + " pour " + carouselId + " pour la partie main");
-    return carouselDisplayFactory.computeModelAndViewForUpdateCarouselMain(Locale.FRANCE, carouselId);
+    return carouselDisplayFactory.computeModelAndViewForUpdateCarouselMain(carouselId);
   }
 
   @GetMapping(value = "/{carouselId}/_items")
   public ModelAndView printViewUpdateCarouselItems(@PathVariable(value = "carouselId") String carouselId) {
     LOGGER.info("Accès à la page " + BACK_PAGE.CAROUSELS_UPDATE.name() + " pour " + carouselId
         + " pour la partie items");
-    return carouselDisplayFactory.computeModelAndViewForUpdateCarouselItems(Locale.FRANCE, carouselId);
+    return carouselDisplayFactory.computeModelAndViewForUpdateCarouselItems(carouselId);
   }
 
   @PostMapping(value = "/{carouselId}/items")
@@ -137,7 +137,7 @@ public class CarouselManagerController {
   @DeleteMapping(value = "/{carouselId}/items/{carouselItemId}")
   @ResponseBody
   public ResponseEntity<CarouselItemResponse> deleteCarouselItem(
-      @PathVariable(value = "carouselItemId") String carouselItemId, @RequestBody CarouselItemCreateForm createForm) {
+      @PathVariable(value = "carouselItemId") String carouselItemId) {
 
     LOGGER.info("Tentative de suppression d'un élément de carousel");
     try {

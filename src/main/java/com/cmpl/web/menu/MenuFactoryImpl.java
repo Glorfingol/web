@@ -1,6 +1,7 @@
 package com.cmpl.web.menu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,25 +28,14 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
   @Override
   public List<MenuItem> computeBackMenuItems(BACK_PAGE backPage, Locale locale) {
     List<MenuItem> menuItems = new ArrayList<>();
-
-    for (BACK_MENU backMenu : BACK_MENU.values()) {
-      MenuItem menuItem = computeMenuItem(backPage, backMenu, locale);
-      menuItems.add(menuItem);
-    }
-
+    Arrays.asList(BACK_MENU.values()).forEach(backMenu -> menuItems.add(computeMenuItem(backPage, backMenu, locale)));
     return menuItems;
   }
 
   MenuItem computeMenuItem(BACK_PAGE backPage, BACK_MENU backMenu, Locale locale) {
-    MenuItem menuItem = new MenuItem();
-    menuItem.setHref(getI18nValue(backMenu.getHref(), locale));
-    menuItem.setLabel(getI18nValue(backMenu.getLabel(), locale));
-    menuItem.setTitle(getI18nValue(backMenu.getTitle(), locale));
-    menuItem.setSubMenuItems(new ArrayList<MenuItem>());
-    String customCssClass = computeCustomCssClass(backPage, backMenu);
-    menuItem.setCustomCssClass(customCssClass);
-
-    return menuItem;
+    return new MenuItemBuilder().href(getI18nValue(backMenu.getHref(), locale))
+        .label(getI18nValue(backMenu.getLabel(), locale)).title(getI18nValue(backMenu.getTitle(), locale))
+        .subMenuItems(new ArrayList<MenuItem>()).customCssClass(computeCustomCssClass(backPage, backMenu)).build();
   }
 
   String computeCustomCssClass(BACK_PAGE backPage, BACK_MENU backMenu) {
@@ -55,24 +45,13 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
   @Override
   public List<MenuItem> computeMenuItems(PageDTO page, Locale locale) {
     List<MenuItem> menuItems = new ArrayList<>();
-
-    List<MenuDTO> menus = menuService.getMenus();
-    for (MenuDTO menuItem : menus) {
-      menuItems.add(computeMenuItem(page, menuItem));
-    }
+    menuService.getMenus().forEach(menuItem -> menuItems.add(computeMenuItem(page, menuItem)));
     return menuItems;
   }
 
   MenuItem computeMenuItem(PageDTO page, MenuDTO menu) {
-    MenuItem menuItem = new MenuItem();
-    menuItem.setHref(menu.getHref());
-    menuItem.setLabel(menu.getLabel());
-    menuItem.setTitle(menu.getTitle());
-    menuItem.setSubMenuItems(new ArrayList<MenuItem>());
-    menuItem.setCustomCssClass(computeCustomCssClass(page, menu));
-    menuItem.setSubMenuItems(computeSubMenuItems(page, menu));
-
-    return menuItem;
+    return new MenuItemBuilder().href(menu.getHref()).label(menu.getLabel()).title(menu.getTitle())
+        .customCssClass(computeCustomCssClass(page, menu)).subMenuItems(computeSubMenuItems(page, menu)).build();
   }
 
   String computeCustomCssClass(PageDTO page, MenuDTO menu) {
@@ -81,11 +60,7 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
 
   List<MenuItem> computeSubMenuItems(PageDTO page, MenuDTO menu) {
     List<MenuItem> subMenuItems = new ArrayList<>();
-    for (MenuDTO subMenu : menu.getChildren()) {
-      MenuItem subMenuItem = computeMenuItem(page, subMenu);
-      subMenuItems.add(subMenuItem);
-    }
-
+    menu.getChildren().forEach(subMenu -> subMenuItems.add(computeMenuItem(page, subMenu)));
     return subMenuItems;
   }
 

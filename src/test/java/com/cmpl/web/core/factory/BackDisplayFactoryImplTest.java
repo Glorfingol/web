@@ -6,25 +6,19 @@ import java.util.Locale;
 
 import org.assertj.core.util.Lists;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.builder.MenuItemBuilder;
-import com.cmpl.web.builder.MetaElementBuilder;
-import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.menu.MenuItem;
+import com.cmpl.web.menu.MenuItemBuilder;
 import com.cmpl.web.message.WebMessageSourceImpl;
-import com.cmpl.web.meta.MetaElementFactory;
-import com.cmpl.web.meta.MetaElementToDelete;
 import com.cmpl.web.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,51 +27,11 @@ public class BackDisplayFactoryImplTest {
   @Mock
   private MenuFactory menuFactory;
   @Mock
-  private MetaElementFactory metaElementFactory;
-  @Mock
   private WebMessageSourceImpl messageSource;
 
   @InjectMocks
   @Spy
   private BackDisplayFactoryImpl displayFactory;
-
-  private Locale locale;
-
-  @Before
-  public void setUp() {
-    locale = Locale.FRANCE;
-  }
-
-  @Test
-  public void testComputeMetaElements() throws Exception {
-
-    String viewPortName = "viewport";
-    String viewPortContent = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
-
-    String languageName = "viewport";
-    String languageContent = locale.getLanguage();
-
-    String titleName = "title";
-    String titleContent = "title";
-
-    String descriptionName = "description";
-    String descriptionContent = "description";
-
-    MetaElementToDelete viewport = new MetaElementBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
-    MetaElementToDelete language = new MetaElementBuilder().name(languageName).content(languageContent).toMetaElement();
-    MetaElementToDelete title = new MetaElementBuilder().name(titleName).content(titleContent).toMetaElement();
-    MetaElementToDelete description = new MetaElementBuilder().name(descriptionName).content(descriptionContent)
-        .toMetaElement();
-
-    List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, title, description);
-
-    BDDMockito.doReturn(metaElements).when(metaElementFactory).computeMetaElementsForBackPage(Mockito.eq(locale));
-
-    List<MetaElementToDelete> result = displayFactory.computeMetaElements(locale);
-
-    Assert.assertEquals(metaElements, result);
-
-  }
 
   @Test
   public void testComputeBackMenuItems() throws Exception {
@@ -86,14 +40,14 @@ public class BackDisplayFactoryImplTest {
     String label = "label";
     String title = "title";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
-    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
+    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
-    BDDMockito.doReturn(backMenu).when(menuFactory)
-        .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
+    BDDMockito.given(menuFactory.computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE)))
+        .willReturn(backMenu);
 
-    List<MenuItem> result = displayFactory.computeBackMenuItems(BACK_PAGE.LOGIN, locale);
+    List<MenuItem> result = displayFactory.computeBackMenuItems(BACK_PAGE.LOGIN, Locale.FRANCE);
     Assert.assertEquals(backMenu, result);
   }
 
@@ -105,50 +59,29 @@ public class BackDisplayFactoryImplTest {
     String label = "label";
     String title = "title";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
-    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
+    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
 
-    String viewPortName = "viewport";
-    String viewPortContent = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
-
-    String languageName = "viewport";
-    String languageContent = locale.getLanguage();
-
-    String titleName = "title";
-    String titleContent = "title";
-
-    String descriptionName = "description";
-    String descriptionContent = "description";
-
-    MetaElementToDelete viewport = new MetaElementBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
-    MetaElementToDelete language = new MetaElementBuilder().name(languageName).content(languageContent).toMetaElement();
-    MetaElementToDelete titleMeta = new MetaElementBuilder().name(titleName).content(titleContent).toMetaElement();
-    MetaElementToDelete description = new MetaElementBuilder().name(descriptionName).content(descriptionContent)
-        .toMetaElement();
-
-    List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
-
-    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(metaElements).when(displayFactory).computeMetaElements(Mockito.eq(locale));
+    BDDMockito.doReturn(tile).when(displayFactory)
+        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(backMenu).when(displayFactory)
-        .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(Mockito.eq(locale));
+        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
 
-    ModelAndView result = displayFactory.computeModelAndViewForBackPage(BACK_PAGE.LOGIN, locale);
+    ModelAndView result = displayFactory.computeModelAndViewForBackPage(BACK_PAGE.LOGIN, Locale.FRANCE);
 
     Assert.assertEquals(tile, result.getViewName());
 
-    Assert.assertEquals(metaElements, result.getModel().get("metaItems"));
     Assert.assertEquals(backMenu, result.getModel().get("menuItems"));
     Assert.assertEquals(href, result.getModel().get("hiddenLink"));
 
-    Mockito.verify(displayFactory, Mockito.times(1)).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeMetaElements(Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeBackMenuItems(Mockito.any(BACK_PAGE.class),
-        Mockito.eq(locale));
-    Mockito.verify(displayFactory, Mockito.times(1)).computeHiddenLink(Mockito.eq(locale));
+    BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeTileName(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
   }
 
 }

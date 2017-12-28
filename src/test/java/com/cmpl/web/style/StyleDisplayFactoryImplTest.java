@@ -14,9 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.media.MediaDTO;
+import com.cmpl.web.media.MediaDTOBuilder;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,8 +30,6 @@ public class StyleDisplayFactoryImplTest {
   private MenuFactory menuFactory;
   @Mock
   private WebMessageSource messageSource;
-  @Mock
-  private MetaElementFactory metaElementFactory;
 
   @Spy
   @InjectMocks
@@ -54,12 +52,10 @@ public class StyleDisplayFactoryImplTest {
   @Test
   public void testInitStyle() throws Exception {
 
-    MediaDTO media = new MediaDTO();
-    media.setId(123456789l);
+    MediaDTO media = new MediaDTOBuilder().id(123456789l).build();
     BDDMockito.doReturn(media).when(displayFactory).initMedia();
 
-    StyleDTO style = new StyleDTO();
-    style.setMedia(media);
+    StyleDTO style = new StyleDTOBuilder().media(media).build();
     BDDMockito.given(styleService.createEntity(BDDMockito.any(StyleDTO.class))).willReturn(style);
 
     Assert.assertEquals(style, displayFactory.initStyle());
@@ -67,7 +63,7 @@ public class StyleDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForViewStyles_Init_Styles() throws Exception {
-    StyleDTO style = new StyleDTO();
+    StyleDTO style = new StyleDTOBuilder().build();
 
     ModelAndView stylesManager = new ModelAndView();
     BDDMockito.doReturn(stylesManager).when(displayFactory)
@@ -81,8 +77,7 @@ public class StyleDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForViewStyles_No_Init_Styles() throws Exception {
-
-    StyleDTO style = new StyleDTO();
+    StyleDTO style = new StyleDTOBuilder().build();
 
     ModelAndView stylesManager = new ModelAndView();
     BDDMockito.doReturn(stylesManager).when(displayFactory)
@@ -95,10 +90,7 @@ public class StyleDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForUpdateStyles_Init_Styles() throws Exception {
-    StyleDTO style = new StyleDTO();
-    MediaDTO media = new MediaDTO();
-    style.setMedia(media);
-    style.setContent("someContent");
+    StyleDTO style = new StyleDTOBuilder().media(new MediaDTOBuilder().build()).content("someContent").build();
     StyleForm form = new StyleForm(style);
 
     ModelAndView stylesManager = new ModelAndView();
@@ -113,11 +105,7 @@ public class StyleDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForUpdateStyles_No_Init_Styles() throws Exception {
-
-    StyleDTO style = new StyleDTO();
-    MediaDTO media = new MediaDTO();
-    style.setMedia(media);
-    style.setContent("someContent");
+    StyleDTO style = new StyleDTOBuilder().media(new MediaDTOBuilder().build()).content("someContent").build();
     StyleForm form = new StyleForm(style);
 
     ModelAndView stylesManager = new ModelAndView();

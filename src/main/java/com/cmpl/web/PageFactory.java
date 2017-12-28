@@ -7,6 +7,7 @@ import com.cmpl.web.carousel.CarouselItem;
 import com.cmpl.web.carousel.CarouselItemRepository;
 import com.cmpl.web.carousel.CarouselRepository;
 import com.cmpl.web.media.Media;
+import com.cmpl.web.media.MediaBuilder;
 import com.cmpl.web.media.MediaRepository;
 import com.cmpl.web.menu.Menu;
 import com.cmpl.web.menu.MenuRepository;
@@ -79,7 +80,7 @@ public class PageFactory {
     carouselHome = carouselRepository.save(carouselHome);
     String carouselId = String.valueOf(carouselHome.getId());
 
-    Media firstMedia = new Media();
+    Media firstMedia = new MediaBuilder().build();
     firstMedia.setContentType("image/jpg");
     firstMedia.setExtension(".jpg");
     firstMedia.setName("epilation_verso.jpg");
@@ -93,7 +94,7 @@ public class PageFactory {
     firstImage.setCarouselId(carouselId);
     firstImage.setOrderInCarousel(1);
 
-    Media secondMedia = new Media();
+    Media secondMedia = new MediaBuilder().build();
     secondMedia.setContentType("image/jpg");
     secondMedia.setExtension(".jpg");
     secondMedia.setName("epilation_recto.jpg");

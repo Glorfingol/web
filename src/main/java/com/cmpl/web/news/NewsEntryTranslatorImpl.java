@@ -10,48 +10,34 @@ public class NewsEntryTranslatorImpl implements NewsEntryTranslator {
 
   @Override
   public NewsEntryDTO fromRequestToDTO(NewsEntryRequest request) {
-    NewsEntryDTO dto = new NewsEntryDTO();
-    dto.setAuthor(request.getAuthor());
-    dto.setTags(request.getTags());
-    dto.setTitle(request.getTitle());
-    dto.setId(request.getId());
-    dto.setCreationDate(request.getCreationDate());
-    dto.setModificationDate(request.getModificationDate());
+    NewsEntryDTOBuilder dtoBuilder = new NewsEntryDTOBuilder().author(request.getAuthor()).tags(request.getTags())
+        .title(request.getTitle());
 
     NewsContentRequest contentRequest = request.getContent();
     if (contentRequest != null) {
-      dto.setNewsContent(fromContentRequestToDTO(contentRequest));
+      dtoBuilder.newsContent(fromContentRequestToDTO(contentRequest));
     }
 
     NewsImageRequest imageRequest = request.getImage();
     if (imageRequest != null) {
-      dto.setNewsImage(fromImageRequestToDTO(imageRequest));
+      dtoBuilder.newsImage(fromImageRequestToDTO(imageRequest));
     }
-    return dto;
+    dtoBuilder.id(request.getId()).creationDate(request.getCreationDate())
+        .modificationDate(request.getModificationDate());
+    return dtoBuilder.build();
   }
 
   NewsContentDTO fromContentRequestToDTO(NewsContentRequest contentRequest) {
-    NewsContentDTO dto = new NewsContentDTO();
-    dto.setContent(contentRequest.getContent());
-    dto.setCreationDate(contentRequest.getCreationDate());
-    dto.setId(contentRequest.getId());
-    dto.setModificationDate(contentRequest.getModificationDate());
-
-    return dto;
+    return new NewsContentDTOBuilder().content(contentRequest.getContent())
+        .creationDate(contentRequest.getCreationDate()).id(contentRequest.getId())
+        .modificationDate(contentRequest.getModificationDate()).build();
 
   }
 
   NewsImageDTO fromImageRequestToDTO(NewsImageRequest imageRequest) {
-    NewsImageDTO dto = new NewsImageDTO();
-
-    dto.setAlt(imageRequest.getAlt());
-    dto.setBase64Src(imageRequest.getSrc());
-    dto.setLegend(imageRequest.getLegend());
-    dto.setCreationDate(imageRequest.getCreationDate());
-    dto.setId(imageRequest.getId());
-    dto.setModificationDate(imageRequest.getModificationDate());
-
-    return dto;
+    return new NewsImageDTOBuilder().alt(imageRequest.getAlt()).base64Src(imageRequest.getSrc())
+        .legend(imageRequest.getLegend()).creationDate(imageRequest.getCreationDate()).id(imageRequest.getId())
+        .modificationDate(imageRequest.getModificationDate()).build();
 
   }
 

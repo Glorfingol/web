@@ -43,24 +43,22 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDTO, Menu> implements M
 
   @Override
   public List<MenuDTO> toListDTO(List<Menu> entities) {
-    List<MenuDTO> menus = new ArrayList<>();
-    for (Menu menu : entities) {
-      menus.add(computeMenuDTOToReturn(menu));
-    }
-    return menus;
+    return computeMenus(entities);
   }
 
   MenuDTO computeMenuDTOToReturn(Menu menu) {
     MenuDTO menuDTO = toDTO(menu);
 
-    List<MenuDTO> subMenus = new ArrayList<>();
     List<Menu> children = menuRepository.findByParentId(String.valueOf(menu.getId()));
-    for (Menu child : children) {
-      subMenus.add(computeMenuDTOToReturn(child));
-    }
-    menuDTO.setChildren(subMenus);
+    menuDTO.setChildren(computeMenus(children));
 
     return menuDTO;
+  }
+
+  List<MenuDTO> computeMenus(List<Menu> entities) {
+    List<MenuDTO> menus = new ArrayList<>();
+    entities.forEach(entity -> menus.add(computeMenuDTOToReturn(entity)));
+    return menus;
   }
 
 }

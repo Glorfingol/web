@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import org.assertj.core.util.Lists;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -12,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -21,13 +19,6 @@ import com.cmpl.web.core.error.ERROR_CAUSE;
 import com.cmpl.web.core.model.BaseException;
 import com.cmpl.web.core.model.Error;
 import com.cmpl.web.core.model.ErrorCause;
-import com.cmpl.web.news.NewsEntryDTO;
-import com.cmpl.web.news.NewsEntryDispatcherImpl;
-import com.cmpl.web.news.NewsEntryRequest;
-import com.cmpl.web.news.NewsEntryRequestValidator;
-import com.cmpl.web.news.NewsEntryResponse;
-import com.cmpl.web.news.NewsEntryService;
-import com.cmpl.web.news.NewsEntryTranslator;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsEntryDispatcherImplTest {
@@ -46,22 +37,16 @@ public class NewsEntryDispatcherImplTest {
   @Spy
   private NewsEntryDispatcherImpl dispatcher;
 
-  private Locale locale;
-
-  @Before
-  public void setUp() {
-    locale = Locale.FRANCE;
-  }
-
   @Test
   public void testDeleteEntity_Ok() throws Exception {
 
-    BDDMockito.doReturn(null).when(validator).validateDelete(Mockito.anyString(), Mockito.eq(locale));
+    BDDMockito.doReturn(null).when(validator).validateDelete(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
 
-    dispatcher.deleteEntity(String.valueOf(1L), locale);
+    dispatcher.deleteEntity(String.valueOf(1L), Locale.FRANCE);
 
-    Mockito.verify(validator, Mockito.times(1)).validateDelete(Mockito.anyString(), Mockito.eq(locale));
-    Mockito.verify(newsEntryService, Mockito.times(1)).deleteEntity(Mockito.anyLong());
+    BDDMockito.verify(validator, BDDMockito.times(1)).validateDelete(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(newsEntryService, BDDMockito.times(1)).deleteEntity(BDDMockito.anyLong());
   }
 
   @Test
@@ -78,12 +63,13 @@ public class NewsEntryDispatcherImplTest {
     exception.expect(BaseException.class);
     exception.expectMessage(errorCause.getMessage());
 
-    BDDMockito.doReturn(error).when(validator).validateDelete(Mockito.anyString(), Mockito.eq(locale));
+    BDDMockito.doReturn(error).when(validator).validateDelete(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
 
-    dispatcher.deleteEntity(String.valueOf(1L), locale);
+    dispatcher.deleteEntity(String.valueOf(1L), Locale.FRANCE);
 
-    Mockito.verify(validator, Mockito.times(1)).validateDelete(Mockito.anyString(), Mockito.eq(locale));
-    Mockito.verify(newsEntryService, Mockito.times(0)).deleteEntity(Mockito.anyLong());
+    BDDMockito.verify(validator, BDDMockito.times(1)).validateDelete(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(newsEntryService, BDDMockito.times(0)).deleteEntity(BDDMockito.anyLong());
   }
 
   @Test
@@ -92,18 +78,18 @@ public class NewsEntryDispatcherImplTest {
     NewsEntryResponse response = new NewsEntryResponse();
 
     BDDMockito.doReturn(null).when(validator)
-        .validateUpdate(Mockito.any(NewsEntryRequest.class), Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(response).when(translator).fromDTOToResponse(Mockito.any(NewsEntryDTO.class));
+        .validateUpdate(BDDMockito.any(NewsEntryRequest.class), BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(response).when(translator).fromDTOToResponse(BDDMockito.any(NewsEntryDTO.class));
 
-    NewsEntryResponse result = dispatcher.updateEntity(new NewsEntryRequest(), String.valueOf(1L), locale);
+    NewsEntryResponse result = dispatcher.updateEntity(new NewsEntryRequest(), String.valueOf(1L), Locale.FRANCE);
 
     Assert.assertEquals(response, result);
 
-    Mockito.verify(validator, Mockito.times(1)).validateUpdate(Mockito.any(NewsEntryRequest.class),
-        Mockito.anyString(), Mockito.eq(locale));
-    Mockito.verify(translator, Mockito.times(1)).fromRequestToDTO(Mockito.any(NewsEntryRequest.class));
-    Mockito.verify(newsEntryService, Mockito.times(1)).updateEntity(Mockito.any(NewsEntryDTO.class));
-    Mockito.verify(translator, Mockito.times(1)).fromDTOToResponse(Mockito.any(NewsEntryDTO.class));
+    BDDMockito.verify(validator, BDDMockito.times(1)).validateUpdate(BDDMockito.any(NewsEntryRequest.class),
+        BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(translator, BDDMockito.times(1)).fromRequestToDTO(BDDMockito.any(NewsEntryRequest.class));
+    BDDMockito.verify(newsEntryService, BDDMockito.times(1)).updateEntity(BDDMockito.any(NewsEntryDTO.class));
+    BDDMockito.verify(translator, BDDMockito.times(1)).fromDTOToResponse(BDDMockito.any(NewsEntryDTO.class));
 
   }
 
@@ -122,17 +108,17 @@ public class NewsEntryDispatcherImplTest {
     response.setError(error);
 
     BDDMockito.doReturn(error).when(validator)
-        .validateUpdate(Mockito.any(NewsEntryRequest.class), Mockito.anyString(), Mockito.eq(locale));
+        .validateUpdate(BDDMockito.any(NewsEntryRequest.class), BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
 
-    NewsEntryResponse result = dispatcher.updateEntity(new NewsEntryRequest(), String.valueOf(1L), locale);
+    NewsEntryResponse result = dispatcher.updateEntity(new NewsEntryRequest(), String.valueOf(1L), Locale.FRANCE);
 
     Assert.assertEquals(response.getError(), result.getError());
 
-    Mockito.verify(validator, Mockito.times(1)).validateUpdate(Mockito.any(NewsEntryRequest.class),
-        Mockito.anyString(), Mockito.eq(locale));
-    Mockito.verify(translator, Mockito.times(0)).fromRequestToDTO(Mockito.any(NewsEntryRequest.class));
-    Mockito.verify(newsEntryService, Mockito.times(0)).updateEntity(Mockito.any(NewsEntryDTO.class));
-    Mockito.verify(translator, Mockito.times(0)).fromDTOToResponse(Mockito.any(NewsEntryDTO.class));
+    BDDMockito.verify(validator, BDDMockito.times(1)).validateUpdate(BDDMockito.any(NewsEntryRequest.class),
+        BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(translator, BDDMockito.times(0)).fromRequestToDTO(BDDMockito.any(NewsEntryRequest.class));
+    BDDMockito.verify(newsEntryService, BDDMockito.times(0)).updateEntity(BDDMockito.any(NewsEntryDTO.class));
+    BDDMockito.verify(translator, BDDMockito.times(0)).fromDTOToResponse(BDDMockito.any(NewsEntryDTO.class));
 
   }
 
@@ -142,17 +128,18 @@ public class NewsEntryDispatcherImplTest {
     NewsEntryResponse response = new NewsEntryResponse();
 
     BDDMockito.doReturn(null).when(validator)
-        .validateUpdate(Mockito.any(NewsEntryRequest.class), Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(response).when(translator).fromDTOToResponse(Mockito.any(NewsEntryDTO.class));
+        .validateUpdate(BDDMockito.any(NewsEntryRequest.class), BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(response).when(translator).fromDTOToResponse(BDDMockito.any(NewsEntryDTO.class));
 
-    NewsEntryResponse result = dispatcher.createEntity(new NewsEntryRequest(), locale);
+    NewsEntryResponse result = dispatcher.createEntity(new NewsEntryRequest(), Locale.FRANCE);
 
     Assert.assertEquals(response, result);
 
-    Mockito.verify(validator, Mockito.times(1)).validateCreate(Mockito.any(NewsEntryRequest.class), Mockito.eq(locale));
-    Mockito.verify(translator, Mockito.times(1)).fromRequestToDTO(Mockito.any(NewsEntryRequest.class));
-    Mockito.verify(newsEntryService, Mockito.times(1)).createEntity(Mockito.any(NewsEntryDTO.class));
-    Mockito.verify(translator, Mockito.times(1)).fromDTOToResponse(Mockito.any(NewsEntryDTO.class));
+    BDDMockito.verify(validator, BDDMockito.times(1)).validateCreate(BDDMockito.any(NewsEntryRequest.class),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(translator, BDDMockito.times(1)).fromRequestToDTO(BDDMockito.any(NewsEntryRequest.class));
+    BDDMockito.verify(newsEntryService, BDDMockito.times(1)).createEntity(BDDMockito.any(NewsEntryDTO.class));
+    BDDMockito.verify(translator, BDDMockito.times(1)).fromDTOToResponse(BDDMockito.any(NewsEntryDTO.class));
 
   }
 
@@ -170,16 +157,18 @@ public class NewsEntryDispatcherImplTest {
     NewsEntryResponse response = new NewsEntryResponse();
     response.setError(error);
 
-    BDDMockito.doReturn(error).when(validator).validateCreate(Mockito.any(NewsEntryRequest.class), Mockito.eq(locale));
+    BDDMockito.doReturn(error).when(validator)
+        .validateCreate(BDDMockito.any(NewsEntryRequest.class), BDDMockito.eq(Locale.FRANCE));
 
-    NewsEntryResponse result = dispatcher.createEntity(new NewsEntryRequest(), locale);
+    NewsEntryResponse result = dispatcher.createEntity(new NewsEntryRequest(), Locale.FRANCE);
 
     Assert.assertEquals(response.getError(), result.getError());
 
-    Mockito.verify(validator, Mockito.times(1)).validateCreate(Mockito.any(NewsEntryRequest.class), Mockito.eq(locale));
-    Mockito.verify(translator, Mockito.times(0)).fromRequestToDTO(Mockito.any(NewsEntryRequest.class));
-    Mockito.verify(newsEntryService, Mockito.times(0)).createEntity(Mockito.any(NewsEntryDTO.class));
-    Mockito.verify(translator, Mockito.times(0)).fromDTOToResponse(Mockito.any(NewsEntryDTO.class));
+    BDDMockito.verify(validator, BDDMockito.times(1)).validateCreate(BDDMockito.any(NewsEntryRequest.class),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(translator, BDDMockito.times(0)).fromRequestToDTO(BDDMockito.any(NewsEntryRequest.class));
+    BDDMockito.verify(newsEntryService, BDDMockito.times(0)).createEntity(BDDMockito.any(NewsEntryDTO.class));
+    BDDMockito.verify(translator, BDDMockito.times(0)).fromDTOToResponse(BDDMockito.any(NewsEntryDTO.class));
 
   }
 }

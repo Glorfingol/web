@@ -72,9 +72,7 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
 
     List<D> dtos = new ArrayList<>();
 
-    for (E entity : pagedEntities.getContent()) {
-      dtos.add(toDTO(entity));
-    }
+    pagedEntities.getContent().forEach(entity -> dtos.add(toDTO(entity)));
 
     return new PageImpl<>(dtos, pageRequest, pagedEntities.getTotalElements());
   }
@@ -82,9 +80,7 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
   public List<D> toListDTO(List<E> entities) {
     List<D> dtos = new ArrayList<>();
 
-    for (E entity : entities) {
-      dtos.add(toDTO(entity));
-    }
+    entities.forEach(entity -> dtos.add(toDTO(entity)));
 
     return dtos;
   }

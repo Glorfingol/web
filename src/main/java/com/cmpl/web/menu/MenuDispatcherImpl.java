@@ -29,9 +29,7 @@ public class MenuDispatcherImpl implements MenuDispatcher {
     Error error = validator.validateCreate(form, locale);
 
     if (error != null) {
-      MenuResponse response = new MenuResponse();
-      response.setError(error);
-      return response;
+      return new MenuResponseBuilder().error(error).build();
     }
 
     MenuDTO menuToCreate = translator.fromCreateFormToDTO(form);
@@ -52,26 +50,21 @@ public class MenuDispatcherImpl implements MenuDispatcher {
     Error error = validator.validateUpdate(form, locale);
 
     if (error != null) {
-      MenuResponse response = new MenuResponse();
-      response.setError(error);
-      return response;
+      return new MenuResponseBuilder().error(error).build();
     }
 
     MenuDTO menuToUpdate = menuService.getEntity(form.getId());
-    menuToUpdate.setHref(form.getHref());
-    menuToUpdate.setLabel(form.getLabel());
-    menuToUpdate.setOrderInMenu(form.getOrderInMenu());
-    menuToUpdate.setPageId(form.getPageId());
-    menuToUpdate.setParentId(form.getParentId());
-    menuToUpdate.setTitle(form.getTitle());
+    MenuDTOBuilder menuToUpdateBuilder = new MenuDTOBuilder().href(form.getHref()).label(form.getLabel())
+        .orderInMenu(form.getOrderInMenu()).pageId(form.getPageId()).parentId(form.getParentId())
+        .title(form.getTitle());
 
     if (!StringUtils.hasText(menuToUpdate.getParentId()) && StringUtils.hasText(menuToUpdate.getPageId())) {
       PageDTO page = pageService.getEntity(Long.valueOf(menuToUpdate.getPageId()));
-      menuToUpdate.setLabel(page.getMenuTitle());
-      menuToUpdate.setHref("/pages/" + page.getName());
+      menuToUpdateBuilder.label(page.getMenuTitle()).href("/pages/" + page.getName());
     }
-
-    MenuDTO updatedMenu = menuService.updateEntity(menuToUpdate);
+    menuToUpdateBuilder.id(menuToUpdate.getId()).creationDate(menuToUpdate.getCreationDate())
+        .modificationDate(menuToUpdate.getModificationDate());
+    MenuDTO updatedMenu = menuService.updateEntity(menuToUpdateBuilder.build());
 
     return translator.fromDTOToResponse(updatedMenu);
   }

@@ -5,27 +5,23 @@ import java.util.Locale;
 
 import org.assertj.core.util.Lists;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.cmpl.web.core.error.ERROR;
 import com.cmpl.web.core.error.ERROR_CAUSE;
+import com.cmpl.web.core.error.ErrorCauseBuilder;
 import com.cmpl.web.core.model.Error;
 import com.cmpl.web.core.model.ErrorCause;
-import com.cmpl.web.core.validator.BaseValidator;
 import com.cmpl.web.message.WebMessageSource;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BaseValidatorTest {
-
-  private Locale locale;
 
   @Mock
   private WebMessageSource messageSource;
@@ -33,11 +29,6 @@ public class BaseValidatorTest {
   @InjectMocks
   @Spy
   private BaseValidator validator;
-
-  @Before
-  public void setUp() {
-    locale = Locale.FRANCE;
-  }
 
   @Test
   public void testIsStringValid_True() throws Exception {
@@ -66,9 +57,9 @@ public class BaseValidatorTest {
   @Test
   public void testComputeCause() throws Exception {
 
-    BDDMockito.doReturn("someCause").when(validator).getI18n(Mockito.anyString(), Mockito.eq(locale));
+    BDDMockito.doReturn("someCause").when(validator).getI18n(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
 
-    ErrorCause result = validator.computeCause(ERROR_CAUSE.INVALID_NEWS_FORMAT, locale);
+    ErrorCause result = validator.computeCause(ERROR_CAUSE.INVALID_NEWS_FORMAT, Locale.FRANCE);
 
     Assert.assertEquals(ERROR_CAUSE.INVALID_NEWS_FORMAT.toString(), result.getCode());
     Assert.assertEquals("someCause", result.getMessage());
@@ -77,13 +68,8 @@ public class BaseValidatorTest {
   @Test
   public void testComputeError() throws Exception {
 
-    ErrorCause errorCause1 = new ErrorCause();
-    errorCause1.setCode("someCode1");
-    errorCause1.setMessage("someMessage1");
-
-    ErrorCause errorCause2 = new ErrorCause();
-    errorCause2.setCode("someCode2");
-    errorCause2.setMessage("someMessage2");
+    ErrorCause errorCause1 = new ErrorCauseBuilder().code("someCode1").message("someMessage1").build();
+    ErrorCause errorCause2 = new ErrorCauseBuilder().code("someCode2").message("someMessage2").build();
 
     List<ErrorCause> causes = Lists.newArrayList(errorCause1, errorCause2);
 

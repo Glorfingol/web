@@ -6,9 +6,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Implementation de l'interface permettant de remplir un objet destination avec un objet d'origine
@@ -46,7 +48,7 @@ public class ObjectReflexiveFillerImpl implements ObjectReflexiveFiller {
 
   private void invokeDestinationFieldsSetters() {
     List<Field> destinationFields = getFields(destination.getClass());
-    for (Field destinationField : destinationFields) {
+    destinationFields.forEach(destinationField -> {
       List<Field> originFields = getFields(origin.getClass());
       try {
         Method setterDestination = computeSetterDestination(destination, destinationField);
@@ -54,7 +56,7 @@ public class ObjectReflexiveFillerImpl implements ObjectReflexiveFiller {
       } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
         LOGGER.error("Impossible de remplir l'objet " + destination + " avec l'origine " + origin, e);
       }
-    }
+    });
   }
 
   private List<Field> getFields(Class<?> classObject) {
@@ -88,12 +90,12 @@ public class ObjectReflexiveFillerImpl implements ObjectReflexiveFiller {
   }
 
   private Field getCorrespondingOriginFieldForDestinationField(List<Field> originFields, Field destinationField) {
-    for (Field originField : originFields) {
-      if (originField.getName().equals(destinationField.getName())) {
-        return originField;
-      }
+    List<Field> correspondingFields = originFields.stream()
+        .filter(originField -> originField.getName().equals(destinationField.getName())).collect(Collectors.toList());
+    if (CollectionUtils.isEmpty(correspondingFields)) {
+      return null;
     }
-    return null;
+    return correspondingFields.get(0);
   }
 
   private boolean canInvokeSetter(Field field) {

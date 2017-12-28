@@ -4,19 +4,13 @@ public class PageTranslatorImpl implements PageTranslator {
 
   @Override
   public PageDTO fromCreateFormToDTO(PageCreateForm form) {
-    PageDTO dto = new PageDTO();
-    dto.setMenuTitle(form.getMenuTitle());
-    dto.setName(form.getName());
-    dto.setWithNews(form.isWithNews());
-    dto.setBody(form.getBody());
-    return dto;
+    return new PageDTOBuilder().menuTitle(form.getMenuTitle()).name(form.getName()).withNews(form.isWithNews())
+        .body(form.getBody()).build();
   }
 
   @Override
   public PageResponse fromDTOToResponse(PageDTO dto) {
-    PageResponse response = new PageResponse();
-    response.setPage(dto);
-    return response;
+    return new PageResponseBuilder().page(dto).build();
   }
 
 }

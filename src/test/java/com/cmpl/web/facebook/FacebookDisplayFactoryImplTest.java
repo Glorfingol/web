@@ -6,28 +6,22 @@ import java.util.Locale;
 
 import org.assertj.core.util.Lists;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.builder.ImportablePostBuilder;
-import com.cmpl.web.builder.MenuItemBuilder;
-import com.cmpl.web.builder.MetaElementBuilder;
 import com.cmpl.web.core.model.BaseException;
-import com.cmpl.web.facebook.FacebookDisplayFactoryImpl;
-import com.cmpl.web.facebook.FacebookService;
-import com.cmpl.web.facebook.ImportablePost;
 import com.cmpl.web.menu.MenuItem;
-import com.cmpl.web.meta.MetaElementToDelete;
+import com.cmpl.web.menu.MenuItemBuilder;
 import com.cmpl.web.page.BACK_PAGE;
+
+;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FacebookDisplayFactoryImplTest {
@@ -38,13 +32,6 @@ public class FacebookDisplayFactoryImplTest {
   @InjectMocks
   @Spy
   private FacebookDisplayFactoryImpl facebookDisplayFactoryImpl;
-
-  private Locale locale;
-
-  @Before
-  public void setUp() {
-    locale = Locale.FRANCE;
-  }
 
   @Test
   public void testIsAlreadyConnected_True() throws Exception {
@@ -66,7 +53,7 @@ public class FacebookDisplayFactoryImplTest {
   @Test
   public void testComputeRecentFeeds_Ok() throws Exception {
 
-    ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").toImportablePost();
+    ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").build();
     List<ImportablePost> postsToReturn = Lists.newArrayList(post);
 
     BDDMockito.doReturn(postsToReturn).when(facebookService).getRecentFeed();
@@ -97,48 +84,28 @@ public class FacebookDisplayFactoryImplTest {
     String title = "title";
     String decoratorBack = "decorator_back";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
-    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
+    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
 
-    String viewPortName = "viewport";
-    String viewPortContent = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
-
-    String languageName = "viewport";
-    String languageContent = locale.getLanguage();
-
-    String titleName = "title";
-    String titleContent = "title";
-
-    String descriptionName = "description";
-    String descriptionContent = "description";
-
-    MetaElementToDelete viewport = new MetaElementBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
-    MetaElementToDelete language = new MetaElementBuilder().name(languageName).content(languageContent).toMetaElement();
-    MetaElementToDelete titleMeta = new MetaElementBuilder().name(titleName).content(titleContent).toMetaElement();
-    MetaElementToDelete description = new MetaElementBuilder().name(descriptionName).content(descriptionContent)
-        .toMetaElement();
-
-    List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
-
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
-        .computeDecoratorBackTileName(Mockito.eq(locale));
-    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(metaElements).when(facebookDisplayFactoryImpl).computeMetaElements(Mockito.eq(locale));
+        .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl)
+        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
-        .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(Mockito.eq(locale));
+        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(false).when(facebookDisplayFactoryImpl).isAlreadyConnected();
     BDDMockito.doReturn(model).when(facebookDisplayFactoryImpl)
-        .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.FACEBOOK_ACCESS), Mockito.eq(locale));
+        .computeModelAndViewForBackPage(BDDMockito.eq(BACK_PAGE.FACEBOOK_ACCESS), BDDMockito.eq(Locale.FRANCE));
 
-    ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookAccessPage(locale);
+    ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookAccessPage(Locale.FRANCE);
     Assert.assertEquals("login", result.getModel().get("content"));
 
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeModelAndViewForFacebookImportPage(
-        Mockito.eq(locale));
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeRecentFeeds();
+    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(0)).computeModelAndViewForFacebookImportPage(
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(0)).computeRecentFeeds();
 
   }
 
@@ -153,53 +120,33 @@ public class FacebookDisplayFactoryImplTest {
     String title = "title";
     String decoratorBack = "decorator_back";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
-    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
+    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
 
-    String viewPortName = "viewport";
-    String viewPortContent = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
-
-    String languageName = "viewport";
-    String languageContent = locale.getLanguage();
-
-    String titleName = "title";
-    String titleContent = "title";
-
-    String descriptionName = "description";
-    String descriptionContent = "description";
-
-    MetaElementToDelete viewport = new MetaElementBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
-    MetaElementToDelete language = new MetaElementBuilder().name(languageName).content(languageContent).toMetaElement();
-    MetaElementToDelete titleMeta = new MetaElementBuilder().name(titleName).content(titleContent).toMetaElement();
-    MetaElementToDelete description = new MetaElementBuilder().name(descriptionName).content(descriptionContent)
-        .toMetaElement();
-
-    List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
-
-    ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").toImportablePost();
+    ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").build();
     List<ImportablePost> postsToReturn = Lists.newArrayList(post);
 
     BDDMockito.doReturn(postsToReturn).when(facebookDisplayFactoryImpl).computeRecentFeeds();
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
-        .computeDecoratorBackTileName(Mockito.eq(locale));
-    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(metaElements).when(facebookDisplayFactoryImpl).computeMetaElements(Mockito.eq(locale));
+        .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl)
+        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
-        .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(Mockito.eq(locale));
+        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(true).when(facebookDisplayFactoryImpl).isAlreadyConnected();
     BDDMockito.doReturn(model).when(facebookDisplayFactoryImpl)
-        .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.FACEBOOK_ACCESS), Mockito.eq(locale));
+        .computeModelAndViewForBackPage(BDDMockito.eq(BACK_PAGE.FACEBOOK_ACCESS), BDDMockito.eq(Locale.FRANCE));
 
-    ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookAccessPage(locale);
+    ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookAccessPage(Locale.FRANCE);
 
     Assert.assertEquals(postsToReturn, result.getModel().get("feeds"));
 
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeRecentFeeds();
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeModelAndViewForFacebookImportPage(
-        Mockito.eq(locale));
+    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(1)).computeRecentFeeds();
+    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(1)).computeModelAndViewForFacebookImportPage(
+        BDDMockito.eq(Locale.FRANCE));
   }
 
   @Test
@@ -212,48 +159,28 @@ public class FacebookDisplayFactoryImplTest {
     String title = "title";
     String decoratorBack = "decorator_back";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
-    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
+    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
 
-    String viewPortName = "viewport";
-    String viewPortContent = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
-
-    String languageName = "viewport";
-    String languageContent = locale.getLanguage();
-
-    String titleName = "title";
-    String titleContent = "title";
-
-    String descriptionName = "description";
-    String descriptionContent = "description";
-
-    MetaElementToDelete viewport = new MetaElementBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
-    MetaElementToDelete language = new MetaElementBuilder().name(languageName).content(languageContent).toMetaElement();
-    MetaElementToDelete titleMeta = new MetaElementBuilder().name(titleName).content(titleContent).toMetaElement();
-    MetaElementToDelete description = new MetaElementBuilder().name(descriptionName).content(descriptionContent)
-        .toMetaElement();
-
-    List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
-
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
-        .computeDecoratorBackTileName(Mockito.eq(locale));
-    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(metaElements).when(facebookDisplayFactoryImpl).computeMetaElements(Mockito.eq(locale));
+        .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl)
+        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
-        .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(Mockito.eq(locale));
+        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(false).when(facebookDisplayFactoryImpl).isAlreadyConnected();
     BDDMockito.doReturn(model).when(facebookDisplayFactoryImpl)
-        .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.FACEBOOK_ACCESS), Mockito.eq(locale));
+        .computeModelAndViewForBackPage(BDDMockito.eq(BACK_PAGE.FACEBOOK_ACCESS), BDDMockito.eq(Locale.FRANCE));
 
-    ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookImportPage(locale);
+    ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookImportPage(Locale.FRANCE);
     Assert.assertEquals("login", result.getModel().get("content"));
 
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeModelAndViewForFacebookAccessPage(
-        Mockito.eq(locale));
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeRecentFeeds();
+    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(1)).computeModelAndViewForFacebookAccessPage(
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(0)).computeRecentFeeds();
   }
 
   @Test
@@ -267,52 +194,32 @@ public class FacebookDisplayFactoryImplTest {
     String title = "title";
     String decoratorBack = "decorator_back";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
-    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).toMenuItem();
+    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
 
-    String viewPortName = "viewport";
-    String viewPortContent = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
-
-    String languageName = "viewport";
-    String languageContent = locale.getLanguage();
-
-    String titleName = "title";
-    String titleContent = "title";
-
-    String descriptionName = "description";
-    String descriptionContent = "description";
-
-    MetaElementToDelete viewport = new MetaElementBuilder().name(viewPortName).content(viewPortContent).toMetaElement();
-    MetaElementToDelete language = new MetaElementBuilder().name(languageName).content(languageContent).toMetaElement();
-    MetaElementToDelete titleMeta = new MetaElementBuilder().name(titleName).content(titleContent).toMetaElement();
-    MetaElementToDelete description = new MetaElementBuilder().name(descriptionName).content(descriptionContent)
-        .toMetaElement();
-
-    List<MetaElementToDelete> metaElements = Lists.newArrayList(viewport, language, titleMeta, description);
-
-    ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").toImportablePost();
+    ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").build();
     List<ImportablePost> postsToReturn = Lists.newArrayList(post);
 
     BDDMockito.doReturn(postsToReturn).when(facebookDisplayFactoryImpl).computeRecentFeeds();
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
-        .computeDecoratorBackTileName(Mockito.eq(locale));
-    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(Mockito.anyString(), Mockito.eq(locale));
-    BDDMockito.doReturn(metaElements).when(facebookDisplayFactoryImpl).computeMetaElements(Mockito.eq(locale));
+        .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl)
+        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
-        .computeBackMenuItems(Mockito.any(BACK_PAGE.class), Mockito.eq(locale));
-    BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(Mockito.eq(locale));
+        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(true).when(facebookDisplayFactoryImpl).isAlreadyConnected();
     BDDMockito.doReturn(model).when(facebookDisplayFactoryImpl)
-        .computeModelAndViewForBackPage(Mockito.eq(BACK_PAGE.FACEBOOK_ACCESS), Mockito.eq(locale));
+        .computeModelAndViewForBackPage(BDDMockito.eq(BACK_PAGE.FACEBOOK_ACCESS), BDDMockito.eq(Locale.FRANCE));
 
-    ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookImportPage(locale);
+    ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookImportPage(Locale.FRANCE);
 
     Assert.assertEquals(postsToReturn, result.getModel().get("feeds"));
 
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(1)).computeRecentFeeds();
-    Mockito.verify(facebookDisplayFactoryImpl, Mockito.times(0)).computeModelAndViewForFacebookAccessPage(
-        Mockito.eq(locale));
+    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(1)).computeRecentFeeds();
+    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(0)).computeModelAndViewForFacebookAccessPage(
+        BDDMockito.eq(Locale.FRANCE));
   }
 }

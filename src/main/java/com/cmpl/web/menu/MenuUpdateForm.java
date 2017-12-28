@@ -14,6 +14,10 @@ public class MenuUpdateForm {
   private String parentId;
   private String pageId;
 
+  public MenuUpdateForm() {
+
+  }
+
   public MenuUpdateForm(MenuDTO menuDTO) {
     this.id = menuDTO.getId();
     this.creationDate = menuDTO.getCreationDate();

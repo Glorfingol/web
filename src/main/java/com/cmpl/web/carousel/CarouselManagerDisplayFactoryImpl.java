@@ -11,18 +11,18 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.context.ContextHolder;
-import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
+import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.media.MediaDTO;
 import com.cmpl.web.media.MediaService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.BACK_PAGE;
 import com.cmpl.web.page.PageDTO;
 import com.cmpl.web.page.PageService;
 
-public class CarouselManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implements CarouselManagerDisplayFactory {
+public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<CarouselDTO> implements
+    CarouselManagerDisplayFactory {
 
   private final CarouselService carouselService;
   private final PageService pageService;
@@ -37,9 +37,9 @@ public class CarouselManagerDisplayFactoryImpl extends BackDisplayFactoryImpl im
   private static final String ITEMS = "items";
 
   public CarouselManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      MetaElementFactory metaElementFactory, CarouselService carouselService, CarouselItemService carouselItemService,
-      PageService pageService, MediaService mediaService, ContextHolder contextHolder) {
-    super(menuFactory, messageSource, metaElementFactory);
+      CarouselService carouselService, CarouselItemService carouselItemService, PageService pageService,
+      MediaService mediaService, ContextHolder contextHolder) {
+    super(menuFactory, messageSource);
     this.carouselItemService = carouselItemService;
     this.carouselService = carouselService;
     this.contextHolder = contextHolder;
@@ -52,33 +52,15 @@ public class CarouselManagerDisplayFactoryImpl extends BackDisplayFactoryImpl im
     ModelAndView carouselsManager = super.computeModelAndViewForBackPage(BACK_PAGE.CAROUSELS_VIEW, locale);
     LOGGER.info("Construction des carousels pour la page " + BACK_PAGE.CAROUSELS_VIEW.name());
 
-    PageWrapper<CarouselDTO> pagedCarouselDTOWrapped = computePageWrapperOfCarousels(locale, pageNumber);
+    PageWrapper<CarouselDTO> pagedCarouselDTOWrapped = computePageWrapper(locale, pageNumber);
 
     carouselsManager.addObject("wrappedCarousels", pagedCarouselDTOWrapped);
 
     return carouselsManager;
   }
 
-  PageWrapper<CarouselDTO> computePageWrapperOfCarousels(Locale locale, int pageNumber) {
-    Page<CarouselDTO> pagedCarouselDTOEntries = computePagesEntries(pageNumber);
-
-    boolean isFirstPage = pagedCarouselDTOEntries.isFirst();
-    boolean isLastPage = pagedCarouselDTOEntries.isLast();
-    int totalPages = pagedCarouselDTOEntries.getTotalPages();
-    int currentPageNumber = pagedCarouselDTOEntries.getNumber();
-
-    PageWrapper<CarouselDTO> pagedCarouselDTOWrapped = new PageWrapper<>();
-    pagedCarouselDTOWrapped.setCurrentPageNumber(currentPageNumber);
-    pagedCarouselDTOWrapped.setFirstPage(isFirstPage);
-    pagedCarouselDTOWrapped.setLastPage(isLastPage);
-    pagedCarouselDTOWrapped.setPage(pagedCarouselDTOEntries);
-    pagedCarouselDTOWrapped.setTotalPages(totalPages);
-    pagedCarouselDTOWrapped.setPageBaseUrl("/manager/carousels");
-    pagedCarouselDTOWrapped.setPageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages));
-    return pagedCarouselDTOWrapped;
-  }
-
-  Page<CarouselDTO> computePagesEntries(int pageNumber) {
+  @Override
+  protected Page<CarouselDTO> computeEntries(Locale locale, int pageNumber) {
     List<CarouselDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = new PageRequest(pageNumber, contextHolder.getElementsPerPage());
@@ -87,9 +69,7 @@ public class CarouselManagerDisplayFactoryImpl extends BackDisplayFactoryImpl im
       return new PageImpl<>(pageEntries);
     }
 
-    for (CarouselDTO CarouselDTOFromDB : pagedCarouselDTOEntries.getContent()) {
-      pageEntries.add(CarouselDTOFromDB);
-    }
+    pageEntries.addAll(pagedCarouselDTOEntries.getContent());
 
     return new PageImpl<>(pageEntries, pageRequest, pagedCarouselDTOEntries.getTotalElements());
   }
@@ -97,20 +77,21 @@ public class CarouselManagerDisplayFactoryImpl extends BackDisplayFactoryImpl im
   @Override
   public ModelAndView computeModelAndViewForUpdateCarousel(Locale locale, String carouselId) {
     ModelAndView carouselManager = super.computeModelAndViewForBackPage(BACK_PAGE.CAROUSELS_UPDATE, locale);
-    CarouselDTO carousel = carouselService.getEntity(Long.parseLong(carouselId));
-    carouselManager.addObject(UPDATE_FORM, createUpdateForm(carousel));
-    List<PageDTO> pages = pageService.getEntities();
-    carouselManager.addObject(PAGES, pages);
-    return carouselManager;
+    return computeModelAndViewForCarouselUpdate(carouselManager, carouselId);
   }
 
-  private CarouselUpdateForm createUpdateForm(CarouselDTO carousel) {
+  CarouselUpdateForm createUpdateForm(CarouselDTO carousel) {
     return new CarouselUpdateForm(carousel);
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdateCarouselMain(Locale locale, String carouselId) {
+  public ModelAndView computeModelAndViewForUpdateCarouselMain(String carouselId) {
     ModelAndView carouselManager = new ModelAndView("back/carousels/edit/tab_main");
+    return computeModelAndViewForCarouselUpdate(carouselManager, carouselId);
+  }
+
+  ModelAndView computeModelAndViewForCarouselUpdate(ModelAndView initializedModelAndView, String carouselId) {
+    ModelAndView carouselManager = initializedModelAndView;
     CarouselDTO carousel = carouselService.getEntity(Long.parseLong(carouselId));
     carouselManager.addObject(UPDATE_FORM, createUpdateForm(carousel));
     List<PageDTO> pages = pageService.getEntities();
@@ -119,7 +100,7 @@ public class CarouselManagerDisplayFactoryImpl extends BackDisplayFactoryImpl im
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdateCarouselItems(Locale locale, String carouselId) {
+  public ModelAndView computeModelAndViewForUpdateCarouselItems(String carouselId) {
     ModelAndView carouselManager = new ModelAndView("back/carousels/edit/tab_items");
     carouselManager.addObject(CREATE_FORM, computeItemCreateForm(carouselId));
     List<MediaDTO> medias = mediaService.getEntities();
@@ -139,13 +120,16 @@ public class CarouselManagerDisplayFactoryImpl extends BackDisplayFactoryImpl im
   }
 
   CarouselCreateForm computeCreateForm() {
-    return new CarouselCreateForm();
+    return new CarouselCreateFormBuilder().build();
   }
 
   CarouselItemCreateForm computeItemCreateForm(String carouselId) {
-    CarouselItemCreateForm createForm = new CarouselItemCreateForm();
-    createForm.setCarouselId(carouselId);
-    return createForm;
+    return new CarouselItemCreateFormBuilder().carouselId(carouselId).build();
+  }
+
+  @Override
+  protected String getBaseUrl() {
+    return "/manager/carousels";
   }
 
 }

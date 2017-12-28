@@ -22,7 +22,6 @@ import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -34,8 +33,6 @@ public class MediaManagerDisplayFactoryImplTest {
   private ContextHolder contextHolder;
   @Mock
   private MenuFactory menuFactory;
-  @Mock
-  private MetaElementFactory metaElementFactory;
   @Mock
   private WebMessageSource messageSource;
 
@@ -51,7 +48,7 @@ public class MediaManagerDisplayFactoryImplTest {
         .computeModelAndViewForBackPage(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(Locale.class));
     PageWrapper<MediaDTO> wrapper = new PageWrapper<>();
     BDDMockito.doReturn(wrapper).when(displayFactory)
-        .computePageWrapperOfMedias(BDDMockito.any(Locale.class), BDDMockito.anyInt());
+        .computePageWrapper(BDDMockito.any(Locale.class), BDDMockito.anyInt());
 
     ModelAndView result = displayFactory.computeModelAndViewForViewAllMedias(Locale.FRANCE, 0);
 
@@ -60,14 +57,14 @@ public class MediaManagerDisplayFactoryImplTest {
   }
 
   @Test
-  public void testComputeMediasEntries_Empty() throws Exception {
+  public void testComputeEntries_Empty() throws Exception {
 
     BDDMockito.given(contextHolder.getElementsPerPage()).willReturn(5);
     List<MediaDTO> medias = new ArrayList<>();
     PageImpl<MediaDTO> page = new PageImpl<>(medias);
     BDDMockito.given(mediaService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(page);
 
-    Page<MediaDTO> result = displayFactory.computeMediasEntries(1);
+    Page<MediaDTO> result = displayFactory.computeEntries(Locale.FRANCE, 1);
     Assert.assertTrue(CollectionUtils.isEmpty(result.getContent()));
 
   }
@@ -77,12 +74,12 @@ public class MediaManagerDisplayFactoryImplTest {
 
     BDDMockito.given(contextHolder.getElementsPerPage()).willReturn(5);
     List<MediaDTO> medias = new ArrayList<>();
-    MediaDTO media = new MediaDTO();
+    MediaDTO media = new MediaDTOBuilder().build();
     medias.add(media);
     PageImpl<MediaDTO> page = new PageImpl<>(medias);
     BDDMockito.given(mediaService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(page);
 
-    Page<MediaDTO> result = displayFactory.computeMediasEntries(1);
+    Page<MediaDTO> result = displayFactory.computeEntries(Locale.FRANCE, 1);
     Assert.assertEquals(6, result.getTotalElements());
 
   }
@@ -91,16 +88,16 @@ public class MediaManagerDisplayFactoryImplTest {
   public void testComputePageWrapperOfMedias() throws Exception {
 
     List<MediaDTO> medias = new ArrayList<>();
-    MediaDTO media = new MediaDTO();
+    MediaDTO media = new MediaDTOBuilder().build();
     medias.add(media);
     PageImpl<MediaDTO> page = new PageImpl<>(medias);
 
     String pageLabel = "Page 1";
 
-    BDDMockito.doReturn(page).when(displayFactory).computeMediasEntries(BDDMockito.anyInt());
+    BDDMockito.doReturn(page).when(displayFactory).computeEntries(BDDMockito.any(Locale.class), BDDMockito.anyInt());
     BDDMockito.doReturn(pageLabel).when(displayFactory)
         .getI18nValue(BDDMockito.anyString(), BDDMockito.any(Locale.class), BDDMockito.anyInt(), BDDMockito.anyInt());
-    PageWrapper<MediaDTO> wrapper = displayFactory.computePageWrapperOfMedias(Locale.FRANCE, 1);
+    PageWrapper<MediaDTO> wrapper = displayFactory.computePageWrapper(Locale.FRANCE, 1);
 
     Assert.assertEquals(0, wrapper.getCurrentPageNumber());
     Assert.assertTrue(wrapper.isFirstPage());

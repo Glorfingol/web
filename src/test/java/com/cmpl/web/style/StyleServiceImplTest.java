@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.cmpl.web.file.FileService;
 import com.cmpl.web.media.MediaDTO;
+import com.cmpl.web.media.MediaDTOBuilder;
 import com.cmpl.web.media.MediaService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,10 +34,8 @@ public class StyleServiceImplTest {
   @Test
   public void testToEntity() throws Exception {
 
-    StyleDTO dto = new StyleDTO();
-    MediaDTO media = new MediaDTO();
-    media.setId(123456789l);
-    dto.setMedia(media);
+    MediaDTO media = new MediaDTOBuilder().id(123456789l).build();
+    StyleDTO dto = new StyleDTOBuilder().media(media).content("someContent").build();
 
     BDDMockito.doNothing().when(styleService).fillObject(BDDMockito.any(StyleDTO.class), BDDMockito.any(Style.class));
     Style result = styleService.toEntity(dto);
@@ -49,8 +48,7 @@ public class StyleServiceImplTest {
 
   @Test
   public void testToDTO_Media_Not_Null() throws Exception {
-    Style style = new Style();
-    style.setMediaId("123456789");
+    Style style = new StyleBuilder().mediaId("123456789").build();
     BDDMockito.doNothing().when(styleService).fillObject(BDDMockito.any(Style.class), BDDMockito.any(StyleDTO.class));
 
     MediaDTO media = new MediaDTO();
@@ -65,7 +63,7 @@ public class StyleServiceImplTest {
 
   @Test
   public void testToDTO_Media_Null() throws Exception {
-    Style style = new Style();
+    Style style = new StyleBuilder().build();
     BDDMockito.doNothing().when(styleService).fillObject(BDDMockito.any(Style.class), BDDMockito.any(StyleDTO.class));
 
     BDDMockito.given(mediaService.getEntity(BDDMockito.anyLong())).willReturn(null);
@@ -79,13 +77,11 @@ public class StyleServiceImplTest {
 
   @Test
   public void testCreateEntity() throws Exception {
-    StyleDTO dto = new StyleDTO();
-    dto.setContent("someContent");
-    MediaDTO media = new MediaDTO();
-    media.setName("someName");
-    dto.setMedia(media);
 
-    Style entity = new Style();
+    MediaDTO media = new MediaDTOBuilder().name("someName").id(123456789l).build();
+    StyleDTO dto = new StyleDTOBuilder().media(media).content("someContent").build();
+
+    Style entity = new StyleBuilder().build();
 
     BDDMockito.doReturn(entity).when(styleService).toEntity(BDDMockito.any(StyleDTO.class));
     BDDMockito.given(styleRepository.save(BDDMockito.any(Style.class))).willReturn(entity);
@@ -104,13 +100,10 @@ public class StyleServiceImplTest {
   @Test
   public void testUpdateEntity() throws Exception {
 
-    StyleDTO dto = new StyleDTO();
-    dto.setContent("someContent");
-    MediaDTO media = new MediaDTO();
-    media.setName("someName");
-    dto.setMedia(media);
+    MediaDTO media = new MediaDTOBuilder().name("someName").id(123456789l).build();
+    StyleDTO dto = new StyleDTOBuilder().media(media).content("someContent").build();
 
-    Style entity = new Style();
+    Style entity = new StyleBuilder().build();
 
     BDDMockito.doReturn(entity).when(styleService).toEntity(BDDMockito.any(StyleDTO.class));
     BDDMockito.given(styleRepository.save(BDDMockito.any(Style.class))).willReturn(entity);
@@ -129,7 +122,7 @@ public class StyleServiceImplTest {
   public void testGetStyle_Null() throws Exception {
 
     List<Style> styles = new ArrayList<>();
-    Style style = new Style();
+    Style style = new StyleBuilder().build();
     styles.add(style);
 
     BDDMockito.given(styleRepository.findAll()).willReturn(null);
@@ -140,7 +133,7 @@ public class StyleServiceImplTest {
   @Test
   public void testGetStyle_Not_Null() throws Exception {
     List<Style> styles = new ArrayList<>();
-    Style style = new Style();
+    Style style = new StyleBuilder().build();
     styles.add(style);
 
     BDDMockito.given(styleRepository.findAll()).willReturn(styles);

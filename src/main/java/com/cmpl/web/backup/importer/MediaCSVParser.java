@@ -9,6 +9,7 @@ import org.apache.commons.csv.CSVRecord;
 import com.cmpl.web.core.backup.reader.CommonParser;
 import com.cmpl.web.core.backup.writer.DataManipulator;
 import com.cmpl.web.media.Media;
+import com.cmpl.web.media.MediaBuilder;
 
 public class MediaCSVParser extends CommonParser<Media> {
 
@@ -18,7 +19,7 @@ public class MediaCSVParser extends CommonParser<Media> {
 
   @Override
   protected Media parseEntity(CSVRecord record) {
-    Media mediaParsed = new Media();
+    Media mediaParsed = new MediaBuilder().build();
 
     List<Field> fieldsToParse = getFieldsToParse(mediaParsed.getClass());
 

@@ -11,19 +11,19 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.context.ContextHolder;
-import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
+import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.meta.MetaElementCreateForm;
 import com.cmpl.web.meta.MetaElementDTO;
-import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.meta.MetaElementService;
 import com.cmpl.web.meta.OpenGraphMetaElementCreateForm;
 import com.cmpl.web.meta.OpenGraphMetaElementDTO;
 import com.cmpl.web.meta.OpenGraphMetaElementService;
 
-public class PageManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implements PageManagerDisplayFactory {
+public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<PageDTO> implements
+    PageManagerDisplayFactory {
 
   private final PageService pageService;
   private final OpenGraphMetaElementService openGraphMetaElementService;
@@ -35,9 +35,9 @@ public class PageManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   private static final String META_ELEMENTS = "metaElements";
 
   public PageManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      MetaElementFactory metaElementFactory, PageService pageService, ContextHolder contextHolder,
-      MetaElementService metaElementService, OpenGraphMetaElementService openGraphMetaElementService) {
-    super(menuFactory, messageSource, metaElementFactory);
+      PageService pageService, ContextHolder contextHolder, MetaElementService metaElementService,
+      OpenGraphMetaElementService openGraphMetaElementService) {
+    super(menuFactory, messageSource);
     this.pageService = pageService;
     this.contextHolder = contextHolder;
     this.metaElementService = metaElementService;
@@ -49,33 +49,15 @@ public class PageManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     ModelAndView pagesManager = super.computeModelAndViewForBackPage(BACK_PAGE.PAGES_VIEW, locale);
     LOGGER.info("Construction des pages pour la page " + BACK_PAGE.PAGES_VIEW.name());
 
-    PageWrapper<PageDTO> pagedPageDTOWrapped = computePageWrapperOfPages(locale, pageNumber);
+    PageWrapper<PageDTO> pagedPageDTOWrapped = computePageWrapper(locale, pageNumber);
 
     pagesManager.addObject("wrappedPages", pagedPageDTOWrapped);
 
     return pagesManager;
   }
 
-  PageWrapper<PageDTO> computePageWrapperOfPages(Locale locale, int pageNumber) {
-    Page<PageDTO> pagedPageDTOEntries = computePagesEntries(pageNumber);
-
-    boolean isFirstPage = pagedPageDTOEntries.isFirst();
-    boolean isLastPage = pagedPageDTOEntries.isLast();
-    int totalPages = pagedPageDTOEntries.getTotalPages();
-    int currentPageNumber = pagedPageDTOEntries.getNumber();
-
-    PageWrapper<PageDTO> pagedPageDTOWrapped = new PageWrapper<>();
-    pagedPageDTOWrapped.setCurrentPageNumber(currentPageNumber);
-    pagedPageDTOWrapped.setFirstPage(isFirstPage);
-    pagedPageDTOWrapped.setLastPage(isLastPage);
-    pagedPageDTOWrapped.setPage(pagedPageDTOEntries);
-    pagedPageDTOWrapped.setTotalPages(totalPages);
-    pagedPageDTOWrapped.setPageBaseUrl("/manager/pages");
-    pagedPageDTOWrapped.setPageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages));
-    return pagedPageDTOWrapped;
-  }
-
-  Page<PageDTO> computePagesEntries(int pageNumber) {
+  @Override
+  protected Page<PageDTO> computeEntries(Locale locale, int pageNumber) {
     List<PageDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = new PageRequest(pageNumber, contextHolder.getElementsPerPage());
@@ -84,9 +66,7 @@ public class PageManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
       return new PageImpl<>(pageEntries);
     }
 
-    for (PageDTO pageDTOFromDB : pagedPageDTOEntries.getContent()) {
-      pageEntries.add(pageDTOFromDB);
-    }
+    pageEntries.addAll(pagedPageDTOEntries.getContent());
 
     return new PageImpl<>(pageEntries, pageRequest, pagedPageDTOEntries.getTotalElements());
   }
@@ -176,4 +156,10 @@ public class PageManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
     return pageManager;
   }
+
+  @Override
+  protected String getBaseUrl() {
+    return "/manager/pages";
+  }
+
 }

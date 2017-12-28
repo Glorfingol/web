@@ -8,7 +8,6 @@ import com.cmpl.web.file.FileService;
 import com.cmpl.web.media.MediaService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 
 @Configuration
 public class StyleConfiguration {
@@ -30,7 +29,7 @@ public class StyleConfiguration {
 
   @Bean
   public StyleDisplayFactory styleDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      MetaElementFactory metaElementFactory, StyleService styleService, ContextHolder contextHolder) {
-    return new StyleDisplayFactoryImpl(menuFactory, messageSource, metaElementFactory, styleService, contextHolder);
+      StyleService styleService, ContextHolder contextHolder) {
+    return new StyleDisplayFactoryImpl(menuFactory, messageSource, styleService, contextHolder);
   }
 }

@@ -11,7 +11,6 @@ import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.file.FileService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSourceImpl;
-import com.cmpl.web.meta.MetaElementFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MediaConfigurationTest {
@@ -23,8 +22,6 @@ public class MediaConfigurationTest {
   private MediaRepository mediaRepository;
   @Mock
   private MenuFactory menuFactory;
-  @Mock
-  private MetaElementFactory metaElementFactory;
   @Mock
   private WebMessageSourceImpl messageSource;
   @Mock
@@ -42,10 +39,8 @@ public class MediaConfigurationTest {
 
   @Test
   public void testMediaManagerDisplayFactory() throws Exception {
-    Assert.assertEquals(
-        MediaManagerDisplayFactoryImpl.class,
-        configuration.mediaManagerDisplayFactory(menuFactory, messageSource, metaElementFactory, mediaService,
-            contextHolder).getClass());
+    Assert.assertEquals(MediaManagerDisplayFactoryImpl.class,
+        configuration.mediaManagerDisplayFactory(menuFactory, messageSource, mediaService, contextHolder).getClass());
   }
 
 }

@@ -8,7 +8,6 @@ import com.cmpl.web.file.ImageConverterService;
 import com.cmpl.web.file.ImageService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 
 @Configuration
 public class NewsConfiguration {
@@ -21,9 +20,8 @@ public class NewsConfiguration {
 
   @Bean
   NewsManagerDisplayFactory newsManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSource messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
-    return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, messageSource, newsEntryService,
-        metaElementFactory);
+      WebMessageSource messageSource, NewsEntryService newsEntryService) {
+    return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, messageSource, newsEntryService);
   }
 
   @Bean

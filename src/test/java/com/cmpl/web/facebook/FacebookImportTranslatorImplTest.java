@@ -10,12 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.cmpl.web.builder.NewsEntryDTOBuilder;
-import com.cmpl.web.facebook.FacebookImportPost;
-import com.cmpl.web.facebook.FacebookImportRequest;
-import com.cmpl.web.facebook.FacebookImportResponse;
-import com.cmpl.web.facebook.FacebookImportTranslatorImpl;
 import com.cmpl.web.news.NewsEntryDTO;
+import com.cmpl.web.news.NewsEntryDTOBuilder;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FacebookImportTranslatorImplTest {
@@ -40,7 +36,7 @@ public class FacebookImportTranslatorImplTest {
   @Test
   public void testFromDTOToResponse() throws Exception {
 
-    NewsEntryDTO dto = new NewsEntryDTOBuilder().id(123456789L).toNewsEntryDTO();
+    NewsEntryDTO dto = new NewsEntryDTOBuilder().id(123456789L).build();
     List<NewsEntryDTO> dtos = Lists.newArrayList(dto);
 
     FacebookImportResponse result = translator.fromDTOToResponse(dtos);

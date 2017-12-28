@@ -4,32 +4,23 @@ public class CarouselTranslatorImpl implements CarouselTranslator {
 
   @Override
   public CarouselDTO fromCreateFormToDTO(CarouselCreateForm form) {
-    CarouselDTO dto = new CarouselDTO();
-    dto.setName(form.getName());
-    dto.setPageId(form.getPageId());
-    return dto;
+    return new CarouselDTOBuilder().name(form.getName()).pageId(form.getPageId()).build();
   }
 
   @Override
   public CarouselResponse fromDTOToResponse(CarouselDTO dto) {
-    CarouselResponse response = new CarouselResponse();
-    response.setCarousel(dto);
-    return response;
+    return new CarouselResponseBuilder().carousel(dto).build();
   }
 
   @Override
   public CarouselItemDTO fromCreateFormToDTO(CarouselItemCreateForm form) {
-    CarouselItemDTO dto = new CarouselItemDTO();
-    dto.setCarouselId(form.getCarouselId());
-    dto.setOrderInCarousel(form.getOrderInCarousel());
-    return dto;
+    return new CarouselItemDTOBuilder().carouselId(form.getCarouselId()).orderInCarousel(form.getOrderInCarousel())
+        .build();
   }
 
   @Override
   public CarouselItemResponse fromDTOToResponse(CarouselItemDTO dto) {
-    CarouselItemResponse response = new CarouselItemResponse();
-    response.setItem(dto);
-    return response;
+    return new CarouselItemResponseBuilder().item(dto).build();
   }
 
 }

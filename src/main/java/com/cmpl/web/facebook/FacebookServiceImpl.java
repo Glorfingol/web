@@ -78,21 +78,11 @@ public class FacebookServiceImpl implements FacebookService {
 
   ImportablePost computeImportablePost(Post feed, DateTimeFormatter formatter) {
 
-    ImportablePost post = new ImportablePost();
-    post.setAuthor(computeAuthor(feed));
-    post.setDescription(computeDescription(feed));
-    post.setPhotoUrl(computePhotoUrl(feed));
-    post.setLinkUrl(computeLink(feed));
-    post.setVideoUrl(computeVideoUrl(feed));
-    post.setTitle(computeTitle(feed));
-    post.setType(computeType(feed));
-    post.setFacebookId(computeId(feed));
-    post.setOnclick(computeOnclick(feed));
-    post.setCreationDate(computeCreatedTime(feed));
-    post.setObjectId(computeObjectId(feed));
-    post.setFormattedDate(computeFormattedDate(feed, formatter));
-
-    return post;
+    return new ImportablePostBuilder().author(computeAuthor(feed)).description(computeDescription(feed))
+        .photoUrl(computePhotoUrl(feed)).linkUrl(computeLink(feed)).videoUrl(computeVideoUrl(feed))
+        .title(computeTitle(feed)).type(computeType(feed)).facebookId(computeId(feed)).onclick(computeOnclick(feed))
+        .creationDate(computeCreatedTime(feed)).objectId(computeObjectId(feed))
+        .formattedDate(computeFormattedDate(feed, formatter)).build();
   }
 
   String computeFormattedDate(Post feed, DateTimeFormatter formatter) {

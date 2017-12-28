@@ -62,9 +62,8 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
   protected List<String> parseEntityToListString(T entityToWrite) {
 
     List<String> records = new ArrayList<>();
-    for (Field field : getFieldsToParse(entityToWrite.getClass())) {
-      records.add(parseObjectValueToString(field, entityToWrite));
-    }
+    getFieldsToParse(entityToWrite.getClass()).forEach(
+        field -> records.add(parseObjectValueToString(field, entityToWrite)));
     return records;
 
   }
@@ -143,20 +142,20 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
 
     List<Field> fieldsToParse = getFieldsToParse(entity.getClass());
     List<String> fileHeader = new ArrayList<>();
-    for (Field field : fieldsToParse) {
+    fieldsToParse.forEach(field -> {
       if (!field.isAccessible()) {
         field.setAccessible(true);
       }
       fileHeader.add(field.getName());
-    }
+    });
     return fileHeader;
   }
 
-  private List<Field> getFieldsToParse(Class clazz) {
+  private List<Field> getFieldsToParse(Class<?> clazz) {
     List<Field> fieldsToParse = new ArrayList<>();
     fieldsToParse.addAll(Arrays.asList(clazz.getDeclaredFields()));
 
-    Class superclass = clazz.getSuperclass();
+    Class<?> superclass = clazz.getSuperclass();
     if (superclass != null) {
       fieldsToParse.addAll(getFieldsToParse(superclass));
     }

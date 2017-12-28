@@ -3,22 +3,20 @@ package com.cmpl.web.news;
 import java.util.Locale;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.builder.NewsEntryDTOBuilder;
-import com.cmpl.web.builder.NewsEntryRequestBuilder;
 import com.cmpl.web.core.model.BaseException;
+
+;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsManagerControllerTest {
@@ -31,13 +29,6 @@ public class NewsManagerControllerTest {
   @Spy
   @InjectMocks
   private NewsManagerController controller;
-
-  private Locale locale;
-
-  @Before
-  public void setUp() {
-    locale = Locale.FRANCE;
-  }
 
   @Test
   public void testDeleteNewsEntry() throws Exception {
@@ -52,7 +43,7 @@ public class NewsManagerControllerTest {
     ModelAndView model = new ModelAndView("back/news/edit_news_entry");
 
     BDDMockito.doReturn(model).when(newsManagerDisplayFactory)
-        .computeModelAndViewForOneNewsEntry(Mockito.eq(Locale.FRANCE), Mockito.eq("666"));
+        .computeModelAndViewForOneNewsEntry(BDDMockito.eq(Locale.FRANCE), BDDMockito.eq("666"));
 
     ModelAndView result = controller.getNewsEntity("666");
 
@@ -61,12 +52,12 @@ public class NewsManagerControllerTest {
 
   @Test
   public void testUpdateNewsEntry_Ok() throws Exception {
-    NewsEntryRequest request = new NewsEntryRequestBuilder().toNewsEntryRequest();
+    NewsEntryRequest request = new NewsEntryRequestBuilder().build();
 
     NewsEntryResponse response = new NewsEntryResponse();
 
     BDDMockito.doReturn(response).when(dispatcher)
-        .updateEntity(Mockito.eq(request), Mockito.eq("666"), Mockito.eq(locale));
+        .updateEntity(BDDMockito.eq(request), BDDMockito.eq("666"), BDDMockito.eq(Locale.FRANCE));
     ResponseEntity<NewsEntryResponse> result = controller.updateNewsEntry("666", request);
 
     Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -76,10 +67,10 @@ public class NewsManagerControllerTest {
   @Test
   public void testUpdateNewsEntry_Ko() throws BaseException {
 
-    NewsEntryRequest request = new NewsEntryRequestBuilder().toNewsEntryRequest();
+    NewsEntryRequest request = new NewsEntryRequestBuilder().build();
 
     BDDMockito.doThrow(new BaseException("")).when(dispatcher)
-        .updateEntity(Mockito.eq(request), Mockito.eq("666"), Mockito.eq(locale));
+        .updateEntity(BDDMockito.eq(request), BDDMockito.eq("666"), BDDMockito.eq(Locale.FRANCE));
 
     ResponseEntity<NewsEntryResponse> result = controller.updateNewsEntry("666", request);
 
@@ -89,13 +80,13 @@ public class NewsManagerControllerTest {
 
   @Test
   public void testCreateNewsEntry_Ok() throws Exception {
-    NewsEntryRequest request = new NewsEntryRequestBuilder().toNewsEntryRequest();
+    NewsEntryRequest request = new NewsEntryRequestBuilder().build();
 
-    NewsEntryDTO entryDTO = new NewsEntryDTOBuilder().id(1L).toNewsEntryDTO();
+    NewsEntryDTO entryDTO = new NewsEntryDTOBuilder().id(1L).build();
     NewsEntryResponse response = new NewsEntryResponse();
     response.setNewsEntry(entryDTO);
 
-    BDDMockito.doReturn(response).when(dispatcher).createEntity(Mockito.eq(request), Mockito.eq(locale));
+    BDDMockito.doReturn(response).when(dispatcher).createEntity(BDDMockito.eq(request), BDDMockito.eq(Locale.FRANCE));
     ResponseEntity<NewsEntryResponse> result = controller.createNewsEntry(request);
 
     Assert.assertEquals(HttpStatus.CREATED, result.getStatusCode());
@@ -105,9 +96,10 @@ public class NewsManagerControllerTest {
   @Test
   public void testCreateNewsEntry_Ko() throws BaseException {
 
-    NewsEntryRequest request = new NewsEntryRequestBuilder().toNewsEntryRequest();
+    NewsEntryRequest request = new NewsEntryRequestBuilder().build();
 
-    BDDMockito.doThrow(new BaseException("")).when(dispatcher).createEntity(Mockito.eq(request), Mockito.eq(locale));
+    BDDMockito.doThrow(new BaseException("")).when(dispatcher)
+        .createEntity(BDDMockito.eq(request), BDDMockito.eq(Locale.FRANCE));
 
     ResponseEntity<NewsEntryResponse> result = controller.createNewsEntry(request);
 
@@ -120,7 +112,7 @@ public class NewsManagerControllerTest {
     ModelAndView model = new ModelAndView("back/news/view_news");
 
     BDDMockito.doReturn(model).when(newsManagerDisplayFactory)
-        .computeModelAndViewForBackPage(Mockito.eq(locale), Mockito.anyInt());
+        .computeModelAndViewForBackPage(BDDMockito.eq(Locale.FRANCE), BDDMockito.anyInt());
 
     ModelAndView result = controller.printViewNews(0);
 

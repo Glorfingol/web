@@ -3,7 +3,6 @@ package com.cmpl.web.sitemap;
 import java.util.Locale;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -11,14 +10,11 @@ import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.model.BaseException;
-import com.cmpl.web.sitemap.SitemapController;
-import com.cmpl.web.sitemap.SitemapService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SitemapControllerTest {
@@ -33,19 +29,12 @@ public class SitemapControllerTest {
   @InjectMocks
   private SitemapController controller;
 
-  private Locale locale;
-
-  @Before
-  public void setUp() {
-    locale = Locale.FRANCE;
-  }
-
   @Test
   public void testPrintSitemap_Ok() throws Exception {
 
     String sitemap = "someSitemap";
 
-    BDDMockito.doReturn(sitemap).when(sitemapService).createSiteMap(Mockito.eq(locale));
+    BDDMockito.doReturn(sitemap).when(sitemapService).createSiteMap(BDDMockito.eq(Locale.FRANCE));
 
     String result = controller.printSitemap();
 
@@ -55,7 +44,7 @@ public class SitemapControllerTest {
   @Test
   public void testPrintSitemap_Ko() throws Exception {
 
-    BDDMockito.doThrow(new BaseException("")).when(sitemapService).createSiteMap(Mockito.eq(locale));
+    BDDMockito.doThrow(new BaseException("")).when(sitemapService).createSiteMap(BDDMockito.eq(Locale.FRANCE));
 
     String result = controller.printSitemap();
 

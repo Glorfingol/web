@@ -12,25 +12,6 @@ import com.cmpl.web.file.ImageConverterService;
 import com.cmpl.web.file.ImageService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSourceImpl;
-import com.cmpl.web.meta.MetaElementFactory;
-import com.cmpl.web.news.NewsConfiguration;
-import com.cmpl.web.news.NewsContentRepository;
-import com.cmpl.web.news.NewsContentService;
-import com.cmpl.web.news.NewsContentServiceImpl;
-import com.cmpl.web.news.NewsEntryDispatcher;
-import com.cmpl.web.news.NewsEntryDispatcherImpl;
-import com.cmpl.web.news.NewsEntryRepository;
-import com.cmpl.web.news.NewsEntryRequestValidator;
-import com.cmpl.web.news.NewsEntryRequestValidatorImpl;
-import com.cmpl.web.news.NewsEntryService;
-import com.cmpl.web.news.NewsEntryServiceImpl;
-import com.cmpl.web.news.NewsEntryTranslator;
-import com.cmpl.web.news.NewsEntryTranslatorImpl;
-import com.cmpl.web.news.NewsImageRepository;
-import com.cmpl.web.news.NewsImageService;
-import com.cmpl.web.news.NewsImageServiceImpl;
-import com.cmpl.web.news.NewsManagerDisplayFactory;
-import com.cmpl.web.news.NewsManagerDisplayFactoryImpl;
 import com.cmpl.web.page.PageService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -53,9 +34,6 @@ public class NewsConfigurationTest {
 
   @Mock
   private MenuFactory menuFactory;
-
-  @Mock
-  private MetaElementFactory metaElementFactory;
 
   @Mock
   private PageService pageService;
@@ -110,7 +88,7 @@ public class NewsConfigurationTest {
   @Test
   public void testNewsManagerDisplayFactory() throws Exception {
     NewsManagerDisplayFactory result = configuration.newsManagerDisplayFactory(contextHolder, menuFactory,
-        messageSource, newsEntryService, metaElementFactory);
+        messageSource, newsEntryService);
 
     Assert.assertEquals(NewsManagerDisplayFactoryImpl.class, result.getClass());
   }

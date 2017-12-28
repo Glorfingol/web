@@ -10,9 +10,9 @@ public interface CarouselManagerDisplayFactory {
 
   ModelAndView computeModelAndViewForUpdateCarousel(Locale locale, String carouselId);
 
-  ModelAndView computeModelAndViewForUpdateCarouselMain(Locale locale, String carouselId);
+  ModelAndView computeModelAndViewForUpdateCarouselMain(String carouselId);
 
-  ModelAndView computeModelAndViewForUpdateCarouselItems(Locale locale, String carouselId);
+  ModelAndView computeModelAndViewForUpdateCarouselItems(String carouselId);
 
   ModelAndView computeModelAndViewForCreateCarousel(Locale locale);
 

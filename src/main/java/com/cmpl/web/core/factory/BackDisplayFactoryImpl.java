@@ -10,8 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.menu.MenuItem;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
-import com.cmpl.web.meta.MetaElementToDelete;
 import com.cmpl.web.page.BACK_PAGE;
 
 /**
@@ -25,13 +23,10 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
   protected static final Logger LOGGER = LoggerFactory.getLogger(BackDisplayFactoryImpl.class);
 
   private final MenuFactory menuFactory;
-  private final MetaElementFactory metaElementFactory;
 
-  public BackDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      MetaElementFactory metaElementFactory) {
+  public BackDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource) {
     super(messageSource);
     this.menuFactory = menuFactory;
-    this.metaElementFactory = metaElementFactory;
   }
 
   @Override
@@ -42,8 +37,6 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
 
     LOGGER.info("Construction du menu pour la page " + backPage.name());
     model.addObject("menuItems", computeBackMenuItems(backPage, locale));
-    LOGGER.info("Construction des éléments meta pour la page " + backPage.name());
-    model.addObject("metaItems", computeMetaElements(locale));
     LOGGER.info("Construction du lien du back pour la page " + backPage.name());
     model.addObject("hiddenLink", computeHiddenLink(locale));
 
@@ -66,10 +59,6 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
 
   public List<MenuItem> computeBackMenuItems(BACK_PAGE backPage, Locale locale) {
     return menuFactory.computeBackMenuItems(backPage, locale);
-  }
-
-  public List<MetaElementToDelete> computeMetaElements(Locale locale) {
-    return metaElementFactory.computeMetaElementsForBackPage(locale);
   }
 
 }

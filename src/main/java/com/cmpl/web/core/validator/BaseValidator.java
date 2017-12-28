@@ -7,6 +7,8 @@ import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.error.ERROR;
 import com.cmpl.web.core.error.ERROR_CAUSE;
+import com.cmpl.web.core.error.ErrorBuilder;
+import com.cmpl.web.core.error.ErrorCauseBuilder;
 import com.cmpl.web.core.model.Error;
 import com.cmpl.web.core.model.ErrorCause;
 import com.cmpl.web.message.WebMessageSource;
@@ -24,17 +26,12 @@ public class BaseValidator {
   }
 
   public ErrorCause computeCause(ERROR_CAUSE errorCause, Locale locale) {
-    ErrorCause cause = new ErrorCause();
-    cause.setCode(errorCause.toString());
-    cause.setMessage(getI18n(errorCause.getCauseKey(), locale));
-    return cause;
+    return new ErrorCauseBuilder().code(errorCause.toString()).message(getI18n(errorCause.getCauseKey(), locale))
+        .build();
   }
 
   public Error computeError(List<ErrorCause> causes) {
-    Error error = new Error();
-    error.setCode(ERROR.INVALID_REQUEST.toString());
-    error.setCauses(causes);
-    return error;
+    return new ErrorBuilder().code(ERROR.INVALID_REQUEST.toString()).causes(causes).build();
   }
 
   protected String getI18n(String key, Locale locale) {

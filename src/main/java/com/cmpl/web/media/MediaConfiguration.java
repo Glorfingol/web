@@ -7,7 +7,6 @@ import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.file.FileService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 
 @Configuration
 public class MediaConfiguration {
@@ -19,9 +18,8 @@ public class MediaConfiguration {
 
   @Bean
   public MediaManagerDisplayFactory mediaManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      MetaElementFactory metaElementFactory, MediaService mediaService, ContextHolder contextHolder) {
-    return new MediaManagerDisplayFactoryImpl(menuFactory, messageSource, metaElementFactory, mediaService,
-        contextHolder);
+      MediaService mediaService, ContextHolder contextHolder) {
+    return new MediaManagerDisplayFactoryImpl(menuFactory, messageSource, mediaService, contextHolder);
   }
 
 }

@@ -10,20 +10,8 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 
 import com.cmpl.web.core.context.ContextHolder;
-import com.cmpl.web.facebook.FacebookConfiguration;
-import com.cmpl.web.facebook.FacebookDispatcher;
-import com.cmpl.web.facebook.FacebookDispatcherImpl;
-import com.cmpl.web.facebook.FacebookDisplayFactory;
-import com.cmpl.web.facebook.FacebookDisplayFactoryImpl;
-import com.cmpl.web.facebook.FacebookImportService;
-import com.cmpl.web.facebook.FacebookImportServiceImpl;
-import com.cmpl.web.facebook.FacebookImportTranslator;
-import com.cmpl.web.facebook.FacebookImportTranslatorImpl;
-import com.cmpl.web.facebook.FacebookService;
-import com.cmpl.web.facebook.FacebookServiceImpl;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSourceImpl;
-import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.news.NewsEntryService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -40,9 +28,6 @@ public class FacebookConfigurationTest {
 
   @Mock
   private MenuFactory menuFactory;
-
-  @Mock
-  private MetaElementFactory metaElementFactory;
 
   @Mock
   private WebMessageSourceImpl messageSource;
@@ -81,8 +66,7 @@ public class FacebookConfigurationTest {
 
   @Test
   public void testFacebookDisplayFactory() throws Exception {
-    FacebookDisplayFactory result = configuration.facebookDisplayFactory(menuFactory, messageSource, facebookService,
-        metaElementFactory);
+    FacebookDisplayFactory result = configuration.facebookDisplayFactory(menuFactory, messageSource, facebookService);
 
     Assert.assertEquals(FacebookDisplayFactoryImpl.class, result.getClass());
   }

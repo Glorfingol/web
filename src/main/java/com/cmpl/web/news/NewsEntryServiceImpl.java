@@ -181,9 +181,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     List<NewsEntryDTO> entries = new ArrayList<>();
     List<NewsEntry> newsEntries = newsEntryRepository.findAll();
 
-    for (NewsEntry newsEntry : newsEntries) {
-      entries.add(computeNewsEntryDTO(newsEntry));
-    }
+    newsEntries.forEach(newsEntry -> entries.add(computeNewsEntryDTO(newsEntry)));
 
     return entries;
   }
@@ -193,9 +191,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
     List<NewsEntryDTO> dtos = new ArrayList<>();
 
-    for (NewsEntry entity : pagedNewsEntries.getContent()) {
-      dtos.add(computeNewsEntryDTO(entity));
-    }
+    pagedNewsEntries.getContent().forEach(entity -> dtos.add(computeNewsEntryDTO(entity)));
 
     return new PageImpl<>(dtos, pageRequest, pagedNewsEntries.getTotalElements());
 

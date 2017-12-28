@@ -10,17 +10,10 @@ import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.CollectionUtils;
-
-import com.cmpl.web.builder.NewsContentDTOBuilder;
-import com.cmpl.web.news.NewsContent;
-import com.cmpl.web.news.NewsContentDTO;
-import com.cmpl.web.news.NewsContentRepository;
-import com.cmpl.web.news.NewsContentServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsContentServiceImplTest {
@@ -38,10 +31,10 @@ public class NewsContentServiceImplTest {
     NewsContentDTO dto = new NewsContentDTO();
     dto.setId(1L);
 
-    BDDMockito.doNothing().when(service).fillObject(Mockito.eq(dto), Mockito.any(NewsContent.class));
+    BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(dto), BDDMockito.any(NewsContent.class));
     NewsContent result = service.toEntity(dto);
 
-    Mockito.verify(service, Mockito.times(1)).fillObject(Mockito.eq(dto), Mockito.eq(result));
+    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.eq(dto), BDDMockito.eq(result));
   }
 
   @Test
@@ -50,17 +43,17 @@ public class NewsContentServiceImplTest {
     NewsContent entity = new NewsContent();
     entity.setId(1L);
 
-    BDDMockito.doNothing().when(service).fillObject(Mockito.eq(entity), Mockito.any(NewsContentDTO.class));
+    BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(entity), BDDMockito.any(NewsContentDTO.class));
     NewsContentDTO result = service.toDTO(entity);
 
-    Mockito.verify(service, Mockito.times(1)).fillObject(Mockito.eq(entity), Mockito.eq(result));
+    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.eq(entity), BDDMockito.eq(result));
   }
 
   @Test
   public void testFillObject() throws Exception {
     LocalDate date = LocalDate.now();
     NewsContentDTO dto = new NewsContentDTOBuilder().content("someContent").id(1L).creationDate(date)
-        .modificationDate(date).toNewsContentDTO();
+        .modificationDate(date).build();
 
     NewsContent destination = new NewsContent();
 
@@ -84,12 +77,12 @@ public class NewsContentServiceImplTest {
     LocalDate date = LocalDate.now();
 
     NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
-        .modificationDate(date).toNewsContentDTO();
+        .modificationDate(date).build();
     NewsContentDTO contentDTO2 = new NewsContentDTOBuilder().content("content2").id(1L).creationDate(date)
-        .modificationDate(date).toNewsContentDTO();
+        .modificationDate(date).build();
 
-    BDDMockito.doReturn(contentDTO1).when(service).toDTO(Mockito.eq(content1));
-    BDDMockito.doReturn(contentDTO2).when(service).toDTO(Mockito.eq(content2));
+    BDDMockito.doReturn(contentDTO1).when(service).toDTO(BDDMockito.eq(content1));
+    BDDMockito.doReturn(contentDTO2).when(service).toDTO(BDDMockito.eq(content2));
 
     List<NewsContentDTO> result = service.toListDTO(Lists.newArrayList(content1, content2));
 
@@ -101,18 +94,18 @@ public class NewsContentServiceImplTest {
   @Test
   public void testDeletEntity() {
 
-    BDDMockito.doNothing().when(repository).delete(Mockito.anyLong());
+    BDDMockito.doNothing().when(repository).delete(BDDMockito.anyLong());
 
     service.deleteEntity(1L);
 
-    Mockito.verify(repository, Mockito.times(1)).delete(Mockito.eq(1L));
+    BDDMockito.verify(repository, BDDMockito.times(1)).delete(BDDMockito.eq(1L));
 
   }
 
   @Test
   public void testGetEntities_No_Result() {
 
-    BDDMockito.doReturn(Lists.newArrayList()).when(repository).findAll(Mockito.any(Sort.class));
+    BDDMockito.doReturn(Lists.newArrayList()).when(repository).findAll(BDDMockito.any(Sort.class));
 
     List<NewsContentDTO> result = service.getEntities();
 
@@ -133,14 +126,14 @@ public class NewsContentServiceImplTest {
     List<NewsContent> contents = Lists.newArrayList(content1, content2);
 
     NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
-        .modificationDate(date).toNewsContentDTO();
+        .modificationDate(date).build();
     NewsContentDTO contentDTO2 = new NewsContentDTOBuilder().content("content2").id(1L).creationDate(date)
-        .modificationDate(date).toNewsContentDTO();
+        .modificationDate(date).build();
 
     List<NewsContentDTO> contentsDTO = Lists.newArrayList(contentDTO1, contentDTO2);
 
-    BDDMockito.doReturn(contents).when(repository).findAll(Mockito.any(Sort.class));
-    BDDMockito.doReturn(contentsDTO).when(service).toListDTO(Mockito.eq(contents));
+    BDDMockito.doReturn(contents).when(repository).findAll(BDDMockito.any(Sort.class));
+    BDDMockito.doReturn(contentsDTO).when(service).toListDTO(BDDMockito.eq(contents));
 
     List<NewsContentDTO> result = service.getEntities();
 
@@ -158,11 +151,11 @@ public class NewsContentServiceImplTest {
     LocalDate date = LocalDate.now();
     date = date.minusDays(1);
     NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
-        .modificationDate(date).toNewsContentDTO();
+        .modificationDate(date).build();
 
-    BDDMockito.doReturn(content1).when(service).toEntity(Mockito.eq(contentDTO1));
-    BDDMockito.doReturn(contentDTO1).when(service).toDTO(Mockito.eq(content1));
-    BDDMockito.doReturn(content1).when(repository).save(Mockito.eq(content1));
+    BDDMockito.doReturn(content1).when(service).toEntity(BDDMockito.eq(contentDTO1));
+    BDDMockito.doReturn(contentDTO1).when(service).toDTO(BDDMockito.eq(content1));
+    BDDMockito.doReturn(content1).when(repository).save(BDDMockito.eq(content1));
 
     NewsContentDTO result = service.updateEntity(contentDTO1);
 
@@ -173,7 +166,7 @@ public class NewsContentServiceImplTest {
   @Test
   public void testGetEntity_Null() {
 
-    BDDMockito.doReturn(null).when(repository).findOne(Mockito.anyLong());
+    BDDMockito.doReturn(null).when(repository).findOne(BDDMockito.anyLong());
 
     NewsContentDTO result = service.getEntity(1L);
 
@@ -189,10 +182,10 @@ public class NewsContentServiceImplTest {
     LocalDate date = LocalDate.now();
     date = date.minusDays(1);
     NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
-        .modificationDate(date).toNewsContentDTO();
+        .modificationDate(date).build();
 
-    BDDMockito.doReturn(content1).when(repository).findOne(Mockito.anyLong());
-    BDDMockito.doReturn(contentDTO1).when(service).toDTO(Mockito.eq(content1));
+    BDDMockito.doReturn(content1).when(repository).findOne(BDDMockito.anyLong());
+    BDDMockito.doReturn(contentDTO1).when(service).toDTO(BDDMockito.eq(content1));
 
     NewsContentDTO result = service.getEntity(1L);
 
@@ -207,11 +200,11 @@ public class NewsContentServiceImplTest {
     LocalDate date = LocalDate.now();
     date = date.minusDays(1);
     NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
-        .modificationDate(date).toNewsContentDTO();
+        .modificationDate(date).build();
 
-    BDDMockito.doReturn(content1).when(service).toEntity(Mockito.eq(contentDTO1));
-    BDDMockito.doReturn(contentDTO1).when(service).toDTO(Mockito.eq(content1));
-    BDDMockito.doReturn(content1).when(repository).save(Mockito.eq(content1));
+    BDDMockito.doReturn(content1).when(service).toEntity(BDDMockito.eq(contentDTO1));
+    BDDMockito.doReturn(contentDTO1).when(service).toDTO(BDDMockito.eq(content1));
+    BDDMockito.doReturn(content1).when(repository).save(BDDMockito.eq(content1));
 
     NewsContentDTO result = service.createEntity(contentDTO1);
 

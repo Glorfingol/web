@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.PageService;
 
 @Configuration
@@ -39,9 +38,7 @@ public class MenuConfiguration {
 
   @Bean
   MenuManagerDisplayFactory menuManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      MetaElementFactory metaElementFactory, MenuService menuService, PageService pageService,
-      ContextHolder contextHolder) {
-    return new MenuManagerDisplayFactoryImpl(menuFactory, messageSource, metaElementFactory, menuService, pageService,
-        contextHolder);
+      MenuService menuService, PageService pageService, ContextHolder contextHolder) {
+    return new MenuManagerDisplayFactoryImpl(menuFactory, messageSource, menuService, pageService, contextHolder);
   }
 }

@@ -11,15 +11,15 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.context.ContextHolder;
-import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
+import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.BACK_PAGE;
 import com.cmpl.web.page.PageDTO;
 import com.cmpl.web.page.PageService;
 
-public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implements MenuManagerDisplayFactory {
+public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<MenuDTO> implements
+    MenuManagerDisplayFactory {
 
   private final MenuService menuService;
   private final PageService pageService;
@@ -27,13 +27,13 @@ public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
 
   private static final String CREATE_FORM = "createForm";
   private static final String UPDATE_FORM = "updateForm";
+  private static final String WRAPPED_MENUS = "wrappedMenus";
   private static final String MENUS_PARENTS = "menusThatCanBeParents";
   private static final String PAGES_LINKABLE = "pagesThatCanBeLinkedTo";
 
   public MenuManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      MetaElementFactory metaElementFactory, MenuService menuService, PageService pageService,
-      ContextHolder contextHolder) {
-    super(menuFactory, messageSource, metaElementFactory);
+      MenuService menuService, PageService pageService, ContextHolder contextHolder) {
+    super(menuFactory, messageSource);
     this.menuService = menuService;
     this.contextHolder = contextHolder;
     this.pageService = pageService;
@@ -44,9 +44,9 @@ public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_VIEW, locale);
     LOGGER.info("Construction des menus pour la page " + BACK_PAGE.MENUS_VIEW.name());
 
-    PageWrapper<MenuDTO> pagedPageDTOWrapped = computePageWrapperOfMenus(locale, pageNumber);
+    PageWrapper<MenuDTO> pagedPageDTOWrapped = computePageWrapper(locale, pageNumber);
 
-    menusManager.addObject("wrappedMenus", pagedPageDTOWrapped);
+    menusManager.addObject(WRAPPED_MENUS, pagedPageDTOWrapped);
 
     return menusManager;
   }
@@ -62,7 +62,7 @@ public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     List<PageDTO> pagesThatCanBeLinkedTo = pageService.getPages();
     menusManager.addObject(PAGES_LINKABLE, pagesThatCanBeLinkedTo);
 
-    MenuCreateForm createForm = new MenuCreateForm();
+    MenuCreateForm createForm = new MenuCreateFormBuilder().build();
     menusManager.addObject(CREATE_FORM, createForm);
 
     return menusManager;
@@ -75,11 +75,11 @@ public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
 
     List<MenuDTO> menus = menuService.getMenus();
     List<MenuDTO> menusThatCanBeParents = new ArrayList<>();
-    for (MenuDTO menu : menus) {
+    menus.forEach(menu -> {
       if (!menuId.equals(String.valueOf(menu.getId()))) {
         menusThatCanBeParents.add(menu);
       }
-    }
+    });
     menusManager.addObject(MENUS_PARENTS, menusThatCanBeParents);
 
     List<PageDTO> pagesThatCanBeLinkedTo = pageService.getPages();
@@ -93,26 +93,8 @@ public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     return menusManager;
   }
 
-  PageWrapper<MenuDTO> computePageWrapperOfMenus(Locale locale, int pageNumber) {
-    Page<MenuDTO> pagedPageDTOEntries = computeMenusEntries(pageNumber);
-
-    boolean isFirstPage = pagedPageDTOEntries.isFirst();
-    boolean isLastPage = pagedPageDTOEntries.isLast();
-    int totalPages = pagedPageDTOEntries.getTotalPages();
-    int currentPageNumber = pagedPageDTOEntries.getNumber();
-
-    PageWrapper<MenuDTO> pagedMenuDTOWrapped = new PageWrapper<>();
-    pagedMenuDTOWrapped.setCurrentPageNumber(currentPageNumber);
-    pagedMenuDTOWrapped.setFirstPage(isFirstPage);
-    pagedMenuDTOWrapped.setLastPage(isLastPage);
-    pagedMenuDTOWrapped.setPage(pagedPageDTOEntries);
-    pagedMenuDTOWrapped.setTotalPages(totalPages);
-    pagedMenuDTOWrapped.setPageBaseUrl("/manager/menus");
-    pagedMenuDTOWrapped.setPageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages));
-    return pagedMenuDTOWrapped;
-  }
-
-  Page<MenuDTO> computeMenusEntries(int pageNumber) {
+  @Override
+  protected Page<MenuDTO> computeEntries(Locale locale, int pageNumber) {
     List<MenuDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = new PageRequest(pageNumber, contextHolder.getElementsPerPage());
@@ -121,11 +103,14 @@ public class MenuManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
       return new PageImpl<>(pageEntries);
     }
 
-    for (MenuDTO menuDTOFromDB : pagedMenuDTOEntries.getContent()) {
-      pageEntries.add(menuDTOFromDB);
-    }
+    pageEntries.addAll(pagedMenuDTOEntries.getContent());
 
     return new PageImpl<>(pageEntries, pageRequest, pagedMenuDTOEntries.getTotalElements());
+  }
+
+  @Override
+  protected String getBaseUrl() {
+    return "/manager/menus";
   }
 
 }

@@ -3,24 +3,25 @@ package com.cmpl.web.style;
 import java.util.Locale;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.context.ContextHolder;
-import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
+import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.media.MediaDTO;
+import com.cmpl.web.media.MediaDTOBuilder;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.BACK_PAGE;
 
-public class StyleDisplayFactoryImpl extends BackDisplayFactoryImpl implements StyleDisplayFactory {
+public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Style> implements StyleDisplayFactory {
 
   private final StyleService styleService;
   private final ContextHolder contextHolder;
 
-  public StyleDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      MetaElementFactory metaElementFactory, StyleService styleService, ContextHolder contextHolder) {
-    super(menuFactory, messageSource, metaElementFactory);
+  public StyleDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource, StyleService styleService,
+      ContextHolder contextHolder) {
+    super(menuFactory, messageSource);
     this.styleService = styleService;
     this.contextHolder = contextHolder;
   }
@@ -41,26 +42,15 @@ public class StyleDisplayFactoryImpl extends BackDisplayFactoryImpl implements S
   }
 
   StyleDTO initStyle() {
-
-    StyleDTO style = new StyleDTO();
-    style.setContent("");
-    style.setId(Math.abs(UUID.randomUUID().getLeastSignificantBits()));
-
-    MediaDTO media = initMedia();
-    style.setMedia(media);
-
+    StyleDTO style = new StyleDTOBuilder().content("").media(initMedia())
+        .id(Math.abs(UUID.randomUUID().getLeastSignificantBits())).build();
     return styleService.createEntity(style);
   }
 
   MediaDTO initMedia() {
-    MediaDTO media = new MediaDTO();
-    media.setName("styles.css");
-    media.setExtension(".css");
-    media.setSize(0l);
-    media.setContentType("text/css");
-    media.setSrc(contextHolder.getMediaDisplayPath() + media.getName());
-    media.setId(Math.abs(UUID.randomUUID().getLeastSignificantBits()));
-    return media;
+    return new MediaDTOBuilder().name("styles.css").extension(".css").size(0l).contentType("text/css")
+        .src(contextHolder.getMediaDisplayPath() + "styles.css")
+        .id(Math.abs(UUID.randomUUID().getLeastSignificantBits())).build();
   }
 
   @Override
@@ -74,6 +64,16 @@ public class StyleDisplayFactoryImpl extends BackDisplayFactoryImpl implements S
     stylesManager.addObject("styleForm", form);
 
     return stylesManager;
+  }
+
+  @Override
+  protected String getBaseUrl() {
+    return null;
+  }
+
+  @Override
+  protected Page<Style> computeEntries(Locale locale, int pageNumber) {
+    return null;
   }
 
 }

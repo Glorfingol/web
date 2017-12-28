@@ -7,7 +7,6 @@ import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.media.MediaService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.PageService;
 
 @Configuration
@@ -35,10 +34,10 @@ public class CarouselConfiguration {
 
   @Bean
   CarouselManagerDisplayFactory carouselManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      MetaElementFactory metaElementFactory, CarouselService carouselService, CarouselItemService carouselItemService,
-      PageService pageService, MediaService mediaService, ContextHolder contextHolder) {
-    return new CarouselManagerDisplayFactoryImpl(menuFactory, messageSource, metaElementFactory, carouselService,
-        carouselItemService, pageService, mediaService, contextHolder);
+      CarouselService carouselService, CarouselItemService carouselItemService, PageService pageService,
+      MediaService mediaService, ContextHolder contextHolder) {
+    return new CarouselManagerDisplayFactoryImpl(menuFactory, messageSource, carouselService, carouselItemService,
+        pageService, mediaService, contextHolder);
   }
 
   @Bean

@@ -57,11 +57,11 @@ public abstract class CommonParser<T extends BaseEntity> {
     dataManipulator.insertData(entities);
   }
 
-  protected List<Field> getFieldsToParse(Class clazz) {
+  protected List<Field> getFieldsToParse(Class<?> clazz) {
     List<Field> fieldsToParse = new ArrayList<>();
     fieldsToParse.addAll(Arrays.asList(clazz.getDeclaredFields()));
 
-    Class superclass = clazz.getSuperclass();
+    Class<?> superclass = clazz.getSuperclass();
     if (superclass != null) {
       fieldsToParse.addAll(getFieldsToParse(superclass));
     }

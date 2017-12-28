@@ -5,14 +5,8 @@ import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import com.cmpl.web.news.NewsImage;
-import com.cmpl.web.news.NewsImageDTO;
-import com.cmpl.web.news.NewsImageRepository;
-import com.cmpl.web.news.NewsImageServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsImageServiceImplTest {
@@ -30,10 +24,10 @@ public class NewsImageServiceImplTest {
     NewsImageDTO dto = new NewsImageDTO();
     dto.setId(1L);
 
-    BDDMockito.doNothing().when(service).fillObject(Mockito.eq(dto), Mockito.any(NewsImage.class));
+    BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(dto), BDDMockito.any(NewsImage.class));
     NewsImage result = service.toEntity(dto);
 
-    Mockito.verify(service, Mockito.times(1)).fillObject(Mockito.eq(dto), Mockito.eq(result));
+    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.eq(dto), BDDMockito.eq(result));
   }
 
   @Test
@@ -42,10 +36,10 @@ public class NewsImageServiceImplTest {
     NewsImage entity = new NewsImage();
     entity.setId(1L);
 
-    BDDMockito.doNothing().when(service).fillObject(Mockito.eq(entity), Mockito.any(NewsImageDTO.class));
+    BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(entity), BDDMockito.any(NewsImageDTO.class));
     NewsImageDTO result = service.toDTO(entity);
 
-    Mockito.verify(service, Mockito.times(1)).fillObject(Mockito.eq(entity), Mockito.eq(result));
+    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.eq(entity), BDDMockito.eq(result));
   }
 
 }

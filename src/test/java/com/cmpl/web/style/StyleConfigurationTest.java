@@ -13,7 +13,6 @@ import com.cmpl.web.file.FileService;
 import com.cmpl.web.media.MediaService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StyleConfigurationTest {
@@ -32,8 +31,6 @@ public class StyleConfigurationTest {
   private MenuFactory menuFactory;
   @Mock
   private WebMessageSource messageSource;
-  @Mock
-  private MetaElementFactory metaElementFactory;
   @Mock
   private ContextHolder contextHolder;
 
@@ -62,7 +59,6 @@ public class StyleConfigurationTest {
   @Test
   public void testStyleDisplayFactory() throws Exception {
     Assert.assertEquals(StyleDisplayFactoryImpl.class,
-        configuration.styleDisplayFactory(menuFactory, messageSource, metaElementFactory, styleService, contextHolder)
-            .getClass());
+        configuration.styleDisplayFactory(menuFactory, messageSource, styleService, contextHolder).getClass());
   }
 }

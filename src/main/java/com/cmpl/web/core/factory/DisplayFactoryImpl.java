@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.carousel.CarouselDTO;
 import com.cmpl.web.carousel.CarouselService;
+import com.cmpl.web.core.builder.PageWrapperBuilder;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.menu.MenuFactory;
@@ -72,9 +73,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     model.addObject("hiddenLink", computeHiddenLink(locale));
     LOGGER.info("Construction des carousels pour la page " + pageName);
     List<CarouselDTO> carousels = computeCarouselsForPage(page);
-    for (CarouselDTO carousel : carousels) {
-      model.addObject("carousel_" + carousel.getName(), carousel);
-    }
+    carousels.forEach(carousel -> model.addObject("carousel_" + carousel.getName(), carousel));
     if (page.isWithNews()) {
       LOGGER.info("Construction des entrées de blog pour la page " + pageName);
       PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = computePageWrapperOfNews(page, locale, pageNumber);
@@ -115,15 +114,9 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     int totalPages = pagedNewsEntries.getTotalPages();
     int currentPageNumber = pagedNewsEntries.getNumber();
 
-    PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = new PageWrapper<>();
-    pagedNewsWrapped.setCurrentPageNumber(currentPageNumber);
-    pagedNewsWrapped.setFirstPage(isFirstPage);
-    pagedNewsWrapped.setLastPage(isLastPage);
-    pagedNewsWrapped.setPage(pagedNewsEntries);
-    pagedNewsWrapped.setTotalPages(totalPages);
-    pagedNewsWrapped.setPageBaseUrl("/pages/" + page.getName());
-    pagedNewsWrapped.setPageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages));
-    return pagedNewsWrapped;
+    return new PageWrapperBuilder<NewsEntryDisplayBean>().currentPageNumber(currentPageNumber).firstPage(isFirstPage)
+        .lastPage(isLastPage).page(pagedNewsEntries).totalPages(totalPages).pageBaseUrl("/pages/" + page.getName())
+        .pageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages)).build();
   }
 
   public Page<NewsEntryDisplayBean> computeNewsEntries(PageDTO page, Locale locale, int pageNumber) {
@@ -135,9 +128,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
       return new PageImpl<>(newsEntries);
     }
 
-    for (NewsEntryDTO newsEntryFromDB : pagedNewsEntries.getContent()) {
-      newsEntries.add(computeNewsEntryDisplayBean(page, locale, newsEntryFromDB));
-    }
+    pagedNewsEntries.getContent().forEach(
+        newsEntry -> newsEntries.add(computeNewsEntryDisplayBean(page, locale, newsEntry)));
 
     return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
   }

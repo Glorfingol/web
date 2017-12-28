@@ -3,7 +3,6 @@ package com.cmpl.web.carousel;
 import java.util.List;
 
 import com.cmpl.web.core.service.BaseServiceImpl;
-import com.cmpl.web.media.MediaDTO;
 import com.cmpl.web.media.MediaService;
 
 public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, CarouselItem> implements
@@ -25,21 +24,18 @@ public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, Ca
 
   @Override
   protected CarouselItemDTO toDTO(CarouselItem entity) {
-    CarouselItemDTO dto = new CarouselItemDTO();
-
+    CarouselItemDTO dto = new CarouselItemDTOBuilder().media(mediaService.getEntity(Long.valueOf(entity.getMediaId())))
+        .build();
     fillObject(entity, dto);
-    MediaDTO media = mediaService.getEntity(Long.valueOf(entity.getMediaId()));
-    dto.setMedia(media);
 
     return dto;
   }
 
   @Override
   protected CarouselItem toEntity(CarouselItemDTO dto) {
-    CarouselItem entity = new CarouselItem();
+    CarouselItem entity = new CarouselItemBuilder().mediaId(String.valueOf(dto.getMedia().getId())).build();
 
     fillObject(entity, dto);
-    entity.setMediaId(String.valueOf(dto.getMedia().getId()));
 
     return entity;
   }
@@ -47,9 +43,8 @@ public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, Ca
   @Override
   public CarouselItemDTO createEntity(CarouselItemDTO dto) {
 
-    CarouselItem carouselItem = new CarouselItem();
+    CarouselItem carouselItem = new CarouselItemBuilder().mediaId(String.valueOf(dto.getMedia().getId())).build();
     fillObject(dto, carouselItem);
-    carouselItem.setMediaId(String.valueOf(dto.getMedia().getId()));
 
     return toDTO(carouselItemRepository.save(carouselItem));
   }

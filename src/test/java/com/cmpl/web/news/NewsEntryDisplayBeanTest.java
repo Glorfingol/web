@@ -11,14 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.util.CollectionUtils;
 
-import com.cmpl.web.builder.NewsContentDTOBuilder;
-import com.cmpl.web.builder.NewsEntryDTOBuilder;
-import com.cmpl.web.builder.NewsImageDTOBuilder;
-import com.cmpl.web.news.NewsContentDTO;
-import com.cmpl.web.news.NewsEntryDTO;
-import com.cmpl.web.news.NewsEntryDisplayBean;
-import com.cmpl.web.news.NewsImageDTO;
-
 @RunWith(MockitoJUnitRunner.class)
 public class NewsEntryDisplayBeanTest {
 
@@ -47,7 +39,7 @@ public class NewsEntryDisplayBeanTest {
   @Test
   public void testGetTags_Empty() {
 
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -59,7 +51,7 @@ public class NewsEntryDisplayBeanTest {
   @Test
   public void testGetTags_Many() {
 
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().tags("tag;another").toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().tags("tag;another").build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -73,7 +65,7 @@ public class NewsEntryDisplayBeanTest {
   @Test
   public void testGetTags_One() {
 
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().tags("unseul").toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().tags("unseul").build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -85,7 +77,7 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetNewsEntryShowMore() {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -96,7 +88,7 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetNewsEntryShowHref() {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().id(Long.valueOf("666")).toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().id(Long.valueOf("666")).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -107,7 +99,7 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetNewsEntryReadHref() {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().id(Long.valueOf("666")).toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().id(Long.valueOf("666")).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -118,7 +110,7 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testgetNewsEntryId() {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().id(Long.valueOf("666")).toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().id(Long.valueOf("666")).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -129,7 +121,7 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayTags_True() {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().tags("tag").toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().tags("tag").build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -140,7 +132,7 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayTags_False() {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -151,8 +143,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayContent_True() {
-    NewsContentDTO content = new NewsContentDTOBuilder().toNewsContentDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+    NewsContentDTO content = new NewsContentDTOBuilder().build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -167,7 +159,7 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayContent_False() {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -179,8 +171,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayContent_False_Link() {
-    NewsContentDTO content = new NewsContentDTOBuilder().linkUrl("someLink").toNewsContentDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+    NewsContentDTO content = new NewsContentDTOBuilder().linkUrl("someLink").build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -192,8 +184,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayImage_True() {
-    NewsImageDTO image = new NewsImageDTOBuilder().toNewsImageDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).toNewsEntryDTO();
+    NewsImageDTO image = new NewsImageDTOBuilder().build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -208,7 +200,7 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayImage_False() {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -223,7 +215,7 @@ public class NewsEntryDisplayBeanTest {
   @Test
   public void testGetImageHeight_No_Image() {
 
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -235,8 +227,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetImageHeight_With_Image() {
-    NewsImageDTO image = new NewsImageDTOBuilder().height(500).toNewsImageDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).toNewsEntryDTO();
+    NewsImageDTO image = new NewsImageDTOBuilder().height(500).build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -248,7 +240,7 @@ public class NewsEntryDisplayBeanTest {
   @Test
   public void testGetImageWidth_No_Image() {
 
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -260,8 +252,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetImageWidth_With_Image() {
-    NewsImageDTO image = new NewsImageDTOBuilder().width(500).toNewsImageDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).toNewsEntryDTO();
+    NewsImageDTO image = new NewsImageDTOBuilder().width(500).build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -273,7 +265,7 @@ public class NewsEntryDisplayBeanTest {
   @Test
   public void testGetAlt_No_Image() {
 
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -285,8 +277,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetAlt_With_Image() {
-    NewsImageDTO image = new NewsImageDTOBuilder().alt("alt").toNewsImageDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).toNewsEntryDTO();
+    NewsImageDTO image = new NewsImageDTOBuilder().alt("alt").build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -298,7 +290,7 @@ public class NewsEntryDisplayBeanTest {
   @Test
   public void testGetLegend_No_Image() {
 
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -310,8 +302,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetLegend_With_Image() {
-    NewsImageDTO image = new NewsImageDTOBuilder().legend("legend").toNewsImageDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).toNewsEntryDTO();
+    NewsImageDTO image = new NewsImageDTOBuilder().legend("legend").build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -323,7 +315,7 @@ public class NewsEntryDisplayBeanTest {
   @Test
   public void testGetSrcNo_Image() {
 
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -335,8 +327,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetSrc_With_Image() {
-    NewsImageDTO image = new NewsImageDTOBuilder().src("src").toNewsImageDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).toNewsEntryDTO();
+    NewsImageDTO image = new NewsImageDTOBuilder().src("src").build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsImage(image).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -348,7 +340,7 @@ public class NewsEntryDisplayBeanTest {
   @Test
   public void testGetContent_No_Content() {
 
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -360,8 +352,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetContent_With_Content() {
-    NewsContentDTO content = new NewsContentDTOBuilder().content("content").toNewsContentDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+    NewsContentDTO content = new NewsContentDTOBuilder().content("content").build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -372,7 +364,7 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetTitle() {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().title("title").toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().title("title").build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -385,7 +377,7 @@ public class NewsEntryDisplayBeanTest {
   public void testGetPublicationDate() {
 
     LocalDate publicationDate = LocalDate.of(2017, 9, 10);
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().creationDate(publicationDate).toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().creationDate(publicationDate).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -400,7 +392,7 @@ public class NewsEntryDisplayBeanTest {
 
     String SPACE = " ";
     LocalDate publicationDate = LocalDate.of(2017, 9, 10);
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().author("Test").creationDate(publicationDate).toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().author("Test").creationDate(publicationDate).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -416,8 +408,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetLinkUrl() throws Exception {
-    NewsContentDTO content = new NewsContentDTOBuilder().linkUrl("link").toNewsContentDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+    NewsContentDTO content = new NewsContentDTOBuilder().linkUrl("link").build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -428,8 +420,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetVideoUrl() throws Exception {
-    NewsContentDTO content = new NewsContentDTOBuilder().videoUrl("video").toNewsContentDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+    NewsContentDTO content = new NewsContentDTOBuilder().videoUrl("video").build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -440,8 +432,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayLink_True() throws Exception {
-    NewsContentDTO content = new NewsContentDTOBuilder().linkUrl("link").toNewsContentDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+    NewsContentDTO content = new NewsContentDTOBuilder().linkUrl("link").build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -452,7 +444,7 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayLink_False_No_Content() throws Exception {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -463,8 +455,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayLink_False_No_Link() throws Exception {
-    NewsContentDTO content = new NewsContentDTOBuilder().toNewsContentDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+    NewsContentDTO content = new NewsContentDTOBuilder().build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -475,8 +467,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayVideo() throws Exception {
-    NewsContentDTO content = new NewsContentDTOBuilder().videoUrl("video").toNewsContentDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+    NewsContentDTO content = new NewsContentDTOBuilder().videoUrl("video").build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -487,7 +479,7 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayVideo_False_No_Content() throws Exception {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -498,8 +490,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayVideo_False_No_Video() throws Exception {
-    NewsContentDTO content = new NewsContentDTOBuilder().toNewsContentDTO();
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).toNewsEntryDTO();
+    NewsContentDTO content = new NewsContentDTOBuilder().build();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().newsContent(content).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
@@ -510,7 +502,7 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetNewsEntryModifyHref() throws Exception {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().id(123456789L).toNewsEntryDTO();
+    NewsEntryDTO entry = new NewsEntryDTOBuilder().id(123456789L).build();
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
         labelAccroche, showHref);
 

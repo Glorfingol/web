@@ -10,11 +10,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.cmpl.web.file.ImageConverterServiceImpl;
 import com.cmpl.web.news.NewsImageDTO;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -67,9 +65,9 @@ public class ImageConverterServiceImplTest {
     int height = 100;
     BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-    BDDMockito.doReturn(width).when(service).computeWidth(Mockito.eq(bufferedImage));
-    BDDMockito.doReturn(height).when(service).computeHeight(Mockito.eq(bufferedImage));
-    BDDMockito.doReturn(bufferedImage).when(service).createBufferedImageFromBase64(Mockito.anyString());
+    BDDMockito.doReturn(width).when(service).computeWidth(BDDMockito.eq(bufferedImage));
+    BDDMockito.doReturn(height).when(service).computeHeight(BDDMockito.eq(bufferedImage));
+    BDDMockito.doReturn(bufferedImage).when(service).createBufferedImageFromBase64(BDDMockito.anyString());
 
     NewsImageDTO result = service.computeNewsImageFromString("someBase64");
 
@@ -81,7 +79,7 @@ public class ImageConverterServiceImplTest {
   @Test
   public void testComputeNewsImageFromString_Exception() throws Exception {
 
-    BDDMockito.doThrow(new IOException("")).when(service).createBufferedImageFromBase64(Mockito.anyString());
+    BDDMockito.doThrow(new IOException("")).when(service).createBufferedImageFromBase64(BDDMockito.anyString());
 
     NewsImageDTO result = service.computeNewsImageFromString("AQ==");
     Assert.assertEquals(0, result.getWidth());

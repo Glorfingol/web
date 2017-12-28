@@ -14,11 +14,6 @@ public class MetaConfiguration {
   }
 
   @Bean
-  MetaElementFactory metaElementFactory(WebMessageSource messageSource) {
-    return new MetaElementFactoryImpl(messageSource);
-  }
-
-  @Bean
   OpenGraphMetaElementService openGraphMetaElementService(OpenGraphMetaElementRepository repository) {
     return new OpenGraphMetaElementServiceImpl(repository);
   }

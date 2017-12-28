@@ -20,36 +20,23 @@ public class MetaElementValidatorImpl extends BaseValidator implements MetaEleme
 
   @Override
   public Error validateCreate(String pageId, MetaElementCreateForm form, Locale locale) {
-    List<ErrorCause> causes = new ArrayList<>();
-
-    if (!isStringValid(pageId)) {
-      causes.add(computeCause(ERROR_CAUSE.EMPTY_META_PAGE_ID, locale));
-    }
-    if (!isStringValid(form.getName())) {
-      causes.add(computeCause(ERROR_CAUSE.EMPTY_META_NAME, locale));
-    }
-    if (!isStringValid(form.getContent())) {
-      causes.add(computeCause(ERROR_CAUSE.EMPTY_META_CONTENT, locale));
-    }
-
-    if (!CollectionUtils.isEmpty(causes)) {
-      return computeError(causes);
-    }
-
-    return null;
+    return validateCreate(pageId, form.getName(), form.getContent(), locale);
   }
 
   @Override
   public Error validateCreate(String pageId, OpenGraphMetaElementCreateForm form, Locale locale) {
-    List<ErrorCause> causes = new ArrayList<>();
+    return validateCreate(pageId, form.getProperty(), form.getContent(), locale);
+  }
 
+  Error validateCreate(String pageId, String name, String content, Locale locale) {
+    List<ErrorCause> causes = new ArrayList<>();
     if (!isStringValid(pageId)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_META_PAGE_ID, locale));
     }
-    if (!isStringValid(form.getProperty())) {
+    if (!isStringValid(name)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_META_NAME, locale));
     }
-    if (!isStringValid(form.getContent())) {
+    if (!isStringValid(content)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_META_CONTENT, locale));
     }
 

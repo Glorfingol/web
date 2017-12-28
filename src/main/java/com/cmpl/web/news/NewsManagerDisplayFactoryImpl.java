@@ -12,11 +12,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.context.ContextHolder;
-import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
+import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.meta.MetaElementFactory;
 import com.cmpl.web.page.BACK_PAGE;
 
 /**
@@ -25,14 +24,15 @@ import com.cmpl.web.page.BACK_PAGE;
  * @author Louis
  *
  */
-public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implements NewsManagerDisplayFactory {
+public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDisplayBean> implements
+    NewsManagerDisplayFactory {
 
   private final NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
 
   public NewsManagerDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSource messageSource, NewsEntryService newsEntryService, MetaElementFactory metaElementFactory) {
-    super(menuFactory, messageSource, metaElementFactory);
+      WebMessageSource messageSource, NewsEntryService newsEntryService) {
+    super(menuFactory, messageSource);
     this.newsEntryService = newsEntryService;
     this.contextHolder = contextHolder;
   }
@@ -42,30 +42,11 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     ModelAndView newsManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, locale);
     LOGGER.info("Construction des entrées de blog pour la page " + BACK_PAGE.NEWS_VIEW.name());
 
-    PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = computePageWrapperOfNews(locale, pageNumber);
+    PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = computePageWrapper(locale, pageNumber);
 
     newsManager.addObject("wrappedNews", pagedNewsWrapped);
 
     return newsManager;
-  }
-
-  PageWrapper<NewsEntryDisplayBean> computePageWrapperOfNews(Locale locale, int pageNumber) {
-    Page<NewsEntryDisplayBean> pagedNewsEntries = computeNewsEntries(locale, pageNumber);
-
-    boolean isFirstPage = pagedNewsEntries.isFirst();
-    boolean isLastPage = pagedNewsEntries.isLast();
-    int totalPages = pagedNewsEntries.getTotalPages();
-    int currentPageNumber = pagedNewsEntries.getNumber();
-
-    PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = new PageWrapper<>();
-    pagedNewsWrapped.setCurrentPageNumber(currentPageNumber);
-    pagedNewsWrapped.setFirstPage(isFirstPage);
-    pagedNewsWrapped.setLastPage(isLastPage);
-    pagedNewsWrapped.setPage(pagedNewsEntries);
-    pagedNewsWrapped.setTotalPages(totalPages);
-    pagedNewsWrapped.setPageBaseUrl("/manager/news");
-    pagedNewsWrapped.setPageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages));
-    return pagedNewsWrapped;
   }
 
   @Override
@@ -77,7 +58,8 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     return newsManager;
   }
 
-  Page<NewsEntryDisplayBean> computeNewsEntries(Locale locale, int pageNumber) {
+  @Override
+  protected Page<NewsEntryDisplayBean> computeEntries(Locale locale, int pageNumber) {
     List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
 
     PageRequest pageRequest = new PageRequest(pageNumber, contextHolder.getElementsPerPage());
@@ -86,10 +68,8 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
       return new PageImpl<>(newsEntries);
     }
 
-    for (NewsEntryDTO newsEntryFromDB : pagedNewsEntries.getContent()) {
-      newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB));
-    }
-
+    pagedNewsEntries.getContent().forEach(
+        newsEntryFromDB -> newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB)));
     return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
   }
 
@@ -100,11 +80,7 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
     if (CollectionUtils.isEmpty(newsEntriesFromDB)) {
       return newsEntries;
     }
-
-    for (NewsEntryDTO newsEntryFromDB : newsEntriesFromDB) {
-      newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB));
-    }
-
+    newsEntriesFromDB.forEach(newsEntryFromDB -> newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB)));
     return newsEntries;
   }
 
@@ -127,14 +103,8 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   NewsEntryRequest computeNewsRequestForCreateForm() {
-    NewsEntryRequest request = new NewsEntryRequest();
-    NewsContentRequest contentRequest = new NewsContentRequest();
-    NewsImageRequest imageRequest = new NewsImageRequest();
-
-    request.setContent(contentRequest);
-    request.setImage(imageRequest);
-
-    return request;
+    return new NewsEntryRequestBuilder().content(new NewsContentRequestBuilder().build())
+        .image(new NewsImageRequestBuilder().build()).build();
   }
 
   NewsEntryRequest computeNewsRequestForEditForm(String newsEntryId) {
@@ -153,31 +123,15 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   NewsEntryRequest computeNewsEntryRequest(NewsEntryDTO dto) {
-    NewsEntryRequest request = new NewsEntryRequest();
-    request.setAuthor(dto.getAuthor());
-    request.setId(dto.getId());
-    request.setCreationDate(dto.getCreationDate());
-    request.setModificationDate(dto.getModificationDate());
-    request.setTags(dto.getTags());
-    request.setTitle(dto.getTitle());
-
-    NewsContentRequest contentRequest = computeNewsContentRequest(dto);
-    request.setContent(contentRequest);
-
-    NewsImageRequest imageRequest = computeNewsImageRequest(dto);
-    request.setImage(imageRequest);
-    return request;
+    return new NewsEntryRequestBuilder().author(dto.getAuthor()).tags(dto.getTags()).title(dto.getTitle())
+        .content(computeNewsContentRequest(dto)).image(computeNewsImageRequest(dto)).id(dto.getId())
+        .creationDate(dto.getCreationDate()).modificationDate(dto.getModificationDate()).build();
   }
 
   NewsImageRequest computeNewsImageRequest(NewsEntryDTO dto) {
-    NewsImageRequest imageRequest = new NewsImageRequest();
-    imageRequest.setAlt(dto.getNewsImage().getAlt());
-    imageRequest.setId(dto.getNewsImage().getId());
-    imageRequest.setCreationDate(dto.getNewsImage().getCreationDate());
-    imageRequest.setModificationDate(dto.getNewsImage().getModificationDate());
-    imageRequest.setLegend(dto.getNewsImage().getLegend());
-    imageRequest.setSrc(computeImageSrc(dto));
-    return imageRequest;
+    return new NewsImageRequestBuilder().alt(dto.getNewsImage().getAlt()).id(dto.getNewsImage().getId())
+        .creationDate(dto.getNewsImage().getCreationDate()).modificationDate(dto.getNewsImage().getModificationDate())
+        .legend(dto.getNewsImage().getLegend()).src(computeImageSrc(dto)).build();
   }
 
   String computeImageSrc(NewsEntryDTO dto) {
@@ -189,12 +143,14 @@ public class NewsManagerDisplayFactoryImpl extends BackDisplayFactoryImpl implem
   }
 
   NewsContentRequest computeNewsContentRequest(NewsEntryDTO dto) {
-    NewsContentRequest contentRequest = new NewsContentRequest();
-    contentRequest.setContent(dto.getNewsContent().getContent());
-    contentRequest.setId(dto.getNewsContent().getId());
-    contentRequest.setCreationDate(dto.getNewsContent().getCreationDate());
-    contentRequest.setModificationDate(dto.getNewsContent().getModificationDate());
-    return contentRequest;
+    return new NewsContentRequestBuilder().content(dto.getNewsContent().getContent()).id(dto.getNewsContent().getId())
+        .creationDate(dto.getNewsContent().getCreationDate())
+        .modificationDate(dto.getNewsContent().getModificationDate()).build();
+  }
+
+  @Override
+  protected String getBaseUrl() {
+    return "/manager/news";
   }
 
 }

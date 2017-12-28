@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.cmpl.web.media.MediaDTOBuilder;
+
 @RunWith(MockitoJUnitRunner.class)
 public class StyleTranslatorImplTest {
 
@@ -14,11 +16,9 @@ public class StyleTranslatorImplTest {
 
   @Test
   public void testFromUpdateFormToDTO() throws Exception {
-    StyleForm form = new StyleForm();
-    form.setId(123456789l);
-    form.setContent("someContent");
-    form.setMediaId(123456789l);
-    form.setMediaName("someName");
+    StyleDTO dtoOfForm = new StyleDTOBuilder().content("someContent")
+        .media(new MediaDTOBuilder().name("someName").id(123456789l).build()).build();
+    StyleForm form = new StyleForm(dtoOfForm);
 
     StyleDTO result = translator.fromUpdateFormToDTO(form);
     Assert.assertEquals(form.getId(), result.getId());
@@ -30,8 +30,7 @@ public class StyleTranslatorImplTest {
 
   @Test
   public void testFromDTOToResponse() throws Exception {
-    StyleDTO dto = new StyleDTO();
-    dto.setId(123456789l);
+    StyleDTO dto = new StyleDTOBuilder().id(123456789l).build();
 
     StyleResponse result = translator.fromDTOToResponse(dto);
     Assert.assertEquals(dto.getId(), result.getStyle().getId());
