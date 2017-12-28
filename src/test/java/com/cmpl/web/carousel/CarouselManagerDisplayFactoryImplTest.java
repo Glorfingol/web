@@ -12,7 +12,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +28,6 @@ import com.cmpl.web.media.MediaDTOBuilder;
 import com.cmpl.web.media.MediaService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.page.BACK_PAGE;
 import com.cmpl.web.page.PageDTO;
 import com.cmpl.web.page.PageDTOBuilder;
 import com.cmpl.web.page.PageService;
@@ -68,9 +67,6 @@ public class CarouselManagerDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForCreateCarousel() throws Exception {
-    ModelAndView carouselManager = new ModelAndView();
-    BDDMockito.doReturn(carouselManager).when(displayFactory)
-        .computeModelAndViewForBackPage(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(Locale.class));
 
     CarouselCreateForm form = new CarouselCreateFormBuilder().build();
     BDDMockito.doReturn(form).when(displayFactory).computeCreateForm();
@@ -122,8 +118,6 @@ public class CarouselManagerDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForUpdateCarousel() throws Exception {
     ModelAndView toReturn = new ModelAndView();
-    BDDMockito.doReturn(toReturn).when(displayFactory)
-        .computeModelAndViewForBackPage(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(toReturn).when(displayFactory)
         .computeModelAndViewForCarouselUpdate(BDDMockito.any(ModelAndView.class), BDDMockito.anyString());
     Assert.assertEquals(toReturn, displayFactory.computeModelAndViewForUpdateCarousel(Locale.FRANCE, "123456789"));
@@ -180,9 +174,6 @@ public class CarouselManagerDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForViewAllCarousels() throws Exception {
-    ModelAndView toReturn = new ModelAndView();
-    BDDMockito.doReturn(toReturn).when(displayFactory)
-        .computeModelAndViewForBackPage(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(Locale.class));
 
     PageWrapper<CarouselDTO> pagedCarouselDTOWrapped = new PageWrapperBuilder<CarouselDTO>().build();
     BDDMockito.doReturn(pagedCarouselDTOWrapped).when(displayFactory)
@@ -195,11 +186,14 @@ public class CarouselManagerDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForCarouselUpdate() throws Exception {
-    CarouselUpdateForm form = new CarouselUpdateFormBuilder().build();
+    CarouselUpdateForm form = new CarouselUpdateFormBuilder().id(123456789l).build();
     BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(CarouselDTO.class));
 
     PageDTO page = new PageDTOBuilder().build();
     BDDMockito.given(pageService.getEntities()).willReturn(Lists.newArrayList(page));
+
+    CarouselDTO carousel = new CarouselDTOBuilder().build();
+    BDDMockito.given(carouselService.getEntity(BDDMockito.anyLong())).willReturn(carousel);
 
     ModelAndView initializedModelAndView = new ModelAndView();
     ModelAndView result = displayFactory.computeModelAndViewForCarouselUpdate(initializedModelAndView, "123456789");

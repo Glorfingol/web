@@ -4,8 +4,8 @@ import com.cmpl.web.core.builder.Builder;
 
 public class MetaElementCreateFormBuilder extends Builder<MetaElementCreateForm> {
 
-  private String name;
-  private String content;
+  private String name = "";
+  private String content = "";
   private String pageId;
 
   public MetaElementCreateFormBuilder name(String name) {

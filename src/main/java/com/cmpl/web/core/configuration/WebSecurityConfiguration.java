@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 import com.cmpl.web.core.model.BaseException;
 
@@ -41,7 +42,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws BaseException {
     try {
-      auth.inMemoryAuthentication().withUser("cmplUser").password("CmPlForTheWin!!").roles("USER");
+      auth.inMemoryAuthentication().passwordEncoder(NoOpPasswordEncoder.getInstance()).withUser("cmplUser")
+          .password("CmPlForTheWin!!").roles("USER");
     } catch (Exception e) {
       LOGGER.error("Erreur lors de la configuration de la sécurité", e);
       throw new BaseException(e.getMessage());

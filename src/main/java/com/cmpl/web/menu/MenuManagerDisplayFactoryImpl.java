@@ -97,7 +97,7 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   protected Page<MenuDTO> computeEntries(Locale locale, int pageNumber) {
     List<MenuDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = new PageRequest(pageNumber, contextHolder.getElementsPerPage());
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
     Page<MenuDTO> pagedMenuDTOEntries = menuService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedMenuDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);

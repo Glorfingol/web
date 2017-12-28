@@ -7,9 +7,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import com.cmpl.web.core.configuration.ContextConfiguration;
 import com.cmpl.web.core.context.ContextHolder;
 
 @RunWith(MockitoJUnitRunner.class)

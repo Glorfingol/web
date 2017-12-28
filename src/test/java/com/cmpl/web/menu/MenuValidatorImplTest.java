@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.error.ERROR_CAUSE;
 import com.cmpl.web.core.error.ErrorBuilder;
@@ -27,7 +27,7 @@ public class MenuValidatorImplTest {
   @Test
   public void testValidateUpdate_No_Errors() throws Exception {
 
-    MenuUpdateForm form = new MenuUpdateFormBuilder().orderInMenu(1).build();
+    MenuUpdateForm form = new MenuUpdateFormBuilder().title("someTitle").pageId("123456789").orderInMenu(1).build();
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
 
     Assert.assertNull(validator.validateUpdate(form, Locale.FRANCE));
@@ -37,7 +37,6 @@ public class MenuValidatorImplTest {
   public void testValidateUpdate_Bad_Order() throws Exception {
 
     MenuUpdateForm form = new MenuUpdateFormBuilder().orderInMenu(0).build();
-    BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
 
     ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.BAD_ORDER.getCauseKey()).message("badOrder").build();
     Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
@@ -102,7 +101,7 @@ public class MenuValidatorImplTest {
   @Test
   public void testValidateCreate_No_Errors() throws Exception {
 
-    MenuCreateForm form = new MenuCreateFormBuilder().orderInMenu(1).build();
+    MenuCreateForm form = new MenuCreateFormBuilder().title("someTitle").pageId("123456789").orderInMenu(1).build();
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
 
     Assert.assertNull(validator.validateCreate(form, Locale.FRANCE));
@@ -112,7 +111,6 @@ public class MenuValidatorImplTest {
   public void testValidateCreate_Bad_Order() throws Exception {
 
     MenuCreateForm form = new MenuCreateFormBuilder().orderInMenu(0).build();
-    BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
 
     ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.BAD_ORDER.getCauseKey()).message("badOrder").build();
     Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();

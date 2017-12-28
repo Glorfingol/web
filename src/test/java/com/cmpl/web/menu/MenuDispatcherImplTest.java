@@ -9,7 +9,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.error.ErrorBuilder;
 import com.cmpl.web.core.model.Error;
@@ -35,8 +35,8 @@ public class MenuDispatcherImplTest {
 
   @Test
   public void testUpdateEntity_No_Error_ParentId() throws Exception {
-    MenuUpdateForm form = new MenuUpdateFormBuilder().href("someHref").label("someLabel").title("someTitle")
-        .orderInMenu(1).pageId("123456789").parentId("123456789").build();
+    MenuUpdateForm form = new MenuUpdateFormBuilder().id(123456789l).href("someHref").label("someLabel")
+        .title("someTitle").orderInMenu(1).pageId("123456789").parentId("123456789").build();
     MenuDTO menuToUpdate = new MenuDTOBuilder().build();
 
     BDDMockito.given(validator.validateUpdate(BDDMockito.any(MenuUpdateForm.class), BDDMockito.any(Locale.class)))
@@ -60,8 +60,8 @@ public class MenuDispatcherImplTest {
 
   @Test
   public void testUpdateEntity_No_Error_No_ParentId() throws Exception {
-    MenuUpdateForm form = new MenuUpdateFormBuilder().href("someHref").label("someLabel").title("someTitle")
-        .orderInMenu(1).pageId("123456789").build();
+    MenuUpdateForm form = new MenuUpdateFormBuilder().id(123456789l).href("someHref").label("someLabel")
+        .title("someTitle").orderInMenu(1).pageId("123456789").build();
     MenuDTO menuToUpdate = new MenuDTOBuilder().pageId("123456789").build();
 
     BDDMockito.given(validator.validateUpdate(BDDMockito.any(MenuUpdateForm.class), BDDMockito.any(Locale.class)))

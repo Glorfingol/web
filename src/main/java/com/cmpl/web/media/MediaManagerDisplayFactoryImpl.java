@@ -46,7 +46,7 @@ public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
   protected Page<MediaDTO> computeEntries(Locale locale, int pageNumber) {
     List<MediaDTO> mediaEntries = new ArrayList<>();
 
-    PageRequest pageRequest = new PageRequest(pageNumber, contextHolder.getElementsPerPage());
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
     Page<MediaDTO> pagedMediaDTOEntries = mediaService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedMediaDTOEntries.getContent())) {
       return new PageImpl<>(mediaEntries);

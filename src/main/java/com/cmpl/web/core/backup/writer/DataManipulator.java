@@ -18,6 +18,6 @@ public class DataManipulator<T extends BaseEntity> {
   }
 
   public void insertData(List<T> entities) {
-    repository.save(entities);
+    repository.saveAll(entities);
   }
 }

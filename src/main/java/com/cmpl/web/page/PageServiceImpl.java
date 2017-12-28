@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cmpl.web.core.service.BaseServiceImpl;
@@ -96,7 +97,7 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
 
   @Override
   public List<PageDTO> getPages() {
-    return toListDTO(pageRepository.findAll(new Sort("name")));
+    return toListDTO(pageRepository.findAll(new Sort(Direction.ASC, "name")));
   }
 
   @Override

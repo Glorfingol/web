@@ -12,7 +12,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.error.ErrorBuilder;
 import com.cmpl.web.core.error.ErrorCauseBuilder;
@@ -61,7 +61,6 @@ public class MetaElementDispatcherImplTest {
   @Test
   public void testDeleteMetaEntity_No_Error() throws Exception {
     BDDMockito.given(validator.validateDelete(BDDMockito.anyString(), BDDMockito.any(Locale.class))).willReturn(null);
-    BDDMockito.doNothing().when(openGraphMetaElementService).deleteEntity(BDDMockito.anyLong());
 
     dispatcher.deleteMetaEntity("123456789", Locale.FRANCE);
     BDDMockito.verify(metaElementService, BDDMockito.times(1)).deleteEntity(BDDMockito.anyLong());

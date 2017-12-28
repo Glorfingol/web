@@ -32,7 +32,7 @@
                        <br/>
                        <label class="btn btn-primary mt-3" id="clickHere">
                              <span th:text="#{image.label}"/>
-                             <i class="fa fa-upload"/>
+                             <i class="fa fa-upload"></i>
                             <input type="file" class="form-control-file" th:field="*{image.src}" onchange="previewFile()"/>
                        </label>
                     </div>
@@ -67,8 +67,8 @@
 	    </div>
 	    <div class="card-footer">
 		    <div class="float-right">
-		      <a class="btn btn-md btn-danger fa fa-times fa-white"  onclick="cancelUpdateNews()"/>
-		      <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postUpdateNewsForm()"/>
+		      <a class="btn btn-md btn-danger fa fa-times fa-white"  onclick="cancelUpdateNews()"></a>
+		      <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postUpdateNewsForm()"></a>
 		    </div>
 	    </div>
 	</div>

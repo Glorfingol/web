@@ -12,7 +12,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.error.ERROR;
 import com.cmpl.web.core.error.ERROR_CAUSE;
@@ -79,7 +79,11 @@ public class NewsEntryDispatcherImplTest {
 
     BDDMockito.doReturn(null).when(validator)
         .validateUpdate(BDDMockito.any(NewsEntryRequest.class), BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(response).when(translator).fromDTOToResponse(BDDMockito.any(NewsEntryDTO.class));
+    BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(NewsEntryDTO.class))).willReturn(response);
+
+    NewsEntryDTO dto = new NewsEntryDTOBuilder().build();
+    BDDMockito.given(translator.fromRequestToDTO(BDDMockito.any(NewsEntryRequest.class))).willReturn(dto);
+    BDDMockito.given(newsEntryService.updateEntity(BDDMockito.any(NewsEntryDTO.class))).willReturn(dto);
 
     NewsEntryResponse result = dispatcher.updateEntity(new NewsEntryRequest(), String.valueOf(1L), Locale.FRANCE);
 
@@ -127,9 +131,11 @@ public class NewsEntryDispatcherImplTest {
 
     NewsEntryResponse response = new NewsEntryResponse();
 
-    BDDMockito.doReturn(null).when(validator)
-        .validateUpdate(BDDMockito.any(NewsEntryRequest.class), BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(response).when(translator).fromDTOToResponse(BDDMockito.any(NewsEntryDTO.class));
+
+    NewsEntryDTO dto = new NewsEntryDTOBuilder().build();
+    BDDMockito.given(translator.fromRequestToDTO(BDDMockito.any(NewsEntryRequest.class))).willReturn(dto);
+    BDDMockito.given(newsEntryService.createEntity(BDDMockito.any(NewsEntryDTO.class))).willReturn(dto);
 
     NewsEntryResponse result = dispatcher.createEntity(new NewsEntryRequest(), Locale.FRANCE);
 

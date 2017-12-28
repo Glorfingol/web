@@ -15,7 +15,7 @@
             <small class="form-text text-muted" th:text="#{carousel.item.media.help}"/>
         </div>
         <div class="float-right">
-          <a class="btn btn-md btn-success fa fa-plus fa-white"  onclick="postCreateCarouselItemForm()"/>
+          <a class="btn btn-md btn-success fa fa-plus fa-white"  onclick="postCreateCarouselItemForm()"></a>
         </div>
     </div>
     <input type="hidden"  th:field="*{carouselId}"/>
@@ -33,7 +33,7 @@
                          <input type="text" class="form-control" th:value="${carouselItem.media.name}" disabled="true"/>
                    </div>
                    <div class="float-right mt-2">
-                      <a class="btn btn-md btn-danger fa fa-times fa-white" th:id="${carouselItem.id}" onclick="deleteCarouselItem(this.id)"/>
+                      <a class="btn btn-md btn-danger fa fa-times fa-white" th:id="${carouselItem.id}" onclick="deleteCarouselItem(this.id)"></a>
                    </div>
             </div>
         </div>

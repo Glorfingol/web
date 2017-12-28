@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -19,7 +18,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.MediaOperations;
@@ -33,6 +32,7 @@ import com.cmpl.web.news.NewsEntryDTOBuilder;
 import com.cmpl.web.news.NewsEntryService;
 import com.cmpl.web.news.NewsImageDTO;
 import com.cmpl.web.news.NewsImageDTOBuilder;
+import com.google.api.client.util.IOUtils;
 
 ;
 

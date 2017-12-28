@@ -55,7 +55,7 @@ public class WebLauncher {
 
       NewsContent newsContent = createNewsContent(newsContentRepository);
 
-      newsEntryRepository.save(createNewsEntries(newsContent));
+      newsEntryRepository.saveAll(createNewsEntries(newsContent));
 
       PageFactory.createPages(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository,
           carouselRepository, carouselItemRepository, mediaRepository);

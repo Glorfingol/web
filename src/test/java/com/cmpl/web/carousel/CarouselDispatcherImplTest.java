@@ -12,7 +12,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.error.ErrorBuilder;
 import com.cmpl.web.core.error.ErrorCauseBuilder;
@@ -98,7 +98,8 @@ public class CarouselDispatcherImplTest {
     CarouselResponse response = new CarouselResponseBuilder().build();
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(CarouselDTO.class))).willReturn(response);
 
-    Assert.assertEquals(response, dispatcher.updateEntity(new CarouselUpdateFormBuilder().build(), Locale.FRANCE));
+    Assert.assertEquals(response,
+        dispatcher.updateEntity(new CarouselUpdateFormBuilder().id(123456789l).build(), Locale.FRANCE));
   }
 
   @Test

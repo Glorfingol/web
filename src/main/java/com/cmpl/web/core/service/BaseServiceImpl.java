@@ -3,11 +3,13 @@ package com.cmpl.web.core.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 
 import com.cmpl.web.core.filler.ObjectReflexiveFillerImpl;
 import com.cmpl.web.core.model.BaseDTO;
@@ -43,8 +45,11 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
 
   @Override
   public D getEntity(Long id) {
-    E result = entityRepository.findOne(id);
-    return result != null ? toDTO(result) : null;
+    Optional<E> result = entityRepository.findById(id);
+    if (result == null || !result.isPresent()) {
+      return null;
+    }
+    return toDTO(result.get());
   }
 
   @Override
@@ -55,12 +60,12 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
 
   @Override
   public void deleteEntity(Long id) {
-    entityRepository.delete(id);
+    entityRepository.deleteById(id);
   }
 
   @Override
   public List<D> getEntities() {
-    return toListDTO(entityRepository.findAll(new Sort("creationDate")));
+    return toListDTO(entityRepository.findAll(new Sort(Direction.ASC, "creationDate")));
   }
 
   @Override

@@ -122,7 +122,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   public Page<NewsEntryDisplayBean> computeNewsEntries(PageDTO page, Locale locale, int pageNumber) {
     List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
 
-    PageRequest pageRequest = new PageRequest(pageNumber, contextHolder.getElementsPerPage());
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
     Page<NewsEntryDTO> pagedNewsEntries = newsEntryService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedNewsEntries.getContent())) {
       return new PageImpl<>(newsEntries);

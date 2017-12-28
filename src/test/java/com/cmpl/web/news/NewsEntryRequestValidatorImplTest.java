@@ -11,7 +11,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.util.CollectionUtils;
 
 import com.cmpl.web.core.error.ERROR;
@@ -43,7 +43,6 @@ public class NewsEntryRequestValidatorImplTest {
   @Test
   public void testIsNewsContentValid_False_null() throws Exception {
     NewsContentRequest request = new NewsContentRequestBuilder().build();
-    BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.anyString());
 
     boolean result = validator.isNewsContentValid(request);
     Assert.assertFalse(result);
@@ -71,6 +70,9 @@ public class NewsEntryRequestValidatorImplTest {
   public void testIsNewsImageValid_True_With_Request() {
 
     NewsImageRequest imageRequest = new NewsImageRequest();
+    imageRequest.setAlt("someAlt");
+    imageRequest.setLegend("someLegend");
+    imageRequest.setSrc("someSrc");
 
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
 
@@ -81,8 +83,6 @@ public class NewsEntryRequestValidatorImplTest {
 
   @Test
   public void testIsNewsImageValid_True_Without_Request() {
-
-    BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
 
     List<ErrorCause> result = validator.isNewsImageValid(null, Locale.FRANCE);
 

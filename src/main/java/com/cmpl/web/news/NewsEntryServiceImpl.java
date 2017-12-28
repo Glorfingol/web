@@ -170,7 +170,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   @Override
   public NewsEntryDTO getEntity(Long id) {
     LOGGER.info("Récupération de l'entrée de blog d'id " + id);
-    NewsEntry entry = newsEntryRepository.findOne(id);
+    NewsEntry entry = newsEntryRepository.findById(id).get();
     return computeNewsEntryDTO(entry);
   }
 

@@ -5,14 +5,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.context.ContextHolder;
-import com.cmpl.web.file.FileConfiguration;
-import com.cmpl.web.file.ImageConverterService;
-import com.cmpl.web.file.ImageConverterServiceImpl;
-import com.cmpl.web.file.ImageService;
-import com.cmpl.web.file.ImageServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FileConfigurationTest {

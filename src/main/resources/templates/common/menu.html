@@ -19,17 +19,17 @@
 		                   th:title="${menuItem.title}" 
 		                   th:href="${menuItem.href}" 
 		                   th:text="${menuItem.label}" 
-		                   onhover="onhover()"/>
+		                   onhover="onhover()"></a>
 		                <ul th:if="${(menuItem.subMenuItems.size() > 0)}" class="dropdown-menu multi-level">
 		                  <li class="dropdown-submenu"  th:each="subMenuItem : ${menuItem.subMenuItems}">
-		                       <a class="nav-link" th:title="${subMenuItem.title}" th:href="${subMenuItem.href}" th:text="${subMenuItem.label}"/>
+		                       <a class="nav-link" th:title="${subMenuItem.title}" th:href="${subMenuItem.href}" th:text="${subMenuItem.label}"></a>
 		                  </li>
 		                </ul>
 		                <a class="nav-link"
 		                   th:if="${!(menuItem.subMenuItems.size() > 0)}" 
 		                   th:title="${menuItem.title}" 
 		                   th:href="${menuItem.href}" 
-		                   th:text="${menuItem.label}"/>
+		                   th:text="${menuItem.label}"></a>
 		            </li>
 		        </ul>
 		    </div>

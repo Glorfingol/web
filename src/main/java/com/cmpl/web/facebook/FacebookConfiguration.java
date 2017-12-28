@@ -2,6 +2,7 @@ package com.cmpl.web.facebook;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 
@@ -11,6 +12,7 @@ import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.news.NewsEntryService;
 
 @Configuration
+@EnableSocial
 public class FacebookConfiguration {
 
   @Bean

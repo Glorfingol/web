@@ -11,7 +11,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +22,6 @@ import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MediaManagerDisplayFactoryImplTest {
@@ -44,8 +43,6 @@ public class MediaManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForViewAllMedias() throws Exception {
 
     ModelAndView model = new ModelAndView();
-    BDDMockito.doReturn(model).when(displayFactory)
-        .computeModelAndViewForBackPage(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(Locale.class));
     PageWrapper<MediaDTO> wrapper = new PageWrapper<>();
     BDDMockito.doReturn(wrapper).when(displayFactory)
         .computePageWrapper(BDDMockito.any(Locale.class), BDDMockito.anyInt());
@@ -114,8 +111,6 @@ public class MediaManagerDisplayFactoryImplTest {
     ModelAndView mediaManager = new ModelAndView();
     String test = "test";
     mediaManager.addObject("test", test);
-    BDDMockito.doReturn(mediaManager).when(displayFactory)
-        .computeModelAndViewForBackPage(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(Locale.class));
 
     displayFactory.computeModelAndViewForUploadMedia(Locale.FRANCE);
 

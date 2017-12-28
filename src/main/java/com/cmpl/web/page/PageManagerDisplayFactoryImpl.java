@@ -60,7 +60,7 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   protected Page<PageDTO> computeEntries(Locale locale, int pageNumber) {
     List<PageDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = new PageRequest(pageNumber, contextHolder.getElementsPerPage());
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
     Page<PageDTO> pagedPageDTOEntries = pageService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedPageDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);

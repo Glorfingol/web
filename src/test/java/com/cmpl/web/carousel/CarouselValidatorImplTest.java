@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.error.ERROR_CAUSE;
 import com.cmpl.web.core.error.ErrorBuilder;
@@ -128,7 +128,8 @@ public class CarouselValidatorImplTest {
 
   @Test
   public void testValidateCreateCarouselItemCreateFormLocale_No_Errors() throws Exception {
-    CarouselItemCreateForm form = new CarouselItemCreateFormBuilder().carouselId("somearouselId").build();
+    CarouselItemCreateForm form = new CarouselItemCreateFormBuilder().mediaId("someMediaId")
+        .carouselId("somearouselId").build();
 
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
 

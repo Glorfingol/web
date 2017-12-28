@@ -9,7 +9,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.error.ErrorBuilder;
 import com.cmpl.web.core.model.Error;
@@ -71,7 +71,7 @@ public class PageDispatcherImplTest {
   @Test
   public void testUpdateEntity_No_Error() throws Exception {
 
-    PageUpdateForm form = new PageUpdateFormBuilder().build();
+    PageUpdateForm form = new PageUpdateFormBuilder().id(123456789l).build();
 
     BDDMockito.given(validator.validateUpdate(BDDMockito.any(PageUpdateForm.class), BDDMockito.any(Locale.class)))
         .willReturn(null);

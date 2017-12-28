@@ -63,7 +63,7 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
   protected Page<CarouselDTO> computeEntries(Locale locale, int pageNumber) {
     List<CarouselDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = new PageRequest(pageNumber, contextHolder.getElementsPerPage());
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
     Page<CarouselDTO> pagedCarouselDTOEntries = carouselService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedCarouselDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);

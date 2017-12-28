@@ -18,7 +18,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
@@ -463,7 +463,6 @@ public class FacebookServiceImplTest {
   @Test
   public void testGetRecentFeed_Exception() throws Exception {
     exception.expect(BaseException.class);
-    BDDMockito.doReturn(null).when(connectionRepository).findConnections(Facebook.class);
     facebookService.getRecentFeed();
   }
 }

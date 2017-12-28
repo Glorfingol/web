@@ -4,12 +4,12 @@ import com.cmpl.web.core.builder.Builder;
 
 public class PageCreateFormBuilder extends Builder<PageCreateForm> {
 
-  private String name;
-  private String menuTitle;
-  private boolean withNews;
-  private String body;
-  private String header;
-  private String footer;
+  private String name = "";
+  private String menuTitle = "";
+  private boolean withNews = false;
+  private String body = "";
+  private String header = "";
+  private String footer = "";
 
   public PageCreateFormBuilder name(String name) {
     this.name = name;

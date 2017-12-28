@@ -12,7 +12,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +23,6 @@ import com.cmpl.web.core.builder.PageWrapperBuilder;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.page.BACK_PAGE;
 import com.cmpl.web.page.PageDTO;
 import com.cmpl.web.page.PageDTOBuilder;
 import com.cmpl.web.page.PageService;
@@ -101,9 +100,6 @@ public class MenuManagerDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForCreateMenu() throws Exception {
-    ModelAndView menusManager = new ModelAndView("test");
-    BDDMockito.doReturn(menusManager).when(displayFactory)
-        .computeModelAndViewForBackPage(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(Locale.class));
 
     MenuDTO menu = new MenuDTOBuilder().build();
     BDDMockito.given(menuService.getMenus()).willReturn(Lists.newArrayList(menu));
@@ -120,9 +116,6 @@ public class MenuManagerDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForViewAllMenus() throws Exception {
-    ModelAndView menusManager = new ModelAndView("test");
-    BDDMockito.doReturn(menusManager).when(displayFactory)
-        .computeModelAndViewForBackPage(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(Locale.class));
 
     PageWrapper<MenuDTO> wrapper = new PageWrapperBuilder<MenuDTO>().build();
     BDDMockito.doReturn(wrapper).when(displayFactory)

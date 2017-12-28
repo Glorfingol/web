@@ -2,6 +2,7 @@ package com.cmpl.web.news;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.util.Lists;
 import org.junit.Assert;
@@ -11,7 +12,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.CollectionUtils;
 
@@ -94,11 +95,11 @@ public class NewsContentServiceImplTest {
   @Test
   public void testDeletEntity() {
 
-    BDDMockito.doNothing().when(repository).delete(BDDMockito.anyLong());
+    BDDMockito.doNothing().when(repository).deleteById(BDDMockito.anyLong());
 
     service.deleteEntity(1L);
 
-    BDDMockito.verify(repository, BDDMockito.times(1)).delete(BDDMockito.eq(1L));
+    BDDMockito.verify(repository, BDDMockito.times(1)).deleteById(BDDMockito.eq(1L));
 
   }
 
@@ -166,7 +167,7 @@ public class NewsContentServiceImplTest {
   @Test
   public void testGetEntity_Null() {
 
-    BDDMockito.doReturn(null).when(repository).findOne(BDDMockito.anyLong());
+    BDDMockito.doReturn(null).when(repository).findById(BDDMockito.anyLong());
 
     NewsContentDTO result = service.getEntity(1L);
 
@@ -178,13 +179,14 @@ public class NewsContentServiceImplTest {
 
     NewsContent content1 = new NewsContent();
     content1.setContent("content1");
+    Optional<NewsContent> optional = Optional.of(content1);
 
     LocalDate date = LocalDate.now();
     date = date.minusDays(1);
     NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
         .modificationDate(date).build();
 
-    BDDMockito.doReturn(content1).when(repository).findOne(BDDMockito.anyLong());
+    BDDMockito.doReturn(optional).when(repository).findById(BDDMockito.anyLong());
     BDDMockito.doReturn(contentDTO1).when(service).toDTO(BDDMockito.eq(content1));
 
     NewsContentDTO result = service.getEntity(1L);

@@ -8,7 +8,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Sort;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -79,8 +79,6 @@ public class MenuServiceImplTest {
   @Test
   public void testGetMenus() throws Exception {
     MenuDTO menuDTOToFind = new MenuDTOBuilder().build();
-    BDDMockito.doReturn(Lists.newArrayList(menuDTOToFind)).when(menuService)
-        .toListDTO(BDDMockito.anyListOf(Menu.class));
 
     Menu menuToFind = new MenuBuilder().build();
     BDDMockito.given(menuRepository.findAll(BDDMockito.any(Sort.class))).willReturn(Lists.newArrayList(menuToFind));

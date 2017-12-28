@@ -1,5 +1,7 @@
 package com.cmpl.web.page;
 
+import java.util.Optional;
+
 import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,7 +10,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Sort;
 
 import com.cmpl.web.file.FileService;
@@ -37,7 +39,8 @@ public class PageServiceImplTest {
 
   @Test
   public void testCreateEntity() throws Exception {
-    PageDTO dtoToCreate = new PageDTOBuilder().name("someName").build();
+    PageDTO dtoToCreate = new PageDTOBuilder().body("someBody").footer("someFooter").header("someHeader")
+        .name("someName").build();
     Page entityToCreate = new PageBuilder().build();
 
     BDDMockito.doReturn(dtoToCreate).when(pageService).toDTO(BDDMockito.any(Page.class));
@@ -55,7 +58,8 @@ public class PageServiceImplTest {
   @Test
   public void testUpdateEntity() throws Exception {
 
-    PageDTO dtoToUpdate = new PageDTOBuilder().name("someName").build();
+    PageDTO dtoToUpdate = new PageDTOBuilder().body("someBody").footer("someFooter").header("someHeader")
+        .name("someName").build();
     Page entityToUpdate = new PageBuilder().build();
 
     BDDMockito.doReturn(dtoToUpdate).when(pageService).toDTO(BDDMockito.any(Page.class));
@@ -73,9 +77,9 @@ public class PageServiceImplTest {
   public void testGetEntity() throws Exception {
 
     PageDTO dtoToFind = new PageDTOBuilder().name("someName").build();
-    Page entityToFind = new PageBuilder().build();
+    Optional<Page> entityToFind = Optional.of(new PageBuilder().build());
     BDDMockito.doReturn(dtoToFind).when(pageService).toDTO(BDDMockito.any(Page.class));
-    BDDMockito.given(pageRepository.findOne(BDDMockito.anyLong())).willReturn(entityToFind);
+    BDDMockito.given(pageRepository.findById(BDDMockito.anyLong())).willReturn(entityToFind);
 
     String content = "someContent";
     BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString())).willReturn(content);

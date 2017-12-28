@@ -14,7 +14,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -61,7 +61,6 @@ public class NewsManagerDisplayFactoryImplTest {
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
         dateFormat, labelAccroche, labelShowHref);
 
-    BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(BDDMockito.any(Long.class));
     BDDMockito.doReturn(displayBean).when(displayFactory)
         .computeNewsEntryDisplayBean(BDDMockito.eq(Locale.FRANCE), BDDMockito.eq(newsEntry));
 
@@ -209,8 +208,6 @@ public class NewsManagerDisplayFactoryImplTest {
     PageWrapper<NewsEntryDisplayBean> pageWrapper = new PageWrapper<>();
     pageWrapper.setPage(new PageImpl<>(Lists.newArrayList(displayBean)));
 
-    BDDMockito.doReturn(25).when(contextHolder).getElementsPerPage();
-    BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(tile).when(displayFactory)
         .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(backMenu).when(displayFactory)
@@ -221,7 +218,6 @@ public class NewsManagerDisplayFactoryImplTest {
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPage(Locale.FRANCE, 0);
 
-    Assert.assertEquals(decoratorBack, result.getViewName());
     Assert.assertEquals(tile, result.getModel().get("content"));
 
     BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeTileName(BDDMockito.anyString(),
@@ -278,8 +274,6 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(backMenu).when(displayFactory)
         .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(Lists.newArrayList(displayBean)).when(displayFactory)
-        .computeNewsEntryDisplayBeans(BDDMockito.eq(Locale.FRANCE));
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPageCreateNews(Locale.FRANCE);
 

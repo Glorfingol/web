@@ -8,7 +8,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.media.MediaDTO;
 import com.cmpl.web.media.MediaDTOBuilder;
@@ -31,12 +31,10 @@ public class CarouselItemServiceImplTest {
     MediaDTO media = new MediaDTOBuilder().id(123456789l).build();
     CarouselItemDTO dto = new CarouselItemDTOBuilder().media(media).build();
 
-    BDDMockito.doNothing().when(carouselItemService)
-        .fillObject(BDDMockito.any(CarouselItemDTO.class), BDDMockito.any(CarouselItem.class));
     carouselItemService.toEntity(dto);
 
-    BDDMockito.verify(carouselItemService, BDDMockito.times(1)).fillObject(BDDMockito.any(CarouselItemDTO.class),
-        BDDMockito.any(CarouselItem.class));
+    BDDMockito.verify(carouselItemService, BDDMockito.times(1)).fillObject(BDDMockito.any(CarouselItem.class),
+        BDDMockito.any(CarouselItemDTO.class));
   }
 
   @Test
@@ -61,8 +59,6 @@ public class CarouselItemServiceImplTest {
     MediaDTO media = new MediaDTOBuilder().id(123456789l).build();
     CarouselItemDTO dto = new CarouselItemDTOBuilder().media(media).build();
 
-    BDDMockito.doNothing().when(carouselItemService)
-        .fillObject(BDDMockito.any(CarouselItem.class), BDDMockito.any(CarouselItemDTO.class));
     BDDMockito.doReturn(dto).when(carouselItemService).toDTO(BDDMockito.any(CarouselItem.class));
 
     CarouselItem entity = new CarouselItemBuilder().build();

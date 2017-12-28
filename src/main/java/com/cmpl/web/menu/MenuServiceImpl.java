@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 
 import com.cmpl.web.core.service.BaseServiceImpl;
 
@@ -38,7 +39,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDTO, Menu> implements M
 
   @Override
   public List<MenuDTO> getMenus() {
-    return toListDTO(menuRepository.findAll(new Sort("orderInMenu")));
+    return toListDTO(menuRepository.findAll(new Sort(Direction.ASC, "orderInMenu")));
   }
 
   @Override

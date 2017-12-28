@@ -5,7 +5,7 @@ public class PageTranslatorImpl implements PageTranslator {
   @Override
   public PageDTO fromCreateFormToDTO(PageCreateForm form) {
     return new PageDTOBuilder().menuTitle(form.getMenuTitle()).name(form.getName()).withNews(form.isWithNews())
-        .body(form.getBody()).build();
+        .footer(form.getFooter()).header(form.getHeader()).body(form.getBody()).build();
   }
 
   @Override

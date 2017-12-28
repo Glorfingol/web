@@ -19,7 +19,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.model.BaseException;
@@ -294,7 +294,8 @@ public class ImageServiceImplTest {
   public void testConvertBase64ContentToBytes_Exception() throws Exception {
 
     exception.expect(BaseException.class);
-    BDDMockito.doThrow(new IOException()).when(imageConverterService).getImageByteArray(BDDMockito.anyString());
+    BDDMockito.doThrow(new IOException()).when(imageConverterService)
+        .getImageByteArray(BDDMockito.nullable(String.class));
     service.convertBase64ContentToBytes("666", null);
 
     BDDMockito.verify(imageConverterService, BDDMockito.times(1)).getImageByteArray(BDDMockito.anyString());
@@ -309,7 +310,6 @@ public class ImageServiceImplTest {
     byte[] data = new byte[]{1};
     BufferedImage bufferedImage = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 
-    BDDMockito.doNothing().when(service).createFoldersIfRequired(BDDMockito.anyString());
     BDDMockito.doNothing().when(service).createFoldersIfRequired(BDDMockito.anyString());
     BDDMockito.doReturn(format).when(service).extractFormatFromBase64(BDDMockito.anyString());
     BDDMockito.doReturn(path).when(service).computePath(BDDMockito.anyString(), BDDMockito.anyString());

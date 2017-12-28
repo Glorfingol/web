@@ -13,7 +13,7 @@
 	        <small class="form-text text-muted" th:text="#{meta.content.help}"/>
 	    </div>
 	    <div class="float-right">
-	      <a class="btn btn-md btn-success fa fa-plus fa-white"  onclick="postCreateMetaForm()"/>
+	      <a class="btn btn-md btn-success fa fa-plus fa-white"  onclick="postCreateMetaForm()"></a>
 	    </div>
     </div>
 </form>
@@ -30,7 +30,7 @@
 		                 <input type="text" class="form-control" th:value="${metaElement.content}" disabled="true"/>
 		           </div>
 		           <div class="float-right mt-2">
-                      <a class="btn btn-md btn-danger fa fa-times fa-white" th:id="${metaElement.id}" onclick="deleteMeta(this.id)"/>
+                      <a class="btn btn-md btn-danger fa fa-times fa-white" th:id="${metaElement.id}" onclick="deleteMeta(this.id)"></a>
                    </div>
 		    </div>
 		</div>

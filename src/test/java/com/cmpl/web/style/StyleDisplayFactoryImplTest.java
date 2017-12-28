@@ -9,7 +9,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.context.ContextHolder;
@@ -17,7 +17,6 @@ import com.cmpl.web.media.MediaDTO;
 import com.cmpl.web.media.MediaDTOBuilder;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
-import com.cmpl.web.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StyleDisplayFactoryImplTest {
@@ -65,9 +64,6 @@ public class StyleDisplayFactoryImplTest {
   public void testComputeModelAndViewForViewStyles_Init_Styles() throws Exception {
     StyleDTO style = new StyleDTOBuilder().build();
 
-    ModelAndView stylesManager = new ModelAndView();
-    BDDMockito.doReturn(stylesManager).when(displayFactory)
-        .computeModelAndViewForBackPage(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(Locale.class));
     BDDMockito.given(styleService.getStyle()).willReturn(null);
     BDDMockito.doReturn(style).when(displayFactory).initStyle();
 
@@ -79,9 +75,6 @@ public class StyleDisplayFactoryImplTest {
   public void testComputeModelAndViewForViewStyles_No_Init_Styles() throws Exception {
     StyleDTO style = new StyleDTOBuilder().build();
 
-    ModelAndView stylesManager = new ModelAndView();
-    BDDMockito.doReturn(stylesManager).when(displayFactory)
-        .computeModelAndViewForBackPage(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(Locale.class));
     BDDMockito.given(styleService.getStyle()).willReturn(style);
 
     ModelAndView result = displayFactory.computeModelAndViewForViewStyles(Locale.FRANCE);
@@ -93,9 +86,6 @@ public class StyleDisplayFactoryImplTest {
     StyleDTO style = new StyleDTOBuilder().media(new MediaDTOBuilder().build()).content("someContent").build();
     StyleForm form = new StyleForm(style);
 
-    ModelAndView stylesManager = new ModelAndView();
-    BDDMockito.doReturn(stylesManager).when(displayFactory)
-        .computeModelAndViewForBackPage(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(Locale.class));
     BDDMockito.given(styleService.getStyle()).willReturn(null);
     BDDMockito.doReturn(style).when(displayFactory).initStyle();
 
@@ -108,9 +98,6 @@ public class StyleDisplayFactoryImplTest {
     StyleDTO style = new StyleDTOBuilder().media(new MediaDTOBuilder().build()).content("someContent").build();
     StyleForm form = new StyleForm(style);
 
-    ModelAndView stylesManager = new ModelAndView();
-    BDDMockito.doReturn(stylesManager).when(displayFactory)
-        .computeModelAndViewForBackPage(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(Locale.class));
     BDDMockito.given(styleService.getStyle()).willReturn(style);
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdateStyles(Locale.FRANCE);

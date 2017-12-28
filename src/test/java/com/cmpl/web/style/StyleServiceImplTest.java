@@ -10,7 +10,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.file.FileService;
 import com.cmpl.web.media.MediaDTO;
@@ -65,8 +65,6 @@ public class StyleServiceImplTest {
   public void testToDTO_Media_Null() throws Exception {
     Style style = new StyleBuilder().build();
     BDDMockito.doNothing().when(styleService).fillObject(BDDMockito.any(Style.class), BDDMockito.any(StyleDTO.class));
-
-    BDDMockito.given(mediaService.getEntity(BDDMockito.anyLong())).willReturn(null);
 
     StyleDTO result = styleService.toDTO(style);
     Assert.assertNull(result.getContent());

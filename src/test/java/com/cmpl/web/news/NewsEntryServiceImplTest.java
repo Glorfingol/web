@@ -2,6 +2,7 @@ package com.cmpl.web.news;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.util.Lists;
 import org.junit.Assert;
@@ -11,10 +12,9 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.util.CollectionUtils;
 
-import com.cmpl.web.core.model.BaseException;
 import com.cmpl.web.file.ImageConverterService;
 import com.cmpl.web.file.ImageService;
 
@@ -58,7 +58,6 @@ public class NewsEntryServiceImplTest {
     NewsEntry entity = new NewsEntry();
     entity.setId(1L);
 
-    BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(entity), BDDMockito.any(NewsEntry.class));
     NewsEntryDTO result = service.toDTO(entity);
 
     BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.eq(entity), BDDMockito.eq(result));
@@ -190,11 +189,12 @@ public class NewsEntryServiceImplTest {
 
     NewsEntry entry = new NewsEntry();
     entry.setId(1L);
+    Optional<NewsEntry> optional = Optional.of(entry);
 
     NewsEntryDTO dto = new NewsEntryDTOBuilder().id(1L).build();
 
     BDDMockito.doReturn(dto).when(service).computeNewsEntryDTO(entry);
-    BDDMockito.doReturn(entry).when(repository).findOne(1L);
+    BDDMockito.doReturn(optional).when(repository).findById(1L);
 
     NewsEntryDTO result = service.getEntity(1L);
 
@@ -229,7 +229,6 @@ public class NewsEntryServiceImplTest {
     NewsImageDTO formattedImage = new NewsImageDTOBuilder().src(imageSrc).build();
 
     BDDMockito.doReturn(formattedImage).when(newsImageService).createEntity(BDDMockito.eq(formattedImage));
-    BDDMockito.doReturn(formattingImage).when(newsImageService).getEntity(BDDMockito.anyLong());
     BDDMockito.doReturn(imageFile).when(service)
         .saveToFileSystem(BDDMockito.any(NewsImageDTO.class), BDDMockito.anyString());
     BDDMockito.doReturn(imageSrc).when(service).computeImageSrc(BDDMockito.eq(imageFile));
@@ -252,7 +251,6 @@ public class NewsEntryServiceImplTest {
     NewsImageDTO formattedImage = new NewsImageDTOBuilder().src(imageSrc).build();
 
     BDDMockito.doReturn(formattedImage).when(newsImageService).updateEntity(BDDMockito.eq(formattedImage));
-    BDDMockito.doReturn(formattingImage).when(newsImageService).getEntity(BDDMockito.anyLong());
     BDDMockito.doReturn(imageFile).when(service)
         .saveToFileSystem(BDDMockito.any(NewsImageDTO.class), BDDMockito.anyString());
     BDDMockito.doReturn(imageSrc).when(service).computeImageSrc(BDDMockito.eq(imageFile));
@@ -410,8 +408,6 @@ public class NewsEntryServiceImplTest {
     NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().id(1L).build();
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
-    BDDMockito.doReturn(null).when(service).updateContent(BDDMockito.any(NewsContentDTO.class));
-    BDDMockito.doReturn(null).when(service).updateImage(BDDMockito.any(NewsImageDTO.class));
     BDDMockito.doReturn(entry).when(repository).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(newsEntry).when(service).toDTO(BDDMockito.any(NewsEntry.class));
 
@@ -421,10 +417,10 @@ public class NewsEntryServiceImplTest {
     Assert.assertNull(result.getNewsContent());
     Assert.assertNull(result.getNewsImage());
 
-    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsContentDTO.class),
+    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsEntryDTO.class),
         BDDMockito.any(NewsEntry.class));
-    BDDMockito.verify(service, BDDMockito.times(1)).updateContent(BDDMockito.any(NewsContentDTO.class));
-    BDDMockito.verify(service, BDDMockito.times(1)).updateImage(BDDMockito.any(NewsImageDTO.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).updateContent(BDDMockito.nullable(NewsContentDTO.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).updateImage(BDDMockito.nullable(NewsImageDTO.class));
     BDDMockito.verify(repository, BDDMockito.times(1)).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.verify(service, BDDMockito.times(1)).toDTO(BDDMockito.any(NewsEntry.class));
   }
@@ -438,7 +434,6 @@ public class NewsEntryServiceImplTest {
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(content).when(service).updateContent(BDDMockito.any(NewsContentDTO.class));
-    BDDMockito.doReturn(null).when(service).updateImage(BDDMockito.any(NewsImageDTO.class));
     BDDMockito.doReturn(entry).when(repository).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(newsEntry).when(service).toDTO(BDDMockito.any(NewsEntry.class));
 
@@ -449,10 +444,10 @@ public class NewsEntryServiceImplTest {
     Assert.assertEquals(content.getId(), result.getNewsContent().getId());
     Assert.assertNull(result.getNewsImage());
 
-    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsContentDTO.class),
+    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsEntryDTO.class),
         BDDMockito.any(NewsEntry.class));
     BDDMockito.verify(service, BDDMockito.times(1)).updateContent(BDDMockito.any(NewsContentDTO.class));
-    BDDMockito.verify(service, BDDMockito.times(1)).updateImage(BDDMockito.any(NewsImageDTO.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).updateImage(BDDMockito.nullable(NewsImageDTO.class));
     BDDMockito.verify(repository, BDDMockito.times(1)).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.verify(service, BDDMockito.times(1)).toDTO(BDDMockito.any(NewsEntry.class));
   }
@@ -464,7 +459,6 @@ public class NewsEntryServiceImplTest {
     NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().newsImage(image).id(1L).build();
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
-    BDDMockito.doReturn(null).when(service).updateContent(BDDMockito.any(NewsContentDTO.class));
     BDDMockito.doReturn(image).when(service).updateImage(BDDMockito.any(NewsImageDTO.class));
     BDDMockito.doReturn(entry).when(repository).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(newsEntry).when(service).toDTO(BDDMockito.any(NewsEntry.class));
@@ -476,10 +470,10 @@ public class NewsEntryServiceImplTest {
     Assert.assertNotNull(result.getNewsImage());
     Assert.assertEquals(image.getId(), result.getNewsImage().getId());
 
-    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsContentDTO.class),
+    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsEntryDTO.class),
         BDDMockito.any(NewsEntry.class));
-    BDDMockito.verify(service, BDDMockito.times(1)).updateContent(BDDMockito.any(NewsContentDTO.class));
-    BDDMockito.verify(service, BDDMockito.times(1)).updateImage(BDDMockito.any(NewsImageDTO.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).updateContent(BDDMockito.nullable(NewsContentDTO.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).updateImage(BDDMockito.nullable(NewsImageDTO.class));
     BDDMockito.verify(repository, BDDMockito.times(1)).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.verify(service, BDDMockito.times(1)).toDTO(BDDMockito.any(NewsEntry.class));
   }
@@ -505,7 +499,7 @@ public class NewsEntryServiceImplTest {
     Assert.assertNotNull(result.getNewsImage());
     Assert.assertEquals(image.getId(), result.getNewsImage().getId());
 
-    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsContentDTO.class),
+    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsEntryDTO.class),
         BDDMockito.any(NewsEntry.class));
     BDDMockito.verify(service, BDDMockito.times(1)).updateContent(BDDMockito.any(NewsContentDTO.class));
     BDDMockito.verify(service, BDDMockito.times(1)).updateImage(BDDMockito.any(NewsImageDTO.class));
@@ -519,8 +513,6 @@ public class NewsEntryServiceImplTest {
     NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().id(1L).build();
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
-    BDDMockito.doReturn(null).when(service).createContent(BDDMockito.any(NewsContentDTO.class));
-    BDDMockito.doReturn(null).when(service).createImage(BDDMockito.any(NewsImageDTO.class));
     BDDMockito.doReturn(entry).when(repository).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(newsEntry).when(service).toDTO(BDDMockito.any(NewsEntry.class));
 
@@ -530,10 +522,10 @@ public class NewsEntryServiceImplTest {
     Assert.assertNull(result.getNewsContent());
     Assert.assertNull(result.getNewsImage());
 
-    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsContentDTO.class),
+    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsEntryDTO.class),
         BDDMockito.any(NewsEntry.class));
-    BDDMockito.verify(service, BDDMockito.times(1)).createContent(BDDMockito.any(NewsContentDTO.class));
-    BDDMockito.verify(service, BDDMockito.times(1)).createImage(BDDMockito.any(NewsImageDTO.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).createContent(BDDMockito.nullable(NewsContentDTO.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).createImage(BDDMockito.nullable(NewsImageDTO.class));
     BDDMockito.verify(repository, BDDMockito.times(1)).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.verify(service, BDDMockito.times(1)).toDTO(BDDMockito.any(NewsEntry.class));
   }
@@ -558,7 +550,7 @@ public class NewsEntryServiceImplTest {
     Assert.assertNull(result.getNewsContent());
     Assert.assertNull(result.getNewsImage());
 
-    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsContentDTO.class),
+    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsEntryDTO.class),
         BDDMockito.any(NewsEntry.class));
     BDDMockito.verify(service, BDDMockito.times(1)).createContent(BDDMockito.any(NewsContentDTO.class));
     BDDMockito.verify(service, BDDMockito.times(1)).createImage(BDDMockito.any(NewsImageDTO.class));
@@ -575,7 +567,6 @@ public class NewsEntryServiceImplTest {
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(String.valueOf(1L)).when(service).createContent(BDDMockito.any(NewsContentDTO.class));
-    BDDMockito.doReturn("").when(service).createImage(BDDMockito.any(NewsImageDTO.class));
     BDDMockito.doReturn(entry).when(repository).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(returnEntry).when(service).toDTO(BDDMockito.any(NewsEntry.class));
 
@@ -585,10 +576,10 @@ public class NewsEntryServiceImplTest {
     Assert.assertNull(result.getNewsContent());
     Assert.assertNull(result.getNewsImage());
 
-    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsContentDTO.class),
+    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsEntryDTO.class),
         BDDMockito.any(NewsEntry.class));
     BDDMockito.verify(service, BDDMockito.times(1)).createContent(BDDMockito.any(NewsContentDTO.class));
-    BDDMockito.verify(service, BDDMockito.times(1)).createImage(BDDMockito.any(NewsImageDTO.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).createImage(BDDMockito.nullable(NewsImageDTO.class));
     BDDMockito.verify(repository, BDDMockito.times(1)).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.verify(service, BDDMockito.times(1)).toDTO(BDDMockito.any(NewsEntry.class));
   }
@@ -599,8 +590,6 @@ public class NewsEntryServiceImplTest {
     NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().id(1L).build();
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
-    BDDMockito.doReturn(String.valueOf(1L)).when(service).createContent(BDDMockito.any(NewsContentDTO.class));
-    BDDMockito.doReturn(String.valueOf(1L)).when(service).createImage(BDDMockito.any(NewsImageDTO.class));
     BDDMockito.doReturn(entry).when(repository).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(newsEntry).when(service).toDTO(BDDMockito.any(NewsEntry.class));
 
@@ -610,10 +599,10 @@ public class NewsEntryServiceImplTest {
     Assert.assertNull(result.getNewsContent());
     Assert.assertNull(result.getNewsImage());
 
-    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsContentDTO.class),
+    BDDMockito.verify(service, BDDMockito.times(1)).fillObject(BDDMockito.any(NewsEntryDTO.class),
         BDDMockito.any(NewsEntry.class));
-    BDDMockito.verify(service, BDDMockito.times(1)).createContent(BDDMockito.any(NewsContentDTO.class));
-    BDDMockito.verify(service, BDDMockito.times(1)).createImage(BDDMockito.any(NewsImageDTO.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).createContent(BDDMockito.nullable(NewsContentDTO.class));
+    BDDMockito.verify(service, BDDMockito.times(1)).createImage(BDDMockito.nullable(NewsImageDTO.class));
     BDDMockito.verify(repository, BDDMockito.times(1)).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.verify(service, BDDMockito.times(1)).toDTO(BDDMockito.any(NewsEntry.class));
   }
@@ -637,16 +626,15 @@ public class NewsEntryServiceImplTest {
     String extension = ".png";
     File testFile = new File(basePath + alt + extension);
 
-    BDDMockito.doReturn(testFile).when(imageService).saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString());
+    BDDMockito.given(imageService.saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString()))
+        .willReturn(testFile);
 
-    File result = service.saveToFileSystem(new NewsImageDTO(), "666");
+    File result = service.saveToFileSystem(new NewsImageDTOBuilder().base64Src("someBase64").build(), "666");
     Assert.assertEquals(testFile, result);
   }
 
   @Test
   public void testSaveToFileSystem_With_Exception_Should_Return_Null() throws Exception {
-    BDDMockito.doThrow(new BaseException("")).when(imageService)
-        .saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString());
 
     File result = service.saveToFileSystem(new NewsImageDTO(), "666");
     Assert.assertNull(result);
