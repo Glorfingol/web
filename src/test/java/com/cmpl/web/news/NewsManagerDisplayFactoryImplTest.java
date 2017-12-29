@@ -172,7 +172,6 @@ public class NewsManagerDisplayFactoryImplTest {
     String href = "/";
     String label = "label";
     String title = "title";
-    String decoratorBack = "decorator_back";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
     MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
     MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
@@ -241,32 +240,6 @@ public class NewsManagerDisplayFactoryImplTest {
     MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
-
-    String author = "author";
-    LocalDate date = LocalDate.now();
-    String tags = "tag;lol";
-    String content = "content";
-    String alt = "alt";
-
-    NewsContentDTO newsContent = new NewsContentDTOBuilder().content(content).id(1L).creationDate(date)
-        .modificationDate(date).build();
-
-    NewsImageDTO newsImage = new NewsImageDTOBuilder().alt(alt).id(1L).creationDate(date).modificationDate(date)
-        .build();
-
-    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().author(author).tags(tags).title(title).newsContent(newsContent)
-        .newsImage(newsImage).id(1L).creationDate(date).modificationDate(date).build();
-
-    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
-    String imageDisplaySrc = "http://cm-pl.com";
-
-    String labelPar = "par";
-    String labelLe = "le";
-    String labelAccroche = "accroche";
-    String labelShowHref = "/pages/actualites/666";
-
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
-        dateFormat, labelAccroche, labelShowHref);
 
     BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(tile).when(displayFactory)

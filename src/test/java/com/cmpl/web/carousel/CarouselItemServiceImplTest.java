@@ -74,8 +74,7 @@ public class CarouselItemServiceImplTest {
     MediaDTO media = new MediaDTOBuilder().id(123456789l).build();
     CarouselItemDTO dto = new CarouselItemDTOBuilder().media(media).build();
 
-    BDDMockito.doReturn(Lists.newArrayList(dto)).when(carouselItemService)
-        .toListDTO(BDDMockito.anyListOf(CarouselItem.class));
+    BDDMockito.doReturn(Lists.newArrayList(dto)).when(carouselItemService).toListDTO(BDDMockito.anyList());
     CarouselItem entity = new CarouselItemBuilder().build();
     BDDMockito.given(carouselItemRepository.findByCarouselIdOrderByOrderInCarousel(BDDMockito.anyString())).willReturn(
         Lists.newArrayList(entity));

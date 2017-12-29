@@ -623,7 +623,7 @@ public class NewsEntryRequestValidatorImplTest {
         .isContentValid(BDDMockito.eq(content), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(Lists.newArrayList()).when(validator)
         .isNewsImageValid(BDDMockito.eq(image), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyListOf(ErrorCause.class));
+    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Error result = validator.validateUpdate(request, id, Locale.FRANCE);
 
@@ -693,7 +693,7 @@ public class NewsEntryRequestValidatorImplTest {
         .isContentValid(BDDMockito.eq(content), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(Lists.newArrayList()).when(validator)
         .isNewsImageValid(BDDMockito.eq(image), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyListOf(ErrorCause.class));
+    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Error result = validator.validateCreate(request, Locale.FRANCE);
 

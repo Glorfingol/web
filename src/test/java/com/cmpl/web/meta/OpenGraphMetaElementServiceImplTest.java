@@ -49,8 +49,7 @@ public class OpenGraphMetaElementServiceImplTest {
 
     OpenGraphMetaElementDTO result = new OpenGraphMetaElementDTOBuilder().build();
 
-    BDDMockito.doReturn(Lists.newArrayList(result)).when(openGraphMetaElementService)
-        .toListDTO(BDDMockito.anyListOf(OpenGraphMetaElement.class));
+    BDDMockito.doReturn(Lists.newArrayList(result)).when(openGraphMetaElementService).toListDTO(BDDMockito.anyList());
     BDDMockito.given(openGraphMetaElementRepository.findByPageId(BDDMockito.anyString())).willReturn(
         Lists.newArrayList(new OpenGraphMetaElementBuilder().build()));
 

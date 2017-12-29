@@ -3,10 +3,10 @@ package com.cmpl.web.core.backup.writer;
 import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,6 +25,12 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
   private final DateTimeFormatter dateFormatter;
   private final DataManipulator<T> dataManipulator;
   private final String backupFilePath;
+
+  public CommonWriter() {
+    dateFormatter = null;
+    dataManipulator = null;
+    backupFilePath = null;
+  }
 
   public CommonWriter(DateTimeFormatter dateFormatter, DataManipulator<T> dataManipulator, String backupFilePath) {
     this.dateFormatter = dateFormatter;
@@ -66,7 +72,7 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
 
   }
 
-  private String parseObjectValueToString(Field field, T entityToWrite) {
+  protected String parseObjectValueToString(Field field, T entityToWrite) {
     String result = "";
     if (!field.isAccessible()) {
       field.setAccessible(true);
@@ -76,9 +82,11 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
       if (List.class.isAssignableFrom(field.getType())) {
         return parseListString(field, entityToWrite);
       }
+
       if (Locale.class.equals(field.getType())) {
         return parseLocale(field, entityToWrite);
       }
+
       if (Date.class.equals(field.getType())) {
         return parseDate(field, entityToWrite);
       }
@@ -100,35 +108,38 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
     return result;
   }
 
-  private String parseDate(Field field, T entityToWrite) throws Exception {
+  protected String parseDate(Field field, T entityToWrite) throws Exception {
     Date dateToParse = (Date) field.get(entityToWrite);
     return dateFormatter.format(dateToParse.toInstant());
 
   }
 
-  private String parseLocalDate(Field field, T entityToWrite) throws Exception {
+  protected String parseLocalDate(Field field, T entityToWrite) throws Exception {
     LocalDate localDateToParse = (LocalDate) field.get(entityToWrite);
     return dateFormatter.format(localDateToParse);
 
   }
 
-  private String parseLocale(Field field, T entityToWrite) throws Exception {
+  protected String parseLocale(Field field, T entityToWrite) throws Exception {
     return ((Locale) field.get(entityToWrite)).getLanguage();
   }
 
-  private String parseListString(Field field, T entityToWrite) throws Exception {
+  protected String parseListString(Field field, T entityToWrite) throws Exception {
+    if (field.get(entityToWrite) == null) {
+      return "";
+    }
     return String.join(";", (List<String>) field.get(entityToWrite));
   }
 
-  private String parseObject(Field field, T entityToWrite) throws Exception {
+  protected String parseObject(Field field, T entityToWrite) throws Exception {
     String result = String.valueOf(field.get(entityToWrite));
-    if (!StringUtils.hasText(result)) {
+    if (!StringUtils.hasText(result) || "null".equals(result)) {
       result = "";
     }
     return result;
   }
 
-  private String parseByteArray(Field field, T entityToWrite) throws Exception {
+  protected String parseByteArray(Field field, T entityToWrite) throws Exception {
     byte[] bytes = (byte[]) field.get(entityToWrite);
     if (bytes == null) {
       return "";
@@ -144,7 +155,10 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
       if (!field.isAccessible()) {
         field.setAccessible(true);
       }
-      fileHeader.add(field.getName());
+      if (!field.isSynthetic()) {
+        fileHeader.add(field.getName());
+      }
+
     });
     return fileHeader;
   }

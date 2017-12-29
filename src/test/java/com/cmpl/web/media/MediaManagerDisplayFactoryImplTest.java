@@ -42,7 +42,6 @@ public class MediaManagerDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForViewAllMedias() throws Exception {
 
-    ModelAndView model = new ModelAndView();
     PageWrapper<MediaDTO> wrapper = new PageWrapper<>();
     BDDMockito.doReturn(wrapper).when(displayFactory)
         .computePageWrapper(BDDMockito.any(Locale.class), BDDMockito.anyInt());

@@ -49,7 +49,7 @@ public class MenuServiceImplTest {
     MenuDTO dto = new MenuDTOBuilder().id(123456789l).build();
 
     BDDMockito.doReturn(dto).when(menuService).toDTO(BDDMockito.any(Menu.class));
-    BDDMockito.doReturn(Lists.newArrayList(dto)).when(menuService).computeMenus(BDDMockito.anyListOf(Menu.class));
+    BDDMockito.doReturn(Lists.newArrayList(dto)).when(menuService).computeMenus(BDDMockito.anyList());
 
     Menu entity = new MenuBuilder().build();
     BDDMockito.given(menuRepository.findByParentId(BDDMockito.anyString())).willReturn(Lists.newArrayList(entity));
@@ -70,10 +70,10 @@ public class MenuServiceImplTest {
   @Test
   public void testToListDTO() throws Exception {
     MenuDTO menuToAdd = new MenuDTOBuilder().build();
-    BDDMockito.doReturn(Lists.newArrayList(menuToAdd)).when(menuService).computeMenus(BDDMockito.anyListOf(Menu.class));
+    BDDMockito.doReturn(Lists.newArrayList(menuToAdd)).when(menuService).computeMenus(BDDMockito.anyList());
 
     Assert.assertEquals(menuToAdd, menuService.toListDTO(Lists.newArrayList(new MenuBuilder().build())).get(0));
-    BDDMockito.verify(menuService, BDDMockito.times(1)).computeMenus(BDDMockito.anyListOf(Menu.class));
+    BDDMockito.verify(menuService, BDDMockito.times(1)).computeMenus(BDDMockito.anyList());
   }
 
   @Test
@@ -82,8 +82,7 @@ public class MenuServiceImplTest {
 
     Menu menuToFind = new MenuBuilder().build();
     BDDMockito.given(menuRepository.findAll(BDDMockito.any(Sort.class))).willReturn(Lists.newArrayList(menuToFind));
-    BDDMockito.doReturn(Lists.newArrayList(menuDTOToFind)).when(menuService)
-        .toListDTO(BDDMockito.anyListOf(Menu.class));
+    BDDMockito.doReturn(Lists.newArrayList(menuDTOToFind)).when(menuService).toListDTO(BDDMockito.anyList());
 
     Assert.assertEquals(menuDTOToFind, menuService.getMenus().get(0));
   }

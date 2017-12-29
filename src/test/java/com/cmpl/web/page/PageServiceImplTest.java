@@ -141,7 +141,7 @@ public class PageServiceImplTest {
     Page page = new PageBuilder().build();
 
     BDDMockito.given(pageRepository.findAll(BDDMockito.any(Sort.class))).willReturn(Lists.newArrayList(page));
-    BDDMockito.doReturn(Lists.newArrayList(result)).when(pageService).toListDTO(BDDMockito.anyListOf(Page.class));
+    BDDMockito.doReturn(Lists.newArrayList(result)).when(pageService).toListDTO(BDDMockito.anyList());
 
     Assert.assertEquals(result, pageService.getPages().get(0));
 

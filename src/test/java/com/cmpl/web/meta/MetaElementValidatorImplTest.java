@@ -40,7 +40,7 @@ public class MetaElementValidatorImplTest {
         .build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
-    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyListOf(ErrorCause.class));
+    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.anyString());
 
     Assert.assertEquals(error, validator.validateDelete("123456789", Locale.FRANCE));
@@ -69,7 +69,7 @@ public class MetaElementValidatorImplTest {
     Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
-    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyListOf(ErrorCause.class));
+    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Assert.assertEquals(error,
         validator.validateCreate(form.getPageId(), form.getName(), form.getContent(), Locale.FRANCE));
@@ -88,7 +88,7 @@ public class MetaElementValidatorImplTest {
     Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
-    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyListOf(ErrorCause.class));
+    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Assert.assertEquals(error,
         validator.validateCreate(form.getPageId(), form.getName(), form.getContent(), Locale.FRANCE));
@@ -107,7 +107,7 @@ public class MetaElementValidatorImplTest {
     Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
-    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyListOf(ErrorCause.class));
+    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Assert.assertEquals(error,
         validator.validateCreate(form.getPageId(), form.getName(), form.getContent(), Locale.FRANCE));
@@ -128,7 +128,7 @@ public class MetaElementValidatorImplTest {
     Error error = new ErrorBuilder().causes(Lists.newArrayList(cause, causeTitle)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
-    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyListOf(ErrorCause.class));
+    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Assert.assertEquals(error,
         validator.validateCreate(form.getPageId(), form.getName(), form.getContent(), Locale.FRANCE));

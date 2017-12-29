@@ -44,9 +44,8 @@ public class FacebookDispatcherImplTest {
 
     BDDMockito.doReturn(posts).when(facebookImportTranslator).fromRequestToPosts(BDDMockito.eq(facebookImportRequest));
     BDDMockito.doReturn(Lists.newArrayList(newsEntry)).when(facebookImportService)
-        .importFacebookPost(BDDMockito.anyListOf(FacebookImportPost.class), BDDMockito.any(Locale.class));
-    BDDMockito.doReturn(response).when(facebookImportTranslator)
-        .fromDTOToResponse(BDDMockito.anyListOf(NewsEntryDTO.class));
+        .importFacebookPost(BDDMockito.anyList(), BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(response).when(facebookImportTranslator).fromDTOToResponse(BDDMockito.anyList());
 
     FacebookImportResponse result = facebookDispatcher.createEntity(facebookImportRequest, Locale.FRANCE);
 
@@ -54,9 +53,8 @@ public class FacebookDispatcherImplTest {
 
     BDDMockito.verify(facebookImportTranslator, BDDMockito.times(1)).fromRequestToPosts(
         BDDMockito.eq(facebookImportRequest));
-    BDDMockito.verify(facebookImportTranslator, BDDMockito.times(1)).fromDTOToResponse(
-        BDDMockito.anyListOf(NewsEntryDTO.class));
-    BDDMockito.verify(facebookImportService, BDDMockito.times(1)).importFacebookPost(
-        BDDMockito.anyListOf(FacebookImportPost.class), BDDMockito.any(Locale.class));
+    BDDMockito.verify(facebookImportTranslator, BDDMockito.times(1)).fromDTOToResponse(BDDMockito.anyList());
+    BDDMockito.verify(facebookImportService, BDDMockito.times(1)).importFacebookPost(BDDMockito.anyList(),
+        BDDMockito.any(Locale.class));
   }
 }

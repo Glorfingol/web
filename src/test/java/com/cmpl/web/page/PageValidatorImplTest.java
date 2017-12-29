@@ -46,7 +46,7 @@ public class PageValidatorImplTest {
         .build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
-    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyListOf(ErrorCause.class));
+    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(someName));
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(someMenuTitle));
 
@@ -62,7 +62,7 @@ public class PageValidatorImplTest {
         .build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
-    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyListOf(ErrorCause.class));
+    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(someName));
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(someMenuTitle));
 
@@ -78,7 +78,7 @@ public class PageValidatorImplTest {
         .build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
-    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyListOf(ErrorCause.class));
+    BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(someName));
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(someMenuTitle));
 

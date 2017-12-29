@@ -1,5 +1,6 @@
 package com.cmpl.web.backup;
 
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class BackupExportConfiguration {
   @Value("${mediaFilePath}")
   String mediaFilePath;
 
-  DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+  DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault());;
 
   @Bean
   public ArchiveManager archiveManager(Drive driveService) {

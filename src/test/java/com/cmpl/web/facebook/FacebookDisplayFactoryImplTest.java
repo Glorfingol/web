@@ -76,7 +76,6 @@ public class FacebookDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForFacebookAccessPage_Not_Connected() throws Exception {
-    ModelAndView model = new ModelAndView("facebook_access");
 
     String tile = "login";
     String href = "/";
@@ -109,8 +108,6 @@ public class FacebookDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForFacebookAccessPage_Connected() throws Exception {
-
-    ModelAndView model = new ModelAndView("facebook_access");
 
     String tile = "login";
     String href = "/";
@@ -147,7 +144,6 @@ public class FacebookDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForFacebookImportPage_Not_Connected() throws Exception {
-    ModelAndView model = new ModelAndView("facebook_access");
 
     String tile = "login";
     String href = "/";
@@ -179,8 +175,6 @@ public class FacebookDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForFacebookImportPage_Connected() throws Exception {
-
-    ModelAndView model = new ModelAndView("facebook_access");
 
     String tile = "login";
     String href = "/";

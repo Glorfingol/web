@@ -49,8 +49,7 @@ public class MetaElementServiceImplTest {
 
     MetaElementDTO result = new MetaElementDTOBuilder().build();
 
-    BDDMockito.doReturn(Lists.newArrayList(result)).when(metaElementService)
-        .toListDTO(BDDMockito.anyListOf(MetaElement.class));
+    BDDMockito.doReturn(Lists.newArrayList(result)).when(metaElementService).toListDTO(BDDMockito.anyList());
     BDDMockito.given(metaElementRepository.findByPageId(BDDMockito.anyString())).willReturn(
         Lists.newArrayList(new MetaElementBuilder().build()));
 

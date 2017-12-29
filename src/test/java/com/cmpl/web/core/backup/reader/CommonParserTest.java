@@ -1,6 +1,7 @@
 package com.cmpl.web.core.backup.reader;
 
 import java.lang.reflect.Field;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +35,8 @@ public class CommonParserTest {
 
   @Before
   public void setUp() {
-    dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault());
+    ;
     backupFilePath = "test";
     parser = new PageCSVParser(dateFormatter, dataManipulator, backupFilePath);
   }
