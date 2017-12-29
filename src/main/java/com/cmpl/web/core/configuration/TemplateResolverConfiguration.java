@@ -23,7 +23,7 @@ public class TemplateResolverConfiguration {
     FileTemplateResolver resolver = new FileTemplateResolver();
     resolver.setPrefix(contextHolder.getTemplateBasePath());
     resolver.setSuffix(".html");
-    resolver.setTemplateMode("HTML5");
+    resolver.setTemplateMode("HTML");
     resolver.setOrder(templateEngine.getTemplateResolvers().size());
     resolver.setCacheable(false);
     resolver.setCheckExistence(true);

@@ -122,6 +122,11 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
         
+        <dependency>
+		    <groupId>com.googlecode.json-simple</groupId>
+		    <artifactId>json-simple</artifactId>
+		</dependency>
+        
     </dependencies>
   
   
