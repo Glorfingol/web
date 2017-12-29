@@ -41,8 +41,22 @@ public class FacebookConfiguration {
   String facebookConfigurationFile;
 
   @Bean
-  String facebookConfigurationFile() {
-    return facebookConfigurationFile;
+  FacebookProperties facebookProperties() {
+    FacebookProperties properties = new FacebookProperties();
+    JSONParser parser = new JSONParser();
+    Object obj;
+    try {
+      obj = parser.parse(new FileReader(facebookConfigurationFile));
+      JSONObject jsonObject = (JSONObject) obj;
+      String appId = (String) jsonObject.get("appId");
+      String appSecret = (String) jsonObject.get("appSecret");
+
+      properties.setAppId(appId);
+      properties.setAppSecret(appSecret);
+    } catch (Exception e) {
+      LOGGER.error("Impossible d'initialiser Facebook Connect ", e);
+    }
+    return properties;
   }
 
   @Bean
@@ -79,10 +93,10 @@ public class FacebookConfiguration {
   @EnableConfigurationProperties(FacebookProperties.class)
   protected static class FacebookConfigurerAdapter extends SocialAutoConfigurerAdapter {
 
-    private final String facebookConfigurationFile;
+    private final FacebookProperties facebookProperties;
 
-    protected FacebookConfigurerAdapter(String facebookConfigurationFile) {
-      this.facebookConfigurationFile = facebookConfigurationFile;
+    protected FacebookConfigurerAdapter(FacebookProperties facebookProperties) {
+      this.facebookProperties = facebookProperties;
     }
 
     @Bean
@@ -101,18 +115,7 @@ public class FacebookConfiguration {
 
     @Override
     protected ConnectionFactory<?> createConnectionFactory() {
-      JSONParser parser = new JSONParser();
-      Object obj;
-      try {
-        obj = parser.parse(new FileReader(facebookConfigurationFile));
-        JSONObject jsonObject = (JSONObject) obj;
-        String appId = (String) jsonObject.get("appId");
-        String appSecret = (String) jsonObject.get("appSecret");
-        return new FacebookConnectionFactory(appId, appSecret);
-      } catch (Exception e) {
-        LOGGER.error("Impossible d'initialiser Facebook Connect ", e);
-      }
-      return null;
+      return new FacebookConnectionFactory(facebookProperties.getAppId(), facebookProperties.getAppSecret());
 
     }
 

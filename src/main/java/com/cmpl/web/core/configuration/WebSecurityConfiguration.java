@@ -21,6 +21,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.cmpl.web.core.model.BackUser;
+import com.cmpl.web.core.model.BackUserBuilder;
 import com.cmpl.web.core.model.BaseException;
 
 /**
@@ -43,8 +45,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     String[] authorizedUrls = prepareAuthorizedUrls();
     http.authorizeRequests().antMatchers(authorizedUrls).permitAll().anyRequest().authenticated().and().formLogin()
-        .loginPage("/login").permitAll().and().logout().permitAll().and().csrf().ignoringAntMatchers("/h2console/**")
-        .and().headers().frameOptions().sameOrigin();
+        .loginPage("/login").permitAll().and().logout().permitAll();
 
   }
 
@@ -59,13 +60,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     PasswordEncoder encoder = passwordEncoder();
 
     try {
-      JSONParser parser = new JSONParser();
-      Object obj = parser.parse(new FileReader(backUserJson));
-      JSONObject jsonObject = (JSONObject) obj;
-      String user = (String) jsonObject.get("user");
-      String password = (String) jsonObject.get("password");
-      auth.inMemoryAuthentication().passwordEncoder(encoder).withUser(user).password(encoder.encode(password))
-          .roles("USER");
+      BackUser backUser = computeBackUser();
+      auth.inMemoryAuthentication().passwordEncoder(encoder).withUser(backUser.getLogin())
+          .password(encoder.encode(backUser.getPassword())).roles("USER");
     } catch (Exception e) {
       LOGGER.error("Erreur lors de la configuration de la sécurité", e);
       throw new BaseException(e.getMessage());
@@ -93,4 +90,21 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
       throw new RuntimeException("Can't find the SHA1PRNG algorithm for generating random numbers", e);
     }
   }
+
+  BackUser computeBackUser() throws BaseException {
+    BackUserBuilder backUserBuilder = new BackUserBuilder();
+    try {
+      JSONParser parser = new JSONParser();
+      Object obj = parser.parse(new FileReader(backUserJson));
+      JSONObject jsonObject = (JSONObject) obj;
+      String user = (String) jsonObject.get("user");
+      String password = (String) jsonObject.get("password");
+      backUserBuilder.login(user).password(password);
+    } catch (Exception e) {
+      LOGGER.error("Erreur lors de la configuration de la sécurité", e);
+      throw new BaseException(e.getMessage());
+    }
+    return backUserBuilder.build();
+  }
+
 }
