@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.model.PageWrapper;
+import com.cmpl.web.file.FileService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.page.BACK_PAGE;
@@ -27,14 +28,19 @@ import com.cmpl.web.page.BACK_PAGE;
 public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDisplayBean> implements
     NewsManagerDisplayFactory {
 
+  private static final String NEWS_TEMPLATE_FILE_NAME = "news_entry.html";
+  private static final String RESOURCE_NEWS_TEMPLATE_FILE_NAME = "templates/pages/actualites/news_entry.html";
+
   private final NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
+  private final FileService fileService;
 
   public NewsManagerDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSource messageSource, NewsEntryService newsEntryService) {
+      WebMessageSource messageSource, NewsEntryService newsEntryService, FileService fileService) {
     super(menuFactory, messageSource);
     this.newsEntryService = newsEntryService;
     this.contextHolder = contextHolder;
+    this.fileService = fileService;
   }
 
   @Override
@@ -149,8 +155,19 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
+  public ModelAndView computeModelAndViewForNewsTemplate(Locale locale) {
+    ModelAndView newsTemplateManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_TEMPLATE, locale);
+    String templateBody = fileService.readFileContentFromSystem(NEWS_TEMPLATE_FILE_NAME);
+    if (templateBody == null) {
+      templateBody = fileService.readDefaultTemplateContent(RESOURCE_NEWS_TEMPLATE_FILE_NAME);
+    }
+    NewsTemplate template = new NewsTemplateBuilder().body(templateBody).build();
+    newsTemplateManager.addObject("newsTemplate", template);
+    return newsTemplateManager;
+  }
+
+  @Override
   protected String getBaseUrl() {
     return "/manager/news";
   }
-
 }

@@ -43,4 +43,6 @@ public interface NewsEntryDispatcher {
    */
   void deleteEntity(String newsEntryId, Locale locale) throws BaseException;
 
+  void saveNewsTemplate(String content) throws BaseException;
+
 }

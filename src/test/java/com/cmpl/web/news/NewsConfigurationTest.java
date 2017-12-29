@@ -8,6 +8,7 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.context.ContextHolder;
+import com.cmpl.web.file.FileService;
 import com.cmpl.web.file.ImageConverterService;
 import com.cmpl.web.file.ImageService;
 import com.cmpl.web.menu.MenuFactory;
@@ -59,13 +60,17 @@ public class NewsConfigurationTest {
   @Mock
   private ImageService imageService;
 
+  @Mock
+  private FileService fileService;
+
   @Spy
   private NewsConfiguration configuration;
 
   @Test
   public void testNewsEntryDispatcher() throws Exception {
 
-    NewsEntryDispatcher result = configuration.newsEntryDispatcher(validator, translator, newsEntryService);
+    NewsEntryDispatcher result = configuration
+        .newsEntryDispatcher(validator, translator, newsEntryService, fileService);
 
     Assert.assertEquals(NewsEntryDispatcherImpl.class, result.getClass());
   }
@@ -88,7 +93,7 @@ public class NewsConfigurationTest {
   @Test
   public void testNewsManagerDisplayFactory() throws Exception {
     NewsManagerDisplayFactory result = configuration.newsManagerDisplayFactory(contextHolder, menuFactory,
-        messageSource, newsEntryService);
+        messageSource, newsEntryService, fileService);
 
     Assert.assertEquals(NewsManagerDisplayFactoryImpl.class, result.getClass());
   }

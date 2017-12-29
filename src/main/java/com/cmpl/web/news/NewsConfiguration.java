@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.cmpl.web.core.context.ContextHolder;
+import com.cmpl.web.file.FileService;
 import com.cmpl.web.file.ImageConverterService;
 import com.cmpl.web.file.ImageService;
 import com.cmpl.web.menu.MenuFactory;
@@ -14,14 +15,14 @@ public class NewsConfiguration {
 
   @Bean
   NewsEntryDispatcher newsEntryDispatcher(NewsEntryRequestValidator validator, NewsEntryTranslator translator,
-      NewsEntryService newsEntryService) {
-    return new NewsEntryDispatcherImpl(validator, translator, newsEntryService);
+      NewsEntryService newsEntryService, FileService fileService) {
+    return new NewsEntryDispatcherImpl(validator, translator, newsEntryService, fileService);
   }
 
   @Bean
   NewsManagerDisplayFactory newsManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSource messageSource, NewsEntryService newsEntryService) {
-    return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, messageSource, newsEntryService);
+      WebMessageSource messageSource, NewsEntryService newsEntryService, FileService fileService) {
+    return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, messageSource, newsEntryService, fileService);
   }
 
   @Bean

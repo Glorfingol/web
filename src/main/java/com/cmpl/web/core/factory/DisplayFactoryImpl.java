@@ -17,6 +17,7 @@ import com.cmpl.web.carousel.CarouselService;
 import com.cmpl.web.core.builder.PageWrapperBuilder;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.model.PageWrapper;
+import com.cmpl.web.file.FileService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.menu.MenuItem;
 import com.cmpl.web.message.WebMessageSource;
@@ -40,15 +41,17 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   private final PageService pageService;
   private final NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
+  private final FileService fileService;
 
   public DisplayFactoryImpl(MenuFactory menuFactory, CarouselService carouselService, WebMessageSource messageSource,
-      PageService pageService, NewsEntryService newsEntryService, ContextHolder contextHolder) {
+      PageService pageService, NewsEntryService newsEntryService, ContextHolder contextHolder, FileService fileService) {
     super(messageSource);
     this.menuFactory = menuFactory;
     this.carouselService = carouselService;
     this.pageService = pageService;
     this.contextHolder = contextHolder;
     this.newsEntryService = newsEntryService;
+    this.fileService = fileService;
   }
 
   @Override
@@ -75,6 +78,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     List<CarouselDTO> carousels = computeCarouselsForPage(page);
     carousels.forEach(carousel -> model.addObject("carousel_" + carousel.getName(), carousel));
     if (page.isWithNews()) {
+      LOGGER.info("Construction du template pour les entrées de blog pour la page   " + pageName);
+      model.addObject("news_entry", computeNewsTemplate());
       LOGGER.info("Construction des entrées de blog pour la page " + pageName);
       PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = computePageWrapperOfNews(page, locale, pageNumber);
       model.addObject("wrappedNews", pagedNewsWrapped);
@@ -96,6 +101,13 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
   String computePageHeader(PageDTO page) {
     return page.getName() + "_header";
+  }
+
+  String computeNewsTemplate() {
+    if (!doesTemplateExist("news_entry.html")) {
+      return "pages/actualites/news_entry";
+    }
+    return "news_entry";
   }
 
   String computePageFooter(PageDTO page) {
@@ -148,6 +160,10 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
         contextHolder.getDateFormat(), labelAccroche, "/pages/" + page.getName() + "/" + newsEntryDTO.getId());
+  }
+
+  private boolean doesTemplateExist(String templateName) {
+    return fileService.readFileContentFromSystem(templateName) != null;
   }
 
 }

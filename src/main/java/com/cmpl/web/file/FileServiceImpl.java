@@ -1,6 +1,7 @@
 package com.cmpl.web.file;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -62,5 +63,17 @@ public class FileServiceImpl implements FileService {
     } catch (Exception e) {
       return new ByteArrayInputStream(new byte[]{});
     }
+  }
+
+  @Override
+  public String readDefaultTemplateContent(String templateName) {
+    try {
+      ClassLoader classLoader = getClass().getClassLoader();
+      File file = new File(classLoader.getResource(templateName).getFile());
+      return new String(Files.readAllBytes(file.toPath()));
+    } catch (IOException e) {
+      LOGGER.error("Impossible de lire le contenu du fichier " + templateName, e);
+    }
+    return null;
   }
 }

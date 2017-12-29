@@ -21,6 +21,7 @@ import com.cmpl.web.carousel.CarouselDTO;
 import com.cmpl.web.carousel.CarouselService;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.model.PageWrapper;
+import com.cmpl.web.file.FileService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.menu.MenuItem;
 import com.cmpl.web.news.NewsEntryDTO;
@@ -42,6 +43,8 @@ public class DisplayFactoryImplTest {
   private NewsEntryService newsEntryService;
   @Mock
   private ContextHolder contextHolder;
+  @Mock
+  private FileService fileService;
 
   @Spy
   @InjectMocks

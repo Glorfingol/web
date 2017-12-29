@@ -14,6 +14,7 @@ public enum BACK_PAGE {
   NEWS_VIEW("news.view", BACK_MENU.BACK_NEWS.getTitle()),
   NEWS_CREATE("news.create", BACK_MENU.BACK_NEWS.getTitle()),
   NEWS_UPDATE("news.update", BACK_MENU.BACK_NEWS.getTitle()),
+  NEWS_TEMPLATE("news.template", BACK_MENU.BACK_NEWS.getTitle()),
   FACEBOOK_ACCESS("facebook.access.tile", "facebook.access.title"),
   FACEBOOK_IMPORT("facebook.import.tile", "facebook.access.title"),
   MENUS_VIEW("menus.view", BACK_MENU.BACK_MENUS.getTitle()),

@@ -1,0 +1,24 @@
+<div class="card card-block">
+    <form id="templateEditForm" th:object="${newsTemplate}">
+        <div class="form-control mb-3" id="formInputBody">
+            <label th:text="#{news.template.body.label}" />
+            <textarea rows="3" id="templateBody" class="form-control" th:field="*{body}"/>
+            <div id="feedbackBody" class="form-control-label"></div>
+            <small class="form-text text-muted" th:text="#{news.template.body.help}"/>
+        </div>
+        <div class="float-right">
+          <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdateNewsTemplate()"></a>
+          <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postUpdateNewsTemplateForm()"></a>
+        </div>
+    </form>
+ </div>
+<div class="card">
+    <div class="loader"/> 
+</div>
+<script th:inline="javascript">
+CKEDITOR.config.startupMode = 'source';
+$(document).ready(function(){
+    CKEDITOR.replace("templateBody");
+});
+
+</script>

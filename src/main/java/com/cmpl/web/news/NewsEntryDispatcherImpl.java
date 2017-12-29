@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import com.cmpl.web.core.model.BaseException;
 import com.cmpl.web.core.model.Error;
+import com.cmpl.web.file.FileService;
 
 /**
  * Implementation du dispatcher pour les NewsEntry
@@ -16,12 +17,16 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   private final NewsEntryRequestValidator validator;
   private final NewsEntryTranslator translator;
   private final NewsEntryService newsEntryService;
+  private final FileService fileService;
+
+  private static final String NEWS_TEMPLATE_FILE_NAME = "news_entry.html";
 
   public NewsEntryDispatcherImpl(NewsEntryRequestValidator validator, NewsEntryTranslator translator,
-      NewsEntryService newsEntryService) {
+      NewsEntryService newsEntryService, FileService fileService) {
     this.validator = validator;
     this.translator = translator;
     this.newsEntryService = newsEntryService;
+    this.fileService = fileService;
   }
 
   @Override
@@ -68,6 +73,11 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
       throw new BaseException(error.getCauses().get(0).getMessage());
     }
     newsEntryService.deleteEntity(Long.parseLong(newsEntryId));
+  }
+
+  @Override
+  public void saveNewsTemplate(String content) throws BaseException {
+    fileService.saveFileOnSystem(NEWS_TEMPLATE_FILE_NAME, content);
   }
 
 }

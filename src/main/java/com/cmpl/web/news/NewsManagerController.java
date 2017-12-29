@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.model.BaseException;
 import com.cmpl.web.page.BACK_PAGE;
 
 /**
@@ -146,4 +147,23 @@ public class NewsManagerController {
     return pageNumber.intValue();
 
   }
+
+  @GetMapping(value = "/manager/news/template")
+  public ModelAndView getNewsTemplate() {
+    LOGGER.info("Récupération du template des news");
+    return newsManagerDisplayFactory.computeModelAndViewForNewsTemplate(Locale.FRANCE);
+  }
+
+  @PutMapping(value = "/manager/news/template")
+  public ResponseEntity<NewsEntryResponse> saveNewsTemplate(@RequestBody NewsTemplateForm form) {
+    LOGGER.info("Enregistrement du template des news");
+    try {
+      dispatcher.saveNewsTemplate(form.getBody());
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch (BaseException e) {
+      LOGGER.error("Impossible d'enregistrer le template des news", e);
+      return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+  }
+
 }
