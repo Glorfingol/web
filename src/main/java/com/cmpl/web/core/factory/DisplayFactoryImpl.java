@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +35,7 @@ import com.cmpl.web.page.PageService;
  * @author Louis
  *
  */
+@CacheConfig(cacheNames = {"modelPage"})
 public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements DisplayFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(DisplayFactoryImpl.class);
@@ -44,7 +47,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   private final FileService fileService;
 
   public DisplayFactoryImpl(MenuFactory menuFactory, CarouselService carouselService, WebMessageSource messageSource,
-      PageService pageService, NewsEntryService newsEntryService, ContextHolder contextHolder, FileService fileService) {
+      PageService pageService, NewsEntryService newsEntryService, ContextHolder contextHolder,
+      FileService fileService) {
     super(messageSource);
     this.menuFactory = menuFactory;
     this.carouselService = carouselService;
@@ -55,6 +59,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   }
 
   @Override
+  @Cacheable(sync = true)
   public ModelAndView computeModelAndViewForPage(String pageName, Locale locale, int pageNumber) {
     LOGGER.info("Construction de la page  " + pageName);
 
@@ -140,8 +145,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
       return new PageImpl<>(newsEntries);
     }
 
-    pagedNewsEntries.getContent().forEach(
-        newsEntry -> newsEntries.add(computeNewsEntryDisplayBean(page, locale, newsEntry)));
+    pagedNewsEntries.getContent()
+        .forEach(newsEntry -> newsEntries.add(computeNewsEntryDisplayBean(page, locale, newsEntry)));
 
     return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
   }

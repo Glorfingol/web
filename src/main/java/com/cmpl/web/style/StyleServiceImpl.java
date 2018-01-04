@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -36,6 +37,7 @@ public class StyleServiceImpl extends BaseServiceImpl<StyleDTO, Style> implement
   }
 
   @Override
+  @CacheEvict(cacheNames = {"modelPage"})
   public StyleDTO updateEntity(StyleDTO dto) {
 
     String content = dto.getContent();
@@ -46,8 +48,8 @@ public class StyleServiceImpl extends BaseServiceImpl<StyleDTO, Style> implement
   }
 
   @Override
+  @CacheEvict(cacheNames = {"modelPage"})
   public StyleDTO createEntity(StyleDTO dto) {
-
     mediaService.createEntity(dto.getMedia());
     String content = dto.getContent();
     fileService.saveMediaOnSystem(dto.getMedia().getName(), content.getBytes());
@@ -75,8 +77,8 @@ public class StyleServiceImpl extends BaseServiceImpl<StyleDTO, Style> implement
   }
 
   String readMediaContent(MediaDTO media) {
-    return new BufferedReader(new InputStreamReader(fileService.read(media.getName()))).lines().collect(
-        Collectors.joining("\n"));
+    return new BufferedReader(new InputStreamReader(fileService.read(media.getName()))).lines()
+        .collect(Collectors.joining("\n"));
   }
 
   @Override

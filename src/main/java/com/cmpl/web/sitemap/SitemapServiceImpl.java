@@ -14,6 +14,7 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 
@@ -32,6 +33,7 @@ import com.redfin.sitemapgenerator.WebSitemapUrl;
  * @author Louis
  *
  */
+@CacheConfig(cacheNames = {"sitemap"})
 public class SitemapServiceImpl implements SitemapService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SitemapServiceImpl.class);

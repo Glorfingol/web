@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +12,7 @@ import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.service.BaseServiceImpl;
 import com.cmpl.web.file.FileService;
 
+@CacheConfig(cacheNames = {"modelPage"})
 public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implements MediaService {
 
   private final ContextHolder contextHolder;

@@ -2,6 +2,8 @@ package com.cmpl.web.meta;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheConfig;
+
 import com.cmpl.web.core.service.BaseServiceImpl;
 
 /**
@@ -10,6 +12,7 @@ import com.cmpl.web.core.service.BaseServiceImpl;
  * @author Louis
  *
  */
+@CacheConfig(cacheNames = {"modelPage"})
 public class MetaElementServiceImpl extends BaseServiceImpl<MetaElementDTO, MetaElement> implements MetaElementService {
 
   private final MetaElementRepository metaElementRepository;

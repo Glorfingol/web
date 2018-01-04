@@ -13,3 +13,6 @@ spring:
 # HTTP Server
 server:
   port: 3232  # HTTP (Tomcat) port
+  
+backup:
+  enabled:true

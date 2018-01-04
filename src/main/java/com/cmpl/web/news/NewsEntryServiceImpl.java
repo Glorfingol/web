@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,7 @@ import com.cmpl.web.file.ImageService;
  * @author Louis
  *
  */
+@CacheConfig(cacheNames = {"modelPage"})
 public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntry> implements NewsEntryService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(NewsEntryServiceImpl.class);
@@ -46,6 +49,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
   @Override
   @Transactional
+  @CacheEvict
   public NewsEntryDTO createEntity(NewsEntryDTO dto) {
 
     LOGGER.info("Creation d'une nouvelle entrée de blog");
@@ -96,6 +100,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
   @Override
   @Transactional
+  @CacheEvict
   public NewsEntryDTO updateEntity(NewsEntryDTO dto) {
 
     LOGGER.info("Mise à jour d'une entrée de blog d'id " + dto.getId());

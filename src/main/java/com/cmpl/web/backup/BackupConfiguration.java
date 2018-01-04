@@ -10,6 +10,7 @@ import org.quartz.Trigger;
 import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +44,7 @@ import com.cmpl.web.style.StyleRepository;
 
 @Configuration
 @PropertySource("classpath:/backup/backup.properties")
+@ConditionalOnProperty(name = "backup.enabled", value = "true")
 public class BackupConfiguration {
 
   @Bean
@@ -109,8 +111,8 @@ public class BackupConfiguration {
   }
 
   @Bean
-  public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource, JobFactory jobFactory,
-      List<Trigger> triggers, @Value("${web.scheduler.name}") String schedulerName) throws IOException {
+  public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource, JobFactory jobFactory, List<Trigger> triggers,
+      @Value("${web.scheduler.name}") String schedulerName) throws IOException {
     SchedulerFactoryBean factory = new SchedulerFactoryBean();
     factory.setSchedulerName(schedulerName);
     factory.setOverwriteExistingJobs(true);

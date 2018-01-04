@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -44,6 +45,7 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
   }
 
   @Override
+  @CacheEvict
   public D getEntity(Long id) {
     Optional<E> result = entityRepository.findById(id);
     if (result == null || !result.isPresent()) {
@@ -53,12 +55,23 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
   }
 
   @Override
+  public D getEntityFromCache(Long id) {
+    Optional<E> result = entityRepository.findById(id);
+    if (result == null || !result.isPresent()) {
+      return null;
+    }
+    return getEntity(id);
+  }
+
+  @Override
+  @CacheEvict
   public D updateEntity(D dto) {
     dto.setModificationDate(LocalDate.now());
     return toDTO(entityRepository.save(toEntity(dto)));
   }
 
   @Override
+  @CacheEvict
   public void deleteEntity(Long id) {
     entityRepository.deleteById(id);
   }

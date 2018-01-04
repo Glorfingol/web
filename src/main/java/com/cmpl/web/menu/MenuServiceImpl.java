@@ -3,6 +3,7 @@ package com.cmpl.web.menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
@@ -14,6 +15,7 @@ import com.cmpl.web.core.service.BaseServiceImpl;
  * @author Louis
  *
  */
+@CacheConfig(cacheNames = {"modelPage"})
 public class MenuServiceImpl extends BaseServiceImpl<MenuDTO, Menu> implements MenuService {
 
   private final MenuRepository menuRepository;

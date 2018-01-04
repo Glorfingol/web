@@ -32,6 +32,8 @@ public interface BaseService<T extends BaseDTO> {
    */
   T getEntity(Long id);
 
+  T getEntityFromCache(Long id);
+
   /**
    * Mettre a jour une entite
    * 
