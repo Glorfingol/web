@@ -10,6 +10,10 @@ public class CarouselDTOBuilder extends BaseBuilder<CarouselDTO> {
   private String pageId;
   private List<CarouselItemDTO> carouselItems;
 
+  private CarouselDTOBuilder() {
+
+  }
+
   public CarouselDTOBuilder name(String name) {
     this.name = name;
     return this;
@@ -35,6 +39,10 @@ public class CarouselDTOBuilder extends BaseBuilder<CarouselDTO> {
     dto.setName(name);
     dto.setPageId(pageId);
     return dto;
+  }
+
+  public static CarouselDTOBuilder create() {
+    return new CarouselDTOBuilder();
   }
 
 }

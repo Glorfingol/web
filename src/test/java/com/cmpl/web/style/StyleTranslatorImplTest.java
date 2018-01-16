@@ -16,8 +16,8 @@ public class StyleTranslatorImplTest {
 
   @Test
   public void testFromUpdateFormToDTO() throws Exception {
-    StyleDTO dtoOfForm = new StyleDTOBuilder().content("someContent")
-        .media(new MediaDTOBuilder().name("someName").id(123456789l).build()).build();
+    StyleDTO dtoOfForm = StyleDTOBuilder.create().content("someContent")
+        .media(MediaDTOBuilder.create().name("someName").id(123456789l).build()).build();
     StyleForm form = new StyleForm(dtoOfForm);
 
     StyleDTO result = translator.fromUpdateFormToDTO(form);
@@ -30,7 +30,7 @@ public class StyleTranslatorImplTest {
 
   @Test
   public void testFromDTOToResponse() throws Exception {
-    StyleDTO dto = new StyleDTOBuilder().id(123456789l).build();
+    StyleDTO dto = StyleDTOBuilder.create().id(123456789l).build();
 
     StyleResponse result = translator.fromDTOToResponse(dto);
     Assert.assertEquals(dto.getId(), result.getStyle().getId());

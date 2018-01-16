@@ -16,7 +16,7 @@ public class PageTranslatorImplTest {
 
   @Test
   public void testFromCreateFormToDTO() throws Exception {
-    PageCreateForm form = new PageCreateFormBuilder().body("someBody").menuTitle("someMenuTitle").name("name")
+    PageCreateForm form = PageCreateFormBuilder.create().body("someBody").menuTitle("someMenuTitle").name("name")
         .withNews(true).build();
 
     PageDTO result = translator.fromCreateFormToDTO(form);
@@ -28,7 +28,7 @@ public class PageTranslatorImplTest {
 
   @Test
   public void testFromDTOToResponse() throws Exception {
-    PageDTO dto = new PageDTOBuilder().build();
+    PageDTO dto = PageDTOBuilder.create().build();
     PageResponse response = translator.fromDTOToResponse(dto);
     Assert.assertEquals(dto, response.getPage());
   }

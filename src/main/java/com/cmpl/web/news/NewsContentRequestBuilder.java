@@ -3,7 +3,6 @@ package com.cmpl.web.news;
 import java.time.LocalDate;
 
 import com.cmpl.web.core.builder.Builder;
-import com.cmpl.web.news.NewsContentRequest;
 
 public class NewsContentRequestBuilder extends Builder<NewsContentRequest> {
 
@@ -11,6 +10,10 @@ public class NewsContentRequestBuilder extends Builder<NewsContentRequest> {
   private Long id;
   private LocalDate creationDate;
   private LocalDate modificationDate;
+
+  private NewsContentRequestBuilder() {
+
+  }
 
   public NewsContentRequestBuilder content(String content) {
     this.content = content;
@@ -41,6 +44,10 @@ public class NewsContentRequestBuilder extends Builder<NewsContentRequest> {
     newsContentRequest.setModificationDate(modificationDate);
     newsContentRequest.setContent(content);
     return newsContentRequest;
+  }
+
+  public static NewsContentRequestBuilder create() {
+    return new NewsContentRequestBuilder();
   }
 
 }

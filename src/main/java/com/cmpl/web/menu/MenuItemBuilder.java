@@ -12,6 +12,9 @@ public class MenuItemBuilder extends Builder<MenuItem> {
   private List<MenuItem> subMenuItems;
   private String customCssClass;
 
+  private MenuItemBuilder() {
+  }
+
   public MenuItemBuilder href(String href) {
     this.href = href;
     return this;
@@ -47,6 +50,10 @@ public class MenuItemBuilder extends Builder<MenuItem> {
     menuItem.setCustomCssClass(customCssClass);
 
     return menuItem;
+  }
+
+  public static MenuItemBuilder create() {
+    return new MenuItemBuilder();
   }
 
 }

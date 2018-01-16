@@ -18,10 +18,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.model.PageWrapper;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
+import com.cmpl.web.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MediaManagerDisplayFactoryImplTest {
@@ -43,6 +46,8 @@ public class MediaManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForViewAllMedias() throws Exception {
 
     PageWrapper<MediaDTO> wrapper = new PageWrapper<>();
+    BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
+    BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
     BDDMockito.doReturn(wrapper).when(displayFactory)
         .computePageWrapper(BDDMockito.any(Locale.class), BDDMockito.anyInt());
 
@@ -70,7 +75,7 @@ public class MediaManagerDisplayFactoryImplTest {
 
     BDDMockito.given(contextHolder.getElementsPerPage()).willReturn(5);
     List<MediaDTO> medias = new ArrayList<>();
-    MediaDTO media = new MediaDTOBuilder().build();
+    MediaDTO media = MediaDTOBuilder.create().build();
     medias.add(media);
     PageImpl<MediaDTO> page = new PageImpl<>(medias);
     BDDMockito.given(mediaService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(page);
@@ -84,7 +89,7 @@ public class MediaManagerDisplayFactoryImplTest {
   public void testComputePageWrapperOfMedias() throws Exception {
 
     List<MediaDTO> medias = new ArrayList<>();
-    MediaDTO media = new MediaDTOBuilder().build();
+    MediaDTO media = MediaDTOBuilder.create().build();
     medias.add(media);
     PageImpl<MediaDTO> page = new PageImpl<>(medias);
 
@@ -111,6 +116,8 @@ public class MediaManagerDisplayFactoryImplTest {
     String test = "test";
     mediaManager.addObject("test", test);
 
+    BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
+    BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
     displayFactory.computeModelAndViewForUploadMedia(Locale.FRANCE);
 
   }

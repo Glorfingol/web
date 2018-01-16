@@ -11,6 +11,10 @@ public class MenuCreateFormBuilder extends Builder<MenuCreateForm> {
   private String parentId;
   private String pageId;
 
+  private MenuCreateFormBuilder() {
+
+  }
+
   public MenuCreateFormBuilder title(String title) {
     this.title = title;
     return this;
@@ -51,6 +55,10 @@ public class MenuCreateFormBuilder extends Builder<MenuCreateForm> {
     form.setParentId(parentId);
     form.setTitle(title);
     return form;
+  }
+
+  public static MenuCreateFormBuilder create() {
+    return new MenuCreateFormBuilder();
   }
 
 }

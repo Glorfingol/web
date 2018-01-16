@@ -6,6 +6,10 @@ public class StyleBuilder extends BaseBuilder<Style> {
 
   private String mediaId;
 
+  private StyleBuilder() {
+
+  }
+
   public StyleBuilder mediaId(String mediaId) {
     this.mediaId = mediaId;
     return this;
@@ -19,6 +23,10 @@ public class StyleBuilder extends BaseBuilder<Style> {
     style.setMediaId(mediaId);
     style.setModificationDate(modificationDate);
     return style;
+  }
+
+  public static StyleBuilder create() {
+    return new StyleBuilder();
   }
 
 }

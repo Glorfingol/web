@@ -22,7 +22,7 @@ public class OpenGraphMetaElementServiceImplTest {
 
   @Test
   public void testToEntity() throws Exception {
-    OpenGraphMetaElementDTO dto = new OpenGraphMetaElementDTOBuilder().build();
+    OpenGraphMetaElementDTO dto = OpenGraphMetaElementDTOBuilder.create().build();
 
     BDDMockito.doNothing().when(openGraphMetaElementService)
         .fillObject(BDDMockito.any(OpenGraphMetaElementDTO.class), BDDMockito.any(OpenGraphMetaElement.class));
@@ -34,7 +34,7 @@ public class OpenGraphMetaElementServiceImplTest {
 
   @Test
   public void testToDTO() throws Exception {
-    OpenGraphMetaElement entity = new OpenGraphMetaElementBuilder().build();
+    OpenGraphMetaElement entity = OpenGraphMetaElementBuilder.create().build();
 
     BDDMockito.doNothing().when(openGraphMetaElementService)
         .fillObject(BDDMockito.any(OpenGraphMetaElement.class), BDDMockito.any(OpenGraphMetaElementDTO.class));
@@ -47,11 +47,11 @@ public class OpenGraphMetaElementServiceImplTest {
   @Test
   public void testFindMetaElementsByPageId() throws Exception {
 
-    OpenGraphMetaElementDTO result = new OpenGraphMetaElementDTOBuilder().build();
+    OpenGraphMetaElementDTO result = OpenGraphMetaElementDTOBuilder.create().build();
 
     BDDMockito.doReturn(Lists.newArrayList(result)).when(openGraphMetaElementService).toListDTO(BDDMockito.anyList());
     BDDMockito.given(openGraphMetaElementRepository.findByPageId(BDDMockito.anyString())).willReturn(
-        Lists.newArrayList(new OpenGraphMetaElementBuilder().build()));
+        Lists.newArrayList(OpenGraphMetaElementBuilder.create().build()));
 
     Assert.assertEquals(result, openGraphMetaElementService.findOpenGraphMetaElementsByPageId("123456789").get(0));
   }

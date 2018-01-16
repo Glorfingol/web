@@ -16,6 +16,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.model.BaseException;
 import com.cmpl.web.menu.MenuItem;
 import com.cmpl.web.menu.MenuItemBuilder;
@@ -83,11 +85,13 @@ public class FacebookDisplayFactoryImplTest {
     String title = "title";
     String decoratorBack = "decorator_back";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
-    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
 
+    BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
+    BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
         .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl)
@@ -115,14 +119,16 @@ public class FacebookDisplayFactoryImplTest {
     String title = "title";
     String decoratorBack = "decorator_back";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
-    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
 
     ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").build();
     List<ImportablePost> postsToReturn = Lists.newArrayList(post);
 
+    BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
+    BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
     BDDMockito.doReturn(postsToReturn).when(facebookDisplayFactoryImpl).computeRecentFeeds();
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
         .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
@@ -151,10 +157,13 @@ public class FacebookDisplayFactoryImplTest {
     String title = "title";
     String decoratorBack = "decorator_back";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
-    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
+
+    BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
+    BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
         .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
@@ -182,14 +191,16 @@ public class FacebookDisplayFactoryImplTest {
     String title = "title";
     String decoratorBack = "decorator_back";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
-    MenuItem news = new MenuItemBuilder().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
 
     ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").build();
     List<ImportablePost> postsToReturn = Lists.newArrayList(post);
 
+    BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
+    BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
     BDDMockito.doReturn(postsToReturn).when(facebookDisplayFactoryImpl).computeRecentFeeds();
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
         .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));

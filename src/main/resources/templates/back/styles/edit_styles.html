@@ -1,4 +1,4 @@
-<div class="card card-block">
+<div class="card card-block mb-4">
     <form id="styleViewForm" th:object="${styleForm}">
         <input type="hidden"  th:field="*{id}"/>
         <input type="hidden"  th:field="*{creationDate}"/>
@@ -17,7 +17,7 @@
         </div>
     </form>
  </div>
-<div class="card">
+<div class="card card-loader">
     <div class="loader"/> 
 </div>
 <script th:inline="javascript">

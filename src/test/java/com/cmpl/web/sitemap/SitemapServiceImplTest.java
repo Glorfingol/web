@@ -58,9 +58,9 @@ public class SitemapServiceImplTest {
     LocalDate yesterday = today.minusDays(1);
     LocalDate twoDaysAgo = yesterday.minusDays(1);
 
-    NewsEntryDTO newsEntryToday = new NewsEntryDTOBuilder().modificationDate(today).build();
-    NewsEntryDTO newsEntryYesterday = new NewsEntryDTOBuilder().modificationDate(yesterday).build();
-    NewsEntryDTO newsEntryTwoDaysAgo = new NewsEntryDTOBuilder().modificationDate(twoDaysAgo).build();
+    NewsEntryDTO newsEntryToday = NewsEntryDTOBuilder.create().modificationDate(today).build();
+    NewsEntryDTO newsEntryYesterday = NewsEntryDTOBuilder.create().modificationDate(yesterday).build();
+    NewsEntryDTO newsEntryTwoDaysAgo = NewsEntryDTOBuilder.create().modificationDate(twoDaysAgo).build();
 
     List<NewsEntryDTO> entries = new ArrayList<>();
     entries.add(newsEntryTwoDaysAgo);

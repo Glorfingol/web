@@ -31,13 +31,13 @@ public class PageDispatcherImplTest {
   @Test
   public void testCreateEntity_No_Error() throws Exception {
 
-    PageCreateForm form = new PageCreateFormBuilder().build();
+    PageCreateForm form = PageCreateFormBuilder.create().build();
 
     BDDMockito.given(validator.validateCreate(BDDMockito.any(PageCreateForm.class), BDDMockito.any(Locale.class)))
         .willReturn(null);
 
-    PageDTO page = new PageDTOBuilder().build();
-    PageResponse response = new PageResponseBuilder().page(page).build();
+    PageDTO page = PageDTOBuilder.create().build();
+    PageResponse response = PageResponseBuilder.create().page(page).build();
     BDDMockito.given(translator.fromCreateFormToDTO(BDDMockito.any(PageCreateForm.class))).willReturn(page);
     BDDMockito.given(pageService.createEntity(BDDMockito.any(PageDTO.class))).willReturn(page);
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(PageDTO.class))).willReturn(response);
@@ -52,13 +52,13 @@ public class PageDispatcherImplTest {
 
   @Test
   public void testCreateEntity_Error() throws Exception {
-    PageCreateForm form = new PageCreateFormBuilder().build();
+    PageCreateForm form = PageCreateFormBuilder.create().build();
 
-    Error error = new ErrorBuilder().build();
+    Error error = ErrorBuilder.create().build();
     BDDMockito.given(validator.validateCreate(BDDMockito.any(PageCreateForm.class), BDDMockito.any(Locale.class)))
         .willReturn(error);
 
-    PageResponse response = new PageResponseBuilder().error(error).build();
+    PageResponse response = PageResponseBuilder.create().error(error).build();
 
     Assert.assertEquals(response.getError(), dispatcher.createEntity(form, Locale.FRANCE).getError());
     BDDMockito.verify(validator, BDDMockito.times(1)).validateCreate(BDDMockito.any(PageCreateForm.class),
@@ -71,13 +71,13 @@ public class PageDispatcherImplTest {
   @Test
   public void testUpdateEntity_No_Error() throws Exception {
 
-    PageUpdateForm form = new PageUpdateFormBuilder().id(123456789l).build();
+    PageUpdateForm form = PageUpdateFormBuilder.create().id(123456789l).build();
 
     BDDMockito.given(validator.validateUpdate(BDDMockito.any(PageUpdateForm.class), BDDMockito.any(Locale.class)))
         .willReturn(null);
 
-    PageDTO page = new PageDTOBuilder().build();
-    PageResponse response = new PageResponseBuilder().page(page).build();
+    PageDTO page = PageDTOBuilder.create().build();
+    PageResponse response = PageResponseBuilder.create().page(page).build();
     BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(page);
     BDDMockito.given(pageService.updateEntity(BDDMockito.any(PageDTO.class))).willReturn(page);
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(PageDTO.class))).willReturn(response);
@@ -93,13 +93,13 @@ public class PageDispatcherImplTest {
   @Test
   public void testUpdateEntity_Error() throws Exception {
 
-    PageUpdateForm form = new PageUpdateFormBuilder().build();
+    PageUpdateForm form = PageUpdateFormBuilder.create().build();
 
-    Error error = new ErrorBuilder().build();
+    Error error = ErrorBuilder.create().build();
     BDDMockito.given(validator.validateUpdate(BDDMockito.any(PageUpdateForm.class), BDDMockito.any(Locale.class)))
         .willReturn(error);
 
-    PageResponse response = new PageResponseBuilder().error(error).build();
+    PageResponse response = PageResponseBuilder.create().error(error).build();
 
     Assert.assertEquals(response.getError(), dispatcher.updateEntity(form, Locale.FRANCE).getError());
     BDDMockito.verify(validator, BDDMockito.times(1)).validateUpdate(BDDMockito.any(PageUpdateForm.class),

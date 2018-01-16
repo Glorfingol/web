@@ -68,8 +68,8 @@ public class BaseValidatorTest {
   @Test
   public void testComputeError() throws Exception {
 
-    ErrorCause errorCause1 = new ErrorCauseBuilder().code("someCode1").message("someMessage1").build();
-    ErrorCause errorCause2 = new ErrorCauseBuilder().code("someCode2").message("someMessage2").build();
+    ErrorCause errorCause1 = ErrorCauseBuilder.create().code("someCode1").message("someMessage1").build();
+    ErrorCause errorCause2 = ErrorCauseBuilder.create().code("someCode2").message("someMessage2").build();
 
     List<ErrorCause> causes = Lists.newArrayList(errorCause1, errorCause2);
 

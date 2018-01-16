@@ -70,12 +70,12 @@ function postUpdateMenuForm(){
 	var menuToUpdate = validateAndUpdateMenu();
 	var url = "/manager/menus/" + menuToUpdate.id;
 	var urlFallback = "/manager/menus/" + menuToUpdate.id;
-	update($("#menuEditForm"),$(".loader"),url,urlFallback,menuToUpdate);
+	update($("#menuEditForm"),$(".loader"),$(".card-loader"),url,urlFallback,menuToUpdate);
 }
 
 function postCreateMenuForm(){
 	var menuToCreate = validateAndCreateMenu();
 	var url = "/manager/menus/";
 	var urlFallback = "/manager/menus/";
-	create($("#menuCreateForm"),$(".loader"),url,urlFallback,menuToCreate);
+	create($("#menuCreateForm"),$(".loader"),$(".card-loader"),url,urlFallback,menuToCreate);
 }

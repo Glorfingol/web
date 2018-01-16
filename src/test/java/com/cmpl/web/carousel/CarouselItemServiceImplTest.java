@@ -28,8 +28,8 @@ public class CarouselItemServiceImplTest {
 
   @Test
   public void testToEntity() throws Exception {
-    MediaDTO media = new MediaDTOBuilder().id(123456789l).build();
-    CarouselItemDTO dto = new CarouselItemDTOBuilder().media(media).build();
+    MediaDTO media = MediaDTOBuilder.create().id(123456789l).build();
+    CarouselItemDTO dto = CarouselItemDTOBuilder.create().media(media).build();
 
     carouselItemService.toEntity(dto);
 
@@ -40,10 +40,10 @@ public class CarouselItemServiceImplTest {
   @Test
   public void testToDTO() throws Exception {
 
-    MediaDTO media = new MediaDTOBuilder().build();
+    MediaDTO media = MediaDTOBuilder.create().build();
     BDDMockito.given(mediaService.getEntity(BDDMockito.anyLong())).willReturn(media);
 
-    CarouselItem entity = new CarouselItemBuilder().mediaId("123456789").build();
+    CarouselItem entity = CarouselItemBuilder.create().mediaId("123456789").build();
 
     BDDMockito.doNothing().when(carouselItemService)
         .fillObject(BDDMockito.any(CarouselItem.class), BDDMockito.any(CarouselItemDTO.class));
@@ -56,12 +56,12 @@ public class CarouselItemServiceImplTest {
 
   @Test
   public void testCreateEntity() throws Exception {
-    MediaDTO media = new MediaDTOBuilder().id(123456789l).build();
-    CarouselItemDTO dto = new CarouselItemDTOBuilder().media(media).build();
+    MediaDTO media = MediaDTOBuilder.create().id(123456789l).build();
+    CarouselItemDTO dto = CarouselItemDTOBuilder.create().media(media).build();
 
     BDDMockito.doReturn(dto).when(carouselItemService).toDTO(BDDMockito.any(CarouselItem.class));
 
-    CarouselItem entity = new CarouselItemBuilder().build();
+    CarouselItem entity = CarouselItemBuilder.create().build();
     BDDMockito.given(carouselItemRepository.save(BDDMockito.any(CarouselItem.class))).willReturn(entity);
 
     Assert.assertEquals(dto, carouselItemService.createEntity(dto));
@@ -71,11 +71,11 @@ public class CarouselItemServiceImplTest {
   @Test
   public void testGetByCarouselId() throws Exception {
 
-    MediaDTO media = new MediaDTOBuilder().id(123456789l).build();
-    CarouselItemDTO dto = new CarouselItemDTOBuilder().media(media).build();
+    MediaDTO media = MediaDTOBuilder.create().id(123456789l).build();
+    CarouselItemDTO dto = CarouselItemDTOBuilder.create().media(media).build();
 
     BDDMockito.doReturn(Lists.newArrayList(dto)).when(carouselItemService).toListDTO(BDDMockito.anyList());
-    CarouselItem entity = new CarouselItemBuilder().build();
+    CarouselItem entity = CarouselItemBuilder.create().build();
     BDDMockito.given(carouselItemRepository.findByCarouselIdOrderByOrderInCarousel(BDDMockito.anyString())).willReturn(
         Lists.newArrayList(entity));
 

@@ -52,7 +52,7 @@ public class NewsManagerControllerTest {
 
   @Test
   public void testUpdateNewsEntry_Ok() throws Exception {
-    NewsEntryRequest request = new NewsEntryRequestBuilder().build();
+    NewsEntryRequest request = NewsEntryRequestBuilder.create().build();
 
     NewsEntryResponse response = new NewsEntryResponse();
 
@@ -67,7 +67,7 @@ public class NewsManagerControllerTest {
   @Test
   public void testUpdateNewsEntry_Ko() throws BaseException {
 
-    NewsEntryRequest request = new NewsEntryRequestBuilder().build();
+    NewsEntryRequest request = NewsEntryRequestBuilder.create().build();
 
     BDDMockito.doThrow(new BaseException("")).when(dispatcher)
         .updateEntity(BDDMockito.eq(request), BDDMockito.eq("666"), BDDMockito.eq(Locale.FRANCE));
@@ -80,9 +80,9 @@ public class NewsManagerControllerTest {
 
   @Test
   public void testCreateNewsEntry_Ok() throws Exception {
-    NewsEntryRequest request = new NewsEntryRequestBuilder().build();
+    NewsEntryRequest request = NewsEntryRequestBuilder.create().build();
 
-    NewsEntryDTO entryDTO = new NewsEntryDTOBuilder().id(1L).build();
+    NewsEntryDTO entryDTO = NewsEntryDTOBuilder.create().id(1L).build();
     NewsEntryResponse response = new NewsEntryResponse();
     response.setNewsEntry(entryDTO);
 
@@ -96,7 +96,7 @@ public class NewsManagerControllerTest {
   @Test
   public void testCreateNewsEntry_Ko() throws BaseException {
 
-    NewsEntryRequest request = new NewsEntryRequestBuilder().build();
+    NewsEntryRequest request = NewsEntryRequestBuilder.create().build();
 
     BDDMockito.doThrow(new BaseException("")).when(dispatcher)
         .createEntity(BDDMockito.eq(request), BDDMockito.eq(Locale.FRANCE));

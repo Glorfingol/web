@@ -48,7 +48,6 @@ import com.google.api.services.drive.Drive;
 
 @Configuration
 @PropertySource("classpath:/backup/backup.properties")
-@ConditionalOnProperty(name = "backup.enabled", value = "true")
 public class BackupExportConfiguration {
 
   @Value("${backupFilePath}")

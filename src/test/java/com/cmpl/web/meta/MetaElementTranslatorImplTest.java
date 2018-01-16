@@ -16,25 +16,25 @@ public class MetaElementTranslatorImplTest {
 
   @Test
   public void testFromDTOToResponseOpenGraphMetaElementDTO() throws Exception {
-    OpenGraphMetaElementDTO dto = new OpenGraphMetaElementDTOBuilder().build();
+    OpenGraphMetaElementDTO dto = OpenGraphMetaElementDTOBuilder.create().build();
     Assert.assertEquals(dto, translator.fromDTOToResponse(dto).getOpenGraphMetaElement());
   }
 
   @Test
   public void testFromDTOToResponseMetaElementDTO() throws Exception {
-    MetaElementDTO dto = new MetaElementDTOBuilder().build();
+    MetaElementDTO dto = MetaElementDTOBuilder.create().build();
     Assert.assertEquals(dto, translator.fromDTOToResponse(dto).getMetaElement());
   }
 
   @Test
   public void testFromCreateFormToDTOStringMetaElementCreateForm() throws Exception {
-    MetaElementCreateForm form = new MetaElementCreateFormBuilder().name("test").build();
+    MetaElementCreateForm form = MetaElementCreateFormBuilder.create().name("test").build();
     Assert.assertEquals(form.getName(), translator.fromCreateFormToDTO("123456789", form).getName());
   }
 
   @Test
   public void testFromCreateFormToDTOStringOpenGraphMetaElementCreateForm() throws Exception {
-    OpenGraphMetaElementCreateForm form = new OpenGraphMetaElementCreateFormBuilder().property("test").build();
+    OpenGraphMetaElementCreateForm form = OpenGraphMetaElementCreateFormBuilder.create().property("test").build();
     Assert.assertEquals(form.getProperty(), translator.fromCreateFormToDTO("123456789", form).getProperty());
   }
 

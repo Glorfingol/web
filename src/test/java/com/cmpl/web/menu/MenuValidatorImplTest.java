@@ -27,7 +27,7 @@ public class MenuValidatorImplTest {
   @Test
   public void testValidateUpdate_No_Errors() throws Exception {
 
-    MenuUpdateForm form = new MenuUpdateFormBuilder().title("someTitle").pageId("123456789").orderInMenu(1).build();
+    MenuUpdateForm form = MenuUpdateFormBuilder.create().title("someTitle").pageId("123456789").orderInMenu(1).build();
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
 
     Assert.assertNull(validator.validateUpdate(form, Locale.FRANCE));
@@ -36,10 +36,10 @@ public class MenuValidatorImplTest {
   @Test
   public void testValidateUpdate_Bad_Order() throws Exception {
 
-    MenuUpdateForm form = new MenuUpdateFormBuilder().orderInMenu(0).build();
+    MenuUpdateForm form = MenuUpdateFormBuilder.create().orderInMenu(0).build();
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.BAD_ORDER.getCauseKey()).message("badOrder").build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.BAD_ORDER.getCauseKey()).message("badOrder").build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -50,12 +50,13 @@ public class MenuValidatorImplTest {
   @Test
   public void testValidateUpdate_Empty_Page() throws Exception {
 
-    MenuUpdateForm form = new MenuUpdateFormBuilder().orderInMenu(1).title("someTitle").pageId("somePageId").build();
+    MenuUpdateForm form = MenuUpdateFormBuilder.create().orderInMenu(1).title("someTitle").pageId("somePageId").build();
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(form.getTitle()));
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getPageId()));
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_PAGE.getCauseKey()).message("empty_page").build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_PAGE.getCauseKey()).message("empty_page")
+        .build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -66,13 +67,13 @@ public class MenuValidatorImplTest {
   @Test
   public void testValidateUpdate_Empty_Menu_Title() throws Exception {
 
-    MenuUpdateForm form = new MenuUpdateFormBuilder().orderInMenu(1).title("someTitle").pageId("somePageId").build();
+    MenuUpdateForm form = MenuUpdateFormBuilder.create().orderInMenu(1).title("someTitle").pageId("somePageId").build();
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getTitle()));
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(form.getPageId()));
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_MENU_TITLE.getCauseKey()).message("empty_title")
-        .build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_MENU_TITLE.getCauseKey())
+        .message("empty_title").build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -83,14 +84,14 @@ public class MenuValidatorImplTest {
   @Test
   public void testValidateUpdate_Empty_Multiple_Errors() throws Exception {
 
-    MenuUpdateForm form = new MenuUpdateFormBuilder().orderInMenu(1).title("someTitle").pageId("somePageId").build();
+    MenuUpdateForm form = MenuUpdateFormBuilder.create().orderInMenu(1).title("someTitle").pageId("somePageId").build();
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getTitle()));
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(form.getPageId()));
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.BAD_ORDER.getCauseKey()).message("badOrder").build();
-    ErrorCause causeTitle = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_MENU_TITLE.getCauseKey())
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.BAD_ORDER.getCauseKey()).message("badOrder").build();
+    ErrorCause causeTitle = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_MENU_TITLE.getCauseKey())
         .message("empty_title").build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause, causeTitle)).build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause, causeTitle)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -101,7 +102,7 @@ public class MenuValidatorImplTest {
   @Test
   public void testValidateCreate_No_Errors() throws Exception {
 
-    MenuCreateForm form = new MenuCreateFormBuilder().title("someTitle").pageId("123456789").orderInMenu(1).build();
+    MenuCreateForm form = MenuCreateFormBuilder.create().title("someTitle").pageId("123456789").orderInMenu(1).build();
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
 
     Assert.assertNull(validator.validateCreate(form, Locale.FRANCE));
@@ -110,10 +111,10 @@ public class MenuValidatorImplTest {
   @Test
   public void testValidateCreate_Bad_Order() throws Exception {
 
-    MenuCreateForm form = new MenuCreateFormBuilder().orderInMenu(0).build();
+    MenuCreateForm form = MenuCreateFormBuilder.create().orderInMenu(0).build();
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.BAD_ORDER.getCauseKey()).message("badOrder").build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.BAD_ORDER.getCauseKey()).message("badOrder").build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -124,12 +125,13 @@ public class MenuValidatorImplTest {
   @Test
   public void testValidateCreate_Empty_Page() throws Exception {
 
-    MenuCreateForm form = new MenuCreateFormBuilder().orderInMenu(1).title("someTitle").pageId("somePageId").build();
+    MenuCreateForm form = MenuCreateFormBuilder.create().orderInMenu(1).title("someTitle").pageId("somePageId").build();
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(form.getTitle()));
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getPageId()));
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_PAGE.getCauseKey()).message("empty_page").build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_PAGE.getCauseKey()).message("empty_page")
+        .build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -140,13 +142,13 @@ public class MenuValidatorImplTest {
   @Test
   public void testValidateCreate_Empty_Menu_Title() throws Exception {
 
-    MenuCreateForm form = new MenuCreateFormBuilder().orderInMenu(1).title("someTitle").pageId("somePageId").build();
+    MenuCreateForm form = MenuCreateFormBuilder.create().orderInMenu(1).title("someTitle").pageId("somePageId").build();
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getTitle()));
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(form.getPageId()));
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_MENU_TITLE.getCauseKey()).message("empty_title")
-        .build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_MENU_TITLE.getCauseKey())
+        .message("empty_title").build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -157,14 +159,14 @@ public class MenuValidatorImplTest {
   @Test
   public void testValidateCreate_Multiple_Errors() throws Exception {
 
-    MenuCreateForm form = new MenuCreateFormBuilder().orderInMenu(1).title("someTitle").pageId("somePageId").build();
+    MenuCreateForm form = MenuCreateFormBuilder.create().orderInMenu(1).title("someTitle").pageId("somePageId").build();
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getTitle()));
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(form.getPageId()));
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.BAD_ORDER.getCauseKey()).message("badOrder").build();
-    ErrorCause causeTitle = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_MENU_TITLE.getCauseKey())
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.BAD_ORDER.getCauseKey()).message("badOrder").build();
+    ErrorCause causeTitle = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_MENU_TITLE.getCauseKey())
         .message("empty_title").build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause, causeTitle)).build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause, causeTitle)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());

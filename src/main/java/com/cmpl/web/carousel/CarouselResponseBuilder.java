@@ -8,6 +8,10 @@ public class CarouselResponseBuilder extends Builder<CarouselResponse> {
   private CarouselDTO carousel;
   private Error error;
 
+  private CarouselResponseBuilder() {
+
+  }
+
   public CarouselResponseBuilder carousel(CarouselDTO carousel) {
     this.carousel = carousel;
     return this;
@@ -24,6 +28,10 @@ public class CarouselResponseBuilder extends Builder<CarouselResponse> {
     response.setCarousel(carousel);
     response.setError(error);
     return response;
+  }
+
+  public static CarouselResponseBuilder create() {
+    return new CarouselResponseBuilder();
   }
 
 }

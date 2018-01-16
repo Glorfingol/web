@@ -3,7 +3,6 @@ package com.cmpl.web.news;
 import java.time.LocalDate;
 
 import com.cmpl.web.core.builder.Builder;
-import com.cmpl.web.news.NewsImageRequest;
 
 public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
 
@@ -13,6 +12,10 @@ public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
   private Long id;
   private LocalDate creationDate;
   private LocalDate modificationDate;
+
+  private NewsImageRequestBuilder() {
+
+  }
 
   public NewsImageRequestBuilder src(String src) {
     this.src = src;
@@ -56,6 +59,10 @@ public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
     imageRequest.setSrc(src);
 
     return imageRequest;
+  }
+
+  public static NewsImageRequestBuilder create() {
+    return new NewsImageRequestBuilder();
   }
 
 }

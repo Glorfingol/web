@@ -1,11 +1,14 @@
 package com.cmpl.web.facebook;
 
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -15,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.social.autoconfigure.SocialAutoConfigurerAdapter;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.connect.Connection;
@@ -25,10 +29,17 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.autoconfigure.FacebookProperties;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.context.ContextHolder;
+import com.cmpl.web.core.menu.BackMenuItem;
+import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.news.NewsEntryService;
+import com.cmpl.web.page.BACK_PAGE;
 
 @Configuration
 @EnableSocial
@@ -39,6 +50,36 @@ public class FacebookConfiguration {
 
   @Value("${facebookConfigurationFile}")
   String facebookConfigurationFile;
+
+  @Bean
+  BackMenuItem facebookBackMenuItem() {
+    return BackMenuItemBuilder.create().href("facebook.access.href").label("facebook.access.label")
+        .title("facebook.access.title").order(7).build();
+  }
+
+  @Bean
+  BreadCrumb facebookImportBreadCrumb() {
+    return BreadCrumbBuilder.create().items(facebookImportBreadCrumbItems()).page(BACK_PAGE.FACEBOOK_IMPORT).build();
+  }
+
+  List<BreadCrumbItem> facebookImportBreadCrumbItems() {
+    List<BreadCrumbItem> items = new ArrayList<>();
+    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("Importer via Facebook").href("/manager/facebook").build());
+    return items;
+  }
+
+  @Bean
+  BreadCrumb facebookAccessBreadCrumb() {
+    return BreadCrumbBuilder.create().items(facebookAccessBreadCrumbItems()).page(BACK_PAGE.FACEBOOK_ACCESS).build();
+  }
+
+  List<BreadCrumbItem> facebookAccessBreadCrumbItems() {
+    List<BreadCrumbItem> items = new ArrayList<>();
+    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("Importer via Facebook").href("/manager/facebook").build());
+    return items;
+  }
 
   @Bean
   FacebookProperties facebookProperties() {
@@ -66,8 +107,9 @@ public class FacebookConfiguration {
 
   @Bean
   FacebookDisplayFactory facebookDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      FacebookService facebookService) {
-    return new FacebookDisplayFactoryImpl(menuFactory, messageSource, facebookService);
+      FacebookService facebookService,
+      @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+    return new FacebookDisplayFactoryImpl(menuFactory, messageSource, facebookService, breadCrumbRegistry);
   }
 
   @Bean

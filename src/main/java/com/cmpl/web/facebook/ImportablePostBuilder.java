@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import org.springframework.social.facebook.api.Post.PostType;
 
 import com.cmpl.web.core.builder.Builder;
-import com.cmpl.web.facebook.ImportablePost;
 
 public class ImportablePostBuilder extends Builder<ImportablePost> {
 
@@ -100,6 +99,10 @@ public class ImportablePostBuilder extends Builder<ImportablePost> {
     post.setVideoUrl(videoUrl);
 
     return post;
+  }
+
+  public ImportablePostBuilder create() {
+    return new ImportablePostBuilder();
   }
 
 }

@@ -1,13 +1,16 @@
 package com.cmpl.web.news;
 
 import com.cmpl.web.core.builder.BaseBuilder;
-import com.cmpl.web.news.NewsContentDTO;
 
 public class NewsContentDTOBuilder extends BaseBuilder<NewsContentDTO> {
 
   private String content;
   private String linkUrl;
   private String videoUrl;
+
+  private NewsContentDTOBuilder() {
+
+  }
 
   public NewsContentDTOBuilder content(String content) {
     this.content = content;
@@ -35,6 +38,10 @@ public class NewsContentDTOBuilder extends BaseBuilder<NewsContentDTO> {
     newsContentDTO.setVideoUrl(videoUrl);
 
     return newsContentDTO;
+  }
+
+  public static NewsContentDTOBuilder create() {
+    return new NewsContentDTOBuilder();
   }
 
 }

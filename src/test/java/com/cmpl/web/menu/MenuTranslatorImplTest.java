@@ -17,7 +17,7 @@ public class MenuTranslatorImplTest {
   @Test
   public void testFromDTOToResponse() throws Exception {
 
-    MenuDTO menu = new MenuDTOBuilder().href("someHref").id(123456789l).build();
+    MenuDTO menu = MenuDTOBuilder.create().href("someHref").id(123456789l).build();
 
     MenuResponse result = translator.fromDTOToResponse(menu);
 
@@ -28,7 +28,7 @@ public class MenuTranslatorImplTest {
   @Test
   public void testFromCreateFormToDTO() throws Exception {
 
-    MenuCreateForm form = new MenuCreateFormBuilder().href("someHref").label("someLabel").orderInMenu(1)
+    MenuCreateForm form = MenuCreateFormBuilder.create().href("someHref").label("someLabel").orderInMenu(1)
         .pageId("123456789").title("someTitle").build();
     MenuDTO menu = translator.fromCreateFormToDTO(form);
 

@@ -16,6 +16,9 @@ public class MenuUpdateFormBuilder extends Builder<MenuUpdateForm> {
   private String parentId;
   private String pageId;
 
+  private MenuUpdateFormBuilder() {
+  }
+
   public MenuUpdateFormBuilder title(String title) {
     this.title = title;
     return this;
@@ -74,6 +77,10 @@ public class MenuUpdateFormBuilder extends Builder<MenuUpdateForm> {
     form.setParentId(parentId);
     form.setTitle(title);
     return form;
+  }
+
+  public static MenuUpdateFormBuilder create() {
+    return new MenuUpdateFormBuilder();
   }
 
 }

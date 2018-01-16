@@ -158,23 +158,22 @@ function computeTemplateBody(){
 
 function postCreateNewsForm(){
 	$("#newsEntryCreateForm").hide();
-	$(".loader").show();
 	var url = "/manager/news";
-	create($("#newsEntryCreateForm"),$(".loader"),url,url,validateAndCreateNewsEntry());
+	create($("#newsEntryCreateForm"),$(".loader"),$(".card-loader"),url,url,validateAndCreateNewsEntry());
 }
 
 function postUpdateNewsForm(){
 	var newsEntryToUpdate = validateAndUpdateNewsEntry();
 	var url = "/manager/news/" + newsEntryToUpdate.id;
 	var urlFallback = "/manager/news/" + newsEntryToUpdate.id;
-	update($("#newsEntryEditForm"),$(".loader"),url,urlFallback,newsEntryToUpdate);
+	update($("#newsEntryEditForm"),$(".loader"),$(".card-loader"),url,urlFallback,newsEntryToUpdate);
 }
 
 function postUpdateNewsTemplateForm(){
 	var newsTemplateRequest = computeNewsTemplateRequest();
 	var url = "/manager/news/template";
 	var urlFallback = "/manager/news/template";
-	update($("#templateEditForm"),$(".loader"),url,urlFallback,newsTemplateRequest);
+	update($("#templateEditForm"),$(".loader"),$(".card-loader"),url,urlFallback,newsTemplateRequest);
 }
 
 function cancelUpdateNewsTemplate(){

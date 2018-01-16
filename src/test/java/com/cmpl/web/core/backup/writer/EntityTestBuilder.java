@@ -83,4 +83,8 @@ public class EntityTestBuilder extends BaseBuilder<EntityTest> {
     return test;
   }
 
+  public EntityTestBuilder create() {
+    return new EntityTestBuilder();
+  }
+
 }

@@ -8,8 +8,8 @@ import com.cmpl.web.core.service.BaseServiceImpl;
 import com.cmpl.web.media.MediaService;
 
 @CacheConfig(cacheNames = {"carouselItems"})
-public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, CarouselItem>
-    implements CarouselItemService {
+public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, CarouselItem> implements
+    CarouselItemService {
 
   private final CarouselItemRepository carouselItemRepository;
   private final MediaService mediaService;
@@ -27,8 +27,8 @@ public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, Ca
 
   @Override
   protected CarouselItemDTO toDTO(CarouselItem entity) {
-    CarouselItemDTO dto = new CarouselItemDTOBuilder().media(mediaService.getEntity(Long.valueOf(entity.getMediaId())))
-        .build();
+    CarouselItemDTO dto = CarouselItemDTOBuilder.create()
+        .media(mediaService.getEntity(Long.valueOf(entity.getMediaId()))).build();
     fillObject(entity, dto);
 
     return dto;
@@ -36,7 +36,7 @@ public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, Ca
 
   @Override
   protected CarouselItem toEntity(CarouselItemDTO dto) {
-    CarouselItem entity = new CarouselItemBuilder().mediaId(String.valueOf(dto.getMedia().getId())).build();
+    CarouselItem entity = CarouselItemBuilder.create().mediaId(String.valueOf(dto.getMedia().getId())).build();
 
     fillObject(entity, dto);
 
@@ -46,7 +46,7 @@ public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, Ca
   @Override
   public CarouselItemDTO createEntity(CarouselItemDTO dto) {
 
-    CarouselItem carouselItem = new CarouselItemBuilder().mediaId(String.valueOf(dto.getMedia().getId())).build();
+    CarouselItem carouselItem = CarouselItemBuilder.create().mediaId(String.valueOf(dto.getMedia().getId())).build();
     fillObject(dto, carouselItem);
 
     return toDTO(carouselItemRepository.save(carouselItem));

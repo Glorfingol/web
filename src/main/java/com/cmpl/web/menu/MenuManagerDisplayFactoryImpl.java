@@ -7,9 +7,13 @@ import java.util.Locale;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.model.PageWrapper;
@@ -32,8 +36,9 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   private static final String PAGES_LINKABLE = "pagesThatCanBeLinkedTo";
 
   public MenuManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      MenuService menuService, PageService pageService, ContextHolder contextHolder) {
-    super(menuFactory, messageSource);
+      MenuService menuService, PageService pageService, ContextHolder contextHolder,
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry);
     this.menuService = menuService;
     this.contextHolder = contextHolder;
     this.pageService = pageService;
@@ -62,7 +67,7 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     List<PageDTO> pagesThatCanBeLinkedTo = pageService.getPages();
     menusManager.addObject(PAGES_LINKABLE, pagesThatCanBeLinkedTo);
 
-    MenuCreateForm createForm = new MenuCreateFormBuilder().build();
+    MenuCreateForm createForm = MenuCreateFormBuilder.create().build();
     menusManager.addObject(CREATE_FORM, createForm);
 
     return menusManager;
@@ -86,6 +91,14 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     menusManager.addObject(PAGES_LINKABLE, pagesThatCanBeLinkedTo);
 
     MenuDTO menuToUpdate = menuService.getEntity(Long.valueOf(menuId));
+
+    BreadCrumbItem item = BreadCrumbItemBuilder.create().href("#").text(menuToUpdate.getLabel()).build();
+    BreadCrumb breadCrumb = (BreadCrumb) menusManager.getModel().get("breadcrumb");
+
+    if (canAddBreadCrumbItem(breadCrumb, item)) {
+      breadCrumb.getItems().add(item);
+    }
+
     MenuUpdateForm updateForm = new MenuUpdateForm(menuToUpdate);
 
     menusManager.addObject(UPDATE_FORM, updateForm);

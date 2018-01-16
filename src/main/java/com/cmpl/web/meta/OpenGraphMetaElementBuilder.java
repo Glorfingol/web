@@ -8,6 +8,10 @@ public class OpenGraphMetaElementBuilder extends BaseBuilder<OpenGraphMetaElemen
   private String property;
   private String content;
 
+  private OpenGraphMetaElementBuilder() {
+
+  }
+
   public OpenGraphMetaElementBuilder pageId(String pageId) {
     this.pageId = pageId;
     return this;
@@ -33,6 +37,10 @@ public class OpenGraphMetaElementBuilder extends BaseBuilder<OpenGraphMetaElemen
     metaElement.setProperty(property);
     metaElement.setPageId(pageId);
     return metaElement;
+  }
+
+  public static OpenGraphMetaElementBuilder create() {
+    return new OpenGraphMetaElementBuilder();
   }
 
 }

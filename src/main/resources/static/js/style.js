@@ -40,5 +40,5 @@ function postUpdateStyleForm(){
 	var styleToUpdate = validateAndUpdateStyle();
 	var url = "/manager/styles/_edit";
 	var urlFallback = "/manager/styles";
-	update($("#styleUpdateForm"),$(".loader"),url,urlFallback,styleToUpdate);
+	update($("#styleUpdateForm"),$(".loader"),$(".card-loader"),url,urlFallback,styleToUpdate);
 }

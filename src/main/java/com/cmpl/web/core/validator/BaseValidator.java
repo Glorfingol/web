@@ -26,12 +26,12 @@ public class BaseValidator {
   }
 
   public ErrorCause computeCause(ERROR_CAUSE errorCause, Locale locale) {
-    return new ErrorCauseBuilder().code(errorCause.toString()).message(getI18n(errorCause.getCauseKey(), locale))
+    return ErrorCauseBuilder.create().code(errorCause.toString()).message(getI18n(errorCause.getCauseKey(), locale))
         .build();
   }
 
   public Error computeError(List<ErrorCause> causes) {
-    return new ErrorBuilder().code(ERROR.INVALID_REQUEST.toString()).causes(causes).build();
+    return ErrorBuilder.create().code(ERROR.INVALID_REQUEST.toString()).causes(causes).build();
   }
 
   protected String getI18n(String key, Locale locale) {

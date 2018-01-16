@@ -27,7 +27,7 @@ public class CarouselServiceImplTest {
 
   @Test
   public void testToEntity() throws Exception {
-    CarouselDTO dto = new CarouselDTOBuilder().build();
+    CarouselDTO dto = CarouselDTOBuilder.create().build();
 
     BDDMockito.doNothing().when(carouselService)
         .fillObject(BDDMockito.any(CarouselDTO.class), BDDMockito.any(Carousel.class));
@@ -40,9 +40,9 @@ public class CarouselServiceImplTest {
   @Test
   public void testToDTO() throws Exception {
 
-    Carousel entity = new CarouselBuilder().id(123456789l).build();
-    MediaDTO media = new MediaDTOBuilder().id(123456789l).build();
-    CarouselItemDTO dto = new CarouselItemDTOBuilder().media(media).build();
+    Carousel entity = CarouselBuilder.create().id(123456789l).build();
+    MediaDTO media = MediaDTOBuilder.create().id(123456789l).build();
+    CarouselItemDTO dto = CarouselItemDTOBuilder.create().media(media).build();
 
     BDDMockito.given(carouselItemService.getByCarouselId(BDDMockito.anyString())).willReturn(Lists.newArrayList(dto));
 
@@ -57,12 +57,12 @@ public class CarouselServiceImplTest {
 
   @Test
   public void testFindByPageId() throws Exception {
-    MediaDTO media = new MediaDTOBuilder().id(123456789l).build();
-    CarouselItemDTO dto = new CarouselItemDTOBuilder().media(media).build();
-    CarouselDTO carousel = new CarouselDTOBuilder().carouselItems(Lists.newArrayList(dto)).build();
+    MediaDTO media = MediaDTOBuilder.create().id(123456789l).build();
+    CarouselItemDTO dto = CarouselItemDTOBuilder.create().media(media).build();
+    CarouselDTO carousel = CarouselDTOBuilder.create().carouselItems(Lists.newArrayList(dto)).build();
 
     BDDMockito.doReturn(Lists.newArrayList(carousel)).when(carouselService).toListDTO(BDDMockito.anyList());
-    Carousel entity = new CarouselBuilder().build();
+    Carousel entity = CarouselBuilder.create().build();
     BDDMockito.given(carouselRepository.findByPageId(BDDMockito.anyString())).willReturn(Lists.newArrayList(entity));
 
     Assert.assertEquals(carousel, carouselService.findByPageId("123456789").get(0));

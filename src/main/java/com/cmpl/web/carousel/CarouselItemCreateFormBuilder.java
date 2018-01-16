@@ -8,6 +8,10 @@ public class CarouselItemCreateFormBuilder extends Builder<CarouselItemCreateFor
   private int orderInCarousel;
   private String mediaId;
 
+  private CarouselItemCreateFormBuilder() {
+
+  }
+
   public CarouselItemCreateFormBuilder carouselId(String carouselId) {
     this.carouselId = carouselId;
     return this;
@@ -30,6 +34,10 @@ public class CarouselItemCreateFormBuilder extends Builder<CarouselItemCreateFor
     form.setMediaId(mediaId);
     form.setOrderInCarousel(orderInCarousel);
     return form;
+  }
+
+  public static CarouselItemCreateFormBuilder create() {
+    return new CarouselItemCreateFormBuilder();
   }
 
 }

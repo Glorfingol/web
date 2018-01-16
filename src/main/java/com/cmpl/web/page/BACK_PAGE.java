@@ -1,7 +1,5 @@
 package com.cmpl.web.page;
 
-import com.cmpl.web.menu.BACK_MENU;
-
 /**
  * Enumeration pour les pages du back office du site
  * 
@@ -10,26 +8,27 @@ import com.cmpl.web.menu.BACK_MENU;
  */
 public enum BACK_PAGE {
 
+  INDEX("index.tile", "back.index.title"),
   LOGIN("login.tile", ""),
-  NEWS_VIEW("news.view", BACK_MENU.BACK_NEWS.getTitle()),
-  NEWS_CREATE("news.create", BACK_MENU.BACK_NEWS.getTitle()),
-  NEWS_UPDATE("news.update", BACK_MENU.BACK_NEWS.getTitle()),
-  NEWS_TEMPLATE("news.template", BACK_MENU.BACK_NEWS.getTitle()),
+  NEWS_VIEW("news.view", "back.news.title"),
+  NEWS_CREATE("news.create", "back.news.title"),
+  NEWS_UPDATE("news.update", "back.news.title"),
+  NEWS_TEMPLATE("news.template", "back.news.title"),
   FACEBOOK_ACCESS("facebook.access.tile", "facebook.access.title"),
   FACEBOOK_IMPORT("facebook.import.tile", "facebook.access.title"),
-  MENUS_VIEW("menus.view", BACK_MENU.BACK_MENUS.getTitle()),
-  MENUS_CREATE("menus.create", BACK_MENU.BACK_MENUS.getTitle()),
-  MENUS_UPDATE("menus.update", BACK_MENU.BACK_MENUS.getTitle()),
-  PAGES_VIEW("pages.view", BACK_MENU.BACK_PAGES.getTitle()),
-  PAGES_CREATE("pages.create", BACK_MENU.BACK_PAGES.getTitle()),
-  PAGES_UPDATE("pages.update", BACK_MENU.BACK_PAGES.getTitle()),
-  MEDIA_VIEW("medias.view", BACK_MENU.BACK_MEDIAS.getTitle()),
-  MEDIA_UPLOAD("medias.upload", BACK_MENU.BACK_MEDIAS.getTitle()),
-  CAROUSELS_VIEW("carousels.view", BACK_MENU.BACK_CAROUSELS.getTitle()),
-  CAROUSELS_UPDATE("carousels.update", BACK_MENU.BACK_CAROUSELS.getTitle()),
-  CAROUSELS_CREATE("carousels.create", BACK_MENU.BACK_CAROUSELS.getTitle()),
-  STYLES_VIEW("styles.view", BACK_MENU.BACK_STYLE.getTitle()),
-  STYLES_UPDATE("styles.update", BACK_MENU.BACK_STYLE.getTitle());
+  MENUS_VIEW("menus.view", "back.menus.title"),
+  MENUS_CREATE("menus.create", "back.menus.title"),
+  MENUS_UPDATE("menus.update", "back.menus.title"),
+  PAGES_VIEW("pages.view", "back.pages.title"),
+  PAGES_CREATE("pages.create", "back.pages.title"),
+  PAGES_UPDATE("pages.update", "back.pages.title"),
+  MEDIA_VIEW("medias.view", "back.medias.title"),
+  MEDIA_UPLOAD("medias.upload", "back.medias.title"),
+  CAROUSELS_VIEW("carousels.view", "back.carousels.title"),
+  CAROUSELS_UPDATE("carousels.update", "back.carousels.title"),
+  CAROUSELS_CREATE("carousels.create", "back.carousels.title"),
+  STYLES_VIEW("styles.view", "back.style.title"),
+  STYLES_UPDATE("styles.update", "back.style.title");
 
   private String tile;
   private String title;

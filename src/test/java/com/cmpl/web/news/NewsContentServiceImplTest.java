@@ -53,7 +53,7 @@ public class NewsContentServiceImplTest {
   @Test
   public void testFillObject() throws Exception {
     LocalDate date = LocalDate.now();
-    NewsContentDTO dto = new NewsContentDTOBuilder().content("someContent").id(1L).creationDate(date)
+    NewsContentDTO dto = NewsContentDTOBuilder.create().content("someContent").id(1L).creationDate(date)
         .modificationDate(date).build();
 
     NewsContent destination = new NewsContent();
@@ -77,9 +77,9 @@ public class NewsContentServiceImplTest {
 
     LocalDate date = LocalDate.now();
 
-    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
+    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
         .modificationDate(date).build();
-    NewsContentDTO contentDTO2 = new NewsContentDTOBuilder().content("content2").id(1L).creationDate(date)
+    NewsContentDTO contentDTO2 = NewsContentDTOBuilder.create().content("content2").id(1L).creationDate(date)
         .modificationDate(date).build();
 
     BDDMockito.doReturn(contentDTO1).when(service).toDTO(BDDMockito.eq(content1));
@@ -126,9 +126,9 @@ public class NewsContentServiceImplTest {
 
     List<NewsContent> contents = Lists.newArrayList(content1, content2);
 
-    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
+    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
         .modificationDate(date).build();
-    NewsContentDTO contentDTO2 = new NewsContentDTOBuilder().content("content2").id(1L).creationDate(date)
+    NewsContentDTO contentDTO2 = NewsContentDTOBuilder.create().content("content2").id(1L).creationDate(date)
         .modificationDate(date).build();
 
     List<NewsContentDTO> contentsDTO = Lists.newArrayList(contentDTO1, contentDTO2);
@@ -151,7 +151,7 @@ public class NewsContentServiceImplTest {
 
     LocalDate date = LocalDate.now();
     date = date.minusDays(1);
-    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
+    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
         .modificationDate(date).build();
 
     BDDMockito.doReturn(content1).when(service).toEntity(BDDMockito.eq(contentDTO1));
@@ -183,7 +183,7 @@ public class NewsContentServiceImplTest {
 
     LocalDate date = LocalDate.now();
     date = date.minusDays(1);
-    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
+    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
         .modificationDate(date).build();
 
     BDDMockito.doReturn(optional).when(repository).findById(BDDMockito.anyLong());
@@ -201,7 +201,7 @@ public class NewsContentServiceImplTest {
     content1.setContent("content1");
     LocalDate date = LocalDate.now();
     date = date.minusDays(1);
-    NewsContentDTO contentDTO1 = new NewsContentDTOBuilder().content("content1").id(1L).creationDate(date)
+    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
         .modificationDate(date).build();
 
     BDDMockito.doReturn(content1).when(service).toEntity(BDDMockito.eq(contentDTO1));

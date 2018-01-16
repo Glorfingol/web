@@ -37,8 +37,8 @@ public class StyleDispatcherImplTest {
     response.setStyle(updatedDTO);
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(StyleDTO.class))).willReturn(response);
 
-    StyleDTO dtoOfForm = new StyleDTOBuilder().content("someContent")
-        .media(new MediaDTOBuilder().name("someName").id(123456789l).build()).build();
+    StyleDTO dtoOfForm = StyleDTOBuilder.create().content("someContent")
+        .media(MediaDTOBuilder.create().name("someName").id(123456789l).build()).build();
     Assert.assertEquals(response, dispatcher.updateEntity(new StyleForm(dtoOfForm), Locale.FRANCE));
   }
 

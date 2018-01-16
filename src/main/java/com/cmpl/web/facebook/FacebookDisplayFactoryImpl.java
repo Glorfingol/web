@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
 import com.cmpl.web.core.model.BaseException;
 import com.cmpl.web.menu.MenuFactory;
@@ -23,8 +25,8 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
   private final FacebookService facebookService;
 
   public FacebookDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      FacebookService facebookService) {
-    super(menuFactory, messageSource);
+      FacebookService facebookService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry);
     this.facebookService = facebookService;
   }
 

@@ -7,6 +7,10 @@ public class CarouselCreateFormBuilder extends Builder<CarouselCreateForm> {
   private String name;
   private String pageId;
 
+  private CarouselCreateFormBuilder() {
+
+  }
+
   public CarouselCreateFormBuilder name(String name) {
     this.name = name;
     return this;
@@ -23,6 +27,10 @@ public class CarouselCreateFormBuilder extends Builder<CarouselCreateForm> {
     form.setName(name);
     form.setPageId(pageId);
     return form;
+  }
+
+  public static CarouselCreateFormBuilder create() {
+    return new CarouselCreateFormBuilder();
   }
 
 }

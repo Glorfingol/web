@@ -8,6 +8,10 @@ public class MetaElementCreateFormBuilder extends Builder<MetaElementCreateForm>
   private String content = "";
   private String pageId;
 
+  private MetaElementCreateFormBuilder() {
+
+  }
+
   public MetaElementCreateFormBuilder name(String name) {
     this.name = name;
     return this;
@@ -30,6 +34,10 @@ public class MetaElementCreateFormBuilder extends Builder<MetaElementCreateForm>
     form.setContent(content);
     form.setPageId(pageId);
     return form;
+  }
+
+  public static MetaElementCreateFormBuilder create() {
+    return new MetaElementCreateFormBuilder();
   }
 
 }

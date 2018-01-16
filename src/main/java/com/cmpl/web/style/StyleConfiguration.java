@@ -1,13 +1,25 @@
 package com.cmpl.web.style;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.context.ContextHolder;
+import com.cmpl.web.core.menu.BackMenuItem;
+import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.file.FileService;
 import com.cmpl.web.media.MediaService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
+import com.cmpl.web.page.BACK_PAGE;
 
 @Configuration
 public class StyleConfiguration {
@@ -23,13 +35,37 @@ public class StyleConfiguration {
   }
 
   @Bean
+  BackMenuItem styleBackMenuItem() {
+    return BackMenuItemBuilder.create().href("back.style.href").label("back.style.label").title("back.style.title")
+        .order(5).build();
+  }
+
+  @Bean
+  BreadCrumb styleBreadCrumb() {
+    return BreadCrumbBuilder.create().items(styleBreadCrumbItems()).page(BACK_PAGE.STYLES_VIEW).build();
+  }
+
+  @Bean
+  BreadCrumb styleUpdateBreadCrumb() {
+    return BreadCrumbBuilder.create().items(styleBreadCrumbItems()).page(BACK_PAGE.STYLES_UPDATE).build();
+  }
+
+  List<BreadCrumbItem> styleBreadCrumbItems() {
+    List<BreadCrumbItem> items = new ArrayList<>();
+    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("Gestion du style css").href("/manager/styles").build());
+    return items;
+  }
+
+  @Bean
   public StyleTranslator styleTranslator() {
     return new StyleTranslatorImpl();
   }
 
   @Bean
   public StyleDisplayFactory styleDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      StyleService styleService, ContextHolder contextHolder) {
-    return new StyleDisplayFactoryImpl(menuFactory, messageSource, styleService, contextHolder);
+      StyleService styleService, ContextHolder contextHolder,
+      @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+    return new StyleDisplayFactoryImpl(menuFactory, messageSource, styleService, contextHolder, breadCrumbRegistry);
   }
 }

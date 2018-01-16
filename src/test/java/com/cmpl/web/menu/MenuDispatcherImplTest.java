@@ -35,9 +35,9 @@ public class MenuDispatcherImplTest {
 
   @Test
   public void testUpdateEntity_No_Error_ParentId() throws Exception {
-    MenuUpdateForm form = new MenuUpdateFormBuilder().id(123456789l).href("someHref").label("someLabel")
+    MenuUpdateForm form = MenuUpdateFormBuilder.create().id(123456789l).href("someHref").label("someLabel")
         .title("someTitle").orderInMenu(1).pageId("123456789").parentId("123456789").build();
-    MenuDTO menuToUpdate = new MenuDTOBuilder().build();
+    MenuDTO menuToUpdate = MenuDTOBuilder.create().build();
 
     BDDMockito.given(validator.validateUpdate(BDDMockito.any(MenuUpdateForm.class), BDDMockito.any(Locale.class)))
         .willReturn(null);
@@ -45,7 +45,7 @@ public class MenuDispatcherImplTest {
     BDDMockito.given(menuService.getEntity(BDDMockito.anyLong())).willReturn(menuToUpdate);
     BDDMockito.given(menuService.updateEntity(BDDMockito.any(MenuDTO.class))).willReturn(menuToUpdate);
 
-    MenuResponse response = new MenuResponseBuilder().menu(menuToUpdate).build();
+    MenuResponse response = MenuResponseBuilder.create().menu(menuToUpdate).build();
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(MenuDTO.class))).willReturn(response);
 
     Assert.assertEquals(response, dispatcher.updateEntity(form, Locale.FRANCE));
@@ -60,9 +60,9 @@ public class MenuDispatcherImplTest {
 
   @Test
   public void testUpdateEntity_No_Error_No_ParentId() throws Exception {
-    MenuUpdateForm form = new MenuUpdateFormBuilder().id(123456789l).href("someHref").label("someLabel")
+    MenuUpdateForm form = MenuUpdateFormBuilder.create().id(123456789l).href("someHref").label("someLabel")
         .title("someTitle").orderInMenu(1).pageId("123456789").build();
-    MenuDTO menuToUpdate = new MenuDTOBuilder().pageId("123456789").build();
+    MenuDTO menuToUpdate = MenuDTOBuilder.create().pageId("123456789").build();
 
     BDDMockito.given(validator.validateUpdate(BDDMockito.any(MenuUpdateForm.class), BDDMockito.any(Locale.class)))
         .willReturn(null);
@@ -70,10 +70,10 @@ public class MenuDispatcherImplTest {
     BDDMockito.given(menuService.getEntity(BDDMockito.anyLong())).willReturn(menuToUpdate);
     BDDMockito.given(menuService.updateEntity(BDDMockito.any(MenuDTO.class))).willReturn(menuToUpdate);
 
-    MenuResponse response = new MenuResponseBuilder().menu(menuToUpdate).build();
+    MenuResponse response = MenuResponseBuilder.create().menu(menuToUpdate).build();
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(MenuDTO.class))).willReturn(response);
 
-    PageDTO page = new PageDTOBuilder().name("someName").menuTitle("someMenuTitle").build();
+    PageDTO page = PageDTOBuilder.create().name("someName").menuTitle("someMenuTitle").build();
     BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(page);
 
     Assert.assertEquals(response, dispatcher.updateEntity(form, Locale.FRANCE));
@@ -89,14 +89,14 @@ public class MenuDispatcherImplTest {
   @Test
   public void testUpdateEntity_Error() throws Exception {
 
-    MenuUpdateForm form = new MenuUpdateFormBuilder().href("someHref").label("someLabel").title("someTitle")
+    MenuUpdateForm form = MenuUpdateFormBuilder.create().href("someHref").label("someLabel").title("someTitle")
         .orderInMenu(1).pageId("123456789").build();
 
-    Error error = new ErrorBuilder().build();
+    Error error = ErrorBuilder.create().build();
     BDDMockito.given(validator.validateUpdate(BDDMockito.any(MenuUpdateForm.class), BDDMockito.any(Locale.class)))
         .willReturn(error);
 
-    MenuResponse response = new MenuResponseBuilder().error(error).build();
+    MenuResponse response = MenuResponseBuilder.create().error(error).build();
 
     Assert.assertEquals(response.getError(), dispatcher.updateEntity(form, Locale.FRANCE).getError());
     BDDMockito.verify(validator, BDDMockito.times(1)).validateUpdate(BDDMockito.any(MenuUpdateForm.class),
@@ -109,16 +109,16 @@ public class MenuDispatcherImplTest {
 
   @Test
   public void testCreateEntity_No_Error_ParentId() throws Exception {
-    MenuCreateForm form = new MenuCreateFormBuilder().href("someHref").label("someLabel").title("someTitle")
+    MenuCreateForm form = MenuCreateFormBuilder.create().href("someHref").label("someLabel").title("someTitle")
         .orderInMenu(1).pageId("123456789").parentId("123456789").build();
-    MenuDTO menuToCreate = new MenuDTOBuilder().build();
+    MenuDTO menuToCreate = MenuDTOBuilder.create().build();
 
     BDDMockito.given(validator.validateCreate(BDDMockito.any(MenuCreateForm.class), BDDMockito.any(Locale.class)))
         .willReturn(null);
 
     BDDMockito.given(menuService.createEntity(BDDMockito.any(MenuDTO.class))).willReturn(menuToCreate);
 
-    MenuResponse response = new MenuResponseBuilder().menu(menuToCreate).build();
+    MenuResponse response = MenuResponseBuilder.create().menu(menuToCreate).build();
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(MenuDTO.class))).willReturn(response);
     BDDMockito.given(translator.fromCreateFormToDTO(BDDMockito.any(MenuCreateForm.class))).willReturn(menuToCreate);
 
@@ -134,20 +134,20 @@ public class MenuDispatcherImplTest {
 
   @Test
   public void testCreateEntity_No_Error_No_ParentId() throws Exception {
-    MenuCreateForm form = new MenuCreateFormBuilder().href("someHref").label("someLabel").title("someTitle")
+    MenuCreateForm form = MenuCreateFormBuilder.create().href("someHref").label("someLabel").title("someTitle")
         .orderInMenu(1).pageId("123456789").parentId("123456789").build();
-    MenuDTO menuToCreate = new MenuDTOBuilder().pageId("123456789").build();
+    MenuDTO menuToCreate = MenuDTOBuilder.create().pageId("123456789").build();
 
     BDDMockito.given(validator.validateCreate(BDDMockito.any(MenuCreateForm.class), BDDMockito.any(Locale.class)))
         .willReturn(null);
 
     BDDMockito.given(menuService.createEntity(BDDMockito.any(MenuDTO.class))).willReturn(menuToCreate);
 
-    MenuResponse response = new MenuResponseBuilder().menu(menuToCreate).build();
+    MenuResponse response = MenuResponseBuilder.create().menu(menuToCreate).build();
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(MenuDTO.class))).willReturn(response);
     BDDMockito.given(translator.fromCreateFormToDTO(BDDMockito.any(MenuCreateForm.class))).willReturn(menuToCreate);
 
-    PageDTO page = new PageDTOBuilder().name("someName").menuTitle("someMenuTitle").build();
+    PageDTO page = PageDTOBuilder.create().name("someName").menuTitle("someMenuTitle").build();
     BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(page);
 
     Assert.assertEquals(response, dispatcher.createEntity(form, Locale.FRANCE));
@@ -163,14 +163,14 @@ public class MenuDispatcherImplTest {
   @Test
   public void testCreateEntity_Error() throws Exception {
 
-    MenuCreateForm form = new MenuCreateFormBuilder().href("someHref").label("someLabel").title("someTitle")
+    MenuCreateForm form = MenuCreateFormBuilder.create().href("someHref").label("someLabel").title("someTitle")
         .orderInMenu(1).pageId("123456789").build();
 
-    Error error = new ErrorBuilder().build();
+    Error error = ErrorBuilder.create().build();
     BDDMockito.given(validator.validateCreate(BDDMockito.any(MenuCreateForm.class), BDDMockito.any(Locale.class)))
         .willReturn(error);
 
-    MenuResponse response = new MenuResponseBuilder().error(error).build();
+    MenuResponse response = MenuResponseBuilder.create().error(error).build();
 
     Assert.assertEquals(response.getError(), dispatcher.createEntity(form, Locale.FRANCE).getError());
     BDDMockito.verify(validator, BDDMockito.times(1)).validateCreate(BDDMockito.any(MenuCreateForm.class),

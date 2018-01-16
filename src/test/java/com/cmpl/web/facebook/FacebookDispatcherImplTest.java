@@ -40,7 +40,7 @@ public class FacebookDispatcherImplTest {
 
     FacebookImportResponse response = new FacebookImportResponse();
 
-    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().id(123456789L).build();
+    NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().id(123456789L).build();
 
     BDDMockito.doReturn(posts).when(facebookImportTranslator).fromRequestToPosts(BDDMockito.eq(facebookImportRequest));
     BDDMockito.doReturn(Lists.newArrayList(newsEntry)).when(facebookImportService)

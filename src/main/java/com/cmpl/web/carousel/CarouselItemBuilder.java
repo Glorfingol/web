@@ -8,6 +8,10 @@ public class CarouselItemBuilder extends BaseBuilder<CarouselItem> {
   private String carouselId;
   private int orderInCarousel;
 
+  private CarouselItemBuilder() {
+
+  }
+
   public CarouselItemBuilder mediaId(String mediaId) {
     this.mediaId = mediaId;
     return this;
@@ -33,6 +37,10 @@ public class CarouselItemBuilder extends BaseBuilder<CarouselItem> {
     carouselItem.setModificationDate(modificationDate);
     carouselItem.setOrderInCarousel(orderInCarousel);
     return carouselItem;
+  }
+
+  public static CarouselItemBuilder create() {
+    return new CarouselItemBuilder();
   }
 
 }

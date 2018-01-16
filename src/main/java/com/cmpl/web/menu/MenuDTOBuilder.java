@@ -14,6 +14,10 @@ public class MenuDTOBuilder extends BaseBuilder<MenuDTO> {
   private String pageId;
   private List<MenuDTO> children;
 
+  private MenuDTOBuilder() {
+
+  }
+
   public MenuDTOBuilder title(String title) {
     this.title = title;
     return this;
@@ -63,6 +67,10 @@ public class MenuDTOBuilder extends BaseBuilder<MenuDTO> {
     menuDTO.setParentId(parentId);
     menuDTO.setTitle(title);
     return menuDTO;
+  }
+
+  public static MenuDTOBuilder create() {
+    return new MenuDTOBuilder();
   }
 
 }

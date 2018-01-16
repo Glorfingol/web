@@ -5,7 +5,6 @@ import java.util.List;
 import com.cmpl.web.core.builder.BaseBuilder;
 import com.cmpl.web.meta.MetaElementDTO;
 import com.cmpl.web.meta.OpenGraphMetaElementDTO;
-import com.cmpl.web.page.PageDTO;
 
 public class PageDTOBuilder extends BaseBuilder<PageDTO> {
 
@@ -18,6 +17,10 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
 
   private List<MetaElementDTO> metaElements;
   private List<OpenGraphMetaElementDTO> openGraphMetaElements;
+
+  private PageDTOBuilder() {
+
+  }
 
   public PageDTOBuilder name(String name) {
     this.name = name;
@@ -75,6 +78,10 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
     pageDTO.setWithNews(withNews);
 
     return pageDTO;
+  }
+
+  public static PageDTOBuilder create() {
+    return new PageDTOBuilder();
   }
 
 }

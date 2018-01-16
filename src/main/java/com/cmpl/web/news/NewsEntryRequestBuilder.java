@@ -3,9 +3,6 @@ package com.cmpl.web.news;
 import java.time.LocalDate;
 
 import com.cmpl.web.core.builder.Builder;
-import com.cmpl.web.news.NewsContentRequest;
-import com.cmpl.web.news.NewsEntryRequest;
-import com.cmpl.web.news.NewsImageRequest;
 
 public class NewsEntryRequestBuilder extends Builder<NewsEntryRequest> {
 
@@ -18,6 +15,10 @@ public class NewsEntryRequestBuilder extends Builder<NewsEntryRequest> {
 
   private NewsContentRequest content;
   private NewsImageRequest image;
+
+  private NewsEntryRequestBuilder() {
+
+  }
 
   public NewsEntryRequestBuilder author(String author) {
     this.author = author;
@@ -73,6 +74,10 @@ public class NewsEntryRequestBuilder extends Builder<NewsEntryRequest> {
     request.setImage(image);
 
     return request;
+  }
+
+  public static NewsEntryRequestBuilder create() {
+    return new NewsEntryRequestBuilder();
   }
 
 }

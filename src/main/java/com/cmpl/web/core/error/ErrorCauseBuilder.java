@@ -8,6 +8,10 @@ public class ErrorCauseBuilder extends Builder<ErrorCause> {
   private String code;
   private String message;
 
+  private ErrorCauseBuilder() {
+
+  }
+
   public ErrorCauseBuilder code(String code) {
     this.code = code;
     return this;
@@ -24,6 +28,10 @@ public class ErrorCauseBuilder extends Builder<ErrorCause> {
     errorCause.setCode(code);
     errorCause.setMessage(message);
     return errorCause;
+  }
+
+  public static ErrorCauseBuilder create() {
+    return new ErrorCauseBuilder();
   }
 
 }

@@ -115,6 +115,7 @@ function postImportFacebook(){
 	
 	$("#facebookImportForm").hide();
 	$(".loader").show();
+	$(".card-loader").show();
 	var url = "/manager/facebook/import";
 	var urlFallback = "/manager/news";
 	var request = {};
@@ -130,6 +131,7 @@ function postImportFacebook(){
         success: function () {
         	$("#facebookImportForm").show();
     		$(".loader").hide();
+    		$(".card-loader").hide();
     		window.location.href= urlFallback;
         },
         error: function(){

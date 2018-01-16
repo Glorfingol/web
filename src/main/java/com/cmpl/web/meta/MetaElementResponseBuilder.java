@@ -9,6 +9,10 @@ public class MetaElementResponseBuilder extends Builder<MetaElementResponse> {
   private MetaElementDTO metaElement;
   private OpenGraphMetaElementDTO openGraphMetaElement;
 
+  private MetaElementResponseBuilder() {
+
+  }
+
   public MetaElementResponseBuilder error(Error error) {
     this.error = error;
     return this;
@@ -31,6 +35,10 @@ public class MetaElementResponseBuilder extends Builder<MetaElementResponse> {
     response.setMetaElement(metaElement);
     response.setOpenGraphMetaElement(openGraphMetaElement);
     return response;
+  }
+
+  public static MetaElementResponseBuilder create() {
+    return new MetaElementResponseBuilder();
   }
 
 }

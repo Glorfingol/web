@@ -9,6 +9,9 @@ import org.springframework.social.facebook.api.Reference;
 
 public class PostBuilder extends Builder<Post> {
 
+  private PostBuilder() {
+  }
+
   private String message;
   private String description;
   private String name;
@@ -100,5 +103,9 @@ public class PostBuilder extends Builder<Post> {
     BDDMockito.doReturn(source).when(post).getSource();
 
     return post;
+  }
+
+  public static PostBuilder create() {
+    return new PostBuilder();
   }
 }

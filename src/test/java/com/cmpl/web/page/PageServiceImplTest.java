@@ -39,9 +39,9 @@ public class PageServiceImplTest {
 
   @Test
   public void testCreateEntity() throws Exception {
-    PageDTO dtoToCreate = new PageDTOBuilder().body("someBody").footer("someFooter").header("someHeader")
+    PageDTO dtoToCreate = PageDTOBuilder.create().body("someBody").footer("someFooter").header("someHeader")
         .name("someName").build();
-    Page entityToCreate = new PageBuilder().build();
+    Page entityToCreate = PageBuilder.create().build();
 
     BDDMockito.doReturn(dtoToCreate).when(pageService).toDTO(BDDMockito.any(Page.class));
     BDDMockito.doReturn(entityToCreate).when(pageService).toEntity(BDDMockito.any(PageDTO.class));
@@ -58,9 +58,9 @@ public class PageServiceImplTest {
   @Test
   public void testUpdateEntity() throws Exception {
 
-    PageDTO dtoToUpdate = new PageDTOBuilder().body("someBody").footer("someFooter").header("someHeader")
+    PageDTO dtoToUpdate = PageDTOBuilder.create().body("someBody").footer("someFooter").header("someHeader")
         .name("someName").build();
-    Page entityToUpdate = new PageBuilder().build();
+    Page entityToUpdate = PageBuilder.create().build();
 
     BDDMockito.doReturn(dtoToUpdate).when(pageService).toDTO(BDDMockito.any(Page.class));
     BDDMockito.doReturn(entityToUpdate).when(pageService).toEntity(BDDMockito.any(PageDTO.class));
@@ -76,8 +76,8 @@ public class PageServiceImplTest {
   @Test
   public void testGetEntity() throws Exception {
 
-    PageDTO dtoToFind = new PageDTOBuilder().name("someName").build();
-    Optional<Page> entityToFind = Optional.of(new PageBuilder().build());
+    PageDTO dtoToFind = PageDTOBuilder.create().name("someName").build();
+    Optional<Page> entityToFind = Optional.of(PageBuilder.create().build());
     BDDMockito.doReturn(dtoToFind).when(pageService).toDTO(BDDMockito.any(Page.class));
     BDDMockito.given(pageRepository.findById(BDDMockito.anyLong())).willReturn(entityToFind);
 
@@ -95,7 +95,7 @@ public class PageServiceImplTest {
 
   @Test
   public void testToDTO() throws Exception {
-    Page entity = new PageBuilder().build();
+    Page entity = PageBuilder.create().build();
 
     BDDMockito.doNothing().when(pageService).fillObject(BDDMockito.any(Page.class), BDDMockito.any(PageDTO.class));
     pageService.toDTO(entity);
@@ -106,7 +106,7 @@ public class PageServiceImplTest {
 
   @Test
   public void testToEntity() throws Exception {
-    PageDTO dto = new PageDTOBuilder().build();
+    PageDTO dto = PageDTOBuilder.create().build();
 
     BDDMockito.doNothing().when(pageService).fillObject(BDDMockito.any(PageDTO.class), BDDMockito.any(Page.class));
     pageService.toEntity(dto);
@@ -117,9 +117,9 @@ public class PageServiceImplTest {
 
   @Test
   public void testGetPageByName_Found() throws Exception {
-    PageDTO result = new PageDTOBuilder().id(123456789l).build();
+    PageDTO result = PageDTOBuilder.create().id(123456789l).build();
 
-    Page page = new PageBuilder().build();
+    Page page = PageBuilder.create().build();
 
     BDDMockito.doReturn(result).when(pageService).computePageDTOToReturn(BDDMockito.any(Page.class));
     BDDMockito.given(pageRepository.findByName(BDDMockito.anyString())).willReturn(page);
@@ -137,8 +137,8 @@ public class PageServiceImplTest {
 
   @Test
   public void testGetPages() throws Exception {
-    PageDTO result = new PageDTOBuilder().id(123456789l).build();
-    Page page = new PageBuilder().build();
+    PageDTO result = PageDTOBuilder.create().id(123456789l).build();
+    Page page = PageBuilder.create().build();
 
     BDDMockito.given(pageRepository.findAll(BDDMockito.any(Sort.class))).willReturn(Lists.newArrayList(page));
     BDDMockito.doReturn(Lists.newArrayList(result)).when(pageService).toListDTO(BDDMockito.anyList());
@@ -149,28 +149,28 @@ public class PageServiceImplTest {
 
   @Test
   public void testToListDTO() throws Exception {
-    PageDTO result = new PageDTOBuilder().id(123456789l).build();
+    PageDTO result = PageDTOBuilder.create().id(123456789l).build();
     BDDMockito.doReturn(result).when(pageService).computePageDTOToReturn(BDDMockito.any(Page.class));
 
-    Page page = new PageBuilder().build();
+    Page page = PageBuilder.create().build();
     Assert.assertEquals(result, pageService.toListDTO(Lists.newArrayList(page)).get(0));
 
   }
 
   @Test
   public void testComputePageDTOToReturn() throws Exception {
-    PageDTO dto = new PageDTOBuilder().id(123456789l).build();
+    PageDTO dto = PageDTOBuilder.create().id(123456789l).build();
     BDDMockito.doReturn(dto).when(pageService).toDTO(BDDMockito.any(Page.class));
 
-    MetaElementDTO metaElement = new MetaElementDTOBuilder().build();
+    MetaElementDTO metaElement = MetaElementDTOBuilder.create().build();
     BDDMockito.given(metaElementService.findMetaElementsByPageId(BDDMockito.anyString())).willReturn(
         Lists.newArrayList(metaElement));
 
-    OpenGraphMetaElementDTO openGraphMetaElement = new OpenGraphMetaElementDTOBuilder().build();
+    OpenGraphMetaElementDTO openGraphMetaElement = OpenGraphMetaElementDTOBuilder.create().build();
     BDDMockito.given(openGraphMetaElementService.findOpenGraphMetaElementsByPageId(BDDMockito.anyString())).willReturn(
         Lists.newArrayList(openGraphMetaElement));
 
-    PageDTO result = pageService.computePageDTOToReturn(new PageBuilder().build());
+    PageDTO result = pageService.computePageDTOToReturn(PageBuilder.create().build());
 
     Assert.assertEquals(metaElement, result.getMetaElements().get(0));
     Assert.assertEquals(openGraphMetaElement, result.getOpenGraphMetaElements().get(0));

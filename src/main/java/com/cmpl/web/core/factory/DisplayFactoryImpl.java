@@ -47,8 +47,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   private final FileService fileService;
 
   public DisplayFactoryImpl(MenuFactory menuFactory, CarouselService carouselService, WebMessageSource messageSource,
-      PageService pageService, NewsEntryService newsEntryService, ContextHolder contextHolder,
-      FileService fileService) {
+      PageService pageService, NewsEntryService newsEntryService, ContextHolder contextHolder, FileService fileService) {
     super(messageSource);
     this.menuFactory = menuFactory;
     this.carouselService = carouselService;
@@ -145,8 +144,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
       return new PageImpl<>(newsEntries);
     }
 
-    pagedNewsEntries.getContent()
-        .forEach(newsEntry -> newsEntries.add(computeNewsEntryDisplayBean(page, locale, newsEntry)));
+    pagedNewsEntries.getContent().forEach(
+        newsEntry -> newsEntries.add(computeNewsEntryDisplayBean(page, locale, newsEntry)));
 
     return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
   }

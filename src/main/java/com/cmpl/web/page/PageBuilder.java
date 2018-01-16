@@ -8,6 +8,10 @@ public class PageBuilder extends BaseBuilder<Page> {
   private String menuTitle;
   private boolean withNews;
 
+  private PageBuilder() {
+
+  }
+
   public PageBuilder name(String name) {
     this.name = name;
     return this;
@@ -33,6 +37,10 @@ public class PageBuilder extends BaseBuilder<Page> {
     page.setName(name);
     page.setWithNews(withNews);
     return page;
+  }
+
+  public static PageBuilder create() {
+    return new PageBuilder();
   }
 
 }

@@ -29,7 +29,7 @@ public class MenuDispatcherImpl implements MenuDispatcher {
     Error error = validator.validateCreate(form, locale);
 
     if (error != null) {
-      return new MenuResponseBuilder().error(error).build();
+      return MenuResponseBuilder.create().error(error).build();
     }
 
     MenuDTO menuToCreate = translator.fromCreateFormToDTO(form);
@@ -50,11 +50,11 @@ public class MenuDispatcherImpl implements MenuDispatcher {
     Error error = validator.validateUpdate(form, locale);
 
     if (error != null) {
-      return new MenuResponseBuilder().error(error).build();
+      return MenuResponseBuilder.create().error(error).build();
     }
 
     MenuDTO menuToUpdate = menuService.getEntity(form.getId());
-    MenuDTOBuilder menuToUpdateBuilder = new MenuDTOBuilder().href(form.getHref()).label(form.getLabel())
+    MenuDTOBuilder menuToUpdateBuilder = MenuDTOBuilder.create().href(form.getHref()).label(form.getLabel())
         .orderInMenu(form.getOrderInMenu()).pageId(form.getPageId()).parentId(form.getParentId())
         .title(form.getTitle());
 

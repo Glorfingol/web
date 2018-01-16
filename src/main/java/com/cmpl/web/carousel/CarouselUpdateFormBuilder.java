@@ -12,6 +12,10 @@ public class CarouselUpdateFormBuilder extends Builder<CarouselUpdateForm> {
   private LocalDate creationDate;
   private LocalDate modificationDate;
 
+  private CarouselUpdateFormBuilder() {
+
+  }
+
   public CarouselUpdateFormBuilder name(String name) {
     this.name = name;
     return this;
@@ -46,6 +50,10 @@ public class CarouselUpdateFormBuilder extends Builder<CarouselUpdateForm> {
     form.setName(name);
     form.setPageId(pageId);
     return form;
+  }
+
+  public static CarouselUpdateFormBuilder create() {
+    return new CarouselUpdateFormBuilder();
   }
 
 }

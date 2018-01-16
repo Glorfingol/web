@@ -8,6 +8,10 @@ public class OpenGraphMetaElementDTOBuilder extends BaseBuilder<OpenGraphMetaEle
   private String property;
   private String content;
 
+  private OpenGraphMetaElementDTOBuilder() {
+
+  }
+
   public OpenGraphMetaElementDTOBuilder pageId(String pageId) {
     this.pageId = pageId;
     return this;
@@ -33,6 +37,10 @@ public class OpenGraphMetaElementDTOBuilder extends BaseBuilder<OpenGraphMetaEle
     dto.setProperty(property);
     dto.setPageId(pageId);
     return dto;
+  }
+
+  public static OpenGraphMetaElementDTOBuilder create() {
+    return new OpenGraphMetaElementDTOBuilder();
   }
 
 }

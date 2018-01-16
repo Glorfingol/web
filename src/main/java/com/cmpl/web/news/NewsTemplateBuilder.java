@@ -6,6 +6,10 @@ public class NewsTemplateBuilder extends Builder<NewsTemplate> {
 
   private String body;
 
+  private NewsTemplateBuilder() {
+
+  }
+
   public NewsTemplateBuilder body(String body) {
     this.body = body;
     return this;
@@ -16,6 +20,10 @@ public class NewsTemplateBuilder extends Builder<NewsTemplate> {
     NewsTemplate template = new NewsTemplate();
     template.setBody(body);
     return template;
+  }
+
+  public static NewsTemplateBuilder create() {
+    return new NewsTemplateBuilder();
   }
 
 }

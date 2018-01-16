@@ -7,9 +7,11 @@ import java.util.Locale;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.model.PageWrapper;
@@ -24,8 +26,8 @@ public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
   private final ContextHolder contextHolder;
 
   protected MediaManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      MediaService mediaService, ContextHolder contextHolder) {
-    super(menuFactory, messageSource);
+      MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry);
     this.mediaService = mediaService;
     this.contextHolder = contextHolder;
   }

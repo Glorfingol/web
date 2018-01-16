@@ -25,7 +25,7 @@ public class CarouselServiceImpl extends BaseServiceImpl<CarouselDTO, Carousel> 
 
   @Override
   protected CarouselDTO toDTO(Carousel entity) {
-    CarouselDTO dto = new CarouselDTOBuilder()
+    CarouselDTO dto = CarouselDTOBuilder.create()
         .carouselItems(carouselItemService.getByCarouselId(String.valueOf(entity.getId()))).build();
     fillObject(entity, dto);
     return dto;
@@ -33,7 +33,7 @@ public class CarouselServiceImpl extends BaseServiceImpl<CarouselDTO, Carousel> 
 
   @Override
   protected Carousel toEntity(CarouselDTO dto) {
-    Carousel carousel = new CarouselBuilder().build();
+    Carousel carousel = CarouselBuilder.create().build();
     fillObject(dto, carousel);
     return carousel;
   }

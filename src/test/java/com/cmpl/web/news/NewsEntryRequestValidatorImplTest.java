@@ -33,7 +33,7 @@ public class NewsEntryRequestValidatorImplTest {
   @Test
   public void testIsNewsContentValid_True() throws Exception {
 
-    NewsContentRequest request = new NewsContentRequestBuilder().content("someString").build();
+    NewsContentRequest request = NewsContentRequestBuilder.create().content("someString").build();
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
 
     boolean result = validator.isNewsContentValid(request);
@@ -42,7 +42,7 @@ public class NewsEntryRequestValidatorImplTest {
 
   @Test
   public void testIsNewsContentValid_False_null() throws Exception {
-    NewsContentRequest request = new NewsContentRequestBuilder().build();
+    NewsContentRequest request = NewsContentRequestBuilder.create().build();
 
     boolean result = validator.isNewsContentValid(request);
     Assert.assertFalse(result);
@@ -50,7 +50,7 @@ public class NewsEntryRequestValidatorImplTest {
 
   @Test
   public void testIsNewsContentValid_False_empty() throws Exception {
-    NewsContentRequest request = new NewsContentRequestBuilder().content("").build();
+    NewsContentRequest request = NewsContentRequestBuilder.create().content("").build();
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.anyString());
 
     boolean result = validator.isNewsContentValid(request);
@@ -59,7 +59,7 @@ public class NewsEntryRequestValidatorImplTest {
 
   @Test
   public void testIsNewsContentValid_False_blank() throws Exception {
-    NewsContentRequest request = new NewsContentRequestBuilder().content(" ").build();
+    NewsContentRequest request = NewsContentRequestBuilder.create().content(" ").build();
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.anyString());
 
     boolean result = validator.isNewsContentValid(request);

@@ -2,12 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="common/back_header"/>
     <body>
-        <div class="container container-fluid">
-            <div th:include="common/back_logo"/>
-            <div class="row">
-                 <div class="col align-self-center">
+        <div class="container container-fluid login-body">
+            <div class="row h-100">
+                 <div class="col align-self-center my-auto">
 	                 <form id="loginForm" th:action="@{/login}" method="post">
 	                    <div class="card">
+	                        <div class="card-header">
+	                           <span th:text="#{login.message}">
+	                        </div>
 		                    <div class="card-block">
 		                       <div th:if="${param.error}" class="alert alert-danger">
 			                      <span th:text="#{user.error}"/>
@@ -35,7 +37,7 @@
 		                   
 	                    </div>
 	                 </form>
-	                 <div class="card">
+	                 <div class="card card-loader">
                         <div class="loader"/> 
                      </div>
                  </div>

@@ -81,7 +81,7 @@ public class NewsEntryDispatcherImplTest {
         .validateUpdate(BDDMockito.any(NewsEntryRequest.class), BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(NewsEntryDTO.class))).willReturn(response);
 
-    NewsEntryDTO dto = new NewsEntryDTOBuilder().build();
+    NewsEntryDTO dto = NewsEntryDTOBuilder.create().build();
     BDDMockito.given(translator.fromRequestToDTO(BDDMockito.any(NewsEntryRequest.class))).willReturn(dto);
     BDDMockito.given(newsEntryService.updateEntity(BDDMockito.any(NewsEntryDTO.class))).willReturn(dto);
 
@@ -133,7 +133,7 @@ public class NewsEntryDispatcherImplTest {
 
     BDDMockito.doReturn(response).when(translator).fromDTOToResponse(BDDMockito.any(NewsEntryDTO.class));
 
-    NewsEntryDTO dto = new NewsEntryDTOBuilder().build();
+    NewsEntryDTO dto = NewsEntryDTOBuilder.create().build();
     BDDMockito.given(translator.fromRequestToDTO(BDDMockito.any(NewsEntryRequest.class))).willReturn(dto);
     BDDMockito.given(newsEntryService.createEntity(BDDMockito.any(NewsEntryDTO.class))).willReturn(dto);
 

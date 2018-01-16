@@ -35,8 +35,8 @@ public class CarouselValidatorImplTest {
   @Test
   public void testValidateDelete_Error() throws Exception {
 
-    Error error = new ErrorBuilder().build();
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_CAROUSEL_ITEM_ID.getCauseKey())
+    Error error = ErrorBuilder.create().build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_CAROUSEL_ITEM_ID.getCauseKey())
         .message("empty_id").build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
@@ -48,7 +48,7 @@ public class CarouselValidatorImplTest {
 
   @Test
   public void testValidateCarousel_No_Errors() throws Exception {
-    CarouselCreateForm form = new CarouselCreateFormBuilder().name("someName").pageId("somePageId").build();
+    CarouselCreateForm form = CarouselCreateFormBuilder.create().name("someName").pageId("somePageId").build();
 
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
 
@@ -57,14 +57,14 @@ public class CarouselValidatorImplTest {
 
   @Test
   public void testValidateCarousel_Empty_Name() throws Exception {
-    CarouselCreateForm form = new CarouselCreateFormBuilder().name("someName").pageId("somePageId").build();
+    CarouselCreateForm form = CarouselCreateFormBuilder.create().name("someName").pageId("somePageId").build();
 
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getName()));
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(form.getPageId()));
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_CAROUSEL_NAME.getCauseKey()).message("no_name")
-        .build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_CAROUSEL_NAME.getCauseKey())
+        .message("no_name").build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -74,14 +74,14 @@ public class CarouselValidatorImplTest {
 
   @Test
   public void testValidateCarousel_Empty_Page() throws Exception {
-    CarouselCreateForm form = new CarouselCreateFormBuilder().name("someName").pageId("somePageId").build();
+    CarouselCreateForm form = CarouselCreateFormBuilder.create().name("someName").pageId("somePageId").build();
 
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(form.getName()));
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getPageId()));
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_CAROUSEL_NAME.getCauseKey()).message("no_name")
-        .build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_CAROUSEL_NAME.getCauseKey())
+        .message("no_name").build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -91,14 +91,14 @@ public class CarouselValidatorImplTest {
 
   @Test
   public void testValidateCarousel_Empty_Name_Page() throws Exception {
-    CarouselCreateForm form = new CarouselCreateFormBuilder().name("someName").pageId("somePageId").build();
+    CarouselCreateForm form = CarouselCreateFormBuilder.create().name("someName").pageId("somePageId").build();
 
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getName()));
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getPageId()));
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_CAROUSEL_NAME.getCauseKey()).message("no_name")
-        .build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_CAROUSEL_NAME.getCauseKey())
+        .message("no_name").build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -108,7 +108,7 @@ public class CarouselValidatorImplTest {
 
   @Test
   public void testValidateCreateCarouselCreateFormLocale() throws Exception {
-    CarouselCreateForm form = new CarouselCreateFormBuilder().name("someName").pageId("somePageId").build();
+    CarouselCreateForm form = CarouselCreateFormBuilder.create().name("someName").pageId("somePageId").build();
     BDDMockito.doReturn(null).when(validator)
         .validateCarousel(BDDMockito.anyString(), BDDMockito.anyString(), BDDMockito.any(Locale.class));
     Assert.assertNull(validator.validateCreate(form, Locale.FRANCE));
@@ -118,7 +118,7 @@ public class CarouselValidatorImplTest {
 
   @Test
   public void testValidateUpdate() throws Exception {
-    CarouselUpdateForm form = new CarouselUpdateFormBuilder().name("someName").pageId("somePageId").build();
+    CarouselUpdateForm form = CarouselUpdateFormBuilder.create().name("someName").pageId("somePageId").build();
     BDDMockito.doReturn(null).when(validator)
         .validateCarousel(BDDMockito.anyString(), BDDMockito.anyString(), BDDMockito.any(Locale.class));
     Assert.assertNull(validator.validateUpdate(form, Locale.FRANCE));
@@ -128,7 +128,7 @@ public class CarouselValidatorImplTest {
 
   @Test
   public void testValidateCreateCarouselItemCreateFormLocale_No_Errors() throws Exception {
-    CarouselItemCreateForm form = new CarouselItemCreateFormBuilder().mediaId("someMediaId")
+    CarouselItemCreateForm form = CarouselItemCreateFormBuilder.create().mediaId("someMediaId")
         .carouselId("somearouselId").build();
 
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
@@ -138,15 +138,15 @@ public class CarouselValidatorImplTest {
 
   @Test
   public void testValidateCreateCarouselItemCreateFormLocale__Empty_Carousel() throws Exception {
-    CarouselItemCreateForm form = new CarouselItemCreateFormBuilder().carouselId("somearouselId")
+    CarouselItemCreateForm form = CarouselItemCreateFormBuilder.create().carouselId("somearouselId")
         .mediaId("someMediaId").build();
 
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getCarouselId()));
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(form.getMediaId()));
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_CAROUSEL_ID.getCauseKey()).message("no_carousel")
-        .build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_CAROUSEL_ID.getCauseKey())
+        .message("no_carousel").build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -156,15 +156,15 @@ public class CarouselValidatorImplTest {
 
   @Test
   public void testValidateCreateCarouselItemCreateFormLocale__Empty_Media() throws Exception {
-    CarouselItemCreateForm form = new CarouselItemCreateFormBuilder().carouselId("somearouselId")
+    CarouselItemCreateForm form = CarouselItemCreateFormBuilder.create().carouselId("somearouselId")
         .mediaId("someMediaId").build();
 
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(form.getCarouselId()));
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getMediaId()));
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_MEDIA_ID.getCauseKey()).message("no_media")
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_MEDIA_ID.getCauseKey()).message("no_media")
         .build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -174,15 +174,15 @@ public class CarouselValidatorImplTest {
 
   @Test
   public void testValidateCreateCarouselItemCreateFormLocale__Empty_Carousel_Media() throws Exception {
-    CarouselItemCreateForm form = new CarouselItemCreateFormBuilder().carouselId("somearouselId")
+    CarouselItemCreateForm form = CarouselItemCreateFormBuilder.create().carouselId("somearouselId")
         .mediaId("someMediaId").build();
 
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getCarouselId()));
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(form.getMediaId()));
 
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_MEDIA_ID.getCauseKey()).message("no_media")
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_MEDIA_ID.getCauseKey()).message("no_media")
         .build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(cause)).build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());

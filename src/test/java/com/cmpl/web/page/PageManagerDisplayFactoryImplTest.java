@@ -19,6 +19,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.builder.PageWrapperBuilder;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.model.PageWrapper;
@@ -58,10 +62,10 @@ public class PageManagerDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForUpdatePageFooter() throws Exception {
 
-    PageDTO dto = new PageDTOBuilder().build();
+    PageDTO dto = PageDTOBuilder.create().build();
     BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(dto);
 
-    PageUpdateForm form = new PageUpdateFormBuilder().build();
+    PageUpdateForm form = PageUpdateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class));
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdatePageFooter(Locale.FRANCE, "123456789");
@@ -72,10 +76,10 @@ public class PageManagerDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForUpdatePageHeader() throws Exception {
 
-    PageDTO dto = new PageDTOBuilder().build();
+    PageDTO dto = PageDTOBuilder.create().build();
     BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(dto);
 
-    PageUpdateForm form = new PageUpdateFormBuilder().build();
+    PageUpdateForm form = PageUpdateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class));
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdatePageHeader(Locale.FRANCE, "123456789");
@@ -99,10 +103,10 @@ public class PageManagerDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForUpdatePageOpenGraphMeta() throws Exception {
 
-    OpenGraphMetaElementCreateForm form = new OpenGraphMetaElementCreateFormBuilder().build();
+    OpenGraphMetaElementCreateForm form = OpenGraphMetaElementCreateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).createOpenGraphMetaElementCreateForm(BDDMockito.anyString());
 
-    OpenGraphMetaElementDTO openGraphMeta = new OpenGraphMetaElementDTOBuilder().build();
+    OpenGraphMetaElementDTO openGraphMeta = OpenGraphMetaElementDTOBuilder.create().build();
     BDDMockito.given(openGraphMetaElementService.findOpenGraphMetaElementsByPageId(BDDMockito.anyString())).willReturn(
         Lists.newArrayList(openGraphMeta));
 
@@ -114,10 +118,10 @@ public class PageManagerDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForUpdatePageMeta() throws Exception {
-    MetaElementCreateForm form = new MetaElementCreateFormBuilder().build();
+    MetaElementCreateForm form = MetaElementCreateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).createMetaElementCreateForm(BDDMockito.anyString());
 
-    MetaElementDTO meta = new MetaElementDTOBuilder().build();
+    MetaElementDTO meta = MetaElementDTOBuilder.create().build();
     BDDMockito.given(metaElementService.findMetaElementsByPageId(BDDMockito.anyString())).willReturn(
         Lists.newArrayList(meta));
 
@@ -130,10 +134,10 @@ public class PageManagerDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForUpdatePageBody() throws Exception {
 
-    PageDTO dto = new PageDTOBuilder().build();
+    PageDTO dto = PageDTOBuilder.create().build();
     BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(dto);
 
-    PageUpdateForm form = new PageUpdateFormBuilder().build();
+    PageUpdateForm form = PageUpdateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class));
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdatePageBody(Locale.FRANCE, "123456789");
@@ -143,10 +147,10 @@ public class PageManagerDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForUpdatePageMain() throws Exception {
 
-    PageDTO dto = new PageDTOBuilder().build();
+    PageDTO dto = PageDTOBuilder.create().build();
     BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(dto);
 
-    PageUpdateForm form = new PageUpdateFormBuilder().build();
+    PageUpdateForm form = PageUpdateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class));
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdatePageMain(Locale.FRANCE, "123456789");
@@ -156,10 +160,14 @@ public class PageManagerDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForUpdatePage() throws Exception {
 
-    PageDTO dto = new PageDTOBuilder().build();
+    PageDTO dto = PageDTOBuilder.create().build();
     BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(dto);
 
-    PageUpdateForm form = new PageUpdateFormBuilder().build();
+    PageUpdateForm form = PageUpdateFormBuilder.create().build();
+
+    BreadCrumbItem item = BreadCrumbItemBuilder.create().text("someText").build();
+    BreadCrumb breadcrumb = BreadCrumbBuilder.create().items(Lists.newArrayList(item)).build();
+    BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
     BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class));
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdatePage(Locale.FRANCE, "123456789");
@@ -169,16 +177,18 @@ public class PageManagerDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForCreatePage() throws Exception {
 
-    PageCreateForm form = new PageCreateFormBuilder().build();
+    PageCreateForm form = PageCreateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).computeCreateForm();
 
+    BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
+    BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
     ModelAndView result = displayFactory.computeModelAndViewForCreatePage(Locale.FRANCE);
     Assert.assertNotNull(result.getModel().get("createForm"));
   }
 
   @Test
   public void testCreateUpdateForm() throws Exception {
-    PageDTO dto = new PageDTOBuilder().body("someBody").footer("someFooter").header("someHeader").build();
+    PageDTO dto = PageDTOBuilder.create().body("someBody").footer("someFooter").header("someHeader").build();
 
     PageUpdateForm result = displayFactory.createUpdateForm(dto);
     Assert.assertEquals(dto.getBody(), result.getBody());
@@ -190,7 +200,7 @@ public class PageManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForViewAllPages() throws Exception {
 
     List<PageDTO> pages = new ArrayList<>();
-    PageDTO pageDTO = new PageDTOBuilder().build();
+    PageDTO pageDTO = PageDTOBuilder.create().build();
     pages.add(pageDTO);
     PageImpl<PageDTO> page = new PageImpl<>(pages);
     boolean isFirstPage = true;
@@ -204,6 +214,9 @@ public class PageManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(wrapper).when(displayFactory)
         .computePageWrapper(BDDMockito.any(Locale.class), BDDMockito.anyInt());
 
+    BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
+    BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
+
     ModelAndView result = displayFactory.computeModelAndViewForViewAllPages(Locale.FRANCE, 0);
     Assert.assertNotNull(result.getModel().get("wrappedPages"));
 
@@ -214,7 +227,7 @@ public class PageManagerDisplayFactoryImplTest {
 
     BDDMockito.given(contextHolder.getElementsPerPage()).willReturn(5);
     List<PageDTO> pages = new ArrayList<>();
-    PageDTO pageDTO = new PageDTOBuilder().build();
+    PageDTO pageDTO = PageDTOBuilder.create().build();
     pages.add(pageDTO);
     PageImpl<PageDTO> page = new PageImpl<>(pages);
     BDDMockito.given(pageService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(page);
@@ -239,7 +252,7 @@ public class PageManagerDisplayFactoryImplTest {
   public void testComputePageWrapperOfPages() throws Exception {
 
     List<PageDTO> pages = new ArrayList<>();
-    PageDTO pageDTO = new PageDTOBuilder().build();
+    PageDTO pageDTO = PageDTOBuilder.create().build();
     pages.add(pageDTO);
     PageImpl<PageDTO> page = new PageImpl<>(pages);
 

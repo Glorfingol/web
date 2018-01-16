@@ -8,6 +8,10 @@ public class OpenGraphMetaElementCreateFormBuilder extends Builder<OpenGraphMeta
   private String content;
   private String pageId;
 
+  private OpenGraphMetaElementCreateFormBuilder() {
+
+  }
+
   public OpenGraphMetaElementCreateFormBuilder property(String property) {
     this.property = property;
     return this;
@@ -30,6 +34,10 @@ public class OpenGraphMetaElementCreateFormBuilder extends Builder<OpenGraphMeta
     form.setContent(content);
     form.setPageId(pageId);
     return form;
+  }
+
+  public static OpenGraphMetaElementCreateFormBuilder create() {
+    return new OpenGraphMetaElementCreateFormBuilder();
   }
 
 }

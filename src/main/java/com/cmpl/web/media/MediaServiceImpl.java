@@ -36,7 +36,7 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
       extension = extension.toLowerCase();
     }
 
-    MediaDTO mediaToCreate = new MediaDTOBuilder().name(fileName).contentType(multipartFile.getContentType())
+    MediaDTO mediaToCreate = MediaDTOBuilder.create().name(fileName).contentType(multipartFile.getContentType())
         .extension(extension).size(multipartFile.getSize()).src(contextHolder.getMediaDisplayPath() + fileName).build();
 
     fileService.saveMediaOnSystem(fileName, multipartFile.getBytes());
@@ -51,14 +51,14 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
 
   @Override
   protected MediaDTO toDTO(Media entity) {
-    MediaDTO dto = new MediaDTOBuilder().build();
+    MediaDTO dto = MediaDTOBuilder.create().build();
     fillObject(entity, dto);
     return dto;
   }
 
   @Override
   protected Media toEntity(MediaDTO dto) {
-    Media entity = new MediaBuilder().build();
+    Media entity = MediaBuilder.create().build();
     fillObject(dto, entity);
     return entity;
   }

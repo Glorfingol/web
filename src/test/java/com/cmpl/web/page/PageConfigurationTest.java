@@ -7,7 +7,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.file.FileService;
 import com.cmpl.web.menu.MenuFactory;
@@ -38,6 +40,8 @@ public class PageConfigurationTest {
   private PageRepository pageRepository;
   @Mock
   private FileService fileService;
+  @Mock
+  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
 
   @Spy
   @InjectMocks
@@ -49,7 +53,7 @@ public class PageConfigurationTest {
     Assert.assertEquals(
         PageManagerDisplayFactoryImpl.class,
         configuration.pageManagerDisplayFactory(contextHolder, menuFactory, messageSource, pageService,
-            metaElementService, openGraphMetaElementService).getClass());
+            metaElementService, openGraphMetaElementService, breadCrumbRegistry).getClass());
   }
 
   @Test

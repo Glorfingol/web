@@ -41,8 +41,8 @@ public class PageValidatorImplTest {
 
     String someName = "someName";
     String someMenuTitle = "someMenuTitle";
-    Error error = new ErrorBuilder().build();
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_PAGE_NAME.getCauseKey()).message("no_Name")
+    Error error = ErrorBuilder.create().build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_PAGE_NAME.getCauseKey()).message("no_Name")
         .build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
@@ -57,9 +57,9 @@ public class PageValidatorImplTest {
   public void testValidate_No_MenuTitle() throws Exception {
     String someName = "someName";
     String someMenuTitle = "someMenuTitle";
-    Error error = new ErrorBuilder().build();
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_PAGE_MENU_TITLE.getCauseKey()).message("no_Name")
-        .build();
+    Error error = ErrorBuilder.create().build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_PAGE_MENU_TITLE.getCauseKey())
+        .message("no_Name").build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -73,8 +73,8 @@ public class PageValidatorImplTest {
   public void testValidate_No_Name_No_MenuTitle() throws Exception {
     String someName = "someName";
     String someMenuTitle = "someMenuTitle";
-    Error error = new ErrorBuilder().build();
-    ErrorCause cause = new ErrorCauseBuilder().code(ERROR_CAUSE.EMPTY_PAGE_NAME.getCauseKey()).message("no_Name")
+    Error error = ErrorBuilder.create().build();
+    ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_PAGE_NAME.getCauseKey()).message("no_Name")
         .build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
@@ -88,7 +88,7 @@ public class PageValidatorImplTest {
   @Test
   public void testValidateUpdate() throws Exception {
 
-    PageUpdateForm form = new PageUpdateFormBuilder().name("someName").menuTitle("someMenuTitle").build();
+    PageUpdateForm form = PageUpdateFormBuilder.create().name("someName").menuTitle("someMenuTitle").build();
     BDDMockito.doReturn(null).when(validator)
         .validate(BDDMockito.anyString(), BDDMockito.anyString(), BDDMockito.any(Locale.class));
     Assert.assertNull(validator.validateUpdate(form, Locale.FRANCE));
@@ -98,7 +98,7 @@ public class PageValidatorImplTest {
 
   @Test
   public void testValidateCreate() throws Exception {
-    PageCreateForm form = new PageCreateFormBuilder().name("someName").menuTitle("someMenuTitle").build();
+    PageCreateForm form = PageCreateFormBuilder.create().name("someName").menuTitle("someMenuTitle").build();
     BDDMockito.doReturn(null).when(validator)
         .validate(BDDMockito.anyString(), BDDMockito.anyString(), BDDMockito.any(Locale.class));
     Assert.assertNull(validator.validateCreate(form, Locale.FRANCE));

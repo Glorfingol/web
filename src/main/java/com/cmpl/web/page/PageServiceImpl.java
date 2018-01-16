@@ -77,14 +77,14 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
 
   @Override
   protected PageDTO toDTO(Page entity) {
-    PageDTO dto = new PageDTOBuilder().build();
+    PageDTO dto = PageDTOBuilder.create().build();
     fillObject(entity, dto);
     return dto;
   }
 
   @Override
   protected Page toEntity(PageDTO dto) {
-    Page entity = new PageBuilder().build();
+    Page entity = PageBuilder.create().build();
     fillObject(dto, entity);
     return entity;
   }
@@ -93,7 +93,7 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   public PageDTO getPageByName(String pageName) {
     Page page = pageRepository.findByName(pageName);
     if (page == null) {
-      return new PageDTOBuilder().build();
+      return PageDTOBuilder.create().build();
     }
     return computePageDTOToReturn(page);
   }

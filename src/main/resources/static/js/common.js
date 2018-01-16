@@ -1,14 +1,18 @@
 $(document).ready(function(){
+	$(".card-loader").hide();
 	$(".loader").hide();
 	
 	$("#loginForm").submit(function(){
+		$(".card-loader").show();
 		$(".loader").show();
 		$("#loginForm").hide();
 	});
 	$("#connectToFacebook").submit(function(){
+		$(".card-loader").show();
 		$(".loader").show();
 		$("#connectToFacebook").hide();
 	});
+	fix_height();
 });
 
 
@@ -141,10 +145,11 @@ function displayError(error){
 	}
 }
 
-function update(formToToggle,loader,url,urlFallBack,dataToSend){
+function update(formToToggle,loader,cardLoader,url,urlFallBack,dataToSend){
 	
 	formToToggle.hide();
 	loader.show();
+	cardLoader.show();
 	var data = JSON.stringify(dataToSend);
 	$.ajax({
         type: "PUT",
@@ -156,6 +161,7 @@ function update(formToToggle,loader,url,urlFallBack,dataToSend){
         success: function (data) {
         	formToToggle.show();
         	loader.hide();
+        	cardLoader.hide();
         	if(data.error){
         		displayError(data.error);
         	}else{
@@ -168,9 +174,10 @@ function update(formToToggle,loader,url,urlFallBack,dataToSend){
      });
 }
 
-function create(formToToggle,loader,url,urlFallBack,dataToSend){
+function create(formToToggle,loader,cardLoader,url,urlFallBack,dataToSend){
 	formToToggle.hide();
 	loader.show();
+	cardLoader.show();
 	var data = JSON.stringify(dataToSend);
 	$.ajax({
         type: "POST",
@@ -182,6 +189,7 @@ function create(formToToggle,loader,url,urlFallBack,dataToSend){
         success: function (data) {
         	formToToggle.show();
         	loader.hide();
+        	cardLoader.hide();
         	if(data.error){
         		displayError(data.error);
         	}else{
@@ -194,9 +202,10 @@ function create(formToToggle,loader,url,urlFallBack,dataToSend){
      });
 }
 
-function upload(formToToggle,loader,url,urlFallBack,dataToSend){
+function upload(formToToggle,loader,cardLoader,url,urlFallBack,dataToSend){
 	formToToggle.hide();
 	loader.show();
+	cardLoader.show();
 	var data = new FormData();
 	data.append("media",dataToSend);
 	$.ajax({
@@ -211,6 +220,7 @@ function upload(formToToggle,loader,url,urlFallBack,dataToSend){
         success: function (data) {
         	formToToggle.show();
         	loader.hide();
+        	cardLoader.hide();
         	if(data.error){
         		displayError(data.error);
         	}else{
@@ -221,4 +231,8 @@ function upload(formToToggle,loader,url,urlFallBack,dataToSend){
         	window.location.href= url;
         }
      });
+}
+
+function fix_height() {
+	$('#page-wrapper').css("min-height", $(window).height() - 60 + "px");
 }

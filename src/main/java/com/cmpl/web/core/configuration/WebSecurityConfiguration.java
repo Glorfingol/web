@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.cmpl.web.core.model.BackUser;
 import com.cmpl.web.core.model.BackUserBuilder;
@@ -45,7 +46,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     String[] authorizedUrls = prepareAuthorizedUrls();
     http.authorizeRequests().antMatchers(authorizedUrls).permitAll().anyRequest().authenticated().and().formLogin()
-        .loginPage("/login").permitAll().and().logout().permitAll();
+        .loginPage("/login").permitAll().and().logout()
+        .logoutRequestMatcher(new AntPathRequestMatcher("/manager/logout")).permitAll();
 
   }
 

@@ -10,7 +10,7 @@ public class NewsEntryTranslatorImpl implements NewsEntryTranslator {
 
   @Override
   public NewsEntryDTO fromRequestToDTO(NewsEntryRequest request) {
-    NewsEntryDTOBuilder dtoBuilder = new NewsEntryDTOBuilder().author(request.getAuthor()).tags(request.getTags())
+    NewsEntryDTOBuilder dtoBuilder = NewsEntryDTOBuilder.create().author(request.getAuthor()).tags(request.getTags())
         .title(request.getTitle());
 
     NewsContentRequest contentRequest = request.getContent();
@@ -28,14 +28,14 @@ public class NewsEntryTranslatorImpl implements NewsEntryTranslator {
   }
 
   NewsContentDTO fromContentRequestToDTO(NewsContentRequest contentRequest) {
-    return new NewsContentDTOBuilder().content(contentRequest.getContent())
+    return NewsContentDTOBuilder.create().content(contentRequest.getContent())
         .creationDate(contentRequest.getCreationDate()).id(contentRequest.getId())
         .modificationDate(contentRequest.getModificationDate()).build();
 
   }
 
   NewsImageDTO fromImageRequestToDTO(NewsImageRequest imageRequest) {
-    return new NewsImageDTOBuilder().alt(imageRequest.getAlt()).base64Src(imageRequest.getSrc())
+    return NewsImageDTOBuilder.create().alt(imageRequest.getAlt()).base64Src(imageRequest.getSrc())
         .legend(imageRequest.getLegend()).creationDate(imageRequest.getCreationDate()).id(imageRequest.getId())
         .modificationDate(imageRequest.getModificationDate()).build();
 

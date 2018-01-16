@@ -5,6 +5,9 @@ import org.springframework.social.facebook.api.Reference;
 
 public class ReferenceBuilder extends Builder<Reference> {
 
+  private ReferenceBuilder() {
+  }
+
   private String name;
 
   public ReferenceBuilder name(String name) {
@@ -19,6 +22,10 @@ public class ReferenceBuilder extends Builder<Reference> {
     BDDMockito.doReturn(name).when(reference).getName();
 
     return reference;
+  }
+
+  public static ReferenceBuilder create() {
+    return new ReferenceBuilder();
   }
 
 }

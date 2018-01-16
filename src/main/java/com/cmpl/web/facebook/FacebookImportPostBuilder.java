@@ -3,7 +3,6 @@ package com.cmpl.web.facebook;
 import org.springframework.social.facebook.api.Post.PostType;
 
 import com.cmpl.web.core.builder.Builder;
-import com.cmpl.web.facebook.FacebookImportPost;
 
 public class FacebookImportPostBuilder extends Builder<FacebookImportPost> {
 
@@ -17,6 +16,10 @@ public class FacebookImportPostBuilder extends Builder<FacebookImportPost> {
   private String facebookId;
   private String creationDate;
   private String objectId;
+
+  private FacebookImportPostBuilder() {
+
+  }
 
   public FacebookImportPostBuilder author(String author) {
     this.author = author;
@@ -83,6 +86,10 @@ public class FacebookImportPostBuilder extends Builder<FacebookImportPost> {
     importPost.setVideoUrl(videoUrl);
 
     return importPost;
+  }
+
+  public static FacebookImportPostBuilder create() {
+    return new FacebookImportPostBuilder();
   }
 
 }

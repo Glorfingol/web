@@ -4,8 +4,10 @@ import java.util.Locale;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.media.MediaDTO;
@@ -20,8 +22,8 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
   private final ContextHolder contextHolder;
 
   public StyleDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource, StyleService styleService,
-      ContextHolder contextHolder) {
-    super(menuFactory, messageSource);
+      ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry);
     this.styleService = styleService;
     this.contextHolder = contextHolder;
   }
@@ -42,13 +44,13 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
   }
 
   StyleDTO initStyle() {
-    StyleDTO style = new StyleDTOBuilder().content("").media(initMedia())
+    StyleDTO style = StyleDTOBuilder.create().content("").media(initMedia())
         .id(Math.abs(UUID.randomUUID().getLeastSignificantBits())).build();
     return styleService.createEntity(style);
   }
 
   MediaDTO initMedia() {
-    return new MediaDTOBuilder().name("styles.css").extension(".css").size(0l).contentType("text/css")
+    return MediaDTOBuilder.create().name("styles.css").extension(".css").size(0l).contentType("text/css")
         .src(contextHolder.getMediaDisplayPath() + "styles.css")
         .id(Math.abs(UUID.randomUUID().getLeastSignificantBits())).build();
   }

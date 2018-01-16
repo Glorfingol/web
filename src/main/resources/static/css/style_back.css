@@ -13,6 +13,10 @@ body{
     min-height: 100%;
 }
 
+.login-body{
+	height:100%;
+}
+
 .loader {
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
@@ -234,4 +238,8 @@ input[type="checkbox"]:checked:before {
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px; 
+}
+
+.back-menu{
+	box-shadow: inset -2px 0 0 #e5e5e5;
 }

@@ -1,14 +1,26 @@
 package com.cmpl.web.news;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.context.ContextHolder;
+import com.cmpl.web.core.menu.BackMenuItem;
+import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.file.FileService;
 import com.cmpl.web.file.ImageConverterService;
 import com.cmpl.web.file.ImageService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
+import com.cmpl.web.page.BACK_PAGE;
 
 @Configuration
 public class NewsConfiguration {
@@ -20,9 +32,55 @@ public class NewsConfiguration {
   }
 
   @Bean
+  BackMenuItem newsBackMenuItem() {
+    return BackMenuItemBuilder.create().href("back.news.href").label("back.news.label").title("back.news.title")
+        .order(6).build();
+  }
+
+  @Bean
+  BreadCrumb newsViewBreadCrumb() {
+    return BreadCrumbBuilder.create().items(newsBreadCrumbItems()).page(BACK_PAGE.NEWS_VIEW).build();
+  }
+
+  @Bean
+  BreadCrumb newsEditBreadCrumb() {
+    return BreadCrumbBuilder.create().items(newsUpdateBreadCrumbItems()).page(BACK_PAGE.NEWS_UPDATE).build();
+  }
+
+  @Bean
+  BreadCrumb newsCreateBreadCrumb() {
+    return BreadCrumbBuilder.create().items(newsBreadCrumbItems()).page(BACK_PAGE.NEWS_CREATE).build();
+  }
+
+  List<BreadCrumbItem> newsBreadCrumbItems() {
+    List<BreadCrumbItem> items = new ArrayList<>();
+    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("Gestion du Blog").href("/manager/news").build());
+    return items;
+  }
+
+  List<BreadCrumbItem> newsUpdateBreadCrumbItems() {
+    List<BreadCrumbItem> items = new ArrayList<>();
+    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("Gestion du Blog").href("/manager/news").build());
+    items.add(BreadCrumbItemBuilder.create().text("Modifier une entrée").href("/manager/actualite/modifier/").build());
+    return items;
+  }
+
+  List<BreadCrumbItem> newsCreateBreadCrumbItems() {
+    List<BreadCrumbItem> items = new ArrayList<>();
+    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("Gestion du Blog").href("/manager/news").build());
+    items.add(BreadCrumbItemBuilder.create().text("Ajouter une entrée").href("/manager/actualite/creer/").build());
+    return items;
+  }
+
+  @Bean
   NewsManagerDisplayFactory newsManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSource messageSource, NewsEntryService newsEntryService, FileService fileService) {
-    return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, messageSource, newsEntryService, fileService);
+      WebMessageSource messageSource, NewsEntryService newsEntryService, FileService fileService,
+      @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+    return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, messageSource, newsEntryService, fileService,
+        breadCrumbRegistry);
   }
 
   @Bean

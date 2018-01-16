@@ -11,6 +11,10 @@ public class PageCreateFormBuilder extends Builder<PageCreateForm> {
   private String header = "";
   private String footer = "";
 
+  private PageCreateFormBuilder() {
+
+  }
+
   public PageCreateFormBuilder name(String name) {
     this.name = name;
     return this;
@@ -51,6 +55,10 @@ public class PageCreateFormBuilder extends Builder<PageCreateForm> {
     form.setName(name);
     form.setWithNews(withNews);
     return form;
+  }
+
+  public static PageCreateFormBuilder create() {
+    return new PageCreateFormBuilder();
   }
 
 }

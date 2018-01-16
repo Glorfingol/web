@@ -7,6 +7,10 @@ public class CarouselBuilder extends BaseBuilder<Carousel> {
   private String name;
   private String pageId;
 
+  private CarouselBuilder() {
+
+  }
+
   public CarouselBuilder name(String name) {
     this.name = name;
     return this;
@@ -26,6 +30,10 @@ public class CarouselBuilder extends BaseBuilder<Carousel> {
     carousel.setName(name);
     carousel.setPageId(pageId);
     return carousel;
+  }
+
+  public static CarouselBuilder create() {
+    return new CarouselBuilder();
   }
 
 }

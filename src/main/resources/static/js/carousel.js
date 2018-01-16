@@ -54,12 +54,12 @@ function postUpdateCarouselForm(){
 	var carouselToUpdate = validateAndUpdateCarousel();
 	var url = "/manager/carousels/" + carouselToUpdate.id;
 	var urlFallback = "/manager/carousels/" + carouselToUpdate.id;
-	update($("#carouselEditForm"),$(".loader"),url,urlFallback,carouselToUpdate);
+	update($("#carouselEditForm"),$(".loader"),$(".card-loader"),url,urlFallback,carouselToUpdate);
 }
 
 function postCreateCarouselForm(){
 	var carouselToCreate = validateAndCreateCarousel();
 	var url = "/manager/carousels/";
 	var urlFallback = "/manager/carousels/";
-	create($("#carouselCreateForm"),$(".loader"),url,urlFallback,carouselToCreate);
+	create($("#carouselCreateForm"),$(".loader"),$(".card-loader"),url,urlFallback,carouselToCreate);
 }

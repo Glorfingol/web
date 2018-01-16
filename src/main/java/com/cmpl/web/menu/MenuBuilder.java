@@ -11,6 +11,10 @@ public class MenuBuilder extends BaseBuilder<Menu> {
   private String parentId;
   private String pageId;
 
+  private MenuBuilder() {
+
+  }
+
   public MenuBuilder title(String title) {
     this.title = title;
     return this;
@@ -54,6 +58,10 @@ public class MenuBuilder extends BaseBuilder<Menu> {
     menu.setParentId(parentId);
     menu.setTitle(title);
     return menu;
+  }
+
+  public static MenuBuilder create() {
+    return new MenuBuilder();
   }
 
 }

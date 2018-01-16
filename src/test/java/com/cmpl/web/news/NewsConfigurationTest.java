@@ -6,13 +6,16 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.file.FileService;
 import com.cmpl.web.file.ImageConverterService;
 import com.cmpl.web.file.ImageService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.page.BACK_PAGE;
 import com.cmpl.web.page.PageService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -63,6 +66,9 @@ public class NewsConfigurationTest {
   @Mock
   private FileService fileService;
 
+  @Mock
+  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+
   @Spy
   private NewsConfiguration configuration;
 
@@ -93,7 +99,7 @@ public class NewsConfigurationTest {
   @Test
   public void testNewsManagerDisplayFactory() throws Exception {
     NewsManagerDisplayFactory result = configuration.newsManagerDisplayFactory(contextHolder, menuFactory,
-        messageSource, newsEntryService, fileService);
+        messageSource, newsEntryService, fileService, breadCrumbRegistry);
 
     Assert.assertEquals(NewsManagerDisplayFactoryImpl.class, result.getClass());
   }

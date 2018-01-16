@@ -10,6 +10,10 @@ public class MediaDTOBuilder extends BaseBuilder<MediaDTO> {
   private String contentType;
   private Long size;
 
+  private MediaDTOBuilder() {
+
+  }
+
   public MediaDTOBuilder src(String src) {
     this.src = src;
     return this;
@@ -47,6 +51,10 @@ public class MediaDTOBuilder extends BaseBuilder<MediaDTO> {
     mediaDTO.setSize(size);
     mediaDTO.setSrc(src);
     return mediaDTO;
+  }
+
+  public static MediaDTOBuilder create() {
+    return new MediaDTOBuilder();
   }
 
 }

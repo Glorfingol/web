@@ -8,6 +8,10 @@ public class MetaElementBuilder extends BaseBuilder<MetaElement> {
   private String name;
   private String content;
 
+  private MetaElementBuilder() {
+
+  }
+
   public MetaElementBuilder pageId(String pageId) {
     this.pageId = pageId;
     return this;
@@ -33,6 +37,10 @@ public class MetaElementBuilder extends BaseBuilder<MetaElement> {
     metaElement.setName(name);
     metaElement.setPageId(pageId);
     return metaElement;
+  }
+
+  public static MetaElementBuilder create() {
+    return new MetaElementBuilder();
   }
 
 }

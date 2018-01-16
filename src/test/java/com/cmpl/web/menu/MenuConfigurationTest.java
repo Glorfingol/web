@@ -7,9 +7,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.context.ContextHolder;
+import com.cmpl.web.core.menu.BackMenu;
 import com.cmpl.web.message.WebMessageSourceImpl;
+import com.cmpl.web.page.BACK_PAGE;
 import com.cmpl.web.page.PageService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,6 +34,10 @@ public class MenuConfigurationTest {
   private ContextHolder contextHolder;
   @Mock
   private MenuFactory menuFactory;
+  @Mock
+  private BackMenu backMenu;
+  @Mock
+  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
 
   @Spy
   @InjectMocks
@@ -37,7 +45,8 @@ public class MenuConfigurationTest {
 
   @Test
   public void testMenuFactory() throws Exception {
-    Assert.assertEquals(MenuFactoryImpl.class, configuration.menuFactory(messageSource, menuService).getClass());
+    Assert.assertEquals(MenuFactoryImpl.class, configuration.menuFactory(messageSource, menuService, backMenu)
+        .getClass());
 
   }
 
@@ -59,9 +68,10 @@ public class MenuConfigurationTest {
 
   @Test
   public void testMenuManagerDisplayFactory() throws Exception {
-    Assert.assertEquals(MenuManagerDisplayFactoryImpl.class,
-        configuration.menuManagerDisplayFactory(menuFactory, messageSource, menuService, pageService, contextHolder)
-            .getClass());
+    Assert.assertEquals(
+        MenuManagerDisplayFactoryImpl.class,
+        configuration.menuManagerDisplayFactory(menuFactory, messageSource, menuService, pageService, contextHolder,
+            breadCrumbRegistry).getClass());
     ;
   }
 

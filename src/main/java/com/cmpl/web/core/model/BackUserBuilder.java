@@ -25,4 +25,8 @@ public class BackUserBuilder extends Builder<BackUser> {
     return backUser;
   }
 
+  public BackUserBuilder create() {
+    return new BackUserBuilder();
+  }
+
 }

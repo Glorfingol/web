@@ -8,6 +8,9 @@ public class MenuResponseBuilder extends Builder<MenuResponse> {
   private MenuDTO menu;
   private Error error;
 
+  private MenuResponseBuilder() {
+  }
+
   public MenuResponseBuilder menu(MenuDTO menu) {
     this.menu = menu;
     return this;
@@ -24,6 +27,10 @@ public class MenuResponseBuilder extends Builder<MenuResponse> {
     response.setMenu(menu);
     response.setError(error);
     return response;
+  }
+
+  public static MenuResponseBuilder create() {
+    return new MenuResponseBuilder();
   }
 
 }

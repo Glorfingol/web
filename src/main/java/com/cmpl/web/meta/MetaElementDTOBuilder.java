@@ -8,6 +8,10 @@ public class MetaElementDTOBuilder extends BaseBuilder<MetaElementDTO> {
   private String name;
   private String content;
 
+  private MetaElementDTOBuilder() {
+
+  }
+
   public MetaElementDTOBuilder pageId(String pageId) {
     this.pageId = pageId;
     return this;
@@ -33,6 +37,10 @@ public class MetaElementDTOBuilder extends BaseBuilder<MetaElementDTO> {
     dto.setName(name);
     dto.setPageId(pageId);
     return dto;
+  }
+
+  public static MetaElementDTOBuilder create() {
+    return new MetaElementDTOBuilder();
   }
 
 }

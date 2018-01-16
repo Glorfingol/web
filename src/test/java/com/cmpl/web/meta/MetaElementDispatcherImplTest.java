@@ -51,8 +51,8 @@ public class MetaElementDispatcherImplTest {
   @Test
   public void testDeleteOpenGraphMetaEntity_Error() throws BaseException {
     exception.expect(BaseException.class);
-    ErrorCause errorCause = new ErrorCauseBuilder().message("someError").code("someCode").build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(errorCause)).code("someCode").build();
+    ErrorCause errorCause = ErrorCauseBuilder.create().message("someError").code("someCode").build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(errorCause)).code("someCode").build();
     BDDMockito.given(validator.validateDelete(BDDMockito.anyString(), BDDMockito.any(Locale.class))).willReturn(error);
 
     dispatcher.deleteOpenGraphMetaEntity("123456789", Locale.FRANCE);
@@ -69,8 +69,8 @@ public class MetaElementDispatcherImplTest {
   @Test
   public void testDeleteMetaEntity_Error() throws BaseException {
     exception.expect(BaseException.class);
-    ErrorCause errorCause = new ErrorCauseBuilder().message("someError").code("someCode").build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(errorCause)).code("someCode").build();
+    ErrorCause errorCause = ErrorCauseBuilder.create().message("someError").code("someCode").build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(errorCause)).code("someCode").build();
     BDDMockito.given(validator.validateDelete(BDDMockito.anyString(), BDDMockito.any(Locale.class))).willReturn(error);
 
     dispatcher.deleteMetaEntity("123456789", Locale.FRANCE);
@@ -78,8 +78,8 @@ public class MetaElementDispatcherImplTest {
 
   @Test
   public void testCreateEntityStringOpenGraphMetaElementCreateFormLocale_No_Error() throws Exception {
-    OpenGraphMetaElementDTO dtoToCreate = new OpenGraphMetaElementDTOBuilder().build();
-    OpenGraphMetaElementCreateForm form = new OpenGraphMetaElementCreateFormBuilder().build();
+    OpenGraphMetaElementDTO dtoToCreate = OpenGraphMetaElementDTOBuilder.create().build();
+    OpenGraphMetaElementCreateForm form = OpenGraphMetaElementCreateFormBuilder.create().build();
 
     BDDMockito.given(
         translator.fromCreateFormToDTO(BDDMockito.anyString(), BDDMockito.any(OpenGraphMetaElementCreateForm.class)))
@@ -87,7 +87,7 @@ public class MetaElementDispatcherImplTest {
     BDDMockito.given(openGraphMetaElementService.createEntity(BDDMockito.any(OpenGraphMetaElementDTO.class)))
         .willReturn(dtoToCreate);
 
-    MetaElementResponse response = new MetaElementResponseBuilder().build();
+    MetaElementResponse response = MetaElementResponseBuilder.create().build();
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(OpenGraphMetaElementDTO.class))).willReturn(response);
 
     dispatcher.createEntity("123456789", form, Locale.FRANCE);
@@ -101,28 +101,28 @@ public class MetaElementDispatcherImplTest {
 
   @Test
   public void testCreateEntityStringOpenGraphMetaElementCreateFormLocale_Error() throws Exception {
-    ErrorCause errorCause = new ErrorCauseBuilder().message("someError").code("someCode").build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(errorCause)).code("someCode").build();
+    ErrorCause errorCause = ErrorCauseBuilder.create().message("someError").code("someCode").build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(errorCause)).code("someCode").build();
     BDDMockito.given(
         validator.validateCreate(BDDMockito.anyString(), BDDMockito.any(OpenGraphMetaElementCreateForm.class),
             BDDMockito.any(Locale.class))).willReturn(error);
 
-    MetaElementResponse result = dispatcher.createEntity("123456789",
-        new OpenGraphMetaElementCreateFormBuilder().build(), Locale.FRANCE);
+    MetaElementResponse result = dispatcher.createEntity("123456789", OpenGraphMetaElementCreateFormBuilder.create()
+        .build(), Locale.FRANCE);
     Assert.assertEquals(error, result.getError());
   }
 
   @Test
   public void testCreateEntityStringMetaElementCreateFormLocale_No_Error() throws Exception {
-    MetaElementDTO dtoToCreate = new MetaElementDTOBuilder().build();
-    MetaElementCreateForm form = new MetaElementCreateFormBuilder().build();
+    MetaElementDTO dtoToCreate = MetaElementDTOBuilder.create().build();
+    MetaElementCreateForm form = MetaElementCreateFormBuilder.create().build();
 
     BDDMockito.given(
         translator.fromCreateFormToDTO(BDDMockito.anyString(), BDDMockito.any(MetaElementCreateForm.class)))
         .willReturn(dtoToCreate);
     BDDMockito.given(metaElementService.createEntity(BDDMockito.any(MetaElementDTO.class))).willReturn(dtoToCreate);
 
-    MetaElementResponse response = new MetaElementResponseBuilder().build();
+    MetaElementResponse response = MetaElementResponseBuilder.create().build();
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(MetaElementDTO.class))).willReturn(response);
 
     dispatcher.createEntity("123456789", form, Locale.FRANCE);
@@ -135,13 +135,13 @@ public class MetaElementDispatcherImplTest {
 
   @Test
   public void testCreateEntityStringMetaElementCreateFormLocale_Error() throws Exception {
-    ErrorCause errorCause = new ErrorCauseBuilder().message("someError").code("someCode").build();
-    Error error = new ErrorBuilder().causes(Lists.newArrayList(errorCause)).code("someCode").build();
+    ErrorCause errorCause = ErrorCauseBuilder.create().message("someError").code("someCode").build();
+    Error error = ErrorBuilder.create().causes(Lists.newArrayList(errorCause)).code("someCode").build();
     BDDMockito.given(
         validator.validateCreate(BDDMockito.anyString(), BDDMockito.any(MetaElementCreateForm.class),
             BDDMockito.any(Locale.class))).willReturn(error);
 
-    MetaElementResponse result = dispatcher.createEntity("123456789", new MetaElementCreateFormBuilder().build(),
+    MetaElementResponse result = dispatcher.createEntity("123456789", MetaElementCreateFormBuilder.create().build(),
         Locale.FRANCE);
     Assert.assertEquals(error, result.getError());
   }

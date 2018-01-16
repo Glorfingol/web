@@ -17,7 +17,7 @@ public class CarouselTranslatorImplTest {
   @Test
   public void testFromCreateFormToDTOCarouselCreateForm() throws Exception {
 
-    CarouselCreateForm form = new CarouselCreateFormBuilder().name("someName").build();
+    CarouselCreateForm form = CarouselCreateFormBuilder.create().name("someName").build();
     CarouselDTO result = translator.fromCreateFormToDTO(form);
 
     Assert.assertEquals(form.getName(), result.getName());
@@ -26,14 +26,14 @@ public class CarouselTranslatorImplTest {
 
   @Test
   public void testFromDTOToResponseCarouselDTO() throws Exception {
-    CarouselDTO dto = new CarouselDTOBuilder().build();
+    CarouselDTO dto = CarouselDTOBuilder.create().build();
     CarouselResponse result = translator.fromDTOToResponse(dto);
     Assert.assertEquals(dto, result.getCarousel());
   }
 
   @Test
   public void testFromCreateFormToDTOCarouselItemCreateForm() throws Exception {
-    CarouselItemCreateForm form = new CarouselItemCreateFormBuilder().carouselId("123456789").build();
+    CarouselItemCreateForm form = CarouselItemCreateFormBuilder.create().carouselId("123456789").build();
     CarouselItemDTO result = translator.fromCreateFormToDTO(form);
 
     Assert.assertEquals(form.getCarouselId(), result.getCarouselId());
@@ -41,7 +41,7 @@ public class CarouselTranslatorImplTest {
 
   @Test
   public void testFromDTOToResponseCarouselItemDTO() throws Exception {
-    CarouselItemDTO dto = new CarouselItemDTOBuilder().build();
+    CarouselItemDTO dto = CarouselItemDTOBuilder.create().build();
     CarouselItemResponse result = translator.fromDTOToResponse(dto);
 
     Assert.assertEquals(dto, result.getItem());

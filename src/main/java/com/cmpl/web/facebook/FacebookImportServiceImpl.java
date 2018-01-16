@@ -58,7 +58,7 @@ public class FacebookImportServiceImpl implements FacebookImportService {
 
   NewsEntryDTO convertPostToNewsEntry(FacebookImportPost facebookPost, Locale locale) {
 
-    NewsEntryDTOBuilder convertedPostBuilder = new NewsEntryDTOBuilder().author(facebookPost.getAuthor())
+    NewsEntryDTOBuilder convertedPostBuilder = NewsEntryDTOBuilder.create().author(facebookPost.getAuthor())
         .facebookId(facebookPost.getFacebookId()).tags(computeTags(locale)).title(computeTitle(locale));
 
     if (hasContent(facebookPost)) {
@@ -75,12 +75,12 @@ public class FacebookImportServiceImpl implements FacebookImportService {
   }
 
   NewsImageDTO computeNewsImageFromPost(FacebookImportPost facebookPost, Locale locale) {
-    return new NewsImageDTOBuilder().alt(computeAlt(facebookPost, locale)).legend(computeLegend(locale))
+    return NewsImageDTOBuilder.create().alt(computeAlt(facebookPost, locale)).legend(computeLegend(locale))
         .base64Src(getFacebookImageBase64Src(facebookPost)).build();
   }
 
   NewsContentDTO computeNewsContentFromPost(FacebookImportPost facebookPost) {
-    return new NewsContentDTOBuilder().content(facebookPost.getDescription()).linkUrl(facebookPost.getLinkUrl())
+    return NewsContentDTOBuilder.create().content(facebookPost.getDescription()).linkUrl(facebookPost.getLinkUrl())
         .videoUrl(facebookPost.getVideoUrl()).build();
   }
 

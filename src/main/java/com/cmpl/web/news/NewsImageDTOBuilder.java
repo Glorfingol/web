@@ -1,7 +1,6 @@
 package com.cmpl.web.news;
 
 import com.cmpl.web.core.builder.BaseBuilder;
-import com.cmpl.web.news.NewsImageDTO;
 
 public class NewsImageDTOBuilder extends BaseBuilder<NewsImageDTO> {
 
@@ -11,6 +10,10 @@ public class NewsImageDTOBuilder extends BaseBuilder<NewsImageDTO> {
   private int height;
   private String alt;
   private String base64Src;
+
+  private NewsImageDTOBuilder() {
+
+  }
 
   public NewsImageDTOBuilder src(String src) {
     this.src = src;
@@ -56,6 +59,10 @@ public class NewsImageDTOBuilder extends BaseBuilder<NewsImageDTO> {
     newsImageDTO.setWidth(width);
 
     return newsImageDTO;
+  }
+
+  public static NewsImageDTOBuilder create() {
+    return new NewsImageDTOBuilder();
   }
 
 }

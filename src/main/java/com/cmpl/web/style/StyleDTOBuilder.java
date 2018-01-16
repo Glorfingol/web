@@ -8,6 +8,10 @@ public class StyleDTOBuilder extends BaseBuilder<StyleDTO> {
   private String content;
   private MediaDTO media;
 
+  private StyleDTOBuilder() {
+
+  }
+
   public StyleDTOBuilder content(String content) {
     this.content = content;
     return this;
@@ -27,6 +31,10 @@ public class StyleDTOBuilder extends BaseBuilder<StyleDTO> {
     style.setMedia(media);
     style.setModificationDate(modificationDate);
     return style;
+  }
+
+  public static StyleDTOBuilder create() {
+    return new StyleDTOBuilder();
   }
 
 }

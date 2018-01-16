@@ -68,7 +68,7 @@ public class NewsEntryServiceImplTest {
     NewsEntry entry = new NewsEntry();
     entry.setId(1L);
 
-    NewsEntryDTO dto = new NewsEntryDTOBuilder().id(1L).build();
+    NewsEntryDTO dto = NewsEntryDTOBuilder.create().id(1L).build();
 
     BDDMockito.doReturn(dto).when(service).toDTO(BDDMockito.eq(entry));
 
@@ -86,8 +86,8 @@ public class NewsEntryServiceImplTest {
     entry.setContentId(String.valueOf(1L));
     entry.setId(1L);
 
-    NewsContentDTO contentDTO = new NewsContentDTOBuilder().id(1L).build();
-    NewsEntryDTO dto = new NewsEntryDTOBuilder().newsContent(contentDTO).id(1L).build();
+    NewsContentDTO contentDTO = NewsContentDTOBuilder.create().id(1L).build();
+    NewsEntryDTO dto = NewsEntryDTOBuilder.create().newsContent(contentDTO).id(1L).build();
 
     BDDMockito.doReturn(dto).when(service).toDTO(BDDMockito.eq(entry));
     BDDMockito.doReturn(contentDTO).when(newsContentService).getEntity(BDDMockito.eq(1L));
@@ -108,8 +108,8 @@ public class NewsEntryServiceImplTest {
     entry.setImageId(String.valueOf(1L));
     entry.setId(1L);
 
-    NewsImageDTO imageDTO = new NewsImageDTOBuilder().id(1L).build();
-    NewsEntryDTO dto = new NewsEntryDTOBuilder().newsImage(imageDTO).id(1L).build();
+    NewsImageDTO imageDTO = NewsImageDTOBuilder.create().id(1L).build();
+    NewsEntryDTO dto = NewsEntryDTOBuilder.create().newsImage(imageDTO).id(1L).build();
 
     BDDMockito.doReturn(dto).when(service).toDTO(BDDMockito.eq(entry));
     BDDMockito.doReturn(imageDTO).when(newsImageService).getEntity(BDDMockito.eq(1L));
@@ -133,9 +133,9 @@ public class NewsEntryServiceImplTest {
     entry.setImageId(String.valueOf(1L));
     entry.setId(1L);
 
-    NewsImageDTO imageDTO = new NewsImageDTOBuilder().id(1L).build();
-    NewsContentDTO contentDTO = new NewsContentDTOBuilder().id(1L).build();
-    NewsEntryDTO dto = new NewsEntryDTOBuilder().newsContent(contentDTO).newsImage(imageDTO).id(1L).build();
+    NewsImageDTO imageDTO = NewsImageDTOBuilder.create().id(1L).build();
+    NewsContentDTO contentDTO = NewsContentDTOBuilder.create().id(1L).build();
+    NewsEntryDTO dto = NewsEntryDTOBuilder.create().newsContent(contentDTO).newsImage(imageDTO).id(1L).build();
 
     BDDMockito.doReturn(dto).when(service).toDTO(BDDMockito.eq(entry));
     BDDMockito.doReturn(imageDTO).when(newsImageService).getEntity(BDDMockito.eq(1L));
@@ -169,9 +169,9 @@ public class NewsEntryServiceImplTest {
     NewsEntry entry2 = new NewsEntry();
     entry2.setId(1L);
 
-    NewsEntryDTO dto1 = new NewsEntryDTOBuilder().id(1L).build();
+    NewsEntryDTO dto1 = NewsEntryDTOBuilder.create().id(1L).build();
 
-    NewsEntryDTO dto2 = new NewsEntryDTOBuilder().id(1L).build();
+    NewsEntryDTO dto2 = NewsEntryDTOBuilder.create().id(1L).build();
 
     BDDMockito.doReturn(Lists.newArrayList(entry1, entry2)).when(repository).findAll();
     BDDMockito.doReturn(dto1).when(service).computeNewsEntryDTO(entry1);
@@ -191,7 +191,7 @@ public class NewsEntryServiceImplTest {
     entry.setId(1L);
     Optional<NewsEntry> optional = Optional.of(entry);
 
-    NewsEntryDTO dto = new NewsEntryDTOBuilder().id(1L).build();
+    NewsEntryDTO dto = NewsEntryDTOBuilder.create().id(1L).build();
 
     BDDMockito.doReturn(dto).when(service).computeNewsEntryDTO(entry);
     BDDMockito.doReturn(optional).when(repository).findById(1L);
@@ -206,8 +206,8 @@ public class NewsEntryServiceImplTest {
 
     String base64Src = "someBase64Src";
     String imageSrc = "someUrl";
-    NewsImageDTO formattingImage = new NewsImageDTOBuilder().base64Src(base64Src).build();
-    NewsImageDTO formattedImage = new NewsImageDTOBuilder().src(imageSrc).build();
+    NewsImageDTO formattingImage = NewsImageDTOBuilder.create().base64Src(base64Src).build();
+    NewsImageDTO formattedImage = NewsImageDTOBuilder.create().src(imageSrc).build();
 
     BDDMockito.doReturn(formattedImage).when(imageConverterService)
         .computeNewsImageFromString(BDDMockito.eq(base64Src));
@@ -225,8 +225,8 @@ public class NewsEntryServiceImplTest {
   public void testDealWithImageToUpdate_Create() throws Exception {
     String imageSrc = "someUrl";
     File imageFile = new File("somePath/img");
-    NewsImageDTO formattingImage = new NewsImageDTOBuilder().build();
-    NewsImageDTO formattedImage = new NewsImageDTOBuilder().src(imageSrc).build();
+    NewsImageDTO formattingImage = NewsImageDTOBuilder.create().build();
+    NewsImageDTO formattedImage = NewsImageDTOBuilder.create().src(imageSrc).build();
 
     BDDMockito.doReturn(formattedImage).when(newsImageService).createEntity(BDDMockito.eq(formattedImage));
     BDDMockito.doReturn(imageFile).when(service)
@@ -247,8 +247,8 @@ public class NewsEntryServiceImplTest {
     String imageSrc = "someUrl";
     File imageFile = new File("somePath/img");
 
-    NewsImageDTO formattingImage = new NewsImageDTOBuilder().id(1L).build();
-    NewsImageDTO formattedImage = new NewsImageDTOBuilder().src(imageSrc).build();
+    NewsImageDTO formattingImage = NewsImageDTOBuilder.create().id(1L).build();
+    NewsImageDTO formattedImage = NewsImageDTOBuilder.create().src(imageSrc).build();
 
     BDDMockito.doReturn(formattedImage).when(newsImageService).updateEntity(BDDMockito.eq(formattedImage));
     BDDMockito.doReturn(imageFile).when(service)
@@ -266,7 +266,7 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testDealWithContentToUpdate_Create() throws Exception {
     String content = "content";
-    NewsContentDTO contentToDealWith = new NewsContentDTOBuilder().content(content).build();
+    NewsContentDTO contentToDealWith = NewsContentDTOBuilder.create().content(content).build();
 
     BDDMockito.doReturn(contentToDealWith).when(newsContentService).createEntity(BDDMockito.eq(contentToDealWith));
 
@@ -282,7 +282,7 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testDealWithContentToUpdate_Update() throws Exception {
     String content = "content";
-    NewsContentDTO contentToDealWith = new NewsContentDTOBuilder().content(content).id(1L).build();
+    NewsContentDTO contentToDealWith = NewsContentDTOBuilder.create().content(content).id(1L).build();
 
     BDDMockito.doReturn(contentToDealWith).when(newsContentService).updateEntity(BDDMockito.eq(contentToDealWith));
 
@@ -308,7 +308,7 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testUpdateImage_Not_Null() throws Exception {
 
-    NewsImageDTO formattingImage = new NewsImageDTOBuilder().id(1L).build();
+    NewsImageDTO formattingImage = NewsImageDTOBuilder.create().id(1L).build();
 
     BDDMockito.doReturn(formattingImage).when(service).formatImage(formattingImage);
     BDDMockito.doReturn(formattingImage).when(service)
@@ -335,7 +335,7 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testUpdateContent_Not_Null() throws Exception {
 
-    NewsContentDTO content = new NewsContentDTOBuilder().id(1L).build();
+    NewsContentDTO content = NewsContentDTOBuilder.create().id(1L).build();
 
     BDDMockito.doReturn(content).when(service).dealWithContentToUpdate(BDDMockito.eq(content));
 
@@ -361,7 +361,7 @@ public class NewsEntryServiceImplTest {
 
     String imageSrc = "somePath";
 
-    NewsImageDTO formattingImage = new NewsImageDTOBuilder().id(1L).build();
+    NewsImageDTO formattingImage = NewsImageDTOBuilder.create().id(1L).build();
 
     BDDMockito.doReturn(formattingImage).when(service).formatImage(formattingImage);
     BDDMockito.doReturn(formattingImage).when(newsImageService).createEntity(BDDMockito.any(NewsImageDTO.class));
@@ -390,7 +390,7 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testCreateContent_Not_Null() throws Exception {
 
-    NewsContentDTO content = new NewsContentDTOBuilder().id(1L).build();
+    NewsContentDTO content = NewsContentDTOBuilder.create().id(1L).build();
 
     BDDMockito.doReturn(content).when(newsContentService).createEntity(BDDMockito.eq(content));
 
@@ -405,7 +405,7 @@ public class NewsEntryServiceImplTest {
   public void testUpdateEntity_No_Image_No_Content() throws Exception {
 
     NewsEntry entry = new NewsEntry();
-    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().id(1L).build();
+    NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().id(1L).build();
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(entry).when(repository).save(BDDMockito.any(NewsEntry.class));
@@ -429,8 +429,8 @@ public class NewsEntryServiceImplTest {
   public void testUpdateEntity_No_Image_Content() throws Exception {
 
     NewsEntry entry = new NewsEntry();
-    NewsContentDTO content = new NewsContentDTOBuilder().id(1L).build();
-    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().newsContent(content).id(1L).build();
+    NewsContentDTO content = NewsContentDTOBuilder.create().id(1L).build();
+    NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsContent(content).id(1L).build();
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(content).when(service).updateContent(BDDMockito.any(NewsContentDTO.class));
@@ -455,8 +455,8 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testUpdateEntity_Image_No_Content() throws Exception {
     NewsEntry entry = new NewsEntry();
-    NewsImageDTO image = new NewsImageDTOBuilder().id(1L).build();
-    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().newsImage(image).id(1L).build();
+    NewsImageDTO image = NewsImageDTOBuilder.create().id(1L).build();
+    NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsImage(image).id(1L).build();
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(image).when(service).updateImage(BDDMockito.any(NewsImageDTO.class));
@@ -481,9 +481,9 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testUpdateEntity_Image_Content() throws Exception {
     NewsEntry entry = new NewsEntry();
-    NewsImageDTO image = new NewsImageDTOBuilder().id(1L).build();
-    NewsContentDTO content = new NewsContentDTOBuilder().id(1L).build();
-    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().newsImage(image).newsContent(content).id(1L).build();
+    NewsImageDTO image = NewsImageDTOBuilder.create().id(1L).build();
+    NewsContentDTO content = NewsContentDTOBuilder.create().id(1L).build();
+    NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsImage(image).newsContent(content).id(1L).build();
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(content).when(service).updateContent(BDDMockito.any(NewsContentDTO.class));
@@ -510,7 +510,7 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testCreateEntity_No_Image_No_Content() throws Exception {
     NewsEntry entry = new NewsEntry();
-    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().id(1L).build();
+    NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().id(1L).build();
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(entry).when(repository).save(BDDMockito.any(NewsEntry.class));
@@ -533,10 +533,10 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testCreateEntity_Image_No_Content() throws Exception {
     NewsEntry entry = new NewsEntry();
-    NewsImageDTO image = new NewsImageDTOBuilder().id(1L).build();
-    NewsContentDTO content = new NewsContentDTOBuilder().id(1L).build();
-    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().newsImage(image).newsContent(content).id(1L).build();
-    NewsEntryDTO returnEntry = new NewsEntryDTOBuilder().id(1L).build();
+    NewsImageDTO image = NewsImageDTOBuilder.create().id(1L).build();
+    NewsContentDTO content = NewsContentDTOBuilder.create().id(1L).build();
+    NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsImage(image).newsContent(content).id(1L).build();
+    NewsEntryDTO returnEntry = NewsEntryDTOBuilder.create().id(1L).build();
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn("").when(service).createContent(BDDMockito.any(NewsContentDTO.class));
@@ -561,9 +561,9 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testCreateEntity_No_Image_Content() throws Exception {
     NewsEntry entry = new NewsEntry();
-    NewsContentDTO content = new NewsContentDTOBuilder().id(1L).build();
-    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().newsContent(content).id(1L).build();
-    NewsEntryDTO returnEntry = new NewsEntryDTOBuilder().id(1L).build();
+    NewsContentDTO content = NewsContentDTOBuilder.create().id(1L).build();
+    NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsContent(content).id(1L).build();
+    NewsEntryDTO returnEntry = NewsEntryDTOBuilder.create().id(1L).build();
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(String.valueOf(1L)).when(service).createContent(BDDMockito.any(NewsContentDTO.class));
@@ -587,7 +587,7 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testCreateEntity_Image_Content() throws Exception {
     NewsEntry entry = new NewsEntry();
-    NewsEntryDTO newsEntry = new NewsEntryDTOBuilder().id(1L).build();
+    NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().id(1L).build();
 
     BDDMockito.doNothing().when(service).fillObject(BDDMockito.eq(newsEntry), BDDMockito.any(NewsEntry.class));
     BDDMockito.doReturn(entry).when(repository).save(BDDMockito.any(NewsEntry.class));
@@ -629,7 +629,7 @@ public class NewsEntryServiceImplTest {
     BDDMockito.given(imageService.saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString()))
         .willReturn(testFile);
 
-    File result = service.saveToFileSystem(new NewsImageDTOBuilder().base64Src("someBase64").build(), "666");
+    File result = service.saveToFileSystem(NewsImageDTOBuilder.create().base64Src("someBase64").build(), "666");
     Assert.assertEquals(testFile, result);
   }
 
@@ -642,7 +642,7 @@ public class NewsEntryServiceImplTest {
 
   @Test
   public void testIsAlreadyImportedFromFacebook_True() throws Exception {
-    NewsEntryDTO entry = new NewsEntryDTOBuilder().build();
+    NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
     BDDMockito.doReturn(Lists.newArrayList(entry)).when(repository).findByFacebookId(BDDMockito.anyString());
 

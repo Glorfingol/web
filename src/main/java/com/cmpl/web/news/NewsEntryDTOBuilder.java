@@ -1,9 +1,6 @@
 package com.cmpl.web.news;
 
 import com.cmpl.web.core.builder.BaseBuilder;
-import com.cmpl.web.news.NewsContentDTO;
-import com.cmpl.web.news.NewsEntryDTO;
-import com.cmpl.web.news.NewsImageDTO;
 
 public class NewsEntryDTOBuilder extends BaseBuilder<NewsEntryDTO> {
 
@@ -15,6 +12,10 @@ public class NewsEntryDTOBuilder extends BaseBuilder<NewsEntryDTO> {
   private String author;
   private String tags;
   private String title;
+
+  private NewsEntryDTOBuilder() {
+
+  }
 
   public NewsEntryDTOBuilder facebookId(String facebookId) {
     this.facebookId = facebookId;
@@ -61,6 +62,10 @@ public class NewsEntryDTOBuilder extends BaseBuilder<NewsEntryDTO> {
     newsEntryDTO.setFacebookId(facebookId);
 
     return newsEntryDTO;
+  }
+
+  public static NewsEntryDTOBuilder create() {
+    return new NewsEntryDTOBuilder();
   }
 
 }

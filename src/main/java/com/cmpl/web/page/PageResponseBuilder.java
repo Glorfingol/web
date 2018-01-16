@@ -8,6 +8,10 @@ public class PageResponseBuilder extends Builder<PageResponse> {
   private PageDTO page;
   private Error error;
 
+  private PageResponseBuilder() {
+
+  }
+
   public PageResponseBuilder page(PageDTO page) {
     this.page = page;
     return this;
@@ -24,6 +28,10 @@ public class PageResponseBuilder extends Builder<PageResponse> {
     response.setPage(page);
     response.setError(error);
     return response;
+  }
+
+  public static PageResponseBuilder create() {
+    return new PageResponseBuilder();
   }
 
 }

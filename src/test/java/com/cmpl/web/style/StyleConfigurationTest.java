@@ -7,12 +7,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.file.FileService;
 import com.cmpl.web.media.MediaService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
+import com.cmpl.web.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StyleConfigurationTest {
@@ -33,6 +36,8 @@ public class StyleConfigurationTest {
   private WebMessageSource messageSource;
   @Mock
   private ContextHolder contextHolder;
+  @Mock
+  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
 
   @Spy
   @InjectMocks
@@ -59,6 +64,7 @@ public class StyleConfigurationTest {
   @Test
   public void testStyleDisplayFactory() throws Exception {
     Assert.assertEquals(StyleDisplayFactoryImpl.class,
-        configuration.styleDisplayFactory(menuFactory, messageSource, styleService, contextHolder).getClass());
+        configuration.styleDisplayFactory(menuFactory, messageSource, styleService, contextHolder, breadCrumbRegistry)
+            .getClass());
   }
 }

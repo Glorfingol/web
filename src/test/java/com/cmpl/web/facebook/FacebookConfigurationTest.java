@@ -6,13 +6,16 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSourceImpl;
 import com.cmpl.web.news.NewsEntryService;
+import com.cmpl.web.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FacebookConfigurationTest {
@@ -44,6 +47,9 @@ public class FacebookConfigurationTest {
   @Mock
   private ConnectionRepository connectionRepository;
 
+  @Mock
+  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+
   @Spy
   private FacebookConfiguration configuration;
 
@@ -66,7 +72,8 @@ public class FacebookConfigurationTest {
 
   @Test
   public void testFacebookDisplayFactory() throws Exception {
-    FacebookDisplayFactory result = configuration.facebookDisplayFactory(menuFactory, messageSource, facebookService);
+    FacebookDisplayFactory result = configuration.facebookDisplayFactory(menuFactory, messageSource, facebookService,
+        breadCrumbRegistry);
 
     Assert.assertEquals(FacebookDisplayFactoryImpl.class, result.getClass());
   }

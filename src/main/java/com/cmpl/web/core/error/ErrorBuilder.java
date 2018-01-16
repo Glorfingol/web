@@ -12,6 +12,10 @@ public class ErrorBuilder extends Builder<Error> {
   private String message;
   private List<ErrorCause> causes;
 
+  private ErrorBuilder() {
+
+  }
+
   public ErrorBuilder code(String code) {
     this.code = code;
     return this;
@@ -34,6 +38,10 @@ public class ErrorBuilder extends Builder<Error> {
     error.setCode(code);
     error.setMessage(message);
     return error;
+  }
+
+  public static ErrorBuilder create() {
+    return new ErrorBuilder();
   }
 
 }

@@ -22,7 +22,7 @@ public class MetaElementServiceImplTest {
 
   @Test
   public void testToEntity() throws Exception {
-    MetaElementDTO dto = new MetaElementDTOBuilder().build();
+    MetaElementDTO dto = MetaElementDTOBuilder.create().build();
 
     BDDMockito.doNothing().when(metaElementService)
         .fillObject(BDDMockito.any(MetaElementDTO.class), BDDMockito.any(MetaElement.class));
@@ -34,7 +34,7 @@ public class MetaElementServiceImplTest {
 
   @Test
   public void testToDTO() throws Exception {
-    MetaElement entity = new MetaElementBuilder().build();
+    MetaElement entity = MetaElementBuilder.create().build();
 
     BDDMockito.doNothing().when(metaElementService)
         .fillObject(BDDMockito.any(MetaElement.class), BDDMockito.any(MetaElementDTO.class));
@@ -47,11 +47,11 @@ public class MetaElementServiceImplTest {
   @Test
   public void testFindMetaElementsByPageId() throws Exception {
 
-    MetaElementDTO result = new MetaElementDTOBuilder().build();
+    MetaElementDTO result = MetaElementDTOBuilder.create().build();
 
     BDDMockito.doReturn(Lists.newArrayList(result)).when(metaElementService).toListDTO(BDDMockito.anyList());
     BDDMockito.given(metaElementRepository.findByPageId(BDDMockito.anyString())).willReturn(
-        Lists.newArrayList(new MetaElementBuilder().build()));
+        Lists.newArrayList(MetaElementBuilder.create().build()));
 
     Assert.assertEquals(result, metaElementService.findMetaElementsByPageId("123456789").get(0));
   }

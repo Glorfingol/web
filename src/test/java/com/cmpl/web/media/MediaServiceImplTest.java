@@ -32,17 +32,17 @@ public class MediaServiceImplTest {
 
   @Test
   public void testFindByName() throws Exception {
-    MediaDTO result = new MediaDTOBuilder().build();
+    MediaDTO result = MediaDTOBuilder.create().build();
 
     BDDMockito.doReturn(result).when(mediaService).toDTO(BDDMockito.any(Media.class));
-    BDDMockito.given(mediaRepository.findByName(BDDMockito.anyString())).willReturn(new MediaBuilder().build());
+    BDDMockito.given(mediaRepository.findByName(BDDMockito.anyString())).willReturn(MediaBuilder.create().build());
 
     Assert.assertEquals(result, mediaService.findByName("someName"));
   }
 
   @Test
   public void testToEntity() throws Exception {
-    MediaDTO dto = new MediaDTOBuilder().build();
+    MediaDTO dto = MediaDTOBuilder.create().build();
 
     BDDMockito.doNothing().when(mediaService).fillObject(BDDMockito.any(MediaDTO.class), BDDMockito.any(Media.class));
     mediaService.toEntity(dto);
@@ -53,7 +53,7 @@ public class MediaServiceImplTest {
 
   @Test
   public void testToDTO() throws Exception {
-    Media entity = new MediaBuilder().build();
+    Media entity = MediaBuilder.create().build();
 
     BDDMockito.doNothing().when(mediaService).fillObject(BDDMockito.any(Media.class), BDDMockito.any(MediaDTO.class));
     mediaService.toDTO(entity);
@@ -85,7 +85,7 @@ public class MediaServiceImplTest {
 
     BDDMockito.doNothing().when(fileService).saveMediaOnSystem(BDDMockito.anyString(), BDDMockito.any(byte[].class));
 
-    MediaDTO mediaToCreate = new MediaDTOBuilder().build();
+    MediaDTO mediaToCreate = MediaDTOBuilder.create().build();
     BDDMockito.doReturn(mediaToCreate).when(mediaService).createEntity(BDDMockito.any(MediaDTO.class));
 
     Assert.assertEquals(mediaToCreate, mediaService.upload(multiPartFile));

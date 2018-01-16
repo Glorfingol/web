@@ -1,9 +1,5 @@
-<div class="card">
+<div class="card mb-4">
     <div role="tabpanel" class="card-header">
-        <div class="mb-3">
-            <span th:text="#{carousel.current}"></span>
-            <span th:text="${updateForm.name}"></span>
-        </div>
         <ul class="nav nav-tabs card-header-tabs" id="pageTabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"  onclick="goToMainTab()">
@@ -22,7 +18,7 @@
         </div>
     </div>
 </div>
-<div class="card">
+<div class="card card-loader">
     <div class="loader"/> 
 </div>
 <script th:inline="javascript">

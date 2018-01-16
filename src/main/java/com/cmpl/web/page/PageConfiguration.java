@@ -1,9 +1,20 @@
 package com.cmpl.web.page;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.context.ContextHolder;
+import com.cmpl.web.core.menu.BackMenuItem;
+import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.file.FileService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
@@ -16,9 +27,38 @@ public class PageConfiguration {
   @Bean
   PageManagerDisplayFactory pageManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, PageService pageService, MetaElementService metaElementService,
-      OpenGraphMetaElementService openGraphMetaElementService) {
+      OpenGraphMetaElementService openGraphMetaElementService,
+      @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
     return new PageManagerDisplayFactoryImpl(menuFactory, messageSource, pageService, contextHolder,
-        metaElementService, openGraphMetaElementService);
+        metaElementService, openGraphMetaElementService, breadCrumbRegistry);
+  }
+
+  @Bean
+  BackMenuItem pagesBackMenuItem() {
+    return BackMenuItemBuilder.create().href("back.pages.href").label("back.pages.label").title("back.pages.title")
+        .order(1).build();
+  }
+
+  @Bean
+  BreadCrumb pageBreadCrumb() {
+    return BreadCrumbBuilder.create().items(pageBreadCrumbItems()).page(BACK_PAGE.PAGES_VIEW).build();
+  }
+
+  @Bean
+  BreadCrumb pageUpdateBreadCrumb() {
+    return BreadCrumbBuilder.create().items(pageBreadCrumbItems()).page(BACK_PAGE.PAGES_UPDATE).build();
+  }
+
+  @Bean
+  BreadCrumb pageCreateBreadCrumb() {
+    return BreadCrumbBuilder.create().items(pageBreadCrumbItems()).page(BACK_PAGE.PAGES_CREATE).build();
+  }
+
+  List<BreadCrumbItem> pageBreadCrumbItems() {
+    List<BreadCrumbItem> items = new ArrayList<>();
+    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("Gestion des pages").href("/manager/pages").build());
+    return items;
   }
 
   @Bean

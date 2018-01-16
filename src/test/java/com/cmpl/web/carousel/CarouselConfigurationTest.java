@@ -7,11 +7,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.media.MediaService;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
+import com.cmpl.web.page.BACK_PAGE;
 import com.cmpl.web.page.PageService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -39,6 +42,8 @@ public class CarouselConfigurationTest {
   private PageService pageService;
   @Mock
   private ContextHolder contextHolder;
+  @Mock
+  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
 
   @Spy
   @InjectMocks
@@ -71,7 +76,7 @@ public class CarouselConfigurationTest {
     Assert.assertEquals(
         CarouselManagerDisplayFactoryImpl.class,
         configuration.carouselManagerDisplayFactory(menuFactory, messageSource, carouselService, carouselItemService,
-            pageService, mediaService, contextHolder).getClass());
+            pageService, mediaService, contextHolder, breadCrumbRegistry).getClass());
   }
 
   @Test

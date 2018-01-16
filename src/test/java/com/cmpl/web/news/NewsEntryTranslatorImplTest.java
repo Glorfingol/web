@@ -20,7 +20,7 @@ public class NewsEntryTranslatorImplTest {
   public void testFromImageRequestToDTO() throws Exception {
 
     LocalDate date = LocalDate.now();
-    NewsImageRequest imageRequest = new NewsImageRequestBuilder().src("someSrc").alt("someAlt").legend("someLegend")
+    NewsImageRequest imageRequest = NewsImageRequestBuilder.create().src("someSrc").alt("someAlt").legend("someLegend")
         .creationDate(date).modificationDate(date).id(1L).build();
 
     NewsImageDTO result = translator.fromImageRequestToDTO(imageRequest);
@@ -37,7 +37,7 @@ public class NewsEntryTranslatorImplTest {
   @Test
   public void testFromContentRequestToDTO() throws Exception {
     LocalDate date = LocalDate.now();
-    NewsContentRequest contentRequest = new NewsContentRequestBuilder().content("someContent").creationDate(date)
+    NewsContentRequest contentRequest = NewsContentRequestBuilder.create().content("someContent").creationDate(date)
         .modificationDate(date).id(1L).build();
 
     NewsContentDTO result = translator.fromContentRequestToDTO(contentRequest);
@@ -62,8 +62,8 @@ public class NewsEntryTranslatorImplTest {
   public void testFromRequestToDTO_No_Image_No_Content() throws Exception {
 
     LocalDate date = LocalDate.now();
-    NewsEntryRequest request = new NewsEntryRequestBuilder().author("someAuthor").title("someTitle").tags("someTags")
-        .id(1L).creationDate(date).modificationDate(date).build();
+    NewsEntryRequest request = NewsEntryRequestBuilder.create().author("someAuthor").title("someTitle")
+        .tags("someTags").id(1L).creationDate(date).modificationDate(date).build();
 
     NewsEntryDTO result = translator.fromRequestToDTO(request);
 
@@ -81,10 +81,10 @@ public class NewsEntryTranslatorImplTest {
   @Test
   public void testFromRequestToDTO_No_Image_Content() throws Exception {
     LocalDate date = LocalDate.now();
-    NewsContentRequest contentRequest = new NewsContentRequestBuilder().content("someContent").creationDate(date)
+    NewsContentRequest contentRequest = NewsContentRequestBuilder.create().content("someContent").creationDate(date)
         .modificationDate(date).id(1L).build();
-    NewsEntryRequest request = new NewsEntryRequestBuilder().author("someAuthor").title("someTitle").tags("someTags")
-        .content(contentRequest).id(1L).creationDate(date).modificationDate(date).build();
+    NewsEntryRequest request = NewsEntryRequestBuilder.create().author("someAuthor").title("someTitle")
+        .tags("someTags").content(contentRequest).id(1L).creationDate(date).modificationDate(date).build();
 
     NewsEntryDTO result = translator.fromRequestToDTO(request);
 
@@ -102,10 +102,10 @@ public class NewsEntryTranslatorImplTest {
   public void testFromRequestToDTO_Image_No_Content() throws Exception {
 
     LocalDate date = LocalDate.now();
-    NewsImageRequest imageRequest = new NewsImageRequestBuilder().src("someSrc").alt("someAlt").legend("someLegend")
+    NewsImageRequest imageRequest = NewsImageRequestBuilder.create().src("someSrc").alt("someAlt").legend("someLegend")
         .creationDate(date).modificationDate(date).id(1L).build();
-    NewsEntryRequest request = new NewsEntryRequestBuilder().author("someAuthor").title("someTitle").tags("someTags")
-        .image(imageRequest).id(1L).creationDate(date).modificationDate(date).build();
+    NewsEntryRequest request = NewsEntryRequestBuilder.create().author("someAuthor").title("someTitle")
+        .tags("someTags").image(imageRequest).id(1L).creationDate(date).modificationDate(date).build();
 
     NewsEntryDTO result = translator.fromRequestToDTO(request);
 
@@ -122,12 +122,13 @@ public class NewsEntryTranslatorImplTest {
   @Test
   public void testFromRequestToDTO_With_Image_With_Content() throws Exception {
     LocalDate date = LocalDate.now();
-    NewsContentRequest contentRequest = new NewsContentRequestBuilder().content("someContent").creationDate(date)
+    NewsContentRequest contentRequest = NewsContentRequestBuilder.create().content("someContent").creationDate(date)
         .modificationDate(date).id(1L).build();
-    NewsImageRequest imageRequest = new NewsImageRequestBuilder().src("someSrc").alt("someAlt").legend("someLegend")
+    NewsImageRequest imageRequest = NewsImageRequestBuilder.create().src("someSrc").alt("someAlt").legend("someLegend")
         .creationDate(date).modificationDate(date).id(1L).build();
-    NewsEntryRequest request = new NewsEntryRequestBuilder().author("someAuthor").title("someTitle").tags("someTags")
-        .image(imageRequest).content(contentRequest).id(1L).creationDate(date).modificationDate(date).build();
+    NewsEntryRequest request = NewsEntryRequestBuilder.create().author("someAuthor").title("someTitle")
+        .tags("someTags").image(imageRequest).content(contentRequest).id(1L).creationDate(date).modificationDate(date)
+        .build();
 
     NewsEntryDTO result = translator.fromRequestToDTO(request);
 

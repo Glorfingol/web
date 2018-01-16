@@ -16,6 +16,10 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
   private LocalDate creationDate;
   private LocalDate modificationDate;
 
+  private PageUpdateFormBuilder() {
+
+  }
+
   public PageUpdateFormBuilder name(String name) {
     this.name = name;
     return this;
@@ -75,6 +79,10 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
     form.setName(name);
     form.setWithNews(withNews);
     return form;
+  }
+
+  public static PageUpdateFormBuilder create() {
+    return new PageUpdateFormBuilder();
   }
 
 }

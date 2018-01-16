@@ -67,7 +67,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeDescription_From_Message() throws Exception {
     String message = "someMessage";
-    Post post = new PostBuilder().message(message).build();
+    Post post = PostBuilder.create().message(message).build();
 
     String result = facebookService.computeDescription(post);
 
@@ -78,7 +78,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeDescription_From_Description() throws Exception {
     String description = "someDescription";
-    Post post = new PostBuilder().description(description).build();
+    Post post = PostBuilder.create().description(description).build();
 
     String result = facebookService.computeDescription(post);
 
@@ -91,7 +91,7 @@ public class FacebookServiceImplTest {
     String toggle = "toggleImport('123456789')";
 
     String id = "123456789";
-    Post post = new PostBuilder().id(id).build();
+    Post post = PostBuilder.create().id(id).build();
 
     BDDMockito.doReturn("123456789").when(facebookService).computeId(BDDMockito.eq(post));
 
@@ -103,7 +103,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeId() throws Exception {
     String id = "123456789";
-    Post post = new PostBuilder().id(id).build();
+    Post post = PostBuilder.create().id(id).build();
 
     String result = facebookService.computeId(post);
 
@@ -113,7 +113,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeObjectId() throws Exception {
     String objectId = "123456789";
-    Post post = new PostBuilder().objectId(objectId).build();
+    Post post = PostBuilder.create().objectId(objectId).build();
 
     String result = facebookService.computeObjectId(post);
 
@@ -124,7 +124,8 @@ public class FacebookServiceImplTest {
   public void testComputeCreatedTime() throws Exception {
     ZoneId defaultZoneId = ZoneId.systemDefault();
     LocalDate createdTime = LocalDate.now();
-    Post post = new PostBuilder().createdTime(Date.from(createdTime.atStartOfDay(defaultZoneId).toInstant())).build();
+    Post post = PostBuilder.create().createdTime(Date.from(createdTime.atStartOfDay(defaultZoneId).toInstant()))
+        .build();
 
     LocalDate result = facebookService.computeCreatedTime(post);
 
@@ -134,7 +135,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeType() throws Exception {
     PostType type = PostType.STATUS;
-    Post post = new PostBuilder().type(type).build();
+    Post post = PostBuilder.create().type(type).build();
 
     PostType result = facebookService.computeType(post);
 
@@ -144,7 +145,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeLink() throws Exception {
     String link = "someLink";
-    Post post = new PostBuilder().link(link).build();
+    Post post = PostBuilder.create().link(link).build();
 
     String result = facebookService.computeLink(post);
 
@@ -154,8 +155,8 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeAuthor() throws Exception {
     String name = "someName";
-    Reference reference = new ReferenceBuilder().name(name).build();
-    Post post = new PostBuilder().reference(reference).build();
+    Reference reference = ReferenceBuilder.create().name(name).build();
+    Post post = PostBuilder.create().reference(reference).build();
 
     String result = facebookService.computeAuthor(post);
 
@@ -167,7 +168,7 @@ public class FacebookServiceImplTest {
   public void testComputePhotoUrl_Ok() throws Exception {
 
     String picture = "somePictureUrl";
-    Post post = new PostBuilder().picture(picture).type(PostType.PHOTO).build();
+    Post post = PostBuilder.create().picture(picture).type(PostType.PHOTO).build();
 
     String result = facebookService.computePhotoUrl(post);
 
@@ -176,7 +177,7 @@ public class FacebookServiceImplTest {
 
   @Test
   public void testComputePhotoUrl_No_Photo() throws Exception {
-    Post post = new PostBuilder().type(PostType.STATUS).build();
+    Post post = PostBuilder.create().type(PostType.STATUS).build();
 
     String result = facebookService.computePhotoUrl(post);
 
@@ -187,7 +188,7 @@ public class FacebookServiceImplTest {
   public void testComputeVideoUrl_Ok() throws Exception {
     String sourceNotAutoplay = "someVideoUrl?autoplay=0";
     String sourceAutoplay = "someVideoUrl?autoplay=1";
-    Post post = new PostBuilder().source(sourceAutoplay).build();
+    Post post = PostBuilder.create().source(sourceAutoplay).build();
 
     BDDMockito.doReturn(sourceNotAutoplay).when(facebookService).makeVideoNotAutoplay(BDDMockito.eq(sourceAutoplay));
     String result = facebookService.computeVideoUrl(post);
@@ -199,7 +200,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeVideoUrl_No_Video() throws Exception {
 
-    Post post = new PostBuilder().build();
+    Post post = PostBuilder.create().build();
 
     String result = facebookService.computeVideoUrl(post);
 
@@ -229,7 +230,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeTitle_From_Name() throws Exception {
     String name = "someName";
-    Post post = new PostBuilder().name(name).build();
+    Post post = PostBuilder.create().name(name).build();
 
     String result = facebookService.computeTitle(post);
 
@@ -239,7 +240,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeTitle_From_Caption() throws Exception {
     String caption = "someCaption";
-    Post post = new PostBuilder().caption(caption).build();
+    Post post = PostBuilder.create().caption(caption).build();
 
     String result = facebookService.computeTitle(post);
 
@@ -249,7 +250,7 @@ public class FacebookServiceImplTest {
   @Test
   public void testComputeTitle_From_Type() throws Exception {
     String type = "Type STATUS";
-    Post post = new PostBuilder().type(PostType.STATUS).build();
+    Post post = PostBuilder.create().type(PostType.STATUS).build();
 
     String result = facebookService.computeTitle(post);
 
@@ -276,7 +277,7 @@ public class FacebookServiceImplTest {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
     ZoneId defaultZoneId = ZoneId.systemDefault();
 
-    Post post = new PostBuilder().id(id).objectId(objectId).name(name).caption(caption).description(description)
+    Post post = PostBuilder.create().id(id).objectId(objectId).name(name).caption(caption).description(description)
         .source(source).message(message).picture(picture).link(link).type(type)
         .createdTime(Date.from(createdTime.atStartOfDay(defaultZoneId).toInstant())).build();
 
@@ -333,7 +334,7 @@ public class FacebookServiceImplTest {
     calendar.set(2017, 10, 15);
     Date date = calendar.getTime();
 
-    Post post = new PostBuilder().createdTime(date).build();
+    Post post = PostBuilder.create().createdTime(date).build();
 
     String result = facebookService.computeFormattedDate(post, formatter);
 
@@ -393,7 +394,7 @@ public class FacebookServiceImplTest {
   public void testComputeImportablePosts_Importable() throws Exception {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-    Post postToImport = new PostBuilder().build();
+    Post postToImport = PostBuilder.create().build();
     PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
     PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
     PagedList<Post> postsToImport = new PagedList<>(Lists.newArrayList(postToImport), previous, next);
@@ -416,7 +417,7 @@ public class FacebookServiceImplTest {
   public void testComputeImportablePosts_Already_Imported() throws Exception {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-    Post postToImport = new PostBuilder().build();
+    Post postToImport = PostBuilder.create().build();
     PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
     PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
     PagedList<Post> postsToImport = new PagedList<>(Lists.newArrayList(postToImport), previous, next);
@@ -441,7 +442,7 @@ public class FacebookServiceImplTest {
     Connection<Facebook> connection = (Connection<Facebook>) BDDMockito.mock(Connection.class);
     FeedOperations operations = BDDMockito.mock(FeedOperations.class);
 
-    Post postToImport = new PostBuilder().build();
+    Post postToImport = PostBuilder.create().build();
     PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
     PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
     PagedList<Post> postsToImport = new PagedList<>(Lists.newArrayList(postToImport), previous, next);

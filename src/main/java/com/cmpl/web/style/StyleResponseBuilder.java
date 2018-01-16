@@ -8,6 +8,10 @@ public class StyleResponseBuilder extends Builder<StyleResponse> {
   private StyleDTO style;
   private Error error;
 
+  private StyleResponseBuilder() {
+
+  }
+
   public StyleResponseBuilder style(StyleDTO style) {
     this.style = style;
     return this;
@@ -24,5 +28,9 @@ public class StyleResponseBuilder extends Builder<StyleResponse> {
     response.setStyle(style);
     response.setError(error);
     return response;
+  }
+
+  public static StyleResponseBuilder create() {
+    return new StyleResponseBuilder();
   }
 }

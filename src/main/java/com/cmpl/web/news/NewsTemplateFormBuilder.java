@@ -6,6 +6,10 @@ public class NewsTemplateFormBuilder extends Builder<NewsTemplateForm> {
 
   private String body;
 
+  private NewsTemplateFormBuilder() {
+
+  }
+
   public NewsTemplateFormBuilder body(String body) {
     this.body = body;
     return this;
@@ -16,6 +20,10 @@ public class NewsTemplateFormBuilder extends Builder<NewsTemplateForm> {
     NewsTemplateForm form = new NewsTemplateForm();
     form.setBody(body);
     return form;
+  }
+
+  public static NewsTemplateFormBuilder create() {
+    return new NewsTemplateFormBuilder();
   }
 
 }

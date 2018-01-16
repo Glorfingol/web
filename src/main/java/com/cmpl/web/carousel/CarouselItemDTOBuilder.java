@@ -9,6 +9,10 @@ public class CarouselItemDTOBuilder extends BaseBuilder<CarouselItemDTO> {
   private String carouselId;
   private int orderInCarousel;
 
+  private CarouselItemDTOBuilder() {
+
+  }
+
   public CarouselItemDTOBuilder media(MediaDTO media) {
     this.media = media;
     return this;
@@ -34,6 +38,10 @@ public class CarouselItemDTOBuilder extends BaseBuilder<CarouselItemDTO> {
     dto.setModificationDate(modificationDate);
     dto.setOrderInCarousel(orderInCarousel);
     return dto;
+  }
+
+  public static CarouselItemDTOBuilder create() {
+    return new CarouselItemDTOBuilder();
   }
 
 }

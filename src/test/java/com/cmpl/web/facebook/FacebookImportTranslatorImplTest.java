@@ -36,7 +36,7 @@ public class FacebookImportTranslatorImplTest {
   @Test
   public void testFromDTOToResponse() throws Exception {
 
-    NewsEntryDTO dto = new NewsEntryDTOBuilder().id(123456789L).build();
+    NewsEntryDTO dto = NewsEntryDTOBuilder.create().id(123456789L).build();
     List<NewsEntryDTO> dtos = Lists.newArrayList(dto);
 
     FacebookImportResponse result = translator.fromDTOToResponse(dtos);

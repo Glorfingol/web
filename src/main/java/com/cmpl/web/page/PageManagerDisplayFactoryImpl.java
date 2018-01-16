@@ -7,9 +7,13 @@ import java.util.Locale;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.context.ContextHolder;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.model.PageWrapper;
@@ -36,8 +40,8 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   public PageManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       PageService pageService, ContextHolder contextHolder, MetaElementService metaElementService,
-      OpenGraphMetaElementService openGraphMetaElementService) {
-    super(menuFactory, messageSource);
+      OpenGraphMetaElementService openGraphMetaElementService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry);
     this.pageService = pageService;
     this.contextHolder = contextHolder;
     this.metaElementService = metaElementService;
@@ -79,6 +83,13 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   public ModelAndView computeModelAndViewForUpdatePage(Locale locale, String pageId) {
     ModelAndView pageManager = super.computeModelAndViewForBackPage(BACK_PAGE.PAGES_UPDATE, locale);
     PageDTO page = pageService.getEntity(Long.parseLong(pageId));
+
+    BreadCrumbItem item = BreadCrumbItemBuilder.create().href("#").text(page.getName()).build();
+    BreadCrumb breadCrumb = (BreadCrumb) pageManager.getModel().get("breadcrumb");
+    if (canAddBreadCrumbItem(breadCrumb, item)) {
+      breadCrumb.getItems().add(item);
+    }
+
     pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
     return pageManager;
   }

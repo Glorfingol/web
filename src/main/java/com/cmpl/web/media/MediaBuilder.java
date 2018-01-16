@@ -10,6 +10,10 @@ public class MediaBuilder extends BaseBuilder<Media> {
   private String contentType;
   private Long size;
 
+  private MediaBuilder() {
+
+  }
+
   public MediaBuilder src(String src) {
     this.src = src;
     return this;
@@ -48,6 +52,10 @@ public class MediaBuilder extends BaseBuilder<Media> {
     media.setSize(size);
     media.setSrc(src);
     return media;
+  }
+
+  public static MediaBuilder create() {
+    return new MediaBuilder();
   }
 
 }
