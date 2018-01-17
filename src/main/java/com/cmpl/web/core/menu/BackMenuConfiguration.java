@@ -13,11 +13,11 @@ public class BackMenuConfiguration {
 
   @Autowired
   @Qualifier(value = "backMenus")
-  private PluginRegistry<BackMenuItem, String> registry;
+  private PluginRegistry<BackMenuItem, String> backMenus;
 
   @Bean
-  BackMenu backMenu(@Qualifier(value = "backMenus") PluginRegistry<BackMenuItem, String> registry) {
-    return new BackMenu(registry);
+  BackMenu backMenu() {
+    return new BackMenu(backMenus);
   }
 
   @Bean

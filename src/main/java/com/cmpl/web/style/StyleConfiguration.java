@@ -3,7 +3,6 @@ package com.cmpl.web.style;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.plugin.core.PluginRegistry;
@@ -64,8 +63,7 @@ public class StyleConfiguration {
 
   @Bean
   public StyleDisplayFactory styleDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      StyleService styleService, ContextHolder contextHolder,
-      @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
-    return new StyleDisplayFactoryImpl(menuFactory, messageSource, styleService, contextHolder, breadCrumbRegistry);
+      StyleService styleService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+    return new StyleDisplayFactoryImpl(menuFactory, messageSource, styleService, contextHolder, breadCrumbs);
   }
 }

@@ -10,15 +10,14 @@
 	         <div class="row ">
 	             <div class="col-12">
 	               <div class="text-center mt-5">
-                       <h1>403</h1>
-                       <h3 class="font-bold">Acc&egrave; interdit</h3>
+                       <h1 th:text="#{error.403.code}"></h1>
+                       <h3 class="font-bold" th:utext="#{error.403.title}"></h3>
                        <div class="error-desc">
-                           Ll&apos;acc&egrave; &agrave; la ressource demand&eacute;e est interdit.
-                           Cliquez sur le bouton pour revenir &agrave; l&apos;ccueil du site :<br/>
+                           <p th:utext="#{error.403.content}"></p>
                            <a href="/" class="btn btn-primary mt-3">
                                 <i class="fa fa-home fa-4x"></i>
                            </a>
-                       </div>	               
+                       </div>                    
 	               </div>
 	             </div>
 	         </div>

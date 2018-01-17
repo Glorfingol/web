@@ -3,7 +3,6 @@ package com.cmpl.web.page;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.plugin.core.PluginRegistry;
@@ -27,10 +26,9 @@ public class PageConfiguration {
   @Bean
   PageManagerDisplayFactory pageManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, PageService pageService, MetaElementService metaElementService,
-      OpenGraphMetaElementService openGraphMetaElementService,
-      @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+      OpenGraphMetaElementService openGraphMetaElementService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
     return new PageManagerDisplayFactoryImpl(menuFactory, messageSource, pageService, contextHolder,
-        metaElementService, openGraphMetaElementService, breadCrumbRegistry);
+        metaElementService, openGraphMetaElementService, breadCrumbs);
   }
 
   @Bean

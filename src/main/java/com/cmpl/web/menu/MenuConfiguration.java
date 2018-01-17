@@ -3,7 +3,6 @@ package com.cmpl.web.menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.plugin.core.PluginRegistry;
@@ -80,8 +79,8 @@ public class MenuConfiguration {
   @Bean
   MenuManagerDisplayFactory menuManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
       MenuService menuService, PageService pageService, ContextHolder contextHolder,
-      @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
     return new MenuManagerDisplayFactoryImpl(menuFactory, messageSource, menuService, pageService, contextHolder,
-        breadCrumbRegistry);
+        breadCrumbs);
   }
 }

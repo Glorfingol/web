@@ -1,6 +1,5 @@
 package com.cmpl.web.login;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.plugin.core.PluginRegistry;
@@ -15,8 +14,8 @@ public class LoginConfiguration {
 
   @Bean
   LoginDisplayFactory loginDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
-    return new LoginDisplayFactoryImpl(menuFactory, messageSource, breadCrumbRegistry);
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+    return new LoginDisplayFactoryImpl(menuFactory, messageSource, breadCrumbs);
   }
 
 }

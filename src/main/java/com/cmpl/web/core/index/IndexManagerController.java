@@ -14,7 +14,7 @@ import com.cmpl.web.core.factory.BackDisplayFactory;
 import com.cmpl.web.page.BACK_PAGE;
 
 @Controller
-@RequestMapping(value = "/manager/")
+@RequestMapping(value = "/manager")
 public class IndexManagerController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(IndexManagerController.class);
@@ -27,6 +27,12 @@ public class IndexManagerController {
 
   @GetMapping
   public ModelAndView printIndex() {
+    LOGGER.info("Accès à la page " + BACK_PAGE.INDEX.name());
+    return displayFactory.computeModelAndViewForBackPage(BACK_PAGE.INDEX, Locale.FRANCE);
+  }
+
+  @GetMapping(value = "/")
+  public ModelAndView printIndexGlobal() {
     LOGGER.info("Accès à la page " + BACK_PAGE.INDEX.name());
     return displayFactory.computeModelAndViewForBackPage(BACK_PAGE.INDEX, Locale.FRANCE);
   }

@@ -3,7 +3,6 @@ package com.cmpl.web.news;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.plugin.core.PluginRegistry;
@@ -83,9 +82,9 @@ public class NewsConfiguration {
   @Bean
   NewsManagerDisplayFactory newsManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, NewsEntryService newsEntryService, FileService fileService,
-      @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
     return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, messageSource, newsEntryService, fileService,
-        breadCrumbRegistry);
+        breadCrumbs);
   }
 
   @Bean

@@ -8,7 +8,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -107,9 +106,8 @@ public class FacebookConfiguration {
 
   @Bean
   FacebookDisplayFactory facebookDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      FacebookService facebookService,
-      @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
-    return new FacebookDisplayFactoryImpl(menuFactory, messageSource, facebookService, breadCrumbRegistry);
+      FacebookService facebookService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+    return new FacebookDisplayFactoryImpl(menuFactory, messageSource, facebookService, breadCrumbs);
   }
 
   @Bean

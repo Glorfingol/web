@@ -3,7 +3,6 @@ package com.cmpl.web.carousel;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.plugin.core.PluginRegistry;
@@ -75,10 +74,9 @@ public class CarouselConfiguration {
   @Bean
   CarouselManagerDisplayFactory carouselManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
       CarouselService carouselService, CarouselItemService carouselItemService, PageService pageService,
-      MediaService mediaService, ContextHolder contextHolder,
-      @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+      MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
     return new CarouselManagerDisplayFactoryImpl(menuFactory, messageSource, carouselService, carouselItemService,
-        pageService, mediaService, contextHolder, breadCrumbRegistry);
+        pageService, mediaService, contextHolder, breadCrumbs);
   }
 
   @Bean

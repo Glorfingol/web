@@ -3,7 +3,6 @@ package com.cmpl.web.media;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.plugin.core.PluginRegistry;
@@ -53,10 +52,8 @@ public class MediaConfiguration {
 
   @Bean
   public MediaManagerDisplayFactory mediaManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      MediaService mediaService, ContextHolder contextHolder,
-      @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
-    return new MediaManagerDisplayFactoryImpl(menuFactory, messageSource, mediaService, contextHolder,
-        breadCrumbRegistry);
+      MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+    return new MediaManagerDisplayFactoryImpl(menuFactory, messageSource, mediaService, contextHolder, breadCrumbs);
   }
 
 }
