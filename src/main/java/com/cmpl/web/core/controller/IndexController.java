@@ -34,10 +34,10 @@ public class IndexController {
    * @return
    */
   @GetMapping(value = "/")
-  public ModelAndView printIndex() {
+  public ModelAndView printIndex(Locale locale) {
 
     LOGGER.info("Accès à la page d'index");
-    return displayFactory.computeModelAndViewForPage("accueil", Locale.FRANCE, 0);
+    return displayFactory.computeModelAndViewForPage("accueil", locale, 0);
   }
 
 }

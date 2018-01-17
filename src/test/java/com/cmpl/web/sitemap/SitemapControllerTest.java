@@ -36,7 +36,7 @@ public class SitemapControllerTest {
 
     BDDMockito.doReturn(sitemap).when(sitemapService).createSiteMap(BDDMockito.eq(Locale.FRANCE));
 
-    String result = controller.printSitemap();
+    String result = controller.printSitemap(Locale.FRANCE);
 
     Assert.assertEquals(sitemap, result);
   }
@@ -46,7 +46,7 @@ public class SitemapControllerTest {
 
     BDDMockito.doThrow(new BaseException("")).when(sitemapService).createSiteMap(BDDMockito.eq(Locale.FRANCE));
 
-    String result = controller.printSitemap();
+    String result = controller.printSitemap(Locale.FRANCE);
 
     Assert.assertTrue(!StringUtils.hasText(result));
 

@@ -32,7 +32,7 @@ public class IndexControllerTest {
         displayFactory.computeModelAndViewForPage(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE),
             BDDMockito.anyInt())).willReturn(view);
 
-    ModelAndView result = controller.printIndex();
+    ModelAndView result = controller.printIndex(Locale.FRANCE);
 
     Assert.assertEquals(view, result);
 

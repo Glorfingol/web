@@ -32,7 +32,7 @@ public class CarouselConfiguration {
   @Bean
   BackMenuItem carouselsBackMenuItem() {
     return BackMenuItemBuilder.create().href("back.carousels.href").label("back.carousels.label")
-        .title("back.carousels.title").order(2).build();
+        .title("back.carousels.title").iconClass("fa fa-files-o").order(2).build();
   }
 
   @Bean
@@ -52,8 +52,8 @@ public class CarouselConfiguration {
 
   List<BreadCrumbItem> carouselBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
-    items.add(BreadCrumbItemBuilder.create().text("Gestion des carousels").href("/manager/carousels").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("back.index.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.carousels.title").href("back.carousels.href").build());
     return items;
   }
 

@@ -51,6 +51,10 @@ body{
     
 }
 
+a, button{
+	cursor: pointer;
+}
+
 .form-control-file{
     display: none;
 }
@@ -86,6 +90,18 @@ MENU
 
 ul.dropdown-menu{
     max-width: 400px; 
+}
+
+
+.back-menu{
+    box-shadow: inset -2px 0 0 #e5e5e5;
+}
+
+/**
+BREADCRUMB
+*/
+.breacrumb a{
+	text-decoration: none;
 }
 
 /**
@@ -238,8 +254,4 @@ input[type="checkbox"]:checked:before {
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px; 
-}
-
-.back-menu{
-	box-shadow: inset -2px 0 0 #e5e5e5;
 }

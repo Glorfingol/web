@@ -22,7 +22,7 @@ public class IndexConfiguration {
 
   List<BreadCrumbItem> indexBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
     return items;
   }
 

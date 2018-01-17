@@ -2,6 +2,16 @@
     <div class="col-12">
         <nav class="navbar navbar-light bg-faded">
             <ul class="navbar-nav">
+                <li class="dropdown">
+					<a class="dropdown-toggle btn btn-secondary" data-toggle="dropdown" href="#">
+					   <span th:text="#{language.select}"></span>
+					</a>
+					<div class="dropdown-menu">
+	                    <a th:each="locale : ${locales}" class="dropdown-item" th:href="${'?lang=' + locale.language}">
+                            <span th:text="${locale.displayLanguage}">
+	                    </a>
+                    </div>
+                </li>
                 <li class="nav-item text-right">
                     <a th:href="${'/manager/logout'}">
                         <i class="fa fa-sign-out">

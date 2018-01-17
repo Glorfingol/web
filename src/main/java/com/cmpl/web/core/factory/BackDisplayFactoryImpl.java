@@ -1,5 +1,6 @@
 package com.cmpl.web.core.factory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,6 +44,8 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
 
     LOGGER.info("Construction du menu pour la page " + backPage.name());
     model.addObject("menuItems", computeBackMenuItems(backPage, locale));
+    LOGGER.info("Construction des locales pour la page " + backPage.name());
+    model.addObject("locales", computeLocales());
     LOGGER.info("Construction du fil d'ariane pour la page " + backPage.name());
     model.addObject("breadcrumb", computeBreadCrumb(backPage));
     LOGGER.info("Construction du lien du back pour la page " + backPage.name());
@@ -51,6 +54,13 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     LOGGER.info("Page du back " + backPage.name() + " prête");
 
     return model;
+  }
+
+  public List<Locale> computeLocales() {
+    List<Locale> locales = new ArrayList<>();
+    locales.add(Locale.FRANCE);
+    locales.add(Locale.US);
+    return locales;
   }
 
   public BreadCrumb computeBreadCrumb(BACK_PAGE backPage) {

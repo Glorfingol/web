@@ -36,7 +36,7 @@ public class PageConfiguration {
   @Bean
   BackMenuItem pagesBackMenuItem() {
     return BackMenuItemBuilder.create().href("back.pages.href").label("back.pages.label").title("back.pages.title")
-        .order(1).build();
+        .order(1).iconClass("fa fa-code").build();
   }
 
   @Bean
@@ -56,8 +56,8 @@ public class PageConfiguration {
 
   List<BreadCrumbItem> pageBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
-    items.add(BreadCrumbItemBuilder.create().text("Gestion des pages").href("/manager/pages").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.pages.title").href("back.pages.href").build());
     return items;
   }
 

@@ -43,9 +43,9 @@ public class FacebookController {
    * @return
    */
   @GetMapping(value = "/manager/facebook")
-  public ModelAndView printFacebookAccess() {
+  public ModelAndView printFacebookAccess(Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.FACEBOOK_ACCESS.name());
-    return facebookDisplayFactory.computeModelAndViewForFacebookAccessPage(Locale.FRANCE);
+    return facebookDisplayFactory.computeModelAndViewForFacebookAccessPage(locale);
   }
 
   /**
@@ -54,10 +54,10 @@ public class FacebookController {
    * @return
    */
   @GetMapping(value = "/manager/facebook/import")
-  public ModelAndView printFacebookImport() {
+  public ModelAndView printFacebookImport(Locale locale) {
 
     LOGGER.info("Accès à la page " + BACK_PAGE.FACEBOOK_IMPORT.name());
-    return facebookDisplayFactory.computeModelAndViewForFacebookImportPage(Locale.FRANCE);
+    return facebookDisplayFactory.computeModelAndViewForFacebookImportPage(locale);
   }
 
   /**
@@ -68,11 +68,12 @@ public class FacebookController {
    */
   @PostMapping(value = "/manager/facebook/import")
   @ResponseBody
-  public ResponseEntity<FacebookImportResponse> createNewsEntry(@RequestBody FacebookImportRequest facebookImportRequest) {
+  public ResponseEntity<FacebookImportResponse> createNewsEntry(
+      @RequestBody FacebookImportRequest facebookImportRequest, Locale locale) {
 
     LOGGER.info("Tentative de création d'entrées de blog venant de facebook");
     try {
-      FacebookImportResponse response = facebookDispatcher.createEntity(facebookImportRequest, Locale.FRANCE);
+      FacebookImportResponse response = facebookDispatcher.createEntity(facebookImportRequest, locale);
       LOGGER.info("Entrées crées");
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (BaseException e) {

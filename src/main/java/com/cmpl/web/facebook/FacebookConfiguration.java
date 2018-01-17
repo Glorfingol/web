@@ -54,7 +54,7 @@ public class FacebookConfiguration {
   @Bean
   BackMenuItem facebookBackMenuItem() {
     return BackMenuItemBuilder.create().href("facebook.access.href").label("facebook.access.label")
-        .title("facebook.access.title").order(7).build();
+        .title("facebook.access.title").iconClass("fa fa-facebook").order(7).build();
   }
 
   @Bean
@@ -64,8 +64,8 @@ public class FacebookConfiguration {
 
   List<BreadCrumbItem> facebookImportBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
-    items.add(BreadCrumbItemBuilder.create().text("Importer via Facebook").href("/manager/facebook").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("back.index.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("facebook.access.title").href("facebook.access.href").build());
     return items;
   }
 
@@ -76,8 +76,8 @@ public class FacebookConfiguration {
 
   List<BreadCrumbItem> facebookAccessBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
-    items.add(BreadCrumbItemBuilder.create().text("Importer via Facebook").href("/manager/facebook").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("back.index.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("facebook.access.label").href("facebook.access.href").build());
     return items;
   }
 

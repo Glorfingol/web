@@ -38,7 +38,8 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
   MenuItem computeMenuItem(BACK_PAGE backPage, BackMenuItem item, Locale locale) {
     return MenuItemBuilder.create().href(getI18nValue(item.getHref(), locale))
         .label(getI18nValue(item.getLabel(), locale)).title(getI18nValue(item.getTitle(), locale))
-        .subMenuItems(new ArrayList<MenuItem>()).customCssClass(computeCustomCssClass(backPage, item)).build();
+        .subMenuItems(new ArrayList<MenuItem>()).customCssClass(computeCustomCssClass(backPage, item))
+        .iconClass(item.getIconClass()).build();
   }
 
   String computeCustomCssClass(BACK_PAGE backPage, BackMenuItem item) {

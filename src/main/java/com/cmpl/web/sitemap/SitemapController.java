@@ -37,12 +37,12 @@ public class SitemapController {
    */
   @GetMapping(value = {"/sitemap.xml"}, produces = "application/xml")
   @ResponseBody
-  public String printSitemap() {
+  public String printSitemap(Locale locale) {
 
     LOGGER.info("Accès au sitemap");
 
     try {
-      return sitemapService.createSiteMap(Locale.FRANCE);
+      return sitemapService.createSiteMap(locale);
     } catch (BaseException e1) {
       LOGGER.error("Impossible de générer le fichier des sitemap", e1);
     }

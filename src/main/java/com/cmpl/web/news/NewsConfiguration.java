@@ -34,7 +34,7 @@ public class NewsConfiguration {
   @Bean
   BackMenuItem newsBackMenuItem() {
     return BackMenuItemBuilder.create().href("back.news.href").label("back.news.label").title("back.news.title")
-        .order(6).build();
+        .order(6).iconClass("fa fa-newspaper-o").build();
   }
 
   @Bean
@@ -52,26 +52,31 @@ public class NewsConfiguration {
     return BreadCrumbBuilder.create().items(newsBreadCrumbItems()).page(BACK_PAGE.NEWS_CREATE).build();
   }
 
+  @Bean
+  BreadCrumb newsTemplateBreadCrumb() {
+    return BreadCrumbBuilder.create().items(newsBreadCrumbItems()).page(BACK_PAGE.NEWS_TEMPLATE).build();
+  }
+
   List<BreadCrumbItem> newsBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
-    items.add(BreadCrumbItemBuilder.create().text("Gestion du Blog").href("/manager/news").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.news.title").href("back.news.href").build());
     return items;
   }
 
   List<BreadCrumbItem> newsUpdateBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
-    items.add(BreadCrumbItemBuilder.create().text("Gestion du Blog").href("/manager/news").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.news.title").href("back.news.href").build());
     items.add(BreadCrumbItemBuilder.create().text("Modifier une entrée").href("/manager/actualite/modifier/").build());
     return items;
   }
 
   List<BreadCrumbItem> newsCreateBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
-    items.add(BreadCrumbItemBuilder.create().text("Gestion du Blog").href("/manager/news").build());
-    items.add(BreadCrumbItemBuilder.create().text("Ajouter une entrée").href("/manager/actualite/creer/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.news.title").href("back.news.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("news.create.title").href("news.create.href").build());
     return items;
   }
 

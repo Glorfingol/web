@@ -11,6 +11,7 @@ public class MenuItemBuilder extends Builder<MenuItem> {
   private String title;
   private List<MenuItem> subMenuItems;
   private String customCssClass;
+  private String iconClass;
 
   private MenuItemBuilder() {
   }
@@ -40,6 +41,11 @@ public class MenuItemBuilder extends Builder<MenuItem> {
     return this;
   }
 
+  public MenuItemBuilder iconClass(String iconClass) {
+    this.iconClass = iconClass;
+    return this;
+  }
+
   @Override
   public MenuItem build() {
     MenuItem menuItem = new MenuItem();
@@ -48,6 +54,7 @@ public class MenuItemBuilder extends Builder<MenuItem> {
     menuItem.setTitle(title);
     menuItem.setSubMenuItems(subMenuItems);
     menuItem.setCustomCssClass(customCssClass);
+    menuItem.setIconClass(iconClass);
 
     return menuItem;
   }

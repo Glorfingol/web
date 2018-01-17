@@ -1,12 +1,12 @@
 package com.cmpl.web.core.menu;
 
-
 public class BackMenuItem implements BackMenuItemPlugin {
 
   private String title;
   private String label;
   private String href;
   private int order;
+  private String iconClass;
 
   public String getTitle() {
     return title;
@@ -38,6 +38,14 @@ public class BackMenuItem implements BackMenuItemPlugin {
 
   public void setOrder(int order) {
     this.order = order;
+  }
+
+  public String getIconClass() {
+    return iconClass;
+  }
+
+  public void setIconClass(String iconClass) {
+    this.iconClass = iconClass;
   }
 
   @Override

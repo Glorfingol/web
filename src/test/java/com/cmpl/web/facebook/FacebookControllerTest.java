@@ -38,7 +38,7 @@ public class FacebookControllerTest {
     BDDMockito.doReturn(model).when(facebookDisplayFactory)
         .computeModelAndViewForFacebookAccessPage(BDDMockito.eq(Locale.FRANCE));
 
-    ModelAndView result = controller.printFacebookAccess();
+    ModelAndView result = controller.printFacebookAccess(Locale.FRANCE);
 
     Assert.assertEquals(model, result);
   }
@@ -51,7 +51,7 @@ public class FacebookControllerTest {
     BDDMockito.doReturn(model).when(facebookDisplayFactory)
         .computeModelAndViewForFacebookImportPage(BDDMockito.eq(Locale.FRANCE));
 
-    ModelAndView result = controller.printFacebookImport();
+    ModelAndView result = controller.printFacebookImport(Locale.FRANCE);
 
     Assert.assertEquals(model, result);
   }
@@ -65,7 +65,7 @@ public class FacebookControllerTest {
     BDDMockito.doReturn(response).when(dispatcher)
         .createEntity(BDDMockito.any(FacebookImportRequest.class), BDDMockito.any(Locale.class));
 
-    ResponseEntity<FacebookImportResponse> result = controller.createNewsEntry(request);
+    ResponseEntity<FacebookImportResponse> result = controller.createNewsEntry(request, Locale.FRANCE);
 
     Assert.assertEquals(response, result.getBody());
 
@@ -79,7 +79,7 @@ public class FacebookControllerTest {
     BDDMockito.doThrow(new BaseException()).when(dispatcher)
         .createEntity(BDDMockito.any(FacebookImportRequest.class), BDDMockito.any(Locale.class));
 
-    ResponseEntity<FacebookImportResponse> result = controller.createNewsEntry(request);
+    ResponseEntity<FacebookImportResponse> result = controller.createNewsEntry(request, Locale.FRANCE);
 
     Assert.assertNull(result.getBody());
     Assert.assertEquals(HttpStatus.CONFLICT, result.getStatusCode());

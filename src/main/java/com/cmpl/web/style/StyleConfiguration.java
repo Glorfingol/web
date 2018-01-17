@@ -37,7 +37,7 @@ public class StyleConfiguration {
   @Bean
   BackMenuItem styleBackMenuItem() {
     return BackMenuItemBuilder.create().href("back.style.href").label("back.style.label").title("back.style.title")
-        .order(5).build();
+        .order(5).iconClass("fa fa-css3").build();
   }
 
   @Bean
@@ -52,8 +52,8 @@ public class StyleConfiguration {
 
   List<BreadCrumbItem> styleBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
-    items.add(BreadCrumbItemBuilder.create().text("Gestion du style css").href("/manager/styles").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.style.title").href("back.style.href").build());
     return items;
   }
 

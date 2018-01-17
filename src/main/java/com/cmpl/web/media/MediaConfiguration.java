@@ -31,7 +31,7 @@ public class MediaConfiguration {
   @Bean
   BackMenuItem mediasBackMenuItem() {
     return BackMenuItemBuilder.create().href("back.medias.href").label("back.medias.label").title("back.medias.title")
-        .order(4).build();
+        .order(4).iconClass("fa fa-file-image-o").build();
   }
 
   @Bean
@@ -46,8 +46,8 @@ public class MediaConfiguration {
 
   List<BreadCrumbItem> mediaBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
-    items.add(BreadCrumbItemBuilder.create().text("Gestion des medias").href("/manager/medias").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.medias.title").href("back.medias.href").build());
     return items;
   }
 

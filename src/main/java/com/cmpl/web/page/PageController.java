@@ -39,10 +39,10 @@ public class PageController {
    */
   @GetMapping(value = "/pages/{pageName}")
   public ModelAndView printPage(@PathVariable(value = "pageName") String pageName,
-      @RequestParam(name = "p", required = false) Integer pageNumber) {
+      @RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     LOGGER.info("Accès à la page " + pageName);
-    return displayFactory.computeModelAndViewForPage(pageName, Locale.FRANCE, computePageNumberFromRequest(pageNumber));
+    return displayFactory.computeModelAndViewForPage(pageName, locale, computePageNumberFromRequest(pageNumber));
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {

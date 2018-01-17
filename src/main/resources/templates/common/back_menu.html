@@ -1,5 +1,8 @@
 <ul id="menu" class="nav flex-column">
 	<li id="menu_index" class="nav-item" th:each="menuItem : ${menuItems}" th:classappend="${menuItem.customCssClass}">
-	    <a class="nav-link" th:title="${menuItem.title}" th:href="${menuItem.href}" th:text="${menuItem.label}"></a>
+	    <a class="nav-link" th:title="${menuItem.title}" th:href="${menuItem.href}" >
+	       <i th:classappend="${menuItem.iconClass}"></i>
+	       <span th:text="${menuItem.label}"></span>
+	    </a>
 	</li>
 </ul>

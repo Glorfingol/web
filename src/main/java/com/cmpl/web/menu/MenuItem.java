@@ -14,6 +14,7 @@ public class MenuItem {
   private String href;
   private String label;
   private String customCssClass;
+  private String iconClass;
 
   List<MenuItem> subMenuItems;
 
@@ -55,6 +56,14 @@ public class MenuItem {
 
   public void setCustomCssClass(String customCssClass) {
     this.customCssClass = customCssClass;
+  }
+
+  public String getIconClass() {
+    return iconClass;
+  }
+
+  public void setIconClass(String iconClass) {
+    this.iconClass = iconClass;
   }
 
 }

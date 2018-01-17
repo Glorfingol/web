@@ -36,11 +36,11 @@ public class MenuManagerController {
   }
 
   @GetMapping
-  public ModelAndView printViewMenus(@RequestParam(name = "p", required = false) Integer pageNumber) {
+  public ModelAndView printViewMenus(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     LOGGER.info("Accès à la page " + BACK_PAGE.MENUS_VIEW.name());
-    return displayFactory.computeModelAndViewForViewAllMenus(Locale.FRANCE, pageNumberToUse);
+    return displayFactory.computeModelAndViewForViewAllMenus(locale, pageNumberToUse);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -52,24 +52,24 @@ public class MenuManagerController {
   }
 
   @GetMapping(value = "/_create")
-  public ModelAndView printCreateMenu() {
+  public ModelAndView printCreateMenu(Locale locale) {
     LOGGER.info("Accès à la page de création des menus");
-    return displayFactory.computeModelAndViewForCreateMenu(Locale.FRANCE);
+    return displayFactory.computeModelAndViewForCreateMenu(locale);
   }
 
   @GetMapping(value = "/{menuId}")
-  public ModelAndView printViewUpdateMenu(@PathVariable(value = "menuId") String menuId) {
+  public ModelAndView printViewUpdateMenu(@PathVariable(value = "menuId") String menuId, Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.MENUS_UPDATE.name() + " pour " + menuId);
-    return displayFactory.computeModelAndViewForUpdateMenu(Locale.FRANCE, menuId);
+    return displayFactory.computeModelAndViewForUpdateMenu(locale, menuId);
   }
 
   @PutMapping(value = "/{menuId}", produces = "application/json")
   @ResponseBody
-  public ResponseEntity<MenuResponse> updateMenu(@RequestBody MenuUpdateForm updateForm) {
+  public ResponseEntity<MenuResponse> updateMenu(@RequestBody MenuUpdateForm updateForm, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un menu");
     try {
-      MenuResponse response = dispatcher.updateEntity(updateForm, Locale.FRANCE);
+      MenuResponse response = dispatcher.updateEntity(updateForm, locale);
       if (response.getMenu() != null) {
         LOGGER.info("Entrée modifiée, id " + response.getMenu().getId());
       }
@@ -83,11 +83,11 @@ public class MenuManagerController {
 
   @PostMapping
   @ResponseBody
-  public ResponseEntity<MenuResponse> createMenu(@RequestBody MenuCreateForm createForm) {
+  public ResponseEntity<MenuResponse> createMenu(@RequestBody MenuCreateForm createForm, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un menu");
     try {
-      MenuResponse response = dispatcher.createEntity(createForm, Locale.FRANCE);
+      MenuResponse response = dispatcher.createEntity(createForm, locale);
       if (response.getMenu() != null) {
         LOGGER.info("Entrée créee, id " + response.getMenu().getId());
       }

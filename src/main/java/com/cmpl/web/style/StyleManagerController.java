@@ -30,22 +30,22 @@ public class StyleManagerController {
   }
 
   @GetMapping
-  public ModelAndView printViewStyle() {
+  public ModelAndView printViewStyle(Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_VIEW.name());
-    return displayFactory.computeModelAndViewForViewStyles(Locale.FRANCE);
+    return displayFactory.computeModelAndViewForViewStyles(locale);
   }
 
   @GetMapping(value = "/_edit")
-  public ModelAndView printEditStyle() {
+  public ModelAndView printEditStyle(Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_VIEW.name());
-    return displayFactory.computeModelAndViewForUpdateStyles(Locale.FRANCE);
+    return displayFactory.computeModelAndViewForUpdateStyles(locale);
   }
 
   @PutMapping(value = "/_edit", produces = "application/json")
-  public ResponseEntity<StyleResponse> handleEditStyle(@RequestBody StyleForm form) {
+  public ResponseEntity<StyleResponse> handleEditStyle(@RequestBody StyleForm form, Locale locale) {
     LOGGER.info("Tentative de modification du style global");
     try {
-      StyleResponse response = dispatcher.updateEntity(form, Locale.FRANCE);
+      StyleResponse response = dispatcher.updateEntity(form, locale);
       if (response.getStyle() != null) {
         LOGGER.info("Style global modifié");
       }

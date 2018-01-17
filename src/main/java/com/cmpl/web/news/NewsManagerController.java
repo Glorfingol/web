@@ -47,11 +47,11 @@ public class NewsManagerController {
    * @return
    */
   @GetMapping(value = "/manager/news")
-  public ModelAndView printViewNews(@RequestParam(name = "p", required = false) Integer pageNumber) {
+  public ModelAndView printViewNews(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_VIEW.name());
-    return newsManagerDisplayFactory.computeModelAndViewForBackPage(Locale.FRANCE, pageNumberToUse);
+    return newsManagerDisplayFactory.computeModelAndViewForBackPage(locale, pageNumberToUse);
   }
 
   /**
@@ -60,10 +60,10 @@ public class NewsManagerController {
    * @return
    */
   @GetMapping(value = "/manager/news/_create")
-  public ModelAndView printCreateNews() {
+  public ModelAndView printCreateNews(Locale locale) {
 
     LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_CREATE.name());
-    return newsManagerDisplayFactory.computeModelAndViewForBackPageCreateNews(Locale.FRANCE);
+    return newsManagerDisplayFactory.computeModelAndViewForBackPageCreateNews(locale);
   }
 
   /**
@@ -74,11 +74,11 @@ public class NewsManagerController {
    */
   @PostMapping(value = "/manager/news", produces = "application/json")
   @ResponseBody
-  public ResponseEntity<NewsEntryResponse> createNewsEntry(@RequestBody NewsEntryRequest newsEntryRequest) {
+  public ResponseEntity<NewsEntryResponse> createNewsEntry(@RequestBody NewsEntryRequest newsEntryRequest, Locale locale) {
 
     LOGGER.info("Tentative de création d'une entrée de blog");
     try {
-      NewsEntryResponse response = dispatcher.createEntity(newsEntryRequest, Locale.FRANCE);
+      NewsEntryResponse response = dispatcher.createEntity(newsEntryRequest, locale);
       if (response.getNewsEntry() != null) {
         LOGGER.info("Entrée crée, id " + response.getNewsEntry().getId());
       }
@@ -100,11 +100,11 @@ public class NewsManagerController {
   @PutMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
   @ResponseBody
   public ResponseEntity<NewsEntryResponse> updateNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId,
-      @RequestBody NewsEntryRequest newsEntryRequest) {
+      @RequestBody NewsEntryRequest newsEntryRequest, Locale locale) {
 
     LOGGER.info("Tentative de mise à jour d'une entrée de blog d'id " + newsEntryId);
     try {
-      NewsEntryResponse response = dispatcher.updateEntity(newsEntryRequest, newsEntryId, Locale.FRANCE);
+      NewsEntryResponse response = dispatcher.updateEntity(newsEntryRequest, newsEntryId, locale);
       LOGGER.info("Entrée modifiée, id " + newsEntryId);
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
@@ -122,7 +122,8 @@ public class NewsManagerController {
    */
   @DeleteMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
   @ResponseBody
-  public ResponseEntity<NewsEntryResponse> deleteNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId) {
+  public ResponseEntity<NewsEntryResponse> deleteNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId,
+      Locale locale) {
     LOGGER.info("Tentative de suppression d'une entrée d'id " + newsEntryId + ", action interdite");
     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
   }
@@ -134,10 +135,10 @@ public class NewsManagerController {
    * @return
    */
   @GetMapping(value = "/manager/news/{newsEntryId}")
-  public ModelAndView getNewsEntity(@PathVariable(value = "newsEntryId") String newsEntryId) {
+  public ModelAndView getNewsEntity(@PathVariable(value = "newsEntryId") String newsEntryId, Locale locale) {
 
     LOGGER.info("Récupération de l'entrée d'id " + newsEntryId);
-    return newsManagerDisplayFactory.computeModelAndViewForOneNewsEntry(Locale.FRANCE, newsEntryId);
+    return newsManagerDisplayFactory.computeModelAndViewForOneNewsEntry(locale, newsEntryId);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -149,9 +150,9 @@ public class NewsManagerController {
   }
 
   @GetMapping(value = "/manager/news/template")
-  public ModelAndView getNewsTemplate() {
+  public ModelAndView getNewsTemplate(Locale locale) {
     LOGGER.info("Récupération du template des news");
-    return newsManagerDisplayFactory.computeModelAndViewForNewsTemplate(Locale.FRANCE);
+    return newsManagerDisplayFactory.computeModelAndViewForNewsTemplate(locale);
   }
 
   @PutMapping(value = "/manager/news/template")

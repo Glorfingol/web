@@ -26,7 +26,7 @@ public class MenuConfiguration {
   @Bean
   BackMenuItem menuBackMenuItem() {
     return BackMenuItemBuilder.create().href("back.menus.href").label("back.menus.label").title("back.menus.title")
-        .order(3).build();
+        .order(3).iconClass("fa fa-list-alt").build();
   }
 
   @Bean
@@ -46,8 +46,8 @@ public class MenuConfiguration {
 
   List<BreadCrumbItem> menuBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("Accueil").href("/manager/").build());
-    items.add(BreadCrumbItemBuilder.create().text("Gestion du menu").href("/manager/menus").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.menus.title").href("back.menus.href").build());
     return items;
   }
 

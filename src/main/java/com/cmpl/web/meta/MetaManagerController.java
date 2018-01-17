@@ -31,11 +31,11 @@ public class MetaManagerController {
   @PostMapping(value = "/manager/pages/{pageId}/metas", produces = "application/json")
   @ResponseBody
   public ResponseEntity<MetaElementResponse> createMetaElement(@PathVariable(name = "pageId") String pageId,
-      @RequestBody MetaElementCreateForm createForm) {
+      @RequestBody MetaElementCreateForm createForm, Locale locale) {
 
     LOGGER.info("Tentative de création d'un meta element");
     try {
-      MetaElementResponse response = dispatcher.createEntity(pageId, createForm, Locale.FRANCE);
+      MetaElementResponse response = dispatcher.createEntity(pageId, createForm, locale);
       if (response.getMetaElement() != null) {
         LOGGER.info("Entrée crée, id " + response.getMetaElement().getId());
       }
@@ -48,10 +48,11 @@ public class MetaManagerController {
   }
 
   @DeleteMapping(value = "/manager/pages/{pageId}/metas/{metaId}", produces = "application/json")
-  public ResponseEntity<MetaElementResponse> deleteMetaElement(@PathVariable(name = "metaId") String metaId) {
+  public ResponseEntity<MetaElementResponse> deleteMetaElement(@PathVariable(name = "metaId") String metaId,
+      Locale locale) {
     LOGGER.info("Tentative de création d'un meta element");
     try {
-      dispatcher.deleteMetaEntity(metaId, Locale.FRANCE);
+      dispatcher.deleteMetaEntity(metaId, locale);
     } catch (BaseException e) {
       LOGGER.error("Echec de la suppression de la balise meta " + metaId, e);
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,11 +63,11 @@ public class MetaManagerController {
   @PostMapping(value = "/manager/pages/{pageId}/openGraphMetas", produces = "application/json")
   @ResponseBody
   public ResponseEntity<MetaElementResponse> createOpenGraphMetaElement(@PathVariable(name = "pageId") String pageId,
-      @RequestBody OpenGraphMetaElementCreateForm createForm) {
+      @RequestBody OpenGraphMetaElementCreateForm createForm, Locale locale) {
 
     LOGGER.info("Tentative de création d'un open graph meta element");
     try {
-      MetaElementResponse response = dispatcher.createEntity(pageId, createForm, Locale.FRANCE);
+      MetaElementResponse response = dispatcher.createEntity(pageId, createForm, locale);
       if (response.getOpenGraphMetaElement() != null) {
         LOGGER.info("Entrée crée, id " + response.getOpenGraphMetaElement().getId());
       }
@@ -80,11 +81,11 @@ public class MetaManagerController {
 
   @DeleteMapping(value = "/manager/pages/{pageId}/openGraphMetas/{openGraphMetaId}", produces = "application/json")
   public ResponseEntity<MetaElementResponse> deleteOpenGraphMetaElement(
-      @PathVariable(name = "openGraphMetaId") String openGraphMetaId) {
+      @PathVariable(name = "openGraphMetaId") String openGraphMetaId, Locale locale) {
 
     LOGGER.info("Tentative de création d'un meta element");
     try {
-      dispatcher.deleteOpenGraphMetaEntity(openGraphMetaId, Locale.FRANCE);
+      dispatcher.deleteOpenGraphMetaEntity(openGraphMetaId, locale);
     } catch (BaseException e) {
       LOGGER.error("Echec de la suppression de la balise open graph meta " + openGraphMetaId, e);
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -23,7 +23,7 @@ public class BackMenuConfiguration {
   @Bean
   BackMenuItem indexBackMenuItem() {
     return BackMenuItemBuilder.create().href("back.index.href").label("back.index.label").title("back.index.title")
-        .order(0).build();
+        .iconClass("fa fa-home").order(0).build();
   }
 
 }
