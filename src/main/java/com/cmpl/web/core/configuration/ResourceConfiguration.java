@@ -23,7 +23,7 @@ public class ResourceConfiguration {
   @Bean
   public WebMessageSource messageSource() {
     WebMessageSourceImpl source = new WebMessageSourceImpl();
-    source.setBasenames("i18n/footer", "i18n/keys", "i18n/back", "i18n/error", "i18n/form");
+    source.setBasenames("i18n/keys", "i18n/back", "i18n/error", "i18n/form");
     source.setUseCodeAsDefaultMessage(true);
     source.setDefaultEncoding("UTF-8");
     return source;
