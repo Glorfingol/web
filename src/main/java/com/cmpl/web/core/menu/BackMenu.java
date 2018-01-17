@@ -14,7 +14,7 @@ public class BackMenu {
   }
 
   public List<BackMenuItem> getItems() {
-    return this.registry.getPlugins().stream().sorted((e1, e2) -> new Integer(e1.getOrder()).compareTo(e2.getOrder()))
+    return this.registry.getPlugins().stream().sorted((e1, e2) -> Integer.compare(e1.getOrder(), e2.getOrder()))
         .collect(Collectors.toList());
   }
 

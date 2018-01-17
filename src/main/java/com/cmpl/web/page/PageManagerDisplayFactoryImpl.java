@@ -7,6 +7,8 @@ import java.util.Locale;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -64,7 +66,8 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   protected Page<PageDTO> computeEntries(Locale locale, int pageNumber) {
     List<PageDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(), new Sort(Direction.ASC,
+        "name"));
     Page<PageDTO> pagedPageDTOEntries = pageService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedPageDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
