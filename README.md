@@ -1,16 +1,27 @@
 [![Build Status](https://travis-ci.org/lperrod/web.svg?branch=master)](https://travis-ci.org/lperrod/web) [![Coverage Status](https://coveralls.io/repos/github/lperrod/web/badge.svg?branch=master)](https://coveralls.io/github/lperrod/web?branch=master) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 A light application that allows you to create a simple website.
+Technologies :  
+Java 8, Spring Boot 2, Thymeleaf, Bootstrap, Jquery and FontAwesome
 
 # Configuration
-The main configuration file is application.yml.  
-There you will be able to declare the application name, some log level or format, where is the database and how to connect to it.
+The main configuration file is application.yml  
+There you will be able to declare the application name, some log level or format, where is the database and how to connect to it
 
-Please do note that there are several *.properties and you need to change the paths in compliance with your own server.
+Please do note that there are several *.properties and you need to change the paths in compliance with your own server
+
+# Launch
+Simply run WebLauncher as a java program  
+NewsFactory will provide some default blog entries for the website, provided you run WebLauncher with -Dspring.profiles.active=dev as vm arguments 
+PageFactory will provide some default values for the website, provided you run WebLauncher with -Dspring.profiles.active=dev as vm arguments  
+As for the db, feel free to modify application.yml
+By default, it will use an inline h2 db
 
 # Language
-Currently only french and english are supported.
-Feel free to add any Locale you need. 
+Currently only french and english are supported  
+The default locale is Locale.FRANCE  
+You can change it in LocaleConfiguration  
+Feel free to add any Locale you need  
 In order to do so, create the corresponding files in the i18n folder and add your locale in BackDisplayFactoryImpl.computeLocales()
 
 # Access
