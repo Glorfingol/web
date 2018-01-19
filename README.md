@@ -74,3 +74,9 @@ If you wish to deploy as an executable jar, you have to change the pom.xml file 
 Also you will need to change the main class so that it works as a simple springboot application  
 If you wish to deploy as a war, follow this :  
 https://docs.spring.io/spring-boot/docs/current/reference/html/howto-traditional-deployment.html
+
+# Error page
+The backoffice error pages are located in back/error/*.properties  
+Currently the errors 403,404 and 500 are overwritten  
+If you want to customize more codes, simply add a page in the folder back/error/ in the resources  
+As for the front error page, simply create a page with the name equivalent to the error code (or you can just manually add a html file in your pages folder)
