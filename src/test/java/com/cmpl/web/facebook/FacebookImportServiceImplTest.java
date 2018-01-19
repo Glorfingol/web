@@ -19,7 +19,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.MediaOperations;
 import org.springframework.util.StringUtils;
@@ -43,7 +42,7 @@ public class FacebookImportServiceImplTest {
   public ExpectedException exception = ExpectedException.none();
 
   @Mock
-  private Facebook facebookConnector;
+  private FacebookAdapter facebookAdapter;
 
   @Mock
   private WebMessageSource messageSource;
@@ -104,7 +103,7 @@ public class FacebookImportServiceImplTest {
 
     MediaOperations operations = BDDMockito.mock(MediaOperations.class);
 
-    BDDMockito.doReturn(operations).when(facebookConnector).mediaOperations();
+    BDDMockito.doReturn(operations).when(facebookAdapter).getMediaOperations();
 
     MediaOperations result = facebookImport.getMediaOperations();
 
@@ -121,7 +120,7 @@ public class FacebookImportServiceImplTest {
     FacebookImportPost post = FacebookImportPostBuilder.create().objectId("123456789").build();
 
     BDDMockito.doReturn(data).when(operations).getAlbumImage(BDDMockito.anyString(), BDDMockito.any(ImageType.class));
-    BDDMockito.doReturn(operations).when(facebookConnector).mediaOperations();
+    BDDMockito.doReturn(operations).when(facebookAdapter).getMediaOperations();
 
     byte[] result = facebookImport.recoverImageBytes(post);
 

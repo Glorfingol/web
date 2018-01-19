@@ -51,12 +51,14 @@ public class FacebookConfiguration {
   String facebookConfigurationFile;
 
   @Bean
+  @ConditionalOnProperty(prefix = "import.", name = "enabled")
   BackMenuItem facebookBackMenuItem() {
     return BackMenuItemBuilder.create().href("facebook.access.href").label("facebook.access.label")
         .title("facebook.access.title").iconClass("fa fa-facebook").order(7).build();
   }
 
   @Bean
+  @ConditionalOnProperty(prefix = "import.", name = "enabled")
   BreadCrumb facebookImportBreadCrumb() {
     return BreadCrumbBuilder.create().items(facebookImportBreadCrumbItems()).page(BACK_PAGE.FACEBOOK_IMPORT).build();
   }
@@ -69,6 +71,7 @@ public class FacebookConfiguration {
   }
 
   @Bean
+  @ConditionalOnProperty(prefix = "import.", name = "enabled")
   BreadCrumb facebookAccessBreadCrumb() {
     return BreadCrumbBuilder.create().items(facebookAccessBreadCrumbItems()).page(BACK_PAGE.FACEBOOK_ACCESS).build();
   }
@@ -81,6 +84,7 @@ public class FacebookConfiguration {
   }
 
   @Bean
+  @ConditionalOnProperty(prefix = "import.", name = "enabled")
   FacebookProperties facebookProperties() {
     FacebookProperties properties = new FacebookProperties();
     JSONParser parser = new JSONParser();
@@ -106,8 +110,8 @@ public class FacebookConfiguration {
 
   @Bean
   FacebookDisplayFactory facebookDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      FacebookService facebookService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
-    return new FacebookDisplayFactoryImpl(menuFactory, messageSource, facebookService, breadCrumbs);
+      FacebookAdapter facebookAdapter, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+    return new FacebookDisplayFactoryImpl(menuFactory, messageSource, facebookAdapter, breadCrumbs);
   }
 
   @Bean
@@ -117,20 +121,22 @@ public class FacebookConfiguration {
   }
 
   @Bean
+  @ConditionalOnProperty(prefix = "import.", name = "enabled")
   FacebookService facebookService(ContextHolder contextHolder, Facebook facebookConnector,
       ConnectionRepository connectionRepository, NewsEntryService newsEntryService) {
     return new FacebookServiceImpl(contextHolder, facebookConnector, connectionRepository, newsEntryService);
   }
 
   @Bean
-  FacebookImportService facebookImportService(NewsEntryService newsEntryService, Facebook facebookConnector,
+  FacebookImportService facebookImportService(NewsEntryService newsEntryService, FacebookAdapter facebookAdapter,
       WebMessageSource messageSource) {
-    return new FacebookImportServiceImpl(newsEntryService, facebookConnector, messageSource);
+    return new FacebookImportServiceImpl(newsEntryService, facebookAdapter, messageSource);
   }
 
   @Configuration
   @EnableSocial
   @EnableConfigurationProperties(FacebookProperties.class)
+  @ConditionalOnProperty(prefix = "import.", name = "enabled")
   protected static class FacebookConfigurerAdapter extends SocialAutoConfigurerAdapter {
 
     private final FacebookProperties facebookProperties;
@@ -159,6 +165,18 @@ public class FacebookConfiguration {
 
     }
 
+  }
+
+  @Bean
+  @ConditionalOnProperty(prefix = "import.", name = "enabled")
+  FacebookAdapter facebookAdapter(FacebookService facebookService, Facebook facebookConnector) {
+    return new FacebookAdapterImpl(facebookService, facebookConnector);
+  }
+
+  @Bean
+  @ConditionalOnProperty(prefix = "import.", name = "enabled", havingValue = "false")
+  FacebookAdapter mockFacebookAdapter() {
+    return new DoNothingFacebookAdapter();
   }
 
 }

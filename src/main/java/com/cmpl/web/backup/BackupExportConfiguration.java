@@ -34,6 +34,7 @@ import com.cmpl.web.core.backup.writer.ArchiveManagerImpl;
 import com.cmpl.web.core.backup.writer.CSVGenerator;
 import com.cmpl.web.core.backup.writer.CommonWriter;
 import com.cmpl.web.core.backup.writer.DataManipulator;
+import com.cmpl.web.google.DriveAdapter;
 import com.cmpl.web.media.Media;
 import com.cmpl.web.menu.Menu;
 import com.cmpl.web.meta.MetaElement;
@@ -43,7 +44,6 @@ import com.cmpl.web.news.NewsEntry;
 import com.cmpl.web.news.NewsImage;
 import com.cmpl.web.page.Page;
 import com.cmpl.web.style.Style;
-import com.google.api.services.drive.Drive;
 
 @Configuration
 @PropertySource("classpath:/backup/backup.properties")
@@ -64,8 +64,8 @@ public class BackupExportConfiguration {
   DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault());;
 
   @Bean
-  public ArchiveManager archiveManager(Drive driveService) {
-    return new ArchiveManagerImpl(backupFilePath, mediaFilePath, pagesFilePath, actualitesFilePath, driveService);
+  public ArchiveManager archiveManager(DriveAdapter driveAdapter) {
+    return new ArchiveManagerImpl(backupFilePath, mediaFilePath, pagesFilePath, actualitesFilePath, driveAdapter);
   }
 
   @Bean

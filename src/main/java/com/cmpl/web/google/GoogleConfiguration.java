@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -42,28 +43,33 @@ public class GoogleConfiguration {
   String clientSecret;
 
   @Bean
+  @ConditionalOnProperty(prefix = "drive.", name = "enabled")
   public JsonFactory jsonFactory() {
     return JacksonFactory.getDefaultInstance();
 
   }
 
   @Bean
+  @ConditionalOnProperty(prefix = "drive.", name = "enabled")
   public HttpTransport httpTransport() throws GeneralSecurityException, IOException {
     return GoogleNetHttpTransport.newTrustedTransport();
 
   }
 
   @Bean
+  @ConditionalOnProperty(prefix = "drive.", name = "enabled")
   public FileDataStoreFactory fileDataStoreFactory() throws IOException {
     return new FileDataStoreFactory(new File(credentialsDirectory));
   }
 
   @Bean
+  @ConditionalOnProperty(prefix = "drive.", name = "enabled")
   public Drive driveService(HttpTransport httpTransport, JsonFactory jsonFactory, Credential credential) {
     return new Drive.Builder(httpTransport, jsonFactory, credential).setApplicationName(applicationName).build();
   }
 
   @Bean
+  @ConditionalOnProperty(prefix = "drive.", name = "enabled")
   public Credential credential(JsonFactory jsonFactory, HttpTransport httpTransport,
       FileDataStoreFactory fileDataStoreFactory) throws IOException {
     InputStream in = clientSecretInputStream();
@@ -85,6 +91,18 @@ public class GoogleConfiguration {
   InputStream clientSecretInputStream() throws FileNotFoundException {
     File clientSecretJson = new File(clientSecret);
     return new FileInputStream(clientSecretJson);
+  }
+
+  @Bean
+  @ConditionalOnProperty(prefix = "drive.", name = "enabled")
+  DriveAdapter driveAdapter(Drive driveService) {
+    return new DriveAdapterImpl(driveService);
+  }
+
+  @Bean
+  @ConditionalOnProperty(prefix = "drive.", name = "enabled", havingValue = "false")
+  DriveAdapter mockDriveAdapter() {
+    return new DoNothingDriveAdapter();
   }
 
 }

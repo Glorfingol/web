@@ -16,8 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
+import com.cmpl.web.google.DriveAdapter;
 import com.google.api.client.http.InputStreamContent;
-import com.google.api.services.drive.Drive;
 
 public class ArchiveManagerImpl implements ArchiveManager {
 
@@ -26,7 +26,7 @@ public class ArchiveManagerImpl implements ArchiveManager {
   private final String pagesFilePath;
   private final String actualitesFilePath;
   private final DateTimeFormatter dateTimeFormatter;
-  private final Drive driveService;
+  private final DriveAdapter driveAdapter;
 
   private static final String DOT = ".";
   private static final String CSV_EXTENSION = "csv";
@@ -36,13 +36,13 @@ public class ArchiveManagerImpl implements ArchiveManager {
   private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveManagerImpl.class);
 
   public ArchiveManagerImpl(String backupFilePath, String mediaFilePath, String pagesFilePath,
-      String actualitesFilePath, Drive driveService) {
+      String actualitesFilePath, DriveAdapter driveAdapter) {
     this.backupFilePath = backupFilePath;
     this.mediaFilePath = mediaFilePath;
     this.pagesFilePath = pagesFilePath;
     this.actualitesFilePath = actualitesFilePath;
     this.dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
-    this.driveService = driveService;
+    this.driveAdapter = driveAdapter;
   }
 
   @Override
@@ -241,8 +241,8 @@ public class ArchiveManagerImpl implements ArchiveManager {
       fileToCreate.setDescription("Backup file");
       fileToCreate.setMimeType("application/zip");
       fileToCreate.setName(zipFile.getName());
-      InputStreamContent is = new InputStreamContent("*/*", new FileInputStream(zipFile));
-      driveService.files().create(fileToCreate, is).execute();
+      InputStreamContent input = new InputStreamContent("*/*", new FileInputStream(zipFile));
+      driveAdapter.sendFilesToGoogleDrive(fileToCreate, input);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation dans le drive", e);
     }

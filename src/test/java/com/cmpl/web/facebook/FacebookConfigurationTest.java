@@ -36,13 +36,13 @@ public class FacebookConfigurationTest {
   private WebMessageSourceImpl messageSource;
 
   @Mock
-  private FacebookService facebookService;
+  private Facebook facebookConnector;
 
   @Mock
   private NewsEntryService newsEntryService;
 
   @Mock
-  private Facebook facebookConnector;
+  private FacebookAdapter facebookAdapter;
 
   @Mock
   private ConnectionRepository connectionRepository;
@@ -72,7 +72,7 @@ public class FacebookConfigurationTest {
 
   @Test
   public void testFacebookDisplayFactory() throws Exception {
-    FacebookDisplayFactory result = configuration.facebookDisplayFactory(menuFactory, messageSource, facebookService,
+    FacebookDisplayFactory result = configuration.facebookDisplayFactory(menuFactory, messageSource, facebookAdapter,
         breadCrumbRegistry);
 
     Assert.assertEquals(FacebookDisplayFactoryImpl.class, result.getClass());
@@ -89,8 +89,8 @@ public class FacebookConfigurationTest {
   @Test
   public void testFacebookImportService() throws Exception {
 
-    FacebookImportService result = configuration.facebookImportService(newsEntryService, facebookConnector,
-        messageSource);
+    FacebookImportService result = configuration
+        .facebookImportService(newsEntryService, facebookAdapter, messageSource);
 
     Assert.assertEquals(FacebookImportServiceImpl.class, result.getClass());
   }

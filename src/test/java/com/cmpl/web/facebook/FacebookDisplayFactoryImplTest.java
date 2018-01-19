@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
-import com.cmpl.web.core.model.BaseException;
 import com.cmpl.web.menu.MenuItem;
 import com.cmpl.web.menu.MenuItemBuilder;
 import com.cmpl.web.page.BACK_PAGE;
@@ -29,7 +28,7 @@ import com.cmpl.web.page.BACK_PAGE;
 public class FacebookDisplayFactoryImplTest {
 
   @Mock
-  private FacebookService facebookService;
+  private FacebookAdapter facebookAdapter;
 
   @InjectMocks
   @Spy
@@ -38,6 +37,7 @@ public class FacebookDisplayFactoryImplTest {
   @Test
   public void testIsAlreadyConnected_True() throws Exception {
 
+    BDDMockito.doReturn(true).when(facebookAdapter).isAlreadyConnected();
     boolean result = facebookDisplayFactoryImpl.isAlreadyConnected();
     Assert.assertTrue(result);
   }
@@ -45,7 +45,7 @@ public class FacebookDisplayFactoryImplTest {
   @Test
   public void testIsAlreadyConnected_False() throws Exception {
 
-    BDDMockito.doThrow(new BaseException()).when(facebookService).getRecentFeed();
+    BDDMockito.doReturn(false).when(facebookAdapter).isAlreadyConnected();
 
     boolean result = facebookDisplayFactoryImpl.isAlreadyConnected();
 
@@ -58,7 +58,7 @@ public class FacebookDisplayFactoryImplTest {
     ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").build();
     List<ImportablePost> postsToReturn = Lists.newArrayList(post);
 
-    BDDMockito.doReturn(postsToReturn).when(facebookService).getRecentFeed();
+    BDDMockito.doReturn(postsToReturn).when(facebookAdapter).getRecentFeed();
 
     List<ImportablePost> result = facebookDisplayFactoryImpl.computeRecentFeeds();
 
@@ -69,7 +69,7 @@ public class FacebookDisplayFactoryImplTest {
   @Test
   public void testComputeRecentFeeds_Exception_Should_Return_Empty_Array() throws Exception {
 
-    BDDMockito.doThrow(new BaseException()).when(facebookService).getRecentFeed();
+    BDDMockito.doReturn(Lists.newArrayList()).when(facebookAdapter).getRecentFeed();
 
     List<ImportablePost> result = facebookDisplayFactoryImpl.computeRecentFeeds();
 

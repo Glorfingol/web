@@ -10,7 +10,6 @@ import java.util.Locale;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.MediaOperations;
 import org.springframework.util.StringUtils;
@@ -38,13 +37,13 @@ public class FacebookImportServiceImpl implements FacebookImportService {
   private static final String DATA_END = ";base64,";
 
   private final NewsEntryService newsEntryService;
-  private final Facebook facebookConnector;
+  private final FacebookAdapter facebookAdapter;
   private final WebMessageSource messageSource;
 
-  public FacebookImportServiceImpl(NewsEntryService newsEntryService, Facebook facebookConnector,
+  public FacebookImportServiceImpl(NewsEntryService newsEntryService, FacebookAdapter facebookAdapter,
       WebMessageSource messageSource) {
     this.newsEntryService = newsEntryService;
-    this.facebookConnector = facebookConnector;
+    this.facebookAdapter = facebookAdapter;
     this.messageSource = messageSource;
   }
 
@@ -134,7 +133,7 @@ public class FacebookImportServiceImpl implements FacebookImportService {
   }
 
   MediaOperations getMediaOperations() {
-    return facebookConnector.mediaOperations();
+    return facebookAdapter.getMediaOperations();
   }
 
   String computeContentTypeFromBytes(FacebookImportPost facebookPost, byte[] data) {

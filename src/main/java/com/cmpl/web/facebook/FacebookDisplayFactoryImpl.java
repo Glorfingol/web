@@ -1,6 +1,5 @@
 package com.cmpl.web.facebook;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -9,7 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
-import com.cmpl.web.core.model.BaseException;
 import com.cmpl.web.menu.MenuFactory;
 import com.cmpl.web.message.WebMessageSource;
 import com.cmpl.web.page.BACK_PAGE;
@@ -22,12 +20,12 @@ import com.cmpl.web.page.BACK_PAGE;
  */
 public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implements FacebookDisplayFactory {
 
-  private final FacebookService facebookService;
+  private final FacebookAdapter facebookAdapter;
 
   public FacebookDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      FacebookService facebookService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+      FacebookAdapter facebookAdapter, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry);
-    this.facebookService = facebookService;
+    this.facebookAdapter = facebookAdapter;
   }
 
   @Override
@@ -58,22 +56,11 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
   }
 
   List<ImportablePost> computeRecentFeeds() {
-    try {
-      return facebookService.getRecentFeed();
-    } catch (BaseException e) {
-      LOGGER.error("Impossible de récupérer le feed récent de l'utilisateur", e);
-    }
-    return new ArrayList<>();
+    return facebookAdapter.getRecentFeed();
   }
 
   boolean isAlreadyConnected() {
-    try {
-      facebookService.getRecentFeed();
-    } catch (BaseException e) {
-      LOGGER.debug("Utilisateur facebook non connecté", e);
-      return false;
-    }
-    return true;
+    return facebookAdapter.isAlreadyConnected();
   }
 
 }
