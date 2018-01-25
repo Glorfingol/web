@@ -38,10 +38,6 @@ body{
     margin-bottom: 5px;
 }
 
-.card-block{
-    word-break:break-all;
-}
-
 .full-size{
     min-height: 100%;
 }

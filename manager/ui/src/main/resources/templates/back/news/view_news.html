@@ -1,24 +1,26 @@
-<div class="card card-block mb-4">
-	<div class="row">
-		 <div class="col">
-		     <div>
-		         <span th:text="#{news.template.edit.label}">
-		         </span>
-                 <a class="btn btn-sm btn-primary fa fa-edit fa-white" 
-                    href="/manager/news/template" 
-                    id="buttonTemplate"></a>
-             </div>
-		     <div class="pull-right ">
-		         <a class="btn btn-md btn-primary fa fa-plus fa-white" 
-		            href="/manager/news/_create" 
-		            id="buttonAdd"></a>
-		     </div>
+<div class="card mb-4">
+	<div class="card-body">
+		<div class="row">
+			 <div class="col">
+					 <div>
+							 <span th:text="#{news.template.edit.label}">
+							 </span>
+									 <a class="btn btn-sm btn-primary fa fa-edit fa-white"
+											href="/manager/news/template"
+											id="buttonTemplate"></a>
+							 </div>
+					 <div class="pull-right ">
+							 <a class="btn btn-md btn-primary fa fa-plus fa-white"
+									href="/manager/news/_create"
+									id="buttonAdd"></a>
+					 </div>
+			 </div>
+		</div>
+		<div class="row">
+				<div th:each="newsBean : ${wrappedNews.page.content}" class="col-12 newsElement">
+				 <div th:replace="back/news/news_list_element :: newsElement(${newsBean})"/>
 		 </div>
+		</div>
+		<div th:replace="common/pagination :: pagination(${wrappedNews})"/>
 	</div>
-	<div class="row">
-	    <div th:each="newsBean : ${wrappedNews.page.content}" class="col-12 newsElement">
-	     <div th:replace="back/news/news_list_element :: newsElement(${newsBean})"/>
-	 </div>
-	</div>
-	<div th:replace="common/pagination :: pagination(${wrappedNews})"/>
  </div>
