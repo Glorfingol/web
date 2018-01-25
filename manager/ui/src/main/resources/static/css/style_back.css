@@ -76,13 +76,14 @@ a, button{
 /**
 MENU
 */
-@media (min-width: 800px) {
-  ul.navbar-nav li.dropdown:hover > ul.dropdown-menu {
-    display: block;
-    background-color: #f7f7f7;
-    border: none;
-  }
+
+
+@media (min-width: 768px) {
+    .menu-label, .navigation-label{
+        display: none;
+    }
 }
+
 
 ul.dropdown-menu{
     max-width: 400px; 
