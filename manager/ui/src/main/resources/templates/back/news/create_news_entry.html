@@ -1,31 +1,31 @@
 <form id="newsEntryCreateForm" th:object="${newsFormBean}">
     <div class="card mb-4">
         <div class="card-body">
-	        <div class="form-control mb-3" id="formInputTitle">
+	        <div class="form-group mb-3" id="formInputTitle">
 		        <label th:text="#{title.label}" />
 		        <input type="text" class="form-control" th:field="*{title}"/>
-		        <div id="feedbackTitle" class="form-control-label"></div>
+		        <div id="feedbackTitle"></div>
 		        <small class="form-text text-muted" th:text="#{title.help}"/>
 		    </div>
-		    <div class="form-control mb-3" id="formInputAuthor">
+		    <div class="form-group mb-3" id="formInputAuthor">
 		        <label th:text="#{author.label}" />
 		        <input type="text" class="form-control" th:field="*{author}"/>
-		        <div id="feedbackAuthor" class="form-control-label" ></div>
+		        <div id="feedbackAuthor"></div>
 		        <small class="form-text text-muted" th:text="#{author.help}"/>
 		    </div>
-		    <div class="form-control mb-3" id="formInputTags">
+		    <div class="form-group mb-3" id="formInputTags">
 		        <label th:text="#{tags.label}" />
 		        <input type="text" class="form-control" th:field="*{tags}"/>
-		         <div id="feedbackTags" class="form-control-label"></div>
+		         <div id="feedbackTags"></div>
 		        <small class="form-text text-muted" th:text="#{tags.help}"/>
 		    </div>
-		    <div class="form-control mb-3" id="formInputContent">
+		    <div class="form-group mb-3" id="formInputContent">
 		        <label th:text="#{content.label}" />
 		        <textarea rows="3" id="newsContent" class="form-control" th:field="*{content.content}"/>
-		         <div id="feedbackContent" class="form-control-label"></div>
+		         <div id="feedbackContent"></div>
 		        <small class="form-text text-muted" th:text="#{content.help}"/>
 		    </div>
-		    <div class="form-control mb-3" id="formInputImage">
+		    <div class="form-group mb-3" id="formInputImage">
 		        <div class="dragndrop">
 			        <div class="drop_zone">
 		               <span th:text="#{image.drop.label}"/>
@@ -43,16 +43,16 @@
 		     <div class="mb-3" id="formPreviewImage">
 		        <img class="img-fluid mx-auto d-block" src="" id="imagePreview"/>
 		     </div>
-		    <div class="form-control mb-3" id="formInputLegend">
+		    <div class="form-group mb-3" id="formInputLegend">
 		        <label th:text="#{legend.label}" />
 		        <input type="text" class="form-control" th:field="*{image.legend}"/>
-		         <div id="feedbackLegend" class="form-control-label"></div>
+		         <div id="feedbackLegend"></div>
 		        <small class="form-text text-muted" th:text="#{legend.help}"/>
 		    </div>
-		    <div class="form-control mb-3" id="formInputAlt">
+		    <div class="form-group mb-3" id="formInputAlt">
 		        <label th:text="#{alt.label}" />
 		        <input type="text" class="form-control" th:field="*{image.alt}"/>
-		         <div id="feedbackAlt" class="form-control-label"></div>
+		         <div id="feedbackAlt"></div>
 		        <small class="form-text text-muted" th:text="#{alt.help}"/>
 		    </div>
         </div>

@@ -1,12 +1,12 @@
 <form id="metaElementForm" th:object="${createForm}" class="row">
     <div class="mb-3 col-12">
-	     <div class="form-control mb-3" id="formInputName">
+	     <div class="form-group mb-3" id="formInputName">
 	        <label th:text="#{meta.name.label}" />
 	        <input type="text" class="form-control" th:field="*{name}"/>
 	        <div id="feedbackName" class="form-control-label"></div>
 	        <small class="form-text text-muted" th:text="#{meta.name.help}"/>
 	    </div>
-	    <div class="form-control mb-3" id="formInputContent">
+	    <div class="form-group mb-3" id="formInputContent">
 	        <label th:text="#{meta.content.label}" />
 	        <input type="text" class="form-control" th:field="*{content}"/>
 	        <div id="feedbackContent" class="form-control-label" ></div>
@@ -21,11 +21,11 @@
     <div th:each="metaElement : ${metaElements}" class="col-12 metaElements">
        <div class="card mb-3">
 		    <div class="card-body">
-		          <div class="form-control">
+		          <div class="form-group">
 		               <label th:text="#{meta.name.label}" />
 		               <input type="text" class="form-control" th:value="${metaElement.name}" disabled="true"/>
 		           </div>
-		           <div class="form-control">
+		           <div class="form-group">
 		                 <label th:text="#{meta.content.label}" />
 		                 <input type="text" class="form-control" th:value="${metaElement.content}" disabled="true"/>
 		           </div>

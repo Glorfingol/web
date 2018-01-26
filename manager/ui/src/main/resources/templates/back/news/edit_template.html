@@ -1,7 +1,7 @@
 <div class="card mb-4">
     <div class="card-body">
       <form id="templateEditForm" th:object="${newsTemplate}">
-          <div class="form-control mb-3" id="formInputBody">
+          <div class="form-group mb-3" id="formInputBody">
               <label th:text="#{news.template.body.label}" />
               <textarea rows="3" id="templateBody" class="form-control" th:field="*{body}"/>
               <div id="feedbackBody" class="form-control-label"></div>

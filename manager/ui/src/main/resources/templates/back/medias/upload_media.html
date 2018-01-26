@@ -1,7 +1,7 @@
 <form id="uploadMediaForm">
     <div class="card mb-4">
         <div class="card-body">
-            <div class="form-control mb-3" id="formInputImage">
+            <div class="form-group mb-3" id="formInputImage">
                 <div class="dragndrop">
                     <div class="drop_zone">
                        <span th:text="#{image.drop.label}"/>
@@ -13,7 +13,7 @@
                        </label>
                     </div>
                 </div>
-                <div id="feedbackImage" class="form-control-label"></div>
+                <div id="feedbackImage"></div>
                 <small class="form-text text-muted" th:text="#{image.help}"/>
             </div>
             <div class="mb-3" id="formPreviewImage">
@@ -23,7 +23,7 @@
         <div class="card-footer">
             <div class="float-right">
                 <a class="btn btn-md btn-danger collapsed fa fa-times fa-white" 
-                   href="/manager/news" 
+                   href="/manager/medias"
                 ></a>
                 <button type="submit" class="btn btn-md btn-success fa fa-check fa-white"/>
             </div>

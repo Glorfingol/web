@@ -1,5 +1,5 @@
 <form id="pageUpdateForm" th:object="${updateForm}">
-    <div class="form-control mb-3" id="formInputFooter">
+    <div class="form-group mb-3" id="formInputFooter">
         <label th:text="#{page.footer.label}" />
         <textarea rows="3" id="pageFooter" class="form-control" th:field="*{footer}"/>
         <div id="feedbackfooter" class="form-control-label"></div>

@@ -1,45 +1,45 @@
 <form id="menuCreateForm" th:object="${createForm}">
     <div class="card mb-4">
         <div class="card-body">
-            <div class="form-control mb-3" id="formInputTitle" >
+            <div class="form-group mb-3" id="formInputTitle" >
                 <label th:text="#{menu.title.label}" />
                 <input type="text" class="form-control" th:field="*{title}"/>
-                <div id="feedbackTitle" class="form-control-label"></div>
+                <div id="feedbackTitle"></div>
                 <small class="form-text text-muted" th:text="#{menu.title.help}"/>
             </div>
-            <div class="form-control mb-3" id="formInputPage">
+            <div class="form-group mb-3" id="formInputPage">
                 <label th:text="#{menu.page.label}" />
                  <select th:field="*{pageId}" class="form-control">
                     <option th:each="page : ${pagesThatCanBeLinkedTo}" th:value="${page.id}" th:text="${page.name}"></option>
                  </select>
-                 <div id="feedbackPage" class="form-control-label"></div>
+                 <div id="feedbackPage"></div>
                 <small class="form-text text-muted" th:text="#{menu.page.help}"/>
             </div>
-            <div class="form-control mb-3" id="formInputParent">
+            <div class="form-group mb-3" id="formInputParent">
                 <label th:text="#{menu.parent.label}" />
                 <select th:field="*{parentId}" class="form-control">
                     <option value=""></option>
                     <option th:each="menu : ${menusThatCanBeParents}" th:value="${menu.id}" th:text="${menu.title}"></option>
                 </select>
-                 <div id="feedbackParent" class="form-control-label"></div>
+                 <div id="feedbackParent"></div>
                 <small class="form-text text-muted" th:text="#{menu.parent.help}"/>
             </div>
-            <div class="form-control mb-3" id="formInputLabel" >
+            <div class="form-group mb-3" id="formInputLabel" >
                 <label th:text="#{menu.label.label}" />
                 <input type="text" class="form-control" th:field="*{label}" readonly="readonly"/>
-                <div id="feedbackLabel" class="form-control-label"></div>
+                <div id="feedbackLabel"></div>
                 <small class="form-text text-muted" th:text="#{menu.label.help}"/>
             </div>
-            <div class="form-control mb-3" id="formInputHref" >
+            <div class="form-group mb-3" id="formInputHref" >
                 <label th:text="#{menu.href.label}" />
                 <input type="text" class="form-control" th:field="*{href}"/>
-                <div id="feedbackHref" class="form-control-label"></div>
+                <div id="feedbackHref"></div>
                 <small class="form-text text-muted" th:text="#{menu.href.help}"/>
             </div>
-             <div class="form-control mb-3" id="formInputOrder">
+             <div class="form-group mb-3" id="formInputOrder">
                 <label th:text="#{menu.order.label}" />
                 <input type="number" class="form-control" th:field="*{orderInMenu}"/>
-                 <div id="feedbackOrder" class="form-control-label"></div>
+                 <div id="feedbackOrder"></div>
                 <small class="form-text text-muted" th:text="#{menu.order.help}"/>
             </div>
         </div>

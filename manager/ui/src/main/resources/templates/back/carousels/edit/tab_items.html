@@ -1,17 +1,17 @@
 <form id="carouselItemForm" th:object="${createForm}" class="row">
     <div class="mb-3 col-12">
-         <div class="form-control mb-3" id="formInputOrderInCarousel">
+         <div class="form-group mb-3" id="formInputOrderInCarousel">
             <label th:text="#{carousel.item.order.label}" />
             <input type="number" class="form-control" th:field="*{orderInCarousel}"/>
-            <div id="feedbackOrderInCarousel" class="form-control-label"></div>
+            <div id="feedbackOrderInCarousel"></div>
             <small class="form-text text-muted" th:text="#{carousel.item.order.help}"/>
         </div>
-        <div class="form-control mb-3" id="formInputContent">
+        <div class="form-group mb-3" id="formInputContent">
             <label th:text="#{carousel.item.media.label}" />
             <select th:field="*{mediaId}" class="form-control">
                <option th:each="media : ${medias}" th:value="${media.id}" th:text="${media.name}"></option>
             </select>
-            <div id="feedbackMedia" class="form-control-label" ></div>
+            <div id="feedbackMedia"></div>
             <small class="form-text text-muted" th:text="#{carousel.item.media.help}"/>
         </div>
         <div class="float-right">
@@ -24,11 +24,11 @@
     <div th:each="carouselItem : ${items}" class="col-12 carouselItems">
        <div class="card mb-3">
             <div class="card-body">
-                  <div class="form-control">
+                  <div class="form-group">
                        <label th:text="#{carousel.item.order.label}" />
                        <input type="text" class="form-control" th:value="${carouselItem.orderInCarousel}" disabled="true"/>
                    </div>
-                   <div class="form-control">
+                   <div class="form-group">
                          <label th:text="#{carousel.item.media.label}" />
                          <input type="text" class="form-control" th:value="${carouselItem.media.name}" disabled="true"/>
                    </div>
