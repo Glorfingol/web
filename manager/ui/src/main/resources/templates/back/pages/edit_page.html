@@ -31,6 +31,11 @@
 	               <span th:text="#{page.tab.open.meta}"/>
 	            </a>
 	        </li>
+				<li class="nav-item">
+					<a class="nav-link" id="preview-tab" data-toggle="tab" href="#" role="tab"  onclick="goToPreviewTab()" >
+						<span th:text="#{page.preview}"/>
+					</a>
+				</li>
 	    </ul>
 	</div>
 	<div class="tab-content card-body" id="pageTabContent">
@@ -105,6 +110,16 @@ var goToMainTab =  function(){
          currentTab = "main";
        });
 	 }
+};
+
+
+var goToPreviewTab =  function(){
+  if(currentTab !== "preview"){
+    var url = "/pages/"+[[''+${updateForm.name}+'']];
+    var iframe = $('<iframe src="'+url+'" frameborder="0" id="previewIframe"></iframe>');
+    $("#ajaxTab").html(iframe)
+    currentTab = "preview";
+  }
 };
 
 $(document).ready(function(){

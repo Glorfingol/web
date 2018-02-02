@@ -252,3 +252,9 @@ input[type="checkbox"]:checked:before {
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px; 
 }
+
+
+#previewIframe{
+    width: 100%;
+    min-height: 800px;
+}

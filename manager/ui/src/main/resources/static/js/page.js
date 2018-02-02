@@ -46,7 +46,7 @@ function computeUpdatePage(){
     page.withNews = inputWithNews.val() === "true" ? true : false;
     page.body = computePageBody();
     page.header = computePageHeader();
-    page.footer = computePageHeader();
+    page.footer = computePageFooter();
     page.id = inputId.val();
     page.creationDate = inputCreationDate.val();
     page.modificationDate = inputModificationDate.val();
@@ -68,7 +68,7 @@ function computePageHeader(){
 }
 
 function computePageFooter(){
-	if(CKEDITOR.instances.pageBody){
+	if(CKEDITOR.instances.pageFooter){
 		return CKEDITOR.instances.pageFooter.getData();
 	}
 	return $("#footer").val();
@@ -84,5 +84,11 @@ function postUpdatePageForm(){
 	var pageToUpdate = validateAndUpdatePage();
 	var url = "/manager/pages/" + pageToUpdate.id;
 	var urlFallback = "/manager/pages/" + pageToUpdate.id;
-	update($("#pageUpdateForm"),$(".loader"),$(".card-loader"),url,urlFallback,pageToUpdate);
+	update($("#pageUpdateForm"),$(".loader"),$(".card-loader"),url,urlFallback,pageToUpdate,true);
 }
+
+$(document).ready(function(){
+  $("#formInputWithNews").click( function(){
+    $("#withNews").click();
+  });
+});

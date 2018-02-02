@@ -145,7 +145,7 @@ function displayError(error){
 	}
 }
 
-function update(formToToggle,loader,cardLoader,url,urlFallBack,dataToSend){
+function update(formToToggle,loader,cardLoader,url,urlFallBack,dataToSend,stay){
 	
 	formToToggle.hide();
 	loader.show();
@@ -165,7 +165,9 @@ function update(formToToggle,loader,cardLoader,url,urlFallBack,dataToSend){
         	if(data.error){
         		displayError(data.error);
         	}else{
-        		window.location.href= urlFallBack;
+        		if(!stay){
+              window.location.href= urlFallBack;
+						}
         	}
         },
         error: function(){
