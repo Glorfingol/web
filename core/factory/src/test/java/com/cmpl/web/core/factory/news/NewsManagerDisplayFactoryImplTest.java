@@ -71,11 +71,10 @@ public class NewsManagerDisplayFactoryImplTest {
 
     String labelPar = "par";
     String labelLe = "le";
-    String labelAccroche = "accroche";
-    String labelShowHref = "/pages/actualites/666";
+
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
-        dateFormat, labelAccroche, labelShowHref);
+        dateFormat);
 
     BDDMockito.doReturn(displayBean).when(displayFactory)
         .computeNewsEntryDisplayBean(BDDMockito.eq(Locale.FRANCE), BDDMockito.eq(newsEntry));
@@ -217,14 +216,13 @@ public class NewsManagerDisplayFactoryImplTest {
 
     String labelPar = "par";
     String labelLe = "le";
-    String labelAccroche = "accroche";
-    String labelShowHref = "/pages/actualites/666";
+
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
-        dateFormat, labelAccroche, labelShowHref);
+        dateFormat);
 
     PageWrapper<NewsEntryDisplayBean> pageWrapper = new PageWrapper<>();
-    pageWrapper.setPage(new PageImpl<>(Lists.newArrayList(displayBean)));
+    pageWrapper.setPage(new PageImpl<>(Lists.newArrayList(displayBean))); 
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));

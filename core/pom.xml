@@ -25,6 +25,7 @@
     <module>common</module>
     <module>breadcrumb</module>
     <module>factory</module>
+    <module>widget</module>
   </modules>
 
 

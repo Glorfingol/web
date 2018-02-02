@@ -30,7 +30,10 @@ public enum ERROR_CAUSE {
   EMPTY_CAROUSEL_ID("empty.carousel.id"),
   EMPTY_MEDIA_ID("empty.media.id"),
   EMPTY_CAROUSEL_PAGE("empty.carousel.page"),
-  EMPTY_CAROUSEL_ITEM_ID("empty.carousel.item.id");
+  EMPTY_CAROUSEL_ITEM_ID("empty.carousel.item.id"),
+
+  EMPTY_WIDGET_NAME("empty.widget.name"),
+  EMPTY_WIDGET_TYPE("empty.widget.type");
 
   private String causeKey;
 

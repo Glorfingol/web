@@ -22,9 +22,7 @@ public class PageDispatcherImpl implements PageDispatcher {
     Error error = validator.validateCreate(form, locale);
 
     if (error != null) {
-      PageResponse response = new PageResponse();
-      response.setError(error);
-      return response;
+      return  PageResponseBuilder.create().error(error).build();
     }
 
     PageDTO pageToCreate = translator.fromCreateFormToDTO(form);
@@ -38,13 +36,13 @@ public class PageDispatcherImpl implements PageDispatcher {
     Error error = validator.validateUpdate(form, locale);
 
     if (error != null) {
-      PageResponse response = new PageResponse();
-      response.setError(error);
-      return response;
+      return  PageResponseBuilder.create().error(error).build();
     }
 
     PageDTO pageToUpdate = pageService.getEntity(form.getId());
     pageToUpdate.setBody(form.getBody());
+    pageToUpdate.setFooter(form.getFooter());
+    pageToUpdate.setHeader(form.getHeader());
     pageToUpdate.setMenuTitle(form.getMenuTitle());
     pageToUpdate.setName(form.getName());
     pageToUpdate.setWithNews(form.isWithNews());

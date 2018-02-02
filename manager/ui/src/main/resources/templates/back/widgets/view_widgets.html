@@ -1,0 +1,20 @@
+<div class="card mb-4">
+	<div class="card-body">
+		<div class="row">
+			<div class="col">
+				<div class="pull-right ">
+					<a class="btn btn-md btn-primary fa fa-plus fa-white"
+						 href="/manager/widgets/_create"
+						 id="buttonAdd"></a>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div th:each="widgetBean : ${wrappedWidgets.page.content}" class="col-12 pagesElement">
+				<div th:replace="back/widgets/widgets_list_element :: widgetElement(${widgetBean})"/>
+			</div>
+		</div>
+		<div th:replace="common/pagination :: pagination(${wrappedWidgets})"/>
+	</div>
+
+ </div>

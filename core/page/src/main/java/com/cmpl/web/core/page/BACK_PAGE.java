@@ -28,7 +28,10 @@ public enum BACK_PAGE {
   CAROUSELS_UPDATE("carousels.update", "back.carousels.title"),
   CAROUSELS_CREATE("carousels.create", "back.carousels.title"),
   STYLES_VIEW("styles.view", "back.style.title"),
-  STYLES_UPDATE("styles.update", "back.style.title");
+  STYLES_UPDATE("styles.update", "back.style.title"),
+  WIDGET_VIEW("widgets.view", "back.widgets.title"),
+  WIDGET_CREATE("widgets.create", "back.widgets.title"),
+  WIDGET_UPDATE("widgets.update", "back.widgets.title");
 
   private String tile;
   private String title;

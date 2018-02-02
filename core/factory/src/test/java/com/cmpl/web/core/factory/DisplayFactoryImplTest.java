@@ -50,38 +50,8 @@ public class DisplayFactoryImplTest {
   @InjectMocks
   private DisplayFactoryImpl displayFactory;
 
-  @Test
-  public void testComputeNewsEntryDisplayBeanPageDTOLocaleNewsEntryDTO() throws Exception {
-    PageDTO page = new PageDTO();
-    page.setName("someName");
 
-    NewsEntryDTO newsEntryDTO = new NewsEntryDTO();
-    newsEntryDTO.setId(123456789l);
 
-    BDDMockito.given(contextHolder.getImageDisplaySrc()).willReturn("someSrc");
-    BDDMockito.doReturn("someString").when(displayFactory)
-        .getI18nValue(BDDMockito.anyString(), BDDMockito.any(Locale.class));
-
-    NewsEntryDisplayBean result = displayFactory.computeNewsEntryDisplayBean(page, Locale.FRANCE, newsEntryDTO);
-    Assert.assertEquals("/pages/someName/123456789", result.getNewsEntryShowHref());
-  }
-
-  @Test
-  public void testComputeNewsEntry() throws Exception {
-
-    NewsEntryDTO newsEntry = new NewsEntryDTO();
-    BDDMockito.given(newsEntryService.getEntity(BDDMockito.anyLong())).willReturn(newsEntry);
-
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", "", null, "", "test");
-    BDDMockito
-        .doReturn(displayBean)
-        .when(displayFactory)
-        .computeNewsEntryDisplayBean(BDDMockito.any(PageDTO.class), BDDMockito.any(Locale.class),
-            BDDMockito.any(NewsEntryDTO.class));
-
-    Assert.assertEquals(displayBean.getNewsEntryShowHref(),
-        displayFactory.computeNewsEntry(new PageDTO(), Locale.FRANCE, "123456789").getNewsEntryShowHref());
-  }
 
   @Test
   public void testComputeNewsEntries() throws Exception {
@@ -95,14 +65,14 @@ public class DisplayFactoryImplTest {
 
     BDDMockito.given(newsEntryService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(pageImpl);
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", "", null, "", "test");
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", "", null);
     BDDMockito
         .doReturn(displayBean)
         .when(displayFactory)
-        .computeNewsEntryDisplayBean(BDDMockito.any(PageDTO.class), BDDMockito.any(Locale.class),
+        .computeNewsEntryDisplayBean( BDDMockito.any(Locale.class),
             BDDMockito.any(NewsEntryDTO.class));
 
-    Page<NewsEntryDisplayBean> result = displayFactory.computeNewsEntries(new PageDTO(), Locale.FRANCE, 0);
+    Page<NewsEntryDisplayBean> result = displayFactory.computeNewsEntries( Locale.FRANCE, 0);
     Assert.assertTrue(pageImpl.getContent().get(0).getId() == Long.parseLong(result.getContent().get(0)
         .getNewsEntryId()));
 
@@ -115,7 +85,7 @@ public class DisplayFactoryImplTest {
     NewsEntryDTO newsEntry = new NewsEntryDTO();
     newsEntry.setId(123456789l);
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", "", null, "", "test");
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", "", null);
     news.add(displayBean);
     PageImpl<NewsEntryDisplayBean> pageImpl = new PageImpl<>(news);
 
@@ -125,7 +95,7 @@ public class DisplayFactoryImplTest {
     page.setName("test");
 
     BDDMockito.doReturn(pageImpl).when(displayFactory)
-        .computeNewsEntries(BDDMockito.any(PageDTO.class), BDDMockito.any(Locale.class), BDDMockito.anyInt());
+        .computeNewsEntries( BDDMockito.any(Locale.class), BDDMockito.anyInt());
     BDDMockito.doReturn(pageLabel).when(displayFactory)
         .getI18nValue(BDDMockito.anyString(), BDDMockito.any(Locale.class), BDDMockito.anyInt(), BDDMockito.anyInt());
     PageWrapper<NewsEntryDisplayBean> wrapper = displayFactory.computePageWrapperOfNews(page, Locale.FRANCE, 1);
@@ -248,7 +218,7 @@ public class DisplayFactoryImplTest {
 
     NewsEntryDTO newsEntry = new NewsEntryDTO();
     newsEntry.setId(123456789l);
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", "", null, "", "test");
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", "", null);
     List<NewsEntryDisplayBean> displayBeans = new ArrayList<>();
     displayBeans.add(displayBean);
     Page<NewsEntryDisplayBean> pagedNewsEntries = new PageImpl<>(displayBeans);

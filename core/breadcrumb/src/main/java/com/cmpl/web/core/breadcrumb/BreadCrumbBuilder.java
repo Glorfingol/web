@@ -1,6 +1,7 @@
 package com.cmpl.web.core.breadcrumb;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.cmpl.web.core.common.builder.Builder;
 import com.cmpl.web.core.page.BACK_PAGE;
@@ -27,7 +28,7 @@ public class BreadCrumbBuilder extends Builder<BreadCrumb> {
   @Override
   public BreadCrumb build() {
     BreadCrumb breadCrumb = new BreadCrumb();
-    breadCrumb.setItems(items);
+    breadCrumb.setItems(items.stream().collect(Collectors.toList()));
     breadCrumb.setPage(page);
     return breadCrumb;
   }

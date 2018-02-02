@@ -110,10 +110,10 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
     String labelPar = getI18nValue("news.entry.by", locale);
     String labelLe = getI18nValue("news.entry.the", locale);
-    String labelAccroche = getI18nValue("news.entry.call", locale);
+
 
     return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
-        contextHolder.getDateFormat(), labelAccroche, "");
+        contextHolder.getDateFormat());
   }
 
   @Override

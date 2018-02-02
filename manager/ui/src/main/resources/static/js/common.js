@@ -163,11 +163,13 @@ function update(formToToggle,loader,cardLoader,url,urlFallBack,dataToSend,stay){
         	loader.hide();
         	cardLoader.hide();
         	if(data.error){
+            loader.hide();
         		displayError(data.error);
         	}else{
         		if(!stay){
               window.location.href= urlFallBack;
 						}
+            loader.hide();
         	}
         },
         error: function(){
@@ -190,9 +192,9 @@ function create(formToToggle,loader,cardLoader,url,urlFallBack,dataToSend){
         dataType: "json",
         success: function (data) {
         	formToToggle.show();
-        	loader.hide();
         	cardLoader.hide();
         	if(data.error){
+            loader.hide();
         		displayError(data.error);
         	}else{
         		window.location.href= url;
@@ -221,9 +223,9 @@ function upload(formToToggle,loader,cardLoader,url,urlFallBack,dataToSend){
         cache: false,
         success: function (data) {
         	formToToggle.show();
-        	loader.hide();
         	cardLoader.hide();
         	if(data.error){
+            loader.hide();
         		displayError(data.error);
         	}else{
         		window.location.href= url;

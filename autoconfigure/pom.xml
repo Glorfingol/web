@@ -110,6 +110,11 @@
       <artifactId>cmpl-web-manager-ui</artifactId>
       <version>1.0.0</version>
     </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-widget</artifactId>
+      <version>1.0.0</version>
+    </dependency>
 
 
   </dependencies>

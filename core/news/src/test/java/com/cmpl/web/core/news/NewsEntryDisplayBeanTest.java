@@ -20,20 +20,16 @@ public class NewsEntryDisplayBeanTest {
 
   private DateTimeFormatter dateFormat;
 
-  private String labelAccroche;
 
   private String imageDisplaySrc;
 
-  private String showHref;
 
   @Before
   public void setUp() {
     labelPar = "Par";
     labelLe = "le";
-    labelAccroche = "En savoir plus";
     dateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
     imageDisplaySrc = "http://cm-pl.com/";
-    showHref = "/pages/actualites/666";
   }
 
   @Test
@@ -41,8 +37,7 @@ public class NewsEntryDisplayBeanTest {
 
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     List<String> result = displayBean.getTags();
     Assert.assertTrue(CollectionUtils.isEmpty(result));
@@ -53,8 +48,8 @@ public class NewsEntryDisplayBeanTest {
 
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().tags("tag;another").build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat
+        );
 
     List<String> result = displayBean.getTags();
     Assert.assertTrue(result.size() == 2);
@@ -67,42 +62,22 @@ public class NewsEntryDisplayBeanTest {
 
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().tags("unseul").build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     List<String> result = displayBean.getTags();
     Assert.assertTrue(result.size() == 1);
     Assert.assertEquals("unseul", result.get(0));
   }
 
-  @Test
-  public void testGetNewsEntryShowMore() {
-    NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
 
-    String result = displayBean.getNewsEntryShowMore();
-    Assert.assertEquals(labelAccroche, result);
-  }
-
-  @Test
-  public void testGetNewsEntryShowHref() {
-    NewsEntryDTO entry = NewsEntryDTOBuilder.create().id(Long.valueOf("666")).build();
-
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
-
-    String result = displayBean.getNewsEntryShowHref();
-    Assert.assertEquals("/pages/actualites/666", result);
-  }
 
   @Test
   public void testGetNewsEntryReadHref() {
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().id(Long.valueOf("666")).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat
+        );
 
     String result = displayBean.getNewsEntryReadHref();
     Assert.assertEquals("/news/666", result);
@@ -112,8 +87,8 @@ public class NewsEntryDisplayBeanTest {
   public void testgetNewsEntryId() {
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().id(Long.valueOf("666")).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat
+        );
 
     String result = displayBean.getNewsEntryId();
     Assert.assertEquals("666", result);
@@ -123,8 +98,7 @@ public class NewsEntryDisplayBeanTest {
   public void testIsDisplayTags_True() {
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().tags("tag").build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayTags();
     Assert.assertTrue(result);
@@ -134,8 +108,7 @@ public class NewsEntryDisplayBeanTest {
   public void testIsDisplayTags_False() {
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayTags();
     Assert.assertFalse(result);
@@ -146,8 +119,7 @@ public class NewsEntryDisplayBeanTest {
     NewsContentDTO content = NewsContentDTOBuilder.create().build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsContent(content).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayContent();
     Assert.assertTrue(result);
@@ -161,8 +133,7 @@ public class NewsEntryDisplayBeanTest {
   public void testIsDisplayContent_False() {
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayContent();
     Assert.assertFalse(result);
@@ -174,8 +145,7 @@ public class NewsEntryDisplayBeanTest {
     NewsContentDTO content = NewsContentDTOBuilder.create().linkUrl("someLink").build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsContent(content).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayContent();
     Assert.assertFalse(result);
@@ -187,8 +157,7 @@ public class NewsEntryDisplayBeanTest {
     NewsImageDTO image = NewsImageDTOBuilder.create().build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsImage(image).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayImage();
     Assert.assertTrue(result);
@@ -202,8 +171,7 @@ public class NewsEntryDisplayBeanTest {
   public void testIsDisplayImage_False() {
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayImage();
     Assert.assertFalse(result);
@@ -217,8 +185,7 @@ public class NewsEntryDisplayBeanTest {
 
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     int height = displayBean.getImageHeight();
     Assert.assertEquals(0, height);
@@ -230,8 +197,7 @@ public class NewsEntryDisplayBeanTest {
     NewsImageDTO image = NewsImageDTOBuilder.create().height(500).build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsImage(image).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     int height = displayBean.getImageHeight();
     Assert.assertEquals(500, height);
@@ -242,8 +208,7 @@ public class NewsEntryDisplayBeanTest {
 
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     int result = displayBean.getImageWidth();
     Assert.assertEquals(0, result);
@@ -255,8 +220,7 @@ public class NewsEntryDisplayBeanTest {
     NewsImageDTO image = NewsImageDTOBuilder.create().width(500).build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsImage(image).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     int result = displayBean.getImageWidth();
     Assert.assertEquals(500, result);
@@ -267,8 +231,7 @@ public class NewsEntryDisplayBeanTest {
 
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getAlt();
     Assert.assertEquals("", result);
@@ -280,8 +243,7 @@ public class NewsEntryDisplayBeanTest {
     NewsImageDTO image = NewsImageDTOBuilder.create().alt("alt").build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsImage(image).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getAlt();
     Assert.assertEquals("alt", result);
@@ -292,8 +254,7 @@ public class NewsEntryDisplayBeanTest {
 
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getLegend();
     Assert.assertEquals("", result);
@@ -305,8 +266,7 @@ public class NewsEntryDisplayBeanTest {
     NewsImageDTO image = NewsImageDTOBuilder.create().legend("legend").build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsImage(image).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getLegend();
     Assert.assertEquals("legend", result);
@@ -317,8 +277,7 @@ public class NewsEntryDisplayBeanTest {
 
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getImage();
     Assert.assertEquals("", result);
@@ -330,8 +289,7 @@ public class NewsEntryDisplayBeanTest {
     NewsImageDTO image = NewsImageDTOBuilder.create().src("src").build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsImage(image).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getImage();
     Assert.assertEquals(imageDisplaySrc + "src", result);
@@ -342,8 +300,7 @@ public class NewsEntryDisplayBeanTest {
 
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getContent();
     Assert.assertEquals("", result);
@@ -355,8 +312,7 @@ public class NewsEntryDisplayBeanTest {
     NewsContentDTO content = NewsContentDTOBuilder.create().content("content").build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsContent(content).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getContent();
     Assert.assertEquals("content", result);
@@ -366,8 +322,7 @@ public class NewsEntryDisplayBeanTest {
   public void testGetTitle() {
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().title("title").build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getTitle();
     Assert.assertEquals("title", result);
@@ -379,8 +334,7 @@ public class NewsEntryDisplayBeanTest {
     LocalDate publicationDate = LocalDate.of(2017, 9, 10);
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().creationDate(publicationDate).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getPublicationDate();
     Assert.assertEquals("10/09/17", result);
@@ -394,117 +348,105 @@ public class NewsEntryDisplayBeanTest {
     LocalDate publicationDate = LocalDate.of(2017, 9, 10);
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().author("Test").creationDate(publicationDate).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
-    StringBuilder panelHeadingBuilder = new StringBuilder();
-    panelHeadingBuilder.append(labelPar).append(SPACE).append("Test").append(SPACE).append(labelLe).append(SPACE)
-        .append("10/09/17");
+    String panelHeadingBuilder = labelPar + SPACE + "Test" + SPACE + labelLe + SPACE + "10/09/17";
 
     String result = displayBean.getPanelHeading();
-    Assert.assertEquals(panelHeadingBuilder.toString(), result);
+    Assert.assertEquals(panelHeadingBuilder, result);
 
-  }
+  } 
 
   @Test
-  public void testGetLinkUrl() throws Exception {
+  public void testGetLinkUrl()  {
     NewsContentDTO content = NewsContentDTOBuilder.create().linkUrl("link").build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsContent(content).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getLinkUrl();
     Assert.assertEquals("link", result);
   }
 
   @Test
-  public void testGetVideoUrl() throws Exception {
+  public void testGetVideoUrl()  {
     NewsContentDTO content = NewsContentDTOBuilder.create().videoUrl("video").build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsContent(content).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getVideoUrl();
     Assert.assertEquals("video", result);
   }
 
   @Test
-  public void testIsDisplayLink_True() throws Exception {
+  public void testIsDisplayLink_True()  {
     NewsContentDTO content = NewsContentDTOBuilder.create().linkUrl("link").build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsContent(content).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayLink();
     Assert.assertTrue(result);
   }
 
   @Test
-  public void testIsDisplayLink_False_No_Content() throws Exception {
+  public void testIsDisplayLink_False_No_Content()  {
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayLink();
     Assert.assertFalse(result);
   }
 
   @Test
-  public void testIsDisplayLink_False_No_Link() throws Exception {
+  public void testIsDisplayLink_False_No_Link()  {
     NewsContentDTO content = NewsContentDTOBuilder.create().build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsContent(content).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayLink();
     Assert.assertFalse(result);
   }
 
   @Test
-  public void testIsDisplayVideo() throws Exception {
+  public void testIsDisplayVideo()  {
     NewsContentDTO content = NewsContentDTOBuilder.create().videoUrl("video").build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsContent(content).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayVideo();
     Assert.assertTrue(result);
   }
 
   @Test
-  public void testIsDisplayVideo_False_No_Content() throws Exception {
+  public void testIsDisplayVideo_False_No_Content()  {
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayVideo();
     Assert.assertFalse(result);
   }
 
   @Test
-  public void testIsDisplayVideo_False_No_Video() throws Exception {
+  public void testIsDisplayVideo_False_No_Video()  {
     NewsContentDTO content = NewsContentDTOBuilder.create().build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsContent(content).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     boolean result = displayBean.isDisplayVideo();
     Assert.assertFalse(result);
   }
 
   @Test
-  public void testGetNewsEntryModifyHref() throws Exception {
+  public void testGetNewsEntryModifyHref()  {
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().id(123456789L).build();
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat,
-        labelAccroche, showHref);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getNewsEntryModifyHref();
 

@@ -82,15 +82,36 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     List<CarouselDTO> carousels = computeCarouselsForPage(page);
     carousels.forEach(carousel -> model.addObject("carousel_" + carousel.getName(), carousel));
     if (page.isWithNews()) {
-      LOGGER.info("Construction du template pour les entrées de blog pour la page   " + pageName);
-      model.addObject("news_entry", computeNewsTemplate());
+
+      model.addObject("news_entries","widgets/blog");
       LOGGER.info("Construction des entrées de blog pour la page " + pageName);
       PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = computePageWrapperOfNews(page, locale, pageNumber);
+
+      List<NewsEntryDTO> entries = computeNewsEntriesForPage(pageNumber);
+      List<String> entriesIds = new ArrayList<>();
+      entries.forEach(entry -> entriesIds.add(String.valueOf(entry.getId())));
+
       model.addObject("wrappedNews", pagedNewsWrapped);
+      model.addObject("news", entriesIds);
       model.addObject("emptyMessage", getI18nValue("actualites.empty", locale));
     }
 
     LOGGER.info("Page " + pageName + " prête");
+
+    return model;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForBlogEntry(String newsEntryId, Locale locale) {
+
+    LOGGER.info("Construction de l'entree de blog d'id " + newsEntryId);
+
+    ModelAndView model = new ModelAndView(computeNewsTemplate());
+    NewsEntryDisplayBean newsEntryDisplayBean = computeNewsEntryDisplayBean(locale,newsEntryService.getEntity(Long.parseLong(newsEntryId)));
+    model.addObject("newsBean",newsEntryDisplayBean);
+
+    LOGGER.info("Entree de blog " + newsEntryId + " prête");
+
 
     return model;
   }
@@ -123,7 +144,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   }
 
   public PageWrapper<NewsEntryDisplayBean> computePageWrapperOfNews(PageDTO page, Locale locale, int pageNumber) {
-    Page<NewsEntryDisplayBean> pagedNewsEntries = computeNewsEntries(page, locale, pageNumber);
+    Page<NewsEntryDisplayBean> pagedNewsEntries = computeNewsEntries( locale, pageNumber);
 
     boolean isFirstPage = pagedNewsEntries.isFirst();
     boolean isLastPage = pagedNewsEntries.isLast();
@@ -135,7 +156,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
         .pageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages)).build();
   }
 
-  public Page<NewsEntryDisplayBean> computeNewsEntries(PageDTO page, Locale locale, int pageNumber) {
+  public Page<NewsEntryDisplayBean> computeNewsEntries( Locale locale, int pageNumber) {
     List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
@@ -145,29 +166,38 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     }
 
     pagedNewsEntries.getContent().forEach(
-        newsEntry -> newsEntries.add(computeNewsEntryDisplayBean(page, locale, newsEntry)));
+        newsEntry -> newsEntries.add(computeNewsEntryDisplayBean( locale, newsEntry)));
 
     return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
   }
 
-  public NewsEntryDisplayBean computeNewsEntry(PageDTO page, Locale locale, String newsEntryId) {
+  public NewsEntryDisplayBean computeNewsEntry( Locale locale, String newsEntryId) {
 
     NewsEntryDTO newsEntryFromDB = newsEntryService.getEntity(Long.valueOf(newsEntryId));
-    return computeNewsEntryDisplayBean(page, locale, newsEntryFromDB);
+    return computeNewsEntryDisplayBean( locale, newsEntryFromDB);
   }
 
-  public NewsEntryDisplayBean computeNewsEntryDisplayBean(PageDTO page, Locale locale, NewsEntryDTO newsEntryDTO) {
+  public NewsEntryDisplayBean computeNewsEntryDisplayBean(Locale locale, NewsEntryDTO newsEntryDTO) {
 
     String labelPar = getI18nValue("news.entry.by", locale);
     String labelLe = getI18nValue("news.entry.the", locale);
-    String labelAccroche = getI18nValue("news.entry.call", locale);
 
     return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
-        contextHolder.getDateFormat(), labelAccroche, "/pages/" + page.getName() + "/" + newsEntryDTO.getId());
+        contextHolder.getDateFormat());
   }
 
   private boolean doesTemplateExist(String templateName) {
     return fileService.readFileContentFromSystem(templateName) != null;
+  }
+
+  private List<NewsEntryDTO> computeNewsEntriesForPage(int pageNumber){
+
+
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
+    Page<NewsEntryDTO> pagedNewsEntries = newsEntryService.getPagedEntities(pageRequest);
+
+    return pagedNewsEntries.getContent();
+
   }
 
 }

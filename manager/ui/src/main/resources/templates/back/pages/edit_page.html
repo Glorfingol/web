@@ -11,16 +11,16 @@
 	              <span th:text="#{page.tab.body}"/>
 	            </a>
 	        </li>
-            <li class="nav-item">
-                <a class="nav-link" id="header-tab" data-toggle="tab" href="#" role="tab"  onclick="goToHeaderTab()" >
-                  <span th:text="#{page.tab.header}"/>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="footer-tab" data-toggle="tab" href="#" role="tab"  onclick="goToFooterTab()" >
-                  <span th:text="#{page.tab.footer}"/>
-                </a>
-            </li>
+					<li class="nav-item">
+							<a class="nav-link" id="header-tab" data-toggle="tab" href="#" role="tab"  onclick="goToHeaderTab()" >
+								<span th:text="#{page.tab.header}"/>
+							</a>
+					</li>
+					<li class="nav-item">
+							<a class="nav-link" id="footer-tab" data-toggle="tab" href="#" role="tab"  onclick="goToFooterTab()" >
+								<span th:text="#{page.tab.footer}"/>
+							</a>
+					</li>
 	        <li class="nav-item">
 	            <a class="nav-link" id="meta-tab" data-toggle="tab" href="#" role="tab"  onclick="goToMetaTab()" >
 	               <span th:text="#{page.tab.meta}"/>
@@ -42,9 +42,6 @@
 	    <div role="tabpanel" class="tab-pane fade active show" id="ajaxTab">
 	    </div>
 	</div>
-</div>
-<div class="card card-loader">
-    <div class="loader"/> 
 </div>
 <script th:inline="javascript">
 CKEDITOR.config.startupMode = 'source';

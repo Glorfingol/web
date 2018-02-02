@@ -22,4 +22,7 @@ public interface DisplayFactory {
    */
   ModelAndView computeModelAndViewForPage(String pageName, Locale locale, int pageNumber);
 
+
+  ModelAndView computeModelAndViewForBlogEntry(String blogEntryId, Locale locale);
+
 }
