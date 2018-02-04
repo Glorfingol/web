@@ -45,8 +45,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     String[] authorizedUrls = prepareAuthorizedUrls();
-    http.headers().frameOptions().sameOrigin().and().authorizeRequests().antMatchers(authorizedUrls).permitAll().anyRequest().authenticated().and().formLogin()
-        .loginPage("/login").permitAll().and().logout()
+    http.headers().frameOptions().sameOrigin().and().authorizeRequests().antMatchers(authorizedUrls).permitAll()
+        .anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().and().logout()
         .logoutRequestMatcher(new AntPathRequestMatcher("/manager/logout")).permitAll();
 
   }
@@ -74,7 +74,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   String[] prepareAuthorizedUrls() {
     return new String[]{"/", "/pages/**", "/robots", "/robot", "/robot.txt", "/robots.txt", "/bootstrap/**",
         "/jquery/**", "/tether/**", "/fontawesome/**", "/ckeditor/**", "/js/**", "/img/**", "/css/**",
-        "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**"};
+        "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**", "/widgets/**"};
   }
 
   @Bean

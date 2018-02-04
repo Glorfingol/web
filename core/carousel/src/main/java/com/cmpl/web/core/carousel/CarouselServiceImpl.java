@@ -1,7 +1,5 @@
 package com.cmpl.web.core.carousel;
 
-import java.util.List;
-
 import org.springframework.cache.annotation.CacheConfig;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
@@ -16,11 +14,6 @@ public class CarouselServiceImpl extends BaseServiceImpl<CarouselDTO, Carousel> 
     super(carouselRepository);
     this.carouselRepository = carouselRepository;
     this.carouselItemService = carouselItemService;
-  }
-
-  @Override
-  public List<CarouselDTO> findByPageId(String pageId) {
-    return toListDTO(carouselRepository.findByPageId(pageId));
   }
 
   @Override

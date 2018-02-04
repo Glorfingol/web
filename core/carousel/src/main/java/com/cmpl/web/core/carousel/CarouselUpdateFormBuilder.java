@@ -7,7 +7,6 @@ import com.cmpl.web.core.common.builder.Builder;
 public class CarouselUpdateFormBuilder extends Builder<CarouselUpdateForm> {
 
   private String name;
-  private String pageId;
   private Long id;
   private LocalDate creationDate;
   private LocalDate modificationDate;
@@ -18,11 +17,6 @@ public class CarouselUpdateFormBuilder extends Builder<CarouselUpdateForm> {
 
   public CarouselUpdateFormBuilder name(String name) {
     this.name = name;
-    return this;
-  }
-
-  public CarouselUpdateFormBuilder pageId(String pageId) {
-    this.pageId = pageId;
     return this;
   }
 
@@ -48,7 +42,6 @@ public class CarouselUpdateFormBuilder extends Builder<CarouselUpdateForm> {
     form.setId(id);
     form.setModificationDate(modificationDate);
     form.setName(name);
-    form.setPageId(pageId);
     return form;
   }
 

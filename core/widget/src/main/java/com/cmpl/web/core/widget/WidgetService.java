@@ -4,4 +4,6 @@ import com.cmpl.web.core.common.service.BaseService;
 
 public interface WidgetService extends BaseService<WidgetDTO> {
 
+  WidgetDTO findByName(String widgetName);
+
 }

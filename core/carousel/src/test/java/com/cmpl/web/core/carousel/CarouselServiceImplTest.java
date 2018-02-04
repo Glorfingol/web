@@ -29,8 +29,8 @@ public class CarouselServiceImplTest {
   public void testToEntity() throws Exception {
     CarouselDTO dto = CarouselDTOBuilder.create().build();
 
-    BDDMockito.doNothing().when(carouselService)
-        .fillObject(BDDMockito.any(CarouselDTO.class), BDDMockito.any(Carousel.class));
+    BDDMockito.doNothing().when(carouselService).fillObject(BDDMockito.any(CarouselDTO.class),
+        BDDMockito.any(Carousel.class));
     carouselService.toEntity(dto);
 
     BDDMockito.verify(carouselService, BDDMockito.times(1)).fillObject(BDDMockito.any(CarouselDTO.class),
@@ -46,8 +46,8 @@ public class CarouselServiceImplTest {
 
     BDDMockito.given(carouselItemService.getByCarouselId(BDDMockito.anyString())).willReturn(Lists.newArrayList(dto));
 
-    BDDMockito.doNothing().when(carouselService)
-        .fillObject(BDDMockito.any(Carousel.class), BDDMockito.any(CarouselDTO.class));
+    BDDMockito.doNothing().when(carouselService).fillObject(BDDMockito.any(Carousel.class),
+        BDDMockito.any(CarouselDTO.class));
     CarouselDTO result = carouselService.toDTO(entity);
     Assert.assertEquals(dto, result.getCarouselItems().get(0));
 
@@ -55,16 +55,4 @@ public class CarouselServiceImplTest {
         BDDMockito.any(CarouselDTO.class));
   }
 
-  @Test
-  public void testFindByPageId() throws Exception {
-    MediaDTO media = MediaDTOBuilder.create().id(123456789l).build();
-    CarouselItemDTO dto = CarouselItemDTOBuilder.create().media(media).build();
-    CarouselDTO carousel = CarouselDTOBuilder.create().carouselItems(Lists.newArrayList(dto)).build();
-
-    BDDMockito.doReturn(Lists.newArrayList(carousel)).when(carouselService).toListDTO(BDDMockito.anyList());
-    Carousel entity = CarouselBuilder.create().build();
-    BDDMockito.given(carouselRepository.findByPageId(BDDMockito.anyString())).willReturn(Lists.newArrayList(entity));
-
-    Assert.assertEquals(carousel, carouselService.findByPageId("123456789").get(0));
-  }
 }

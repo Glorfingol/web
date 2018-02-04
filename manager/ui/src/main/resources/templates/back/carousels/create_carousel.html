@@ -1,29 +1,21 @@
 <form id="carouselCreateForm" th:object="${createForm}">
     <div class="card mb-4">
         <div class="card-body">
-            <div class="form-group mb-3" id="formInputTitle" >
-                <label th:text="#{carousel.name.label}" />
+            <div class="form-group mb-3" id="formInputTitle">
+                <label th:text="#{carousel.name.label}"/>
                 <input type="text" class="form-control" th:field="*{name}"/>
                 <div id="feedbackName"></div>
                 <small class="form-text text-muted" th:text="#{carousel.name.help}"/>
             </div>
-            <div class="form-group mb-3" id="formInputPage">
-                <label th:text="#{carousel.page.label}" />
-                 <select th:field="*{pageId}" class="form-control">
-                    <option th:each="page : ${pages}" th:value="${page.id}" th:text="${page.name}"></option>
-                 </select>
-                 <div id="feedbackPage"></div>
-                <small class="form-text text-muted" th:text="#{carousel.page.help}"/>
-            </div>
         </div>
         <div class="card-footer">
             <div class="float-right">
-              <a class="btn btn-md btn-danger fa fa-times fa-white"  onclick="cancelCreateCarousel()"></a>
-              <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postCreateCarouselForm()"></a>
+                <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelCreateCarousel()"></a>
+                <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postCreateCarouselForm()"></a>
             </div>
         </div>
     </div>
 </form>
 <div class="card card-loader">
-    <div class="loader"/> 
+    <div class="loader"/>
 </div>

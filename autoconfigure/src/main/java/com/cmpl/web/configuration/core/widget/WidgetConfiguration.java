@@ -24,28 +24,12 @@ import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.widget.Widget;
-import com.cmpl.web.core.widget.WidgetDataSourceProvider;
-import com.cmpl.web.core.widget.WidgetDispatcher;
-import com.cmpl.web.core.widget.WidgetDispatcherImpl;
-import com.cmpl.web.core.widget.WidgetPage;
-import com.cmpl.web.core.widget.WidgetPageRepository;
-import com.cmpl.web.core.widget.WidgetPageService;
-import com.cmpl.web.core.widget.WidgetPageServiceImpl;
-import com.cmpl.web.core.widget.WidgetRepository;
-import com.cmpl.web.core.widget.WidgetService;
-import com.cmpl.web.core.widget.WidgetServiceImpl;
-import com.cmpl.web.core.widget.WidgetTranslator;
-import com.cmpl.web.core.widget.WidgetTranslatorImpl;
-import com.cmpl.web.core.widget.WidgetValidator;
-import com.cmpl.web.core.widget.WidgetValidatorImpl;
+import com.cmpl.web.core.widget.*;
 
 @Configuration
 @EntityScan(basePackageClasses = {Widget.class, WidgetPage.class})
 @EnableJpaRepositories(basePackageClasses = {WidgetRepository.class, WidgetPageRepository.class})
 public class WidgetConfiguration {
-
-
 
   @Bean
   BackMenuItem widgetBackMenuItem() {
@@ -68,7 +52,6 @@ public class WidgetConfiguration {
     return BreadCrumbBuilder.create().items(widgetBreadCrumbItems()).page(BACK_PAGE.WIDGET_CREATE).build();
   }
 
-
   List<BreadCrumbItem> widgetBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
     items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("back.index.href").build());
@@ -76,10 +59,9 @@ public class WidgetConfiguration {
     return items;
   }
 
-
   @Bean
-  WidgetService widgetService(WidgetRepository widgetRepository,FileService fileService) {
-    return new WidgetServiceImpl(widgetRepository,fileService);
+  WidgetService widgetService(WidgetRepository widgetRepository, FileService fileService) {
+    return new WidgetServiceImpl(widgetRepository, fileService);
   }
 
   @Bean
@@ -88,32 +70,32 @@ public class WidgetConfiguration {
   }
 
   @Bean
-  WidgetDataSourceProvider widgetDataSourceProvider(CarouselService carouselService,MediaService mediaService){
-    return new WidgetDataSourceProvider(carouselService,mediaService);
+  WidgetDataSourceProvider widgetDataSourceProvider(CarouselService carouselService, MediaService mediaService) {
+    return new WidgetDataSourceProvider(carouselService, mediaService);
   }
-
 
   @Bean
   WidgetManagerDisplayFactory widgetManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-       WidgetService widgetService,WidgetDataSourceProvider widgetDataSourceProvider
-     , ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
-    return new WidgetManagerDisplayFactoryImpl(menuFactory, messageSource
-        ,  contextHolder,widgetService, breadCrumbs,widgetDataSourceProvider);
+      WidgetService widgetService, WidgetDataSourceProvider widgetDataSourceProvider, ContextHolder contextHolder,
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+    return new WidgetManagerDisplayFactoryImpl(menuFactory, messageSource, contextHolder, widgetService, breadCrumbs,
+        widgetDataSourceProvider);
   }
 
   @Bean
-  WidgetTranslator widgetTranslator(){
+  WidgetTranslator widgetTranslator() {
     return new WidgetTranslatorImpl();
   }
 
   @Bean
-  WidgetValidator widgetValidator(WebMessageSource messageSource){
+  WidgetValidator widgetValidator(WebMessageSource messageSource) {
     return new WidgetValidatorImpl(messageSource);
   }
 
   @Bean
-  WidgetDispatcher widgetDispatcher(WidgetService widgetService,WidgetValidator widgetValidator, WidgetTranslator widgetTranslator){
-    return new WidgetDispatcherImpl(widgetTranslator,widgetValidator,widgetService);
+  WidgetDispatcher widgetDispatcher(WidgetService widgetService, WidgetPageService widgetPageService,
+      WidgetValidator widgetValidator, WidgetTranslator widgetTranslator) {
+    return new WidgetDispatcherImpl(widgetTranslator, widgetValidator, widgetService, widgetPageService);
   }
 
 }

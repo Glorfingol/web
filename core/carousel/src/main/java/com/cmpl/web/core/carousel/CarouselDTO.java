@@ -7,7 +7,6 @@ import com.cmpl.web.core.common.dto.BaseDTO;
 public class CarouselDTO extends BaseDTO {
 
   private String name;
-  private String pageId;
   private List<CarouselItemDTO> carouselItems;
 
   public String getName() {
@@ -16,14 +15,6 @@ public class CarouselDTO extends BaseDTO {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public String getPageId() {
-    return pageId;
-  }
-
-  public void setPageId(String pageId) {
-    this.pageId = pageId;
   }
 
   public List<CarouselItemDTO> getCarouselItems() {

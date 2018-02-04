@@ -7,4 +7,5 @@ import com.cmpl.web.core.common.repository.BaseRepository;
 @Repository
 public interface WidgetRepository extends BaseRepository<Widget> {
 
+  Widget findByName(String widgetName);
 }

@@ -40,6 +40,4 @@ public interface NewsManagerDisplayFactory {
    */
   ModelAndView computeModelAndViewForBackPageCreateNews(Locale locale);
 
-  ModelAndView computeModelAndViewForNewsTemplate(Locale locale);
-
 }

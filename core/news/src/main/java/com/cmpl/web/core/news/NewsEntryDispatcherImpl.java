@@ -19,14 +19,14 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   private final NewsEntryService newsEntryService;
   private final FileService fileService;
 
-  private static final String NEWS_TEMPLATE_FILE_NAME = "news_entry.html";
+  private static final String NEWS_TEMPLATE_FILE_NAME = "blog_entry.html";
 
   public NewsEntryDispatcherImpl(NewsEntryRequestValidator validator, NewsEntryTranslator translator,
       NewsEntryService newsEntryService, FileService fileService) {
     this.validator = validator;
     this.translator = translator;
     this.newsEntryService = newsEntryService;
-    this.fileService = fileService; 
+    this.fileService = fileService;
   }
 
   @Override

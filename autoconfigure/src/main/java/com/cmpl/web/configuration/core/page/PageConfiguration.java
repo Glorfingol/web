@@ -23,17 +23,9 @@ import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.meta.MetaElementService;
 import com.cmpl.web.core.meta.OpenGraphMetaElementService;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.page.Page;
-import com.cmpl.web.core.page.PageDispatcher;
-import com.cmpl.web.core.page.PageDispatcherImpl;
-import com.cmpl.web.core.page.PageRepository;
-import com.cmpl.web.core.page.PageService;
-import com.cmpl.web.core.page.PageServiceImpl;
-import com.cmpl.web.core.page.PageTranslator;
-import com.cmpl.web.core.page.PageTranslatorImpl;
-import com.cmpl.web.core.page.PageValidator;
-import com.cmpl.web.core.page.PageValidatorImpl;
+import com.cmpl.web.core.page.*;
+import com.cmpl.web.core.widget.WidgetPageService;
+import com.cmpl.web.core.widget.WidgetService;
 
 @Configuration
 @EntityScan(basePackageClasses = Page.class)
@@ -43,9 +35,10 @@ public class PageConfiguration {
   @Bean
   PageManagerDisplayFactory pageManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, PageService pageService, MetaElementService metaElementService,
-      OpenGraphMetaElementService openGraphMetaElementService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
-    return new PageManagerDisplayFactoryImpl(menuFactory, messageSource, pageService, contextHolder,
-        metaElementService, openGraphMetaElementService, breadCrumbs);
+      OpenGraphMetaElementService openGraphMetaElementService, WidgetService widgetService,
+      WidgetPageService widgetPageService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+    return new PageManagerDisplayFactoryImpl(menuFactory, messageSource, pageService, contextHolder, metaElementService,
+        openGraphMetaElementService, widgetService, widgetPageService, breadCrumbs);
   }
 
   @Bean

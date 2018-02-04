@@ -17,13 +17,13 @@ public class PageTranslatorImplTest {
   @Test
   public void testFromCreateFormToDTO() throws Exception {
     PageCreateForm form = PageCreateFormBuilder.create().body("someBody").menuTitle("someMenuTitle").name("name")
-        .withNews(true).build();
+        .build();
 
     PageDTO result = translator.fromCreateFormToDTO(form);
     Assert.assertEquals(form.getBody(), result.getBody());
     Assert.assertEquals(form.getMenuTitle(), result.getMenuTitle());
     Assert.assertEquals(form.getName(), result.getName());
-    Assert.assertEquals(form.isWithNews(), result.isWithNews());
+
   }
 
   @Test

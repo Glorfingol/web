@@ -4,7 +4,7 @@ public class CarouselTranslatorImpl implements CarouselTranslator {
 
   @Override
   public CarouselDTO fromCreateFormToDTO(CarouselCreateForm form) {
-    return CarouselDTOBuilder.create().name(form.getName()).pageId(form.getPageId()).build();
+    return CarouselDTOBuilder.create().name(form.getName()).build();
   }
 
   @Override

@@ -93,4 +93,6 @@ public interface PageManagerDisplayFactory {
    * @return
    */
   ModelAndView computeModelAndViewForCreatePage(Locale locale);
+
+  ModelAndView computeModelAndViewForUpdatePageWidgets(Locale locale, String pageId);
 }

@@ -12,6 +12,7 @@ import com.cmpl.web.front.ui.media.MediaController;
 import com.cmpl.web.front.ui.page.PageController;
 import com.cmpl.web.front.ui.robot.RobotsController;
 import com.cmpl.web.front.ui.sitemap.SitemapController;
+import com.cmpl.web.front.ui.widgets.WidgetController;
 
 @Configuration
 public class FrontControllerConfiguration {
@@ -22,28 +23,33 @@ public class FrontControllerConfiguration {
   }
 
   @Bean
-  public MediaController frontMediaController(MediaService mediaService){
+  public MediaController frontMediaController(MediaService mediaService) {
     return new MediaController(mediaService);
   }
 
   @Bean
-  public PageController frontPageController(DisplayFactory displayFactory){
+  public PageController frontPageController(DisplayFactory displayFactory) {
     return new PageController(displayFactory);
   }
 
   @Bean
-  public RobotsController robotsController(){
+  public RobotsController robotsController() {
     return new RobotsController();
   }
 
   @Bean
-  public SitemapController sitemapController(SitemapService sitemapService){
+  public SitemapController sitemapController(SitemapService sitemapService) {
     return new SitemapController(sitemapService);
   }
 
   @Bean
-  public BlogController blogController( DisplayFactory displayFactory){
+  public BlogController blogController(DisplayFactory displayFactory) {
     return new BlogController(displayFactory);
+  }
+
+  @Bean
+  public WidgetController widgetController(DisplayFactory displayFactory) {
+    return new WidgetController(displayFactory);
   }
 
 }

@@ -17,6 +17,7 @@ import com.cmpl.web.core.meta.OpenGraphMetaElement;
 import com.cmpl.web.core.meta.OpenGraphMetaElementRepository;
 import com.cmpl.web.core.page.Page;
 import com.cmpl.web.core.page.PageRepository;
+import com.cmpl.web.core.widget.*;
 
 public class PageFactory {
 
@@ -31,10 +32,11 @@ public class PageFactory {
   public static void createPages(PageRepository pageRepository, MenuRepository menuRepository,
       MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository,
       CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
-      MediaRepository mediaRepository) {
+      MediaRepository mediaRepository, WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
     createIndex(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository,
-        carouselRepository, carouselItemRepository, mediaRepository);
-    createActualites(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository);
+        carouselRepository, carouselItemRepository, mediaRepository, widgetRepository, widgetPageRepository);
+    createActualites(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository,
+        widgetRepository, widgetPageRepository);
     createAppointment(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository);
     createCenter(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository);
     createContact(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository);
@@ -45,7 +47,7 @@ public class PageFactory {
   public static void createIndex(PageRepository pageRepository, MenuRepository menuRepository,
       MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository,
       CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
-      MediaRepository mediaRepository) {
+      MediaRepository mediaRepository, WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
 
     Page index = new Page();
     index.setMenuTitle("Accueil");
@@ -75,7 +77,6 @@ public class PageFactory {
 
     Carousel carouselHome = new Carousel();
     carouselHome.setName("home");
-    carouselHome.setPageId(pageId);
 
     carouselHome = carouselRepository.save(carouselHome);
     String carouselId = String.valueOf(carouselHome.getId());
@@ -112,15 +113,22 @@ public class PageFactory {
 
     carouselItemRepository.save(secondImage);
 
+    Widget widgetCarouselHome = WidgetBuilder.create().type(WIDGET_TYPE.CAROUSEL).name("carousel_home")
+        .entityId(carouselId).build();
+    widgetCarouselHome = widgetRepository.save(widgetCarouselHome);
+    WidgetPage widgetPage = WidgetPageBuilder.create().widgetId(String.valueOf(widgetCarouselHome.getId()))
+        .pageId(pageId).build();
+    widgetPageRepository.save(widgetPage);
+
   }
 
   public static void createActualites(PageRepository pageRepository, MenuRepository menuRepository,
-      MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository) {
+      MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository,
+      WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
 
     Page actualites = new Page();
     actualites.setMenuTitle("Actualites");
     actualites.setName("actualites");
-    actualites.setWithNews(true);
     actualites = pageRepository.save(actualites);
 
     String pageId = String.valueOf(actualites.getId());
@@ -144,6 +152,11 @@ public class PageFactory {
     metaElementRepository.save(computeMetaElement(DESCRIPTION, actualites.getMenuTitle(), pageId));
     openGraphMetaElementRepository.save(computeOpenGraphMetaElement(OG_TITLE, actualites.getMenuTitle(), pageId));
     openGraphMetaElementRepository.save(computeOpenGraphMetaElement(OG_DESCRIPTION, actualites.getMenuTitle(), pageId));
+
+    Widget blog = WidgetBuilder.create().name("blog").type(WIDGET_TYPE.BLOG).build();
+    blog = widgetRepository.save(blog);
+    WidgetPage widgetPage = WidgetPageBuilder.create().pageId(pageId).widgetId(String.valueOf(blog.getId())).build();
+    widgetPageRepository.save(widgetPage);
 
   }
 

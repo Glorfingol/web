@@ -32,7 +32,7 @@ public class CarouselDispatcherImpl implements CarouselDispatcher {
       CarouselResponse response = new CarouselResponse();
       response.setError(error);
       return response;
-    } 
+    }
 
     CarouselDTO carouselToCreate = translator.fromCreateFormToDTO(form);
     CarouselDTO createdCarousel = carouselService.createEntity(carouselToCreate);
@@ -51,7 +51,6 @@ public class CarouselDispatcherImpl implements CarouselDispatcher {
 
     CarouselDTO carouselToUpdate = carouselService.getEntity(form.getId());
     carouselToUpdate.setName(form.getName());
-    carouselToUpdate.setPageId(form.getPageId());
 
     CarouselDTO updatedCarousel = carouselService.updateEntity(carouselToUpdate);
 

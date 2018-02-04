@@ -16,12 +16,14 @@ import com.cmpl.web.core.meta.OpenGraphMetaElementRepository;
 import com.cmpl.web.core.news.NewsContentRepository;
 import com.cmpl.web.core.news.NewsEntryRepository;
 import com.cmpl.web.core.page.PageRepository;
+import com.cmpl.web.core.widget.WidgetPageRepository;
+import com.cmpl.web.core.widget.WidgetRepository;
 
 /**
  * Main du projet, lance une application springboot
  * 
  * @author Louis
- * */
+ */
 @SpringBootApplication
 @EnableCMPLWeb
 public class WebLauncher {
@@ -42,13 +44,14 @@ public class WebLauncher {
       final MetaElementRepository metaElementRepository,
       final OpenGraphMetaElementRepository openGraphMetaElementRepository, final MenuRepository menuRepository,
       final CarouselRepository carouselRepository, final CarouselItemRepository carouselItemRepository,
-      final MediaRepository mediaRepository) {
+      final MediaRepository mediaRepository, final WidgetRepository widgetRepository,
+      final WidgetPageRepository widgetPageRepository) {
     return (args) -> {
 
       NewsFactory.createNewsEntries(newsEntryRepository, newsContentRepository);
 
       PageFactory.createPages(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository,
-          carouselRepository, carouselItemRepository, mediaRepository);
+          carouselRepository, carouselItemRepository, mediaRepository, widgetRepository, widgetPageRepository);
 
     };
   }

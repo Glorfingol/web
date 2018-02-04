@@ -42,7 +42,7 @@ public class FileServiceImpl implements FileService {
     try {
       return new String(Files.readAllBytes(Paths.get(contextHolder.getTemplateBasePath() + fileName)));
     } catch (IOException e) {
-      LOGGER.error("Impossible de lire le contenu du fichier " + fileName, e);
+      LOGGER.error("Impossible de lire le contenu du fichier " + fileName);
     }
     return null;
   }
@@ -64,7 +64,7 @@ public class FileServiceImpl implements FileService {
       return new ByteArrayInputStream(new byte[]{});
     }
   }
- 
+
   @Override
   public String readDefaultTemplateContent(String templateName) {
     try {

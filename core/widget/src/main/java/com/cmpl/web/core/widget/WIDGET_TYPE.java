@@ -6,5 +6,6 @@ public enum WIDGET_TYPE {
   CAROUSEL,
   HTML,
   IMAGE,
-  VIDEO;
+  VIDEO,
+  MENU;
 }

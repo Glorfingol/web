@@ -33,7 +33,9 @@ public enum ERROR_CAUSE {
   EMPTY_CAROUSEL_ITEM_ID("empty.carousel.item.id"),
 
   EMPTY_WIDGET_NAME("empty.widget.name"),
-  EMPTY_WIDGET_TYPE("empty.widget.type");
+  EMPTY_WIDGET_TYPE("empty.widget.type"),
+  EMPTY_WIDGET_ID("empty.widget.id"),
+  EMPTY_WIDGET_PAGE_ID("empty.widget.page.id");
 
   private String causeKey;
 

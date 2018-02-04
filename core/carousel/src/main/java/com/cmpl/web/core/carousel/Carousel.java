@@ -11,9 +11,7 @@ import com.cmpl.web.core.common.dao.BaseEntity;
 public class Carousel extends BaseEntity {
 
   @Column(name = "name", unique = true)
-  private String name; 
-  @Column(name = "page_id")
-  private String pageId;
+  private String name;
 
   public String getName() {
     return name;
@@ -21,14 +19,6 @@ public class Carousel extends BaseEntity {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public String getPageId() {
-    return pageId;
-  }
-
-  public void setPageId(String pageId) {
-    this.pageId = pageId;
   }
 
 }

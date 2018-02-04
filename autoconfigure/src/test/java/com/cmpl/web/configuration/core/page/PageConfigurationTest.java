@@ -17,15 +17,9 @@ import com.cmpl.web.core.factory.page.PageManagerDisplayFactoryImpl;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.meta.MetaElementService;
 import com.cmpl.web.core.meta.OpenGraphMetaElementService;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.page.PageDispatcherImpl;
-import com.cmpl.web.core.page.PageRepository;
-import com.cmpl.web.core.page.PageService;
-import com.cmpl.web.core.page.PageServiceImpl;
-import com.cmpl.web.core.page.PageTranslator;
-import com.cmpl.web.core.page.PageTranslatorImpl;
-import com.cmpl.web.core.page.PageValidator;
-import com.cmpl.web.core.page.PageValidatorImpl;
+import com.cmpl.web.core.page.*;
+import com.cmpl.web.core.widget.WidgetPageService;
+import com.cmpl.web.core.widget.WidgetService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PageConfigurationTest {
@@ -51,6 +45,10 @@ public class PageConfigurationTest {
   @Mock
   private FileService fileService;
   @Mock
+  private WidgetService widgetService;
+  @Mock
+  private WidgetPageService widgetPageService;
+  @Mock
   private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
 
   @Spy
@@ -60,23 +58,22 @@ public class PageConfigurationTest {
   @Test
   public void testPageManagerDisplayFactory() throws Exception {
 
-    Assert.assertEquals(
-        PageManagerDisplayFactoryImpl.class,
+    Assert.assertEquals(PageManagerDisplayFactoryImpl.class,
         configuration.pageManagerDisplayFactory(contextHolder, menuFactory, messageSource, pageService,
-            metaElementService, openGraphMetaElementService, breadCrumbRegistry).getClass());
+            metaElementService, openGraphMetaElementService, widgetService, widgetPageService, breadCrumbRegistry)
+            .getClass());
   }
 
   @Test
   public void testPageDispatcher() throws Exception {
-    Assert.assertEquals(PageDispatcherImpl.class, configuration.pageDispatcher(validator, translator, pageService)
-        .getClass());
+    Assert.assertEquals(PageDispatcherImpl.class,
+        configuration.pageDispatcher(validator, translator, pageService).getClass());
   }
 
   @Test
   public void testPageService() throws Exception {
-    Assert.assertEquals(PageServiceImpl.class,
-        configuration.pageService(pageRepository, metaElementService, openGraphMetaElementService, fileService)
-            .getClass());
+    Assert.assertEquals(PageServiceImpl.class, configuration
+        .pageService(pageRepository, metaElementService, openGraphMetaElementService, fileService).getClass());
   }
 
   @Test

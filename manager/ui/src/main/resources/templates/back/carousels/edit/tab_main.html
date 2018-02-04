@@ -1,30 +1,31 @@
 <form id="carouselEditForm" th:object="${updateForm}">
     <div class="card">
         <div class="card-body">
-            <div class="form-group mb-3" id="formInputName" >
-                <label th:text="#{carousel.name.label}" />
+            <div class="form-group mb-3" id="formInputName">
+                <label th:text="#{carousel.name.label}"/>
                 <input type="text" class="form-control" th:field="*{name}"/>
                 <div id="feedbackName"></div>
                 <small class="form-text text-muted" th:text="#{carousel.name.help}"/>
             </div>
-            <div class="form-group mb-3" id="formInputPage">
-                <label th:text="#{carousel.page.label}" />
-                <select th:field="*{pageId}" class="form-control">
-                    <option value=""></option>
-                    <option th:each="page : ${pages}" th:value="${page.id}" th:text="${page.name}"></option>
-                </select>
-                 <div id="feedbackPage" class="form-control-label"></div>
-                <small class="form-text text-muted" th:text="#{carousel.page.help}"/>
-            </div>
-            <input type="hidden"  th:field="*{id}"/>
-            <input type="hidden"  th:field="*{creationDate}"/>
-            <input type="hidden"  th:field="*{modificationDate}"/>
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{creationDate}"/>
+            <input type="hidden" th:field="*{modificationDate}"/>
         </div>
         <div class="card-footer">
             <div class="float-right">
-              <a class="btn btn-md btn-danger fa fa-times fa-white"  onclick="cancelUpdateCarousel()"></a>
-              <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postUpdateCarouselForm()"></a>
+                <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdateCarousel()"></a>
+                <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdateCarouselForm()"></a>
             </div>
         </div>
     </div>
 </form>
+<div class="card card-loader">
+    <div class="loader"/>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+            $(".card-loader").hide();
+            $(".loader").hide();
+        }
+    );
+</script>

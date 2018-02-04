@@ -5,7 +5,6 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 public class CarouselBuilder extends BaseBuilder<Carousel> {
 
   private String name;
-  private String pageId;
 
   private CarouselBuilder() {
 
@@ -16,11 +15,6 @@ public class CarouselBuilder extends BaseBuilder<Carousel> {
     return this;
   }
 
-  public CarouselBuilder pageId(String pageId) {
-    this.pageId = pageId;
-    return this;
-  }
-
   @Override
   public Carousel build() {
     Carousel carousel = new Carousel();
@@ -28,7 +22,6 @@ public class CarouselBuilder extends BaseBuilder<Carousel> {
     carousel.setId(id);
     carousel.setModificationDate(modificationDate);
     carousel.setName(name);
-    carousel.setPageId(pageId);
     return carousel;
   }
 

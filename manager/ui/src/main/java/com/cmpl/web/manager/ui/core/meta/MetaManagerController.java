@@ -7,11 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.meta.MetaElementCreateForm;
@@ -52,7 +48,7 @@ public class MetaManagerController {
   @DeleteMapping(value = "/manager/pages/{pageId}/metas/{metaId}", produces = "application/json")
   public ResponseEntity<MetaElementResponse> deleteMetaElement(@PathVariable(name = "metaId") String metaId,
       Locale locale) {
-    LOGGER.info("Tentative de création d'un meta element");
+    LOGGER.info("Tentative de suppression d'un meta element");
     try {
       dispatcher.deleteMetaEntity(metaId, locale);
     } catch (BaseException e) {
@@ -85,7 +81,7 @@ public class MetaManagerController {
   public ResponseEntity<MetaElementResponse> deleteOpenGraphMetaElement(
       @PathVariable(name = "openGraphMetaId") String openGraphMetaId, Locale locale) {
 
-    LOGGER.info("Tentative de création d'un meta element");
+    LOGGER.info("Tentative de suppression d'un meta element");
     try {
       dispatcher.deleteOpenGraphMetaEntity(openGraphMetaId, locale);
     } catch (BaseException e) {

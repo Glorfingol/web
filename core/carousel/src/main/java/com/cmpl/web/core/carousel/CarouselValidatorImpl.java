@@ -20,21 +20,18 @@ public class CarouselValidatorImpl extends BaseValidator implements CarouselVali
 
   @Override
   public Error validateCreate(CarouselCreateForm form, Locale locale) {
-    return validateCarousel(form.getName(), form.getPageId(), locale);
+    return validateCarousel(form.getName(), locale);
   }
 
   @Override
   public Error validateUpdate(CarouselUpdateForm form, Locale locale) {
-    return validateCarousel(form.getName(), form.getPageId(), locale);
+    return validateCarousel(form.getName(), locale);
   }
 
-  Error validateCarousel(String name, String pageId, Locale locale) {
+  Error validateCarousel(String name, Locale locale) {
     List<ErrorCause> causes = new ArrayList<>();
     if (!isStringValid(name)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_CAROUSEL_NAME, locale));
-    }
-    if (!isStringValid(pageId)) {
-      causes.add(computeCause(ERROR_CAUSE.EMPTY_CAROUSEL_PAGE, locale));
     }
 
     if (!CollectionUtils.isEmpty(causes)) {

@@ -11,7 +11,6 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
   private String name;
   private String menuTitle;
   private String body;
-  private boolean withNews;
   private String header;
   private String footer;
 
@@ -34,11 +33,6 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
 
   public PageDTOBuilder body(String body) {
     this.body = body;
-    return this;
-  }
-
-  public PageDTOBuilder withNews(boolean withNews) {
-    this.withNews = withNews;
     return this;
   }
 
@@ -75,7 +69,6 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
     pageDTO.setModificationDate(modificationDate);
     pageDTO.setName(name);
     pageDTO.setOpenGraphMetaElements(openGraphMetaElements);
-    pageDTO.setWithNews(withNews);
 
     return pageDTO;
   }

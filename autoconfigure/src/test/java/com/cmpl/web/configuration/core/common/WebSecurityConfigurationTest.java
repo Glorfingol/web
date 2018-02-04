@@ -33,7 +33,7 @@ public class WebSecurityConfigurationTest {
   public void testPrepareAuthorizedUrls() throws Exception {
     String[] authorizedUrls = new String[]{"/", "/pages/**", "/robots", "/robot", "/robot.txt", "/robots.txt",
         "/bootstrap/**", "/jquery/**", "/tether/**", "/fontawesome/**", "/ckeditor/**", "/js/**", "/img/**", "/css/**",
-        "/**/favicon.ico", "/sitemap.xml", "/public/**","/blog/**"};
+        "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**", "/widgets/**"};
 
     String[] result = configuration.prepareAuthorizedUrls();
 

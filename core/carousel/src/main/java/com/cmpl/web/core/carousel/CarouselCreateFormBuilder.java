@@ -5,7 +5,6 @@ import com.cmpl.web.core.common.builder.Builder;
 public class CarouselCreateFormBuilder extends Builder<CarouselCreateForm> {
 
   private String name;
-  private String pageId;
 
   private CarouselCreateFormBuilder() {
 
@@ -16,16 +15,10 @@ public class CarouselCreateFormBuilder extends Builder<CarouselCreateForm> {
     return this;
   }
 
-  public CarouselCreateFormBuilder pageId(String pageId) {
-    this.pageId = pageId;
-    return this;
-  }
-
   @Override
   public CarouselCreateForm build() {
     CarouselCreateForm form = new CarouselCreateForm();
     form.setName(name);
-    form.setPageId(pageId);
     return form;
   }
 

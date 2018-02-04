@@ -17,7 +17,6 @@ public class PageDTO extends BaseDTO {
   private String name;
   private String menuTitle;
   private String body;
-  private boolean withNews;
   private String header;
   private String footer;
 
@@ -62,14 +61,6 @@ public class PageDTO extends BaseDTO {
 
   public void setOpenGraphMetaElements(List<OpenGraphMetaElementDTO> openGraphMetaElements) {
     this.openGraphMetaElements = openGraphMetaElements;
-  }
-
-  public boolean isWithNews() {
-    return withNews;
-  }
-
-  public void setWithNews(boolean withNews) {
-    this.withNews = withNews;
   }
 
   public String getHeader() {

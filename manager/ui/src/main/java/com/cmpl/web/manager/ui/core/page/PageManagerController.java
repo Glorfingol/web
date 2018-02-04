@@ -7,22 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.factory.page.PageManagerDisplayFactory;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.page.PageCreateForm;
-import com.cmpl.web.core.page.PageDispatcher;
-import com.cmpl.web.core.page.PageResponse;
-import com.cmpl.web.core.page.PageUpdateForm;
+import com.cmpl.web.core.page.*;
 
 /**
  * Controller pour la gestion des pages dans le back office
@@ -149,4 +138,9 @@ public class PageManagerController {
     return pageManagerDisplayFactory.computeModelAndViewForUpdatePageOpenGraphMeta(locale, pageId);
   }
 
+  @GetMapping(value = "/{pageId}/_widgets")
+  public ModelAndView printViewUpdatePageWidgets(@PathVariable(value = "pageId") String pageId, Locale locale) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie widgets");
+    return pageManagerDisplayFactory.computeModelAndViewForUpdatePageWidgets(locale, pageId);
+  }
 }

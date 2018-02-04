@@ -6,7 +6,6 @@ public class PageCreateFormBuilder extends Builder<PageCreateForm> {
 
   private String name = "";
   private String menuTitle = "";
-  private boolean withNews = false;
   private String body = "";
   private String header = "";
   private String footer = "";
@@ -22,11 +21,6 @@ public class PageCreateFormBuilder extends Builder<PageCreateForm> {
 
   public PageCreateFormBuilder menuTitle(String menuTitle) {
     this.menuTitle = menuTitle;
-    return this;
-  }
-
-  public PageCreateFormBuilder withNews(boolean withNews) {
-    this.withNews = withNews;
     return this;
   }
 
@@ -53,7 +47,6 @@ public class PageCreateFormBuilder extends Builder<PageCreateForm> {
     form.setHeader(header);
     form.setMenuTitle(menuTitle);
     form.setName(name);
-    form.setWithNews(withNews);
     return form;
   }
 

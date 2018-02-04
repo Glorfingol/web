@@ -8,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 public class CarouselUpdateForm {
 
   private String name;
-  private String pageId;
   private Long id;
   @DateTimeFormat(iso = ISO.DATE)
   private LocalDate creationDate;
@@ -20,7 +19,6 @@ public class CarouselUpdateForm {
 
   public CarouselUpdateForm(CarouselDTO carousel) {
     this.name = carousel.getName();
-    this.pageId = carousel.getPageId();
     this.id = carousel.getId();
     this.creationDate = carousel.getCreationDate();
     this.modificationDate = carousel.getModificationDate();
@@ -32,14 +30,6 @@ public class CarouselUpdateForm {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public String getPageId() {
-    return pageId;
-  }
-
-  public void setPageId(String pageId) {
-    this.pageId = pageId;
   }
 
   public Long getId() {

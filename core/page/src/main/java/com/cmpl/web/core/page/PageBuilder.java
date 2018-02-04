@@ -6,7 +6,6 @@ public class PageBuilder extends BaseBuilder<Page> {
 
   private String name;
   private String menuTitle;
-  private boolean withNews;
 
   private PageBuilder() {
 
@@ -22,11 +21,6 @@ public class PageBuilder extends BaseBuilder<Page> {
     return this;
   }
 
-  public PageBuilder withNews(boolean withNews) {
-    this.withNews = withNews;
-    return this;
-  }
-
   @Override
   public Page build() {
     Page page = new Page();
@@ -35,7 +29,6 @@ public class PageBuilder extends BaseBuilder<Page> {
     page.setMenuTitle(menuTitle);
     page.setModificationDate(modificationDate);
     page.setName(name);
-    page.setWithNews(withNews);
     return page;
   }
 

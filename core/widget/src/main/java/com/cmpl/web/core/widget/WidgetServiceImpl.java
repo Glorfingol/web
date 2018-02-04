@@ -5,35 +5,44 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.file.FileService;
 
-public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO,Widget> implements WidgetService{
-
+public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implements WidgetService {
 
   private final FileService fileService;
+  private final WidgetRepository repository;
   private static final String WIDGET_PREFIX = "widget_";
   private static final String WIDGET_SUFFIX = ".html";
 
-  public WidgetServiceImpl(WidgetRepository repository,FileService fileService) {
+  public WidgetServiceImpl(WidgetRepository repository, FileService fileService) {
     super(repository);
     this.fileService = fileService;
+    this.repository = repository;
   }
 
+  @Override
+  @Transactional
+  public WidgetDTO createEntity(WidgetDTO dto) {
+    WidgetDTO updatedWidget = super.createEntity(dto);
 
+    fileService.saveFileOnSystem(WIDGET_PREFIX + dto.getName() + WIDGET_SUFFIX, dto.getPersonalization());
+
+    return updatedWidget;
+  }
 
   @Override
   @Transactional
   public WidgetDTO updateEntity(WidgetDTO dto) {
     WidgetDTO updatedWidget = super.updateEntity(dto);
 
-    fileService.saveFileOnSystem(WIDGET_PREFIX +dto.getName() + WIDGET_SUFFIX, dto.getPersonalization());
+    fileService.saveFileOnSystem(WIDGET_PREFIX + dto.getName() + WIDGET_SUFFIX, dto.getPersonalization());
 
     return updatedWidget;
   }
 
-
   @Override
   public WidgetDTO getEntity(Long widgetId) {
     WidgetDTO fetchedWidget = super.getEntity(widgetId);
-    fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(WIDGET_PREFIX +fetchedWidget.getName() + WIDGET_SUFFIX));
+    fetchedWidget.setPersonalization(
+        fileService.readFileContentFromSystem(WIDGET_PREFIX + fetchedWidget.getName() + WIDGET_SUFFIX));
     return fetchedWidget;
   }
 
@@ -47,7 +56,12 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO,Widget> impleme
   @Override
   protected Widget toEntity(WidgetDTO dto) {
     Widget entity = WidgetBuilder.create().build();
-    fillObject(dto,entity);
+    fillObject(dto, entity);
     return entity;
+  }
+
+  @Override
+  public WidgetDTO findByName(String widgetName) {
+    return toDTO(repository.findByName(widgetName));
   }
 }

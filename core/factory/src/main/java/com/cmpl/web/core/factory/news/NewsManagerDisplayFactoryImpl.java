@@ -19,19 +19,7 @@ import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.news.NewsContentDTO;
-import com.cmpl.web.core.news.NewsContentRequest;
-import com.cmpl.web.core.news.NewsContentRequestBuilder;
-import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsEntryDisplayBean;
-import com.cmpl.web.core.news.NewsEntryRequest;
-import com.cmpl.web.core.news.NewsEntryRequestBuilder;
-import com.cmpl.web.core.news.NewsEntryService;
-import com.cmpl.web.core.news.NewsImageDTO;
-import com.cmpl.web.core.news.NewsImageRequest;
-import com.cmpl.web.core.news.NewsImageRequestBuilder;
-import com.cmpl.web.core.news.NewsTemplate;
-import com.cmpl.web.core.news.NewsTemplateBuilder;
+import com.cmpl.web.core.news.*;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 /**
@@ -40,11 +28,11 @@ import com.cmpl.web.core.page.BACK_PAGE;
  * @author Louis
  *
  */
-public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDisplayBean> implements
-    NewsManagerDisplayFactory {
+public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDisplayBean>
+    implements NewsManagerDisplayFactory {
 
-  private static final String NEWS_TEMPLATE_FILE_NAME = "news_entry.html";
-  private static final String RESOURCE_NEWS_TEMPLATE_FILE_NAME = "templates/pages/actualites/news_entry.html";
+  private static final String NEWS_TEMPLATE_FILE_NAME = "blog_entry.html";
+  private static final String RESOURCE_NEWS_TEMPLATE_FILE_NAME = "templates/widgets/blog_entry.html";
 
   private final NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
@@ -90,8 +78,8 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       return new PageImpl<>(newsEntries);
     }
 
-    pagedNewsEntries.getContent().forEach(
-        newsEntryFromDB -> newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB)));
+    pagedNewsEntries.getContent()
+        .forEach(newsEntryFromDB -> newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB)));
     return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
   }
 
@@ -110,7 +98,6 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
     String labelPar = getI18nValue("news.entry.by", locale);
     String labelLe = getI18nValue("news.entry.the", locale);
-
 
     return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
         contextHolder.getDateFormat());
@@ -168,18 +155,6 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     return NewsContentRequestBuilder.create().content(dto.getNewsContent().getContent())
         .id(dto.getNewsContent().getId()).creationDate(dto.getNewsContent().getCreationDate())
         .modificationDate(dto.getNewsContent().getModificationDate()).build();
-  }
-
-  @Override
-  public ModelAndView computeModelAndViewForNewsTemplate(Locale locale) {
-    ModelAndView newsTemplateManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_TEMPLATE, locale);
-    String templateBody = fileService.readFileContentFromSystem(NEWS_TEMPLATE_FILE_NAME);
-    if (templateBody == null) {
-      templateBody = fileService.readDefaultTemplateContent(RESOURCE_NEWS_TEMPLATE_FILE_NAME);
-    }
-    NewsTemplate template = NewsTemplateBuilder.create().body(templateBody).build();
-    newsTemplateManager.addObject("newsTemplate", template);
-    return newsTemplateManager;
   }
 
   @Override

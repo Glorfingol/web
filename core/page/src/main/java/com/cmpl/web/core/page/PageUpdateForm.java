@@ -26,7 +26,6 @@ public class PageUpdateForm {
   public PageUpdateForm(PageDTO page) {
     this.name = page.getName();
     this.menuTitle = page.getMenuTitle();
-    this.withNews = page.isWithNews();
     this.body = page.getBody();
     this.footer = page.getFooter();
     this.header = page.getHeader();

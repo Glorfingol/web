@@ -20,8 +20,6 @@ public class Page extends BaseEntity {
   private String name;
   @Column(name = "menu_title")
   private String menuTitle;
-  @Column(name = "with_news")
-  private boolean withNews;
 
   public String getName() {
     return name;
@@ -37,14 +35,6 @@ public class Page extends BaseEntity {
 
   public void setMenuTitle(String menuTitle) {
     this.menuTitle = menuTitle;
-  }
-
-  public boolean isWithNews() {
-    return withNews;
-  }
-
-  public void setWithNews(boolean withNews) {
-    this.withNews = withNews;
   }
 
 }

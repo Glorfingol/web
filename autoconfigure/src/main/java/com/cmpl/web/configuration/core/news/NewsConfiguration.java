@@ -23,29 +23,13 @@ import com.cmpl.web.core.file.ImageConverterService;
 import com.cmpl.web.core.file.ImageService;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
-import com.cmpl.web.core.news.NewsContent;
-import com.cmpl.web.core.news.NewsContentRepository;
-import com.cmpl.web.core.news.NewsContentService;
-import com.cmpl.web.core.news.NewsContentServiceImpl;
-import com.cmpl.web.core.news.NewsEntry;
-import com.cmpl.web.core.news.NewsEntryDispatcher;
-import com.cmpl.web.core.news.NewsEntryDispatcherImpl;
-import com.cmpl.web.core.news.NewsEntryRepository;
-import com.cmpl.web.core.news.NewsEntryRequestValidator;
-import com.cmpl.web.core.news.NewsEntryRequestValidatorImpl;
-import com.cmpl.web.core.news.NewsEntryService;
-import com.cmpl.web.core.news.NewsEntryServiceImpl;
-import com.cmpl.web.core.news.NewsEntryTranslator;
-import com.cmpl.web.core.news.NewsEntryTranslatorImpl;
-import com.cmpl.web.core.news.NewsImage;
-import com.cmpl.web.core.news.NewsImageRepository;
-import com.cmpl.web.core.news.NewsImageService;
-import com.cmpl.web.core.news.NewsImageServiceImpl;
+import com.cmpl.web.core.news.*;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 @Configuration
-@EntityScan(basePackageClasses = {NewsEntry.class, NewsContent.class,NewsImage.class})
-@EnableJpaRepositories(basePackageClasses = {NewsEntryRepository.class,NewsImageRepository.class,NewsContentRepository.class})
+@EntityScan(basePackageClasses = {NewsEntry.class, NewsContent.class, NewsImage.class})
+@EnableJpaRepositories(basePackageClasses = {NewsEntryRepository.class, NewsImageRepository.class,
+    NewsContentRepository.class})
 public class NewsConfiguration {
 
   @Bean
@@ -75,11 +59,6 @@ public class NewsConfiguration {
     return BreadCrumbBuilder.create().items(newsBreadCrumbItems()).page(BACK_PAGE.NEWS_CREATE).build();
   }
 
-  @Bean
-  BreadCrumb newsTemplateBreadCrumb() {
-    return BreadCrumbBuilder.create().items(newsBreadCrumbItems()).page(BACK_PAGE.NEWS_TEMPLATE).build();
-  }
-
   List<BreadCrumbItem> newsBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
     items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
@@ -91,7 +70,7 @@ public class NewsConfiguration {
     List<BreadCrumbItem> items = new ArrayList<>();
     items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
     items.add(BreadCrumbItemBuilder.create().text("back.news.title").href("back.news.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("Modifier une entrée").href("/manager/actualite/modifier/").build());
+    items.add(BreadCrumbItemBuilder.create().text("news.update.title").href("#").build());
     return items;
   }
 
@@ -99,7 +78,7 @@ public class NewsConfiguration {
     List<BreadCrumbItem> items = new ArrayList<>();
     items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("/manager/").build());
     items.add(BreadCrumbItemBuilder.create().text("back.news.title").href("back.news.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("news.create.title").href("news.create.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("news.create.title").href("#").build());
     return items;
   }
 

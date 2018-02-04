@@ -1,43 +1,32 @@
 <form id="pageCreateForm" th:object="${createForm}">
     <div class="card mb-4">
         <div class="card-body">
-	        <div class="form-group mb-3" id="formInputName">
-		        <label th:text="#{page.name.label}" />
-		        <input type="text" class="form-control" th:field="*{name}"/>
-		        <div id="feedbackName" class="form-control-label"></div>
-		        <small class="form-text text-muted" th:text="#{page.name.help}"/>
-		    </div>
-		    <div class="form-group mb-3" id="formInputMenuTitle">
-		        <label th:text="#{page.menuTitle.label}" />
-		        <input type="text" class="form-control" th:field="*{menuTitle}"/>
-		        <div id="feedbackMenuTitle" class="form-control-label" ></div>
-		        <small class="form-text text-muted" th:text="#{page.menuTitle.help}"/>
-		    </div>
-		    <div class="form-group mb-3 " id="formInputWithNews">
-                <label th:text="#{page.withNews.label}" />
-                <div class="form-control-label onoffswitch">
-                    <input type="checkbox" id="withNews" name="onoffswitch" class="onoffswitch-checkbox" th:value="${createForm.withNews}" th:checked="${createForm.withNews}"/>
-                    <label class="onoffswitch-label" for="withNews">
-                      <span class="onoffswitch-inner"></span>
-                      <span class="onoffswitch-switch"></span>
-                    </label>
-                </div>
-                <small class="form-text text-muted" th:text="#{page.withNews.help}"/>
+            <div class="form-group mb-3" id="formInputName">
+                <label th:text="#{page.name.label}"/>
+                <input type="text" class="form-control" th:field="*{name}"/>
+                <div id="feedbackName" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{page.name.help}"/>
             </div>
-		    <div class="form-group mb-3" id="formInputBody">
-                <label th:text="#{page.body.label}" />
+            <div class="form-group mb-3" id="formInputMenuTitle">
+                <label th:text="#{page.menuTitle.label}"/>
+                <input type="text" class="form-control" th:field="*{menuTitle}"/>
+                <div id="feedbackMenuTitle" class="form-control-label"></div>
+                <small class="form-text text-muted" th:text="#{page.menuTitle.help}"/>
+            </div>
+            <div class="form-group mb-3" id="formInputBody">
+                <label th:text="#{page.body.label}"/>
                 <textarea rows="3" id="pageBody" class="form-control" th:field="*{body}"/>
                 <div id="feedbackBody" class="form-control-label"></div>
                 <small class="form-text text-muted" th:text="#{page.body.help}"/>
             </div>
             <div class="form-group mb-3" id="formInputHeader">
-                <label th:text="#{page.header.label}" />
+                <label th:text="#{page.header.label}"/>
                 <textarea rows="3" id="pageHeader" class="form-control" th:field="*{header}"/>
                 <div id="feedbackHeader" class="form-control-label"></div>
                 <small class="form-text text-muted" th:text="#{page.header.help}"/>
             </div>
             <div class="form-group mb-3" id="formInputFooter">
-                <label th:text="#{page.footer.label}" />
+                <label th:text="#{page.footer.label}"/>
                 <textarea rows="3" id="pageFooter" class="form-control" th:field="*{footer}"/>
                 <div id="feedbackFooter" class="form-control-label"></div>
                 <small class="form-text text-muted" th:text="#{page.footer.help}"/>
@@ -45,19 +34,21 @@
         </div>
         <div class="card-footer">
             <div class="float-right">
-		        <a class="btn btn-md btn-danger collapsed fa fa-times fa-white" 
-		           href="/manager/pages" 
-		        ></a>
-		        <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postCreatePageForm()"></a>
-		    </div>
+                <a class="btn btn-md btn-danger collapsed fa fa-times fa-white"
+                   href="/manager/pages"
+                ></a>
+                <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postCreatePageForm()"></a>
+            </div>
         </div>
     </div>
 </form>
-<div class="loader"/> 
+<div class="card card-loader">
+    <div class="loader"/>
+</div>
 <script type="text/javascript">
-$(document).ready(function(){
+    $(document).ready(function () {
         CKEDITOR.replace("pageBody");
         CKEDITOR.replace("pageHeader");
         CKEDITOR.replace("pageFooter");
-});
+    });
 </script>

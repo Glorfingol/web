@@ -1,6 +1,5 @@
 package com.cmpl.web.manager.ui.core.widget;
 
-
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -8,14 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
@@ -34,11 +26,11 @@ public class WidgetManagerController {
   private final WidgetManagerDisplayFactory widgetManagerDisplayFactory;
   private final WidgetDispatcher widgetDispatcher;
 
-  public WidgetManagerController(WidgetManagerDisplayFactory widgetManagerDisplayFactory, WidgetDispatcher widgetDispatcher){
-   this.widgetManagerDisplayFactory = widgetManagerDisplayFactory;
-   this.widgetDispatcher = widgetDispatcher;
+  public WidgetManagerController(WidgetManagerDisplayFactory widgetManagerDisplayFactory,
+      WidgetDispatcher widgetDispatcher) {
+    this.widgetManagerDisplayFactory = widgetManagerDisplayFactory;
+    this.widgetDispatcher = widgetDispatcher;
   }
-
 
   @GetMapping
   public ModelAndView printViewWidgets(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
@@ -56,16 +48,15 @@ public class WidgetManagerController {
 
   }
 
-  @GetMapping(value="/_create")
+  @GetMapping(value = "/_create")
   public ModelAndView printCreateWidget(Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.WIDGET_CREATE.name());
     return widgetManagerDisplayFactory.computeModelAndViewForCreateWidget(locale);
   }
 
-
-  @PostMapping
+  @PostMapping(produces = "application/json")
   @ResponseBody
-  public ResponseEntity<WidgetResponse> createWidget(@RequestBody WidgetCreateForm createForm,Locale locale) {
+  public ResponseEntity<WidgetResponse> createWidget(@RequestBody WidgetCreateForm createForm, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
     try {
       WidgetResponse response = widgetDispatcher.createEntity(createForm, locale);
@@ -85,8 +76,6 @@ public class WidgetManagerController {
     return widgetManagerDisplayFactory.computeModelAndViewForUpdateWidget(locale, widgetId);
   }
 
-
-
   @GetMapping(value = "/{widgetId}/_main")
   public ModelAndView printViewUpdateWidgetMain(@PathVariable(value = "widgetId") String widgetId, Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId + " pour la partie main");
@@ -94,16 +83,16 @@ public class WidgetManagerController {
   }
 
   @GetMapping(value = "/{widgetId}/_personalization")
-  public ModelAndView printViewUpdateWidgetPersonalization(@PathVariable(value = "widgetId") String widgetId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId + " pour la partie personnalisation");
+  public ModelAndView printViewUpdateWidgetPersonalization(@PathVariable(value = "widgetId") String widgetId,
+      Locale locale) {
+    LOGGER.info(
+        "Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId + " pour la partie personnalisation");
     return widgetManagerDisplayFactory.computeModelAndViewForUpdateWidgetPersonalization(locale, widgetId);
   }
 
-
-
-  @PutMapping(value = "/{widgetId}")
+  @PutMapping(value = "/{widgetId}", produces = "application/json")
   @ResponseBody
-  public ResponseEntity<WidgetResponse> updateWidget(@RequestBody WidgetUpdateForm updateForm,Locale locale) {
+  public ResponseEntity<WidgetResponse> updateWidget(@RequestBody WidgetUpdateForm updateForm, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
     try {
       WidgetResponse response = widgetDispatcher.updateEntity(updateForm, locale);
@@ -116,7 +105,5 @@ public class WidgetManagerController {
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
   }
-
-
 
 }

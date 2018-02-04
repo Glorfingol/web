@@ -7,7 +7,6 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 public class CarouselDTOBuilder extends BaseBuilder<CarouselDTO> {
 
   private String name;
-  private String pageId;
   private List<CarouselItemDTO> carouselItems;
 
   private CarouselDTOBuilder() {
@@ -16,11 +15,6 @@ public class CarouselDTOBuilder extends BaseBuilder<CarouselDTO> {
 
   public CarouselDTOBuilder name(String name) {
     this.name = name;
-    return this;
-  }
-
-  public CarouselDTOBuilder pageId(String pageId) {
-    this.pageId = pageId;
     return this;
   }
 
@@ -37,7 +31,6 @@ public class CarouselDTOBuilder extends BaseBuilder<CarouselDTO> {
     dto.setId(id);
     dto.setModificationDate(modificationDate);
     dto.setName(name);
-    dto.setPageId(pageId);
     return dto;
   }
 
