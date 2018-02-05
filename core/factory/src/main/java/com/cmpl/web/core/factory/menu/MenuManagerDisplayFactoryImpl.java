@@ -52,7 +52,7 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   public ModelAndView computeModelAndViewForViewAllMenus(Locale locale, int pageNumber) {
     ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_VIEW, locale);
-    LOGGER.info("Construction des menus pour la page " + BACK_PAGE.MENUS_VIEW.name());
+    LOGGER.info("Construction des menus pour la page {}", BACK_PAGE.MENUS_VIEW.name());
 
     PageWrapper<MenuDTO> pagedPageDTOWrapped = computePageWrapper(locale, pageNumber);
 
@@ -64,7 +64,7 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   public ModelAndView computeModelAndViewForCreateMenu(Locale locale) {
     ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_CREATE, locale);
-    LOGGER.info("Construction d'un menu pour la page " + BACK_PAGE.MENUS_CREATE.name());
+    LOGGER.info("Construction d'un menu pour la page {}", BACK_PAGE.MENUS_CREATE.name());
 
     List<MenuDTO> menusThatCanBeParents = menuService.getMenus();
     menusManager.addObject(MENUS_PARENTS, menusThatCanBeParents);
@@ -81,7 +81,7 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   public ModelAndView computeModelAndViewForUpdateMenu(Locale locale, String menuId) {
     ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_UPDATE, locale);
-    LOGGER.info("Construction d'un menu pour la page " + BACK_PAGE.MENUS_UPDATE.name());
+    LOGGER.info("Construction d'un menu pour la page {}", BACK_PAGE.MENUS_UPDATE.name());
 
     List<MenuDTO> menus = menuService.getMenus();
     List<MenuDTO> menusThatCanBeParents = new ArrayList<>();

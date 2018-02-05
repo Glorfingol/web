@@ -34,8 +34,8 @@ import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.WidgetUpdateForm;
 import com.cmpl.web.core.widget.WidgetUpdateFormBuilder;
 
-public class WidgetManagerDisplayFactoryImpl extends
-    AbstractBackDisplayFactoryImpl<WidgetDTO> implements WidgetManagerDisplayFactory {
+public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<WidgetDTO> implements
+    WidgetManagerDisplayFactory {
 
   private final WidgetService widgetService;
   private final ContextHolder contextHolder;
@@ -47,18 +47,18 @@ public class WidgetManagerDisplayFactoryImpl extends
   private static final String WIDGET_TYPES = "widgetTypes";
 
   public WidgetManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-       ContextHolder contextHolder, WidgetService widgetService,  PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,WidgetDataSourceProvider widgetDataSourceProvider) {
+      ContextHolder contextHolder, WidgetService widgetService,
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, WidgetDataSourceProvider widgetDataSourceProvider) {
     super(menuFactory, messageSource, breadCrumbRegistry);
     this.widgetService = widgetService;
     this.contextHolder = contextHolder;
     this.dataSourceProvider = widgetDataSourceProvider;
   }
 
-
   @Override
   public ModelAndView computeModelAndViewForViewAllWidgets(Locale locale, int pageNumber) {
     ModelAndView widgetsManager = super.computeModelAndViewForBackPage(BACK_PAGE.WIDGET_VIEW, locale);
-    LOGGER.info("Construction des widgets pour la page " + BACK_PAGE.WIDGET_VIEW.name());
+    LOGGER.info("Construction des widgets pour la page {} ", BACK_PAGE.WIDGET_VIEW.name());
 
     PageWrapper<WidgetDTO> pagedWidgetDTOWrapped = computePageWrapper(locale, pageNumber);
 
@@ -77,13 +77,12 @@ public class WidgetManagerDisplayFactoryImpl extends
     return widgetManager;
   }
 
-
   WidgetCreateForm computeCreateForm() {
     return WidgetCreateFormBuilder.create().build();
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdateWidget(Locale locale,String widgetId) {
+  public ModelAndView computeModelAndViewForUpdateWidget(Locale locale, String widgetId) {
     ModelAndView widgetManager = super.computeModelAndViewForBackPage(BACK_PAGE.WIDGET_UPDATE, locale);
 
     WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId));
@@ -111,14 +110,14 @@ public class WidgetManagerDisplayFactoryImpl extends
     return widgetManager;
   }
 
-  WidgetUpdateForm computeUpdateForm(WidgetDTO widget){
-    return WidgetUpdateFormBuilder.create().creationDate(widget.getCreationDate()).entityId(widget.getEntityId()).id(widget.getId()).personalization(widget.getPersonalization()).modificationDate(widget.getModificationDate()).name(widget.getName()).type(widget.getType()).build();
+  WidgetUpdateForm computeUpdateForm(WidgetDTO widget) {
+    return WidgetUpdateFormBuilder.create().creationDate(widget.getCreationDate()).entityId(widget.getEntityId())
+        .id(widget.getId()).personalization(widget.getPersonalization()).modificationDate(widget.getModificationDate())
+        .name(widget.getName()).type(widget.getType()).build();
   }
 
-
-
   @Override
-  public ModelAndView computeModelAndViewForUpdateWidgetPersonalization(Locale locale,String widgetId) {
+  public ModelAndView computeModelAndViewForUpdateWidgetPersonalization(Locale locale, String widgetId) {
     ModelAndView widgetManager = new ModelAndView("back/widgets/edit/tab_personalization");
     WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId));
     widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget));
@@ -136,8 +135,7 @@ public class WidgetManagerDisplayFactoryImpl extends
   protected Page<WidgetDTO> computeEntries(Locale locale, int pageNumber) {
     List<WidgetDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(), new Sort(
-        Direction.ASC,
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(), new Sort(Direction.ASC,
         "name"));
     Page<WidgetDTO> pagedWidgetDTOEntries = widgetService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedWidgetDTOEntries.getContent())) {

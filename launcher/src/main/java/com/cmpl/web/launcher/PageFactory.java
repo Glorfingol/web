@@ -17,7 +17,13 @@ import com.cmpl.web.core.meta.OpenGraphMetaElement;
 import com.cmpl.web.core.meta.OpenGraphMetaElementRepository;
 import com.cmpl.web.core.page.Page;
 import com.cmpl.web.core.page.PageRepository;
-import com.cmpl.web.core.widget.*;
+import com.cmpl.web.core.widget.WIDGET_TYPE;
+import com.cmpl.web.core.widget.Widget;
+import com.cmpl.web.core.widget.WidgetBuilder;
+import com.cmpl.web.core.widget.WidgetPage;
+import com.cmpl.web.core.widget.WidgetPageBuilder;
+import com.cmpl.web.core.widget.WidgetPageRepository;
+import com.cmpl.web.core.widget.WidgetRepository;
 
 public class PageFactory {
 
@@ -157,6 +163,12 @@ public class PageFactory {
     blog = widgetRepository.save(blog);
     WidgetPage widgetPage = WidgetPageBuilder.create().pageId(pageId).widgetId(String.valueOf(blog.getId())).build();
     widgetPageRepository.save(widgetPage);
+
+    Widget widgetMenu = WidgetBuilder.create().type(WIDGET_TYPE.MENU).name("menu").build();
+    widgetMenu = widgetRepository.save(widgetMenu);
+    WidgetPage widgetPageMenu = WidgetPageBuilder.create().widgetId(String.valueOf(widgetMenu.getId())).pageId(pageId)
+        .build();
+    widgetPageRepository.save(widgetPageMenu);
 
   }
 

@@ -1,104 +1,112 @@
 <form id="metaElementForm" th:object="${createForm}" class="row">
-    <div class="mb-3 col-12">
-        <div class="form-group mb-3" id="formInputName">
-            <label th:text="#{meta.name.label}"/>
-            <input type="text" class="form-control" th:field="*{name}"/>
-            <div id="feedbackName" class="form-control-label"></div>
-            <small class="form-text text-muted" th:text="#{meta.name.help}"/>
-        </div>
-        <div class="form-group mb-3" id="formInputContent">
-            <label th:text="#{meta.content.label}"/>
-            <input type="text" class="form-control" th:field="*{content}"/>
-            <div id="feedbackContent" class="form-control-label"></div>
-            <small class="form-text text-muted" th:text="#{meta.content.help}"/>
-        </div>
-        <div class="float-right">
-            <a class="btn btn-md btn-success fa fa-plus fa-white" onclick="postCreateMetaForm()"></a>
-        </div>
+  <div class="mb-3 col-12">
+    <div class="form-group mb-3" id="formInputName">
+      <label th:text="#{meta.name.label}"/>
+      <input type="text" class="form-control" th:field="*{name}"/>
+      <div id="feedbackName" class="form-control-label"></div>
+      <small class="form-text text-muted" th:text="#{meta.name.help}"/>
     </div>
+    <div class="form-group mb-3" id="formInputContent">
+      <label th:text="#{meta.content.label}"/>
+      <input type="text" class="form-control" th:field="*{content}"/>
+      <div id="feedbackContent" class="form-control-label"></div>
+      <small class="form-text text-muted" th:text="#{meta.content.help}"/>
+    </div>
+    <div class="float-right">
+      <a class="btn btn-md btn-success fa fa-plus fa-white" onclick="postCreateMetaForm()"></a>
+    </div>
+  </div>
 </form>
 <div class="row mt-3" id="associatedMeta">
-    <div th:each="metaElement : ${metaElements}" class="col-12 metaElements">
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="form-group">
-                    <label th:text="#{meta.name.label}"/>
-                    <input type="text" class="form-control" th:value="${metaElement.name}" disabled="true"/>
-                </div>
-                <div class="form-group">
-                    <label th:text="#{meta.content.label}"/>
-                    <input type="text" class="form-control" th:value="${metaElement.content}" disabled="true"/>
-                </div>
-                <div class="float-right mt-2">
-                    <a class="btn btn-md btn-danger fa fa-times fa-white" th:id="${metaElement.id}"
-                       onclick="deleteMeta(this.id)"></a>
-                </div>
-            </div>
-        </div>
-    </div>
+  <table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+      <th scope="col">
+        <label th:text="#{meta.name.label}"/>
+      </th>
+      <th scope="col" colspan="2">
+        <label th:text="#{meta.content.label}"/>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="metaElement : ${metaElements}">
+      <td>
+        <input type="text" class="form-control" th:value="${metaElement.name}" disabled="true"/>
+      </td>
+      <td>
+        <input type="text" class="form-control" th:value="${metaElement.content}" disabled="true"/>
+      </td>
+      <td class="text-center">
+        <a class="btn btn-md btn-danger fa fa-times fa-white" th:id="${metaElement.id}"
+           onclick="deleteMeta(this.id)"></a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 <script th:inline="javascript">
-    var deleteMeta = function (idMetaElement) {
+  var deleteMeta = function (idMetaElement) {
 
-        $("#metaElementForm").hide();
-        $("#associatedMeta").hide();
-        $(".loader").show();
-        var url = "/manager/pages/" + [['' + ${createForm.pageId} +'']] + "/metas/" + idMetaElement;
-        $.ajax({
-            url: url,
-            type: "DELETE",
-            success: function () {
-                currentTab = "";
-                $(".loader").hide();
-                goToMetaTab();
-            },
-            error: function () {
-                currentTab = "";
-                $(".loader").hide();
-                goToMetaTab();
+    $("#metaElementForm").hide();
+    $("#associatedMeta").hide();
+    $(".loader").show();
+    var url = "/manager/pages/" + [['' + ${createForm.pageId} +'']] + "/metas/" + idMetaElement;
+    $.ajax({
+      url: url,
+      type: "DELETE",
+      success: function () {
+        currentTab = "";
+        $(".loader").hide();
+        goToMetaTab();
+      },
+      error: function () {
+        currentTab = "";
+        $(".loader").hide();
+        goToMetaTab();
 
-            }
+      }
 
-        });
-    }
+    });
+  }
 
-    var postCreateMetaForm = function () {
-        $("#metaElementForm").hide();
-        $("#associatedMeta").hide();
-        $(".loader").show();
-        var url = "/manager/pages/" + [['' + ${createForm.pageId} +'']] + "/metas";
+  var postCreateMetaForm = function () {
+    $("#metaElementForm").hide();
+    $("#associatedMeta").hide();
+    $(".loader").show();
+    var url = "/manager/pages/" + [['' + ${createForm.pageId} +'']] + "/metas";
 
-        var metaForm = {};
-        var inputName = $("#name");
-        var inputContent = $("#content");
+    var metaForm = {};
+    var inputName = $("#name");
+    var inputContent = $("#content");
 
-        metaForm.name = inputName.val();
-        metaForm.content = inputContent.val();
+    metaForm.name = inputName.val();
+    metaForm.content = inputContent.val();
 
-        var data = JSON.stringify(metaForm);
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: data,
-            contentType: "application/json; charset=utf-8",
-            crossDomain: true,
-            dataType: "json",
-            success: function (data) {
-                currentTab = "";
-                goToMetaTab();
-                $(".loader").hide();
-            },
-            error: function () {
-                currentTab = "";
-                goToMetaTab();
-                $(".loader").hide();
-            }
-        });
-    }
-    $(document).ready(function () {
-            $(".card-loader").hide();
-            $(".loader").hide();
-        }
-    );
+    var data = JSON.stringify(metaForm);
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: data,
+      contentType: "application/json; charset=utf-8",
+      crossDomain: true,
+      dataType: "json",
+      success: function (data) {
+        currentTab = "";
+        goToMetaTab();
+        $(".loader").hide();
+      },
+      error: function () {
+        currentTab = "";
+        goToMetaTab();
+        $(".loader").hide();
+      }
+    });
+  }
+  $(document).ready(function () {
+        $(".card-loader").hide();
+        $(".loader").hide();
+      }
+  );
 </script>
 

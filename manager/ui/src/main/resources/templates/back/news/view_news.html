@@ -1,19 +1,28 @@
 <div class="card mb-4">
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <div class="pull-right ">
-                    <a class="btn btn-md btn-primary fa fa-plus fa-white"
-                       href="/manager/news/_create"
-                       id="buttonAdd"></a>
-                </div>
-            </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <div class="pull-right ">
+          <a class="btn btn-md btn-primary fa fa-plus fa-white"
+             href="/manager/news/_create"
+             id="buttonAdd"></a>
         </div>
-        <div class="row">
-            <div th:each="newsBean : ${wrappedNews.page.content}" class="col-12 newsElement">
-                <div th:replace="back/news/news_list_element :: newsElement(${newsBean})"/>
-            </div>
-        </div>
-        <div th:replace="common/pagination :: pagination(${wrappedNews})"/>
+      </div>
     </div>
+    <div class="row mt-2">
+      <table class="table table-bordered table-hover">
+        <tbody>
+        <tr th:each="newsBean : ${wrappedNews.page.content}">
+          <td>
+            <a th:href="${newsBean.newsEntryModifyHref}" class="table-link">
+              <span th:text="${newsBean.title}"/>
+              <span th:text="${newsBean.panelHeading}"/>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div th:replace="common/pagination :: pagination(${wrappedNews})"/>
+  </div>
 </div>

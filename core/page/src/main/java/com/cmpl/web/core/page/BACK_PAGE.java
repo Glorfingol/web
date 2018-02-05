@@ -22,6 +22,7 @@ public enum BACK_PAGE {
   PAGES_CREATE("pages.create", "back.pages.title"),
   PAGES_UPDATE("pages.update", "back.pages.title"),
   MEDIA_VIEW("medias.view", "back.medias.title"),
+  MEDIA_VISUALIZE("medias.visualize", "back.medias.title"),
   MEDIA_UPLOAD("medias.upload", "back.medias.title"),
   CAROUSELS_VIEW("carousels.view", "back.carousels.title"),
   CAROUSELS_UPDATE("carousels.update", "back.carousels.title"),

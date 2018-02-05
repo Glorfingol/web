@@ -1,10 +1,7 @@
 package com.cmpl.web.core.carousel;
 
-import org.springframework.cache.annotation.CacheConfig;
-
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 
-@CacheConfig(cacheNames = {"modelPage"})
 public class CarouselServiceImpl extends BaseServiceImpl<CarouselDTO, Carousel> implements CarouselService {
 
   private final CarouselRepository carouselRepository;

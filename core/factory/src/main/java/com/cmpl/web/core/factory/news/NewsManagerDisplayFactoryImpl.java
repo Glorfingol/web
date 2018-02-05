@@ -18,8 +18,17 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.news.*;
+import com.cmpl.web.core.news.NewsContentDTO;
+import com.cmpl.web.core.news.NewsContentRequest;
+import com.cmpl.web.core.news.NewsContentRequestBuilder;
+import com.cmpl.web.core.news.NewsEntryDTO;
+import com.cmpl.web.core.news.NewsEntryDisplayBean;
+import com.cmpl.web.core.news.NewsEntryRequest;
+import com.cmpl.web.core.news.NewsEntryRequestBuilder;
+import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.NewsImageDTO;
+import com.cmpl.web.core.news.NewsImageRequest;
+import com.cmpl.web.core.news.NewsImageRequestBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 /**
@@ -28,29 +37,24 @@ import com.cmpl.web.core.page.BACK_PAGE;
  * @author Louis
  *
  */
-public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDisplayBean>
-    implements NewsManagerDisplayFactory {
-
-  private static final String NEWS_TEMPLATE_FILE_NAME = "blog_entry.html";
-  private static final String RESOURCE_NEWS_TEMPLATE_FILE_NAME = "templates/widgets/blog_entry.html";
+public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDisplayBean> implements
+    NewsManagerDisplayFactory {
 
   private final NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
-  private final FileService fileService;
 
   public NewsManagerDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSource messageSource, NewsEntryService newsEntryService, FileService fileService,
+      WebMessageSource messageSource, NewsEntryService newsEntryService,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry);
     this.newsEntryService = newsEntryService;
     this.contextHolder = contextHolder;
-    this.fileService = fileService;
   }
 
   @Override
   public ModelAndView computeModelAndViewForBackPage(Locale locale, int pageNumber) {
     ModelAndView newsManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, locale);
-    LOGGER.info("Construction des entrées de blog pour la page " + BACK_PAGE.NEWS_VIEW.name());
+    LOGGER.info("Construction des entrées de blog pour la page {}", BACK_PAGE.NEWS_VIEW.name());
 
     PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = computePageWrapper(locale, pageNumber);
 
@@ -62,7 +66,7 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   public ModelAndView computeModelAndViewForBackPageCreateNews(Locale locale) {
     ModelAndView newsManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_CREATE, locale);
-    LOGGER.info("Construction du formulaire d'entrées de blog pour la page " + BACK_PAGE.NEWS_CREATE.name());
+    LOGGER.info("Construction du formulaire d'entrées de blog pour la page {}", BACK_PAGE.NEWS_CREATE.name());
     newsManager.addObject("newsFormBean", computeNewsRequestForCreateForm());
 
     return newsManager;
@@ -78,8 +82,8 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       return new PageImpl<>(newsEntries);
     }
 
-    pagedNewsEntries.getContent()
-        .forEach(newsEntryFromDB -> newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB)));
+    pagedNewsEntries.getContent().forEach(
+        newsEntryFromDB -> newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB)));
     return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
   }
 

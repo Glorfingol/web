@@ -1,11 +1,13 @@
 package com.cmpl.web.core.factory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +22,6 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.MenuItem;
@@ -29,7 +30,11 @@ import com.cmpl.web.core.news.NewsEntryDisplayBean;
 import com.cmpl.web.core.news.NewsEntryService;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
-import com.cmpl.web.core.widget.*;
+import com.cmpl.web.core.widget.WIDGET_TYPE;
+import com.cmpl.web.core.widget.WidgetDTO;
+import com.cmpl.web.core.widget.WidgetPageDTO;
+import com.cmpl.web.core.widget.WidgetPageService;
+import com.cmpl.web.core.widget.WidgetService;
 
 /**
  * Implementation de l'interface de factory pur generer des model and view pour les pages du site
@@ -37,7 +42,6 @@ import com.cmpl.web.core.widget.*;
  * @author Louis
  *
  */
-@CacheConfig(cacheNames = {"modelPage"})
 public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements DisplayFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(DisplayFactoryImpl.class);
@@ -46,13 +50,12 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   private final PageService pageService;
   private final NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
-  private final FileService fileService;
   private final WidgetPageService widgetPageService;
   private final WidgetService widgetService;
   private final MediaService mediaService;
 
   public DisplayFactoryImpl(MenuFactory menuFactory, CarouselService carouselService, WebMessageSource messageSource,
-      PageService pageService, NewsEntryService newsEntryService, ContextHolder contextHolder, FileService fileService,
+      PageService pageService, NewsEntryService newsEntryService, ContextHolder contextHolder,
       WidgetPageService widgetPageService, WidgetService widgetService, MediaService mediaService) {
     super(messageSource);
     this.menuFactory = menuFactory;
@@ -60,47 +63,40 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     this.pageService = pageService;
     this.contextHolder = contextHolder;
     this.newsEntryService = newsEntryService;
-    this.fileService = fileService;
     this.widgetPageService = widgetPageService;
     this.widgetService = widgetService;
     this.mediaService = mediaService;
   }
 
   @Override
-  @Cacheable(sync = true)
   public ModelAndView computeModelAndViewForPage(String pageName, Locale locale, int pageNumber) {
-    LOGGER.info("Construction de la page  " + pageName);
+    LOGGER.info("Construction de la page  {}", pageName);
 
     PageDTO page = pageService.getPageByName(pageName);
 
     ModelAndView model = new ModelAndView("decorator");
     model.addObject("content", computePageContent(page));
-    LOGGER.info("Construction des éléments meta pour la page  " + pageName);
+    LOGGER.info("Construction des éléments meta pour la page  {}", pageName);
     model.addObject("metaItems", page.getMetaElements());
-    LOGGER.info("Construction des éléments meta open graph pour la page  " + pageName);
+    LOGGER.info("Construction des éléments meta open graph pour la page {}", pageName);
     model.addObject("openGraphMetaItems", page.getOpenGraphMetaElements());
-    LOGGER.info("Construction du footer pour la page   " + pageName);
+    LOGGER.info("Construction du footer pour la page  {}", pageName);
     model.addObject("footerTemplate", computePageFooter(page));
-    LOGGER.info("Construction du header pour la page   " + pageName);
+    LOGGER.info("Construction du header pour la page  {}", pageName);
     model.addObject("header", computePageHeader(page));
-    LOGGER.info("Construction du lien du back pour la page " + pageName);
+    LOGGER.info("Construction du lien du back pour la page {}", pageName);
     model.addObject("hiddenLink", computeHiddenLink(locale));
 
-    LOGGER.info("Construction des widgets pour la page " + pageName);
+    LOGGER.info("Construction des widgets pour la page {}", pageName);
     List<WidgetPageDTO> widgetPageDTOS = widgetPageService.findByPageId(String.valueOf(page.getId()));
     List<String> widgetIds = new ArrayList<>();
-    widgetPageDTOS.forEach(widgetPageDTO -> {
-      widgetIds.add(widgetPageDTO.getWidgetId());
-    });
+    widgetPageDTOS.forEach(widgetPageDTO -> widgetIds.add(widgetPageDTO.getWidgetId()));
     List<String> widgetNames = new ArrayList<>();
-    widgetIds.forEach(widgetId -> {
-      widgetNames.add(widgetService.getEntity(Long.parseLong(widgetId)).getName());
-    });
+    widgetIds.forEach(widgetId -> widgetNames.add(widgetService.getEntity(Long.parseLong(widgetId)).getName()));
 
     model.addObject("widgetNames", widgetNames);
-    model.addObject("emptyMessage", getI18nValue("actualites.empty", locale));
 
-    LOGGER.info("Page " + pageName + " prête");
+    LOGGER.info("Page {0} prête", pageName);
 
     return model;
   }
@@ -108,14 +104,14 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   @Override
   public ModelAndView computeModelAndViewForBlogEntry(String newsEntryId, String widgetId, Locale locale) {
 
-    LOGGER.info("Construction de l'entree de blog d'id " + newsEntryId);
+    LOGGER.info("Construction de l'entree de blog d'id {}", newsEntryId);
 
     ModelAndView model = new ModelAndView(computeNewsTemplate(widgetId));
     NewsEntryDisplayBean newsEntryDisplayBean = computeNewsEntryDisplayBean(locale,
         newsEntryService.getEntity(Long.parseLong(newsEntryId)));
     model.addObject("newsBean", newsEntryDisplayBean);
 
-    LOGGER.info("Entree de blog " + newsEntryId + " prête");
+    LOGGER.info("Entree de blog {}  prête", newsEntryId);
 
     return model;
   }
@@ -123,7 +119,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   @Override
   public ModelAndView computeModelAndViewForWidget(String widgetName, Locale locale, int pageNumber, String pageName) {
 
-    LOGGER.info("Construction du wiget" + widgetName);
+    LOGGER.info("Construction du wiget {}", widgetName);
 
     WidgetDTO widget = widgetService.findByName(widgetName);
     ModelAndView model = new ModelAndView(computeWidgetTemplate(widget));
@@ -132,12 +128,11 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale, pageName);
     if (!CollectionUtils.isEmpty(widgetModel)) {
-      widgetModel.forEach((key, value) -> {
-        model.addObject(key, value);
-      });
+      widgetModel.forEach((key, value) -> model.addObject(key, value));
     }
+    model.addObject("widgetName", widget.getName());
 
-    LOGGER.info("Widget " + widgetName + " prêt");
+    LOGGER.info("Widget {} prêt", widgetName);
 
     return model;
   }
@@ -256,6 +251,9 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     if (WIDGET_TYPE.BLOG.equals(widgetType)) {
       return computeWidgetModelForBlog(widget, pageNumber, locale);
     }
+    if (WIDGET_TYPE.MENU.equals(widgetType)) {
+      return computeWidgetModelForMenu(pageName, locale);
+    }
     if (!StringUtils.hasText(widget.getEntityId())) {
       return new HashMap<>();
     }
@@ -268,9 +266,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     if (WIDGET_TYPE.VIDEO.equals(widgetType)) {
       return computeWidgetModelForVideo(widget);
     }
-    if (WIDGET_TYPE.MENU.equals(widgetType)) {
-      return computeWidgetModelForMenu(pageName, locale);
-    }
+
     return widgetModel;
   }
 
@@ -286,6 +282,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     widgetModel.put("wrappedNews", pagedNewsWrapped);
     widgetModel.put("news", entriesIds);
     widgetModel.put("widgetId", String.valueOf(widget.getId()));
+    widgetModel.put("emptyMessage", getI18nValue("actualites.empty", locale));
 
     return widgetModel;
   }

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,7 +11,6 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.file.FileService;
 
-@CacheConfig(cacheNames = {"modelPage"})
 public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implements MediaService {
 
   private final ContextHolder contextHolder;
@@ -45,7 +43,7 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
   }
 
   @Override
-  public InputStream download(String mediaName)  {
+  public InputStream download(String mediaName) {
     return fileService.read(mediaName);
   }
 

@@ -65,7 +65,7 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
   @Override
   public ModelAndView computeModelAndViewForViewAllCarousels(Locale locale, int pageNumber) {
     ModelAndView carouselsManager = super.computeModelAndViewForBackPage(BACK_PAGE.CAROUSELS_VIEW, locale);
-    LOGGER.info("Construction des carousels pour la page " + BACK_PAGE.CAROUSELS_VIEW.name());
+    LOGGER.info("Construction des carousels pour la page {}", BACK_PAGE.CAROUSELS_VIEW.name());
 
     PageWrapper<CarouselDTO> pagedCarouselDTOWrapped = computePageWrapper(locale, pageNumber);
 
@@ -142,7 +142,7 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
     List<PageDTO> pages = pageService.getEntities();
     carouselManager.addObject(PAGES, pages);
     return carouselManager;
-  } 
+  }
 
   CarouselCreateForm computeCreateForm() {
     return CarouselCreateFormBuilder.create().build();

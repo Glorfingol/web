@@ -1,29 +1,30 @@
 <title th:text="#{main.title}"/>
 
 <meta charset="UTF-8"/>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="_csrf" th:content="${_csrf.token}"/>
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <meta name="viewport" content="width=device-width, user-scalable=no"/>
-<meta th:each="metaItem : ${metaItems}" th:name="${metaItem.name}" th:content="${metaItem.content}" />
+<meta th:each="metaItem : ${metaItems}" th:name="${metaItem.name}"
+      th:content="${metaItem.content}"/>
 
-<script type="text/javascript" th:src="@{../../jquery/jquery-3.2.0.min.js}"></script>
-<script type="text/javascript" th:src="@{../../tether/js/tether.min.js}"></script>
-<script type="text/javascript" th:src="@{../../bootstrap/v4/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{../../ckeditor/ckeditor.js}"></script>
-<script type="text/javascript" th:src="@{../../js/common.js}"></script>
-<script type="text/javascript" th:src="@{../../js/news.js}"></script>
-<script type="text/javascript" th:src="@{../../js/page.js}"></script>
-<script type="text/javascript" th:src="@{../../js/menu.js}"></script>
-<script type="text/javascript" th:src="@{../../js/importFacebook.js}"></script>
-<script type="text/javascript" th:src="@{../../js/dragAndDrop.js}"></script>
-<script type="text/javascript" th:src="@{../../js/medias.js}"></script>
-<script type="text/javascript" th:src="@{../../js/carousel.js}"></script>
-<script type="text/javascript" th:src="@{../../js/style.js}"></script>
-<script type="text/javascript" th:src="@{../../js/widgets.js}"></script>
+<script type="text/javascript" th:src="@{../../../jquery/jquery-3.2.0.min.js}"></script>
+<script type="text/javascript" th:src="@{../../../tether/js/tether.min.js}"></script>
+<script type="text/javascript" th:src="@{../../..//bootstrap/v4/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{../../../ckeditor/ckeditor.js}"></script>
+<script type="text/javascript" th:src="@{../../../js/common.js}"></script>
+<script type="text/javascript" th:src="@{../../../js/news.js}"></script>
+<script type="text/javascript" th:src="@{../../../js/page.js}"></script>
+<script type="text/javascript" th:src="@{../../../js/menu.js}"></script>
+<script type="text/javascript" th:src="@{../../../js/importFacebook.js}"></script>
+<script type="text/javascript" th:src="@{../../../js/dragAndDrop.js}"></script>
+<script type="text/javascript" th:src="@{../../../js/medias.js}"></script>
+<script type="text/javascript" th:src="@{../../../js/carousel.js}"></script>
+<script type="text/javascript" th:src="@{../../../js/style.js}"></script>
+<script type="text/javascript" th:src="@{../../../js/widgets.js}"></script>
 
 
-<link rel="stylesheet" href="@{../../../../fontawesome/css/font-awesome.min.css"></link>
-<link rel="stylesheet" th:href="@{../../bootstrap/v4/css/bootstrap.min.css}"></link>
-<link rel="stylesheet" th:href="@{../../css/style_back.css}"></link>
+<link rel="stylesheet" href="@{../../../../../fontawesome/css/font-awesome.min.css"></link>
+<link rel="stylesheet" th:href="@{../../../bootstrap/v4/css/bootstrap.min.css}"></link>
+<link rel="stylesheet" th:href="@{../../../css/style_back.css}"></link>
 

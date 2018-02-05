@@ -2,8 +2,6 @@ package com.cmpl.web.core.meta;
 
 import java.util.List;
 
-import org.springframework.cache.annotation.CacheConfig;
-
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 
 /**
@@ -12,7 +10,6 @@ import com.cmpl.web.core.common.service.BaseServiceImpl;
  * @author Louis
  *
  */
-@CacheConfig(cacheNames = {"modelPage"})
 public class OpenGraphMetaElementServiceImpl extends BaseServiceImpl<OpenGraphMetaElementDTO, OpenGraphMetaElement>
     implements OpenGraphMetaElementService {
 

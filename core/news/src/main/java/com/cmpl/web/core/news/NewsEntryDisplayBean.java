@@ -31,7 +31,6 @@ public class NewsEntryDisplayBean {
    * @param labelPar
    * @param labelLe
    * @param dateFormat
-   * @param labelAccroche
    * @param imageBaseSrc
    */
   public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO, String imageBaseSrc, String labelPar, String labelLe,
@@ -147,7 +146,6 @@ public class NewsEntryDisplayBean {
   public String getNewsEntryReadHref() {
     return "/news/" + newsEntryDTO.getId();
   }
-  
 
   public String getLinkUrl() {
     return newsEntryDTO.getNewsContent().getLinkUrl();

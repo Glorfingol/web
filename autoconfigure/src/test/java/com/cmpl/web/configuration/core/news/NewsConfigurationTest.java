@@ -116,7 +116,7 @@ public class NewsConfigurationTest {
   @Test
   public void testNewsManagerDisplayFactory() throws Exception {
     NewsManagerDisplayFactory result = configuration.newsManagerDisplayFactory(contextHolder, menuFactory,
-        messageSource, newsEntryService, fileService, breadCrumbRegistry);
+        messageSource, newsEntryService, breadCrumbRegistry);
 
     Assert.assertEquals(NewsManagerDisplayFactoryImpl.class, result.getClass());
   }

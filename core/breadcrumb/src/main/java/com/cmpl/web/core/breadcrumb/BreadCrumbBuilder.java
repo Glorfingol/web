@@ -1,5 +1,6 @@
 package com.cmpl.web.core.breadcrumb;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,8 +12,8 @@ public class BreadCrumbBuilder extends Builder<BreadCrumb> {
   private List<BreadCrumbItem> items;
   private BACK_PAGE page;
 
-  private BreadCrumbBuilder() { 
-
+  private BreadCrumbBuilder() {
+    items = new ArrayList<>();
   }
 
   public BreadCrumbBuilder items(List<BreadCrumbItem> items) {

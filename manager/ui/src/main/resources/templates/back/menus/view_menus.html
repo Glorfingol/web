@@ -1,20 +1,28 @@
 <div class="card mb-4">
-    <div class="card-body">
-      <div class="row">
-        <div class="col">
-          <div class="pull-right ">
-            <a class="btn btn-md btn-primary fa fa-plus fa-white"
-               href="/manager/menus/_create"
-               id="buttonAdd"></a>
-          </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <div class="pull-right ">
+          <a class="btn btn-md btn-primary fa fa-plus fa-white"
+             href="/manager/menus/_create"
+             id="buttonAdd"></a>
         </div>
       </div>
-      <div class="row">
-        <div th:each="menuBean : ${wrappedMenus.page.content}" class="col-12 pagesElement">
-          <div th:replace="back/menus/menu_list_element :: menuElement(${menuBean})"/>
-        </div>
-      </div>
-      <div th:replace="common/pagination :: pagination(${wrappedMenus})"/>
     </div>
+    <div class="row mt-2">
+      <table class="table table-bordered table-hover">
+        <tbody>
+        <tr th:each="menuBean : ${wrappedMenus.page.content}">
+          <td>
+            <a th:href="'/manager/menus/' + ${menuBean.id}" class="table-link">
+              <span th:text="${menuBean.title}"/>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div th:replace="common/pagination :: pagination(${wrappedMenus})"/>
+  </div>
 
 </div>

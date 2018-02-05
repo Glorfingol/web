@@ -8,6 +8,8 @@ public interface MediaManagerDisplayFactory {
 
   ModelAndView computeModelAndViewForViewAllMedias(Locale locale, int pageNumber);
 
+  ModelAndView computeModelAndViewForViewMedia(String mediaId, Locale locale);
+
   ModelAndView computeModelAndViewForUploadMedia(Locale locale);
 
 }

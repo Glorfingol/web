@@ -1,20 +1,28 @@
 <div class="card mb-4">
-	<div class="card-body">
-		<div class="row">
-			<div class="col">
-				<div class="pull-right ">
-					<a class="btn btn-md btn-primary fa fa-plus fa-white"
-						 href="/manager/pages/_create"
-						 id="buttonAdd"></a>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div th:each="pageBean : ${wrappedPages.page.content}" class="col-12 pagesElement">
-				<div th:replace="back/pages/pages_list_element :: pageElement(${pageBean})"/>
-			</div>
-		</div>
-		<div th:replace="common/pagination :: pagination(${wrappedPages})"/>
-	</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <div class="pull-right ">
+          <a class="btn btn-md btn-primary fa fa-plus fa-white"
+             href="/manager/pages/_create"
+             id="buttonAdd"></a>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <table class="table table-bordered table-hover">
+        <tbody>
+        <tr th:each="pageBean : ${wrappedPages.page.content}">
+          <td>
+            <a th:href="'/manager/pages/' + ${pageBean.id}" class="table-link">
+              <span th:text="${pageBean.name}"/>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div th:replace="common/pagination :: pagination(${wrappedPages})"/>
+  </div>
 
- </div>
+</div>

@@ -2,16 +2,10 @@ package com.cmpl.web.core.carousel;
 
 import java.util.List;
 
-import org.springframework.cache.annotation.CacheConfig;
-
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.media.MediaService;
 
-
-
-@CacheConfig(cacheNames = {"carouselItems"})
-public class CarouselItemServiceImpl extends
-    BaseServiceImpl<CarouselItemDTO, CarouselItem> implements
+public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, CarouselItem> implements
     CarouselItemService {
 
   private final CarouselItemRepository carouselItemRepository;

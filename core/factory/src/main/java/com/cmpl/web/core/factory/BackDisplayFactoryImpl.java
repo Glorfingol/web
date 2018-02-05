@@ -39,19 +39,20 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
   @Override
   public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
 
-    LOGGER.info("Construction de la page du back " + backPage.name());
+    String backPageName = backPage.name();
+    LOGGER.info("Construction de la page du back {}", backPageName);
     ModelAndView model = computeModelAndViewBaseTile(backPage, locale);
 
-    LOGGER.info("Construction du menu pour la page " + backPage.name());
+    LOGGER.info("Construction du menu pour la page {}", backPageName);
     model.addObject("menuItems", computeBackMenuItems(backPage, locale));
-    LOGGER.info("Construction des locales pour la page " + backPage.name());
+    LOGGER.info("Construction des locales pour la page {}", backPageName);
     model.addObject("locales", computeLocales());
-    LOGGER.info("Construction du fil d'ariane pour la page " + backPage.name());
+    LOGGER.info("Construction du fil d'ariane pour la page {}", backPageName);
     model.addObject("breadcrumb", computeBreadCrumb(backPage));
-    LOGGER.info("Construction du lien du back pour la page " + backPage.name());
+    LOGGER.info("Construction du lien du back pour la page {}", backPageName);
     model.addObject("hiddenLink", computeHiddenLink(locale));
 
-    LOGGER.info("Page du back " + backPage.name() + " prête");
+    LOGGER.info("Page du back {} prête", backPageName);
 
     return model;
   }

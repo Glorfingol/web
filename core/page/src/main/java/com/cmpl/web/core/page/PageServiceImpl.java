@@ -3,7 +3,6 @@ package com.cmpl.web.core.page;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +42,6 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
 
   @Override
   @Transactional
-  @CacheEvict(cacheNames = {"modelPage"})
   public PageDTO createEntity(PageDTO dto) {
     PageDTO createdPage = super.createEntity(dto);
 
@@ -56,7 +54,6 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
 
   @Override
   @Transactional
-  @CacheEvict(cacheNames = {"modelPage"})
   public PageDTO updateEntity(PageDTO dto) {
     PageDTO updatedPage = super.updateEntity(dto);
 

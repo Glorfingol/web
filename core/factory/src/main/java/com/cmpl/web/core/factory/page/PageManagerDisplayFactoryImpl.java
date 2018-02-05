@@ -22,12 +22,26 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.meta.*;
-import com.cmpl.web.core.page.*;
-import com.cmpl.web.core.widget.*;
+import com.cmpl.web.core.meta.MetaElementCreateForm;
+import com.cmpl.web.core.meta.MetaElementDTO;
+import com.cmpl.web.core.meta.MetaElementService;
+import com.cmpl.web.core.meta.OpenGraphMetaElementCreateForm;
+import com.cmpl.web.core.meta.OpenGraphMetaElementDTO;
+import com.cmpl.web.core.meta.OpenGraphMetaElementService;
+import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.page.PageCreateForm;
+import com.cmpl.web.core.page.PageDTO;
+import com.cmpl.web.core.page.PageService;
+import com.cmpl.web.core.page.PageUpdateForm;
+import com.cmpl.web.core.widget.WidgetDTO;
+import com.cmpl.web.core.widget.WidgetPageCreateForm;
+import com.cmpl.web.core.widget.WidgetPageCreateFormBuilder;
+import com.cmpl.web.core.widget.WidgetPageDTO;
+import com.cmpl.web.core.widget.WidgetPageService;
+import com.cmpl.web.core.widget.WidgetService;
 
-public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<PageDTO>
-    implements PageManagerDisplayFactory {
+public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<PageDTO> implements
+    PageManagerDisplayFactory {
 
   private final PageService pageService;
   private final OpenGraphMetaElementService openGraphMetaElementService;
@@ -42,8 +56,8 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   private static final String LINKABLE_WIDGETS = "linkableWidgets";
   private static final String LINKED_WIDGETS = "linkedWidgets";
 
-  public PageManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource, PageService pageService,
-      ContextHolder contextHolder, MetaElementService metaElementService,
+  public PageManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
+      PageService pageService, ContextHolder contextHolder, MetaElementService metaElementService,
       OpenGraphMetaElementService openGraphMetaElementService, WidgetService widgetService,
       WidgetPageService widgetPageService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry);
@@ -58,7 +72,7 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   public ModelAndView computeModelAndViewForViewAllPages(Locale locale, int pageNumber) {
     ModelAndView pagesManager = super.computeModelAndViewForBackPage(BACK_PAGE.PAGES_VIEW, locale);
-    LOGGER.info("Construction des pages pour la page " + BACK_PAGE.PAGES_VIEW.name());
+    LOGGER.info("Construction des pages pour la page {}", BACK_PAGE.PAGES_VIEW.name());
 
     PageWrapper<PageDTO> pagedPageDTOWrapped = computePageWrapper(locale, pageNumber);
 
@@ -71,8 +85,8 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   protected Page<PageDTO> computeEntries(Locale locale, int pageNumber) {
     List<PageDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        new Sort(Direction.ASC, "name"));
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(), new Sort(Direction.ASC,
+        "name"));
     Page<PageDTO> pagedPageDTOEntries = pageService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedPageDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
@@ -208,8 +222,8 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   private List<WidgetDTO> computeLinkedWidgets(List<WidgetPageDTO> associatedWidgets) {
     List<WidgetDTO> linkedWidgets = new ArrayList<>();
-    associatedWidgets.forEach(
-        associatedWidget -> linkedWidgets.add(widgetService.getEntity(Long.parseLong(associatedWidget.getWidgetId()))));
+    associatedWidgets.forEach(associatedWidget -> linkedWidgets.add(widgetService.getEntity(Long
+        .parseLong(associatedWidget.getWidgetId()))));
     return linkedWidgets;
   }
 

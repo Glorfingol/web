@@ -1,7 +1,5 @@
 package com.cmpl.web.core.news;
 
-import org.springframework.cache.annotation.CacheConfig;
-
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 
 /**
@@ -10,7 +8,6 @@ import com.cmpl.web.core.common.service.BaseServiceImpl;
  * @author Louis
  *
  */
-@CacheConfig(cacheNames = {"modelPage"})
 public class NewsImageServiceImpl extends BaseServiceImpl<NewsImageDTO, NewsImage> implements NewsImageService {
 
   public NewsImageServiceImpl(NewsImageRepository newsImageRepository) {

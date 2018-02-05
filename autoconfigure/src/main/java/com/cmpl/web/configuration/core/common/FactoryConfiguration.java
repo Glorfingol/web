@@ -9,7 +9,6 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.DisplayFactory;
 import com.cmpl.web.core.factory.DisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.news.NewsEntryService;
 import com.cmpl.web.core.page.PageService;
@@ -28,10 +27,10 @@ public class FactoryConfiguration {
   @Bean
   DisplayFactory displayFactory(MenuFactory menuFactory, CarouselService carouselService,
       WebMessageSource messageSource, PageService pageService, NewsEntryService newsEntryService,
-      ContextHolder contextHolder, FileService fileService, WidgetPageService widgetPageService,
-      WidgetService widgetService, MediaService mediaService) {
+      ContextHolder contextHolder, WidgetPageService widgetPageService, WidgetService widgetService,
+      MediaService mediaService) {
     return new DisplayFactoryImpl(menuFactory, carouselService, messageSource, pageService, newsEntryService,
-        contextHolder, fileService, widgetPageService, widgetService, mediaService);
+        contextHolder, widgetPageService, widgetService, mediaService);
   }
 
 }

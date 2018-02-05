@@ -73,6 +73,12 @@ public class MediaManagerController {
     return mediaManagerDisplayFactory.computeModelAndViewForUploadMedia(locale);
   }
 
+  @GetMapping(value = "/_view/{mediaId}")
+  public ModelAndView printViewMedia(@PathVariable("mediaId") String mediaId, Locale locale) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.MEDIA_VISUALIZE.name());
+    return mediaManagerDisplayFactory.computeModelAndViewForViewMedia(mediaId, locale);
+  }
+
   @GetMapping("/{mediaId}")
   public void serve(@PathVariable("mediaId") String mediaId, HttpServletResponse res) throws Exception {
     MediaDTO fileDTO = mediaService.getEntity(Long.valueOf(mediaId));

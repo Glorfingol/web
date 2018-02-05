@@ -48,15 +48,28 @@ public class MediaConfiguration {
     return BreadCrumbBuilder.create().items(mediaBreadCrumbItems()).page(BACK_PAGE.MEDIA_VIEW).build();
   }
 
-  @Bean 
+  @Bean
   BreadCrumb mediaUpdateBreadCrumb() {
     return BreadCrumbBuilder.create().items(mediaBreadCrumbItems()).page(BACK_PAGE.MEDIA_UPLOAD).build();
+  }
+
+  @Bean
+  BreadCrumb mediaVisualizeBreadCrumb() {
+    return BreadCrumbBuilder.create().items(mediaVisualizeBreadCrumbItems()).page(BACK_PAGE.MEDIA_VISUALIZE).build();
   }
 
   List<BreadCrumbItem> mediaBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
     items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
     items.add(BreadCrumbItemBuilder.create().text("back.medias.title").href("back.medias.href").build());
+    return items;
+  }
+
+  List<BreadCrumbItem> mediaVisualizeBreadCrumbItems() {
+    List<BreadCrumbItem> items = new ArrayList<>();
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.medias.title").href("back.medias.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.medias.visualize.label").href("#").build());
     return items;
   }
 

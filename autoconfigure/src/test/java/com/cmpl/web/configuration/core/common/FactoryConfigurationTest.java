@@ -13,7 +13,6 @@ import com.cmpl.web.core.common.message.WebMessageSourceImpl;
 import com.cmpl.web.core.factory.DisplayFactory;
 import com.cmpl.web.core.factory.DisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.news.NewsEntryService;
 import com.cmpl.web.core.page.PageService;
@@ -36,8 +35,6 @@ public class FactoryConfigurationTest {
   @Mock
   private PageService pageService;
   @Mock
-  private FileService fileService;
-  @Mock
   private WidgetPageService widgetPageService;
   @Mock
   private WidgetService widgetService;
@@ -51,7 +48,7 @@ public class FactoryConfigurationTest {
   public void testDisplayFactory() throws Exception {
 
     DisplayFactory result = configuration.displayFactory(menuFactory, carouselService, messageSource, pageService,
-        newsEntryService, contextHolder, fileService, widgetPageService, widgetService, mediaService);
+        newsEntryService, contextHolder, widgetPageService, widgetService, mediaService);
 
     Assert.assertEquals(DisplayFactoryImpl.class, result.getClass());
   }

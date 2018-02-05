@@ -37,13 +37,22 @@ public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
   @Override
   public ModelAndView computeModelAndViewForViewAllMedias(Locale locale, int pageNumber) {
     ModelAndView pagesManager = super.computeModelAndViewForBackPage(BACK_PAGE.MEDIA_VIEW, locale);
-    LOGGER.info("Construction des medias pour la page " + BACK_PAGE.MEDIA_VIEW.name());
+    LOGGER.info("Construction des medias pour la page {}", BACK_PAGE.MEDIA_VIEW.name());
 
     PageWrapper<MediaDTO> pagedMediaDTOWrapped = computePageWrapper(locale, pageNumber);
 
     pagesManager.addObject("wrappedMedias", pagedMediaDTOWrapped);
 
     return pagesManager;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForViewMedia(String mediaId, Locale locale) {
+    ModelAndView mediaManager = super.computeModelAndViewForBackPage(BACK_PAGE.MEDIA_VISUALIZE, locale);
+    LOGGER.info("Construction de la page de visualisation d'un media ");
+    MediaDTO media = mediaService.getEntity(Long.parseLong(mediaId));
+    mediaManager.addObject("mediaBean", media);
+    return mediaManager;
   }
 
   @Override
