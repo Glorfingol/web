@@ -50,15 +50,22 @@ function setUpDropMedia(mediaSrcId, holder) {
     event.preventDefault();
     event.dataTransfer = event.originalEvent.dataTransfer;
     droppedFiles = event.originalEvent.dataTransfer.files;
-    var file = event.dataTransfer.files[0];
-    var reader = new FileReader();
-    reader.onload = function (eventOnload) {
-      $(mediaSrcId).show();
-      $(mediaSrcId).attr('src', eventOnload.target.result);
-      $(mediaSrcId).hide();
-      previewFile();
+
+    for (var index = 0; index < droppedFiles.length; index++) {
+      (function (index) {
+        var file = droppedFiles[index];
+        var reader = new FileReader();
+        reader.onload = function (eventOnload) {
+          $(mediaSrcId).show();
+          $(mediaSrcId).attr('src', eventOnload.target.result);
+          $(mediaSrcId).hide();
+          previewFileMedia(index);
+        }
+        reader.readAsDataURL(file);
+      })(index);
+
     }
-    reader.readAsDataURL(file);
+
     $(this).removeClass("dropping");
   });
 }
@@ -73,6 +80,32 @@ function previewFile() {
   reader.addEventListener("load", function () {
     preview.src = reader.result;
     base64Image = reader.result;
+  }, false);
+
+  if (file) {
+    reader.readAsDataURL(file);
+  } else if (src) {
+    var blob = createBlobFromBase64Image(src);
+    reader.readAsDataURL(blob);
+  }
+}
+
+function previewFileMedia(index) {
+  var preview;
+  if (index == 0) {
+    preview = document.querySelector('#imagePreview');
+  } else {
+    $("#formPreviewImage").append("<img class='img-fluid mx-auto d-block' src='' id='imagePreview_"
+        + index + "'/>")
+    preview = document.querySelector('#imagePreview_' + index);
+  }
+  var inputFile = document.querySelector('input[type=file]');
+  var file = inputFile.files[index];
+  var src = inputFile.src;
+  var reader = new FileReader();
+
+  reader.addEventListener("load", function () {
+    preview.src = reader.result;
   }, false);
 
   if (file) {
