@@ -8,4 +8,6 @@ public interface CarouselItemService extends BaseService<CarouselItemDTO> {
 
   List<CarouselItemDTO> getByCarouselId(String carouselId);
 
+  void deleteEntityInCarousel(String carouselId, Long id);
+
 }

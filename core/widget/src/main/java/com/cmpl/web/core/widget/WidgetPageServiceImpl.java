@@ -2,8 +2,13 @@ package com.cmpl.web.core.widget;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 
+@CacheConfig(cacheNames = "widgetPages")
 public class WidgetPageServiceImpl extends BaseServiceImpl<WidgetPageDTO, WidgetPage> implements WidgetPageService {
 
   private final WidgetPageRepository widgetPageRepository;
@@ -28,12 +33,27 @@ public class WidgetPageServiceImpl extends BaseServiceImpl<WidgetPageDTO, Widget
   }
 
   @Override
+  @Cacheable(value = "forPage", key = "#a0")
   public List<WidgetPageDTO> findByPageId(String pageId) {
     return toListDTO(widgetPageRepository.findByPageId(pageId));
   }
 
   @Override
+  @Cacheable(value = "byPageAndWidget", key = "#a0+'_'+#a1")
   public WidgetPageDTO findByPageIdAndWidgetId(String pageId, String widgetId) {
     return toDTO(widgetPageRepository.findByPageIdAndWidgetId(pageId, widgetId));
   }
+
+  @Override
+  @CacheEvict(value = {"forPage", "byPageAndWidget"}, allEntries = true)
+  public WidgetPageDTO createEntity(WidgetPageDTO dto) {
+    return super.createEntity(dto);
+  }
+
+  @Override
+  @CacheEvict(value = {"forPage", "byPageAndWidget"}, allEntries = true)
+  public void deleteEntity(Long id) {
+    super.deleteEntity(id);
+  }
+
 }

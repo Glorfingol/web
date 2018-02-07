@@ -33,14 +33,11 @@ import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.page.PageDTO;
-import com.cmpl.web.core.page.PageService;
 
 public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<CarouselDTO> implements
     CarouselManagerDisplayFactory {
 
   private final CarouselService carouselService;
-  private final PageService pageService;
   private final MediaService mediaService;
   private final CarouselItemService carouselItemService;
   private final ContextHolder contextHolder;
@@ -52,13 +49,12 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
   private static final String ITEMS = "items";
 
   public CarouselManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      CarouselService carouselService, CarouselItemService carouselItemService, PageService pageService,
-      MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+      CarouselService carouselService, CarouselItemService carouselItemService, MediaService mediaService,
+      ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry);
     this.carouselItemService = carouselItemService;
     this.carouselService = carouselService;
     this.contextHolder = contextHolder;
-    this.pageService = pageService;
     this.mediaService = mediaService;
   }
 
@@ -118,9 +114,6 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
         breadCrumb.getItems().add(item);
       }
     }
-
-    List<PageDTO> pages = pageService.getEntities();
-    carouselManager.addObject(PAGES, pages);
     return carouselManager;
   }
 
@@ -139,8 +132,6 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
   public ModelAndView computeModelAndViewForCreateCarousel(Locale locale) {
     ModelAndView carouselManager = super.computeModelAndViewForBackPage(BACK_PAGE.CAROUSELS_CREATE, locale);
     carouselManager.addObject(CREATE_FORM, computeCreateForm());
-    List<PageDTO> pages = pageService.getEntities();
-    carouselManager.addObject(PAGES, pages);
     return carouselManager;
   }
 

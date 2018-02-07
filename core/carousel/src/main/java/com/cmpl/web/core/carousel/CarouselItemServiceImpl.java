@@ -2,9 +2,14 @@ package com.cmpl.web.core.carousel;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.media.MediaService;
 
+@CacheConfig(cacheNames = "carouselItems")
 public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, CarouselItem> implements
     CarouselItemService {
 
@@ -18,6 +23,7 @@ public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, Ca
   }
 
   @Override
+  @Cacheable(value = "forCarousel", key = "#a0")
   public List<CarouselItemDTO> getByCarouselId(String carouselId) {
     return toListDTO(carouselItemRepository.findByCarouselIdOrderByOrderInCarousel(carouselId));
   }
@@ -41,6 +47,7 @@ public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, Ca
   }
 
   @Override
+  @CacheEvict(value = "forCarousel", key = "#a0.carouselId")
   public CarouselItemDTO createEntity(CarouselItemDTO dto) {
 
     CarouselItem carouselItem = CarouselItemBuilder.create().mediaId(String.valueOf(dto.getMedia().getId())).build();
@@ -48,4 +55,17 @@ public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, Ca
 
     return toDTO(carouselItemRepository.save(carouselItem));
   }
+
+  @Override
+  @Cacheable(key = "#a0")
+  public CarouselItemDTO getEntity(Long id) {
+    return super.getEntity(id);
+  }
+
+  @Override
+  @CacheEvict(value = "forCarousel", key = "#a0.carouselId")
+  public void deleteEntityInCarousel(String carouselId, Long id) {
+    deleteEntity(id);
+  }
+
 }

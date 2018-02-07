@@ -27,7 +27,6 @@ import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.page.PageService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarouselConfigurationTest {
@@ -50,8 +49,7 @@ public class CarouselConfigurationTest {
   private CarouselTranslator carouselTranslator;
   @Mock
   private CarouselValidator carouselValidator;
-  @Mock
-  private PageService pageService;
+
   @Mock
   private ContextHolder contextHolder;
   @Mock
@@ -88,7 +86,7 @@ public class CarouselConfigurationTest {
     Assert.assertEquals(
         CarouselManagerDisplayFactoryImpl.class,
         configuration.carouselManagerDisplayFactory(menuFactory, messageSource, carouselService, carouselItemService,
-            pageService, mediaService, contextHolder, breadCrumbRegistry).getClass());
+            mediaService, contextHolder, breadCrumbRegistry).getClass());
   }
 
   @Test

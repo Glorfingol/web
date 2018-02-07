@@ -36,7 +36,6 @@ import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.page.PageService;
 
 @Configuration
 @EntityScan(basePackageClasses = {Carousel.class, CarouselItem.class})
@@ -93,10 +92,10 @@ public class CarouselConfiguration {
 
   @Bean
   CarouselManagerDisplayFactory carouselManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      CarouselService carouselService, CarouselItemService carouselItemService, PageService pageService,
-      MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+      CarouselService carouselService, CarouselItemService carouselItemService, MediaService mediaService,
+      ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
     return new CarouselManagerDisplayFactoryImpl(menuFactory, messageSource, carouselService, carouselItemService,
-        pageService, mediaService, contextHolder, breadCrumbs);
+        mediaService, contextHolder, breadCrumbs);
   }
 
   @Bean

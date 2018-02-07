@@ -3,6 +3,11 @@ package com.cmpl.web.core.page;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +25,7 @@ import com.cmpl.web.core.meta.OpenGraphMetaElementService;
  * @author Louis
  *
  */
+@CacheConfig(cacheNames = "pages")
 public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements PageService {
 
   private static final String BODY_SUFFIX = ".html";
@@ -42,6 +48,7 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
 
   @Override
   @Transactional
+  @CacheEvict(value = {"pagedPages", "listedPages"}, allEntries = true)
   public PageDTO createEntity(PageDTO dto) {
     PageDTO createdPage = super.createEntity(dto);
 
@@ -54,6 +61,7 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
 
   @Override
   @Transactional
+  @CachePut(key = "#a0.id")
   public PageDTO updateEntity(PageDTO dto) {
     PageDTO updatedPage = super.updateEntity(dto);
 
@@ -64,12 +72,19 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   }
 
   @Override
+  @Cacheable(key = "#a0")
   public PageDTO getEntity(Long pageId) {
     PageDTO fetchedPage = super.getEntity(pageId);
     fetchedPage.setBody(fileService.readFileContentFromSystem(fetchedPage.getName() + BODY_SUFFIX));
     fetchedPage.setFooter(fileService.readFileContentFromSystem(fetchedPage.getName() + FOOTER_SUFFIX));
     fetchedPage.setHeader(fileService.readFileContentFromSystem(fetchedPage.getName() + HEADER_SUFFIX));
     return fetchedPage;
+  }
+
+  @Override
+  @Cacheable(value = "pagedPages")
+  public org.springframework.data.domain.Page<PageDTO> getPagedEntities(PageRequest pageRequest) {
+    return super.getPagedEntities(pageRequest);
   }
 
   @Override
@@ -87,6 +102,7 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   }
 
   @Override
+  @Cacheable(key = "#a0")
   public PageDTO getPageByName(String pageName) {
     Page page = pageRepository.findByName(pageName);
     if (page == null) {
@@ -96,6 +112,7 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   }
 
   @Override
+  @Cacheable(value = "listedPages")
   public List<PageDTO> getPages() {
     return toListDTO(pageRepository.findAll(new Sort(Direction.ASC, "name")));
   }

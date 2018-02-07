@@ -3,6 +3,12 @@ package com.cmpl.web.core.menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
@@ -14,6 +20,7 @@ import com.cmpl.web.core.common.service.BaseServiceImpl;
  * @author Louis
  *
  */
+@CacheConfig(cacheNames = "menus")
 public class MenuServiceImpl extends BaseServiceImpl<MenuDTO, Menu> implements MenuService {
 
   private final MenuRepository menuRepository;
@@ -21,6 +28,30 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDTO, Menu> implements M
   public MenuServiceImpl(MenuRepository menuRepository) {
     super(menuRepository);
     this.menuRepository = menuRepository;
+  }
+
+  @Override
+  @CacheEvict(value = {"pagedMenus", "listedMenus"}, allEntries = true)
+  public MenuDTO createEntity(MenuDTO dto) {
+    return super.createEntity(dto);
+  }
+
+  @Override
+  @Cacheable(key = "#a0")
+  public MenuDTO getEntity(Long id) {
+    return super.getEntity(id);
+  }
+
+  @Override
+  @CachePut(key = "#a0.id")
+  public MenuDTO updateEntity(MenuDTO dto) {
+    return super.updateEntity(dto);
+  }
+
+  @Override
+  @Cacheable(value = "pagedMenus")
+  public Page<MenuDTO> getPagedEntities(PageRequest pageRequest) {
+    return super.getPagedEntities(pageRequest);
   }
 
   @Override
@@ -38,6 +69,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDTO, Menu> implements M
   }
 
   @Override
+  @Cacheable(value = "listedMenus")
   public List<MenuDTO> getMenus() {
     return toListDTO(menuRepository.findAll(new Sort(Direction.ASC, "orderInMenu")));
   }

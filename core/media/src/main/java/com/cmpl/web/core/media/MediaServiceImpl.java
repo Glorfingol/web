@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +16,7 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.file.FileService;
 
+@CacheConfig(cacheNames = "medias")
 public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implements MediaService {
 
   private final ContextHolder contextHolder;
@@ -26,6 +32,7 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
 
   @Override
   @Transactional
+  @CacheEvict(value = "pagedMedias", allEntries = true)
   public MediaDTO upload(MultipartFile multipartFile) throws SQLException, IOException {
 
     String fileName = multipartFile.getOriginalFilename();
@@ -62,6 +69,19 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
   }
 
   @Override
+  @Cacheable(key = "#a0")
+  public MediaDTO getEntity(Long id) {
+    return super.getEntity(id);
+  }
+
+  @Override
+  @Cacheable(value = "pagedMedias")
+  public Page<MediaDTO> getPagedEntities(PageRequest pageRequest) {
+    return super.getPagedEntities(pageRequest);
+  }
+
+  @Override
+  @Cacheable(key = "#a0")
   public MediaDTO findByName(String name) {
     return toDTO(mediaRepository.findByName(name));
   }

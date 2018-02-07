@@ -1,10 +1,17 @@
 package com.cmpl.web.core.widget;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.file.FileService;
 
+@CacheConfig(cacheNames = "widgets")
 public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implements WidgetService {
 
   private final FileService fileService;
@@ -20,6 +27,7 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
 
   @Override
   @Transactional
+  @CacheEvict(value = "pagedWidgets", allEntries = true)
   public WidgetDTO createEntity(WidgetDTO dto) {
     WidgetDTO updatedWidget = super.createEntity(dto);
 
@@ -30,6 +38,8 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
 
   @Override
   @Transactional
+  @CachePut(key = "#a0.id")
+  @CacheEvict(value = {"pagedWidgets"}, allEntries = true)
   public WidgetDTO updateEntity(WidgetDTO dto) {
     WidgetDTO updatedWidget = super.updateEntity(dto);
 
@@ -39,10 +49,11 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   }
 
   @Override
+  @Cacheable(key = "#a0")
   public WidgetDTO getEntity(Long widgetId) {
     WidgetDTO fetchedWidget = super.getEntity(widgetId);
-    fetchedWidget.setPersonalization(
-        fileService.readFileContentFromSystem(WIDGET_PREFIX + fetchedWidget.getName() + WIDGET_SUFFIX));
+    fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(WIDGET_PREFIX + fetchedWidget.getName()
+        + WIDGET_SUFFIX));
     return fetchedWidget;
   }
 
@@ -61,7 +72,14 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   }
 
   @Override
+  @Cacheable(key = "#a0")
   public WidgetDTO findByName(String widgetName) {
     return toDTO(repository.findByName(widgetName));
+  }
+
+  @Override
+  @Cacheable(value = "pagedWidgets")
+  public Page<WidgetDTO> getPagedEntities(PageRequest pageRequest) {
+    return super.getPagedEntities(pageRequest);
   }
 }

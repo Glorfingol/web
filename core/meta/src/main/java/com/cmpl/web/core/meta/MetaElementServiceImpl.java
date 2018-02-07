@@ -2,6 +2,10 @@ package com.cmpl.web.core.meta;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 
 /**
@@ -10,6 +14,7 @@ import com.cmpl.web.core.common.service.BaseServiceImpl;
  * @author Louis
  *
  */
+@CacheConfig(cacheNames = "metaElements")
 public class MetaElementServiceImpl extends BaseServiceImpl<MetaElementDTO, MetaElement> implements MetaElementService {
 
   private final MetaElementRepository metaElementRepository;
@@ -20,6 +25,7 @@ public class MetaElementServiceImpl extends BaseServiceImpl<MetaElementDTO, Meta
   }
 
   @Override
+  @Cacheable(value = "metaForPage", key = "#a0")
   public List<MetaElementDTO> findMetaElementsByPageId(String pageId) {
     return toListDTO(metaElementRepository.findByPageId(pageId));
   }
@@ -36,6 +42,18 @@ public class MetaElementServiceImpl extends BaseServiceImpl<MetaElementDTO, Meta
     MetaElement entity = new MetaElement();
     fillObject(dto, entity);
     return entity;
+  }
+
+  @Override
+  @CacheEvict(value = "metaForPage", key = "#a0.pageId")
+  public MetaElementDTO createEntity(MetaElementDTO dto) {
+    return super.createEntity(dto);
+  }
+
+  @Override
+  @CacheEvict(value = "metaForPage", key = "#a0")
+  public void deleteEntityInPage(String pageId, Long id) {
+    deleteEntity(id);
   }
 
 }

@@ -8,4 +8,6 @@ public interface OpenGraphMetaElementService extends BaseService<OpenGraphMetaEl
 
   List<OpenGraphMetaElementDTO> findOpenGraphMetaElementsByPageId(String pageId);
 
+  void deleteEntityInPage(String pageId, Long openGraphMetaId);
+
 }

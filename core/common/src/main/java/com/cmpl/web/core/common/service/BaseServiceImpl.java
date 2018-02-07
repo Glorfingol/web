@@ -53,15 +53,6 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
   }
 
   @Override
-  public D getEntityFromCache(Long id) {
-    Optional<E> result = entityRepository.findById(id);
-    if (result == null || !result.isPresent()) {
-      return null;
-    }
-    return getEntity(id);
-  }
-
-  @Override
   public D updateEntity(D dto) {
     dto.setModificationDate(LocalDate.now());
     return toDTO(entityRepository.save(toEntity(dto)));

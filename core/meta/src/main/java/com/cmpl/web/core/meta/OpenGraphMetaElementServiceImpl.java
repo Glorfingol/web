@@ -2,6 +2,10 @@ package com.cmpl.web.core.meta;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 
 /**
@@ -10,6 +14,7 @@ import com.cmpl.web.core.common.service.BaseServiceImpl;
  * @author Louis
  *
  */
+@CacheConfig(cacheNames = "openGraphMetaElements")
 public class OpenGraphMetaElementServiceImpl extends BaseServiceImpl<OpenGraphMetaElementDTO, OpenGraphMetaElement>
     implements OpenGraphMetaElementService {
 
@@ -21,6 +26,7 @@ public class OpenGraphMetaElementServiceImpl extends BaseServiceImpl<OpenGraphMe
   }
 
   @Override
+  @Cacheable(value = "openGraphMetaForPage")
   public List<OpenGraphMetaElementDTO> findOpenGraphMetaElementsByPageId(String pageId) {
     return toListDTO(openGraphMetaElementRepository.findByPageId(pageId));
   }
@@ -37,6 +43,18 @@ public class OpenGraphMetaElementServiceImpl extends BaseServiceImpl<OpenGraphMe
     OpenGraphMetaElement entity = new OpenGraphMetaElement();
     fillObject(dto, entity);
     return entity;
+  }
+
+  @Override
+  @CacheEvict(value = "openGraphMetaForPage", key = "#a0.pageId")
+  public OpenGraphMetaElementDTO createEntity(OpenGraphMetaElementDTO dto) {
+    return super.createEntity(dto);
+  }
+
+  @Override
+  @CacheEvict(value = "openGraphMetaForPage", key = "#a0")
+  public void deleteEntityInPage(String pageId, Long openGraphMetaId) {
+    deleteEntity(openGraphMetaId);
   }
 
 }
