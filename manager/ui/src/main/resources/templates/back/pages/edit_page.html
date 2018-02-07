@@ -161,7 +161,8 @@
   }
 
   var setUpCodeMirror = function (textAreaId) {
-    var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId));
+    var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
+        {theme: "neo", lineNumbers: true});
     codeMirror.on("drop", function (editor, e) {
       var dataTransferred = e.dataTransfer.getData("text/html");
       var newDiv = '\n<div id="widget_' + dataTransferred + '">\n</div>';

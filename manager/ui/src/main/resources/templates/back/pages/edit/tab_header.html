@@ -3,6 +3,8 @@
     <div class="col-9">
       <div class="form-group mb-3" id="formInputHeader">
         <label th:text="#{page.header.label}"/>
+        <br/>
+        <label th:text="#{page.widgets.linked.help}"/>
         <textarea rows="3" id="pageHeader" class="form-control" th:field="*{header}"/>
         <div id="feedbackHeader" class="form-control-label"></div>
         <small class="form-text text-muted" th:text="#{page.header.help}"/>
