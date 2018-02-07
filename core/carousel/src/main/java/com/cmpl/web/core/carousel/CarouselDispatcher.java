@@ -12,6 +12,6 @@ public interface CarouselDispatcher {
 
   CarouselItemResponse createEntity(CarouselItemCreateForm form, Locale locale);
 
-  void deleteCarouselItemEntity(String carouselItemId, Locale locale) throws BaseException;
+  void deleteCarouselItemEntity(String carouselId, String carouselItemId, Locale locale) throws BaseException;
 
 }

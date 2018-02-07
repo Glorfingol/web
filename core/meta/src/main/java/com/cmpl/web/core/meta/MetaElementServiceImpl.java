@@ -45,15 +45,15 @@ public class MetaElementServiceImpl extends BaseServiceImpl<MetaElementDTO, Meta
   }
 
   @Override
-  @CacheEvict(value = "metaForPage", key = "#a0.pageId")
+  @CacheEvict(value = {"metaForPage", "pages"}, allEntries = true)
   public MetaElementDTO createEntity(MetaElementDTO dto) {
     return super.createEntity(dto);
   }
 
   @Override
-  @CacheEvict(value = "metaForPage", key = "#a0")
-  public void deleteEntityInPage(String pageId, Long id) {
-    deleteEntity(id);
+  @CacheEvict(value = {"metaForPage", "pages"}, allEntries = true)
+  public void deleteEntity(Long id) {
+    super.deleteEntity(id);
   }
 
 }

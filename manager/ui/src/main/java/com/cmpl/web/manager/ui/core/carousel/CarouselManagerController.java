@@ -36,7 +36,7 @@ public class CarouselManagerController {
 
   private final CarouselDispatcher carouselDispatcher;
   private final CarouselManagerDisplayFactory carouselDisplayFactory;
-  
+
   public CarouselManagerController(CarouselDispatcher carouselDispatcher,
       CarouselManagerDisplayFactory carouselDisplayFactory) {
     this.carouselDisplayFactory = carouselDisplayFactory;
@@ -142,12 +142,12 @@ public class CarouselManagerController {
 
   @DeleteMapping(value = "/{carouselId}/items/{carouselItemId}")
   @ResponseBody
-  public ResponseEntity<CarouselItemResponse> deleteCarouselItem(
+  public ResponseEntity<CarouselItemResponse> deleteCarouselItem(@PathVariable(value = "carouselId") String carouselId,
       @PathVariable(value = "carouselItemId") String carouselItemId, Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un élément de carousel");
     try {
-      carouselDispatcher.deleteCarouselItemEntity(carouselItemId, locale);
+      carouselDispatcher.deleteCarouselItemEntity(carouselId, carouselItemId, locale);
     } catch (BaseException e) {
       LOGGER.error("Echec de la suppression de l'élément de carousel " + carouselItemId, e);
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -68,6 +68,11 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
     fileService.saveFileOnSystem(dto.getName() + BODY_SUFFIX, dto.getBody());
     fileService.saveFileOnSystem(dto.getName() + FOOTER_SUFFIX, dto.getFooter());
     fileService.saveFileOnSystem(dto.getName() + HEADER_SUFFIX, dto.getHeader());
+
+    updatedPage.setHeader(dto.getHeader());
+    updatedPage.setFooter(dto.getFooter());
+    updatedPage.setBody(dto.getBody());
+
     return updatedPage;
   }
 

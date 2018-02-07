@@ -52,9 +52,9 @@ public class OpenGraphMetaElementServiceImpl extends BaseServiceImpl<OpenGraphMe
   }
 
   @Override
-  @CacheEvict(value = "openGraphMetaForPage", key = "#a0")
-  public void deleteEntityInPage(String pageId, Long openGraphMetaId) {
-    deleteEntity(openGraphMetaId);
+  @CacheEvict(value = {"openGraphMetaForPage", "pages"}, allEntries = true)
+  public void deleteEntity(Long openGraphMetaId) {
+    super.deleteEntity(openGraphMetaId);
   }
 
 }

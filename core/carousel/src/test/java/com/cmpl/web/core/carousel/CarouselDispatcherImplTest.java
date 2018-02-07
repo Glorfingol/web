@@ -49,18 +49,20 @@ public class CarouselDispatcherImplTest {
     ErrorCause cause = ErrorCauseBuilder.create().message("someMessage").code("someCode").build();
     BDDMockito.given(validator.validateDelete(BDDMockito.anyString(), BDDMockito.any(Locale.class))).willReturn(
         ErrorBuilder.create().causes(Lists.newArrayList(cause)).build());
-    dispatcher.deleteCarouselItemEntity("123456789", Locale.FRANCE);
+    dispatcher.deleteCarouselItemEntity("123456789", "123456789", Locale.FRANCE);
   }
 
   @Test
   public void testDeleteCarouselItemEntity_No_Error() throws Exception {
     BDDMockito.given(validator.validateDelete(BDDMockito.anyString(), BDDMockito.any(Locale.class))).willReturn(null);
 
-    BDDMockito.doNothing().when(carouselItemService).deleteEntity(BDDMockito.anyLong());
+    BDDMockito.doNothing().when(carouselItemService)
+        .deleteEntityInCarousel(BDDMockito.anyString(), BDDMockito.anyLong());
 
-    dispatcher.deleteCarouselItemEntity("123456789", Locale.FRANCE);
+    dispatcher.deleteCarouselItemEntity("123456789", "123456789", Locale.FRANCE);
 
-    BDDMockito.verify(carouselItemService, BDDMockito.times(1)).deleteEntity(BDDMockito.anyLong());
+    BDDMockito.verify(carouselItemService, BDDMockito.times(1)).deleteEntityInCarousel(BDDMockito.anyString(),
+        BDDMockito.anyLong());
   }
 
   @Test
@@ -122,7 +124,7 @@ public class CarouselDispatcherImplTest {
     BDDMockito.given(carouselItemService.createEntity(BDDMockito.any(CarouselItemDTO.class))).willReturn(dto);
     CarouselItemResponse response = CarouselItemResponseBuilder.create().build();
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(CarouselItemDTO.class))).willReturn(response);
-    MediaDTO media = MediaDTOBuilder.create().build(); 
+    MediaDTO media = MediaDTOBuilder.create().build();
     BDDMockito.given(mediaService.getEntity(BDDMockito.anyLong())).willReturn(media);
 
     Assert.assertEquals(response,
