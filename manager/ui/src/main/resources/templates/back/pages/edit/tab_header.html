@@ -15,10 +15,6 @@
       <input type="hidden" th:field="*{menuTitle}"/>
       <input type="hidden" th:field="*{body}"/>
       <input type="hidden" th:field="*{footer}"/>
-      <div class="float-right">
-        <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdatePage()"></a>
-        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdatePageForm()"></a>
-      </div>
     </div>
     <div class="col-3" id="dragAndDrop">
       <table class="table table-hover table-bordered tabble-striped">
@@ -39,6 +35,14 @@
         </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="float-right">
+        <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdatePage()"></a>
+        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdatePageForm()"></a>
+      </div>
     </div>
   </div>
 
