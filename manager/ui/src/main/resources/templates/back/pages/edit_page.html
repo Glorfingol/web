@@ -1,142 +1,178 @@
 <div class="card mb-4">
-    <div role="tabpanel" class="card-header">
-        <ul class="nav nav-tabs card-header-tabs" id="pageTabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab" onclick="goToMainTab()">
-                    <span th:text="#{page.tab.main}"/>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="body-tab" data-toggle="tab" href="#" role="tab" onclick="goToBodyTab()">
-                    <span th:text="#{page.tab.body}"/>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="header-tab" data-toggle="tab" href="#" role="tab" onclick="goToHeaderTab()">
-                    <span th:text="#{page.tab.header}"/>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="footer-tab" data-toggle="tab" href="#" role="tab" onclick="goToFooterTab()">
-                    <span th:text="#{page.tab.footer}"/>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="meta-tab" data-toggle="tab" href="#" role="tab" onclick="goToMetaTab()">
-                    <span th:text="#{page.tab.meta}"/>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="open-graph-meta-tab" data-toggle="tab" href="#" role="tab"
-                   onclick="goToOpenGraphMetaTab()">
-                    <span th:text="#{page.tab.open.meta}"/>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="widgets-tab" data-toggle="tab" href="#" role="tab" onclick="goToWidgetsTab()">
-                    <span th:text="#{page.widgets}"/>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="preview-tab" data-toggle="tab" href="#" role="tab" onclick="goToPreviewTab()">
-                    <span th:text="#{page.preview}"/>
-                </a>
-            </li>
-        </ul>
+  <div role="tabpanel" class="card-header">
+    <ul class="nav nav-tabs card-header-tabs" id="pageTabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToMainTab()">
+          <span th:text="#{page.tab.main}"/>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="body-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToBodyTab()">
+          <span th:text="#{page.tab.body}"/>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="header-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToHeaderTab()">
+          <span th:text="#{page.tab.header}"/>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="footer-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToFooterTab()">
+          <span th:text="#{page.tab.footer}"/>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="meta-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToMetaTab()">
+          <span th:text="#{page.tab.meta}"/>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="open-graph-meta-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToOpenGraphMetaTab()">
+          <span th:text="#{page.tab.open.meta}"/>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="widgets-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToWidgetsTab()">
+          <span th:text="#{page.widgets}"/>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="preview-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToPreviewTab()">
+          <span th:text="#{page.preview}"/>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="tab-content card-body" id="pageTabContent">
+    <div role="tabpanel" class="tab-pane fade active show" id="ajaxTab">
     </div>
-    <div class="tab-content card-body" id="pageTabContent">
-        <div role="tabpanel" class="tab-pane fade active show" id="ajaxTab">
-        </div>
-    </div>
+  </div>
 </div>
 <script th:inline="javascript">
-    CKEDITOR.config.startupMode = 'source';
-    var currentTab = "";
-    var goToBodyTab = function () {
-        if (currentTab !== "body") {
-            var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_body";
-            $.get(url, function (data) {
-                $("#ajaxTab").html(data);
-                CKEDITOR.replace("pageBody");
-                currentTab = "body";
-            });
-        }
-    };
 
-    var goToHeaderTab = function () {
-        if (currentTab !== "header") {
-            var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_header";
-            $.get(url, function (data) {
-                $("#ajaxTab").html(data);
-                CKEDITOR.replace("pageHeader");
-                currentTab = "header";
-            });
-        }
-    };
+  var codeMirrorHeader;
+  var codeMirrorBody;
+  var codeMirrorFooter;
+  var currentTab = "";
 
-    var goToFooterTab = function () {
-        if (currentTab !== "footer") {
-            var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_footer";
-            $.get(url, function (data) {
-                $("#ajaxTab").html(data);
-                CKEDITOR.replace("pageFooter");
-                currentTab = "footer";
-            });
-        }
-    };
+  var goToBodyTab = function () {
+    if (currentTab !== "body") {
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_body";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        codeMirrorBody = setUpCodeMirror("pageBody");
+        prepareDragAndDrop();
+        currentTab = "body";
+      });
+    }
+  };
 
-    var goToMetaTab = function () {
-        if (currentTab !== "meta") {
-            var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_meta";
-            $.get(url, function (data) {
-                $("#ajaxTab").html(data);
-                currentTab = "meta";
-            });
-        }
-    };
+  var goToHeaderTab = function () {
+    if (currentTab !== "header") {
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_header";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        codeMirrorHeader = setUpCodeMirror("pageHeader");
+        prepareDragAndDrop();
+        currentTab = "header";
+      });
+    }
+  };
 
-    var goToOpenGraphMetaTab = function () {
-        if (currentTab !== "open_graph_meta") {
-            var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_open_graph_meta";
-            $.get(url, function (data) {
-                $("#ajaxTab").html(data);
-                currentTab = "open_graph_meta";
-            });
-        }
-    };
+  var goToFooterTab = function () {
+    if (currentTab !== "footer") {
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_footer";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        codeMirrorFooter = setUpCodeMirror("pageFooter");
+        prepareDragAndDrop();
+        currentTab = "footer";
+      });
+    }
+  };
 
-    var goToWidgetsTab = function () {
-        if (currentTab !== "widgets") {
-            var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_widgets";
-            $.get(url, function (data) {
-                $("#ajaxTab").html(data);
-                currentTab = "widgets";
-            });
-        }
-    };
+  var goToMetaTab = function () {
+    if (currentTab !== "meta") {
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_meta";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "meta";
+      });
+    }
+  };
 
-    var goToMainTab = function () {
-        if (currentTab !== "main") {
-            var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_main";
-            $.get(url, function (data) {
-                $("#ajaxTab").html(data);
-                currentTab = "main";
-            });
-        }
-    };
+  var goToOpenGraphMetaTab = function () {
+    if (currentTab !== "open_graph_meta") {
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_open_graph_meta";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "open_graph_meta";
+      });
+    }
+  };
 
-    var goToPreviewTab = function () {
-        if (currentTab !== "preview") {
-            var url = "/pages/" + [['' + ${updateForm.name} +'']];
-            var iframe = $('<iframe src="' + url + '" frameborder="0" id="previewIframe"></iframe>');
-            $("#ajaxTab").html(iframe)
-            currentTab = "preview";
-        }
-    };
+  var goToWidgetsTab = function () {
+    if (currentTab !== "widgets") {
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_widgets";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "widgets";
+      });
+    }
+  };
 
-    $(document).ready(function () {
-        goToMainTab();
+  var goToMainTab = function () {
+    if (currentTab !== "main") {
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_main";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "main";
+      });
+    }
+  };
+
+  var goToPreviewTab = function () {
+    if (currentTab !== "preview") {
+      var url = "/pages/" + [['' + ${updateForm.name} +'']];
+      var iframe = $('<iframe src="' + url + '" frameborder="0" id="previewIframe"></iframe>');
+      $("#ajaxTab").html(iframe)
+      currentTab = "preview";
+    }
+  };
+
+  $(document).ready(function () {
+    goToMainTab();
+  });
+
+  var prepareDragAndDrop = function () {
+    $(".linkedWidget").on("dragstart", function (event) {
+      event.originalEvent.dataTransfer.setData("text/html",
+          event.target.getAttribute("data-name"));
+      $.event.addProp('dataTransfer');
+    })
+  }
+
+  var setUpCodeMirror = function (textAreaId) {
+    var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId));
+    codeMirror.on("drop", function (editor, e) {
+      var dataTransferred = e.dataTransfer.getData("text/html");
+      var newDiv = '\n<div id="widget_' + dataTransferred + '">\n</div>';
+      var coordinatess = codeMirror.coordsChar({
+        left: e.x,
+        top: e.y
+      });
+      editor.replaceRange(newDiv, coordinatess);
     });
+    return codeMirror;
+  }
 </script>
 
 

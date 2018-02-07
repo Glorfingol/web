@@ -141,6 +141,10 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_body");
     PageDTO page = pageService.getEntity(Long.parseLong(pageId));
     pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
+
+    List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(pageId);
+    pageManager.addObject(LINKED_WIDGETS, computeLinkedWidgets(associatedWidgets));
+
     return pageManager;
   }
 
@@ -179,6 +183,9 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_header");
     PageDTO page = pageService.getEntity(Long.parseLong(pageId));
     pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
+
+    List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(pageId);
+    pageManager.addObject(LINKED_WIDGETS, computeLinkedWidgets(associatedWidgets));
     return pageManager;
   }
 
@@ -187,6 +194,9 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_footer");
     PageDTO page = pageService.getEntity(Long.parseLong(pageId));
     pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
+
+    List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(pageId);
+    pageManager.addObject(LINKED_WIDGETS, computeLinkedWidgets(associatedWidgets));
     return pageManager;
   }
 
