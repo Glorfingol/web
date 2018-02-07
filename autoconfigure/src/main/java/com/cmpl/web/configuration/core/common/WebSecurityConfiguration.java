@@ -73,8 +73,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   String[] prepareAuthorizedUrls() {
     return new String[]{"/", "/pages/**", "/robots", "/robot", "/robot.txt", "/robots.txt", "/bootstrap/**",
-        "/jquery/**", "/tether/**", "/fontawesome/**", "/ckeditor/**", "/js/**", "/img/**", "/css/**",
-        "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**", "/widgets/**"};
+        "/jquery/**", "/tether/**", "/fontawesome/**", "/ckeditor/**", "/codemirror/**", "/js/**", "/img/**",
+        "/css/**", "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**", "/widgets/**"};
   }
 
   @Bean

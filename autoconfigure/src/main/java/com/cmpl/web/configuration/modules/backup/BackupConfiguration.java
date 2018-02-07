@@ -28,11 +28,17 @@ import com.cmpl.web.core.page.Page;
 import com.cmpl.web.core.page.PageRepository;
 import com.cmpl.web.core.style.Style;
 import com.cmpl.web.core.style.StyleRepository;
-
+import com.cmpl.web.core.widget.Widget;
+import com.cmpl.web.core.widget.WidgetPage;
+import com.cmpl.web.core.widget.WidgetPageRepository;
+import com.cmpl.web.core.widget.WidgetRepository;
 
 @Configuration
 @PropertySource("classpath:/backup/backup.properties")
-@EnableJpaRepositories(basePackageClasses = {MenuRepository.class,StyleRepository.class,PageRepository.class,MediaRepository.class,CarouselRepository.class,CarouselItemRepository.class,MetaElementRepository.class,OpenGraphMetaElementRepository.class,NewsEntryRepository.class,NewsContentRepository.class,NewsImageRepository.class})
+@EnableJpaRepositories(basePackageClasses = {MenuRepository.class, StyleRepository.class, PageRepository.class,
+    MediaRepository.class, CarouselRepository.class, CarouselItemRepository.class, MetaElementRepository.class,
+    OpenGraphMetaElementRepository.class, NewsEntryRepository.class, NewsContentRepository.class,
+    NewsImageRepository.class, WidgetRepository.class, WidgetPageRepository.class})
 public class BackupConfiguration {
 
   @Bean
@@ -89,8 +95,16 @@ public class BackupConfiguration {
   @Bean
   public DataManipulator<NewsContent> newsContentDataManipulator(NewsContentRepository newsContentRepository) {
     return new DataManipulator<>(newsContentRepository);
-  } 
+  }
 
+  @Bean
+  public DataManipulator<Widget> widgetDataManipulator(WidgetRepository widgetRepository) {
+    return new DataManipulator<>(widgetRepository);
+  }
 
+  @Bean
+  public DataManipulator<WidgetPage> widgetPageDataManipulator(WidgetPageRepository widgetPageRepository) {
+    return new DataManipulator<>(widgetPageRepository);
+  }
 
 }

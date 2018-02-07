@@ -33,6 +33,8 @@ import com.cmpl.web.backup.writer.NewsImageCSVWriter;
 import com.cmpl.web.backup.writer.OpenGraphMetaElementCSVWriter;
 import com.cmpl.web.backup.writer.PageCSVWriter;
 import com.cmpl.web.backup.writer.StyleCSVWriter;
+import com.cmpl.web.backup.writer.WidgetCSVWriter;
+import com.cmpl.web.backup.writer.WidgetPageCSVWriter;
 import com.cmpl.web.core.carousel.Carousel;
 import com.cmpl.web.core.carousel.CarouselItem;
 import com.cmpl.web.core.media.Media;
@@ -44,6 +46,8 @@ import com.cmpl.web.core.news.NewsEntry;
 import com.cmpl.web.core.news.NewsImage;
 import com.cmpl.web.core.page.Page;
 import com.cmpl.web.core.style.Style;
+import com.cmpl.web.core.widget.Widget;
+import com.cmpl.web.core.widget.WidgetPage;
 import com.cmpl.web.google.DriveAdapter;
 
 @Configuration
@@ -68,7 +72,6 @@ public class BackupExportConfiguration {
   public ArchiveManager archiveManager(DriveAdapter driveAdapter) {
     return new ArchiveManagerImpl(backupFilePath, mediaFilePath, pagesFilePath, actualitesFilePath, driveAdapter);
   }
-
 
   @Bean
   public MenuCSVWriter menuCSVWriter(DataManipulator<Menu> menuDataManipulator) {
@@ -127,11 +130,22 @@ public class BackupExportConfiguration {
   }
 
   @Bean
+  public WidgetCSVWriter widgetCSVWriter(DataManipulator<Widget> widgetDataManipulator) {
+    return new WidgetCSVWriter(dateFormatter, widgetDataManipulator, backupFilePath);
+  }
+
+  @Bean
+  public WidgetPageCSVWriter widgetPageCSVWriter(DataManipulator<WidgetPage> widgetPageDataManipulator) {
+    return new WidgetPageCSVWriter(dateFormatter, widgetPageDataManipulator, backupFilePath);
+  }
+
+  @Bean
   public CSVGenerator csvGenerator(MenuCSVWriter menuCSVWriter, StyleCSVWriter styleCSVWriter,
       PageCSVWriter pageCSVWriter, MediaCSVWriter mediaCSVWriter, CarouselCSVWriter carouselCSVWriter,
       CarouselItemCSVWriter carouselItemCSVWriter, MetaElementCSVWriter metaElementCSVWriter,
       OpenGraphMetaElementCSVWriter openGraphMetaElementCSVWriter, NewsEntryCSVWriter newsEntryCSVWriter,
-      NewsImageCSVWriter newsImageCSVWriter, NewsContentCSVWriter newsContentCSVWriter) {
+      NewsImageCSVWriter newsImageCSVWriter, NewsContentCSVWriter newsContentCSVWriter,
+      WidgetCSVWriter widgetCSVWriter, WidgetPageCSVWriter widgetPageCSVWriter) {
     List<CommonWriter<?>> writers = new ArrayList<>();
     writers.add(menuCSVWriter);
     writers.add(styleCSVWriter);
@@ -144,9 +158,10 @@ public class BackupExportConfiguration {
     writers.add(newsEntryCSVWriter);
     writers.add(newsImageCSVWriter);
     writers.add(newsContentCSVWriter);
+    writers.add(widgetCSVWriter);
+    writers.add(widgetPageCSVWriter);
     return new CSVGeneratorImpl(writers);
   }
-
 
   @Bean
   @Qualifier("backupExportJob")
@@ -162,7 +177,7 @@ public class BackupExportConfiguration {
 
   @Bean
   @Qualifier("backupExportTrigger")
-  public SimpleTriggerFactoryBean backupExportTrigger( JobDetail backupExportJob) {
+  public SimpleTriggerFactoryBean backupExportTrigger(JobDetail backupExportJob) {
     SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
     factoryBean.setName("Application backup export");
     factoryBean.setDescription("Periodic backup of the data of the application");

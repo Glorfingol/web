@@ -31,6 +31,8 @@ import com.cmpl.web.backup.reader.NewsImageCSVParser;
 import com.cmpl.web.backup.reader.OpenGraphMetaElementCSVParser;
 import com.cmpl.web.backup.reader.PageCSVParser;
 import com.cmpl.web.backup.reader.StyleCSVParser;
+import com.cmpl.web.backup.reader.WidgetCSVParser;
+import com.cmpl.web.backup.reader.WidgetPageCSVParser;
 import com.cmpl.web.backup.writer.DataManipulator;
 import com.cmpl.web.core.carousel.Carousel;
 import com.cmpl.web.core.carousel.CarouselItem;
@@ -43,6 +45,8 @@ import com.cmpl.web.core.news.NewsEntry;
 import com.cmpl.web.core.news.NewsImage;
 import com.cmpl.web.core.page.Page;
 import com.cmpl.web.core.style.Style;
+import com.cmpl.web.core.widget.Widget;
+import com.cmpl.web.core.widget.WidgetPage;
 
 @Configuration
 @PropertySource("classpath:/backup/backup.properties")
@@ -62,8 +66,6 @@ public class BackupImportConfiguration {
 
   DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault());
 
-
-
   @Bean
   public BackupImporter backupImporter(CSVReader csvReader) {
     return new BackupImporter(csvReader, backupFilePath, mediaFilePath, pagesFilePath, actualitesFilePath);
@@ -73,7 +75,7 @@ public class BackupImportConfiguration {
   public MenuCSVParser menuCSVParser(DataManipulator<Menu> menuDataManipulator) {
     return new MenuCSVParser(dateFormatter, menuDataManipulator, backupFilePath);
   }
- 
+
   @Bean
   public StyleCSVParser styleCSVParser(DataManipulator<Style> styleDataManipulator) {
     return new StyleCSVParser(dateFormatter, styleDataManipulator, backupFilePath);
@@ -126,11 +128,22 @@ public class BackupImportConfiguration {
   }
 
   @Bean
+  public WidgetCSVParser widgetCSVParser(DataManipulator<Widget> widgetDataManipulator) {
+    return new WidgetCSVParser(dateFormatter, widgetDataManipulator, backupFilePath);
+  }
+
+  @Bean
+  public WidgetPageCSVParser widgetPageCSVParser(DataManipulator<WidgetPage> widgetPageDataManipulator) {
+    return new WidgetPageCSVParser(dateFormatter, widgetPageDataManipulator, backupFilePath);
+  }
+
+  @Bean
   public CSVReader csvReader(MenuCSVParser menuCSVParser, StyleCSVParser styleCSVParser, PageCSVParser pageCSVParser,
       MediaCSVParser mediaCSVParser, CarouselCSVParser carouselCSVParser, CarouselItemCSVParser carouselItemCSVParser,
       MetaElementCSVParser metaElementCSVParser, OpenGraphMetaElementCSVParser openGraphMetaElementCSVParser,
       NewsEntryCSVParser newsEntryCSVParser, NewsImageCSVParser newsImageCSVParser,
-      NewsContentCSVParser newsContentCSVParser) {
+      NewsContentCSVParser newsContentCSVParser, WidgetCSVParser widgetCSVParser,
+      WidgetPageCSVParser widgetPageCSVParser) {
     List<CommonParser<?>> parsers = new ArrayList<>();
     parsers.add(menuCSVParser);
     parsers.add(styleCSVParser);
@@ -143,6 +156,8 @@ public class BackupImportConfiguration {
     parsers.add(newsEntryCSVParser);
     parsers.add(newsImageCSVParser);
     parsers.add(newsContentCSVParser);
+    parsers.add(widgetCSVParser);
+    parsers.add(widgetPageCSVParser);
     return new CSVReaderImpl(parsers);
   }
 
