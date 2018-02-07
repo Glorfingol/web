@@ -16,6 +16,10 @@ public class StyleForm {
   private String mediaName;
   private Long mediaId;
 
+  public StyleForm() {
+
+  }
+
   public StyleForm(StyleDTO style) {
     this.content = style.getContent();
     this.id = style.getId();

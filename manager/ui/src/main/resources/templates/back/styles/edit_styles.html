@@ -1,29 +1,35 @@
 <div class="card card-body mb-4">
-    <form id="styleViewForm" th:object="${styleForm}">
-        <input type="hidden"  th:field="*{id}"/>
-        <input type="hidden"  th:field="*{creationDate}"/>
-        <input type="hidden"  th:field="*{modificationDate}"/>
-        <input type="hidden"  th:field="*{mediaId}"/>
-        <input type="hidden"  th:field="*{mediaName}"/>
-        <div class="form-group mb-3" id="formInputContent">
-            <label th:text="#{style.content.label}" />
-            <textarea rows="3" id="styleContent" class="form-control" th:field="*{content}"/>
-            <div id="feedbackBody" class="form-control-label"></div>
-            <small class="form-text text-muted" th:text="#{style.content.help}"/>
-        </div>
-        <div class="float-right">
-          <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdateStyle()"></a>
-          <a class="btn btn-md btn-success fa fa-check fa-white"  onclick="postUpdateStyleForm()"></a>
-        </div>
-    </form>
- </div>
+  <form id="styleViewForm" th:object="${styleForm}">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{creationDate}"/>
+    <input type="hidden" th:field="*{modificationDate}"/>
+    <input type="hidden" th:field="*{mediaId}"/>
+    <input type="hidden" th:field="*{mediaName}"/>
+    <div class="form-group mb-3" id="formInputContent">
+      <label th:text="#{style.content.label}"/>
+      <textarea rows="3" id="styleContent" class="form-control" th:field="*{content}"/>
+      <div id="feedbackBody" class="form-control-label"></div>
+      <small class="form-text text-muted" th:text="#{style.content.help}"/>
+    </div>
+    <div class="float-right">
+      <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdateStyle()"></a>
+      <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdateStyleForm()"></a>
+    </div>
+  </form>
+</div>
 <div class="card card-loader">
-    <div class="loader"/> 
+  <div class="loader"/>
 </div>
 <script th:inline="javascript">
-CKEDITOR.config.startupMode = 'source';
-$(document).ready(function(){
-    CKEDITOR.replace("styleContent");
-});
+  var codeMirrorStyleContent;
+  $(document).ready(function () {
+    codeMirrorStyleContent = setUpCodeMirror("styleContent");
+  });
+
+  var setUpCodeMirror = function (textAreaId) {
+    var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
+        {theme: "neo", lineNumbers: true});
+    return codeMirror;
+  }
 
 </script>
