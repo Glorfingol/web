@@ -28,16 +28,6 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.meta.MetaElementCreateForm;
-import com.cmpl.web.core.meta.MetaElementCreateFormBuilder;
-import com.cmpl.web.core.meta.MetaElementDTO;
-import com.cmpl.web.core.meta.MetaElementDTOBuilder;
-import com.cmpl.web.core.meta.MetaElementService;
-import com.cmpl.web.core.meta.OpenGraphMetaElementCreateForm;
-import com.cmpl.web.core.meta.OpenGraphMetaElementCreateFormBuilder;
-import com.cmpl.web.core.meta.OpenGraphMetaElementDTO;
-import com.cmpl.web.core.meta.OpenGraphMetaElementDTOBuilder;
-import com.cmpl.web.core.meta.OpenGraphMetaElementService;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.page.PageCreateForm;
 import com.cmpl.web.core.page.PageCreateFormBuilder;
@@ -46,6 +36,8 @@ import com.cmpl.web.core.page.PageDTOBuilder;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.page.PageUpdateForm;
 import com.cmpl.web.core.page.PageUpdateFormBuilder;
+import com.cmpl.web.core.widget.WidgetPageService;
+import com.cmpl.web.core.widget.WidgetService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PageManagerDisplayFactoryImplTest {
@@ -53,15 +45,15 @@ public class PageManagerDisplayFactoryImplTest {
   @Mock
   private PageService pageService;
   @Mock
-  private OpenGraphMetaElementService openGraphMetaElementService;
-  @Mock
-  private MetaElementService metaElementService;
-  @Mock
   private ContextHolder contextHolder;
   @Mock
   private MenuFactory menuFactory;
   @Mock
   private WebMessageSource messageSource;
+  @Mock
+  private WidgetPageService widgetPageService;
+  @Mock
+  private WidgetService widgetService;
 
   @Spy
   @InjectMocks
@@ -71,12 +63,14 @@ public class PageManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForUpdatePageFooter() throws Exception {
 
     PageDTO dto = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(dto);
+    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
-    BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class));
+    BDDMockito.doReturn(form).when(displayFactory)
+        .createUpdateForm(BDDMockito.any(PageDTO.class), BDDMockito.anyString());
 
-    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageFooter(Locale.FRANCE, "123456789");
+    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageFooter(Locale.FRANCE, "123456789",
+        Locale.FRANCE.getLanguage());
 
     Assert.assertNotNull(result.getModel().get("updateForm"));
   }
@@ -85,70 +79,29 @@ public class PageManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForUpdatePageHeader() throws Exception {
 
     PageDTO dto = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(dto);
+    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
-    BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class));
+    BDDMockito.doReturn(form).when(displayFactory)
+        .createUpdateForm(BDDMockito.any(PageDTO.class), BDDMockito.anyString());
 
-    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageHeader(Locale.FRANCE, "123456789");
+    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageHeader(Locale.FRANCE, "123456789",
+        Locale.FRANCE.getLanguage());
     Assert.assertNotNull(result.getModel().get("updateForm"));
-  }
-
-  @Test
-  public void testCreateOpenGraphMetaElementCreateForm() throws Exception {
-
-    String someId = "123456789";
-    Assert.assertEquals(someId, displayFactory.createOpenGraphMetaElementCreateForm(someId).getPageId());
-  }
-
-  @Test
-  public void testCreateMetaElementCreateForm() throws Exception {
-
-    String someId = "123456789";
-    Assert.assertEquals(someId, displayFactory.createMetaElementCreateForm(someId).getPageId());
-  }
-
-  @Test
-  public void testComputeModelAndViewForUpdatePageOpenGraphMeta() throws Exception {
-
-    OpenGraphMetaElementCreateForm form = OpenGraphMetaElementCreateFormBuilder.create().build();
-    BDDMockito.doReturn(form).when(displayFactory).createOpenGraphMetaElementCreateForm(BDDMockito.anyString());
-
-    OpenGraphMetaElementDTO openGraphMeta = OpenGraphMetaElementDTOBuilder.create().build();
-    BDDMockito.given(openGraphMetaElementService.findOpenGraphMetaElementsByPageId(BDDMockito.anyString())).willReturn(
-        Lists.newArrayList(openGraphMeta));
-
-    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageOpenGraphMeta(Locale.FRANCE, "123456789");
-    Assert.assertNotNull(result.getModel().get("metaElements"));
-    Assert.assertNotNull(result.getModel().get("createForm"));
-
-  }
-
-  @Test
-  public void testComputeModelAndViewForUpdatePageMeta() throws Exception {
-    MetaElementCreateForm form = MetaElementCreateFormBuilder.create().build();
-    BDDMockito.doReturn(form).when(displayFactory).createMetaElementCreateForm(BDDMockito.anyString());
-
-    MetaElementDTO meta = MetaElementDTOBuilder.create().build();
-    BDDMockito.given(metaElementService.findMetaElementsByPageId(BDDMockito.anyString())).willReturn(
-        Lists.newArrayList(meta));
-
-    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageMeta(Locale.FRANCE, "123456789");
-    Assert.assertNotNull(result.getModel().get("metaElements"));
-    Assert.assertNotNull(result.getModel().get("createForm"));
-
   }
 
   @Test
   public void testComputeModelAndViewForUpdatePageBody() throws Exception {
 
     PageDTO dto = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(dto);
+    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
-    BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class));
+    BDDMockito.doReturn(form).when(displayFactory)
+        .createUpdateForm(BDDMockito.any(PageDTO.class), BDDMockito.anyString());
 
-    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageBody(Locale.FRANCE, "123456789");
+    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageBody(Locale.FRANCE, "123456789",
+        Locale.FRANCE.getLanguage());
     Assert.assertNotNull(result.getModel().get("updateForm"));
   }
 
@@ -156,12 +109,14 @@ public class PageManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForUpdatePageMain() throws Exception {
 
     PageDTO dto = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(dto);
+    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
-    BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class));
+    BDDMockito.doReturn(form).when(displayFactory)
+        .createUpdateForm(BDDMockito.any(PageDTO.class), BDDMockito.anyString());
 
-    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageMain(Locale.FRANCE, "123456789");
+    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageMain(Locale.FRANCE, "123456789",
+        Locale.FRANCE.getLanguage());
     Assert.assertNotNull(result.getModel().get("updateForm"));
   }
 
@@ -169,16 +124,18 @@ public class PageManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForUpdatePage() throws Exception {
 
     PageDTO dto = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong())).willReturn(dto);
+    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
 
     BreadCrumbItem item = BreadCrumbItemBuilder.create().text("someText").build();
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().items(Lists.newArrayList(item)).build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
-    BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class));
+    BDDMockito.doReturn(form).when(displayFactory)
+        .createUpdateForm(BDDMockito.any(PageDTO.class), BDDMockito.anyString());
 
-    ModelAndView result = displayFactory.computeModelAndViewForUpdatePage(Locale.FRANCE, "123456789");
+    ModelAndView result = displayFactory.computeModelAndViewForUpdatePage(Locale.FRANCE, "123456789",
+        Locale.FRANCE.getLanguage());
     Assert.assertNotNull(result.getModel().get("updateForm"));
   }
 
@@ -198,7 +155,7 @@ public class PageManagerDisplayFactoryImplTest {
   public void testCreateUpdateForm() throws Exception {
     PageDTO dto = PageDTOBuilder.create().body("someBody").footer("someFooter").header("someHeader").build();
 
-    PageUpdateForm result = displayFactory.createUpdateForm(dto);
+    PageUpdateForm result = displayFactory.createUpdateForm(dto, "fr");
     Assert.assertEquals(dto.getBody(), result.getBody());
     Assert.assertEquals(dto.getHeader(), result.getHeader());
     Assert.assertEquals(dto.getFooter(), result.getFooter());

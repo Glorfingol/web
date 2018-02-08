@@ -26,11 +26,9 @@ import com.cmpl.web.backup.writer.CommonWriter;
 import com.cmpl.web.backup.writer.DataManipulator;
 import com.cmpl.web.backup.writer.MediaCSVWriter;
 import com.cmpl.web.backup.writer.MenuCSVWriter;
-import com.cmpl.web.backup.writer.MetaElementCSVWriter;
 import com.cmpl.web.backup.writer.NewsContentCSVWriter;
 import com.cmpl.web.backup.writer.NewsEntryCSVWriter;
 import com.cmpl.web.backup.writer.NewsImageCSVWriter;
-import com.cmpl.web.backup.writer.OpenGraphMetaElementCSVWriter;
 import com.cmpl.web.backup.writer.PageCSVWriter;
 import com.cmpl.web.backup.writer.StyleCSVWriter;
 import com.cmpl.web.backup.writer.WidgetCSVWriter;
@@ -39,8 +37,6 @@ import com.cmpl.web.core.carousel.Carousel;
 import com.cmpl.web.core.carousel.CarouselItem;
 import com.cmpl.web.core.media.Media;
 import com.cmpl.web.core.menu.Menu;
-import com.cmpl.web.core.meta.MetaElement;
-import com.cmpl.web.core.meta.OpenGraphMetaElement;
 import com.cmpl.web.core.news.NewsContent;
 import com.cmpl.web.core.news.NewsEntry;
 import com.cmpl.web.core.news.NewsImage;
@@ -104,17 +100,6 @@ public class BackupExportConfiguration {
   }
 
   @Bean
-  public MetaElementCSVWriter metaElementCSVWriter(DataManipulator<MetaElement> metaElementDataManipulator) {
-    return new MetaElementCSVWriter(dateFormatter, metaElementDataManipulator, backupFilePath);
-  }
-
-  @Bean
-  public OpenGraphMetaElementCSVWriter openGraphMetaElementCSVWriter(
-      DataManipulator<OpenGraphMetaElement> openGraphMetaElementDataManipulator) {
-    return new OpenGraphMetaElementCSVWriter(dateFormatter, openGraphMetaElementDataManipulator, backupFilePath);
-  }
-
-  @Bean
   public NewsEntryCSVWriter newsEntryCSVWriter(DataManipulator<NewsEntry> newsEntryDataManipulator) {
     return new NewsEntryCSVWriter(dateFormatter, newsEntryDataManipulator, backupFilePath);
   }
@@ -142,8 +127,7 @@ public class BackupExportConfiguration {
   @Bean
   public CSVGenerator csvGenerator(MenuCSVWriter menuCSVWriter, StyleCSVWriter styleCSVWriter,
       PageCSVWriter pageCSVWriter, MediaCSVWriter mediaCSVWriter, CarouselCSVWriter carouselCSVWriter,
-      CarouselItemCSVWriter carouselItemCSVWriter, MetaElementCSVWriter metaElementCSVWriter,
-      OpenGraphMetaElementCSVWriter openGraphMetaElementCSVWriter, NewsEntryCSVWriter newsEntryCSVWriter,
+      CarouselItemCSVWriter carouselItemCSVWriter, NewsEntryCSVWriter newsEntryCSVWriter,
       NewsImageCSVWriter newsImageCSVWriter, NewsContentCSVWriter newsContentCSVWriter,
       WidgetCSVWriter widgetCSVWriter, WidgetPageCSVWriter widgetPageCSVWriter) {
     List<CommonWriter<?>> writers = new ArrayList<>();
@@ -153,8 +137,6 @@ public class BackupExportConfiguration {
     writers.add(mediaCSVWriter);
     writers.add(carouselCSVWriter);
     writers.add(carouselItemCSVWriter);
-    writers.add(metaElementCSVWriter);
-    writers.add(openGraphMetaElementCSVWriter);
     writers.add(newsEntryCSVWriter);
     writers.add(newsImageCSVWriter);
     writers.add(newsContentCSVWriter);

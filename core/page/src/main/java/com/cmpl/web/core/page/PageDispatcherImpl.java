@@ -26,7 +26,7 @@ public class PageDispatcherImpl implements PageDispatcher {
     }
 
     PageDTO pageToCreate = translator.fromCreateFormToDTO(form);
-    PageDTO createdPage = pageService.createEntity(pageToCreate);
+    PageDTO createdPage = pageService.createEntity(pageToCreate, form.getLocaleCode());
     return translator.fromDTOToResponse(createdPage);
   }
 
@@ -39,14 +39,15 @@ public class PageDispatcherImpl implements PageDispatcher {
       return PageResponseBuilder.create().error(error).build();
     }
 
-    PageDTO pageToUpdate = pageService.getEntity(form.getId());
+    PageDTO pageToUpdate = pageService.getEntity(form.getId(), form.getLocaleCode());
     pageToUpdate.setBody(form.getBody());
     pageToUpdate.setFooter(form.getFooter());
     pageToUpdate.setHeader(form.getHeader());
     pageToUpdate.setMenuTitle(form.getMenuTitle());
     pageToUpdate.setName(form.getName());
+    pageToUpdate.setMeta(form.getMeta());
 
-    PageDTO updatedPage = pageService.updateEntity(pageToUpdate);
+    PageDTO updatedPage = pageService.updateEntity(pageToUpdate, form.getLocaleCode());
 
     return translator.fromDTOToResponse(updatedPage);
   }

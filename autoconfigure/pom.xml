@@ -61,11 +61,6 @@
     </dependency>
     <dependency>
       <groupId>com.cmpl</groupId>
-      <artifactId>cmpl-web-core-meta</artifactId>
-      <version>${cmpl.web.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.cmpl</groupId>
       <artifactId>cmpl-web-core-sitemap</artifactId>
       <version>${cmpl.web.version}</version>
     </dependency>
@@ -118,7 +113,6 @@
 
 
   </dependencies>
-
 
 
 </project>

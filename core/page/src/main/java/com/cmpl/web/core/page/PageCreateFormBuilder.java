@@ -9,6 +9,8 @@ public class PageCreateFormBuilder extends Builder<PageCreateForm> {
   private String body = "";
   private String header = "";
   private String footer = "";
+  private String meta = "";
+  private String localeCode;
 
   private PageCreateFormBuilder() {
 
@@ -39,14 +41,26 @@ public class PageCreateFormBuilder extends Builder<PageCreateForm> {
     return this;
   }
 
+  public PageCreateFormBuilder meta(String meta) {
+    this.meta = meta;
+    return this;
+  }
+
+  public PageCreateFormBuilder localeCode(String localeCode) {
+    this.localeCode = localeCode;
+    return this;
+  }
+
   @Override
   public PageCreateForm build() {
     PageCreateForm form = new PageCreateForm();
     form.setBody(body);
     form.setFooter(footer);
     form.setHeader(header);
+    form.setMeta(meta);
     form.setMenuTitle(menuTitle);
     form.setName(name);
+    form.setLocaleCode(localeCode);
     return form;
   }
 

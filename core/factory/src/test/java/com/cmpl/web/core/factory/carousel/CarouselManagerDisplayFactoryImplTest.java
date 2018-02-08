@@ -22,7 +22,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
-import com.cmpl.web.core.carousel.*;
+import com.cmpl.web.core.carousel.CarouselCreateForm;
+import com.cmpl.web.core.carousel.CarouselCreateFormBuilder;
+import com.cmpl.web.core.carousel.CarouselDTO;
+import com.cmpl.web.core.carousel.CarouselDTOBuilder;
+import com.cmpl.web.core.carousel.CarouselItemCreateForm;
+import com.cmpl.web.core.carousel.CarouselItemCreateFormBuilder;
+import com.cmpl.web.core.carousel.CarouselItemDTO;
+import com.cmpl.web.core.carousel.CarouselItemDTOBuilder;
+import com.cmpl.web.core.carousel.CarouselItemService;
+import com.cmpl.web.core.carousel.CarouselService;
+import com.cmpl.web.core.carousel.CarouselUpdateForm;
+import com.cmpl.web.core.carousel.CarouselUpdateFormBuilder;
 import com.cmpl.web.core.common.builder.PageWrapperBuilder;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
@@ -32,8 +43,6 @@ import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaDTOBuilder;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.page.PageDTO;
-import com.cmpl.web.core.page.PageDTOBuilder;
 import com.cmpl.web.core.page.PageService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -74,15 +83,11 @@ public class CarouselManagerDisplayFactoryImplTest {
     CarouselCreateForm form = CarouselCreateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).computeCreateForm();
 
-    PageDTO page = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getEntities()).willReturn(Lists.newArrayList(page));
-
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
     ModelAndView result = displayFactory.computeModelAndViewForCreateCarousel(Locale.FRANCE);
     Assert.assertNotNull(result.getModel().get("createForm"));
-    Assert.assertNotNull(result.getModel().get("pages"));
 
   }
 
@@ -110,8 +115,8 @@ public class CarouselManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(toReturn).when(displayFactory)
         .computeModelAndViewForCarouselUpdate(BDDMockito.any(ModelAndView.class), BDDMockito.anyString());
     Assert.assertEquals(toReturn, displayFactory.computeModelAndViewForUpdateCarouselMain("123456789"));
-    BDDMockito.verify(displayFactory, BDDMockito.times(1))
-        .computeModelAndViewForCarouselUpdate(BDDMockito.any(ModelAndView.class), BDDMockito.anyString());
+    BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeModelAndViewForCarouselUpdate(
+        BDDMockito.any(ModelAndView.class), BDDMockito.anyString());
   }
 
   @Test
@@ -129,8 +134,8 @@ public class CarouselManagerDisplayFactoryImplTest {
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
     Assert.assertEquals(toReturn, displayFactory.computeModelAndViewForUpdateCarousel(Locale.FRANCE, "123456789"));
-    BDDMockito.verify(displayFactory, BDDMockito.times(1))
-        .computeModelAndViewForCarouselUpdate(BDDMockito.any(ModelAndView.class), BDDMockito.anyString());
+    BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeModelAndViewForCarouselUpdate(
+        BDDMockito.any(ModelAndView.class), BDDMockito.anyString());
   }
 
   @Test
@@ -167,8 +172,8 @@ public class CarouselManagerDisplayFactoryImplTest {
     String pageLabel = "Page 1";
 
     BDDMockito.doReturn(page).when(displayFactory).computeEntries(BDDMockito.any(Locale.class), BDDMockito.anyInt());
-    BDDMockito.doReturn(pageLabel).when(displayFactory).getI18nValue(BDDMockito.anyString(),
-        BDDMockito.any(Locale.class), BDDMockito.anyInt(), BDDMockito.anyInt());
+    BDDMockito.doReturn(pageLabel).when(displayFactory)
+        .getI18nValue(BDDMockito.anyString(), BDDMockito.any(Locale.class), BDDMockito.anyInt(), BDDMockito.anyInt());
     PageWrapper<CarouselDTO> wrapper = displayFactory.computePageWrapper(Locale.FRANCE, 1);
 
     Assert.assertEquals(0, wrapper.getCurrentPageNumber());
@@ -184,8 +189,8 @@ public class CarouselManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForViewAllCarousels() throws Exception {
 
     PageWrapper<CarouselDTO> pagedCarouselDTOWrapped = new PageWrapperBuilder<CarouselDTO>().build();
-    BDDMockito.doReturn(pagedCarouselDTOWrapped).when(displayFactory).computePageWrapper(BDDMockito.any(Locale.class),
-        BDDMockito.anyInt());
+    BDDMockito.doReturn(pagedCarouselDTOWrapped).when(displayFactory)
+        .computePageWrapper(BDDMockito.any(Locale.class), BDDMockito.anyInt());
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
@@ -200,15 +205,11 @@ public class CarouselManagerDisplayFactoryImplTest {
     CarouselUpdateForm form = CarouselUpdateFormBuilder.create().id(123456789l).build();
     BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(CarouselDTO.class));
 
-    PageDTO page = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getEntities()).willReturn(Lists.newArrayList(page));
-
     CarouselDTO carousel = CarouselDTOBuilder.create().build();
     BDDMockito.given(carouselService.getEntity(BDDMockito.anyLong())).willReturn(carousel);
 
     ModelAndView initializedModelAndView = new ModelAndView();
     ModelAndView result = displayFactory.computeModelAndViewForCarouselUpdate(initializedModelAndView, "123456789");
     Assert.assertNotNull(result.getModel().get("updateForm"));
-    Assert.assertNotNull(result.getModel().get("pages"));
   }
 }

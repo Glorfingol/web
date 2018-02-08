@@ -1,7 +1,5 @@
 package com.cmpl.web.launcher;
 
-import java.util.Locale;
-
 import com.cmpl.web.core.carousel.Carousel;
 import com.cmpl.web.core.carousel.CarouselItem;
 import com.cmpl.web.core.carousel.CarouselItemRepository;
@@ -11,10 +9,6 @@ import com.cmpl.web.core.media.MediaBuilder;
 import com.cmpl.web.core.media.MediaRepository;
 import com.cmpl.web.core.menu.Menu;
 import com.cmpl.web.core.menu.MenuRepository;
-import com.cmpl.web.core.meta.MetaElement;
-import com.cmpl.web.core.meta.MetaElementRepository;
-import com.cmpl.web.core.meta.OpenGraphMetaElement;
-import com.cmpl.web.core.meta.OpenGraphMetaElementRepository;
 import com.cmpl.web.core.page.Page;
 import com.cmpl.web.core.page.PageRepository;
 import com.cmpl.web.core.widget.WIDGET_TYPE;
@@ -27,32 +21,23 @@ import com.cmpl.web.core.widget.WidgetRepository;
 
 public class PageFactory {
 
-  private static final String OG_TITLE = "og:title";
-  private static final String OG_DESCRIPTION = "og:description";
-  private static final String DESCRIPTION = "description";
-  private static final String TITLE = "title";
-  private static final String VIEWPORT = "viewport";
-  private static final String LANGUAGE = "language";
-  private static final String WIDTH_DEVICE_WIDTH_INITIAL_SCALE_1_MAXIMUM_SCALE_1_USER_SCALABLE_NO = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
-
   public static void createPages(PageRepository pageRepository, MenuRepository menuRepository,
-      MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository,
-      CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
+
+  CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
       MediaRepository mediaRepository, WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
-    createIndex(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository,
-        carouselRepository, carouselItemRepository, mediaRepository, widgetRepository, widgetPageRepository);
-    createActualites(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository,
+    createIndex(pageRepository, menuRepository, carouselRepository, carouselItemRepository, mediaRepository,
         widgetRepository, widgetPageRepository);
-    createAppointment(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository);
-    createCenter(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository);
-    createContact(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository);
-    createMedicalCare(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository);
+    createActualites(pageRepository, menuRepository, widgetRepository, widgetPageRepository);
+    createAppointment(pageRepository, menuRepository);
+    createCenter(pageRepository, menuRepository);
+    createContact(pageRepository, menuRepository);
+    createMedicalCare(pageRepository, menuRepository);
 
   }
 
   public static void createIndex(PageRepository pageRepository, MenuRepository menuRepository,
-      MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository,
-      CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
+
+  CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
       MediaRepository mediaRepository, WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
 
     Page index = new Page();
@@ -69,17 +54,6 @@ public class PageFactory {
     menu.setTitle(index.getMenuTitle());
 
     menuRepository.save(menu);
-
-    MetaElement language = computeLanguage(Locale.FRANCE, pageId);
-    metaElementRepository.save(language);
-
-    MetaElement viewport = computeViewPort(pageId);
-    metaElementRepository.save(viewport);
-
-    metaElementRepository.save(computeMetaElement(TITLE, index.getMenuTitle(), pageId));
-    metaElementRepository.save(computeMetaElement(DESCRIPTION, index.getMenuTitle(), pageId));
-    openGraphMetaElementRepository.save(computeOpenGraphMetaElement(OG_TITLE, index.getMenuTitle(), pageId));
-    openGraphMetaElementRepository.save(computeOpenGraphMetaElement(OG_DESCRIPTION, index.getMenuTitle(), pageId));
 
     Carousel carouselHome = new Carousel();
     carouselHome.setName("home");
@@ -129,8 +103,8 @@ public class PageFactory {
   }
 
   public static void createActualites(PageRepository pageRepository, MenuRepository menuRepository,
-      MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository,
-      WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
+
+  WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
 
     Page actualites = new Page();
     actualites.setMenuTitle("Actualites");
@@ -148,17 +122,6 @@ public class PageFactory {
 
     menuRepository.save(menu);
 
-    MetaElement language = computeLanguage(Locale.FRANCE, pageId);
-    metaElementRepository.save(language);
-
-    MetaElement viewport = computeViewPort(pageId);
-    metaElementRepository.save(viewport);
-
-    metaElementRepository.save(computeMetaElement(TITLE, actualites.getMenuTitle(), pageId));
-    metaElementRepository.save(computeMetaElement(DESCRIPTION, actualites.getMenuTitle(), pageId));
-    openGraphMetaElementRepository.save(computeOpenGraphMetaElement(OG_TITLE, actualites.getMenuTitle(), pageId));
-    openGraphMetaElementRepository.save(computeOpenGraphMetaElement(OG_DESCRIPTION, actualites.getMenuTitle(), pageId));
-
     Widget blog = WidgetBuilder.create().name("blog").type(WIDGET_TYPE.BLOG).build();
     blog = widgetRepository.save(blog);
     WidgetPage widgetPage = WidgetPageBuilder.create().pageId(pageId).widgetId(String.valueOf(blog.getId())).build();
@@ -172,8 +135,7 @@ public class PageFactory {
 
   }
 
-  public static void createAppointment(PageRepository pageRepository, MenuRepository menuRepository,
-      MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository) {
+  public static void createAppointment(PageRepository pageRepository, MenuRepository menuRepository) {
 
     Page appointment = new Page();
     appointment.setMenuTitle("Prendre rendez-vous");
@@ -190,22 +152,9 @@ public class PageFactory {
 
     menuRepository.save(menu);
 
-    MetaElement language = computeLanguage(Locale.FRANCE, pageId);
-    metaElementRepository.save(language);
-
-    MetaElement viewport = computeViewPort(pageId);
-    metaElementRepository.save(viewport);
-
-    metaElementRepository.save(computeMetaElement(TITLE, appointment.getMenuTitle(), pageId));
-    metaElementRepository.save(computeMetaElement(DESCRIPTION, appointment.getMenuTitle(), pageId));
-    openGraphMetaElementRepository.save(computeOpenGraphMetaElement(OG_TITLE, appointment.getMenuTitle(), pageId));
-    openGraphMetaElementRepository
-        .save(computeOpenGraphMetaElement(OG_DESCRIPTION, appointment.getMenuTitle(), pageId));
-
   }
 
-  public static void createCenter(PageRepository pageRepository, MenuRepository menuRepository,
-      MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository) {
+  public static void createCenter(PageRepository pageRepository, MenuRepository menuRepository) {
     Page center = new Page();
     center.setMenuTitle("Le centre");
     center.setName("centre_medical");
@@ -221,21 +170,9 @@ public class PageFactory {
 
     menuRepository.save(menu);
 
-    MetaElement language = computeLanguage(Locale.FRANCE, pageId);
-    metaElementRepository.save(language);
-
-    MetaElement viewport = computeViewPort(pageId);
-    metaElementRepository.save(viewport);
-
-    metaElementRepository.save(computeMetaElement(TITLE, center.getMenuTitle(), pageId));
-    metaElementRepository.save(computeMetaElement(DESCRIPTION, center.getMenuTitle(), pageId));
-    openGraphMetaElementRepository.save(computeOpenGraphMetaElement(OG_TITLE, center.getMenuTitle(), pageId));
-    openGraphMetaElementRepository.save(computeOpenGraphMetaElement(OG_DESCRIPTION, center.getMenuTitle(), pageId));
-
   }
 
-  public static void createContact(PageRepository pageRepository, MenuRepository menuRepository,
-      MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository) {
+  public static void createContact(PageRepository pageRepository, MenuRepository menuRepository) {
 
     Page contact = new Page();
     contact.setMenuTitle("Contact");
@@ -252,21 +189,9 @@ public class PageFactory {
 
     menuRepository.save(menu);
 
-    MetaElement language = computeLanguage(Locale.FRANCE, pageId);
-    metaElementRepository.save(language);
-
-    MetaElement viewport = computeViewPort(pageId);
-    metaElementRepository.save(viewport);
-
-    metaElementRepository.save(computeMetaElement(TITLE, contact.getMenuTitle(), pageId));
-    metaElementRepository.save(computeMetaElement(DESCRIPTION, contact.getMenuTitle(), pageId));
-    openGraphMetaElementRepository.save(computeOpenGraphMetaElement(OG_TITLE, contact.getMenuTitle(), pageId));
-    openGraphMetaElementRepository.save(computeOpenGraphMetaElement(OG_DESCRIPTION, contact.getMenuTitle(), pageId));
-
   }
 
-  public static void createMedicalCare(PageRepository pageRepository, MenuRepository menuRepository,
-      MetaElementRepository metaElementRepository, OpenGraphMetaElementRepository openGraphMetaElementRepository) {
+  public static void createMedicalCare(PageRepository pageRepository, MenuRepository menuRepository) {
 
     Page medicalCare = new Page();
     medicalCare.setMenuTitle("Soins medicaux");
@@ -282,44 +207,6 @@ public class PageFactory {
     menu.setTitle(medicalCare.getMenuTitle());
 
     menuRepository.save(menu);
-
-    MetaElement language = computeLanguage(Locale.FRANCE, pageId);
-    metaElementRepository.save(language);
-
-    MetaElement viewport = computeViewPort(pageId);
-    metaElementRepository.save(viewport);
-
-    metaElementRepository.save(computeMetaElement(TITLE, medicalCare.getMenuTitle(), pageId));
-    metaElementRepository.save(computeMetaElement(DESCRIPTION, medicalCare.getMenuTitle(), pageId));
-    openGraphMetaElementRepository.save(computeOpenGraphMetaElement(OG_TITLE, medicalCare.getMenuTitle(), pageId));
-    openGraphMetaElementRepository
-        .save(computeOpenGraphMetaElement(OG_DESCRIPTION, medicalCare.getMenuTitle(), pageId));
-
-  }
-
-  static MetaElement computeLanguage(Locale locale, String pageId) {
-    return computeMetaElement(LANGUAGE, locale.getLanguage(), pageId);
-  }
-
-  static MetaElement computeViewPort(String pageId) {
-    return computeMetaElement(VIEWPORT, WIDTH_DEVICE_WIDTH_INITIAL_SCALE_1_MAXIMUM_SCALE_1_USER_SCALABLE_NO, pageId);
-  }
-
-  static MetaElement computeMetaElement(String name, String content, String pageId) {
-    MetaElement metaElement = new MetaElement();
-    metaElement.setName(name);
-    metaElement.setContent(content);
-    metaElement.setPageId(pageId);
-    return metaElement;
-
-  }
-
-  static OpenGraphMetaElement computeOpenGraphMetaElement(String property, String content, String pageId) {
-    OpenGraphMetaElement metaElement = new OpenGraphMetaElement();
-    metaElement.setProperty(property);
-    metaElement.setContent(content);
-    metaElement.setPageId(pageId);
-    return metaElement;
 
   }
 

@@ -11,8 +11,6 @@ import com.cmpl.web.core.carousel.CarouselItemRepository;
 import com.cmpl.web.core.carousel.CarouselRepository;
 import com.cmpl.web.core.media.MediaRepository;
 import com.cmpl.web.core.menu.MenuRepository;
-import com.cmpl.web.core.meta.MetaElementRepository;
-import com.cmpl.web.core.meta.OpenGraphMetaElementRepository;
 import com.cmpl.web.core.news.NewsContentRepository;
 import com.cmpl.web.core.news.NewsEntryRepository;
 import com.cmpl.web.core.page.PageRepository;
@@ -41,17 +39,15 @@ public class WebLauncher {
   @Profile("dev")
   public CommandLineRunner init(final NewsEntryRepository newsEntryRepository,
       final NewsContentRepository newsContentRepository, final PageRepository pageRepository,
-      final MetaElementRepository metaElementRepository,
-      final OpenGraphMetaElementRepository openGraphMetaElementRepository, final MenuRepository menuRepository,
-      final CarouselRepository carouselRepository, final CarouselItemRepository carouselItemRepository,
-      final MediaRepository mediaRepository, final WidgetRepository widgetRepository,
-      final WidgetPageRepository widgetPageRepository) {
+      final MenuRepository menuRepository, final CarouselRepository carouselRepository,
+      final CarouselItemRepository carouselItemRepository, final MediaRepository mediaRepository,
+      final WidgetRepository widgetRepository, final WidgetPageRepository widgetPageRepository) {
     return (args) -> {
 
       NewsFactory.createNewsEntries(newsEntryRepository, newsContentRepository);
 
-      PageFactory.createPages(pageRepository, menuRepository, metaElementRepository, openGraphMetaElementRepository,
-          carouselRepository, carouselItemRepository, mediaRepository, widgetRepository, widgetPageRepository);
+      PageFactory.createPages(pageRepository, menuRepository, carouselRepository, carouselItemRepository,
+          mediaRepository, widgetRepository, widgetPageRepository);
 
     };
   }

@@ -1,10 +1,6 @@
 package com.cmpl.web.core.page;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.dto.BaseDTO;
-import com.cmpl.web.core.meta.MetaElementDTO;
-import com.cmpl.web.core.meta.OpenGraphMetaElementDTO;
 
 /**
  * DTO Page
@@ -19,9 +15,7 @@ public class PageDTO extends BaseDTO {
   private String body;
   private String header;
   private String footer;
-
-  private List<MetaElementDTO> metaElements;
-  private List<OpenGraphMetaElementDTO> openGraphMetaElements;
+  private String meta;
 
   public String getName() {
     return name;
@@ -47,22 +41,6 @@ public class PageDTO extends BaseDTO {
     this.body = body;
   }
 
-  public List<MetaElementDTO> getMetaElements() {
-    return metaElements;
-  }
-
-  public void setMetaElements(List<MetaElementDTO> metaElements) {
-    this.metaElements = metaElements;
-  }
-
-  public List<OpenGraphMetaElementDTO> getOpenGraphMetaElements() {
-    return openGraphMetaElements;
-  }
-
-  public void setOpenGraphMetaElements(List<OpenGraphMetaElementDTO> openGraphMetaElements) {
-    this.openGraphMetaElements = openGraphMetaElements;
-  }
-
   public String getHeader() {
     return header;
   }
@@ -79,4 +57,11 @@ public class PageDTO extends BaseDTO {
     this.footer = footer;
   }
 
+  public String getMeta() {
+    return meta;
+  }
+
+  public void setMeta(String meta) {
+    this.meta = meta;
+  }
 }

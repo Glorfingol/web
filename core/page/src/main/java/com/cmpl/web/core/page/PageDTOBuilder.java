@@ -1,10 +1,6 @@
 package com.cmpl.web.core.page;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.builder.BaseBuilder;
-import com.cmpl.web.core.meta.MetaElementDTO;
-import com.cmpl.web.core.meta.OpenGraphMetaElementDTO;
 
 public class PageDTOBuilder extends BaseBuilder<PageDTO> {
 
@@ -13,9 +9,7 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
   private String body;
   private String header;
   private String footer;
-
-  private List<MetaElementDTO> metaElements;
-  private List<OpenGraphMetaElementDTO> openGraphMetaElements;
+  private String meta;
 
   private PageDTOBuilder() {
 
@@ -46,13 +40,8 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
     return this;
   }
 
-  public PageDTOBuilder metaElements(List<MetaElementDTO> metaElements) {
-    this.metaElements = metaElements;
-    return this;
-  }
-
-  public PageDTOBuilder openGraphMetaElements(List<OpenGraphMetaElementDTO> openGraphMetaElements) {
-    this.openGraphMetaElements = openGraphMetaElements;
+  public PageDTOBuilder meta(String meta) {
+    this.meta = meta;
     return this;
   }
 
@@ -62,13 +51,12 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
     pageDTO.setBody(body);
     pageDTO.setCreationDate(creationDate);
     pageDTO.setFooter(footer);
+    pageDTO.setMeta(meta);
     pageDTO.setHeader(header);
     pageDTO.setId(id);
     pageDTO.setMenuTitle(menuTitle);
-    pageDTO.setMetaElements(metaElements);
     pageDTO.setModificationDate(modificationDate);
     pageDTO.setName(name);
-    pageDTO.setOpenGraphMetaElements(openGraphMetaElements);
 
     return pageDTO;
   }

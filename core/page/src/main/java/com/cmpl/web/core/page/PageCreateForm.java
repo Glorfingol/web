@@ -7,6 +7,8 @@ public class PageCreateForm {
   private String body = "";
   private String header = "";
   private String footer = "";
+  private String meta = "";
+  private String localeCode;
 
   public String getName() {
     return name;
@@ -48,4 +50,19 @@ public class PageCreateForm {
     this.footer = footer;
   }
 
+  public String getMeta() {
+    return meta;
+  }
+
+  public void setMeta(String meta) {
+    this.meta = meta;
+  }
+
+  public String getLocaleCode() {
+    return localeCode;
+  }
+
+  public void setLocaleCode(String localeCode) {
+    this.localeCode = localeCode;
+  }
 }

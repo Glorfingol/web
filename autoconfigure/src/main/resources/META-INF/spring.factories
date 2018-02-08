@@ -13,7 +13,6 @@ com.cmpl.web.configuration.core.index.IndexConfiguration,\
 com.cmpl.web.configuration.core.login.LoginConfiguration,\
 com.cmpl.web.configuration.core.media.MediaConfiguration,\
 com.cmpl.web.configuration.core.menu.MenuConfiguration,\
-com.cmpl.web.configuration.core.meta.MetaConfiguration,\
 com.cmpl.web.configuration.core.news.NewsConfiguration,\
 com.cmpl.web.configuration.core.page.PageConfiguration,\
 com.cmpl.web.configuration.core.sitemap.SitemapConfiguration,\

@@ -35,11 +35,6 @@
     </dependency>
     <dependency>
       <groupId>com.cmpl</groupId>
-      <artifactId>cmpl-web-core-meta</artifactId>
-      <version>${cmpl.web.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.cmpl</groupId>
       <artifactId>cmpl-web-core-news</artifactId>
       <version>${cmpl.web.version}</version>
     </dependency>

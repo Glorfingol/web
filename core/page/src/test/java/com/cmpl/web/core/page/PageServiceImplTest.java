@@ -1,5 +1,6 @@
 package com.cmpl.web.core.page;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import org.assertj.core.util.Lists;
@@ -14,22 +15,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Sort;
 
 import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.meta.MetaElementDTO;
-import com.cmpl.web.core.meta.MetaElementDTOBuilder;
-import com.cmpl.web.core.meta.MetaElementService;
-import com.cmpl.web.core.meta.OpenGraphMetaElementDTO;
-import com.cmpl.web.core.meta.OpenGraphMetaElementDTOBuilder;
-import com.cmpl.web.core.meta.OpenGraphMetaElementService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PageServiceImplTest {
 
   @Mock
   private PageRepository pageRepository;
-  @Mock
-  private MetaElementService metaElementService;
-  @Mock
-  private OpenGraphMetaElementService openGraphMetaElementService;
+
   @Mock
   private FileService fileService;
 
@@ -48,7 +40,7 @@ public class PageServiceImplTest {
     BDDMockito.given(pageRepository.save(BDDMockito.any(Page.class))).willReturn(entityToCreate);
     BDDMockito.doNothing().when(fileService).saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString());
 
-    pageService.createEntity(dtoToCreate);
+    pageService.createEntity(dtoToCreate, Locale.FRANCE.getLanguage());
 
     BDDMockito.verify(fileService, BDDMockito.times(3))
         .saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString());
@@ -67,7 +59,7 @@ public class PageServiceImplTest {
     BDDMockito.given(pageRepository.save(BDDMockito.any(Page.class))).willReturn(entityToUpdate);
     BDDMockito.doNothing().when(fileService).saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString());
 
-    pageService.updateEntity(dtoToUpdate);
+    pageService.updateEntity(dtoToUpdate, Locale.FRANCE.getLanguage());
 
     BDDMockito.verify(fileService, BDDMockito.times(3))
         .saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString());
@@ -84,12 +76,12 @@ public class PageServiceImplTest {
     String content = "someContent";
     BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString())).willReturn(content);
 
-    PageDTO result = pageService.getEntity(123456789l);
+    PageDTO result = pageService.getEntity(123456789l, Locale.FRANCE.getLanguage());
     Assert.assertEquals(content, result.getBody());
     Assert.assertEquals(content, result.getHeader());
     Assert.assertEquals(content, result.getFooter());
 
-    BDDMockito.verify(fileService, BDDMockito.times(3)).readFileContentFromSystem(BDDMockito.anyString());
+    BDDMockito.verify(fileService, BDDMockito.times(4)).readFileContentFromSystem(BDDMockito.anyString());
 
   }
 
@@ -121,10 +113,10 @@ public class PageServiceImplTest {
 
     Page page = PageBuilder.create().build();
 
-    BDDMockito.doReturn(result).when(pageService).computePageDTOToReturn(BDDMockito.any(Page.class));
+    BDDMockito.doReturn(result).when(pageService).toDTO(BDDMockito.any(Page.class));
     BDDMockito.given(pageRepository.findByName(BDDMockito.anyString())).willReturn(page);
 
-    Assert.assertEquals(result, pageService.getPageByName("someName"));
+    Assert.assertEquals(result, pageService.getPageByName("someName", Locale.FRANCE.getLanguage()));
   }
 
   @Test
@@ -132,7 +124,7 @@ public class PageServiceImplTest {
 
     BDDMockito.given(pageRepository.findByName(BDDMockito.anyString())).willReturn(null);
 
-    Assert.assertNull(pageService.getPageByName("someName").getId());
+    Assert.assertNull(pageService.getPageByName("someName", Locale.FRANCE.getLanguage()).getId());
   }
 
   @Test
@@ -150,30 +142,11 @@ public class PageServiceImplTest {
   @Test
   public void testToListDTO() throws Exception {
     PageDTO result = PageDTOBuilder.create().id(123456789l).build();
-    BDDMockito.doReturn(result).when(pageService).computePageDTOToReturn(BDDMockito.any(Page.class));
+    BDDMockito.doReturn(result).when(pageService).toDTO(BDDMockito.any(Page.class));
 
     Page page = PageBuilder.create().build();
     Assert.assertEquals(result, pageService.toListDTO(Lists.newArrayList(page)).get(0));
 
   }
 
-  @Test
-  public void testComputePageDTOToReturn() throws Exception {
-    PageDTO dto = PageDTOBuilder.create().id(123456789l).build();
-    BDDMockito.doReturn(dto).when(pageService).toDTO(BDDMockito.any(Page.class));
-
-    MetaElementDTO metaElement = MetaElementDTOBuilder.create().build();
-    BDDMockito.given(metaElementService.findMetaElementsByPageId(BDDMockito.anyString())).willReturn(
-        Lists.newArrayList(metaElement));
-
-    OpenGraphMetaElementDTO openGraphMetaElement = OpenGraphMetaElementDTOBuilder.create().build();
-    BDDMockito.given(openGraphMetaElementService.findOpenGraphMetaElementsByPageId(BDDMockito.anyString())).willReturn(
-        Lists.newArrayList(openGraphMetaElement));
-
-    PageDTO result = pageService.computePageDTOToReturn(PageBuilder.create().build());
-
-    Assert.assertEquals(metaElement, result.getMetaElements().get(0));
-    Assert.assertEquals(openGraphMetaElement, result.getOpenGraphMetaElements().get(0));
-
-  }
 }

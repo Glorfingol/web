@@ -72,18 +72,16 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   public ModelAndView computeModelAndViewForPage(String pageName, Locale locale, int pageNumber) {
     LOGGER.info("Construction de la page  {}", pageName);
 
-    PageDTO page = pageService.getPageByName(pageName);
+    PageDTO page = pageService.getPageByName(pageName, locale.getLanguage());
 
     ModelAndView model = new ModelAndView("decorator");
-    model.addObject("content", computePageContent(page));
-    LOGGER.info("Construction des éléments meta pour la page  {}", pageName);
-    model.addObject("metaItems", page.getMetaElements());
-    LOGGER.info("Construction des éléments meta open graph pour la page {}", pageName);
-    model.addObject("openGraphMetaItems", page.getOpenGraphMetaElements());
+    model.addObject("content", computePageContent(page, locale));
     LOGGER.info("Construction du footer pour la page  {}", pageName);
-    model.addObject("footerTemplate", computePageFooter(page));
+    model.addObject("footerTemplate", computePageFooter(page, locale));
     LOGGER.info("Construction du header pour la page  {}", pageName);
-    model.addObject("header", computePageHeader(page));
+    model.addObject("header", computePageHeader(page, locale));
+    LOGGER.info("Construction de la meta pour la page  {}", pageName);
+    model.addObject("meta", computePageMeta(page, locale));
     LOGGER.info("Construction du lien du back pour la page {}", pageName);
     model.addObject("hiddenLink", computeHiddenLink(locale));
 
@@ -164,12 +162,16 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     return "widget/default";
   }
 
-  String computePageContent(PageDTO page) {
-    return page.getName();
+  String computePageContent(PageDTO page, Locale locale) {
+    return page.getName() + "_" + locale.getLanguage();
   }
 
-  String computePageHeader(PageDTO page) {
-    return page.getName() + "_header";
+  String computePageHeader(PageDTO page, Locale locale) {
+    return page.getName() + "_header_" + locale.getLanguage();
+  }
+
+  String computePageMeta(PageDTO page, Locale locale) {
+    return page.getName() + "_meta_" + locale.getLanguage();
   }
 
   String computeNewsTemplate(String widgetId) {
@@ -182,8 +184,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     return "widgets/blog_entry";
   }
 
-  String computePageFooter(PageDTO page) {
-    return page.getName() + "_footer";
+  String computePageFooter(PageDTO page, Locale locale) {
+    return page.getName() + "_footer_" + locale.getLanguage();
   }
 
   public List<MenuItem> computeMenuItems(PageDTO page, Locale locale) {
@@ -318,7 +320,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   Map<String, Object> computeWidgetModelForMenu(String pageName, Locale locale) {
     Map<String, Object> widgetModel = new HashMap<>();
 
-    widgetModel.put("menuItems", computeMenuItems(pageService.getPageByName(pageName), locale));
+    widgetModel.put("menuItems", computeMenuItems(pageService.getPageByName(pageName, locale.getLanguage()), locale));
 
     return widgetModel;
   }

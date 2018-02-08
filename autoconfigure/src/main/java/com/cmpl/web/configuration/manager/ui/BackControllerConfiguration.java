@@ -15,7 +15,6 @@ import com.cmpl.web.core.factory.style.StyleDisplayFactory;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.MenuDispatcher;
-import com.cmpl.web.core.meta.MetaElementDispatcher;
 import com.cmpl.web.core.news.NewsEntryDispatcher;
 import com.cmpl.web.core.page.PageDispatcher;
 import com.cmpl.web.core.style.StyleDispatcher;
@@ -26,7 +25,6 @@ import com.cmpl.web.manager.ui.core.index.IndexManagerController;
 import com.cmpl.web.manager.ui.core.login.LoginController;
 import com.cmpl.web.manager.ui.core.media.MediaManagerController;
 import com.cmpl.web.manager.ui.core.menu.MenuManagerController;
-import com.cmpl.web.manager.ui.core.meta.MetaManagerController;
 import com.cmpl.web.manager.ui.core.news.NewsManagerController;
 import com.cmpl.web.manager.ui.core.page.PageManagerController;
 import com.cmpl.web.manager.ui.core.style.StyleManagerController;
@@ -67,14 +65,8 @@ public class BackControllerConfiguration {
   }
 
   @Bean
-  public MenuManagerController menuManagerController(MenuDispatcher dispatcher,
-      MenuManagerDisplayFactory displayFactory) {
+  public MenuManagerController menuManagerController(MenuDispatcher dispatcher, MenuManagerDisplayFactory displayFactory) {
     return new MenuManagerController(dispatcher, displayFactory);
-  }
-
-  @Bean
-  public MetaManagerController metaManagerController(MetaElementDispatcher metaElementDispatcher) {
-    return new MetaManagerController(metaElementDispatcher);
   }
 
   @Bean

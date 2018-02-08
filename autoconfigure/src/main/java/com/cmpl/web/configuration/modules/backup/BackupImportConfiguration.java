@@ -24,11 +24,9 @@ import com.cmpl.web.backup.reader.CarouselItemCSVParser;
 import com.cmpl.web.backup.reader.CommonParser;
 import com.cmpl.web.backup.reader.MediaCSVParser;
 import com.cmpl.web.backup.reader.MenuCSVParser;
-import com.cmpl.web.backup.reader.MetaElementCSVParser;
 import com.cmpl.web.backup.reader.NewsContentCSVParser;
 import com.cmpl.web.backup.reader.NewsEntryCSVParser;
 import com.cmpl.web.backup.reader.NewsImageCSVParser;
-import com.cmpl.web.backup.reader.OpenGraphMetaElementCSVParser;
 import com.cmpl.web.backup.reader.PageCSVParser;
 import com.cmpl.web.backup.reader.StyleCSVParser;
 import com.cmpl.web.backup.reader.WidgetCSVParser;
@@ -38,8 +36,6 @@ import com.cmpl.web.core.carousel.Carousel;
 import com.cmpl.web.core.carousel.CarouselItem;
 import com.cmpl.web.core.media.Media;
 import com.cmpl.web.core.menu.Menu;
-import com.cmpl.web.core.meta.MetaElement;
-import com.cmpl.web.core.meta.OpenGraphMetaElement;
 import com.cmpl.web.core.news.NewsContent;
 import com.cmpl.web.core.news.NewsEntry;
 import com.cmpl.web.core.news.NewsImage;
@@ -102,17 +98,6 @@ public class BackupImportConfiguration {
   }
 
   @Bean
-  public MetaElementCSVParser metaElementCSVParser(DataManipulator<MetaElement> metaElementDataManipulator) {
-    return new MetaElementCSVParser(dateFormatter, metaElementDataManipulator, backupFilePath);
-  }
-
-  @Bean
-  public OpenGraphMetaElementCSVParser openGraphMetaElementCSVParser(
-      DataManipulator<OpenGraphMetaElement> openGraphMetaElementDataManipulator) {
-    return new OpenGraphMetaElementCSVParser(dateFormatter, openGraphMetaElementDataManipulator, backupFilePath);
-  }
-
-  @Bean
   public NewsEntryCSVParser newsEntryCSVParser(DataManipulator<NewsEntry> newsEntryDataManipulator) {
     return new NewsEntryCSVParser(dateFormatter, newsEntryDataManipulator, backupFilePath);
   }
@@ -140,7 +125,7 @@ public class BackupImportConfiguration {
   @Bean
   public CSVReader csvReader(MenuCSVParser menuCSVParser, StyleCSVParser styleCSVParser, PageCSVParser pageCSVParser,
       MediaCSVParser mediaCSVParser, CarouselCSVParser carouselCSVParser, CarouselItemCSVParser carouselItemCSVParser,
-      MetaElementCSVParser metaElementCSVParser, OpenGraphMetaElementCSVParser openGraphMetaElementCSVParser,
+
       NewsEntryCSVParser newsEntryCSVParser, NewsImageCSVParser newsImageCSVParser,
       NewsContentCSVParser newsContentCSVParser, WidgetCSVParser widgetCSVParser,
       WidgetPageCSVParser widgetPageCSVParser) {
@@ -151,8 +136,6 @@ public class BackupImportConfiguration {
     parsers.add(mediaCSVParser);
     parsers.add(carouselCSVParser);
     parsers.add(carouselItemCSVParser);
-    parsers.add(metaElementCSVParser);
-    parsers.add(openGraphMetaElementCSVParser);
     parsers.add(newsEntryCSVParser);
     parsers.add(newsImageCSVParser);
     parsers.add(newsContentCSVParser);

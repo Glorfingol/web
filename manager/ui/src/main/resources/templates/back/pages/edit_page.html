@@ -26,17 +26,12 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="meta-tab" data-toggle="tab" href="#" role="tab"
+        <a class="nav-link" id="news-meta-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToMetaTab()">
           <span th:text="#{page.tab.meta}"/>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" id="open-graph-meta-tab" data-toggle="tab" href="#" role="tab"
-           onclick="goToOpenGraphMetaTab()">
-          <span th:text="#{page.tab.open.meta}"/>
-        </a>
-      </li>
+
       <li class="nav-item">
         <a class="nav-link" id="widgets-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToWidgetsTab()">
@@ -61,11 +56,14 @@
   var codeMirrorHeader;
   var codeMirrorBody;
   var codeMirrorFooter;
+  var codeMirrorMeta;
   var currentTab = "";
+  var languageCode = [[${updateForm.localeCode}]];
 
   var goToBodyTab = function () {
     if (currentTab !== "body") {
-      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_body";
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_body?languageCode="
+          + languageCode;
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         codeMirrorBody = setUpCodeMirror("pageBody");
@@ -77,7 +75,8 @@
 
   var goToHeaderTab = function () {
     if (currentTab !== "header") {
-      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_header";
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_header?languageCode="
+          + languageCode;
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         codeMirrorHeader = setUpCodeMirror("pageHeader");
@@ -89,7 +88,8 @@
 
   var goToFooterTab = function () {
     if (currentTab !== "footer") {
-      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_footer";
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_footer?languageCode="
+          + languageCode;
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         codeMirrorFooter = setUpCodeMirror("pageFooter");
@@ -100,28 +100,21 @@
   };
 
   var goToMetaTab = function () {
-    if (currentTab !== "meta") {
-      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_meta";
+    if (currentTab !== "new_meta") {
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_meta?languageCode="
+          + languageCode;
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
-        currentTab = "meta";
-      });
-    }
-  };
-
-  var goToOpenGraphMetaTab = function () {
-    if (currentTab !== "open_graph_meta") {
-      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_open_graph_meta";
-      $.get(url, function (data) {
-        $("#ajaxTab").html(data);
-        currentTab = "open_graph_meta";
+        currentTab = "new_meta";
+        codeMirrorMeta = setUpCodeMirror("pageMeta");
       });
     }
   };
 
   var goToWidgetsTab = function () {
     if (currentTab !== "widgets") {
-      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_widgets";
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_widgets?languageCode="
+          + languageCode;
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         currentTab = "widgets";
@@ -131,7 +124,8 @@
 
   var goToMainTab = function () {
     if (currentTab !== "main") {
-      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_main";
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_main?languageCode="
+          + languageCode;
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         currentTab = "main";

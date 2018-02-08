@@ -123,7 +123,7 @@ public class DisplayFactoryImplTest {
     PageDTO page = PageDTOBuilder.create().build();
     page.setName("test");
 
-    Assert.assertEquals("test_footer", displayFactory.computePageFooter(page));
+    Assert.assertEquals("test_footer_fr", displayFactory.computePageFooter(page, Locale.FRANCE));
   }
 
   @Test
@@ -132,7 +132,7 @@ public class DisplayFactoryImplTest {
     PageDTO page = PageDTOBuilder.create().build();
     page.setName("test");
 
-    Assert.assertEquals("test_header", displayFactory.computePageHeader(page));
+    Assert.assertEquals("test_header_fr", displayFactory.computePageHeader(page, Locale.FRANCE));
   }
 
   @Test
@@ -141,23 +141,25 @@ public class DisplayFactoryImplTest {
     PageDTO page = PageDTOBuilder.create().build();
     page.setName("test");
 
-    Assert.assertEquals("test", displayFactory.computePageContent(page));
+    Assert.assertEquals("test_fr", displayFactory.computePageContent(page, Locale.FRANCE));
   }
 
   @Test
   public void testComputeModelAndViewForPage_Without_News() throws Exception {
     PageDTO page = PageDTOBuilder.create().id(123456789l).build();
 
-    BDDMockito.given(pageService.getPageByName(BDDMockito.anyString())).willReturn(page);
+    BDDMockito.given(pageService.getPageByName(BDDMockito.anyString(), BDDMockito.anyString())).willReturn(page);
 
-    BDDMockito.doReturn("test_footer").when(displayFactory).computePageFooter(BDDMockito.any(PageDTO.class));
-    BDDMockito.doReturn("test_header").when(displayFactory).computePageHeader(BDDMockito.any(PageDTO.class));
+    BDDMockito.doReturn("test_footer_fr").when(displayFactory)
+        .computePageFooter(BDDMockito.any(PageDTO.class), BDDMockito.any(Locale.class));
+    BDDMockito.doReturn("test_header_fr").when(displayFactory)
+        .computePageHeader(BDDMockito.any(PageDTO.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn("someLink").when(displayFactory).computeHiddenLink(BDDMockito.any(Locale.class));
 
     ModelAndView result = displayFactory.computeModelAndViewForPage("somePage", Locale.FRANCE, 0);
 
-    Assert.assertEquals("test_footer", result.getModel().get("footerTemplate"));
-    Assert.assertEquals("test_header", result.getModel().get("header"));
+    Assert.assertEquals("test_footer_fr", result.getModel().get("footerTemplate"));
+    Assert.assertEquals("test_header_fr", result.getModel().get("header"));
     Assert.assertEquals("someLink", result.getModel().get("hiddenLink"));
     Assert.assertNull(result.getModel().get("wrappedNews"));
     Assert.assertNull(result.getModel().get("emptyMessage"));

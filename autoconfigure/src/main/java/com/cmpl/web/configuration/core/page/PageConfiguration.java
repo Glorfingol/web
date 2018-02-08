@@ -21,9 +21,17 @@ import com.cmpl.web.core.factory.page.PageManagerDisplayFactoryImpl;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
-import com.cmpl.web.core.meta.MetaElementService;
-import com.cmpl.web.core.meta.OpenGraphMetaElementService;
-import com.cmpl.web.core.page.*;
+import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.page.Page;
+import com.cmpl.web.core.page.PageDispatcher;
+import com.cmpl.web.core.page.PageDispatcherImpl;
+import com.cmpl.web.core.page.PageRepository;
+import com.cmpl.web.core.page.PageService;
+import com.cmpl.web.core.page.PageServiceImpl;
+import com.cmpl.web.core.page.PageTranslator;
+import com.cmpl.web.core.page.PageTranslatorImpl;
+import com.cmpl.web.core.page.PageValidator;
+import com.cmpl.web.core.page.PageValidatorImpl;
 import com.cmpl.web.core.widget.WidgetPageService;
 import com.cmpl.web.core.widget.WidgetService;
 
@@ -34,11 +42,10 @@ public class PageConfiguration {
 
   @Bean
   PageManagerDisplayFactory pageManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSource messageSource, PageService pageService, MetaElementService metaElementService,
-      OpenGraphMetaElementService openGraphMetaElementService, WidgetService widgetService,
+      WebMessageSource messageSource, PageService pageService, WidgetService widgetService,
       WidgetPageService widgetPageService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
-    return new PageManagerDisplayFactoryImpl(menuFactory, messageSource, pageService, contextHolder, metaElementService,
-        openGraphMetaElementService, widgetService, widgetPageService, breadCrumbs);
+    return new PageManagerDisplayFactoryImpl(menuFactory, messageSource, pageService, contextHolder, widgetService,
+        widgetPageService, breadCrumbs);
   }
 
   @Bean
@@ -75,9 +82,8 @@ public class PageConfiguration {
   }
 
   @Bean
-  PageService pageService(PageRepository pageRepository, MetaElementService metaElementService,
-      OpenGraphMetaElementService openGraphMetaElementService, FileService fileService) {
-    return new PageServiceImpl(pageRepository, metaElementService, openGraphMetaElementService, fileService);
+  PageService pageService(PageRepository pageRepository, FileService fileService) {
+    return new PageServiceImpl(pageRepository, fileService);
   }
 
   @Bean

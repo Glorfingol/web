@@ -15,7 +15,6 @@
   <modules>
     <module>menu</module>
     <module>page</module>
-    <module>meta</module>
     <module>carousel</module>
     <module>news</module>
     <module>style</module>

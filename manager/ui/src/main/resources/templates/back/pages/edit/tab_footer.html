@@ -1,6 +1,16 @@
 <form id="pageUpdateForm" th:object="${updateForm}">
   <div class="row">
     <div class="col-9">
+      <div class="form-group">
+        <label th:text="#{page.body.language.label}"/>
+        <select name="localeCode" id="localeCode" th:field="*{localeCode}"
+                class="form-control">
+          <option th:each="locale : ${locales}" th:value="${locale.language}"
+                  th:text="${locale.displayLanguage}"></option>
+        </select>
+        <div id="feedbackLanguage"></div>
+        <small class="form-text text-muted" th:text="#{page.body.language.help}"/>
+      </div>
       <div class="form-group mb-3" id="formInputFooter">
         <label th:text="#{page.footer.label}"/>
         <br/>
@@ -14,6 +24,7 @@
       <input type="hidden" th:field="*{menuTitle}"/>
       <input type="hidden" th:field="*{body}"/>
       <input type="hidden" th:field="*{header}"/>
+      <input type="hidden" th:field="*{meta}"/>
     </div>
     <div class="col-3" id="dragAndDrop">
       <table class="table table-responsive-md table-hover table-bordered tabble-striped">
@@ -51,9 +62,14 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function () {
-        $(".card-loader").hide();
-        $(".loader").hide();
-      }
-  );
+    $(".card-loader").hide();
+    $(".loader").hide();
+
+    $("#localeCode").change(function () {
+      currentTab = "";
+      languageCode = $("#localeCode").val();
+      goToFooterTab();
+    });
+  });
 </script>
 

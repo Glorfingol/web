@@ -9,21 +9,22 @@ public class PageUpdateForm {
 
   private String name;
   private String menuTitle;
-  private boolean withNews;
   private String body;
   private String header;
   private String footer;
+  private String meta;
   private Long id;
   @DateTimeFormat(iso = ISO.DATE)
   private LocalDate creationDate;
   @DateTimeFormat(iso = ISO.DATE)
   private LocalDate modificationDate;
+  private String localeCode;
 
   public PageUpdateForm() {
 
   }
 
-  public PageUpdateForm(PageDTO page) {
+  public PageUpdateForm(PageDTO page, String personalizationLanguageCode) {
     this.name = page.getName();
     this.menuTitle = page.getMenuTitle();
     this.body = page.getBody();
@@ -32,6 +33,8 @@ public class PageUpdateForm {
     this.id = page.getId();
     this.creationDate = page.getCreationDate();
     this.modificationDate = page.getModificationDate();
+    this.localeCode = personalizationLanguageCode;
+    this.meta = page.getMeta();
   }
 
   public String getName() {
@@ -48,14 +51,6 @@ public class PageUpdateForm {
 
   public void setMenuTitle(String menuTitle) {
     this.menuTitle = menuTitle;
-  }
-
-  public boolean isWithNews() {
-    return withNews;
-  }
-
-  public void setWithNews(boolean withNews) {
-    this.withNews = withNews;
   }
 
   public String getBody() {
@@ -106,4 +101,19 @@ public class PageUpdateForm {
     this.footer = footer;
   }
 
+  public String getLocaleCode() {
+    return localeCode;
+  }
+
+  public void setLocaleCode(String localeCode) {
+    this.localeCode = localeCode;
+  }
+
+  public String getMeta() {
+    return meta;
+  }
+
+  public void setMeta(String meta) {
+    this.meta = meta;
+  }
 }

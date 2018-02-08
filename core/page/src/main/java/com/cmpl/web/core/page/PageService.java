@@ -18,7 +18,7 @@ public interface PageService extends BaseService<PageDTO> {
    * @param pageName
    * @return
    */
-  PageDTO getPageByName(String pageName);
+  PageDTO getPageByName(String pageName, String localeCode);
 
   /**
    * Remonter toutes les pages
@@ -26,5 +26,11 @@ public interface PageService extends BaseService<PageDTO> {
    * @return
    */
   List<PageDTO> getPages();
+
+  PageDTO updateEntity(PageDTO dto, String localeCode);
+
+  PageDTO createEntity(PageDTO dto, String localeCode);
+
+  PageDTO getEntity(Long pageId, String localeCode);
 
 }

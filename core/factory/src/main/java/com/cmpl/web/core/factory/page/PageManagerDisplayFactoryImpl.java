@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -22,12 +23,6 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.meta.MetaElementCreateForm;
-import com.cmpl.web.core.meta.MetaElementDTO;
-import com.cmpl.web.core.meta.MetaElementService;
-import com.cmpl.web.core.meta.OpenGraphMetaElementCreateForm;
-import com.cmpl.web.core.meta.OpenGraphMetaElementDTO;
-import com.cmpl.web.core.meta.OpenGraphMetaElementService;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.page.PageCreateForm;
 import com.cmpl.web.core.page.PageDTO;
@@ -44,27 +39,22 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     PageManagerDisplayFactory {
 
   private final PageService pageService;
-  private final OpenGraphMetaElementService openGraphMetaElementService;
-  private final MetaElementService metaElementService;
   private final WidgetService widgetService;
   private final WidgetPageService widgetPageService;
   private final ContextHolder contextHolder;
 
   private static final String CREATE_FORM = "createForm";
   private static final String UPDATE_FORM = "updateForm";
-  private static final String META_ELEMENTS = "metaElements";
   private static final String LINKABLE_WIDGETS = "linkableWidgets";
   private static final String LINKED_WIDGETS = "linkedWidgets";
+  private static final String LOCALES = "locales";
 
   public PageManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      PageService pageService, ContextHolder contextHolder, MetaElementService metaElementService,
-      OpenGraphMetaElementService openGraphMetaElementService, WidgetService widgetService,
+      PageService pageService, ContextHolder contextHolder, WidgetService widgetService,
       WidgetPageService widgetPageService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry);
     this.pageService = pageService;
     this.contextHolder = contextHolder;
-    this.metaElementService = metaElementService;
-    this.openGraphMetaElementService = openGraphMetaElementService;
     this.widgetService = widgetService;
     this.widgetPageService = widgetPageService;
   }
@@ -102,9 +92,13 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdatePage(Locale locale, String pageId) {
+  public ModelAndView computeModelAndViewForUpdatePage(Locale locale, String pageId, String personalizationLanguageCode) {
     ModelAndView pageManager = super.computeModelAndViewForBackPage(BACK_PAGE.PAGES_UPDATE, locale);
-    PageDTO page = pageService.getEntity(Long.parseLong(pageId));
+
+    if (!StringUtils.hasText(personalizationLanguageCode)) {
+      personalizationLanguageCode = locale.getLanguage();
+    }
+    PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
 
     BreadCrumbItem item = BreadCrumbItemBuilder.create().href("#").text(page.getName()).build();
     BreadCrumb breadCrumb = (BreadCrumb) pageManager.getModel().get("breadcrumb");
@@ -112,7 +106,7 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       breadCrumb.getItems().add(item);
     }
 
-    pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
+    pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
     return pageManager;
   }
 
@@ -124,23 +118,32 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     return pageManager;
   }
 
-  PageUpdateForm createUpdateForm(PageDTO page) {
-    return new PageUpdateForm(page);
+  PageUpdateForm createUpdateForm(PageDTO page, String personalizationLanguageCode) {
+    return new PageUpdateForm(page, personalizationLanguageCode);
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdatePageMain(Locale locale, String pageId) {
+  public ModelAndView computeModelAndViewForUpdatePageMain(Locale locale, String pageId,
+      String personalizationLanguageCode) {
+    if (!StringUtils.hasText(personalizationLanguageCode)) {
+      personalizationLanguageCode = locale.getLanguage();
+    }
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_main");
-    PageDTO page = pageService.getEntity(Long.parseLong(pageId));
-    pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
+    PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
+    pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
     return pageManager;
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdatePageBody(Locale locale, String pageId) {
+  public ModelAndView computeModelAndViewForUpdatePageBody(Locale locale, String pageId,
+      String personalizationLanguageCode) {
+    if (!StringUtils.hasText(personalizationLanguageCode)) {
+      personalizationLanguageCode = locale.getLanguage();
+    }
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_body");
-    PageDTO page = pageService.getEntity(Long.parseLong(pageId));
-    pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
+    pageManager.addObject(LOCALES, computeLocales());
+    PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
+    pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
 
     List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(pageId);
     pageManager.addObject(LINKED_WIDGETS, computeLinkedWidgets(associatedWidgets));
@@ -149,40 +152,29 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdatePageMeta(Locale locale, String pageId) {
+  public ModelAndView computeModelAndViewForUpdatePageMeta(Locale locale, String pageId,
+      String personalizationLanguageCode) {
+    if (!StringUtils.hasText(personalizationLanguageCode)) {
+      personalizationLanguageCode = locale.getLanguage();
+    }
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_meta");
-    List<MetaElementDTO> metaElements = metaElementService.findMetaElementsByPageId(pageId);
-    pageManager.addObject(META_ELEMENTS, metaElements);
-    pageManager.addObject(CREATE_FORM, createMetaElementCreateForm(pageId));
+    pageManager.addObject(LOCALES, computeLocales());
+    PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
+    pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
+
     return pageManager;
   }
 
-  MetaElementCreateForm createMetaElementCreateForm(String pageId) {
-    MetaElementCreateForm createForm = new MetaElementCreateForm();
-    createForm.setPageId(pageId);
-    return createForm;
-  }
-
   @Override
-  public ModelAndView computeModelAndViewForUpdatePageOpenGraphMeta(Locale locale, String pageId) {
-    ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_open_graph_meta");
-    List<OpenGraphMetaElementDTO> metaElements = openGraphMetaElementService.findOpenGraphMetaElementsByPageId(pageId);
-    pageManager.addObject(META_ELEMENTS, metaElements);
-    pageManager.addObject(CREATE_FORM, createOpenGraphMetaElementCreateForm(pageId));
-    return pageManager;
-  }
-
-  OpenGraphMetaElementCreateForm createOpenGraphMetaElementCreateForm(String pageId) {
-    OpenGraphMetaElementCreateForm createForm = new OpenGraphMetaElementCreateForm();
-    createForm.setPageId(pageId);
-    return createForm;
-  }
-
-  @Override
-  public ModelAndView computeModelAndViewForUpdatePageHeader(Locale locale, String pageId) {
+  public ModelAndView computeModelAndViewForUpdatePageHeader(Locale locale, String pageId,
+      String personalizationLanguageCode) {
+    if (!StringUtils.hasText(personalizationLanguageCode)) {
+      personalizationLanguageCode = locale.getLanguage();
+    }
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_header");
-    PageDTO page = pageService.getEntity(Long.parseLong(pageId));
-    pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
+    pageManager.addObject(LOCALES, computeLocales());
+    PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
+    pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
 
     List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(pageId);
     pageManager.addObject(LINKED_WIDGETS, computeLinkedWidgets(associatedWidgets));
@@ -190,10 +182,15 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdatePageFooter(Locale locale, String pageId) {
+  public ModelAndView computeModelAndViewForUpdatePageFooter(Locale locale, String pageId,
+      String personalizationLanguageCode) {
+    if (!StringUtils.hasText(personalizationLanguageCode)) {
+      personalizationLanguageCode = locale.getLanguage();
+    }
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_footer");
-    PageDTO page = pageService.getEntity(Long.parseLong(pageId));
-    pageManager.addObject(UPDATE_FORM, createUpdateForm(page));
+    pageManager.addObject(LOCALES, computeLocales());
+    PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
+    pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
 
     List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(pageId);
     pageManager.addObject(LINKED_WIDGETS, computeLinkedWidgets(associatedWidgets));
@@ -201,9 +198,14 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdatePageWidgets(Locale locale, String pageId) {
+  public ModelAndView computeModelAndViewForUpdatePageWidgets(Locale locale, String pageId,
+      String personalizationLanguageCode) {
+    if (!StringUtils.hasText(personalizationLanguageCode)) {
+      personalizationLanguageCode = locale.getLanguage();
+    }
     ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_widgets");
-    PageDTO page = pageService.getEntity(Long.parseLong(pageId));
+    pageManager.addObject(LOCALES, computeLocales());
+    PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
     pageManager.addObject(CREATE_FORM, computeWidgetPageCreateForm(page));
     List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(pageId);
     List<WidgetDTO> widgets = widgetService.getEntities();

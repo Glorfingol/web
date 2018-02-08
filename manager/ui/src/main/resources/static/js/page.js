@@ -17,12 +17,16 @@ function computePage() {
 
   var inputName = $("#name");
   var inputMenuTitle = $("#menuTitle");
+  var inputLocaleCode = $("#localeCode");
 
   page.name = inputName.val();
   page.menuTitle = inputMenuTitle.val();
   page.body = computePageBody();
   page.header = computePageHeader();
-  page.footer = computePageHeader();
+  page.footer = computePageFooter();
+  page.meta = computePageMeta();
+  page.localeCode = inputLocaleCode.val();
+
   return page;
 
 }
@@ -35,15 +39,18 @@ function computeUpdatePage() {
   var inputId = $("#id");
   var inputCreationDate = $("#creationDate");
   var inputModificationDate = $("#modificationDate");
+  var inputLocaleCode = $("#localeCode");
 
   page.name = inputName.val();
   page.menuTitle = inputMenuTitle.val();
   page.body = computePageBody();
   page.header = computePageHeader();
   page.footer = computePageFooter();
+  page.meta = computePageMeta();
   page.id = inputId.val();
   page.creationDate = inputCreationDate.val();
   page.modificationDate = inputModificationDate.val();
+  page.localeCode = inputLocaleCode.val();
   return page;
 }
 
@@ -59,6 +66,13 @@ function computePageHeader() {
     return codeMirrorHeader.getValue();
   }
   return $("#header").val();
+}
+
+function computePageMeta() {
+  if (codeMirrorMeta) {
+    return codeMirrorMeta.getValue();
+  }
+  return $("#meta").val();
 }
 
 function computePageFooter() {

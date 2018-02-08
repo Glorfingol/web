@@ -8,13 +8,14 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
 
   private String name;
   private String menuTitle;
-  private boolean withNews;
   private String body;
   private String header;
   private String footer;
+  private String meta;
   private Long id;
   private LocalDate creationDate;
   private LocalDate modificationDate;
+  private String localeCode;
 
   private PageUpdateFormBuilder() {
 
@@ -30,23 +31,28 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
     return this;
   }
 
-  public PageUpdateFormBuilder withNews(boolean withNews) {
-    this.withNews = withNews;
-    return this;
-  }
-
   public PageUpdateFormBuilder body(String body) {
     this.body = body;
     return this;
   }
 
-  public PageUpdateFormBuilder hader(String header) {
+  public PageUpdateFormBuilder header(String header) {
     this.header = header;
     return this;
   }
 
   public PageUpdateFormBuilder footer(String footer) {
     this.footer = footer;
+    return this;
+  }
+
+  public PageUpdateFormBuilder meta(String meta) {
+    this.meta = meta;
+    return this;
+  }
+
+  public PageUpdateFormBuilder localeCode(String localeCode) {
+    this.localeCode = localeCode;
     return this;
   }
 
@@ -77,7 +83,8 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
     form.setMenuTitle(menuTitle);
     form.setModificationDate(modificationDate);
     form.setName(name);
-    form.setWithNews(withNews);
+    form.setLocaleCode(localeCode);
+    form.setMeta(meta);
     return form;
   }
 

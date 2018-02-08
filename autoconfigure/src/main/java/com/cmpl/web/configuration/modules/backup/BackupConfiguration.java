@@ -14,10 +14,6 @@ import com.cmpl.web.core.media.Media;
 import com.cmpl.web.core.media.MediaRepository;
 import com.cmpl.web.core.menu.Menu;
 import com.cmpl.web.core.menu.MenuRepository;
-import com.cmpl.web.core.meta.MetaElement;
-import com.cmpl.web.core.meta.MetaElementRepository;
-import com.cmpl.web.core.meta.OpenGraphMetaElement;
-import com.cmpl.web.core.meta.OpenGraphMetaElementRepository;
 import com.cmpl.web.core.news.NewsContent;
 import com.cmpl.web.core.news.NewsContentRepository;
 import com.cmpl.web.core.news.NewsEntry;
@@ -36,9 +32,8 @@ import com.cmpl.web.core.widget.WidgetRepository;
 @Configuration
 @PropertySource("classpath:/backup/backup.properties")
 @EnableJpaRepositories(basePackageClasses = {MenuRepository.class, StyleRepository.class, PageRepository.class,
-    MediaRepository.class, CarouselRepository.class, CarouselItemRepository.class, MetaElementRepository.class,
-    OpenGraphMetaElementRepository.class, NewsEntryRepository.class, NewsContentRepository.class,
-    NewsImageRepository.class, WidgetRepository.class, WidgetPageRepository.class})
+    MediaRepository.class, CarouselRepository.class, CarouselItemRepository.class, NewsEntryRepository.class,
+    NewsContentRepository.class, NewsImageRepository.class, WidgetRepository.class, WidgetPageRepository.class})
 public class BackupConfiguration {
 
   @Bean
@@ -69,17 +64,6 @@ public class BackupConfiguration {
   @Bean
   public DataManipulator<CarouselItem> carouselItemDataManipulator(CarouselItemRepository carouselItemRepository) {
     return new DataManipulator<>(carouselItemRepository);
-  }
-
-  @Bean
-  public DataManipulator<MetaElement> metaElementDataManipulator(MetaElementRepository metaElementRepository) {
-    return new DataManipulator<>(metaElementRepository);
-  }
-
-  @Bean
-  public DataManipulator<OpenGraphMetaElement> openGraphMetaElementDataManipulator(
-      OpenGraphMetaElementRepository openGraphMetaElementRepository) {
-    return new DataManipulator<>(openGraphMetaElementRepository);
   }
 
   @Bean
