@@ -56,8 +56,7 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
 
   MediaDTO initMedia() {
     return MediaDTOBuilder.create().name("styles.css").extension(".css").size(0l).contentType("text/css")
-        .src(contextHolder.getMediaDisplayPath() + "styles.css")
-        .id(Math.abs(UUID.randomUUID().getLeastSignificantBits())).build();
+        .src("/public/media/" + "styles.css").id(Math.abs(UUID.randomUUID().getLeastSignificantBits())).build();
   }
 
   @Override

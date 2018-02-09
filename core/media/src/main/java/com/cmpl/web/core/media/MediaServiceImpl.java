@@ -22,6 +22,7 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
   private final ContextHolder contextHolder;
   private final FileService fileService;
   private final MediaRepository mediaRepository;
+  private static final String MEDIA_CONTROLLER_PATH = "/public/medias/";
 
   public MediaServiceImpl(MediaRepository entityRepository, FileService fileService, ContextHolder contextHolder) {
     super(entityRepository);
@@ -42,7 +43,7 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
     }
 
     MediaDTO mediaToCreate = MediaDTOBuilder.create().name(fileName).contentType(multipartFile.getContentType())
-        .extension(extension).size(multipartFile.getSize()).src(contextHolder.getMediaDisplayPath() + fileName).build();
+        .extension(extension).size(multipartFile.getSize()).src(MEDIA_CONTROLLER_PATH + fileName).build();
 
     fileService.saveMediaOnSystem(fileName, multipartFile.getBytes());
 
@@ -50,6 +51,7 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
   }
 
   @Override
+  @Cacheable(value = "#a0")
   public InputStream download(String mediaName) {
     return fileService.read(mediaName);
   }

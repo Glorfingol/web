@@ -65,7 +65,7 @@ public class PageFactory {
     firstMedia.setContentType("image/jpg");
     firstMedia.setExtension(".jpg");
     firstMedia.setName("epilation_verso.jpg");
-    firstMedia.setSrc("http://poc.lperrod.cardiweb.com/public/medias/epilation_verso.jpg");
+    firstMedia.setSrc("/public/medias/epilation_verso.jpg");
     firstMedia.setSize(114688l);
 
     firstMedia = mediaRepository.save(firstMedia);
@@ -79,7 +79,7 @@ public class PageFactory {
     secondMedia.setContentType("image/jpg");
     secondMedia.setExtension(".jpg");
     secondMedia.setName("epilation_recto.jpg");
-    secondMedia.setSrc("http://poc.lperrod.cardiweb.com/public/medias/epilation_recto.jpg");
+    secondMedia.setSrc("/public/medias/epilation_recto.jpg");
     secondMedia.setSize(61440l);
 
     secondMedia = mediaRepository.save(secondMedia);

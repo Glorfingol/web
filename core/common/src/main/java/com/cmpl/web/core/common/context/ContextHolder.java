@@ -16,7 +16,6 @@ public class ContextHolder {
   private String templateBasePath;
   private int elementsPerPage;
   private String mediaBasePath;
-  private String mediaDisplayPath;
 
   public DateTimeFormatter getDateFormat() {
     return dateFormat;
@@ -64,14 +63,6 @@ public class ContextHolder {
 
   public void setMediaBasePath(String mediaBasePath) {
     this.mediaBasePath = mediaBasePath;
-  }
-
-  public String getMediaDisplayPath() {
-    return mediaDisplayPath;
-  }
-
-  public void setMediaDisplayPath(String mediaDisplayPath) {
-    this.mediaDisplayPath = mediaDisplayPath;
   }
 
 }

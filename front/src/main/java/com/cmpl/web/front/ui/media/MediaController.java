@@ -18,7 +18,7 @@ import com.cmpl.web.core.media.MediaService;
 
 @Controller
 @RequestMapping(value = "/public/medias")
-public class MediaController { 
+public class MediaController {
 
   private final MediaService mediaService;
 
@@ -28,6 +28,21 @@ public class MediaController {
 
   @GetMapping("/{mediaName:.+}")
   public void serve(@PathVariable("mediaName") String mediaName, HttpServletResponse res) throws SQLException,
+      IOException {
+    MediaDTO mediaDTO = mediaService.findByName(mediaName);
+    if (mediaDTO != null) {
+      res.setHeader(HttpHeaders.CONTENT_TYPE, mediaDTO.getContentType());
+      res.setHeader(HttpHeaders.CONTENT_DISPOSITION, "Content-Disposition: inline; filename=\"" + mediaDTO.getName()
+          + "\"");
+      StreamUtils.copy(mediaService.download(mediaName), res.getOutputStream());
+      return;
+    }
+
+    res.setStatus(HttpStatus.NOT_FOUND.value());
+  }
+
+  @GetMapping("/actualites/{mediaName:.+}")
+  public void serveBlogMedia(@PathVariable("mediaName") String mediaName, HttpServletResponse res) throws SQLException,
       IOException {
     MediaDTO mediaDTO = mediaService.findByName(mediaName);
     if (mediaDTO != null) {

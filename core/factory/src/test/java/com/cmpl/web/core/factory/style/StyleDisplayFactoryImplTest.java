@@ -44,15 +44,13 @@ public class StyleDisplayFactoryImplTest {
   @Test
   public void testInitMedia() throws Exception {
 
-    BDDMockito.given(contextHolder.getMediaDisplayPath()).willReturn("somePath/");
-
     MediaDTO result = displayFactory.initMedia();
 
     Assert.assertEquals("styles.css", result.getName());
     Assert.assertEquals(".css", result.getExtension());
     Assert.assertTrue(0l == result.getSize());
     Assert.assertEquals("text/css", result.getContentType());
-    Assert.assertEquals("somePath/styles.css", result.getSrc());
+    Assert.assertEquals("/public/media/styles.css", result.getSrc());
   }
 
   @Test

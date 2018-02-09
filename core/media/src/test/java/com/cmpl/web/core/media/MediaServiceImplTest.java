@@ -81,7 +81,6 @@ public class MediaServiceImplTest {
     BDDMockito.given(multiPartFile.getContentType()).willReturn("application/pdf");
     BDDMockito.given(multiPartFile.getSize()).willReturn(1l);
     BDDMockito.given(multiPartFile.getBytes()).willReturn(new byte[]{});
-    BDDMockito.given(contextHolder.getMediaDisplayPath()).willReturn("http://poc.lperrod.cardiweb.com/public/img");
 
     BDDMockito.doNothing().when(fileService).saveMediaOnSystem(BDDMockito.anyString(), BDDMockito.any(byte[].class));
 

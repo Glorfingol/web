@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import com.cmpl.web.core.common.context.ContextHolder;
- 
+
 /**
  * COnfiguration du contextHolder a partir de donnes du fichier yaml
  * 
@@ -31,9 +31,6 @@ public class ContextConfiguration {
   @Value("${mediaBasePath}")
   String mediaBasePath;
 
-  @Value("${mediaDisplayPath}")
-  String mediaDisplayPath;
-
   @Bean
   ContextHolder contextHolder() {
 
@@ -47,7 +44,6 @@ public class ContextConfiguration {
     contextHolder.setElementsPerPage(10);
     contextHolder.setTemplateBasePath(templateBasePath);
     contextHolder.setMediaBasePath(mediaBasePath);
-    contextHolder.setMediaDisplayPath(mediaDisplayPath);
     return contextHolder;
 
   }
