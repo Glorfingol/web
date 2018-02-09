@@ -21,6 +21,7 @@ function computeNewsEntry() {
   if (hasImage(image) || hasImageMetaData(image)) {
     newsEntry.image = image;
   }
+
   return newsEntry;
 
 }
@@ -154,8 +155,12 @@ function computeTemplateBody() {
 function postCreateNewsForm() {
   $("#newsEntryCreateForm").hide();
   var url = "/manager/news";
-  create($("#newsEntryCreateForm"), $(".loader"), $(".card-loader"), url, url,
-      validateAndCreateNewsEntry());
+  var urlMedia = "/manager/news/{newsEntryId}/media";
+  var formData = new FormData();
+  formData.append("media", droppedFiles[0]);
+  createThenUpload($("#newsEntryCreateForm"), $(".loader"), $(".card-loader"),
+      url, url,
+      validateAndCreateNewsEntry(), formData, urlMedia);
 }
 
 function postUpdateNewsForm() {
@@ -164,14 +169,6 @@ function postUpdateNewsForm() {
   var urlFallback = "/manager/news/" + newsEntryToUpdate.id;
   update($("#newsEntryEditForm"), $(".loader"), $(".card-loader"), url,
       urlFallback, newsEntryToUpdate);
-}
-
-function postUpdateNewsTemplateForm() {
-  var newsTemplateRequest = computeNewsTemplateRequest();
-  var url = "/manager/news/template";
-  var urlFallback = "/manager/news/template";
-  update($("#templateEditForm"), $(".loader"), $(".card-loader"), url,
-      urlFallback, newsTemplateRequest);
 }
 
 function cancelUpdateNewsTemplate() {

@@ -65,7 +65,7 @@ public class NewsManagerControllerTest {
 
     BDDMockito.doReturn(response).when(dispatcher)
         .updateEntity(BDDMockito.eq(request), BDDMockito.eq("666"), BDDMockito.eq(Locale.FRANCE));
-    ResponseEntity<NewsEntryResponse> result = controller.updateNewsEntry("666", request, Locale.FRANCE);
+    ResponseEntity<NewsEntryResponse> result = controller.updateNewsEntry("666", request, null, Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
     Assert.assertEquals(response, result.getBody());
@@ -79,7 +79,7 @@ public class NewsManagerControllerTest {
     BDDMockito.doThrow(new BaseException("")).when(dispatcher)
         .updateEntity(BDDMockito.eq(request), BDDMockito.eq("666"), BDDMockito.eq(Locale.FRANCE));
 
-    ResponseEntity<NewsEntryResponse> result = controller.updateNewsEntry("666", request, Locale.FRANCE);
+    ResponseEntity<NewsEntryResponse> result = controller.updateNewsEntry("666", request, null, Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.CONFLICT, result.getStatusCode());
 
@@ -94,7 +94,7 @@ public class NewsManagerControllerTest {
     response.setNewsEntry(entryDTO);
 
     BDDMockito.doReturn(response).when(dispatcher).createEntity(BDDMockito.eq(request), BDDMockito.eq(Locale.FRANCE));
-    ResponseEntity<NewsEntryResponse> result = controller.createNewsEntry(request, Locale.FRANCE);
+    ResponseEntity<NewsEntryResponse> result = controller.createNewsEntry(request, null, Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.CREATED, result.getStatusCode());
     Assert.assertEquals(response, result.getBody());
@@ -108,7 +108,7 @@ public class NewsManagerControllerTest {
     BDDMockito.doThrow(new BaseException("")).when(dispatcher)
         .createEntity(BDDMockito.eq(request), BDDMockito.eq(Locale.FRANCE));
 
-    ResponseEntity<NewsEntryResponse> result = controller.createNewsEntry(request, Locale.FRANCE);
+    ResponseEntity<NewsEntryResponse> result = controller.createNewsEntry(request, null, Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.CONFLICT, result.getStatusCode());
 

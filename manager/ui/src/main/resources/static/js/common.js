@@ -237,6 +237,37 @@ function upload(formToToggle, loader, cardLoader, url, urlFallBack,
   });
 }
 
+function createThenUpload(formToToggle, loader, cardLoader, url, urlFallBack,
+    dataToSend, urlMedia, mediaToSend) {
+  formToToggle.hide();
+  loader.show();
+  cardLoader.show();
+  var data = JSON.stringify(dataToSend);
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: data,
+    contentType: "application/json; charset=utf-8",
+    crossDomain: true,
+    dataType: "json",
+    success: function (data) {
+      cardLoader.hide();
+      if (data.error) {
+        loader.hide();
+        formToToggle.show();
+        displayError(data.error);
+      } else {
+        upload(formToToggle, loader, cardLoader, urlMedia, urlFallBack,
+            mediaToSend);
+        window.location.href = url;
+      }
+    },
+    error: function () {
+      window.location.href = url;
+    }
+  });
+}
+
 function fix_height() {
   $('#page-wrapper').css("min-height", $(window).height() - 60 + "px");
 }

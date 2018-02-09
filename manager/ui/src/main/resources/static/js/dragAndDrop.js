@@ -32,7 +32,8 @@ function setUpDropImage(imageSrcId, holder) {
   holder.on("drop", function (event) {
     event.preventDefault();
     event.dataTransfer = event.originalEvent.dataTransfer;
-    var file = event.dataTransfer.files[0];
+    droppedFiles = event.dataTransfer.files;
+    var file = droppedFiles[0];
     var reader = new FileReader();
     reader.onload = function (eventOnload) {
       $(imageSrcId).show();
