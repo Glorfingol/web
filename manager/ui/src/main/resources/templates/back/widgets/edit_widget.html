@@ -1,55 +1,64 @@
 <div class="card mb-4">
-	<div role="tabpanel" class="card-header">
-	    <ul class="nav nav-tabs card-header-tabs" id="widgetTabs" role="tablist">
-	        <li class="nav-item">
-	            <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"  onclick="goToMainTab()">
-	                <span th:text="#{widget.tab.main}"/>
-	            </a>
-	        </li>
-					<li class="nav-item">
-							<a class="nav-link" id="header-tab" data-toggle="tab" href="#" role="tab"  onclick="goToPersonalizationTab()" >
-								<span th:text="#{widget.tab.personalization}"/>
-							</a>
-					</li>
+  <div role="tabpanel" class="card-header">
+    <ul class="nav nav-tabs card-header-tabs" id="widgetTabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToMainTab()">
+          <span th:text="#{widget.tab.main}"/>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="header-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToPersonalizationTab()">
+          <span th:text="#{widget.tab.personalization}"/>
+        </a>
+      </li>
 
-	    </ul>
-	</div>
-	<div class="tab-content card-body" id="pageTabContent">
-	    <div role="tabpanel" class="tab-pane fade active show" id="ajaxTab">
-	    </div>
-	</div>
+    </ul>
+  </div>
+  <div class="tab-content card-body" id="pageTabContent">
+    <div role="tabpanel" class="tab-pane fade active show" id="ajaxTab">
+    </div>
+  </div>
 </div>
 <script th:inline="javascript">
-CKEDITOR.config.startupMode = 'source';
-var currentTab = "";
+  var currentTab = "";
+  var languageCode = [[${updateForm.localeCode}]];
+  var codeMirrorPersonalization;
 
+  var goToMainTab = function () {
+    if (currentTab !== "main") {
+      var url = "/manager/widgets/" + [['' + ${updateForm.id} +'']] + "/_main?languageCode="
+          + languageCode;
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "main";
+      });
+    }
+  };
 
+  var goToPersonalizationTab = function () {
+    if (currentTab !== "personalization") {
+      var url = "/manager/widgets/" + [['' + ${updateForm.id} +'']]
+          + "/_personalization?languageCode="
+          + languageCode;
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "personalization";
+        codeMirrorPersonalization = setUpCodeMirror("widgetPersonalization");
+      });
+    }
+  };
 
-var goToMainTab =  function(){
-	if(currentTab !== "main"){
-	 var url = "/manager/widgets/"+[[''+${updateForm.id}+'']]+"/_main";
-     $.get(url, function (data) {
-         $("#ajaxTab").html(data);
-         currentTab = "main";
-       });
-	 }
-};
+  $(document).ready(function () {
+    goToMainTab();
+  });
 
-var goToPersonalizationTab =  function(){
-  if(currentTab !== "personalization"){
-    var url = "/manager/widgets/"+[[''+${updateForm.id}+'']]+"/_personalization";
-    $.get(url, function (data) {
-      $("#ajaxTab").html(data);
-      CKEDITOR.replace("widgetPersonalization");
-      currentTab = "personalization";
-    });
+  var setUpCodeMirror = function (textAreaId) {
+    var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
+        {theme: "neo", lineNumbers: true});
+    return codeMirror;
   }
-};
-
-
-$(document).ready(function(){
-        goToMainTab();
-});
 </script>
 
 

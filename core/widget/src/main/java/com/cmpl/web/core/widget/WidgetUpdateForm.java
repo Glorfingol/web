@@ -7,7 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 public class WidgetUpdateForm {
 
-
   private WIDGET_TYPE type;
   private String entityId;
   private String name;
@@ -17,6 +16,7 @@ public class WidgetUpdateForm {
   @DateTimeFormat(iso = ISO.DATE)
   private LocalDate modificationDate;
   private String personalization;
+  private String localeCode;
 
   public WIDGET_TYPE getType() {
     return type;
@@ -72,5 +72,13 @@ public class WidgetUpdateForm {
 
   public void setPersonalization(String personalization) {
     this.personalization = personalization;
+  }
+
+  public String getLocaleCode() {
+    return localeCode;
+  }
+
+  public void setLocaleCode(String localeCode) {
+    this.localeCode = localeCode;
   }
 }

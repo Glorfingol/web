@@ -30,7 +30,7 @@ public class WidgetDispatcherImpl implements WidgetDispatcher {
     }
 
     WidgetDTO widgetToCreate = translator.fromCreateFormToDTO(form);
-    WidgetDTO createdWidget = widgetService.createEntity(widgetToCreate);
+    WidgetDTO createdWidget = widgetService.createEntity(widgetToCreate, form.getLocaleCode());
     return translator.fromDTOToResponse(createdWidget);
   }
 
@@ -48,7 +48,7 @@ public class WidgetDispatcherImpl implements WidgetDispatcher {
     widgetToUpdate.setPersonalization(form.getPersonalization());
     widgetToUpdate.setType(form.getType());
 
-    WidgetDTO updatedWidget = widgetService.updateEntity(widgetToUpdate);
+    WidgetDTO updatedWidget = widgetService.updateEntity(widgetToUpdate, form.getLocaleCode());
 
     return translator.fromDTOToResponse(updatedWidget);
   }

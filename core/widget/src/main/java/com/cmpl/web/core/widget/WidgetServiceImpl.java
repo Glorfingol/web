@@ -17,7 +17,8 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   private final FileService fileService;
   private final WidgetRepository repository;
   private static final String WIDGET_PREFIX = "widget_";
-  private static final String WIDGET_SUFFIX = ".html";
+  private static final String HTML_SUFFIX = ".html";
+  private static final String LOCALE_CODE_PREFIX = "_";
 
   public WidgetServiceImpl(WidgetRepository repository, FileService fileService) {
     super(repository);
@@ -28,32 +29,36 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   @Override
   @Transactional
   @CacheEvict(value = "pagedWidgets", allEntries = true)
-  public WidgetDTO createEntity(WidgetDTO dto) {
+  public WidgetDTO createEntity(WidgetDTO dto, String localeCode) {
     WidgetDTO updatedWidget = super.createEntity(dto);
 
-    fileService.saveFileOnSystem(WIDGET_PREFIX + dto.getName() + WIDGET_SUFFIX, dto.getPersonalization());
+    fileService.saveFileOnSystem(WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+        dto.getPersonalization());
 
     return updatedWidget;
   }
 
   @Override
   @Transactional
-  @CachePut(key = "#a0.id")
+  @CachePut(key = "#a0.id+'_'+#a1")
   @CacheEvict(value = {"pagedWidgets"}, allEntries = true)
-  public WidgetDTO updateEntity(WidgetDTO dto) {
+  public WidgetDTO updateEntity(WidgetDTO dto, String localeCode) {
     WidgetDTO updatedWidget = super.updateEntity(dto);
 
-    fileService.saveFileOnSystem(WIDGET_PREFIX + dto.getName() + WIDGET_SUFFIX, dto.getPersonalization());
+    fileService.saveFileOnSystem(WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+        dto.getPersonalization());
+
+    updatedWidget.setPersonalization(dto.getPersonalization());
 
     return updatedWidget;
   }
 
   @Override
-  @Cacheable(key = "#a0")
-  public WidgetDTO getEntity(Long widgetId) {
+  @Cacheable(key = "#a0+'_'+#a1")
+  public WidgetDTO getEntity(Long widgetId, String localeCode) {
     WidgetDTO fetchedWidget = super.getEntity(widgetId);
     fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(WIDGET_PREFIX + fetchedWidget.getName()
-        + WIDGET_SUFFIX));
+        + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     return fetchedWidget;
   }
 
@@ -72,9 +77,12 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   }
 
   @Override
-  @Cacheable(key = "#a0")
-  public WidgetDTO findByName(String widgetName) {
-    return toDTO(repository.findByName(widgetName));
+  @Cacheable(key = "#a0+'_'+#a1")
+  public WidgetDTO findByName(String widgetName, String localeCode) {
+    WidgetDTO fetchedWidget = toDTO(repository.findByName(widgetName));
+    fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(WIDGET_PREFIX + fetchedWidget.getName()
+        + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+    return fetchedWidget;
   }
 
   @Override

@@ -104,7 +104,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     LOGGER.info("Construction de l'entree de blog d'id {}", newsEntryId);
 
-    ModelAndView model = new ModelAndView(computeNewsTemplate(widgetId));
+    ModelAndView model = new ModelAndView(computeNewsTemplate(widgetId, locale.getLanguage()));
     NewsEntryDisplayBean newsEntryDisplayBean = computeNewsEntryDisplayBean(locale,
         newsEntryService.getEntity(Long.parseLong(newsEntryId)));
     model.addObject("newsBean", newsEntryDisplayBean);
@@ -119,7 +119,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     LOGGER.info("Construction du wiget {}", widgetName);
 
-    WidgetDTO widget = widgetService.findByName(widgetName);
+    WidgetDTO widget = widgetService.findByName(widgetName, locale.getLanguage());
     ModelAndView model = new ModelAndView(computeWidgetTemplate(widget));
 
     model.addObject("pageNumber", pageNumber);
@@ -174,11 +174,11 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     return page.getName() + "_meta_" + locale.getLanguage();
   }
 
-  String computeNewsTemplate(String widgetId) {
+  String computeNewsTemplate(String widgetId, String localeCode) {
     if (StringUtils.hasText(widgetId)) {
       WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId));
       if (widget != null && StringUtils.hasText(widget.getPersonalization())) {
-        return "widget_" + widget.getName();
+        return "widget_" + widget.getName() + "_" + localeCode;
       }
     }
     return "widgets/blog_entry";

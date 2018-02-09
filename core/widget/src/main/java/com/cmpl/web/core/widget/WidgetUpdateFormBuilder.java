@@ -13,6 +13,7 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
   private LocalDate creationDate;
   private LocalDate modificationDate;
   private String personalization;
+  private String localeCode;
 
   public WidgetUpdateFormBuilder type(WIDGET_TYPE type) {
     this.type = type;
@@ -26,6 +27,11 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
 
   public WidgetUpdateFormBuilder name(String name) {
     this.name = name;
+    return this;
+  }
+
+  public WidgetUpdateFormBuilder localeCode(String localeCode) {
+    this.localeCode = localeCode;
     return this;
   }
 
@@ -49,7 +55,7 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
     return this;
   }
 
-  private WidgetUpdateFormBuilder(){
+  private WidgetUpdateFormBuilder() {
 
   }
 
@@ -63,10 +69,11 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
     form.setName(name);
     form.setType(type);
     form.setPersonalization(personalization);
+    form.setLocaleCode(localeCode);
     return form;
   }
 
-  public static WidgetUpdateFormBuilder create(){
+  public static WidgetUpdateFormBuilder create() {
     return new WidgetUpdateFormBuilder();
   }
 }

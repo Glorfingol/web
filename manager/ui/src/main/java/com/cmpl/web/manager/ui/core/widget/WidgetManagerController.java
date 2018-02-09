@@ -7,7 +7,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
@@ -71,23 +78,26 @@ public class WidgetManagerController {
   }
 
   @GetMapping(value = "/{widgetId}")
-  public ModelAndView printViewUpdateWidget(@PathVariable(value = "widgetId") String widgetId, Locale locale) {
+  public ModelAndView printViewUpdateWidget(@PathVariable(value = "widgetId") String widgetId, Locale locale,
+      @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId);
-    return widgetManagerDisplayFactory.computeModelAndViewForUpdateWidget(locale, widgetId);
+    return widgetManagerDisplayFactory.computeModelAndViewForUpdateWidget(locale, widgetId, languageCode);
   }
 
   @GetMapping(value = "/{widgetId}/_main")
-  public ModelAndView printViewUpdateWidgetMain(@PathVariable(value = "widgetId") String widgetId, Locale locale) {
+  public ModelAndView printViewUpdateWidgetMain(@PathVariable(value = "widgetId") String widgetId, Locale locale,
+      @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId + " pour la partie main");
-    return widgetManagerDisplayFactory.computeModelAndViewForUpdateWidgetMain(locale, widgetId);
+    return widgetManagerDisplayFactory.computeModelAndViewForUpdateWidgetMain(locale, widgetId, languageCode);
   }
 
   @GetMapping(value = "/{widgetId}/_personalization")
   public ModelAndView printViewUpdateWidgetPersonalization(@PathVariable(value = "widgetId") String widgetId,
-      Locale locale) {
-    LOGGER.info(
-        "Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId + " pour la partie personnalisation");
-    return widgetManagerDisplayFactory.computeModelAndViewForUpdateWidgetPersonalization(locale, widgetId);
+      Locale locale, @RequestParam(name = "languageCode", required = false) String languageCode) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId
+        + " pour la partie personnalisation");
+    return widgetManagerDisplayFactory
+        .computeModelAndViewForUpdateWidgetPersonalization(locale, widgetId, languageCode);
   }
 
   @PutMapping(value = "/{widgetId}", produces = "application/json")

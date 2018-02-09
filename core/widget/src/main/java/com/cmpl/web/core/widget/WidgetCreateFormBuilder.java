@@ -6,8 +6,9 @@ public class WidgetCreateFormBuilder extends Builder<WidgetCreateForm> {
 
   private WIDGET_TYPE type;
   private String name;
+  private String localeCode;
 
-  private WidgetCreateFormBuilder(){
+  private WidgetCreateFormBuilder() {
 
   }
 
@@ -16,9 +17,13 @@ public class WidgetCreateFormBuilder extends Builder<WidgetCreateForm> {
     return this;
   }
 
-
   public WidgetCreateFormBuilder name(String name) {
     this.name = name;
+    return this;
+  }
+
+  public WidgetCreateFormBuilder localeCode(String localeCode) {
+    this.localeCode = localeCode;
     return this;
   }
 
@@ -27,10 +32,11 @@ public class WidgetCreateFormBuilder extends Builder<WidgetCreateForm> {
     WidgetCreateForm form = new WidgetCreateForm();
     form.setName(name);
     form.setType(type);
+    form.setLocaleCode(localeCode);
     return form;
   }
 
-  public static WidgetCreateFormBuilder create(){
+  public static WidgetCreateFormBuilder create() {
     return new WidgetCreateFormBuilder();
   }
 }

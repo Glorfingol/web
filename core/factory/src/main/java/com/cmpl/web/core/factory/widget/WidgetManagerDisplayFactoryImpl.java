@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -45,6 +46,7 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
   private static final String UPDATE_FORM = "updateForm";
   private static final String LINKABLE_ENTITIES = "linkableEntities";
   private static final String WIDGET_TYPES = "widgetTypes";
+  private static final String LOCALES = "locales";
 
   public WidgetManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       ContextHolder contextHolder, WidgetService widgetService,
@@ -82,12 +84,17 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdateWidget(Locale locale, String widgetId) {
+  public ModelAndView computeModelAndViewForUpdateWidget(Locale locale, String widgetId,
+      String personalizationLanguageCode) {
+
+    if (!StringUtils.hasText(personalizationLanguageCode)) {
+      personalizationLanguageCode = locale.getLanguage();
+    }
     ModelAndView widgetManager = super.computeModelAndViewForBackPage(BACK_PAGE.WIDGET_UPDATE, locale);
 
-    WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId));
+    WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
     LOGGER.info("Construction du formulaire de creation des widgets ");
-    widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget));
+    widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget, personalizationLanguageCode));
     List<WIDGET_TYPE> types = Arrays.stream(WIDGET_TYPE.values()).collect(Collectors.toList());
     widgetManager.addObject(WIDGET_TYPES, types);
 
@@ -101,26 +108,35 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdateWidgetMain(Locale locale, String widgetId) {
+  public ModelAndView computeModelAndViewForUpdateWidgetMain(Locale locale, String widgetId,
+      String personalizationLanguageCode) {
+    if (!StringUtils.hasText(personalizationLanguageCode)) {
+      personalizationLanguageCode = locale.getLanguage();
+    }
     ModelAndView widgetManager = new ModelAndView("back/widgets/edit/tab_main");
-    WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId));
-    widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget));
+    WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
+    widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget, personalizationLanguageCode));
     List<WIDGET_TYPE> types = Arrays.stream(WIDGET_TYPE.values()).collect(Collectors.toList());
     widgetManager.addObject(WIDGET_TYPES, types);
     return widgetManager;
   }
 
-  WidgetUpdateForm computeUpdateForm(WidgetDTO widget) {
+  WidgetUpdateForm computeUpdateForm(WidgetDTO widget, String personalizationLanguageCode) {
     return WidgetUpdateFormBuilder.create().creationDate(widget.getCreationDate()).entityId(widget.getEntityId())
         .id(widget.getId()).personalization(widget.getPersonalization()).modificationDate(widget.getModificationDate())
-        .name(widget.getName()).type(widget.getType()).build();
+        .name(widget.getName()).type(widget.getType()).localeCode(personalizationLanguageCode).build();
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdateWidgetPersonalization(Locale locale, String widgetId) {
+  public ModelAndView computeModelAndViewForUpdateWidgetPersonalization(Locale locale, String widgetId,
+      String personalizationLanguageCode) {
+    if (!StringUtils.hasText(personalizationLanguageCode)) {
+      personalizationLanguageCode = locale.getLanguage();
+    }
     ModelAndView widgetManager = new ModelAndView("back/widgets/edit/tab_personalization");
-    WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId));
-    widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget));
+    widgetManager.addObject(LOCALES, computeLocales());
+    WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
+    widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget, personalizationLanguageCode));
     List<? extends BaseDTO> linkableEntities = dataSourceProvider.getLinkableEntities(widget.getType());
     widgetManager.addObject(LINKABLE_ENTITIES, linkableEntities);
     return widgetManager;
