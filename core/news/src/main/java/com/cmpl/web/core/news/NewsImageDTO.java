@@ -1,6 +1,7 @@
 package com.cmpl.web.core.news;
 
 import com.cmpl.web.core.common.dto.BaseDTO;
+import com.cmpl.web.core.media.MediaDTO;
 
 /**
  * DTO NewsImage
@@ -10,19 +11,16 @@ import com.cmpl.web.core.common.dto.BaseDTO;
  */
 public class NewsImageDTO extends BaseDTO {
 
-  private String src;
+  private MediaDTO media;
   private String legend;
-  private int width;
-  private int height;
   private String alt;
-  private String base64Src;
 
-  public String getSrc() {
-    return src;
+  public MediaDTO getMedia() {
+    return media;
   }
 
-  public void setSrc(String src) {
-    this.src = src;
+  public void setMedia(MediaDTO media) {
+    this.media = media;
   }
 
   public String getLegend() {
@@ -33,36 +31,12 @@ public class NewsImageDTO extends BaseDTO {
     this.legend = legend;
   }
 
-  public int getWidth() {
-    return width;
-  }
-
-  public void setWidth(int width) {
-    this.width = width;
-  }
-
-  public int getHeight() {
-    return height;
-  }
-
-  public void setHeight(int height) {
-    this.height = height;
-  }
-
   public String getAlt() {
     return alt;
   }
 
   public void setAlt(String alt) {
     this.alt = alt;
-  }
-
-  public String getBase64Src() {
-    return base64Src;
-  }
-
-  public void setBase64Src(String base64Src) {
-    this.base64Src = base64Src;
   }
 
 }

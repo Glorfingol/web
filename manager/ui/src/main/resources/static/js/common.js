@@ -1,273 +1,273 @@
 var base64Image;
 $(document).ready(function () {
-  $(".card-loader").hide();
-  $(".loader").hide();
+    $(".card-loader").hide();
+    $(".loader").hide();
 
-  $("#loginForm").submit(function () {
-    $(".card-loader").show();
-    $(".loader").show();
-    $("#loginForm").hide();
-  });
-  $("#connectToFacebook").submit(function () {
-    $(".card-loader").show();
-    $(".loader").show();
-    $("#connectToFacebook").hide();
-  });
-  fix_height();
+    $("#loginForm").submit(function () {
+        $(".card-loader").show();
+        $(".loader").show();
+        $("#loginForm").hide();
+    });
+    $("#connectToFacebook").submit(function () {
+        $(".card-loader").show();
+        $(".loader").show();
+        $("#connectToFacebook").hide();
+    });
+    fix_height();
 });
 
 $(function () {
-  var token = $("meta[name='_csrf']").attr("content");
-  var header = $("meta[name='_csrf_header']").attr("content");
-  $(document).ajaxSend(function (e, xhr) {
-    xhr.setRequestHeader(header, token);
-  });
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function (e, xhr) {
+        xhr.setRequestHeader(header, token);
+    });
 });
 
 function formatDate(date) {
-  return date;
+    return date;
 }
 
 function getFeedBackDivInput(code) {
-  if (code.indexOf("TITLE") !== -1) {
-    return $("#feedbackTitle");
-  }
-  if (code.indexOf("AUTHOR") !== -1) {
-    return $("#feedbackAuthor");
-  }
-  if (code.indexOf("CONTENT") !== -1) {
-    return $("#feedbackContent");
-  }
-  if (code.indexOf("LEGEND") !== -1) {
-    return $("#feedbackLegend");
-  }
-  if (code.indexOf("SRC") !== -1) {
-    return $("#feedbackImage");
-  }
-  if (code.indexOf("FORMAT") !== -1) {
-    return $("#feedbackImage");
-  }
-  if (code.indexOf("ALT") !== -1) {
-    return $("#feedbackAlt");
-  }
-  if (code.indexOf("NAME") !== -1) {
-    return $("#feedbackName");
-  }
-  if (code.indexOf("MENU_TITLE") !== -1) {
-    return $("#feedbackMenuTitle");
-  }
-  return null;
+    if (code.indexOf("TITLE") !== -1) {
+        return $("#feedbackTitle");
+    }
+    if (code.indexOf("AUTHOR") !== -1) {
+        return $("#feedbackAuthor");
+    }
+    if (code.indexOf("CONTENT") !== -1) {
+        return $("#feedbackContent");
+    }
+    if (code.indexOf("LEGEND") !== -1) {
+        return $("#feedbackLegend");
+    }
+    if (code.indexOf("SRC") !== -1) {
+        return $("#feedbackImage");
+    }
+    if (code.indexOf("FORMAT") !== -1) {
+        return $("#feedbackImage");
+    }
+    if (code.indexOf("ALT") !== -1) {
+        return $("#feedbackAlt");
+    }
+    if (code.indexOf("NAME") !== -1) {
+        return $("#feedbackName");
+    }
+    if (code.indexOf("MENU_TITLE") !== -1) {
+        return $("#feedbackMenuTitle");
+    }
+    return null;
 }
 
 function getErrorInput(code) {
-  if (code.indexOf("TITLE") !== -1) {
-    return $("#title");
-  }
-  if (code.indexOf("AUTHOR") !== -1) {
-    return $("#zuthor");
-  }
-  if (code.indexOf("CONTENT") !== -1) {
-    return $("#content");
-  }
-  if (code.indexOf("LEGEND") !== -1) {
-    return $("#legend");
-  }
-  if (code.indexOf("SRC") !== -1) {
-    return $("#image");
-  }
-  if (code.indexOf("FORMAT") !== -1) {
-    return $("#image");
-  }
-  if (code.indexOf("ALT") !== -1) {
-    return $("#alt");
-  }
-  if (code.indexOf("NAME") !== -1) {
-    return $("#name");
-  }
-  if (code.indexOf("MENU_TITLE") !== -1) {
-    return $("#menuTitle");
-  }
-  return null;
+    if (code.indexOf("TITLE") !== -1) {
+        return $("#title");
+    }
+    if (code.indexOf("AUTHOR") !== -1) {
+        return $("#zuthor");
+    }
+    if (code.indexOf("CONTENT") !== -1) {
+        return $("#content");
+    }
+    if (code.indexOf("LEGEND") !== -1) {
+        return $("#legend");
+    }
+    if (code.indexOf("SRC") !== -1) {
+        return $("#image");
+    }
+    if (code.indexOf("FORMAT") !== -1) {
+        return $("#image");
+    }
+    if (code.indexOf("ALT") !== -1) {
+        return $("#alt");
+    }
+    if (code.indexOf("NAME") !== -1) {
+        return $("#name");
+    }
+    if (code.indexOf("MENU_TITLE") !== -1) {
+        return $("#menuTitle");
+    }
+    return null;
 }
 
 function getErrorTarget(code) {
-  if (code.indexOf("TITLE") !== -1) {
-    return $("#formInputTitle");
-  }
-  if (code.indexOf("AUTHOR") !== -1) {
-    return $("#formInputAuthor");
-  }
-  if (code.indexOf("CONTENT") !== -1) {
-    return $("#formInputContent");
-  }
-  if (code.indexOf("LEGEND") !== -1) {
-    return $("#formInputLegend");
-  }
-  if (code.indexOf("SRC") !== -1) {
-    return $("#formInputImage");
-  }
-  if (code.indexOf("FORMAT") !== -1) {
-    return $("#formInputImage");
-  }
-  if (code.indexOf("ALT") !== -1) {
-    return $("#formInputAlt");
-  }
-  if (code.indexOf("NAME") !== -1) {
-    return $("#formInputName");
-  }
-  if (code.indexOf("MENU_TITLE") !== -1) {
-    return $("#formInputMenuTitle");
-  }
-  return null;
+    if (code.indexOf("TITLE") !== -1) {
+        return $("#formInputTitle");
+    }
+    if (code.indexOf("AUTHOR") !== -1) {
+        return $("#formInputAuthor");
+    }
+    if (code.indexOf("CONTENT") !== -1) {
+        return $("#formInputContent");
+    }
+    if (code.indexOf("LEGEND") !== -1) {
+        return $("#formInputLegend");
+    }
+    if (code.indexOf("SRC") !== -1) {
+        return $("#formInputImage");
+    }
+    if (code.indexOf("FORMAT") !== -1) {
+        return $("#formInputImage");
+    }
+    if (code.indexOf("ALT") !== -1) {
+        return $("#formInputAlt");
+    }
+    if (code.indexOf("NAME") !== -1) {
+        return $("#formInputName");
+    }
+    if (code.indexOf("MENU_TITLE") !== -1) {
+        return $("#formInputMenuTitle");
+    }
+    return null;
 }
 
 function displayError(error) {
 
-  var causes = error.causes;
-  if (causes && causes.length > 0) {
-    for (var i = 0; i < causes.length; i++) {
-      var cause = causes[i];
-      var code = cause.code;
-      var message = cause.message;
+    var causes = error.causes;
+    if (causes && causes.length > 0) {
+        for (var i = 0; i < causes.length; i++) {
+            var cause = causes[i];
+            var code = cause.code;
+            var message = cause.message;
 
-      var errorTarget = getErrorTarget(code);
-      errorTarget.addClass("has-danger");
+            var errorTarget = getErrorTarget(code);
+            errorTarget.addClass("has-danger");
 
-      var feedbackDiv = getFeedBackDivInput(code);
-      feedbackDiv.html(message);
+            var feedbackDiv = getFeedBackDivInput(code);
+            feedbackDiv.html(message);
 
-      var errorInput = getErrorInput(code);
-      errorInput.addClass("form-control-danger");
+            var errorInput = getErrorInput(code);
+            errorInput.addClass("form-control-danger");
 
+        }
     }
-  }
 }
 
 function update(formToToggle, loader, cardLoader, url, urlFallBack, dataToSend,
-    stay) {
+                stay) {
 
-  formToToggle.hide();
-  loader.show();
-  cardLoader.show();
-  var data = JSON.stringify(dataToSend);
-  $.ajax({
-    type: "PUT",
-    url: url,
-    data: data,
-    contentType: "application/json; charset=utf-8",
-    crossDomain: true,
-    dataType: "json",
-    success: function (data) {
-      cardLoader.hide();
-      if (data.error) {
-        loader.hide();
-        formToToggle.show();
-        displayError(data.error);
-      } else {
-        if (!stay) {
-          window.location.href = urlFallBack;
-        }
-        loader.hide();
-        formToToggle.show();
-      }
-    },
-    error: function () {
-      window.location.href = urlFallBack;
-    }
-  });
+    formToToggle.hide();
+    loader.show();
+    cardLoader.show();
+    var data = JSON.stringify(dataToSend);
+    return $.ajax({
+        type: "PUT",
+        url: url,
+        data: data,
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        dataType: "json"
+    });
 }
 
 function create(formToToggle, loader, cardLoader, url, urlFallBack,
-    dataToSend) {
-  formToToggle.hide();
-  loader.show();
-  cardLoader.show();
-  var data = JSON.stringify(dataToSend);
-  $.ajax({
-    type: "POST",
-    url: url,
-    data: data,
-    contentType: "application/json; charset=utf-8",
-    crossDomain: true,
-    dataType: "json",
-    success: function (data) {
-      cardLoader.hide();
-      if (data.error) {
-        loader.hide();
-        formToToggle.show();
-        displayError(data.error);
-      } else {
-        window.location.href = url;
-      }
-    },
-    error: function () {
-      window.location.href = url;
-    }
-  });
+                dataToSend) {
+    formToToggle.hide();
+    loader.show();
+    cardLoader.show();
+    var data = JSON.stringify(dataToSend);
+    return $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        dataType: "json"
+    });
 }
 
 function upload(formToToggle, loader, cardLoader, url, urlFallBack,
-    dataToSend) {
-  formToToggle.hide();
-  loader.show();
-  cardLoader.show();
-  var data = dataToSend;
-  $.ajax({
-    type: "POST",
-    url: url,
-    enctype: 'multipart/form-data',
-    processData: false,
-    data: data,
-    contentType: false,
-    crossDomain: true,
-    cache: false,
-    success: function (data) {
-      cardLoader.hide();
-      if (data.error) {
-        loader.hide();
-        formToToggle.show();
-        displayError(data.error);
-      } else {
-        window.location.href = url;
-      }
-    },
-    error: function () {
-      window.location.href = url;
-    }
-  });
+                dataToSend) {
+    formToToggle.hide();
+    loader.show();
+    cardLoader.show();
+    var data = dataToSend;
+    return $.ajax({
+        type: "POST",
+        url: url,
+        enctype: 'multipart/form-data',
+        processData: false,
+        data: data,
+        contentType: false,
+        crossDomain: true,
+        cache: false
+    });
 }
 
 function createThenUpload(formToToggle, loader, cardLoader, url, urlFallBack,
-    dataToSend, urlMedia, mediaToSend) {
-  formToToggle.hide();
-  loader.show();
-  cardLoader.show();
-  var data = JSON.stringify(dataToSend);
-  $.ajax({
-    type: "POST",
-    url: url,
-    data: data,
-    contentType: "application/json; charset=utf-8",
-    crossDomain: true,
-    dataType: "json",
-    success: function (data) {
-      cardLoader.hide();
-      if (data.error) {
+                          dataToSend, mediaToSend) {
+    formToToggle.hide();
+    loader.show();
+    cardLoader.show();
+    create(formToToggle, loader, cardLoader, url, urlFallBack,
+        dataToSend).done(function (result) {
+        var urlMedia = "/manager/news/media/" + result.createdEntityId;
+        upload(formToToggle, loader, cardLoader, urlMedia, urlFallBack,
+            mediaToSend).done(function (data) {
+            handleSuccessPostResult(data, cardLoader, loader, formToToggle, url);
+        }).fail(function (error) {
+            handleErrorPostResult(urlFallBack);
+        });
+    }).fail(function (error) {
+        handleErrorPostResult(urlFallBack);
+    });
+
+}
+
+function updateThenUpload(formToToggle, loader, cardLoader, url, urlFallBack,
+                          dataToSend, mediaToSend) {
+    formToToggle.hide();
+    loader.show();
+    cardLoader.show();
+    update(formToToggle, loader, cardLoader, url, urlFallBack,
+        dataToSend).done(function (result) {
+        var urlMedia = "/manager/news/media/" + result.createdEntityId;
+        upload(formToToggle, loader, cardLoader, urlMedia, urlFallBack,
+            mediaToSend).done(function (data) {
+            handleSuccessPostResult(data, cardLoader, loader, formToToggle, url);
+        }).fail(function (error) {
+            handleErrorPostResult(urlFallBack);
+        });
+    }).fail(function (error) {
+        handleErrorPutResult(urlFallBack);
+    });
+
+}
+
+function handleSuccessPostResult(data, cardLoader, loader, formToToggle, url) {
+    cardLoader.hide();
+    if (data.error) {
         loader.hide();
         formToToggle.show();
         displayError(data.error);
-      } else {
-        upload(formToToggle, loader, cardLoader, urlMedia, urlFallBack,
-            mediaToSend);
+    } else {
         window.location.href = url;
-      }
-    },
-    error: function () {
-      window.location.href = url;
     }
-  });
+}
+
+function handleErrorPostResult(urlFallbak) {
+    window.location.href = urlFallbak;
+}
+
+function handleSuccessPutResult(data, cardLoader, loader, formToToggle, urlFallBack, stay) {
+    cardLoader.hide();
+    if (data.error) {
+        loader.hide();
+        formToToggle.show();
+        displayError(data.error);
+    } else {
+        if (!stay) {
+            window.location.href = urlFallBack;
+        }
+        loader.hide();
+        formToToggle.show();
+    }
+}
+
+function handleErrorPutResult(urlFallBack) {
+    window.location.href = urlFallBack;
 }
 
 function fix_height() {
-  $('#page-wrapper').css("min-height", $(window).height() - 60 + "px");
+    $('#page-wrapper').css("min-height", $(window).height() - 60 + "px");
 }

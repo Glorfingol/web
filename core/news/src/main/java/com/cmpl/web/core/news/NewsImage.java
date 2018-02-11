@@ -16,14 +16,10 @@ import com.cmpl.web.core.common.dao.BaseEntity;
 @Table(name = "news_image")
 public class NewsImage extends BaseEntity {
 
-  @Column(name = "src")
-  private String src;
+  @Column(name = "mediaId")
+  private String mediaId;
   @Column(name = "legend")
   private String legend;
-  @Column(name = "width")
-  private int width;
-  @Column(name = "height")
-  private int height;
   @Column(name = "alt")
   private String alt;
 
@@ -35,22 +31,6 @@ public class NewsImage extends BaseEntity {
     this.legend = legend;
   }
 
-  public int getWidth() {
-    return width;
-  }
-
-  public void setWidth(int width) {
-    this.width = width;
-  }
-
-  public int getHeight() {
-    return height;
-  }
-
-  public void setHeight(int height) {
-    this.height = height;
-  }
-
   public String getAlt() {
     return alt;
   }
@@ -59,12 +39,12 @@ public class NewsImage extends BaseEntity {
     this.alt = alt;
   }
 
-  public String getSrc() {
-    return src;
+  public String getMediaId() {
+    return mediaId;
   }
 
-  public void setSrc(String src) {
-    this.src = src;
+  public void setMediaId(String mediaId) {
+    this.mediaId = mediaId;
   }
 
 }

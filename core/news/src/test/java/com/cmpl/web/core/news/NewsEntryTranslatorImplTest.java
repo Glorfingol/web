@@ -20,7 +20,7 @@ public class NewsEntryTranslatorImplTest {
   public void testFromImageRequestToDTO() throws Exception {
 
     LocalDate date = LocalDate.now();
-    NewsImageRequest imageRequest = NewsImageRequestBuilder.create().src("someSrc").alt("someAlt").legend("someLegend")
+    NewsImageRequest imageRequest = NewsImageRequestBuilder.create().alt("someAlt").legend("someLegend")
         .creationDate(date).modificationDate(date).id(1L).build();
 
     NewsImageDTO result = translator.fromImageRequestToDTO(imageRequest);
@@ -30,8 +30,6 @@ public class NewsEntryTranslatorImplTest {
     Assert.assertEquals(imageRequest.getId(), result.getId());
     Assert.assertEquals(imageRequest.getLegend(), result.getLegend());
     Assert.assertEquals(imageRequest.getModificationDate(), result.getModificationDate());
-    Assert.assertEquals(imageRequest.getSrc(), result.getBase64Src());
-    Assert.assertNull(result.getSrc());
   }
 
   @Test
@@ -62,8 +60,8 @@ public class NewsEntryTranslatorImplTest {
   public void testFromRequestToDTO_No_Image_No_Content() throws Exception {
 
     LocalDate date = LocalDate.now();
-    NewsEntryRequest request = NewsEntryRequestBuilder.create().author("someAuthor").title("someTitle")
-        .tags("someTags").id(1L).creationDate(date).modificationDate(date).build();
+    NewsEntryRequest request = NewsEntryRequestBuilder.create().author("someAuthor").title("someTitle").tags("someTags")
+        .id(1L).creationDate(date).modificationDate(date).build();
 
     NewsEntryDTO result = translator.fromRequestToDTO(request);
 
@@ -83,8 +81,8 @@ public class NewsEntryTranslatorImplTest {
     LocalDate date = LocalDate.now();
     NewsContentRequest contentRequest = NewsContentRequestBuilder.create().content("someContent").creationDate(date)
         .modificationDate(date).id(1L).build();
-    NewsEntryRequest request = NewsEntryRequestBuilder.create().author("someAuthor").title("someTitle")
-        .tags("someTags").content(contentRequest).id(1L).creationDate(date).modificationDate(date).build();
+    NewsEntryRequest request = NewsEntryRequestBuilder.create().author("someAuthor").title("someTitle").tags("someTags")
+        .content(contentRequest).id(1L).creationDate(date).modificationDate(date).build();
 
     NewsEntryDTO result = translator.fromRequestToDTO(request);
 
@@ -102,17 +100,16 @@ public class NewsEntryTranslatorImplTest {
   public void testFromRequestToDTO_Image_No_Content() throws Exception {
 
     LocalDate date = LocalDate.now();
-    NewsImageRequest imageRequest = NewsImageRequestBuilder.create().src("someSrc").alt("someAlt").legend("someLegend")
+    NewsImageRequest imageRequest = NewsImageRequestBuilder.create().alt("someAlt").legend("someLegend")
         .creationDate(date).modificationDate(date).id(1L).build();
-    NewsEntryRequest request = NewsEntryRequestBuilder.create().author("someAuthor").title("someTitle")
-        .tags("someTags").image(imageRequest).id(1L).creationDate(date).modificationDate(date).build();
+    NewsEntryRequest request = NewsEntryRequestBuilder.create().author("someAuthor").title("someTitle").tags("someTags")
+        .image(imageRequest).id(1L).creationDate(date).modificationDate(date).build();
 
     NewsEntryDTO result = translator.fromRequestToDTO(request);
 
     Assert.assertEquals(request.getAuthor(), result.getAuthor());
     Assert.assertEquals(request.getTags(), result.getTags());
     Assert.assertEquals(request.getTitle(), result.getTitle());
-    Assert.assertEquals(imageRequest.getSrc(), result.getNewsImage().getBase64Src());
     Assert.assertNull(result.getNewsContent());
     Assert.assertEquals(request.getId(), result.getId());
     Assert.assertEquals(request.getCreationDate(), result.getCreationDate());
@@ -124,18 +121,16 @@ public class NewsEntryTranslatorImplTest {
     LocalDate date = LocalDate.now();
     NewsContentRequest contentRequest = NewsContentRequestBuilder.create().content("someContent").creationDate(date)
         .modificationDate(date).id(1L).build();
-    NewsImageRequest imageRequest = NewsImageRequestBuilder.create().src("someSrc").alt("someAlt").legend("someLegend")
+    NewsImageRequest imageRequest = NewsImageRequestBuilder.create().alt("someAlt").legend("someLegend")
         .creationDate(date).modificationDate(date).id(1L).build();
-    NewsEntryRequest request = NewsEntryRequestBuilder.create().author("someAuthor").title("someTitle")
-        .tags("someTags").image(imageRequest).content(contentRequest).id(1L).creationDate(date).modificationDate(date)
-        .build();
+    NewsEntryRequest request = NewsEntryRequestBuilder.create().author("someAuthor").title("someTitle").tags("someTags")
+        .image(imageRequest).content(contentRequest).id(1L).creationDate(date).modificationDate(date).build();
 
     NewsEntryDTO result = translator.fromRequestToDTO(request);
 
     Assert.assertEquals(request.getAuthor(), result.getAuthor());
     Assert.assertEquals(request.getTags(), result.getTags());
     Assert.assertEquals(request.getTitle(), result.getTitle());
-    Assert.assertEquals(imageRequest.getSrc(), result.getNewsImage().getBase64Src());
     Assert.assertEquals(contentRequest.getContent(), result.getNewsContent().getContent());
     Assert.assertEquals(request.getId(), result.getId());
     Assert.assertEquals(request.getCreationDate(), result.getCreationDate());

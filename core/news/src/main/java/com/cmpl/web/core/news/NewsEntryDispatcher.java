@@ -1,6 +1,9 @@
 package com.cmpl.web.core.news;
 
+import java.io.IOException;
 import java.util.Locale;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cmpl.web.core.common.exception.BaseException;
 
@@ -31,8 +34,7 @@ public interface NewsEntryDispatcher {
    * @return
    * @throws BaseException
    */
-  NewsEntryResponse updateEntity(NewsEntryRequest newsEntryRequest, String newsEntryId,
-      Locale locale)
+  NewsEntryResponse updateEntity(NewsEntryRequest newsEntryRequest, String newsEntryId, Locale locale)
       throws BaseException;
 
   /**
@@ -44,6 +46,6 @@ public interface NewsEntryDispatcher {
    */
   void deleteEntity(String newsEntryId, Locale locale) throws BaseException;
 
-  void saveNewsTemplate(String content) throws BaseException;
+  void saveNewsMedia(String newsEntryId, MultipartFile uploadedMedia) throws IOException;
 
 }

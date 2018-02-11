@@ -11,6 +11,7 @@ import com.cmpl.web.core.common.resource.BaseResponse;
 public class NewsEntryResponse extends BaseResponse {
 
   private NewsEntryDTO newsEntry;
+  private String createdEntityId;
 
   public NewsEntryDTO getNewsEntry() {
     return newsEntry;
@@ -20,4 +21,11 @@ public class NewsEntryResponse extends BaseResponse {
     this.newsEntry = newsEntry;
   }
 
+  public String getCreatedEntityId() {
+    return createdEntityId;
+  }
+
+  public void setCreatedEntityId(String createdEntityId) {
+    this.createdEntityId = createdEntityId;
+  }
 }

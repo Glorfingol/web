@@ -131,10 +131,6 @@ public class NewsEntryRequestValidatorImpl extends BaseValidator implements News
       ErrorCause cause = computeCause(ERROR_CAUSE.EMPTY_NEWS_LEGEND, locale);
       causes.add(cause);
     }
-    if (!isStringValid(imageRequest.getSrc())) {
-      ErrorCause cause = computeCause(ERROR_CAUSE.EMPTY_NEWS_SRC, locale);
-      causes.add(cause);
-    }
 
     return causes;
   }

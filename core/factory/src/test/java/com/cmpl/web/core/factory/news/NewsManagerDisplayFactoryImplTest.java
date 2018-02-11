@@ -27,20 +27,7 @@ import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.menu.MenuItem;
 import com.cmpl.web.core.menu.MenuItemBuilder;
-import com.cmpl.web.core.news.NewsContentDTO;
-import com.cmpl.web.core.news.NewsContentDTOBuilder;
-import com.cmpl.web.core.news.NewsContentRequest;
-import com.cmpl.web.core.news.NewsContentRequestBuilder;
-import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsEntryDTOBuilder;
-import com.cmpl.web.core.news.NewsEntryDisplayBean;
-import com.cmpl.web.core.news.NewsEntryRequest;
-import com.cmpl.web.core.news.NewsEntryRequestBuilder;
-import com.cmpl.web.core.news.NewsEntryService;
-import com.cmpl.web.core.news.NewsImageDTO;
-import com.cmpl.web.core.news.NewsImageDTOBuilder;
-import com.cmpl.web.core.news.NewsImageRequest;
-import com.cmpl.web.core.news.NewsImageRequestBuilder;
+import com.cmpl.web.core.news.*;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -72,12 +59,11 @@ public class NewsManagerDisplayFactoryImplTest {
     String labelPar = "par";
     String labelLe = "le";
 
-
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
         dateFormat);
 
-    BDDMockito.doReturn(displayBean).when(displayFactory)
-        .computeNewsEntryDisplayBean(BDDMockito.eq(Locale.FRANCE), BDDMockito.eq(newsEntry));
+    BDDMockito.doReturn(displayBean).when(displayFactory).computeNewsEntryDisplayBean(BDDMockito.eq(Locale.FRANCE),
+        BDDMockito.eq(newsEntry));
 
     NewsEntryDisplayBean result = displayFactory.computeNewsEntryDisplayBean(Locale.FRANCE, newsEntry);
 
@@ -103,10 +89,10 @@ public class NewsManagerDisplayFactoryImplTest {
 
     BDDMockito.doReturn(formatted).when(contextHolder).getDateFormat();
     BDDMockito.doReturn(newsEntries).when(newsEntryService).getEntities();
-    BDDMockito.doReturn(labelPar).when(displayFactory)
-        .getI18nValue(BDDMockito.eq("news.entry.by"), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(labelLe).when(displayFactory)
-        .getI18nValue(BDDMockito.eq("news.entry.the"), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(labelPar).when(displayFactory).getI18nValue(BDDMockito.eq("news.entry.by"),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(labelLe).when(displayFactory).getI18nValue(BDDMockito.eq("news.entry.the"),
+        BDDMockito.eq(Locale.FRANCE));
 
     List<NewsEntryDisplayBean> result = displayFactory.computeNewsEntryDisplayBeans(Locale.FRANCE);
 
@@ -162,10 +148,10 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
     BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(displayFactory)
-        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(backMenu).when(displayFactory)
-        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(request).when(displayFactory).computeNewsEntryRequest(BDDMockito.any(NewsEntryDTO.class));
     BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(BDDMockito.anyLong());
@@ -217,23 +203,22 @@ public class NewsManagerDisplayFactoryImplTest {
     String labelPar = "par";
     String labelLe = "le";
 
-
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, imageDisplaySrc, labelPar, labelLe,
         dateFormat);
 
     PageWrapper<NewsEntryDisplayBean> pageWrapper = new PageWrapper<>();
-    pageWrapper.setPage(new PageImpl<>(Lists.newArrayList(displayBean))); 
+    pageWrapper.setPage(new PageImpl<>(Lists.newArrayList(displayBean)));
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
-    BDDMockito.doReturn(tile).when(displayFactory)
-        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(backMenu).when(displayFactory)
-        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(pageWrapper).when(displayFactory)
-        .computePageWrapper(BDDMockito.eq(Locale.FRANCE), BDDMockito.anyInt());
+    BDDMockito.doReturn(pageWrapper).when(displayFactory).computePageWrapper(BDDMockito.eq(Locale.FRANCE),
+        BDDMockito.anyInt());
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPage(Locale.FRANCE, 0);
 
@@ -265,10 +250,10 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
     BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(displayFactory)
-        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(backMenu).when(displayFactory)
-        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPageCreateNews(Locale.FRANCE);
@@ -286,8 +271,8 @@ public class NewsManagerDisplayFactoryImplTest {
   @Test
   public void testComputeNewsContentRequest() throws Exception {
     LocalDate date = LocalDate.now();
-    NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(123456789L)
-        .creationDate(date).modificationDate(date).build();
+    NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(123456789L).creationDate(date)
+        .modificationDate(date).build();
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsContent(newsContent).build();
 
     NewsContentRequest result = displayFactory.computeNewsContentRequest(newsEntry);
@@ -301,15 +286,13 @@ public class NewsManagerDisplayFactoryImplTest {
   @Test
   public void testComputeNewsImageRequest() throws Exception {
     LocalDate date = LocalDate.now();
-    NewsImageDTO newsImage = NewsImageDTOBuilder.create().src("someSrc").alt("someAlt").legend("someLegend")
-        .id(123456789L).creationDate(date).modificationDate(date).build();
+    NewsImageDTO newsImage = NewsImageDTOBuilder.create().alt("someAlt").legend("someLegend").id(123456789L)
+        .creationDate(date).modificationDate(date).build();
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsImage(newsImage).build();
 
-    BDDMockito.doReturn("http://cm-pl.com/someSrc").when(displayFactory).computeImageSrc(BDDMockito.eq(newsEntry));
     NewsImageRequest result = displayFactory.computeNewsImageRequest(newsEntry);
 
     Assert.assertEquals(newsImage.getAlt(), result.getAlt());
-    Assert.assertEquals("http://cm-pl.com/someSrc", result.getSrc());
     Assert.assertEquals(newsImage.getLegend(), result.getLegend());
     Assert.assertEquals(newsImage.getId(), result.getId());
     Assert.assertEquals(newsImage.getCreationDate(), result.getCreationDate());
@@ -328,7 +311,7 @@ public class NewsManagerDisplayFactoryImplTest {
     NewsContentRequest contentRequest = NewsContentRequestBuilder.create().id(id).content("someContent")
         .creationDate(creationDate).modificationDate(modificationDate).build();
     NewsImageRequest imageRequest = NewsImageRequestBuilder.create().id(id).creationDate(creationDate)
-        .modificationDate(modificationDate).alt("someAlt").legend("someLegend").src("someSrc").build();
+        .modificationDate(modificationDate).alt("someAlt").legend("someLegend").build();
 
     BDDMockito.doReturn(imageRequest).when(displayFactory).computeNewsImageRequest(BDDMockito.eq(newsEntry));
     BDDMockito.doReturn(contentRequest).when(displayFactory).computeNewsContentRequest(BDDMockito.eq(newsEntry));
@@ -355,8 +338,8 @@ public class NewsManagerDisplayFactoryImplTest {
     LocalDate modificationDate = LocalDate.now();
     long id = 123456789L;
 
-    NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(id)
-        .creationDate(creationDate).modificationDate(modificationDate).build();
+    NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(id).creationDate(creationDate)
+        .modificationDate(modificationDate).build();
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsContent(newsContent).id(id).build();
 
     NewsContentRequest contentRequest = NewsContentRequestBuilder.create().id(id).content("someContent")
@@ -407,7 +390,7 @@ public class NewsManagerDisplayFactoryImplTest {
 
     NewsContentRequest contentRequest = NewsContentRequestBuilder.create().build();
     NewsImageRequest imageRequest = NewsImageRequestBuilder.create().id(id).creationDate(creationDate)
-        .modificationDate(modificationDate).alt("someAlt").legend("someLegend").src("someSrc").build();
+        .modificationDate(modificationDate).alt("someAlt").legend("someLegend").build();
     NewsEntryRequest newsEntryRequest = NewsEntryRequestBuilder.create().id(id).content(contentRequest)
         .image(imageRequest).build();
 
@@ -428,14 +411,14 @@ public class NewsManagerDisplayFactoryImplTest {
     long id = 123456789L;
 
     NewsImageDTO newsImage = NewsImageDTOBuilder.create().id(id).build();
-    NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(id)
-        .creationDate(creationDate).modificationDate(modificationDate).build();
+    NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(id).creationDate(creationDate)
+        .modificationDate(modificationDate).build();
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsImage(newsImage).newsContent(newsContent).id(id).build();
 
     NewsContentRequest contentRequest = NewsContentRequestBuilder.create().id(id).content("someContent")
         .creationDate(creationDate).modificationDate(modificationDate).build();
     NewsImageRequest imageRequest = NewsImageRequestBuilder.create().id(id).creationDate(creationDate)
-        .modificationDate(modificationDate).alt("someAlt").legend("someLegend").src("someSrc").build();
+        .modificationDate(modificationDate).alt("someAlt").legend("someLegend").build();
     NewsEntryRequest newsEntryRequest = NewsEntryRequestBuilder.create().id(id).content(contentRequest)
         .image(imageRequest).build();
 
@@ -449,29 +432,4 @@ public class NewsManagerDisplayFactoryImplTest {
     Assert.assertNotNull(result.getContent().getId());
   }
 
-  @Test
-  public void testComputeImageSrc() throws Exception {
-
-    NewsImageDTO image = NewsImageDTOBuilder.create().src("someSrc").build();
-    NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsImage(image).build();
-
-    BDDMockito.doReturn("http://cm-pl.com/").when(contextHolder).getImageDisplaySrc();
-
-    String result = displayFactory.computeImageSrc(entry);
-
-    Assert.assertEquals("http://cm-pl.com/someSrc", result);
-
-  }
-
-  @Test
-  public void testComputeImageSrc_Null() throws Exception {
-
-    NewsImageDTO image = NewsImageDTOBuilder.create().build();
-    NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsImage(image).build();
-
-    String result = displayFactory.computeImageSrc(entry);
-
-    Assert.assertNull(result);
-
-  }
 }

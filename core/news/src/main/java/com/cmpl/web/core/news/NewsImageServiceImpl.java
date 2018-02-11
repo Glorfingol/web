@@ -1,8 +1,11 @@
 package com.cmpl.web.core.news;
 
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.media.MediaDTO;
+import com.cmpl.web.core.media.MediaService;
 
 /**
  * Implementation de l'interface de gestion des NewsImage
@@ -13,8 +16,13 @@ import com.cmpl.web.core.common.service.BaseServiceImpl;
 @CacheConfig(cacheNames = "newsImages")
 public class NewsImageServiceImpl extends BaseServiceImpl<NewsImageDTO, NewsImage> implements NewsImageService {
 
-  public NewsImageServiceImpl(NewsImageRepository newsImageRepository) {
+  private final MediaService mediaService;
+  private final NewsImageRepository newsImageRepository;
+
+  public NewsImageServiceImpl(NewsImageRepository newsImageRepository, MediaService mediaService) {
     super(newsImageRepository);
+    this.mediaService = mediaService;
+    this.newsImageRepository = newsImageRepository;
   }
 
   @Override
@@ -22,6 +30,11 @@ public class NewsImageServiceImpl extends BaseServiceImpl<NewsImageDTO, NewsImag
 
     NewsImageDTO dto = new NewsImageDTO();
     fillObject(entity, dto);
+
+    if (StringUtils.hasText(entity.getMediaId())) {
+      MediaDTO media = mediaService.getEntity(Long.parseLong(entity.getMediaId()));
+      dto.setMedia(media);
+    }
 
     return dto;
   }
@@ -31,6 +44,11 @@ public class NewsImageServiceImpl extends BaseServiceImpl<NewsImageDTO, NewsImag
 
     NewsImage entity = new NewsImage();
     fillObject(dto, entity);
+    String mediaId = null;
+    if (dto.getMedia() != null) {
+      mediaId = String.valueOf(dto.getMedia().getId());
+    }
+    entity.setMediaId(mediaId);
 
     return entity;
   }

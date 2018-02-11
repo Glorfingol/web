@@ -1,6 +1,5 @@
 package com.cmpl.web.core.news;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.service.BaseServiceImpl;
-import com.cmpl.web.core.file.ImageConverterService;
-import com.cmpl.web.core.file.ImageService;
+import com.cmpl.web.core.media.MediaService;
 
 /**
  * Implementation de l'interface pour la gestion des NewsEntry
@@ -37,17 +34,15 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   private final NewsEntryRepository newsEntryRepository;
   private final NewsImageService newsImageService;
   private final NewsContentService newsContentService;
-  private final ImageConverterService imageConverterService;
-  private final ImageService imageService;
+  private final MediaService mediaService;
 
   public NewsEntryServiceImpl(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
-      NewsContentService newsContentService, ImageConverterService imageConverterService, ImageService imageService) {
+      NewsContentService newsContentService, MediaService mediaService) {
     super(newsEntryRepository);
     this.newsEntryRepository = newsEntryRepository;
     this.newsImageService = newsImageService;
     this.newsContentService = newsContentService;
-    this.imageConverterService = imageConverterService;
-    this.imageService = imageService;
+    this.mediaService = mediaService;
   }
 
   @Override
@@ -80,25 +75,10 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   String createImage(NewsImageDTO imageToCreate) {
     String imageId = "";
     if (imageToCreate != null) {
-      NewsImageDTO formattedImage = formatImage(imageToCreate);
-      imageId = String.valueOf(newsImageService.createEntity(formattedImage).getId());
-      File savedFile = saveToFileSystem(imageToCreate, imageId);
-
-      NewsImageDTO imageToUpdate = newsImageService.getEntity(Long.valueOf(imageId));
-      imageToUpdate.setSrc(computeImageSrc(savedFile));
-      newsImageService.updateEntity(imageToUpdate);
+      return String.valueOf(newsImageService.createEntity(imageToCreate).getId());
 
     }
     return imageId;
-  }
-
-  File saveToFileSystem(NewsImageDTO imageToCreate, String imageId) {
-    try {
-      return imageService.saveFileOnSystem(imageId, imageToCreate.getBase64Src());
-    } catch (BaseException e) {
-      LOGGER.error("Impossible d'enregistrer l'image sur le filesystem", e);
-    }
-    return null;
   }
 
   @Override
@@ -135,8 +115,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
   NewsImageDTO updateImage(NewsImageDTO imageToUpdate) {
     if (imageToUpdate != null) {
-      NewsImageDTO formattedImage = formatImage(imageToUpdate);
-      return dealWithImageToUpdate(imageToUpdate, formattedImage);
+      return dealWithImageToUpdate(imageToUpdate);
     }
     return imageToUpdate;
   }
@@ -152,43 +131,14 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     return contentSaved;
   }
 
-  NewsImageDTO dealWithImageToUpdate(NewsImageDTO imageToUpdate, NewsImageDTO formattedImage) {
-    NewsImageDTO imageSaved;
+  NewsImageDTO dealWithImageToUpdate(NewsImageDTO imageToUpdate) {
     Long imageToUpdateId = imageToUpdate.getId();
     if (imageToUpdateId == null) {
-      imageSaved = newsImageService.createEntity(formattedImage);
+      return newsImageService.createEntity(imageToUpdate);
     } else {
-      imageSaved = newsImageService.updateEntity(formattedImage);
+      return newsImageService.updateEntity(imageToUpdate);
     }
-    File savedFile = saveToFileSystem(imageToUpdate, String.valueOf(imageSaved.getId()));
-    imageSaved.setSrc(computeImageSrc(savedFile));
-    newsImageService.updateEntity(imageSaved);
-    return imageSaved;
-  }
 
-  NewsImageDTO formatImage(NewsImageDTO imageToUpdate) {
-
-    BufferedImage bufferedImage = imageConverterService.computeNewsImageFromString(imageToUpdate.getBase64Src());
-
-    NewsImageDTO formattedImage = NewsImageDTOBuilder.create().width(computeWidth(bufferedImage))
-        .height(computeHeight(bufferedImage)).alt(imageToUpdate.getAlt()).legend(imageToUpdate.getLegend())
-        .id(imageToUpdate.getId()).creationDate(imageToUpdate.getCreationDate())
-        .modificationDate(imageToUpdate.getModificationDate()).build();
-    return formattedImage;
-  }
-
-  int computeWidth(BufferedImage bufferedImage) {
-    if (bufferedImage == null) {
-      return 0;
-    }
-    return bufferedImage.getWidth();
-  }
-
-  int computeHeight(BufferedImage bufferedImage) {
-    if (bufferedImage == null) {
-      return 0;
-    }
-    return bufferedImage.getHeight();
   }
 
   @Override

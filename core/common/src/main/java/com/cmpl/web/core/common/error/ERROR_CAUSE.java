@@ -13,7 +13,6 @@ public enum ERROR_CAUSE {
   EMPTY_NEWS_AUTHOR("empty.author"),
   EMPTY_NEWS_CONTENT("empty.content"),
   EMPTY_NEWS_LEGEND("empty.legend"),
-  EMPTY_NEWS_SRC("empty.src"),
   INVALID_NEWS_FORMAT("invalid.format"),
   EMPTY_NEWS_ALT("empty.alt"),
 

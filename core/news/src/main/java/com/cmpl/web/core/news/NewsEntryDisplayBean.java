@@ -65,7 +65,7 @@ public class NewsEntryDisplayBean {
     if (!displayImage()) {
       return "";
     }
-    return imageBaseSrc + newsEntryDTO.getNewsImage().getSrc();
+    return imageBaseSrc + newsEntryDTO.getNewsImage().getMedia().getSrc();
   }
 
   public String getLegend() {
@@ -82,22 +82,8 @@ public class NewsEntryDisplayBean {
     return newsEntryDTO.getNewsImage().getAlt();
   }
 
-  public int getImageWidth() {
-    if (!displayImage()) {
-      return 0;
-    }
-    return newsEntryDTO.getNewsImage().getWidth();
-  }
-
-  public int getImageHeight() {
-    if (!displayImage()) {
-      return 0;
-    }
-    return newsEntryDTO.getNewsImage().getHeight();
-  }
-
   boolean displayImage() {
-    return newsEntryDTO.getNewsImage() != null;
+    return newsEntryDTO.getNewsImage() != null && newsEntryDTO.getNewsImage().getMedia() != null;
   }
 
   boolean displayContent() {

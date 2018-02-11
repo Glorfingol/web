@@ -35,8 +35,8 @@ public class NewsEntryTranslatorImpl implements NewsEntryTranslator {
   }
 
   NewsImageDTO fromImageRequestToDTO(NewsImageRequest imageRequest) {
-    return NewsImageDTOBuilder.create().alt(imageRequest.getAlt()).base64Src(imageRequest.getSrc())
-        .legend(imageRequest.getLegend()).creationDate(imageRequest.getCreationDate()).id(imageRequest.getId())
+    return NewsImageDTOBuilder.create().alt(imageRequest.getAlt()).legend(imageRequest.getLegend())
+        .creationDate(imageRequest.getCreationDate()).id(imageRequest.getId())
         .modificationDate(imageRequest.getModificationDate()).build();
 
   }
@@ -45,6 +45,7 @@ public class NewsEntryTranslatorImpl implements NewsEntryTranslator {
   public NewsEntryResponse fromDTOToResponse(NewsEntryDTO dto) {
     NewsEntryResponse response = new NewsEntryResponse();
     response.setNewsEntry(dto);
+    response.setCreatedEntityId(String.valueOf(dto.getId()));
 
     return response;
   }

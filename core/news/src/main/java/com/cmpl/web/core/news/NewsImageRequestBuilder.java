@@ -6,7 +6,6 @@ import com.cmpl.web.core.common.builder.Builder;
 
 public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
 
-  private String src;
   private String legend;
   private String alt;
   private Long id;
@@ -15,11 +14,6 @@ public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
 
   private NewsImageRequestBuilder() {
 
-  }
-
-  public NewsImageRequestBuilder src(String src) {
-    this.src = src;
-    return this;
   }
 
   public NewsImageRequestBuilder legend(String legend) {
@@ -56,7 +50,6 @@ public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
     imageRequest.setCreationDate(creationDate);
     imageRequest.setModificationDate(modificationDate);
     imageRequest.setLegend(legend);
-    imageRequest.setSrc(src);
 
     return imageRequest;
   }

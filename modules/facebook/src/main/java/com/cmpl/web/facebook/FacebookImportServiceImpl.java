@@ -15,13 +15,7 @@ import org.springframework.social.facebook.api.MediaOperations;
 import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.news.NewsContentDTO;
-import com.cmpl.web.core.news.NewsContentDTOBuilder;
-import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsEntryDTOBuilder;
-import com.cmpl.web.core.news.NewsEntryService;
-import com.cmpl.web.core.news.NewsImageDTO;
-import com.cmpl.web.core.news.NewsImageDTOBuilder;
+import com.cmpl.web.core.news.*;
 
 /**
  * Service qui sert a importer des post facebook en tant que NewsEntry
@@ -50,8 +44,8 @@ public class FacebookImportServiceImpl implements FacebookImportService {
   @Override
   public List<NewsEntryDTO> importFacebookPost(List<FacebookImportPost> facebookPosts, Locale locale) {
     List<NewsEntryDTO> createdEntries = new ArrayList<>();
-    facebookPosts.forEach(postToImport -> createdEntries.add(newsEntryService.createEntity(convertPostToNewsEntry(
-        postToImport, locale))));
+    facebookPosts.forEach(postToImport -> createdEntries
+        .add(newsEntryService.createEntity(convertPostToNewsEntry(postToImport, locale))));
     return createdEntries;
   }
 
@@ -74,8 +68,7 @@ public class FacebookImportServiceImpl implements FacebookImportService {
   }
 
   NewsImageDTO computeNewsImageFromPost(FacebookImportPost facebookPost, Locale locale) {
-    return NewsImageDTOBuilder.create().alt(computeAlt(facebookPost, locale)).legend(computeLegend(locale))
-        .base64Src(getFacebookImageBase64Src(facebookPost)).build();
+    return NewsImageDTOBuilder.create().alt(computeAlt(facebookPost, locale)).legend(computeLegend(locale)).build();
   }
 
   NewsContentDTO computeNewsContentFromPost(FacebookImportPost facebookPost) {

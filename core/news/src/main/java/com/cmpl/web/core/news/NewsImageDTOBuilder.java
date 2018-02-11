@@ -1,22 +1,20 @@
 package com.cmpl.web.core.news;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.media.MediaDTO;
 
 public class NewsImageDTOBuilder extends BaseBuilder<NewsImageDTO> {
 
-  private String src;
+  private MediaDTO media;
   private String legend;
-  private int width;
-  private int height;
   private String alt;
-  private String base64Src;
 
   private NewsImageDTOBuilder() {
 
   }
 
-  public NewsImageDTOBuilder src(String src) {
-    this.src = src;
+  public NewsImageDTOBuilder media(MediaDTO media) {
+    this.media = media;
     return this;
   }
 
@@ -25,23 +23,8 @@ public class NewsImageDTOBuilder extends BaseBuilder<NewsImageDTO> {
     return this;
   }
 
-  public NewsImageDTOBuilder width(int width) {
-    this.width = width;
-    return this;
-  }
-
-  public NewsImageDTOBuilder height(int height) {
-    this.height = height;
-    return this;
-  }
-
   public NewsImageDTOBuilder alt(String alt) {
     this.alt = alt;
-    return this;
-  }
-
-  public NewsImageDTOBuilder base64Src(String base64Src) {
-    this.base64Src = base64Src;
     return this;
   }
 
@@ -52,11 +35,8 @@ public class NewsImageDTOBuilder extends BaseBuilder<NewsImageDTO> {
     newsImageDTO.setCreationDate(creationDate);
     newsImageDTO.setModificationDate(modificationDate);
     newsImageDTO.setAlt(alt);
-    newsImageDTO.setBase64Src(base64Src);
-    newsImageDTO.setHeight(height);
     newsImageDTO.setLegend(legend);
-    newsImageDTO.setSrc(src);
-    newsImageDTO.setWidth(width);
+    newsImageDTO.setMedia(media);
 
     return newsImageDTO;
   }

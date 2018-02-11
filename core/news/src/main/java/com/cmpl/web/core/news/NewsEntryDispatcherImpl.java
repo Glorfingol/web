@@ -1,10 +1,16 @@
 package com.cmpl.web.core.news;
 
+import java.io.IOException;
 import java.util.Locale;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.media.MediaDTO;
+import com.cmpl.web.core.media.MediaDTOBuilder;
+import com.cmpl.web.core.media.MediaService;
 
 /**
  * Implementation du dispatcher pour les NewsEntry
@@ -18,15 +24,17 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   private final NewsEntryTranslator translator;
   private final NewsEntryService newsEntryService;
   private final FileService fileService;
+  private final MediaService mediaService;
 
-  private static final String NEWS_TEMPLATE_FILE_NAME = "blog_entry.html";
+  private static final String MEDIA_CONTROLLER_PATH = "/public/medias/";
 
   public NewsEntryDispatcherImpl(NewsEntryRequestValidator validator, NewsEntryTranslator translator,
-      NewsEntryService newsEntryService, FileService fileService) {
+      NewsEntryService newsEntryService, FileService fileService, MediaService mediaService) {
     this.validator = validator;
     this.translator = translator;
     this.newsEntryService = newsEntryService;
     this.fileService = fileService;
+    this.mediaService = mediaService;
   }
 
   @Override
@@ -76,8 +84,34 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   }
 
   @Override
-  public void saveNewsTemplate(String content) throws BaseException {
-    fileService.saveFileOnSystem(NEWS_TEMPLATE_FILE_NAME, content);
+  public void saveNewsMedia(String newsEntryId, MultipartFile uploadedMedia) throws IOException {
+
+    String extension = uploadedMedia.getOriginalFilename().split("\\.")[1];
+    if (extension != null) {
+      extension = extension.toLowerCase();
+    }
+    String fileName = "image_" + newsEntryId + "." + extension;
+
+    fileService.saveMediaOnSystem(fileName, uploadedMedia.getBytes());
+
+    MediaDTO mediaToSave = mediaService.findByName(fileName);
+    MediaDTO mediaSaved;
+    if (mediaToSave == null) {
+      mediaToSave = MediaDTOBuilder.create().name(fileName).contentType(uploadedMedia.getContentType())
+          .extension(extension).size(uploadedMedia.getSize()).src(MEDIA_CONTROLLER_PATH + fileName).build();
+      mediaSaved = mediaService.createEntity(mediaToSave);
+    } else {
+      mediaToSave.setContentType(uploadedMedia.getContentType());
+      mediaToSave.setExtension(extension);
+      mediaToSave.setSize(uploadedMedia.getSize());
+      mediaSaved = mediaService.updateEntity(mediaToSave);
+
+    }
+
+    NewsEntryDTO newsEntryToUpdate = newsEntryService.getEntity(Long.parseLong(newsEntryId));
+    newsEntryToUpdate.getNewsImage().setMedia(mediaSaved);
+    newsEntryService.updateEntity(newsEntryToUpdate);
+
   }
 
 }

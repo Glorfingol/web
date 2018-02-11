@@ -19,28 +19,10 @@ import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactory;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactoryImpl;
 import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.file.ImageConverterService;
-import com.cmpl.web.core.file.ImageService;
+import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
-import com.cmpl.web.core.news.NewsContent;
-import com.cmpl.web.core.news.NewsContentRepository;
-import com.cmpl.web.core.news.NewsContentService;
-import com.cmpl.web.core.news.NewsContentServiceImpl;
-import com.cmpl.web.core.news.NewsEntry;
-import com.cmpl.web.core.news.NewsEntryDispatcher;
-import com.cmpl.web.core.news.NewsEntryDispatcherImpl;
-import com.cmpl.web.core.news.NewsEntryRepository;
-import com.cmpl.web.core.news.NewsEntryRequestValidator;
-import com.cmpl.web.core.news.NewsEntryRequestValidatorImpl;
-import com.cmpl.web.core.news.NewsEntryService;
-import com.cmpl.web.core.news.NewsEntryServiceImpl;
-import com.cmpl.web.core.news.NewsEntryTranslator;
-import com.cmpl.web.core.news.NewsEntryTranslatorImpl;
-import com.cmpl.web.core.news.NewsImage;
-import com.cmpl.web.core.news.NewsImageRepository;
-import com.cmpl.web.core.news.NewsImageService;
-import com.cmpl.web.core.news.NewsImageServiceImpl;
+import com.cmpl.web.core.news.*;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 @Configuration
@@ -51,8 +33,8 @@ public class NewsConfiguration {
 
   @Bean
   NewsEntryDispatcher newsEntryDispatcher(NewsEntryRequestValidator validator, NewsEntryTranslator translator,
-      NewsEntryService newsEntryService, FileService fileService) {
-    return new NewsEntryDispatcherImpl(validator, translator, newsEntryService, fileService);
+      NewsEntryService newsEntryService, FileService fileService, MediaService mediaService) {
+    return new NewsEntryDispatcherImpl(validator, translator, newsEntryService, fileService, mediaService);
   }
 
   @Bean
@@ -118,14 +100,13 @@ public class NewsConfiguration {
 
   @Bean
   NewsEntryService newsEntryService(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
-      NewsContentService newsContentService, ImageConverterService imageConverterService, ImageService imageService) {
-    return new NewsEntryServiceImpl(newsEntryRepository, newsImageService, newsContentService, imageConverterService,
-        imageService);
+      NewsContentService newsContentService, MediaService mediaService) {
+    return new NewsEntryServiceImpl(newsEntryRepository, newsImageService, newsContentService, mediaService);
   }
 
   @Bean
-  NewsImageService newsImageService(NewsImageRepository newsImageRepository) {
-    return new NewsImageServiceImpl(newsImageRepository);
+  NewsImageService newsImageService(NewsImageRepository newsImageRepository, MediaService mediaService) {
+    return new NewsImageServiceImpl(newsImageRepository, mediaService);
   }
 
   @Bean

@@ -13,7 +13,6 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
  */
 public class NewsImageRequest {
 
-  private String src;
   private String legend;
   private String alt;
   private Long id;
@@ -21,14 +20,6 @@ public class NewsImageRequest {
   private LocalDate creationDate;
   @DateTimeFormat(iso = ISO.DATE)
   private LocalDate modificationDate;
-
-  public String getSrc() {
-    return src;
-  }
-
-  public void setSrc(String src) {
-    this.src = src;
-  }
 
   public String getLegend() {
     return legend;

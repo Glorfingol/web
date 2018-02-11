@@ -15,25 +15,9 @@ import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactory;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactoryImpl;
 import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.file.ImageConverterService;
-import com.cmpl.web.core.file.ImageService;
-import com.cmpl.web.core.news.NewsContentRepository;
-import com.cmpl.web.core.news.NewsContentService;
-import com.cmpl.web.core.news.NewsContentServiceImpl;
-import com.cmpl.web.core.news.NewsEntryDispatcher;
-import com.cmpl.web.core.news.NewsEntryDispatcherImpl;
-import com.cmpl.web.core.news.NewsEntryRepository;
-import com.cmpl.web.core.news.NewsEntryRequestValidator;
-import com.cmpl.web.core.news.NewsEntryRequestValidatorImpl;
-import com.cmpl.web.core.news.NewsEntryService;
-import com.cmpl.web.core.news.NewsEntryServiceImpl;
-import com.cmpl.web.core.news.NewsEntryTranslator;
-import com.cmpl.web.core.news.NewsEntryTranslatorImpl;
-import com.cmpl.web.core.news.NewsImageRepository;
-import com.cmpl.web.core.news.NewsImageService;
-import com.cmpl.web.core.news.NewsImageServiceImpl;
+import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.news.*;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.page.PageService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsConfigurationTest {
@@ -57,9 +41,6 @@ public class NewsConfigurationTest {
   private MenuFactory menuFactory;
 
   @Mock
-  private PageService pageService;
-
-  @Mock
   private NewsEntryRepository newsEntryRepository;
 
   @Mock
@@ -75,13 +56,10 @@ public class NewsConfigurationTest {
   private NewsContentService newsContentService;
 
   @Mock
-  private ImageConverterService imageConverterService;
-
-  @Mock
-  private ImageService imageService;
-
-  @Mock
   private FileService fileService;
+
+  @Mock
+  private MediaService mediaService;
 
   @Mock
   private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
@@ -92,8 +70,8 @@ public class NewsConfigurationTest {
   @Test
   public void testNewsEntryDispatcher() throws Exception {
 
-    NewsEntryDispatcher result = configuration
-        .newsEntryDispatcher(validator, translator, newsEntryService, fileService);
+    NewsEntryDispatcher result = configuration.newsEntryDispatcher(validator, translator, newsEntryService, fileService,
+        mediaService);
 
     Assert.assertEquals(NewsEntryDispatcherImpl.class, result.getClass());
   }
@@ -124,14 +102,14 @@ public class NewsConfigurationTest {
   @Test
   public void testNewsEntryService() throws Exception {
     NewsEntryService result = configuration.newsEntryService(newsEntryRepository, newsImageService, newsContentService,
-        imageConverterService, imageService);
+        mediaService);
 
     Assert.assertEquals(NewsEntryServiceImpl.class, result.getClass());
   }
 
   @Test
   public void testNewsImageService() throws Exception {
-    NewsImageService result = configuration.newsImageService(newsImageRepository);
+    NewsImageService result = configuration.newsImageService(newsImageRepository, mediaService);
 
     Assert.assertEquals(NewsImageServiceImpl.class, result.getClass());
 
