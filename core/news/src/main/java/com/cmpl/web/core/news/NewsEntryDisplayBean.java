@@ -22,7 +22,6 @@ public class NewsEntryDisplayBean {
   private final DateTimeFormatter dateFormat;
   private static final String SPACE = " ";
   private static final String SEMICOLON = ";";
-  private final String imageBaseSrc;
 
   /**
    * Constructeur a partir d'une NewsEntry, de labels et d'un format de date
@@ -31,12 +30,9 @@ public class NewsEntryDisplayBean {
    * @param labelPar
    * @param labelLe
    * @param dateFormat
-   * @param imageBaseSrc
    */
-  public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO, String imageBaseSrc, String labelPar, String labelLe,
-      DateTimeFormatter dateFormat) {
+  public NewsEntryDisplayBean(NewsEntryDTO newsEntryDTO, String labelPar, String labelLe, DateTimeFormatter dateFormat) {
     this.newsEntryDTO = newsEntryDTO;
-    this.imageBaseSrc = imageBaseSrc;
     this.labelLe = labelLe;
     this.labelPar = labelPar;
     this.dateFormat = dateFormat;

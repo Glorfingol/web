@@ -20,20 +20,12 @@ public class ContextConfigurationTest {
   @Test
   public void testContextHolder() throws Exception {
 
-    String fileBasePath = "someFileBasePath";
-    String imageDisplaySrc = "someDisplaySrc";
-
-    configuration.fileBasePath = fileBasePath;
-    configuration.imageDisplaySrc = imageDisplaySrc;
-
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
 
     ContextHolder holder = configuration.contextHolder();
 
     LocalDate dateToFormat = LocalDate.now();
     Assert.assertEquals(dateFormat.format(dateToFormat), holder.getDateFormat().format(dateToFormat));
-    Assert.assertEquals(fileBasePath, holder.getImageFileSrc());
-    Assert.assertEquals(imageDisplaySrc, holder.getImageDisplaySrc());
 
   }
 }

@@ -17,7 +17,17 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.news.*;
+import com.cmpl.web.core.news.NewsContentDTO;
+import com.cmpl.web.core.news.NewsContentRequest;
+import com.cmpl.web.core.news.NewsContentRequestBuilder;
+import com.cmpl.web.core.news.NewsEntryDTO;
+import com.cmpl.web.core.news.NewsEntryDisplayBean;
+import com.cmpl.web.core.news.NewsEntryRequest;
+import com.cmpl.web.core.news.NewsEntryRequestBuilder;
+import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.NewsImageDTO;
+import com.cmpl.web.core.news.NewsImageRequest;
+import com.cmpl.web.core.news.NewsImageRequestBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 /**
@@ -26,8 +36,8 @@ import com.cmpl.web.core.page.BACK_PAGE;
  * @author Louis
  *
  */
-public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDisplayBean>
-    implements NewsManagerDisplayFactory {
+public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDisplayBean> implements
+    NewsManagerDisplayFactory {
 
   private final NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
@@ -71,8 +81,8 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       return new PageImpl<>(newsEntries);
     }
 
-    pagedNewsEntries.getContent()
-        .forEach(newsEntryFromDB -> newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB)));
+    pagedNewsEntries.getContent().forEach(
+        newsEntryFromDB -> newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB)));
     return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
   }
 
@@ -92,8 +102,7 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     String labelPar = getI18nValue("news.entry.by", locale);
     String labelLe = getI18nValue("news.entry.the", locale);
 
-    return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
-        contextHolder.getDateFormat());
+    return new NewsEntryDisplayBean(newsEntryDTO, labelPar, labelLe, contextHolder.getDateFormat());
   }
 
   @Override

@@ -230,8 +230,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     String labelPar = getI18nValue("news.entry.by", locale);
     String labelLe = getI18nValue("news.entry.the", locale);
 
-    return new NewsEntryDisplayBean(newsEntryDTO, contextHolder.getImageDisplaySrc(), labelPar, labelLe,
-        contextHolder.getDateFormat());
+    return new NewsEntryDisplayBean(newsEntryDTO, labelPar, labelLe, contextHolder.getDateFormat());
   }
 
   private List<NewsEntryDTO> computeNewsEntriesForPage(int pageNumber) {

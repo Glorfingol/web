@@ -11,8 +11,6 @@ import java.time.format.DateTimeFormatter;
 public class ContextHolder {
 
   private DateTimeFormatter dateFormat;
-  private String imageDisplaySrc;
-  private String imageFileSrc;
   private String templateBasePath;
   private int elementsPerPage;
   private String mediaBasePath;
@@ -23,22 +21,6 @@ public class ContextHolder {
 
   public void setDateFormat(DateTimeFormatter dateFormat) {
     this.dateFormat = dateFormat;
-  }
-
-  public String getImageDisplaySrc() {
-    return imageDisplaySrc;
-  }
-
-  public void setImageDisplaySrc(String imageDisplaySrc) {
-    this.imageDisplaySrc = imageDisplaySrc;
-  }
-
-  public String getImageFileSrc() {
-    return imageFileSrc;
-  }
-
-  public void setImageFileSrc(String imageFileSrc) {
-    this.imageFileSrc = imageFileSrc;
   }
 
   public int getElementsPerPage() {

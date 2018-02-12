@@ -19,12 +19,6 @@ import com.cmpl.web.core.common.context.ContextHolder;
 @PropertySource("classpath:/core/core.properties")
 public class ContextConfiguration {
 
-  @Value("${fileBasePath}")
-  String fileBasePath;
-
-  @Value("${imageDisplaySrc}")
-  String imageDisplaySrc;
-
   @Value("${templateBasePath}")
   String templateBasePath;
 
@@ -39,8 +33,6 @@ public class ContextConfiguration {
     ContextHolder contextHolder = new ContextHolder();
 
     contextHolder.setDateFormat(dateFormat);
-    contextHolder.setImageDisplaySrc(imageDisplaySrc);
-    contextHolder.setImageFileSrc(fileBasePath);
     contextHolder.setElementsPerPage(10);
     contextHolder.setTemplateBasePath(templateBasePath);
     contextHolder.setMediaBasePath(mediaBasePath);

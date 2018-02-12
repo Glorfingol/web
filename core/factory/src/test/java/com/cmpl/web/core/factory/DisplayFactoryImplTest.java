@@ -66,7 +66,7 @@ public class DisplayFactoryImplTest {
 
     BDDMockito.given(newsEntryService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(pageImpl);
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", "", null);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", null);
     BDDMockito.doReturn(displayBean).when(displayFactory)
         .computeNewsEntryDisplayBean(BDDMockito.any(Locale.class), BDDMockito.any(NewsEntryDTO.class));
 
@@ -82,7 +82,7 @@ public class DisplayFactoryImplTest {
     List<NewsEntryDisplayBean> news = new ArrayList<>();
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().id(123456789l).build();
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", "", null);
+    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", null);
     news.add(displayBean);
     PageImpl<NewsEntryDisplayBean> pageImpl = new PageImpl<>(news);
 

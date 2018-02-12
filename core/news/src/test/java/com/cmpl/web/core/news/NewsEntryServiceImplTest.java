@@ -14,9 +14,6 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.util.CollectionUtils;
 
-import com.cmpl.web.core.file.ImageConverterService;
-import com.cmpl.web.core.file.ImageService;
-
 @RunWith(MockitoJUnitRunner.class)
 public class NewsEntryServiceImplTest {
 
@@ -28,12 +25,6 @@ public class NewsEntryServiceImplTest {
 
   @Mock
   private NewsImageService newsImageService;
-
-  @Mock
-  private ImageConverterService imageConverterService;
-
-  @Mock
-  private ImageService imageService;
 
   @InjectMocks
   @Spy
