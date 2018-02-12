@@ -107,7 +107,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     ModelAndView model = new ModelAndView(computeNewsTemplate(widgetId, locale.getLanguage()));
     NewsEntryDisplayBean newsEntryDisplayBean = computeNewsEntryDisplayBean(locale,
         newsEntryService.getEntity(Long.parseLong(newsEntryId)));
-    model.addObject("newsBean", newsEntryDisplayBean);
+    model.addObject("newsBean", newsEntryService.getEntity(Long.parseLong(newsEntryId)));
 
     LOGGER.info("Entree de blog {}  prête", newsEntryId);
 
