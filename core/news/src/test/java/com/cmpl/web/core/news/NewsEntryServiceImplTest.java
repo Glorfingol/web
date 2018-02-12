@@ -1,6 +1,5 @@
 package com.cmpl.web.core.news;
 
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -117,36 +116,30 @@ public class NewsEntryServiceImplTest {
 
   @Test
   public void testDealWithImageToUpdate_Create() throws Exception {
-    String imageSrc = "someUrl";
-    File imageFile = new File("somePath/img");
+
     NewsImageDTO formattingImage = NewsImageDTOBuilder.create().build();
 
-    BDDMockito.doReturn(imageSrc).when(service).computeImageSrc(BDDMockito.eq(imageFile));
-
-    NewsImageDTO result = service.dealWithImageToUpdate(formattingImage);
+    service.dealWithImageToUpdate(formattingImage);
 
     BDDMockito.verify(newsImageService, BDDMockito.times(1)).createEntity(BDDMockito.eq(formattingImage));
-    BDDMockito.verify(newsImageService, BDDMockito.times(1)).updateEntity(BDDMockito.eq(formattingImage));
+    BDDMockito.verify(newsImageService, BDDMockito.times(0)).updateEntity(BDDMockito.eq(formattingImage));
 
   }
 
   @Test
   public void testDealWithImageToUpdate_Update() throws Exception {
-    String imageSrc = "someUrl";
-    File imageFile = new File("somePath/img");
 
     NewsImageDTO formattingImage = NewsImageDTOBuilder.create().id(1L).build();
     NewsImageDTO formattedImage = NewsImageDTOBuilder.create().build();
 
-    BDDMockito.doReturn(formattedImage).when(newsImageService).updateEntity(BDDMockito.eq(formattedImage));
-    BDDMockito.doReturn(imageSrc).when(service).computeImageSrc(BDDMockito.eq(imageFile));
+    BDDMockito.doReturn(formattedImage).when(newsImageService).updateEntity(BDDMockito.eq(formattingImage));
 
     NewsImageDTO result = service.dealWithImageToUpdate(formattingImage);
 
     Assert.assertEquals(formattedImage, result);
 
-    BDDMockito.verify(newsImageService, BDDMockito.times(0)).createEntity(BDDMockito.eq(formattedImage));
-    BDDMockito.verify(newsImageService, BDDMockito.times(2)).updateEntity(BDDMockito.eq(formattedImage));
+    BDDMockito.verify(newsImageService, BDDMockito.times(0)).createEntity(BDDMockito.eq(formattingImage));
+    BDDMockito.verify(newsImageService, BDDMockito.times(1)).updateEntity(BDDMockito.eq(formattingImage));
   }
 
   @Test
@@ -237,16 +230,10 @@ public class NewsEntryServiceImplTest {
 
   @Test
   public void testCreateImage_Not_Null() throws Exception {
-    File imageFile = new File("somePath/img");
-
-    String imageSrc = "somePath";
 
     NewsImageDTO formattingImage = NewsImageDTOBuilder.create().id(1L).build();
 
     BDDMockito.doReturn(formattingImage).when(newsImageService).createEntity(BDDMockito.any(NewsImageDTO.class));
-    BDDMockito.doReturn(formattingImage).when(newsImageService).getEntity(BDDMockito.anyLong());
-
-    BDDMockito.doReturn(imageSrc).when(service).computeImageSrc(BDDMockito.eq(imageFile));
 
     String result = service.createImage(formattingImage);
 
@@ -482,18 +469,6 @@ public class NewsEntryServiceImplTest {
     BDDMockito.verify(service, BDDMockito.times(1)).createImage(BDDMockito.nullable(NewsImageDTO.class));
     BDDMockito.verify(repository, BDDMockito.times(1)).save(BDDMockito.any(NewsEntry.class));
     BDDMockito.verify(service, BDDMockito.times(1)).toDTO(BDDMockito.any(NewsEntry.class));
-  }
-
-  @Test
-  public void testComputeImageSrc() throws Exception {
-    String basePath = "test\\img\\";
-    String alt = "someFileName";
-    String extension = ".png";
-    File testFile = new File(basePath + alt + extension);
-
-    String result = service.computeImageSrc(testFile);
-
-    Assert.assertEquals("img\\" + alt + extension, result);
   }
 
   @Test

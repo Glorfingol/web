@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.util.CollectionUtils;
 
+import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaDTOBuilder;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -148,7 +149,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testIsDisplayImage_True() {
-    NewsImageDTO image = NewsImageDTOBuilder.create().build();
+    MediaDTO media = MediaDTOBuilder.create().build();
+    NewsImageDTO image = NewsImageDTOBuilder.create().media(media).build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsImage(image).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
@@ -188,7 +190,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetAlt_With_Image() {
-    NewsImageDTO image = NewsImageDTOBuilder.create().alt("alt").build();
+    MediaDTO media = MediaDTOBuilder.create().build();
+    NewsImageDTO image = NewsImageDTOBuilder.create().media(media).alt("alt").build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsImage(image).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
@@ -211,7 +214,8 @@ public class NewsEntryDisplayBeanTest {
 
   @Test
   public void testGetLegend_With_Image() {
-    NewsImageDTO image = NewsImageDTOBuilder.create().legend("legend").build();
+    MediaDTO media = MediaDTOBuilder.create().build();
+    NewsImageDTO image = NewsImageDTOBuilder.create().media(media).legend("legend").build();
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().newsImage(image).build();
 
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
@@ -240,7 +244,7 @@ public class NewsEntryDisplayBeanTest {
     NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(entry, imageDisplaySrc, labelPar, labelLe, dateFormat);
 
     String result = displayBean.getImage();
-    Assert.assertEquals(imageDisplaySrc + "src", result);
+    Assert.assertEquals("src", result);
   }
 
   @Test

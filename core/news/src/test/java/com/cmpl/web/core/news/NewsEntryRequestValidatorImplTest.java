@@ -103,8 +103,8 @@ public class NewsEntryRequestValidatorImplTest {
 
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(alt));
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(legend));
-    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator).computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_ALT),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator)
+        .computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_ALT), BDDMockito.eq(Locale.FRANCE));
 
     List<ErrorCause> result = validator.isNewsImageValid(imageRequest, Locale.FRANCE);
 
@@ -124,18 +124,13 @@ public class NewsEntryRequestValidatorImplTest {
     errorCauseEmptyAlt.setCode(ERROR_CAUSE.EMPTY_NEWS_ALT.toString());
     errorCauseEmptyAlt.setMessage("someMessage1");
 
-    ErrorCause errorCauseEmptySrc = new ErrorCause();
-    errorCauseEmptySrc.setCode(ERROR_CAUSE.EMPTY_NEWS_ALT.toString());
-    errorCauseEmptySrc.setMessage("someMessage1");
-
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(alt));
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(legend));
-    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator).computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_ALT),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator)
+        .computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_ALT), BDDMockito.eq(Locale.FRANCE));
 
     List<ErrorCause> result = validator.isNewsImageValid(imageRequest, Locale.FRANCE);
 
-    Assert.assertTrue(result.contains(errorCauseEmptySrc));
     Assert.assertTrue(result.contains(errorCauseEmptyAlt));
   }
 
@@ -159,8 +154,8 @@ public class NewsEntryRequestValidatorImplTest {
 
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(alt));
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(legend));
-    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator).computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_ALT),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator)
+        .computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_ALT), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(errorCauseEmptyLegend).when(validator)
         .computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_LEGEND), BDDMockito.eq(Locale.FRANCE));
 
@@ -220,8 +215,8 @@ public class NewsEntryRequestValidatorImplTest {
 
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(alt));
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(legend));
-    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator).computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_ALT),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(errorCauseEmptyAlt).when(validator)
+        .computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_ALT), BDDMockito.eq(Locale.FRANCE));
 
     BDDMockito.doReturn(errorCauseEmptyLegend).when(validator)
         .computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_LEGEND), BDDMockito.eq(Locale.FRANCE));
@@ -299,8 +294,8 @@ public class NewsEntryRequestValidatorImplTest {
 
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(title));
     BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq(author));
-    BDDMockito.doReturn(errorCauseEmptyTitle).when(validator).computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_TITLE),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(errorCauseEmptyTitle).when(validator)
+        .computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_TITLE), BDDMockito.eq(Locale.FRANCE));
 
     List<ErrorCause> result = validator.isNewsEntryValid(request, Locale.FRANCE);
 
@@ -351,8 +346,8 @@ public class NewsEntryRequestValidatorImplTest {
 
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(title));
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(author));
-    BDDMockito.doReturn(errorCauseEmptyTitle).when(validator).computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_TITLE),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(errorCauseEmptyTitle).when(validator)
+        .computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_TITLE), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(errorCauseEmptyAuhtor).when(validator)
         .computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_AUTHOR), BDDMockito.eq(Locale.FRANCE));
 
@@ -430,8 +425,8 @@ public class NewsEntryRequestValidatorImplTest {
     errorCauseEmptyNewsId.setMessage("someMessage1");
 
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.eq(id));
-    BDDMockito.doReturn(errorCauseEmptyNewsId).when(validator).computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_ID),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(errorCauseEmptyNewsId).when(validator)
+        .computeCause(BDDMockito.eq(ERROR_CAUSE.EMPTY_NEWS_ID), BDDMockito.eq(Locale.FRANCE));
 
     List<ErrorCause> result = validator.isIdValid(id, Locale.FRANCE);
 
@@ -444,8 +439,8 @@ public class NewsEntryRequestValidatorImplTest {
 
     String id = "id";
 
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isIdValid(BDDMockito.eq(id),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isIdValid(BDDMockito.eq(id), BDDMockito.eq(Locale.FRANCE));
 
     Error result = validator.validateGet(id, Locale.FRANCE);
     Assert.assertNull(result);
@@ -481,8 +476,8 @@ public class NewsEntryRequestValidatorImplTest {
 
     String id = "id";
 
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isIdValid(BDDMockito.eq(id),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isIdValid(BDDMockito.eq(id), BDDMockito.eq(Locale.FRANCE));
 
     Error result = validator.validateDelete(id, Locale.FRANCE);
     Assert.assertNull(result);
@@ -524,14 +519,14 @@ public class NewsEntryRequestValidatorImplTest {
     request.setContent(content);
     request.setImage(image);
 
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isIdValid(BDDMockito.eq(id),
-        BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isNewsEntryValid(BDDMockito.eq(request),
-        BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isContentValid(BDDMockito.eq(content),
-        BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isNewsImageValid(BDDMockito.eq(image),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isIdValid(BDDMockito.eq(id), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isNewsEntryValid(BDDMockito.eq(request), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isContentValid(BDDMockito.eq(content), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isNewsImageValid(BDDMockito.eq(image), BDDMockito.eq(Locale.FRANCE));
 
     Error result = validator.validateUpdate(request, id, Locale.FRANCE);
 
@@ -568,12 +563,12 @@ public class NewsEntryRequestValidatorImplTest {
     request.setImage(image);
 
     BDDMockito.doReturn(causes).when(validator).isIdValid(BDDMockito.eq(id), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isNewsEntryValid(BDDMockito.eq(request),
-        BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isContentValid(BDDMockito.eq(content),
-        BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isNewsImageValid(BDDMockito.eq(image),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isNewsEntryValid(BDDMockito.eq(request), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isContentValid(BDDMockito.eq(content), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isNewsImageValid(BDDMockito.eq(image), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Error result = validator.validateUpdate(request, id, Locale.FRANCE);
@@ -599,12 +594,12 @@ public class NewsEntryRequestValidatorImplTest {
     request.setContent(content);
     request.setImage(image);
 
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isNewsEntryValid(BDDMockito.eq(request),
-        BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isContentValid(BDDMockito.eq(content),
-        BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isNewsImageValid(BDDMockito.eq(image),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isNewsEntryValid(BDDMockito.eq(request), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isContentValid(BDDMockito.eq(content), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isNewsImageValid(BDDMockito.eq(image), BDDMockito.eq(Locale.FRANCE));
 
     Error result = validator.validateCreate(request, Locale.FRANCE);
 
@@ -640,10 +635,10 @@ public class NewsEntryRequestValidatorImplTest {
     request.setImage(image);
 
     BDDMockito.doReturn(causes).when(validator).isNewsEntryValid(BDDMockito.eq(request), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isContentValid(BDDMockito.eq(content),
-        BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(Lists.newArrayList()).when(validator).isNewsImageValid(BDDMockito.eq(image),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isContentValid(BDDMockito.eq(content), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Lists.newArrayList()).when(validator)
+        .isNewsImageValid(BDDMockito.eq(image), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Error result = validator.validateCreate(request, Locale.FRANCE);

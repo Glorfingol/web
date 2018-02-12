@@ -1,6 +1,5 @@
 package com.cmpl.web.core.news;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -205,13 +204,6 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     }
 
     return entity;
-  }
-
-  String computeImageSrc(File file) {
-    String filePath = file.getPath();
-    int firstIndex = filePath.indexOf("img");
-    filePath = filePath.substring(firstIndex, filePath.length());
-    return filePath;
   }
 
   @Override
