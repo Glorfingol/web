@@ -46,12 +46,4 @@ public interface FileService {
    */
   InputStream read(String fileName);
 
-  /**
-   * Lire le contenu des templates par defaut
-   * 
-   * @param templateName
-   * @return
-   */
-  String readDefaultTemplateContent(String templateName);
-
 }
