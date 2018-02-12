@@ -19,6 +19,7 @@
       <figcaption class="text-right" th:text="${newsBean.newsImage.legend}"/>
     </figure>
     <p class="card-text"
+       th:if="${newsBean.newsContent != null && (newsBean.newsContent.linkUrl == null || newsBean.newsContent.linkUrl == '')}"
        th:text="${newsBean.newsContent.content}"/>
     <p class="card-text"
        th:if="${newsBean.newsContent != null && newsBean.newsContent.linkUrl != null && newsBean.newsContent.linkUrl != ''}">
