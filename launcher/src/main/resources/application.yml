@@ -9,6 +9,7 @@ spring:
       org.hibernate: ERROR
     pattern:
       console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
       
 # HTTP Server
 server:

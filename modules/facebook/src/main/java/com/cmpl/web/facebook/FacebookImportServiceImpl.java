@@ -15,7 +15,17 @@ import org.springframework.social.facebook.api.MediaOperations;
 import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.news.*;
+import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.media.MediaDTO;
+import com.cmpl.web.core.media.MediaDTOBuilder;
+import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.news.NewsContentDTO;
+import com.cmpl.web.core.news.NewsContentDTOBuilder;
+import com.cmpl.web.core.news.NewsEntryDTO;
+import com.cmpl.web.core.news.NewsEntryDTOBuilder;
+import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.NewsImageDTO;
+import com.cmpl.web.core.news.NewsImageDTOBuilder;
 
 /**
  * Service qui sert a importer des post facebook en tant que NewsEntry
@@ -29,23 +39,37 @@ public class FacebookImportServiceImpl implements FacebookImportService {
 
   private static final String DATA_START = "data:";
   private static final String DATA_END = ";base64,";
+  private static final String MEDIA_CONTROLLER_PATH = "/public/medias/";
 
   private final NewsEntryService newsEntryService;
   private final FacebookAdapter facebookAdapter;
   private final WebMessageSource messageSource;
+  private final MediaService mediaService;
+  private final FileService fileService;
 
   public FacebookImportServiceImpl(NewsEntryService newsEntryService, FacebookAdapter facebookAdapter,
-      WebMessageSource messageSource) {
+      MediaService mediaService, FileService fileService, WebMessageSource messageSource) {
     this.newsEntryService = newsEntryService;
     this.facebookAdapter = facebookAdapter;
+    this.mediaService = mediaService;
+    this.fileService = fileService;
     this.messageSource = messageSource;
   }
 
   @Override
   public List<NewsEntryDTO> importFacebookPost(List<FacebookImportPost> facebookPosts, Locale locale) {
     List<NewsEntryDTO> createdEntries = new ArrayList<>();
-    facebookPosts.forEach(postToImport -> createdEntries
-        .add(newsEntryService.createEntity(convertPostToNewsEntry(postToImport, locale))));
+    facebookPosts.forEach(postToImport -> {
+      NewsEntryDTO createdNewsEntry = newsEntryService.createEntity(convertPostToNewsEntry(postToImport, locale));
+
+      if (createdNewsEntry.getNewsImage() != null) {
+        MediaDTO mediaFromFacebookPost = createMediaFromFacebookPost(createdNewsEntry, postToImport);
+        MediaDTO createdMedia = mediaService.createEntity(mediaFromFacebookPost);
+        createdNewsEntry.getNewsImage().setMedia(createdMedia);
+        createdNewsEntry = newsEntryService.updateEntity(createdNewsEntry);
+      }
+      createdEntries.add(createdNewsEntry);
+    });
     return createdEntries;
   }
 
@@ -68,6 +92,7 @@ public class FacebookImportServiceImpl implements FacebookImportService {
   }
 
   NewsImageDTO computeNewsImageFromPost(FacebookImportPost facebookPost, Locale locale) {
+
     return NewsImageDTOBuilder.create().alt(computeAlt(facebookPost, locale)).legend(computeLegend(locale)).build();
   }
 
@@ -113,6 +138,27 @@ public class FacebookImportServiceImpl implements FacebookImportService {
     return base64SrcBuilder.toString();
   }
 
+  MediaDTO createMediaFromFacebookPost(NewsEntryDTO newsEntry, FacebookImportPost facebookPost) {
+
+    byte[] data = recoverImageBytes(facebookPost);
+    if (data.length == 0) {
+      return MediaDTOBuilder.create().build();
+    }
+    String contentType = computeContentTypeFromBytes(facebookPost, data);
+    String extension = computeExtentionFromFacebookPost(facebookPost);
+
+    String fileName = "image_" + newsEntry.getId();
+    String src = fileName + "." + extension;
+
+    fileService.saveMediaOnSystem(src, data);
+
+    MediaDTO mediaToCreate = MediaDTOBuilder.create().contentType(contentType).name(src)
+        .size(Long.parseLong(String.valueOf(data.length))).extension(extension).src(MEDIA_CONTROLLER_PATH + src)
+        .build();
+
+    return mediaToCreate;
+  }
+
   String computeTags(Locale locale) {
     return messageSource.getI18n("facebook.news.tag", locale);
   }
@@ -137,6 +183,12 @@ public class FacebookImportServiceImpl implements FacebookImportService {
       LOGGER.warn("Impossible de determiner le type de l'image pour l'album ", facebookPost.getObjectId(), e);
     }
     return contentType;
+  }
+
+  String computeExtentionFromFacebookPost(FacebookImportPost facebookPost) {
+    String photoUrl = facebookPost.getPhotoUrl();
+    String afterDot = photoUrl.substring(photoUrl.lastIndexOf(".") + 1);
+    return afterDot.substring(0, afterDot.indexOf("?"));
   }
 
   ByteArrayInputStream prepareInputStream(byte[] data) {

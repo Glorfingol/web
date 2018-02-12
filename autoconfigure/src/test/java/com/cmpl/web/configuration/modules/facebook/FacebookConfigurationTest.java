@@ -14,6 +14,8 @@ import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSourceImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.news.NewsEntryService;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.facebook.FacebookAdapter;
@@ -54,6 +56,12 @@ public class FacebookConfigurationTest {
 
   @Mock
   private FacebookAdapter facebookAdapter;
+
+  @Mock
+  private MediaService mediaService;
+
+  @Mock
+  private FileService fileService;
 
   @Mock
   private ConnectionRepository connectionRepository;
@@ -100,10 +108,9 @@ public class FacebookConfigurationTest {
   @Test
   public void testFacebookImportService() throws Exception {
 
-    FacebookImportService result = configuration
-        .facebookImportService(newsEntryService, facebookAdapter, messageSource);
+    FacebookImportService result = configuration.facebookImportService(newsEntryService, facebookAdapter, mediaService,
+        fileService, messageSource);
 
     Assert.assertEquals(FacebookImportServiceImpl.class, result.getClass());
   }
-
 }

@@ -65,7 +65,7 @@ public class NewsEntryDisplayBean {
     if (!displayImage()) {
       return "";
     }
-    return imageBaseSrc + newsEntryDTO.getNewsImage().getMedia().getSrc();
+    return newsEntryDTO.getNewsImage().getMedia().getSrc();
   }
 
   public String getLegend() {

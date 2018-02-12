@@ -64,92 +64,6 @@ public class NewsEntryServiceImplTest {
   }
 
   @Test
-  public void testComputeNewsEntryDTO_No_Image_No_Content() throws Exception {
-    NewsEntry entry = new NewsEntry();
-    entry.setId(1L);
-
-    NewsEntryDTO dto = NewsEntryDTOBuilder.create().id(1L).build();
-
-    BDDMockito.doReturn(dto).when(service).toDTO(BDDMockito.eq(entry));
-
-    NewsEntryDTO result = service.computeNewsEntryDTO(entry);
-
-    Assert.assertEquals(dto, result);
-
-    BDDMockito.verify(newsImageService, BDDMockito.times(0)).getEntity(BDDMockito.eq(1L));
-    BDDMockito.verify(newsContentService, BDDMockito.times(0)).getEntity(BDDMockito.eq(1L));
-  }
-
-  @Test
-  public void testComputeNewsEntryDTO_No_Image_Content() throws Exception {
-    NewsEntry entry = new NewsEntry();
-    entry.setContentId(String.valueOf(1L));
-    entry.setId(1L);
-
-    NewsContentDTO contentDTO = NewsContentDTOBuilder.create().id(1L).build();
-    NewsEntryDTO dto = NewsEntryDTOBuilder.create().newsContent(contentDTO).id(1L).build();
-
-    BDDMockito.doReturn(dto).when(service).toDTO(BDDMockito.eq(entry));
-    BDDMockito.doReturn(contentDTO).when(newsContentService).getEntity(BDDMockito.eq(1L));
-
-    NewsEntryDTO result = service.computeNewsEntryDTO(entry);
-
-    Assert.assertEquals(dto, result);
-
-    BDDMockito.verify(newsContentService, BDDMockito.times(1)).getEntity(BDDMockito.eq(1L));
-    BDDMockito.verify(newsImageService, BDDMockito.times(0)).getEntity(BDDMockito.eq(1L));
-
-  }
-
-  @Test
-  public void testComputeNewsEntryDTO_Image_No_Content() throws Exception {
-
-    NewsEntry entry = new NewsEntry();
-    entry.setImageId(String.valueOf(1L));
-    entry.setId(1L);
-
-    NewsImageDTO imageDTO = NewsImageDTOBuilder.create().id(1L).build();
-    NewsEntryDTO dto = NewsEntryDTOBuilder.create().newsImage(imageDTO).id(1L).build();
-
-    BDDMockito.doReturn(dto).when(service).toDTO(BDDMockito.eq(entry));
-    BDDMockito.doReturn(imageDTO).when(newsImageService).getEntity(BDDMockito.eq(1L));
-
-    NewsEntryDTO result = service.computeNewsEntryDTO(entry);
-
-    Assert.assertEquals(dto, result);
-
-    BDDMockito.verify(newsImageService, BDDMockito.times(1)).getEntity(BDDMockito.eq(1L));
-    BDDMockito.verify(newsContentService, BDDMockito.times(0)).getEntity(BDDMockito.eq(1L));
-  }
-
-  @Test
-  public void testComputeNewsEntryDTO_Image_Content() throws Exception {
-
-    NewsEntry entry = new NewsEntry();
-    entry.setContentId(String.valueOf(1L));
-    entry.setTags("somTags");
-    entry.setTitle("someTitle");
-    entry.setAuthor("someAuhtor");
-    entry.setImageId(String.valueOf(1L));
-    entry.setId(1L);
-
-    NewsImageDTO imageDTO = NewsImageDTOBuilder.create().id(1L).build();
-    NewsContentDTO contentDTO = NewsContentDTOBuilder.create().id(1L).build();
-    NewsEntryDTO dto = NewsEntryDTOBuilder.create().newsContent(contentDTO).newsImage(imageDTO).id(1L).build();
-
-    BDDMockito.doReturn(dto).when(service).toDTO(BDDMockito.eq(entry));
-    BDDMockito.doReturn(imageDTO).when(newsImageService).getEntity(BDDMockito.eq(1L));
-    BDDMockito.doReturn(contentDTO).when(newsContentService).getEntity(BDDMockito.eq(1L));
-
-    NewsEntryDTO result = service.computeNewsEntryDTO(entry);
-
-    Assert.assertEquals(dto, result);
-
-    BDDMockito.verify(newsImageService, BDDMockito.times(1)).getEntity(BDDMockito.eq(1L));
-    BDDMockito.verify(newsContentService, BDDMockito.times(1)).getEntity(BDDMockito.eq(1L));
-  }
-
-  @Test
   public void testGetEntities_No_Result() throws Exception {
 
     BDDMockito.doReturn(Lists.newArrayList()).when(repository).findAll();
@@ -174,8 +88,8 @@ public class NewsEntryServiceImplTest {
     NewsEntryDTO dto2 = NewsEntryDTOBuilder.create().id(1L).build();
 
     BDDMockito.doReturn(Lists.newArrayList(entry1, entry2)).when(repository).findAll();
-    BDDMockito.doReturn(dto1).when(service).computeNewsEntryDTO(entry1);
-    BDDMockito.doReturn(dto2).when(service).computeNewsEntryDTO(entry2);
+    BDDMockito.doReturn(dto1).when(service).toDTO(entry1);
+    BDDMockito.doReturn(dto2).when(service).toDTO(entry2);
 
     List<NewsEntryDTO> result = service.getEntities();
 
@@ -193,7 +107,7 @@ public class NewsEntryServiceImplTest {
 
     NewsEntryDTO dto = NewsEntryDTOBuilder.create().id(1L).build();
 
-    BDDMockito.doReturn(dto).when(service).computeNewsEntryDTO(entry);
+    BDDMockito.doReturn(dto).when(service).toDTO(entry);
     BDDMockito.doReturn(optional).when(repository).findById(1L);
 
     NewsEntryDTO result = service.getEntity(1L);

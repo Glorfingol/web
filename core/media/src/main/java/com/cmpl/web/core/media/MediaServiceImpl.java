@@ -51,7 +51,13 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
   }
 
   @Override
-  @Cacheable(value = "#a0")
+  @Transactional
+  @CacheEvict(value = "pagedMedias", allEntries = true)
+  public MediaDTO createEntity(MediaDTO dto) {
+    return super.createEntity(dto);
+  }
+
+  @Override
   public InputStream download(String mediaName) {
     return fileService.read(mediaName);
   }

@@ -24,7 +24,10 @@ import org.springframework.social.autoconfigure.SocialAutoConfigurerAdapter;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionFactory;
+import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.connect.mem.InMemoryConnectionRepository;
+import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.connect.web.GenericConnectionStatusView;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.autoconfigure.FacebookProperties;
@@ -37,6 +40,8 @@ import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.news.NewsEntryService;
@@ -139,14 +144,14 @@ public class FacebookConfiguration {
   @Bean
   @ConditionalOnProperty(prefix = "import.", name = "enabled")
   FacebookService facebookService(ContextHolder contextHolder, Facebook facebookConnector,
-      ConnectionRepository connectionRepository, NewsEntryService newsEntryService) {
-    return new FacebookServiceImpl(contextHolder, facebookConnector, connectionRepository, newsEntryService);
+      ConnectionRepository inMemoryConnectionRepository, NewsEntryService newsEntryService) {
+    return new FacebookServiceImpl(contextHolder, facebookConnector, inMemoryConnectionRepository, newsEntryService);
   }
 
   @Bean
   FacebookImportService facebookImportService(NewsEntryService newsEntryService, FacebookAdapter facebookAdapter,
-      WebMessageSource messageSource) {
-    return new FacebookImportServiceImpl(newsEntryService, facebookAdapter, messageSource);
+      MediaService mediaService, FileService fileService, WebMessageSource messageSource) {
+    return new FacebookImportServiceImpl(newsEntryService, facebookAdapter, mediaService, fileService, messageSource);
   }
 
   @Configuration
@@ -163,8 +168,8 @@ public class FacebookConfiguration {
     @Bean
     @ConditionalOnMissingBean(Facebook.class)
     @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
-    public Facebook facebook(ConnectionRepository repository) {
-      Connection<Facebook> connection = repository.findPrimaryConnection(Facebook.class);
+    public Facebook facebook(ConnectionRepository inMemoryConnectionRepository) {
+      Connection<Facebook> connection = inMemoryConnectionRepository.findPrimaryConnection(Facebook.class);
       return connection != null ? connection.getApi() : null;
     }
 
@@ -181,7 +186,7 @@ public class FacebookConfiguration {
     }
 
     @Override
-    public UserIdSource getUserIdSource(){
+    public UserIdSource getUserIdSource() {
       return new UserIdSource() {
         @Override
         public String getUserId() {
@@ -202,6 +207,17 @@ public class FacebookConfiguration {
   @ConditionalOnProperty(prefix = "import.", name = "enabled", havingValue = "false")
   FacebookAdapter mockFacebookAdapter() {
     return new DoNothingFacebookAdapter();
+  }
+
+  @Bean
+  public ConnectController connectController(ConnectionFactoryLocator connectionFactoryLocator,
+      ConnectionRepository inMemoryConnectionRepository) {
+    return new ConnectController(connectionFactoryLocator, inMemoryConnectionRepository);
+  }
+
+  @Bean
+  public ConnectionRepository inMemoryConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
+    return new InMemoryConnectionRepository(connectionFactoryLocator);
   }
 
 }

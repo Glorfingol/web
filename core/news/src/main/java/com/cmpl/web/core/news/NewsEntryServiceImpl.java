@@ -146,7 +146,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   public NewsEntryDTO getEntity(Long id) {
     LOGGER.info("Récupération de l'entrée de blog d'id " + id);
     NewsEntry entry = newsEntryRepository.findById(id).get();
-    return computeNewsEntryDTO(entry);
+    return toDTO(entry);
   }
 
   @Override
@@ -157,7 +157,7 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
     List<NewsEntryDTO> entries = new ArrayList<>();
     List<NewsEntry> newsEntries = newsEntryRepository.findAll();
 
-    newsEntries.forEach(newsEntry -> entries.add(computeNewsEntryDTO(newsEntry)));
+    newsEntries.forEach(newsEntry -> entries.add(toDTO(newsEntry)));
 
     return entries;
   }
@@ -167,28 +167,10 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
     List<NewsEntryDTO> dtos = new ArrayList<>();
 
-    pagedNewsEntries.getContent().forEach(entity -> dtos.add(computeNewsEntryDTO(entity)));
+    pagedNewsEntries.getContent().forEach(entity -> dtos.add(toDTO(entity)));
 
     return new PageImpl<>(dtos, pageRequest, pagedNewsEntries.getTotalElements());
 
-  }
-
-  NewsEntryDTO computeNewsEntryDTO(NewsEntry newsEntry) {
-    NewsEntryDTO newsEntryDTO = toDTO(newsEntry);
-
-    String newsContentId = newsEntry.getContentId();
-    if (StringUtils.hasText(newsContentId)) {
-      newsEntryDTO.setNewsContent(newsContentService.getEntity(Long.parseLong(newsContentId)));
-    }
-
-    String newsImageId = newsEntry.getImageId();
-    if (StringUtils.hasText(newsImageId)) {
-      NewsImageDTO image = newsImageService.getEntity(Long.parseLong(newsImageId));
-      newsEntryDTO.setNewsImage(image);
-
-    }
-
-    return newsEntryDTO;
   }
 
   @Override
@@ -196,6 +178,14 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
     NewsEntryDTO dto = new NewsEntryDTO();
     fillObject(entity, dto);
+
+    if (StringUtils.hasText(entity.getContentId())) {
+      dto.setNewsContent(newsContentService.getEntity(Long.parseLong(entity.getContentId())));
+    }
+
+    if (StringUtils.hasText(entity.getImageId())) {
+      dto.setNewsImage(newsImageService.getEntity(Long.parseLong(entity.getImageId())));
+    }
 
     return dto;
   }
@@ -205,6 +195,14 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
 
     NewsEntry entity = new NewsEntry();
     fillObject(dto, entity);
+
+    if (dto.getNewsContent() != null) {
+      entity.setContentId(String.valueOf(dto.getNewsContent().getId()));
+    }
+
+    if (dto.getNewsImage() != null) {
+      entity.setImageId(String.valueOf(dto.getNewsImage().getId()));
+    }
 
     return entity;
   }
