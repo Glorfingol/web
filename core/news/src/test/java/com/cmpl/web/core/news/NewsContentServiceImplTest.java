@@ -1,6 +1,6 @@
 package com.cmpl.web.core.news;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +52,7 @@ public class NewsContentServiceImplTest {
 
   @Test
   public void testFillObject() throws Exception {
-    LocalDate date = LocalDate.now();
+    LocalDateTime date = LocalDateTime.now();
     NewsContentDTO dto = NewsContentDTOBuilder.create().content("someContent").id(1L).creationDate(date)
         .modificationDate(date).build();
 
@@ -75,7 +75,7 @@ public class NewsContentServiceImplTest {
     NewsContent content2 = new NewsContent();
     content2.setContent("content2");
 
-    LocalDate date = LocalDate.now();
+    LocalDateTime date = LocalDateTime.now();
 
     NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
         .modificationDate(date).build();
@@ -122,7 +122,7 @@ public class NewsContentServiceImplTest {
     NewsContent content2 = new NewsContent();
     content2.setContent("content2");
 
-    LocalDate date = LocalDate.now();
+    LocalDateTime date = LocalDateTime.now();
 
     List<NewsContent> contents = Lists.newArrayList(content1, content2);
 
@@ -149,7 +149,7 @@ public class NewsContentServiceImplTest {
     NewsContent content1 = new NewsContent();
     content1.setContent("content1");
 
-    LocalDate date = LocalDate.now();
+    LocalDateTime date = LocalDateTime.now();
     date = date.minusDays(1);
     NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
         .modificationDate(date).build();
@@ -181,7 +181,7 @@ public class NewsContentServiceImplTest {
     content1.setContent("content1");
     Optional<NewsContent> optional = Optional.of(content1);
 
-    LocalDate date = LocalDate.now();
+    LocalDateTime date = LocalDateTime.now();
     date = date.minusDays(1);
     NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
         .modificationDate(date).build();
@@ -199,7 +199,7 @@ public class NewsContentServiceImplTest {
 
     NewsContent content1 = new NewsContent();
     content1.setContent("content1");
-    LocalDate date = LocalDate.now();
+    LocalDateTime date = LocalDateTime.now();
     date = date.minusDays(1);
     NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
         .modificationDate(date).build();

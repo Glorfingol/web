@@ -1,9 +1,11 @@
 package com.cmpl.web.core.news;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.cmpl.web.core.media.MediaDTO;
 
 /**
  * Requete NewsImage
@@ -16,10 +18,11 @@ public class NewsImageRequest {
   private String legend;
   private String alt;
   private Long id;
-  @DateTimeFormat(iso = ISO.DATE)
-  private LocalDate creationDate;
-  @DateTimeFormat(iso = ISO.DATE)
-  private LocalDate modificationDate;
+  @DateTimeFormat(iso = ISO.DATE_TIME)
+  private LocalDateTime creationDate;
+  @DateTimeFormat(iso = ISO.DATE_TIME)
+  private LocalDateTime modificationDate;
+  private MediaDTO media;
 
   public String getLegend() {
     return legend;
@@ -45,20 +48,27 @@ public class NewsImageRequest {
     this.id = id;
   }
 
-  public LocalDate getCreationDate() {
+  public LocalDateTime getCreationDate() {
     return creationDate;
   }
 
-  public void setCreationDate(LocalDate creationDate) {
+  public void setCreationDate(LocalDateTime creationDate) {
     this.creationDate = creationDate;
   }
 
-  public LocalDate getModificationDate() {
+  public LocalDateTime getModificationDate() {
     return modificationDate;
   }
 
-  public void setModificationDate(LocalDate modificationDate) {
+  public void setModificationDate(LocalDateTime modificationDate) {
     this.modificationDate = modificationDate;
   }
 
+  public MediaDTO getMedia() {
+    return media;
+  }
+
+  public void setMedia(MediaDTO media) {
+    this.media = media;
+  }
 }

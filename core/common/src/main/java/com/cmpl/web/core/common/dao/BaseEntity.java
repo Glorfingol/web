@@ -1,6 +1,6 @@
 package com.cmpl.web.core.common.dao;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -22,10 +22,10 @@ public abstract class BaseEntity {
   private Long id;
 
   @Column(name = "creation_date")
-  private LocalDate creationDate;
+  private LocalDateTime creationDate;
 
   @Column(name = "modification_date")
-  private LocalDate modificationDate;
+  private LocalDateTime modificationDate;
 
   /**
    * S'assure que les elements not nullable commun sont renseignes (id, creationDate, modificationDate)
@@ -36,10 +36,10 @@ public abstract class BaseEntity {
       id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
     }
     if (creationDate == null) {
-      creationDate = LocalDate.now();
+      creationDate = LocalDateTime.now();
     }
     if (modificationDate == null) {
-      modificationDate = LocalDate.now();
+      modificationDate = LocalDateTime.now();
     }
   }
 
@@ -51,19 +51,19 @@ public abstract class BaseEntity {
     this.id = id;
   }
 
-  public LocalDate getCreationDate() {
+  public LocalDateTime getCreationDate() {
     return creationDate;
   }
 
-  public void setCreationDate(LocalDate creationDate) {
+  public void setCreationDate(LocalDateTime creationDate) {
     this.creationDate = creationDate;
   }
 
-  public LocalDate getModificationDate() {
+  public LocalDateTime getModificationDate() {
     return modificationDate;
   }
 
-  public void setModificationDate(LocalDate modificationDate) {
+  public void setModificationDate(LocalDateTime modificationDate) {
     this.modificationDate = modificationDate;
   }
 

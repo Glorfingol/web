@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -95,6 +96,10 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
         return parseLocalDate(field, entityToWrite);
       }
 
+      if (LocalDateTime.class.equals(field.getType())) {
+        return parseLocalDateTime(field, entityToWrite);
+      }
+
       if (byte[].class.equals(field.getType())) {
         return parseByteArray(field, entityToWrite);
       }
@@ -116,6 +121,12 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
 
   protected String parseLocalDate(Field field, T entityToWrite) throws Exception {
     LocalDate localDateToParse = (LocalDate) field.get(entityToWrite);
+    return dateFormatter.format(localDateToParse);
+
+  }
+
+  protected String parseLocalDateTime(Field field, T entityToWrite) throws Exception {
+    LocalDateTime localDateToParse = (LocalDateTime) field.get(entityToWrite);
     return dateFormatter.format(localDateToParse);
 
   }

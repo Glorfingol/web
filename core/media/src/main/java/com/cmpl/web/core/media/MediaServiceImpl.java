@@ -64,8 +64,13 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
 
   @Override
   protected MediaDTO toDTO(Media entity) {
+    if (entity == null) {
+      return null;
+    }
     MediaDTO dto = MediaDTOBuilder.create().build();
+
     fillObject(entity, dto);
+
     return dto;
   }
 
@@ -89,7 +94,7 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
   }
 
   @Override
-  @Cacheable(key = "#a0")
+  @Cacheable(key = "#a0", unless = "#result == null")
   public MediaDTO findByName(String name) {
     return toDTO(mediaRepository.findByName(name));
   }

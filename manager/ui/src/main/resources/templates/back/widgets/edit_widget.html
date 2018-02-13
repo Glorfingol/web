@@ -45,6 +45,7 @@
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         currentTab = "personalization";
+        prepareDragAndDrop();
         codeMirrorPersonalization = setUpCodeMirror("widgetPersonalization");
       });
     }
@@ -57,8 +58,59 @@
   var setUpCodeMirror = function (textAreaId) {
     var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
         {theme: "neo", lineNumbers: true});
+    codeMirror.on("drop", function (editor, e) {
+      var dataTransferred = e.dataTransfer.getData("text/html");
+      var newDiv = getMacroHtml(dataTransferred);
+      var coordinatess = codeMirror.coordsChar({
+        left: e.x,
+        top: e.y
+      });
+      editor.replaceRange(newDiv, coordinatess);
+    });
     return codeMirror;
   }
+
+  var prepareDragAndDrop = function () {
+    $(".macros").on("dragstart", function (event) {
+      event.originalEvent.dataTransfer.setData("text/html",
+          event.target.getAttribute("data-name"));
+      $.event.addProp('dataTransfer');
+    })
+  }
+
+  var buttonHtml = '<button type="button" class="btn btn-primary">Primary</button>'
+  var cardHtml = '<div class="card">\n<div class="card-header">\nHeader\n</div>\n<div class="card-body">\nBody\n</div>\n<div class="card-footer">\nFooter\n</div>\n</div>';
+  var colHtml = '<div class="col-12">\n</div>';
+  var rowHtml = '<div class="row">\n</div>';
+  var navHtml = '<ul class="nav">\n<li class="nav-item">\n<a class="nav-link-item active" href="#">\nLink active\n</a>\n</li>\n<li class="nav-item">\n<a class="nav-link-item">\nLink not active\n</a>\n</li>\n</ul>';
+  var collapseHtml = '<p>\n<a class="btn btn-primary"  data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">\nCollapse Toggler\n</a>\n</p>\n<div class="collapse" id="collapseExample">\n<div class="card card-body">\nLorem ipsum\n</div>\n</div>';
+  var paginationHtml = '<nav aria-label="Page navigation example">\n<ul class="pagination">\n<li class="page-item">\n<a class="page-link" href="#">\nPrevious\n</a>\n</li>\n<li class="page-item">\n<a class="page-link" href="#">\n1\n</a>\n</li>\n<li class="page-item">\n<a class="page-link" href="#">\nNext\n</a>\n</li>\n</ul>\n</nav>';
+
+  var getMacroHtml = function (macro) {
+    if (macro === "card") {
+      return cardHtml;
+    }
+    if (macro === "col") {
+      return colHtml;
+    }
+    if (macro === "row") {
+      return rowHtml;
+    }
+    if (macro === "nav") {
+      return navHtml;
+    }
+    if (macro === "collapse") {
+      return collapseHtml;
+    }
+    if (macro === "pagination") {
+      return paginationHtml;
+    }
+    if (macro === "button") {
+      return buttonHtml;
+    }
+    return "";
+  }
+
 </script>
 
 

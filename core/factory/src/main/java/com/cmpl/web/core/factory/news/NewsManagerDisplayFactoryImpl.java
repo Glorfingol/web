@@ -21,7 +21,6 @@ import com.cmpl.web.core.news.NewsContentDTO;
 import com.cmpl.web.core.news.NewsContentRequest;
 import com.cmpl.web.core.news.NewsContentRequestBuilder;
 import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsEntryDisplayBean;
 import com.cmpl.web.core.news.NewsEntryRequest;
 import com.cmpl.web.core.news.NewsEntryRequestBuilder;
 import com.cmpl.web.core.news.NewsEntryService;
@@ -36,7 +35,7 @@ import com.cmpl.web.core.page.BACK_PAGE;
  * @author Louis
  *
  */
-public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDisplayBean> implements
+public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDTO> implements
     NewsManagerDisplayFactory {
 
   private final NewsEntryService newsEntryService;
@@ -55,7 +54,7 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     ModelAndView newsManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, locale);
     LOGGER.info("Construction des entrées de blog pour la page {}", BACK_PAGE.NEWS_VIEW.name());
 
-    PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = computePageWrapper(locale, pageNumber);
+    PageWrapper<NewsEntryDTO> pagedNewsWrapped = computePageWrapper(locale, pageNumber);
 
     newsManager.addObject("wrappedNews", pagedNewsWrapped);
 
@@ -72,8 +71,8 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
-  protected Page<NewsEntryDisplayBean> computeEntries(Locale locale, int pageNumber) {
-    List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
+  protected Page<NewsEntryDTO> computeEntries(Locale locale, int pageNumber) {
+    List<NewsEntryDTO> newsEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
     Page<NewsEntryDTO> pagedNewsEntries = newsEntryService.getPagedEntities(pageRequest);
@@ -81,28 +80,7 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       return new PageImpl<>(newsEntries);
     }
 
-    pagedNewsEntries.getContent().forEach(
-        newsEntryFromDB -> newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB)));
-    return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
-  }
-
-  List<NewsEntryDisplayBean> computeNewsEntryDisplayBeans(Locale locale) {
-    List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
-
-    List<NewsEntryDTO> newsEntriesFromDB = newsEntryService.getEntities();
-    if (CollectionUtils.isEmpty(newsEntriesFromDB)) {
-      return newsEntries;
-    }
-    newsEntriesFromDB.forEach(newsEntryFromDB -> newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntryFromDB)));
-    return newsEntries;
-  }
-
-  NewsEntryDisplayBean computeNewsEntryDisplayBean(Locale locale, NewsEntryDTO newsEntryDTO) {
-
-    String labelPar = getI18nValue("news.entry.by", locale);
-    String labelLe = getI18nValue("news.entry.the", locale);
-
-    return new NewsEntryDisplayBean(newsEntryDTO, labelPar, labelLe, contextHolder.getDateFormat());
+    return pagedNewsEntries;
   }
 
   @Override
@@ -140,9 +118,9 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   NewsImageRequest computeNewsImageRequest(NewsEntryDTO dto) {
-    return NewsImageRequestBuilder.create().alt(dto.getNewsImage().getAlt()).id(dto.getNewsImage().getId())
-        .creationDate(dto.getNewsImage().getCreationDate()).modificationDate(dto.getNewsImage().getModificationDate())
-        .legend(dto.getNewsImage().getLegend()).build();
+    return NewsImageRequestBuilder.create().alt(dto.getNewsImage().getAlt()).media(dto.getNewsImage().getMedia())
+        .id(dto.getNewsImage().getId()).creationDate(dto.getNewsImage().getCreationDate())
+        .modificationDate(dto.getNewsImage().getModificationDate()).legend(dto.getNewsImage().getLegend()).build();
   }
 
   NewsContentRequest computeNewsContentRequest(NewsEntryDTO dto) {

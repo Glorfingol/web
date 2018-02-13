@@ -26,7 +26,6 @@ import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.MenuItem;
 import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsEntryDisplayBean;
 import com.cmpl.web.core.news.NewsEntryService;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
@@ -105,8 +104,6 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     LOGGER.info("Construction de l'entree de blog d'id {}", newsEntryId);
 
     ModelAndView model = new ModelAndView(computeNewsTemplate(widgetId, locale.getLanguage()));
-    NewsEntryDisplayBean newsEntryDisplayBean = computeNewsEntryDisplayBean(locale,
-        newsEntryService.getEntity(Long.parseLong(newsEntryId)));
     model.addObject("newsBean", newsEntryService.getEntity(Long.parseLong(newsEntryId)));
 
     LOGGER.info("Entree de blog {}  prête", newsEntryId);
@@ -120,7 +117,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     LOGGER.info("Construction du wiget {}", widgetName);
 
     WidgetDTO widget = widgetService.findByName(widgetName, locale.getLanguage());
-    ModelAndView model = new ModelAndView(computeWidgetTemplate(widget));
+    ModelAndView model = new ModelAndView(computeWidgetTemplate(widget, locale));
 
     model.addObject("pageNumber", pageNumber);
 
@@ -135,9 +132,9 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     return model;
   }
 
-  String computeWidgetTemplate(WidgetDTO widget) {
+  String computeWidgetTemplate(WidgetDTO widget, Locale locale) {
     if (StringUtils.hasText(widget.getPersonalization())) {
-      return "";
+      return "widget_" + widget.getName() + "_" + locale.getLanguage();
     }
     WIDGET_TYPE widgetType = widget.getType();
 
@@ -192,45 +189,28 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     return menuFactory.computeMenuItems(page, locale);
   }
 
-  public PageWrapper<NewsEntryDisplayBean> computePageWrapperOfNews(WidgetDTO widget, Locale locale, int pageNumber) {
-    Page<NewsEntryDisplayBean> pagedNewsEntries = computeNewsEntries(locale, pageNumber);
+  public PageWrapper<NewsEntryDTO> computePageWrapperOfNews(WidgetDTO widget, Locale locale, int pageNumber) {
+    Page<NewsEntryDTO> pagedNewsEntries = computeNewsEntries(locale, pageNumber);
 
     boolean isFirstPage = pagedNewsEntries.isFirst();
     boolean isLastPage = pagedNewsEntries.isLast();
     int totalPages = pagedNewsEntries.getTotalPages();
     int currentPageNumber = pagedNewsEntries.getNumber();
 
-    return new PageWrapperBuilder<NewsEntryDisplayBean>().currentPageNumber(currentPageNumber).firstPage(isFirstPage)
+    return new PageWrapperBuilder<NewsEntryDTO>().currentPageNumber(currentPageNumber).firstPage(isFirstPage)
         .lastPage(isLastPage).page(pagedNewsEntries).totalPages(totalPages).pageBaseUrl("/widgets/" + widget.getName())
         .pageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages)).build();
   }
 
-  public Page<NewsEntryDisplayBean> computeNewsEntries(Locale locale, int pageNumber) {
-    List<NewsEntryDisplayBean> newsEntries = new ArrayList<>();
-
+  public Page<NewsEntryDTO> computeNewsEntries(Locale locale, int pageNumber) {
+    List<NewsEntryDTO> newsEntries = new ArrayList<>();
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
     Page<NewsEntryDTO> pagedNewsEntries = newsEntryService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedNewsEntries.getContent())) {
       return new PageImpl<>(newsEntries);
     }
 
-    pagedNewsEntries.getContent().forEach(newsEntry -> newsEntries.add(computeNewsEntryDisplayBean(locale, newsEntry)));
-
-    return new PageImpl<>(newsEntries, pageRequest, pagedNewsEntries.getTotalElements());
-  }
-
-  public NewsEntryDisplayBean computeNewsEntry(Locale locale, String newsEntryId) {
-
-    NewsEntryDTO newsEntryFromDB = newsEntryService.getEntity(Long.valueOf(newsEntryId));
-    return computeNewsEntryDisplayBean(locale, newsEntryFromDB);
-  }
-
-  public NewsEntryDisplayBean computeNewsEntryDisplayBean(Locale locale, NewsEntryDTO newsEntryDTO) {
-
-    String labelPar = getI18nValue("news.entry.by", locale);
-    String labelLe = getI18nValue("news.entry.the", locale);
-
-    return new NewsEntryDisplayBean(newsEntryDTO, labelPar, labelLe, contextHolder.getDateFormat());
+    return pagedNewsEntries;
   }
 
   private List<NewsEntryDTO> computeNewsEntriesForPage(int pageNumber) {
@@ -274,7 +254,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   Map<String, Object> computeWidgetModelForBlog(WidgetDTO widget, int pageNumber, Locale locale) {
     Map<String, Object> widgetModel = new HashMap<>();
 
-    PageWrapper<NewsEntryDisplayBean> pagedNewsWrapped = computePageWrapperOfNews(widget, locale, pageNumber);
+    PageWrapper<NewsEntryDTO> pagedNewsWrapped = computePageWrapperOfNews(widget, locale, pageNumber);
 
     List<NewsEntryDTO> entries = computeNewsEntriesForPage(pageNumber);
     List<String> entriesIds = new ArrayList<>();

@@ -1,6 +1,6 @@
 package com.cmpl.web.core.common.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * DTO commun
@@ -11,8 +11,8 @@ import java.time.LocalDate;
 public abstract class BaseDTO {
 
   private Long id;
-  private LocalDate creationDate;
-  private LocalDate modificationDate;
+  private LocalDateTime creationDate;
+  private LocalDateTime modificationDate;
 
   public Long getId() {
     return id;
@@ -22,19 +22,19 @@ public abstract class BaseDTO {
     this.id = id;
   }
 
-  public LocalDate getCreationDate() {
+  public LocalDateTime getCreationDate() {
     return creationDate;
   }
 
-  public void setCreationDate(LocalDate creationDate) {
+  public void setCreationDate(LocalDateTime creationDate) {
     this.creationDate = creationDate;
   }
 
-  public LocalDate getModificationDate() {
+  public LocalDateTime getModificationDate() {
     return modificationDate;
   }
 
-  public void setModificationDate(LocalDate modificationDate) {
+  public void setModificationDate(LocalDateTime modificationDate) {
     this.modificationDate = modificationDate;
   }
 

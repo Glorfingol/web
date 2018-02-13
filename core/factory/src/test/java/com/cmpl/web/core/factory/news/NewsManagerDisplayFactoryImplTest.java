@@ -1,7 +1,6 @@
 package com.cmpl.web.core.factory.news;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -16,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -33,7 +31,6 @@ import com.cmpl.web.core.news.NewsContentRequest;
 import com.cmpl.web.core.news.NewsContentRequestBuilder;
 import com.cmpl.web.core.news.NewsEntryDTO;
 import com.cmpl.web.core.news.NewsEntryDTOBuilder;
-import com.cmpl.web.core.news.NewsEntryDisplayBean;
 import com.cmpl.web.core.news.NewsEntryRequest;
 import com.cmpl.web.core.news.NewsEntryRequestBuilder;
 import com.cmpl.web.core.news.NewsEntryService;
@@ -60,72 +57,6 @@ public class NewsManagerDisplayFactoryImplTest {
   private NewsManagerDisplayFactoryImpl displayFactory;
 
   @Test
-  public void testComputeNewsEditBeanDisplayBean() throws Exception {
-
-    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
-    String imageDisplaySrc = "http://cm-pl.com";
-
-    String autor = "author";
-    LocalDate date = LocalDate.now();
-    NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().author(autor).creationDate(date).id(1L).build();
-
-    String labelPar = "par";
-    String labelLe = "le";
-
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, labelPar, labelLe, dateFormat);
-
-    BDDMockito.doReturn(displayBean).when(displayFactory)
-        .computeNewsEntryDisplayBean(BDDMockito.eq(Locale.FRANCE), BDDMockito.eq(newsEntry));
-
-    NewsEntryDisplayBean result = displayFactory.computeNewsEntryDisplayBean(Locale.FRANCE, newsEntry);
-
-    Assert.assertEquals(displayBean.getNewsEntryId(), result.getNewsEntryId());
-    Assert.assertEquals(displayBean.getPanelHeading(), result.getPanelHeading());
-
-  }
-
-  @Test
-  public void testComputeNewsEntryDisplayBeans() throws Exception {
-
-    DateTimeFormatter formatted = DateTimeFormatter.ofPattern("dd/MM/yy");
-
-    String autor = "author";
-    LocalDate date = LocalDate.now();
-    String formattedDate = formatted.format(date);
-
-    String labelPar = "par";
-    String labelLe = "le";
-
-    NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().author(autor).creationDate(date).id(1L).build();
-    List<NewsEntryDTO> newsEntries = Lists.newArrayList(newsEntry);
-
-    BDDMockito.doReturn(formatted).when(contextHolder).getDateFormat();
-    BDDMockito.doReturn(newsEntries).when(newsEntryService).getEntities();
-    BDDMockito.doReturn(labelPar).when(displayFactory)
-        .getI18nValue(BDDMockito.eq("news.entry.by"), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(labelLe).when(displayFactory)
-        .getI18nValue(BDDMockito.eq("news.entry.the"), BDDMockito.eq(Locale.FRANCE));
-
-    List<NewsEntryDisplayBean> result = displayFactory.computeNewsEntryDisplayBeans(Locale.FRANCE);
-
-    Assert.assertFalse(CollectionUtils.isEmpty(result));
-    Assert.assertTrue(newsEntry.getId() == Long.valueOf(result.get(0).getNewsEntryId()));
-    Assert.assertEquals(labelPar + " " + autor + " " + labelLe + " " + formattedDate, result.get(0).getPanelHeading());
-
-  }
-
-  @Test
-  public void testComputeNewsEntryDisplayBeans_Empty() throws Exception {
-
-    BDDMockito.doReturn(Lists.newArrayList()).when(newsEntryService).getEntities();
-
-    List<NewsEntryDisplayBean> result = displayFactory.computeNewsEntryDisplayBeans(Locale.FRANCE);
-
-    Assert.assertTrue(CollectionUtils.isEmpty(result));
-
-  }
-
-  @Test
   public void testComputeModelAndViewForOneNewsEntry() throws Exception {
 
     String tile = "login";
@@ -140,7 +71,7 @@ public class NewsManagerDisplayFactoryImplTest {
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
 
     String author = "author";
-    LocalDate date = LocalDate.now();
+    LocalDateTime date = LocalDateTime.now();
     String tags = "tag;lol";
     String content = "content";
     String alt = "alt";
@@ -195,7 +126,7 @@ public class NewsManagerDisplayFactoryImplTest {
     List<MenuItem> backMenu = Lists.newArrayList(index, news);
 
     String author = "author";
-    LocalDate date = LocalDate.now();
+    LocalDateTime date = LocalDateTime.now();
     String tags = "tag;lol";
     String content = "content";
     String alt = "alt";
@@ -209,16 +140,8 @@ public class NewsManagerDisplayFactoryImplTest {
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().author(author).tags(tags).title(title)
         .newsContent(newsContent).newsImage(newsImage).id(1L).creationDate(date).modificationDate(date).build();
 
-    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
-    String imageDisplaySrc = "http://cm-pl.com";
-
-    String labelPar = "par";
-    String labelLe = "le";
-
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, labelPar, labelLe, dateFormat);
-
-    PageWrapper<NewsEntryDisplayBean> pageWrapper = new PageWrapper<>();
-    pageWrapper.setPage(new PageImpl<>(Lists.newArrayList(displayBean)));
+    PageWrapper<NewsEntryDTO> pageWrapper = new PageWrapper<>();
+    pageWrapper.setPage(new PageImpl<>(Lists.newArrayList(newsEntry)));
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
@@ -281,7 +204,7 @@ public class NewsManagerDisplayFactoryImplTest {
 
   @Test
   public void testComputeNewsContentRequest() throws Exception {
-    LocalDate date = LocalDate.now();
+    LocalDateTime date = LocalDateTime.now();
     NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(123456789L)
         .creationDate(date).modificationDate(date).build();
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsContent(newsContent).build();
@@ -296,7 +219,7 @@ public class NewsManagerDisplayFactoryImplTest {
 
   @Test
   public void testComputeNewsImageRequest() throws Exception {
-    LocalDate date = LocalDate.now();
+    LocalDateTime date = LocalDateTime.now();
     NewsImageDTO newsImage = NewsImageDTOBuilder.create().alt("someAlt").legend("someLegend").id(123456789L)
         .creationDate(date).modificationDate(date).build();
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsImage(newsImage).build();
@@ -313,8 +236,8 @@ public class NewsManagerDisplayFactoryImplTest {
   @Test
   public void testComputeNewsEntryRequest() throws Exception {
 
-    LocalDate creationDate = LocalDate.now();
-    LocalDate modificationDate = LocalDate.now();
+    LocalDateTime creationDate = LocalDateTime.now();
+    LocalDateTime modificationDate = LocalDateTime.now();
     long id = 123456789L;
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().tags("aTag").author("someAuthor").title("someTitle").id(id)
         .creationDate(creationDate).modificationDate(modificationDate).build();
@@ -345,8 +268,8 @@ public class NewsManagerDisplayFactoryImplTest {
   @Test
   public void testComputeNewsRequestForEditForm_No_Image_Content() throws Exception {
 
-    LocalDate creationDate = LocalDate.now();
-    LocalDate modificationDate = LocalDate.now();
+    LocalDateTime creationDate = LocalDateTime.now();
+    LocalDateTime modificationDate = LocalDateTime.now();
     long id = 123456789L;
 
     NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(id)
@@ -392,8 +315,8 @@ public class NewsManagerDisplayFactoryImplTest {
 
   @Test
   public void testComputeNewsRequestForEditForm_Image_No_Content() throws Exception {
-    LocalDate creationDate = LocalDate.now();
-    LocalDate modificationDate = LocalDate.now();
+    LocalDateTime creationDate = LocalDateTime.now();
+    LocalDateTime modificationDate = LocalDateTime.now();
     long id = 123456789L;
 
     NewsImageDTO newsImage = NewsImageDTOBuilder.create().id(id).build();
@@ -417,8 +340,8 @@ public class NewsManagerDisplayFactoryImplTest {
 
   @Test
   public void testComputeNewsRequestForEditForm_Image_Content() throws Exception {
-    LocalDate creationDate = LocalDate.now();
-    LocalDate modificationDate = LocalDate.now();
+    LocalDateTime creationDate = LocalDateTime.now();
+    LocalDateTime modificationDate = LocalDateTime.now();
     long id = 123456789L;
 
     NewsImageDTO newsImage = NewsImageDTOBuilder.create().id(id).build();

@@ -136,16 +136,28 @@ function computeNewsImageUpdate() {
 function postCreateNewsForm() {
   $("#newsEntryCreateForm").hide();
   var url = "/manager/news";
-  var formData = new FormData();
-  if (droppedFiles && droppedFiles[0]) {
-    formData.append("media", droppedFiles[0]);
+
+  if (hasMediaToUpload()) {
+    var formData = new FormData();
+    if (droppedFiles && droppedFiles[0]) {
+      formData.append("media", droppedFiles[0]);
+    } else {
+      formData.append("media", $("#newsEntryCreateForm")[0][4].files[0]);
+    }
+
+    createThenUpload($("#newsEntryCreateForm"), $(".loader"), $(".card-loader"),
+        url, url,
+        validateAndCreateNewsEntry(), formData);
   } else {
-    formData.append("media", $("#newsEntryCreateForm")[0][4].files[0]);
+    create($("#newsEntryCreateForm"), $(".loader"), $(".card-loader"), url, url,
+        validateAndCreateNewsEntry()).done(function (data) {
+      handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
+          $("#newsEntryCreateForm"), url)
+    }).fail(function (error) {
+      handleErrorPostResult(urlFallback);
+    });
   }
 
-  createThenUpload($("#newsEntryCreateForm"), $(".loader"), $(".card-loader"),
-      url, url,
-      validateAndCreateNewsEntry(), formData);
 }
 
 function postUpdateNewsForm() {
@@ -153,16 +165,33 @@ function postUpdateNewsForm() {
   var url = "/manager/news/" + newsEntryToUpdate.id;
   var urlFallback = "/manager/news/" + newsEntryToUpdate.id;
 
-  var formData = new FormData();
-  if (droppedFiles && droppedFiles[0]) {
-    formData.append("media", droppedFiles[0]);
+  if (hasMediaToUpload()) {
+    var formData = new FormData();
+    if (droppedFiles && droppedFiles[0]) {
+      formData.append("media", droppedFiles[0]);
+    } else {
+      formData.append("media", $("#newsEntryEditForm")[0][4].files[0]);
+    }
+
+    updateThenUpload($("#newsEntryEditForm"), $(".loader"), $(".card-loader"),
+        url, urlFallback,
+        newsEntryToUpdate, formData);
   } else {
-    formData.append("media", $("#newsEntryCreateForm")[0][4].files[0]);
+    update($("#newsEntryEditForm"), $(".loader"), $(".card-loader"), url,
+        urlFallback, newsEntryToUpdate, true).done(function (data) {
+      handleSuccessPutResult(data, $(".card-loader"), $(".loader"),
+          $("#newsEntryEditForm"), url, true)
+    }).fail(function (error) {
+      handleErrorPutResult(urlFallback);
+    });
   }
 
-  updateThenUpload($("#newsEntryEditForm"), $(".loader"), $(".card-loader"),
-      url, urlFallback,
-      newsEntryToUpdate, formData);
+  function hasMediaToUpload() {
+    return (droppedFiles && droppedFiles[0]) || ($(
+        "#newsEntryEditForm")[0][4].files && $(
+        "#newsEntryEditForm")[0][4].files[0]);
+  }
+
 }
 
 

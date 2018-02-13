@@ -1,6 +1,6 @@
 package com.cmpl.web.backup.writer;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -12,7 +12,7 @@ public class EntityTestBuilder extends BaseBuilder<EntityTest> {
   private Date date;
   private byte[] bytes;
   private Locale locale;
-  private LocalDate localDate;
+  private LocalDateTime localDate;
   private List<String> strings;
   private String string;
   private boolean booleanValue;
@@ -34,7 +34,7 @@ public class EntityTestBuilder extends BaseBuilder<EntityTest> {
     return this;
   }
 
-  public EntityTestBuilder localDate(LocalDate localDate) {
+  public EntityTestBuilder localDate(LocalDateTime localDate) {
     this.localDate = localDate;
     return this;
   }

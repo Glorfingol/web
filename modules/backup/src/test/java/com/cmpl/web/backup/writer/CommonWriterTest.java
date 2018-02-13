@@ -2,7 +2,7 @@ package com.cmpl.web.backup.writer;
 
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -57,7 +57,7 @@ public class CommonWriterTest {
 
   @Test
   public void testParseLocalDate() throws Exception {
-    EntityTest entity = new EntityTestBuilder().localDate(LocalDate.now()).build();
+    EntityTest entity = new EntityTestBuilder().localDate(LocalDateTime.now()).build();
     String parsedDate = dateFormatter.format(entity.getLocalDate());
 
     Field field = getFieldAccessible(entity, "localDate");
@@ -211,7 +211,7 @@ public class CommonWriterTest {
   @Test
   public void testParseObjectValueToString_LocaleDate() throws Exception {
     String localDateString = "24/10/1989";
-    EntityTest entity = new EntityTestBuilder().localDate(LocalDate.now()).build();
+    EntityTest entity = new EntityTestBuilder().localDate(LocalDateTime.now()).build();
 
     Field field = getFieldAccessible(entity, "localDate");
 

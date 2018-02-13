@@ -1,6 +1,6 @@
 package com.cmpl.web.core.carousel;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.cmpl.web.core.common.builder.Builder;
 
@@ -8,8 +8,8 @@ public class CarouselUpdateFormBuilder extends Builder<CarouselUpdateForm> {
 
   private String name;
   private Long id;
-  private LocalDate creationDate;
-  private LocalDate modificationDate;
+  private LocalDateTime creationDate;
+  private LocalDateTime modificationDate;
 
   private CarouselUpdateFormBuilder() {
 
@@ -25,12 +25,12 @@ public class CarouselUpdateFormBuilder extends Builder<CarouselUpdateForm> {
     return this;
   }
 
-  public CarouselUpdateFormBuilder creationDate(LocalDate creationDate) {
+  public CarouselUpdateFormBuilder creationDate(LocalDateTime creationDate) {
     this.creationDate = creationDate;
     return this;
   }
 
-  public CarouselUpdateFormBuilder modificationDate(LocalDate modificationDate) {
+  public CarouselUpdateFormBuilder modificationDate(LocalDateTime modificationDate) {
     this.modificationDate = modificationDate;
     return this;
   }

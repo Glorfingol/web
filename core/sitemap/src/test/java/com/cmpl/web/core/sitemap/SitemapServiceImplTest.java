@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -54,9 +54,9 @@ public class SitemapServiceImplTest {
   @Test
   public void testComputeLastModified() throws Exception {
 
-    LocalDate today = LocalDate.now();
-    LocalDate yesterday = today.minusDays(1);
-    LocalDate twoDaysAgo = yesterday.minusDays(1);
+    LocalDateTime today = LocalDateTime.now();
+    LocalDateTime yesterday = today.minusDays(1);
+    LocalDateTime twoDaysAgo = yesterday.minusDays(1);
 
     NewsEntryDTO newsEntryToday = NewsEntryDTOBuilder.create().modificationDate(today).build();
     NewsEntryDTO newsEntryYesterday = NewsEntryDTOBuilder.create().modificationDate(yesterday).build();
@@ -67,7 +67,7 @@ public class SitemapServiceImplTest {
     entries.add(newsEntryToday);
     entries.add(newsEntryYesterday);
 
-    LocalDate result = service.computeLastModified(entries);
+    LocalDateTime result = service.computeLastModified(entries);
 
     Assert.assertEquals(today, result);
   }

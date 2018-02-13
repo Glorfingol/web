@@ -1,6 +1,6 @@
 package com.cmpl.web.core.page;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -14,10 +14,10 @@ public class PageUpdateForm {
   private String footer;
   private String meta;
   private Long id;
-  @DateTimeFormat(iso = ISO.DATE)
-  private LocalDate creationDate;
-  @DateTimeFormat(iso = ISO.DATE)
-  private LocalDate modificationDate;
+  @DateTimeFormat(iso = ISO.DATE_TIME)
+  private LocalDateTime creationDate;
+  @DateTimeFormat(iso = ISO.DATE_TIME)
+  private LocalDateTime modificationDate;
   private String localeCode;
 
   public PageUpdateForm() {
@@ -69,19 +69,19 @@ public class PageUpdateForm {
     this.id = id;
   }
 
-  public LocalDate getCreationDate() {
+  public LocalDateTime getCreationDate() {
     return creationDate;
   }
 
-  public void setCreationDate(LocalDate creationDate) {
+  public void setCreationDate(LocalDateTime creationDate) {
     this.creationDate = creationDate;
   }
 
-  public LocalDate getModificationDate() {
+  public LocalDateTime getModificationDate() {
     return modificationDate;
   }
 
-  public void setModificationDate(LocalDate modificationDate) {
+  public void setModificationDate(LocalDateTime modificationDate) {
     this.modificationDate = modificationDate;
   }
 

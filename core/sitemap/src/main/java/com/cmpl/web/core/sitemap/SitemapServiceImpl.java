@@ -7,7 +7,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -107,10 +107,10 @@ public class SitemapServiceImpl implements SitemapService {
         .priority(1d).build();
   }
 
-  LocalDate computeLastModified(List<NewsEntryDTO> entries) {
-    LocalDate lastModified = entries.get(0).getModificationDate();
+  LocalDateTime computeLastModified(List<NewsEntryDTO> entries) {
+    LocalDateTime lastModified = entries.get(0).getModificationDate();
     for (NewsEntryDTO newsEntry : entries) {
-      LocalDate dateModification = newsEntry.getModificationDate();
+      LocalDateTime dateModification = newsEntry.getModificationDate();
       if (dateModification.isAfter(lastModified)) {
         lastModified = dateModification;
       }

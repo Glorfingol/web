@@ -24,7 +24,6 @@ import com.cmpl.web.core.menu.MenuItem;
 import com.cmpl.web.core.menu.MenuItemBuilder;
 import com.cmpl.web.core.news.NewsEntryDTO;
 import com.cmpl.web.core.news.NewsEntryDTOBuilder;
-import com.cmpl.web.core.news.NewsEntryDisplayBean;
 import com.cmpl.web.core.news.NewsEntryService;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageDTOBuilder;
@@ -66,25 +65,19 @@ public class DisplayFactoryImplTest {
 
     BDDMockito.given(newsEntryService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(pageImpl);
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", null);
-    BDDMockito.doReturn(displayBean).when(displayFactory)
-        .computeNewsEntryDisplayBean(BDDMockito.any(Locale.class), BDDMockito.any(NewsEntryDTO.class));
-
-    Page<NewsEntryDisplayBean> result = displayFactory.computeNewsEntries(Locale.FRANCE, 0);
-    Assert.assertTrue(pageImpl.getContent().get(0).getId() == Long.parseLong(result.getContent().get(0)
-        .getNewsEntryId()));
+    Page<NewsEntryDTO> result = displayFactory.computeNewsEntries(Locale.FRANCE, 0);
+    Assert.assertTrue(pageImpl.getContent().get(0).getId() == result.getContent().get(0).getId());
 
   }
 
   @Test
   public void testComputePageWrapperOfNews() throws Exception {
 
-    List<NewsEntryDisplayBean> news = new ArrayList<>();
+    List<NewsEntryDTO> news = new ArrayList<>();
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().id(123456789l).build();
+    news.add(newsEntry);
 
-    NewsEntryDisplayBean displayBean = new NewsEntryDisplayBean(newsEntry, "", "", null);
-    news.add(displayBean);
-    PageImpl<NewsEntryDisplayBean> pageImpl = new PageImpl<>(news);
+    PageImpl<NewsEntryDTO> pageImpl = new PageImpl<>(news);
 
     String pageLabel = "Page 1";
 
@@ -94,7 +87,7 @@ public class DisplayFactoryImplTest {
         .computeNewsEntries(BDDMockito.any(Locale.class), BDDMockito.anyInt());
     BDDMockito.doReturn(pageLabel).when(displayFactory)
         .getI18nValue(BDDMockito.anyString(), BDDMockito.any(Locale.class), BDDMockito.anyInt(), BDDMockito.anyInt());
-    PageWrapper<NewsEntryDisplayBean> wrapper = displayFactory.computePageWrapperOfNews(widget, Locale.FRANCE, 1);
+    PageWrapper<NewsEntryDTO> wrapper = displayFactory.computePageWrapperOfNews(widget, Locale.FRANCE, 1);
 
     Assert.assertEquals(0, wrapper.getCurrentPageNumber());
     Assert.assertTrue(wrapper.isFirstPage());

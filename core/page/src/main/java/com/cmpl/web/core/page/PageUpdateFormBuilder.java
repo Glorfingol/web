@@ -1,6 +1,6 @@
 package com.cmpl.web.core.page;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.cmpl.web.core.common.builder.Builder;
 
@@ -13,8 +13,8 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
   private String footer;
   private String meta;
   private Long id;
-  private LocalDate creationDate;
-  private LocalDate modificationDate;
+  private LocalDateTime creationDate;
+  private LocalDateTime modificationDate;
   private String localeCode;
 
   private PageUpdateFormBuilder() {
@@ -61,12 +61,12 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
     return this;
   }
 
-  public PageUpdateFormBuilder creationDate(LocalDate creationDate) {
+  public PageUpdateFormBuilder creationDate(LocalDateTime creationDate) {
     this.creationDate = creationDate;
     return this;
   }
 
-  public PageUpdateFormBuilder modificationDate(LocalDate modificationDate) {
+  public PageUpdateFormBuilder modificationDate(LocalDateTime modificationDate) {
     this.modificationDate = modificationDate;
     return this;
   }

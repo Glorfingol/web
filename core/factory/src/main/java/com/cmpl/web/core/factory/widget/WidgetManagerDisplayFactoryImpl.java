@@ -47,6 +47,8 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
   private static final String LINKABLE_ENTITIES = "linkableEntities";
   private static final String WIDGET_TYPES = "widgetTypes";
   private static final String LOCALES = "locales";
+  private static final String TOOLTIP_KEY = "tooltipKey";
+  private static final String MACROS_KEY = "macros";
 
   public WidgetManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       ContextHolder contextHolder, WidgetService widgetService,
@@ -139,7 +141,13 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
     widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget, personalizationLanguageCode));
     List<? extends BaseDTO> linkableEntities = dataSourceProvider.getLinkableEntities(widget.getType());
     widgetManager.addObject(LINKABLE_ENTITIES, linkableEntities);
+    widgetManager.addObject(TOOLTIP_KEY, computeToolTipKey(widget.getType()));
+    widgetManager.addObject(MACROS_KEY, computePersonalizationMacros());
     return widgetManager;
+  }
+
+  protected List<String> computePersonalizationMacros() {
+    return Arrays.asList("card", "row", "col", "nav", "collapse", "pagination", "button");
   }
 
   @Override
@@ -161,5 +169,25 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
     pageEntries.addAll(pagedWidgetDTOEntries.getContent());
 
     return new PageImpl<>(pageEntries, pageRequest, pagedWidgetDTOEntries.getTotalElements());
+  }
+
+  String computeToolTipKey(WIDGET_TYPE widgetType) {
+    if (WIDGET_TYPE.CAROUSEL.equals(widgetType)) {
+      return "widget.carousel.tooltip";
+    }
+    if (WIDGET_TYPE.BLOG.equals(widgetType)) {
+      return "widget.blog.tooltip";
+    }
+    if (WIDGET_TYPE.MENU.equals(widgetType)) {
+      return "widget.menu.tooltip";
+    }
+    if (WIDGET_TYPE.IMAGE.equals(widgetType)) {
+      return "widget.image.tooltip";
+    }
+    if (WIDGET_TYPE.VIDEO.equals(widgetType)) {
+      return "widget.video.tooltip";
+    }
+
+    return "widget.default.tooltip";
   }
 }

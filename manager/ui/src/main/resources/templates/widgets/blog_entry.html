@@ -3,12 +3,13 @@
     <h3 th:text="${newsBean.title}"/>
     <div class="card-text">
       <span th:text="#{news.entry.by}"/>
-      &nbsp;
       <span th:text="${newsBean.author}"/>
-      &nbsp;
       <span th:text="#{news.entry.the}"/>
-      &nbsp;
-      <span th:text="${#temporals.format(newsBean.creationDate, 'dd/MM/yy')}"/>
+      <span
+          th:text="${#temporals.format(newsBean.creationDate, 'dd/MM/yy')}"/>
+      <span th:text="#{news.entry.at}"/>
+      <span
+          th:text="${#temporals.format(newsBean.creationDate, 'HH:mm')}"/>
     </div>
   </div>
   <div class="card-body"
@@ -19,23 +20,22 @@
       <figcaption class="text-right" th:text="${newsBean.newsImage.legend}"/>
     </figure>
     <p class="card-text"
-       th:if="${newsBean.newsContent != null && (newsBean.newsContent.linkUrl == null || newsBean.newsContent.linkUrl == '')}"
+       th:if="${newsBean.newsContent != null && #strings.isEmpty(newsBean.newsContent.linkUrl)}"
        th:text="${newsBean.newsContent.content}"/>
     <p class="card-text"
-       th:if="${newsBean.newsContent != null && newsBean.newsContent.linkUrl != null && newsBean.newsContent.linkUrl != ''}">
+       th:if="${newsBean.newsContent != null && !#strings.isEmpty(newsBean.newsContent.linkUrl)}">
       <a th:src="${newsBean.newsContent.linkUrl}" th:text="${newsBean.newsContent.content}"></a>
     </p>
     <div class="video-container"
-         th:if="${newsBean.newsContent != null && newsBean.newsContent.videoUrl != null && newsBean.newsContent.videoUrl != ''}">
+         th:if="${newsBean.newsContent != null &&  !#strings.isEmpty(newsBean.newsContent.videoUrl)}">
       <iframe th:src="${newsBean.newsContent.videoUrl}">
       </iframe>
     </div>
   </div>
-  <div class="card-footer" th:if="${newsBean.tags != null && !newsBean.tags.empty}">
-    <div class="form-inline">
-      <div>
-        <span th:each="tag : ${newsBean.tags}" class="badge badge-info" th:text="${tag}"/>
-      </div>
-    </div>
+  <div class="card-footer" th:if="${!#strings.listIsEmpty(newsBean.tags)}">
+     <span th:each="tag : ${#strings.arraySplit(newsBean.tags, ';')}"
+           class="badge badge-pill  badge-info"
+           th:text="${tag}"/>
   </div>
+</div>
 </div>

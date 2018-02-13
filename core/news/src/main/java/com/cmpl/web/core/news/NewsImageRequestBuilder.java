@@ -1,16 +1,18 @@
 package com.cmpl.web.core.news;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.cmpl.web.core.common.builder.Builder;
+import com.cmpl.web.core.media.MediaDTO;
 
 public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
 
   private String legend;
   private String alt;
   private Long id;
-  private LocalDate creationDate;
-  private LocalDate modificationDate;
+  private LocalDateTime creationDate;
+  private LocalDateTime modificationDate;
+  private MediaDTO media;
 
   private NewsImageRequestBuilder() {
 
@@ -31,12 +33,17 @@ public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
     return this;
   }
 
-  public NewsImageRequestBuilder creationDate(LocalDate creationDate) {
+  public NewsImageRequestBuilder media(MediaDTO media) {
+    this.media = media;
+    return this;
+  }
+
+  public NewsImageRequestBuilder creationDate(LocalDateTime creationDate) {
     this.creationDate = creationDate;
     return this;
   }
 
-  public NewsImageRequestBuilder modificationDate(LocalDate modificationDate) {
+  public NewsImageRequestBuilder modificationDate(LocalDateTime modificationDate) {
     this.modificationDate = modificationDate;
     return this;
   }
@@ -50,6 +57,7 @@ public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
     imageRequest.setCreationDate(creationDate);
     imageRequest.setModificationDate(modificationDate);
     imageRequest.setLegend(legend);
+    imageRequest.setMedia(media);
 
     return imageRequest;
   }

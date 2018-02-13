@@ -1,6 +1,6 @@
 package com.cmpl.web.core.common.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +39,7 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
 
   @Override
   public D createEntity(D dto) {
-    dto.setModificationDate(LocalDate.now());
+    dto.setModificationDate(LocalDateTime.now());
     return toDTO(entityRepository.save(toEntity(dto)));
   }
 
@@ -54,7 +54,7 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
 
   @Override
   public D updateEntity(D dto) {
-    dto.setModificationDate(LocalDate.now());
+    dto.setModificationDate(LocalDateTime.now());
     return toDTO(entityRepository.save(toEntity(dto)));
   }
 

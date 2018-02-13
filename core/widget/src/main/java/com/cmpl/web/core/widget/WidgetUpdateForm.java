@@ -1,6 +1,6 @@
 package com.cmpl.web.core.widget;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -11,12 +11,13 @@ public class WidgetUpdateForm {
   private String entityId;
   private String name;
   private Long id;
-  @DateTimeFormat(iso = ISO.DATE)
-  private LocalDate creationDate;
-  @DateTimeFormat(iso = ISO.DATE)
-  private LocalDate modificationDate;
+  @DateTimeFormat(iso = ISO.DATE_TIME)
+  private LocalDateTime creationDate;
+  @DateTimeFormat(iso = ISO.DATE_TIME)
+  private LocalDateTime modificationDate;
   private String personalization;
   private String localeCode;
+  private String toolTipKey;
 
   public WIDGET_TYPE getType() {
     return type;
@@ -50,19 +51,19 @@ public class WidgetUpdateForm {
     this.id = id;
   }
 
-  public LocalDate getCreationDate() {
+  public LocalDateTime getCreationDate() {
     return creationDate;
   }
 
-  public void setCreationDate(LocalDate creationDate) {
+  public void setCreationDate(LocalDateTime creationDate) {
     this.creationDate = creationDate;
   }
 
-  public LocalDate getModificationDate() {
+  public LocalDateTime getModificationDate() {
     return modificationDate;
   }
 
-  public void setModificationDate(LocalDate modificationDate) {
+  public void setModificationDate(LocalDateTime modificationDate) {
     this.modificationDate = modificationDate;
   }
 
@@ -80,5 +81,13 @@ public class WidgetUpdateForm {
 
   public void setLocaleCode(String localeCode) {
     this.localeCode = localeCode;
+  }
+
+  public String getToolTipKey() {
+    return toolTipKey;
+  }
+
+  public void setToolTipKey(String toolTipKey) {
+    this.toolTipKey = toolTipKey;
   }
 }

@@ -1,6 +1,6 @@
 package com.cmpl.web.core.widget;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.cmpl.web.core.common.builder.Builder;
 
@@ -10,10 +10,11 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
   private String entityId;
   private String name;
   private Long id;
-  private LocalDate creationDate;
-  private LocalDate modificationDate;
+  private LocalDateTime creationDate;
+  private LocalDateTime modificationDate;
   private String personalization;
   private String localeCode;
+  private String toolTipKey;
 
   public WidgetUpdateFormBuilder type(WIDGET_TYPE type) {
     this.type = type;
@@ -40,18 +41,23 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
     return this;
   }
 
-  public WidgetUpdateFormBuilder creationDate(LocalDate creationDate) {
+  public WidgetUpdateFormBuilder creationDate(LocalDateTime creationDate) {
     this.creationDate = creationDate;
     return this;
   }
 
-  public WidgetUpdateFormBuilder modificationDate(LocalDate modificationDate) {
+  public WidgetUpdateFormBuilder modificationDate(LocalDateTime modificationDate) {
     this.modificationDate = modificationDate;
     return this;
   }
 
   public WidgetUpdateFormBuilder personalization(String personalization) {
     this.personalization = personalization;
+    return this;
+  }
+
+  public WidgetUpdateFormBuilder toolTipKey(String toolTipKey) {
+    this.toolTipKey = toolTipKey;
     return this;
   }
 
@@ -70,6 +76,7 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
     form.setType(type);
     form.setPersonalization(personalization);
     form.setLocaleCode(localeCode);
+    form.setToolTipKey(toolTipKey);
     return form;
   }
 

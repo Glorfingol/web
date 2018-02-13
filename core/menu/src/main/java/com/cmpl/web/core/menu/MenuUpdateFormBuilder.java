@@ -1,14 +1,14 @@
 package com.cmpl.web.core.menu;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.cmpl.web.core.common.builder.Builder;
 
 public class MenuUpdateFormBuilder extends Builder<MenuUpdateForm> {
 
   private Long id;
-  private LocalDate creationDate;
-  private LocalDate modificationDate;
+  private LocalDateTime creationDate;
+  private LocalDateTime modificationDate;
   private String title;
   private String label;
   private String href;
@@ -54,12 +54,12 @@ public class MenuUpdateFormBuilder extends Builder<MenuUpdateForm> {
     return this;
   }
 
-  public MenuUpdateFormBuilder creationDate(LocalDate creationDate) {
+  public MenuUpdateFormBuilder creationDate(LocalDateTime creationDate) {
     this.creationDate = creationDate;
     return this;
   }
 
-  public MenuUpdateFormBuilder modificationDate(LocalDate modificationDate) {
+  public MenuUpdateFormBuilder modificationDate(LocalDateTime modificationDate) {
     this.modificationDate = modificationDate;
     return this;
   }

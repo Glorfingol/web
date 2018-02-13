@@ -33,7 +33,7 @@
             <label class="btn btn-primary mt-3" id="clickHere">
               <span th:text="#{image.label}"/>
               <i class="fa fa-upload"></i>
-              <input type="file" class="form-control-file" th:field="*{image.src}"
+              <input type="file" class="form-control-file" name="imageMedia" id="imageMedia"
                      onchange="previewFile()"/>
             </label>
           </div>
@@ -42,7 +42,8 @@
         <small class="form-text text-muted" th:text="#{image.help}"/>
       </div>
       <div class="mb-3" id="formPreviewImage">
-        <img class="img-fluid mx-auto d-block" th:src="*{image.src}" id="imagePreview"/>
+        <img class="img-fluid mx-auto d-block" th:src="${newsFormBean.image?.media?.src}"
+             id="imagePreview"/>
       </div>
       <div class="form-group mb-3" id="formInputLegend">
         <label th:text="#{legend.label}"/>
@@ -81,7 +82,7 @@
 
   $(document).ready(function () {
     CKEDITOR.replace("newsContent");
-    setUpDragAndDrop("#image\\.src");
+    setUpDragAndDrop("#imageMedia");
   });
 </script>
 
