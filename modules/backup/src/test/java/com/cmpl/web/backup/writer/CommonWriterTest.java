@@ -61,7 +61,7 @@ public class CommonWriterTest {
     String parsedDate = dateFormatter.format(entity.getLocalDate());
 
     Field field = getFieldAccessible(entity, "localDate");
-    Assert.assertEquals(parsedDate, writer.parseLocalDate(field, entity));
+    Assert.assertEquals(parsedDate, writer.parseLocalDateTime(field, entity));
 
   }
 
@@ -216,7 +216,7 @@ public class CommonWriterTest {
     Field field = getFieldAccessible(entity, "localDate");
 
     BDDMockito.doReturn(localDateString).when(writer)
-        .parseLocalDate(BDDMockito.any(Field.class), BDDMockito.any(EntityTest.class));
+        .parseLocalDateTime(BDDMockito.any(Field.class), BDDMockito.any(EntityTest.class));
 
     Assert.assertEquals(localDateString, writer.parseObjectValueToString(field, entity));
 

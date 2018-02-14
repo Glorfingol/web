@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.news.NewsEntryDTO;
@@ -37,6 +38,9 @@ public class SitemapServiceImplTest {
 
   @Mock
   private WebMessageSource messageSource;
+
+  @Mock
+  private ContextHolder contextHolder;
 
   @InjectMocks
   @Spy
@@ -105,11 +109,12 @@ public class SitemapServiceImplTest {
   public void testWriteSitemap() throws IOException {
 
     Path path = Paths.get("src/test/resources");
-    String host = "http://cmpl.com/";
+    String host = "http://www.cmpl.com/";
 
     WebSitemapUrl urlMenu = new WebSitemapUrl.Options(host + "techniques").priority(1d).changeFreq(ChangeFreq.NEVER)
         .build();
 
+    BDDMockito.given(contextHolder.getWebsiteUrl()).willReturn(host);
     BDDMockito.doReturn(Lists.newArrayList(urlMenu)).when(service).computeMenuUrls(BDDMockito.eq(Locale.FRANCE));
 
     service.writeSitemap(path, Locale.FRANCE);

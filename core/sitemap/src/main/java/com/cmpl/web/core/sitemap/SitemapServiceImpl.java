@@ -18,6 +18,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 
+import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.menu.MenuDTO;
@@ -38,15 +39,16 @@ public class SitemapServiceImpl implements SitemapService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SitemapServiceImpl.class);
 
-  private static final String BASE_URL = "http://cmpl.com";
-
   private final WebMessageSource messageSource;
 
   private final MenuService menuService;
 
-  public SitemapServiceImpl(WebMessageSource messageSource, MenuService menuService) {
+  private final ContextHolder contextHolder;
+
+  public SitemapServiceImpl(WebMessageSource messageSource, MenuService menuService, ContextHolder contextHolder) {
     this.messageSource = messageSource;
     this.menuService = menuService;
+    this.contextHolder = contextHolder;
   }
 
   @Override
@@ -66,7 +68,8 @@ public class SitemapServiceImpl implements SitemapService {
   }
 
   void writeSitemap(Path temporarySitemapFile, Locale locale) throws IOException {
-    WebSitemapGenerator sitemap = WebSitemapGenerator.builder(BASE_URL, temporarySitemapFile.toFile()).build();
+    WebSitemapGenerator sitemap = WebSitemapGenerator.builder(contextHolder.getWebsiteUrl(),
+        temporarySitemapFile.toFile()).build();
 
     List<WebSitemapUrl> menuUrls = computeMenuUrls(locale);
     sitemap.addUrls(menuUrls);
@@ -103,8 +106,8 @@ public class SitemapServiceImpl implements SitemapService {
   }
 
   WebSitemapUrl computeUrlForMenu(MenuDTO menu, Locale locale) throws MalformedURLException {
-    return new WebSitemapUrl.Options(BASE_URL + getI18nValue(menu.getHref(), locale)).changeFreq(ChangeFreq.YEARLY)
-        .priority(1d).build();
+    return new WebSitemapUrl.Options(contextHolder.getWebsiteUrl() + getI18nValue(menu.getHref(), locale))
+        .changeFreq(ChangeFreq.YEARLY).priority(1d).build();
   }
 
   LocalDateTime computeLastModified(List<NewsEntryDTO> entries) {

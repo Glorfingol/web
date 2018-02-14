@@ -23,8 +23,23 @@ import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
+import com.cmpl.web.core.news.NewsEntryService;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.widget.*;
+import com.cmpl.web.core.widget.Widget;
+import com.cmpl.web.core.widget.WidgetDataSourceProvider;
+import com.cmpl.web.core.widget.WidgetDispatcher;
+import com.cmpl.web.core.widget.WidgetDispatcherImpl;
+import com.cmpl.web.core.widget.WidgetPage;
+import com.cmpl.web.core.widget.WidgetPageRepository;
+import com.cmpl.web.core.widget.WidgetPageService;
+import com.cmpl.web.core.widget.WidgetPageServiceImpl;
+import com.cmpl.web.core.widget.WidgetRepository;
+import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.WidgetServiceImpl;
+import com.cmpl.web.core.widget.WidgetTranslator;
+import com.cmpl.web.core.widget.WidgetTranslatorImpl;
+import com.cmpl.web.core.widget.WidgetValidator;
+import com.cmpl.web.core.widget.WidgetValidatorImpl;
 
 @Configuration
 @EntityScan(basePackageClasses = {Widget.class, WidgetPage.class})
@@ -70,8 +85,9 @@ public class WidgetConfiguration {
   }
 
   @Bean
-  WidgetDataSourceProvider widgetDataSourceProvider(CarouselService carouselService, MediaService mediaService) {
-    return new WidgetDataSourceProvider(carouselService, mediaService);
+  WidgetDataSourceProvider widgetDataSourceProvider(CarouselService carouselService, MediaService mediaService,
+      NewsEntryService newsEntryService) {
+    return new WidgetDataSourceProvider(carouselService, mediaService, newsEntryService);
   }
 
   @Bean

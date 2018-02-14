@@ -141,6 +141,9 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     if (WIDGET_TYPE.BLOG.equals(widgetType)) {
       return "widgets/blog";
     }
+    if (WIDGET_TYPE.BLOG_ENTRY.equals(widgetType)) {
+      return "widgets/blog_entry";
+    }
     if (WIDGET_TYPE.CAROUSEL.equals(widgetType)) {
       return "widgets/carousel";
     }
@@ -232,6 +235,9 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     if (WIDGET_TYPE.BLOG.equals(widgetType)) {
       return computeWidgetModelForBlog(widget, pageNumber, locale);
     }
+    if (WIDGET_TYPE.BLOG_ENTRY.equals(widgetType)) {
+      return computeWidgetModelForBlogEntry(widget);
+    }
     if (WIDGET_TYPE.MENU.equals(widgetType)) {
       return computeWidgetModelForMenu(pageName, locale);
     }
@@ -264,6 +270,18 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     widgetModel.put("news", entriesIds);
     widgetModel.put("widgetId", String.valueOf(widget.getId()));
     widgetModel.put("emptyMessage", getI18nValue("actualites.empty", locale));
+
+    return widgetModel;
+  }
+
+  Map<String, Object> computeWidgetModelForBlogEntry(WidgetDTO widget) {
+    Map<String, Object> widgetModel = new HashMap<>();
+
+    String newsEntryId = widget.getEntityId();
+    if (StringUtils.hasText(newsEntryId)) {
+      NewsEntryDTO newsEntry = newsEntryService.getEntity(Long.parseLong(newsEntryId));
+      widgetModel.put("newsBean", newsEntry);
+    }
 
     return widgetModel;
   }

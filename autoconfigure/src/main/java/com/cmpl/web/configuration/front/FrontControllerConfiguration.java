@@ -3,6 +3,7 @@ package com.cmpl.web.configuration.front;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.factory.DisplayFactory;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.sitemap.SitemapService;
@@ -33,11 +34,6 @@ public class FrontControllerConfiguration {
   }
 
   @Bean
-  public RobotsController robotsController() {
-    return new RobotsController();
-  }
-
-  @Bean
   public SitemapController sitemapController(SitemapService sitemapService) {
     return new SitemapController(sitemapService);
   }
@@ -50,6 +46,11 @@ public class FrontControllerConfiguration {
   @Bean
   public WidgetController widgetController(DisplayFactory displayFactory) {
     return new WidgetController(displayFactory);
+  }
+
+  @Bean
+  public RobotsController robotsController(ContextHolder contextHolder) {
+    return new RobotsController(contextHolder);
   }
 
 }

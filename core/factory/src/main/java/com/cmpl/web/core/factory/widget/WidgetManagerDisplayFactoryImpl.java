@@ -178,6 +178,9 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
     if (WIDGET_TYPE.BLOG.equals(widgetType)) {
       return "widget.blog.tooltip";
     }
+    if (WIDGET_TYPE.BLOG_ENTRY.equals(widgetType)) {
+      return "widget.blog.entry.tooltip";
+    }
     if (WIDGET_TYPE.MENU.equals(widgetType)) {
       return "widget.menu.tooltip";
     }
