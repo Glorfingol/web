@@ -5,11 +5,11 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +50,7 @@ public class CommonWriterTest {
 
   @Test
   public void testGetFileHeader() throws Exception {
-    List<String> headerToCreate = Lists.newArrayList("date", "bytes", "locale", "localDate", "strings", "string",
+    List<String> headerToCreate = Arrays.asList("date", "bytes", "locale", "localDate", "strings", "string",
         "booleanValue", "integerValue", "someLong", "id", "creationDate", "modificationDate");
     Assert.assertEquals(headerToCreate, writer.getFileHeader(new EntityTestBuilder().build()));
   }
@@ -137,7 +137,7 @@ public class CommonWriterTest {
 
   @Test
   public void testParseListString() throws Exception {
-    List<String> strings = Lists.newArrayList("test1", "test2");
+    List<String> strings = Arrays.asList("test1", "test2");
     EntityTest entity = new EntityTestBuilder().strings(strings).build();
 
     Field field = getFieldAccessible(entity, "strings");
@@ -146,7 +146,7 @@ public class CommonWriterTest {
 
   @Test
   public void testParseListString_One_Element() throws Exception {
-    List<String> strings = Lists.newArrayList("test1");
+    List<String> strings = Arrays.asList("test1");
     EntityTest entity = new EntityTestBuilder().strings(strings).build();
 
     Field field = getFieldAccessible(entity, "strings");
@@ -239,7 +239,7 @@ public class CommonWriterTest {
   @Test
   public void testParseObjectValueToString_List_String() throws Exception {
     String listString = "test1;test2";
-    EntityTest entity = new EntityTestBuilder().strings(Lists.newArrayList("test1", "test2")).build();
+    EntityTest entity = new EntityTestBuilder().strings(Arrays.asList("test1", "test2")).build();
 
     Field field = getFieldAccessible(entity, "strings");
 

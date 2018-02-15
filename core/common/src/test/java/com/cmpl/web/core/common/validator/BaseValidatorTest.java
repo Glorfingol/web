@@ -1,9 +1,9 @@
 package com.cmpl.web.core.common.validator;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,6 @@ import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.error.ErrorCause;
 import com.cmpl.web.core.common.error.ErrorCauseBuilder;
 import com.cmpl.web.core.common.message.WebMessageSource;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class BaseValidatorTest {
@@ -72,7 +71,7 @@ public class BaseValidatorTest {
     ErrorCause errorCause1 = ErrorCauseBuilder.create().code("someCode1").message("someMessage1").build();
     ErrorCause errorCause2 = ErrorCauseBuilder.create().code("someCode2").message("someMessage2").build();
 
-    List<ErrorCause> causes = Lists.newArrayList(errorCause1, errorCause2);
+    List<ErrorCause> causes = Arrays.asList(errorCause1, errorCause2);
 
     Error result = validator.computeError(causes);
 

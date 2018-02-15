@@ -4,11 +4,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,8 +26,8 @@ import org.springframework.social.facebook.api.FeedOperations;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Post;
-import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.social.facebook.api.Reference;
+import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -395,7 +395,7 @@ public class FacebookServiceImplTest {
     Post postToImport = PostBuilder.create().build();
     PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
     PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
-    PagedList<Post> postsToImport = new PagedList<>(Lists.newArrayList(postToImport), previous, next);
+    PagedList<Post> postsToImport = new PagedList<>(Arrays.asList(postToImport), previous, next);
 
     ImportablePost importable = new ImportablePostBuilder().build();
 
@@ -418,7 +418,7 @@ public class FacebookServiceImplTest {
     Post postToImport = PostBuilder.create().build();
     PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
     PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
-    PagedList<Post> postsToImport = new PagedList<>(Lists.newArrayList(postToImport), previous, next);
+    PagedList<Post> postsToImport = new PagedList<>(Arrays.asList(postToImport), previous, next);
 
     ImportablePost importable = new ImportablePostBuilder().build();
 
@@ -443,10 +443,10 @@ public class FacebookServiceImplTest {
     Post postToImport = PostBuilder.create().build();
     PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
     PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
-    PagedList<Post> postsToImport = new PagedList<>(Lists.newArrayList(postToImport), previous, next);
+    PagedList<Post> postsToImport = new PagedList<>(Arrays.asList(postToImport), previous, next);
 
     ImportablePost importable = new ImportablePostBuilder().build();
-    List<ImportablePost> importables = Lists.newArrayList(importable);
+    List<ImportablePost> importables = Arrays.asList(importable);
 
     BDDMockito.doReturn(connection).when(connectionRepository).findPrimaryConnection(Facebook.class);
     BDDMockito.doReturn(operations).when(facebookConnector).feedOperations();

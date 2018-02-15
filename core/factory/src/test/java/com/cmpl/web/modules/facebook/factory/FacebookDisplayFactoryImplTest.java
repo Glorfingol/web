@@ -1,10 +1,10 @@
 package com.cmpl.web.modules.facebook.factory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,6 @@ import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.facebook.FacebookAdapter;
 import com.cmpl.web.facebook.ImportablePost;
 import com.cmpl.web.facebook.ImportablePostBuilder;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class FacebookDisplayFactoryImplTest {
@@ -58,7 +57,7 @@ public class FacebookDisplayFactoryImplTest {
   public void testComputeRecentFeeds_Ok() throws Exception {
 
     ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").build();
-    List<ImportablePost> postsToReturn = Lists.newArrayList(post);
+    List<ImportablePost> postsToReturn = Arrays.asList(post);
 
     BDDMockito.doReturn(postsToReturn).when(facebookAdapter).getRecentFeed();
 
@@ -71,7 +70,7 @@ public class FacebookDisplayFactoryImplTest {
   @Test
   public void testComputeRecentFeeds_Exception_Should_Return_Empty_Array() throws Exception {
 
-    BDDMockito.doReturn(Lists.newArrayList()).when(facebookAdapter).getRecentFeed();
+    BDDMockito.doReturn(Arrays.asList()).when(facebookAdapter).getRecentFeed();
 
     List<ImportablePost> result = facebookDisplayFactoryImpl.computeRecentFeeds();
 
@@ -90,7 +89,7 @@ public class FacebookDisplayFactoryImplTest {
     MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
     MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
-    List<MenuItem> backMenu = Lists.newArrayList(index, news);
+    List<MenuItem> backMenu = Arrays.asList(index, news);
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
@@ -124,10 +123,10 @@ public class FacebookDisplayFactoryImplTest {
     MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
     MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
-    List<MenuItem> backMenu = Lists.newArrayList(index, news);
+    List<MenuItem> backMenu = Arrays.asList(index, news);
 
     ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").build();
-    List<ImportablePost> postsToReturn = Lists.newArrayList(post);
+    List<ImportablePost> postsToReturn = Arrays.asList(post);
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
@@ -162,7 +161,7 @@ public class FacebookDisplayFactoryImplTest {
     MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
     MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
-    List<MenuItem> backMenu = Lists.newArrayList(index, news);
+    List<MenuItem> backMenu = Arrays.asList(index, news);
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
@@ -196,10 +195,10 @@ public class FacebookDisplayFactoryImplTest {
     MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
     MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
-    List<MenuItem> backMenu = Lists.newArrayList(index, news);
+    List<MenuItem> backMenu = Arrays.asList(index, news);
 
     ImportablePost post = new ImportablePostBuilder().facebookId("someFacebookId").build();
-    List<ImportablePost> postsToReturn = Lists.newArrayList(post);
+    List<ImportablePost> postsToReturn = Arrays.asList(post);
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));

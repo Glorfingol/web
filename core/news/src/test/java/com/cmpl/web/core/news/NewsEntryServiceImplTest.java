@@ -1,9 +1,9 @@
 package com.cmpl.web.core.news;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,7 +56,7 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testGetEntities_No_Result() throws Exception {
 
-    BDDMockito.doReturn(Lists.newArrayList()).when(repository).findAll();
+    BDDMockito.doReturn(Arrays.asList()).when(repository).findAll();
 
     List<NewsEntryDTO> result = service.getEntities();
 
@@ -77,7 +77,7 @@ public class NewsEntryServiceImplTest {
 
     NewsEntryDTO dto2 = NewsEntryDTOBuilder.create().id(1L).build();
 
-    BDDMockito.doReturn(Lists.newArrayList(entry1, entry2)).when(repository).findAll();
+    BDDMockito.doReturn(Arrays.asList(entry1, entry2)).when(repository).findAll();
     BDDMockito.doReturn(dto1).when(service).toDTO(entry1);
     BDDMockito.doReturn(dto2).when(service).toDTO(entry2);
 
@@ -466,7 +466,7 @@ public class NewsEntryServiceImplTest {
   public void testIsAlreadyImportedFromFacebook_True() throws Exception {
     NewsEntryDTO entry = NewsEntryDTOBuilder.create().build();
 
-    BDDMockito.doReturn(Lists.newArrayList(entry)).when(repository).findByFacebookId(BDDMockito.anyString());
+    BDDMockito.doReturn(Arrays.asList(entry)).when(repository).findByFacebookId(BDDMockito.anyString());
 
     boolean result = service.isAlreadyImportedFromFacebook("123456789");
 
@@ -476,7 +476,7 @@ public class NewsEntryServiceImplTest {
   @Test
   public void testIsAlreadyImportedFromFacebook_False() throws Exception {
 
-    BDDMockito.doReturn(Lists.newArrayList()).when(repository).findByFacebookId(BDDMockito.anyString());
+    BDDMockito.doReturn(Arrays.asList()).when(repository).findByFacebookId(BDDMockito.anyString());
 
     boolean result = service.isAlreadyImportedFromFacebook("123456789");
 

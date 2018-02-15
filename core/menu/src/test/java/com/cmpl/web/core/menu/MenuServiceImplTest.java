@@ -1,6 +1,7 @@
 package com.cmpl.web.core.menu;
 
-import org.assertj.core.util.Lists;
+import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,10 +50,10 @@ public class MenuServiceImplTest {
     MenuDTO dto = MenuDTOBuilder.create().id(123456789l).build();
 
     BDDMockito.doReturn(dto).when(menuService).toDTO(BDDMockito.any(Menu.class));
-    BDDMockito.doReturn(Lists.newArrayList(dto)).when(menuService).computeMenus(BDDMockito.anyList());
+    BDDMockito.doReturn(Arrays.asList(dto)).when(menuService).computeMenus(BDDMockito.anyList());
 
     Menu entity = MenuBuilder.create().build();
-    BDDMockito.given(menuRepository.findByParentId(BDDMockito.anyString())).willReturn(Lists.newArrayList(entity));
+    BDDMockito.given(menuRepository.findByParentId(BDDMockito.anyString())).willReturn(Arrays.asList(entity));
 
     Assert.assertEquals(dto.getId(), menuService.computeMenuDTOToReturn(entity).getId());
   }
@@ -64,15 +65,15 @@ public class MenuServiceImplTest {
 
     BDDMockito.doReturn(menuToAdd).when(menuService).computeMenuDTOToReturn(BDDMockito.any(Menu.class));
 
-    Assert.assertEquals(menuToAdd, menuService.computeMenus(Lists.newArrayList(MenuBuilder.create().build())).get(0));
+    Assert.assertEquals(menuToAdd, menuService.computeMenus(Arrays.asList(MenuBuilder.create().build())).get(0));
   }
 
   @Test
   public void testToListDTO() throws Exception {
     MenuDTO menuToAdd = MenuDTOBuilder.create().build();
-    BDDMockito.doReturn(Lists.newArrayList(menuToAdd)).when(menuService).computeMenus(BDDMockito.anyList());
+    BDDMockito.doReturn(Arrays.asList(menuToAdd)).when(menuService).computeMenus(BDDMockito.anyList());
 
-    Assert.assertEquals(menuToAdd, menuService.toListDTO(Lists.newArrayList(MenuBuilder.create().build())).get(0));
+    Assert.assertEquals(menuToAdd, menuService.toListDTO(Arrays.asList(MenuBuilder.create().build())).get(0));
     BDDMockito.verify(menuService, BDDMockito.times(1)).computeMenus(BDDMockito.anyList());
   }
 
@@ -81,8 +82,8 @@ public class MenuServiceImplTest {
     MenuDTO menuDTOToFind = MenuDTOBuilder.create().build();
 
     Menu menuToFind = MenuBuilder.create().build();
-    BDDMockito.given(menuRepository.findAll(BDDMockito.any(Sort.class))).willReturn(Lists.newArrayList(menuToFind));
-    BDDMockito.doReturn(Lists.newArrayList(menuDTOToFind)).when(menuService).toListDTO(BDDMockito.anyList());
+    BDDMockito.given(menuRepository.findAll(BDDMockito.any(Sort.class))).willReturn(Arrays.asList(menuToFind));
+    BDDMockito.doReturn(Arrays.asList(menuDTOToFind)).when(menuService).toListDTO(BDDMockito.anyList());
 
     Assert.assertEquals(menuDTOToFind, menuService.getMenus().get(0));
   }

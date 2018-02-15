@@ -4,11 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,7 +20,6 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.MediaOperations;
-import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.news.NewsContentDTO;
@@ -148,58 +146,6 @@ public class FacebookImportServiceImplTest {
     String result = facebookImport.computeTags(Locale.FRANCE);
 
     Assert.assertEquals(tags, result);
-  }
-
-  @Test
-  public void testGetFacebookImageBase64Src_Ok() throws Exception {
-
-    String base64 = "data:image/jpeg;base64,";
-
-    String path = "src/test/resources/img/logo.jpg";
-    byte[] data = Files.readAllBytes(Paths.get(path));
-    String contentType = "image/jpeg";
-
-    base64 += Base64.encodeBase64String(data);
-
-    FacebookImportPost post = FacebookImportPostBuilder.create().build();
-
-    BDDMockito.doReturn(data).when(facebookImport).recoverImageBytes(BDDMockito.eq(post));
-    BDDMockito.doReturn(contentType).when(facebookImport)
-        .computeContentTypeFromBytes(BDDMockito.eq(post), BDDMockito.eq(data));
-
-    String result = facebookImport.getFacebookImageBase64Src(post);
-
-    Assert.assertEquals(base64, result);
-  }
-
-  @Test
-  public void testGetFacebookImageBase64Src_Ko_Empty_Data() throws Exception {
-
-    FacebookImportPost post = FacebookImportPostBuilder.create().build();
-
-    BDDMockito.doReturn(new byte[]{}).when(facebookImport).recoverImageBytes(BDDMockito.eq(post));
-
-    String result = facebookImport.getFacebookImageBase64Src(post);
-
-    Assert.assertTrue(!StringUtils.hasText(result));
-  }
-
-  @Test
-  public void testGetFacebookImageBase64Src_Ko_No_Content_Type() throws Exception {
-
-    String path = "src/test/resources/img/logo.jpg";
-    byte[] data = Files.readAllBytes(Paths.get(path));
-    String contentType = "";
-
-    FacebookImportPost post = FacebookImportPostBuilder.create().build();
-
-    BDDMockito.doReturn(data).when(facebookImport).recoverImageBytes(BDDMockito.eq(post));
-    BDDMockito.doReturn(contentType).when(facebookImport)
-        .computeContentTypeFromBytes(BDDMockito.eq(post), BDDMockito.eq(data));
-
-    String result = facebookImport.getFacebookImageBase64Src(post);
-
-    Assert.assertTrue(!StringUtils.hasText(result));
   }
 
   @Test
@@ -490,7 +436,7 @@ public class FacebookImportServiceImplTest {
     BDDMockito.doReturn(newsEntry).when(facebookImport)
         .convertPostToNewsEntry(BDDMockito.eq(post), BDDMockito.eq(Locale.FRANCE));
 
-    List<NewsEntryDTO> result = facebookImport.importFacebookPost(Lists.newArrayList(post), Locale.FRANCE);
+    List<NewsEntryDTO> result = facebookImport.importFacebookPost(Arrays.asList(post), Locale.FRANCE);
 
     Assert.assertTrue(result.size() == 1);
     Assert.assertEquals(newsEntry, result.get(0));

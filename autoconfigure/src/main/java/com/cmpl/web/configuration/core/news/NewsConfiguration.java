@@ -22,7 +22,24 @@ import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
-import com.cmpl.web.core.news.*;
+import com.cmpl.web.core.news.NewsContent;
+import com.cmpl.web.core.news.NewsContentRepository;
+import com.cmpl.web.core.news.NewsContentService;
+import com.cmpl.web.core.news.NewsContentServiceImpl;
+import com.cmpl.web.core.news.NewsEntry;
+import com.cmpl.web.core.news.NewsEntryDispatcher;
+import com.cmpl.web.core.news.NewsEntryDispatcherImpl;
+import com.cmpl.web.core.news.NewsEntryRepository;
+import com.cmpl.web.core.news.NewsEntryRequestValidator;
+import com.cmpl.web.core.news.NewsEntryRequestValidatorImpl;
+import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.NewsEntryServiceImpl;
+import com.cmpl.web.core.news.NewsEntryTranslator;
+import com.cmpl.web.core.news.NewsEntryTranslatorImpl;
+import com.cmpl.web.core.news.NewsImage;
+import com.cmpl.web.core.news.NewsImageRepository;
+import com.cmpl.web.core.news.NewsImageService;
+import com.cmpl.web.core.news.NewsImageServiceImpl;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 @Configuration

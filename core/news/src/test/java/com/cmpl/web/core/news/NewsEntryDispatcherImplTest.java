@@ -1,8 +1,8 @@
 package com.cmpl.web.core.news;
 
+import java.util.Arrays;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -58,7 +58,7 @@ public class NewsEntryDispatcherImplTest {
 
     Error error = new Error();
     error.setCode(ERROR_TYPE.INVALID_REQUEST.toString());
-    error.setCauses(Lists.newArrayList(errorCause));
+    error.setCauses(Arrays.asList(errorCause));
 
     exception.expect(BaseException.class);
     exception.expectMessage(errorCause.getMessage());
@@ -106,7 +106,7 @@ public class NewsEntryDispatcherImplTest {
 
     Error error = new Error();
     error.setCode(ERROR_TYPE.INVALID_REQUEST.toString());
-    error.setCauses(Lists.newArrayList(errorCause));
+    error.setCauses(Arrays.asList(errorCause));
 
     NewsEntryResponse response = new NewsEntryResponse();
     response.setError(error);
@@ -158,7 +158,7 @@ public class NewsEntryDispatcherImplTest {
 
     Error error = new Error();
     error.setCode(ERROR_TYPE.INVALID_REQUEST.toString());
-    error.setCauses(Lists.newArrayList(errorCause));
+    error.setCauses(Arrays.asList(errorCause));
 
     NewsEntryResponse response = new NewsEntryResponse();
     response.setError(error);

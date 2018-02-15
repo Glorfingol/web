@@ -1,10 +1,10 @@
 package com.cmpl.web.core.factory.menu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,7 +57,7 @@ public class MenuFactoryImplTest {
 
     BackMenuItem item = BackMenuItemBuilder.create().href(href).label(label).title(title).build();
 
-    BDDMockito.given(backMenu.getItems()).willReturn(Lists.newArrayList(item));
+    BDDMockito.given(backMenu.getItems()).willReturn(Arrays.asList(item));
     BDDMockito
         .doReturn(index)
         .when(menuFactory)

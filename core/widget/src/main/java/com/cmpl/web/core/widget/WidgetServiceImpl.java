@@ -79,7 +79,11 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   @Override
   @Cacheable(key = "#a0+'_'+#a1")
   public WidgetDTO findByName(String widgetName, String localeCode) {
-    WidgetDTO fetchedWidget = toDTO(repository.findByName(widgetName));
+    Widget entity = repository.findByName(widgetName);
+    if (entity == null) {
+      return WidgetDTOBuilder.create().build();
+    }
+    WidgetDTO fetchedWidget = toDTO(entity);
     fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(WIDGET_PREFIX + fetchedWidget.getName()
         + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     return fetchedWidget;

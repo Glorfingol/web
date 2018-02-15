@@ -1,8 +1,8 @@
 package com.cmpl.web.core.carousel;
 
+import java.util.Arrays;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class CarouselDispatcherImplTest {
     exception.expect(BaseException.class);
     ErrorCause cause = ErrorCauseBuilder.create().message("someMessage").code("someCode").build();
     BDDMockito.given(validator.validateDelete(BDDMockito.anyString(), BDDMockito.any(Locale.class))).willReturn(
-        ErrorBuilder.create().causes(Lists.newArrayList(cause)).build());
+        ErrorBuilder.create().causes(Arrays.asList(cause)).build());
     dispatcher.deleteCarouselItemEntity("123456789", "123456789", Locale.FRANCE);
   }
 
@@ -84,7 +84,7 @@ public class CarouselDispatcherImplTest {
   public void testCreateEntityCarouselCreateFormLocale_Error() throws Exception {
     ErrorCause cause = ErrorCauseBuilder.create().message("someMessage").code("someCode").build();
     BDDMockito.given(validator.validateCreate(BDDMockito.any(CarouselCreateForm.class), BDDMockito.any(Locale.class)))
-        .willReturn(ErrorBuilder.create().causes(Lists.newArrayList(cause)).build());
+        .willReturn(ErrorBuilder.create().causes(Arrays.asList(cause)).build());
     Assert.assertEquals(cause, dispatcher.createEntity(CarouselCreateFormBuilder.create().build(), Locale.FRANCE)
         .getError().getCauses().get(0));
   }
@@ -108,7 +108,7 @@ public class CarouselDispatcherImplTest {
   public void testUpdateEntity_Error() throws Exception {
     ErrorCause cause = ErrorCauseBuilder.create().message("someMessage").code("someCode").build();
     BDDMockito.given(validator.validateUpdate(BDDMockito.any(CarouselUpdateForm.class), BDDMockito.any(Locale.class)))
-        .willReturn(ErrorBuilder.create().causes(Lists.newArrayList(cause)).build());
+        .willReturn(ErrorBuilder.create().causes(Arrays.asList(cause)).build());
     Assert.assertEquals(cause, dispatcher.updateEntity(CarouselUpdateFormBuilder.create().build(), Locale.FRANCE)
         .getError().getCauses().get(0));
   }
@@ -136,7 +136,7 @@ public class CarouselDispatcherImplTest {
     ErrorCause cause = ErrorCauseBuilder.create().message("someMessage").code("someCode").build();
     BDDMockito.given(
         validator.validateCreate(BDDMockito.any(CarouselItemCreateForm.class), BDDMockito.any(Locale.class)))
-        .willReturn(ErrorBuilder.create().causes(Lists.newArrayList(cause)).build());
+        .willReturn(ErrorBuilder.create().causes(Arrays.asList(cause)).build());
     Assert.assertEquals(cause, dispatcher.createEntity(CarouselItemCreateFormBuilder.create().build(), Locale.FRANCE)
         .getError().getCauses().get(0));
   }

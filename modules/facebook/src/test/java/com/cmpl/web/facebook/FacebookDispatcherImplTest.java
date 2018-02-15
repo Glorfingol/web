@@ -1,9 +1,9 @@
 package com.cmpl.web.facebook;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ public class FacebookDispatcherImplTest {
     FacebookImportRequest facebookImportRequest = new FacebookImportRequest();
     FacebookImportPost post = new FacebookImportPost();
 
-    List<FacebookImportPost> posts = Lists.newArrayList(post);
+    List<FacebookImportPost> posts = Arrays.asList(post);
     facebookImportRequest.setPostsToImport(posts);
 
     FacebookImportResponse response = new FacebookImportResponse();
@@ -43,7 +43,7 @@ public class FacebookDispatcherImplTest {
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().id(123456789L).build();
 
     BDDMockito.doReturn(posts).when(facebookImportTranslator).fromRequestToPosts(BDDMockito.eq(facebookImportRequest));
-    BDDMockito.doReturn(Lists.newArrayList(newsEntry)).when(facebookImportService)
+    BDDMockito.doReturn(Arrays.asList(newsEntry)).when(facebookImportService)
         .importFacebookPost(BDDMockito.anyList(), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(response).when(facebookImportTranslator).fromDTOToResponse(BDDMockito.anyList());
 

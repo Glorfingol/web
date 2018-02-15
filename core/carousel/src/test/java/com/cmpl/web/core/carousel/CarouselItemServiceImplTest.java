@@ -1,6 +1,7 @@
 package com.cmpl.web.core.carousel;
 
-import org.assertj.core.util.Lists;
+import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -73,11 +74,11 @@ public class CarouselItemServiceImplTest {
 
     MediaDTO media = MediaDTOBuilder.create().id(123456789l).build();
     CarouselItemDTO dto = CarouselItemDTOBuilder.create().media(media).build();
- 
-    BDDMockito.doReturn(Lists.newArrayList(dto)).when(carouselItemService).toListDTO(BDDMockito.anyList());
+
+    BDDMockito.doReturn(Arrays.asList(dto)).when(carouselItemService).toListDTO(BDDMockito.anyList());
     CarouselItem entity = CarouselItemBuilder.create().build();
     BDDMockito.given(carouselItemRepository.findByCarouselIdOrderByOrderInCarousel(BDDMockito.anyString())).willReturn(
-        Lists.newArrayList(entity));
+        Arrays.asList(entity));
 
     Assert.assertEquals(dto, carouselItemService.getByCarouselId("123456789").get(0));
 

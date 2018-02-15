@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/lperrod/web.svg?branch=master)](https://travis-ci.org/lperrod/web) [![Coverage Status](https://coveralls.io/repos/github/lperrod/web/badge.svg?branch=master)](https://coveralls.io/github/lperrod/web?branch=master) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-A light application that allows you to create a simple website.
+A light application that allows you to create a simple website.  
+
 Technologies :  
 Java 8, Spring Boot 2 M7, Thymeleaf 3.0.9, Bootstrap 4, Jquery 3.2.0 , CodeMirror 5.34.0 and FontAwesome
 

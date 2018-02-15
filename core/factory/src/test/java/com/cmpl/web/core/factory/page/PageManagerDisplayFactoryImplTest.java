@@ -1,10 +1,10 @@
 package com.cmpl.web.core.factory.page;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -129,7 +129,7 @@ public class PageManagerDisplayFactoryImplTest {
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
 
     BreadCrumbItem item = BreadCrumbItemBuilder.create().text("someText").build();
-    BreadCrumb breadcrumb = BreadCrumbBuilder.create().items(Lists.newArrayList(item)).build();
+    BreadCrumb breadcrumb = BreadCrumbBuilder.create().items(Arrays.asList(item)).build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
     BDDMockito.doReturn(form).when(displayFactory)
         .createUpdateForm(BDDMockito.any(PageDTO.class), BDDMockito.anyString());

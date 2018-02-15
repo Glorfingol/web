@@ -4,8 +4,8 @@ import java.util.Date;
 
 import org.mockito.BDDMockito;
 import org.springframework.social.facebook.api.Post;
-import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.social.facebook.api.Reference;
+import org.springframework.social.facebook.api.Post.PostType;
 
 import com.cmpl.web.core.common.builder.Builder;
 

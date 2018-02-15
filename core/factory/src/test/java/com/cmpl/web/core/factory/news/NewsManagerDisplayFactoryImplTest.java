@@ -2,10 +2,10 @@ package com.cmpl.web.core.factory.news;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,7 +68,7 @@ public class NewsManagerDisplayFactoryImplTest {
     MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
     MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
-    List<MenuItem> backMenu = Lists.newArrayList(index, news);
+    List<MenuItem> backMenu = Arrays.asList(index, news);
 
     String author = "author";
     LocalDateTime date = LocalDateTime.now();
@@ -123,7 +123,7 @@ public class NewsManagerDisplayFactoryImplTest {
     MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
     MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
-    List<MenuItem> backMenu = Lists.newArrayList(index, news);
+    List<MenuItem> backMenu = Arrays.asList(index, news);
 
     String author = "author";
     LocalDateTime date = LocalDateTime.now();
@@ -141,7 +141,7 @@ public class NewsManagerDisplayFactoryImplTest {
         .newsContent(newsContent).newsImage(newsImage).id(1L).creationDate(date).modificationDate(date).build();
 
     PageWrapper<NewsEntryDTO> pageWrapper = new PageWrapper<>();
-    pageWrapper.setPage(new PageImpl<>(Lists.newArrayList(newsEntry)));
+    pageWrapper.setPage(new PageImpl<>(Arrays.asList(newsEntry)));
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
@@ -178,7 +178,7 @@ public class NewsManagerDisplayFactoryImplTest {
     MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
     MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
 
-    List<MenuItem> backMenu = Lists.newArrayList(index, news);
+    List<MenuItem> backMenu = Arrays.asList(index, news);
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));

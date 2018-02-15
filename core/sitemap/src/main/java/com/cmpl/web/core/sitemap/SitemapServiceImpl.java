@@ -96,6 +96,7 @@ public class SitemapServiceImpl implements SitemapService {
 
   List<WebSitemapUrl> computeMenuUrls(Locale locale) throws MalformedURLException {
     List<WebSitemapUrl> menuUrls = new ArrayList<>();
+
     for (MenuDTO menu : menuService.getEntities()) {
       if (!StringUtils.hasText(menu.getParentId())) {
         menuUrls.add(computeUrlForMenu(menu, locale));

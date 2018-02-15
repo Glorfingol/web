@@ -1,9 +1,9 @@
 package com.cmpl.web.core.page;
 
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -132,8 +132,8 @@ public class PageServiceImplTest {
     PageDTO result = PageDTOBuilder.create().id(123456789l).build();
     Page page = PageBuilder.create().build();
 
-    BDDMockito.given(pageRepository.findAll(BDDMockito.any(Sort.class))).willReturn(Lists.newArrayList(page));
-    BDDMockito.doReturn(Lists.newArrayList(result)).when(pageService).toListDTO(BDDMockito.anyList());
+    BDDMockito.given(pageRepository.findAll(BDDMockito.any(Sort.class))).willReturn(Arrays.asList(page));
+    BDDMockito.doReturn(Arrays.asList(result)).when(pageService).toListDTO(BDDMockito.anyList());
 
     Assert.assertEquals(result, pageService.getPages().get(0));
 
@@ -145,7 +145,7 @@ public class PageServiceImplTest {
     BDDMockito.doReturn(result).when(pageService).toDTO(BDDMockito.any(Page.class));
 
     Page page = PageBuilder.create().build();
-    Assert.assertEquals(result, pageService.toListDTO(Lists.newArrayList(page)).get(0));
+    Assert.assertEquals(result, pageService.toListDTO(Arrays.asList(page)).get(0));
 
   }
 

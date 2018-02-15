@@ -1,9 +1,9 @@
 package com.cmpl.web.configuration.core.common;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,7 +37,7 @@ public class WebSecurityConfigurationTest {
 
     String[] result = configuration.prepareAuthorizedUrls();
 
-    Assert.assertEquals(Lists.newArrayList(authorizedUrls), Lists.newArrayList(result));
+    Assert.assertEquals(Arrays.asList(authorizedUrls), Arrays.asList(result));
   }
 
   @Test

@@ -1,8 +1,8 @@
 package com.cmpl.web.facebook;
 
+import java.util.Arrays;
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ public class FacebookImportTranslatorImplTest {
 
     FacebookImportPost post = new FacebookImportPost();
 
-    request.setPostsToImport(Lists.newArrayList(post));
+    request.setPostsToImport(Arrays.asList(post));
 
     List<FacebookImportPost> result = translator.fromRequestToPosts(request);
 
@@ -37,7 +37,7 @@ public class FacebookImportTranslatorImplTest {
   public void testFromDTOToResponse() throws Exception {
 
     NewsEntryDTO dto = NewsEntryDTOBuilder.create().id(123456789L).build();
-    List<NewsEntryDTO> dtos = Lists.newArrayList(dto);
+    List<NewsEntryDTO> dtos = Arrays.asList(dto);
 
     FacebookImportResponse result = translator.fromDTOToResponse(dtos);
 

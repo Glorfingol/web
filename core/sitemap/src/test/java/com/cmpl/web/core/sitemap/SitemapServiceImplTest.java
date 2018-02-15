@@ -6,10 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -115,7 +115,7 @@ public class SitemapServiceImplTest {
         .build();
 
     BDDMockito.given(contextHolder.getWebsiteUrl()).willReturn(host);
-    BDDMockito.doReturn(Lists.newArrayList(urlMenu)).when(service).computeMenuUrls(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(Arrays.asList(urlMenu)).when(service).computeMenuUrls(BDDMockito.eq(Locale.FRANCE));
 
     service.writeSitemap(path, Locale.FRANCE);
 

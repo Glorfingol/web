@@ -1,8 +1,5 @@
 package com.cmpl.web.configuration.modules.google;
 
-import com.cmpl.web.google.DoNothingDriveAdapter;
-import com.cmpl.web.google.DriveAdapter;
-import com.cmpl.web.google.DriveAdapterImpl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,6 +16,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import com.cmpl.web.google.DoNothingDriveAdapter;
+import com.cmpl.web.google.DriveAdapter;
+import com.cmpl.web.google.DriveAdapterImpl;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;

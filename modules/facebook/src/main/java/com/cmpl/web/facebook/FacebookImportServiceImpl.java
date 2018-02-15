@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.social.facebook.api.ImageType;
@@ -115,27 +114,6 @@ public class FacebookImportServiceImpl implements FacebookImportService {
 
   boolean hasImage(FacebookImportPost facebookPost) {
     return StringUtils.hasText(facebookPost.getPhotoUrl());
-  }
-
-  String getFacebookImageBase64Src(FacebookImportPost facebookPost) {
-
-    StringBuilder base64SrcBuilder = new StringBuilder();
-
-    byte[] data = recoverImageBytes(facebookPost);
-    if (data.length == 0) {
-      return "";
-    }
-    base64SrcBuilder.append(DATA_START);
-
-    String contentType = computeContentTypeFromBytes(facebookPost, data);
-    if (!StringUtils.hasText(contentType)) {
-      return "";
-    }
-
-    base64SrcBuilder.append(contentType);
-    base64SrcBuilder.append(DATA_END);
-    base64SrcBuilder.append(Base64.encodeBase64String(data));
-    return base64SrcBuilder.toString();
   }
 
   MediaDTO createMediaFromFacebookPost(NewsEntryDTO newsEntry, FacebookImportPost facebookPost) {

@@ -57,12 +57,12 @@ public class FacebookServiceImpl implements FacebookService {
 
   List<ImportablePost> computeImportablePosts(PagedList<Post> recentPosts) {
     List<ImportablePost> importablePosts = new ArrayList<>();
-    for (Post recentPost : recentPosts) {
+    recentPosts.forEach(recentPost -> {
       ImportablePost post = computeImportablePost(recentPost, contextHolder.getDateFormat());
       if (canImportPost(post)) {
         importablePosts.add(post);
       }
-    }
+    });
     return importablePosts;
   }
 

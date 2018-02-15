@@ -1,10 +1,10 @@
 package com.cmpl.web.core.factory.menu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -110,10 +110,10 @@ public class MenuManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForCreateMenu() throws Exception {
 
     MenuDTO menu = MenuDTOBuilder.create().build();
-    BDDMockito.given(menuService.getMenus()).willReturn(Lists.newArrayList(menu));
+    BDDMockito.given(menuService.getMenus()).willReturn(Arrays.asList(menu));
 
     PageDTO page = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getPages()).willReturn(Lists.newArrayList(page));
+    BDDMockito.given(pageService.getPages()).willReturn(Arrays.asList(page));
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
@@ -144,15 +144,15 @@ public class MenuManagerDisplayFactoryImplTest {
     MenuDTO possibleParent = MenuDTOBuilder.create().id(123456789l).build();
     MenuDTO notPossibleParent = MenuDTOBuilder.create().id(12345678l).build();
 
-    BDDMockito.given(menuService.getMenus()).willReturn(Lists.newArrayList(notPossibleParent, possibleParent));
+    BDDMockito.given(menuService.getMenus()).willReturn(Arrays.asList(notPossibleParent, possibleParent));
 
     PageDTO page = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getPages()).willReturn(Lists.newArrayList(page));
+    BDDMockito.given(pageService.getPages()).willReturn(Arrays.asList(page));
 
     BDDMockito.given(menuService.getEntity(BDDMockito.anyLong())).willReturn(notPossibleParent);
 
     BreadCrumbItem item = BreadCrumbItemBuilder.create().text("someText").build();
-    BreadCrumb breadcrumb = BreadCrumbBuilder.create().items(Lists.newArrayList(item)).build();
+    BreadCrumb breadcrumb = BreadCrumbBuilder.create().items(Arrays.asList(item)).build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdateMenu(Locale.FRANCE, "123456789");

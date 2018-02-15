@@ -1,10 +1,10 @@
 package com.cmpl.web.core.factory.carousel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -98,10 +98,10 @@ public class CarouselManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(form).when(displayFactory).computeItemCreateForm(BDDMockito.anyString());
 
     MediaDTO media = MediaDTOBuilder.create().build();
-    BDDMockito.given(mediaService.getEntities()).willReturn(Lists.newArrayList(media));
+    BDDMockito.given(mediaService.getEntities()).willReturn(Arrays.asList(media));
 
     CarouselItemDTO item = CarouselItemDTOBuilder.create().build();
-    BDDMockito.given(carouselItemService.getByCarouselId(BDDMockito.anyString())).willReturn(Lists.newArrayList(item));
+    BDDMockito.given(carouselItemService.getByCarouselId(BDDMockito.anyString())).willReturn(Arrays.asList(item));
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdateCarouselItems("123456789");
     Assert.assertNotNull(result.getModel().get("createForm"));

@@ -1,8 +1,8 @@
 package com.cmpl.web.core.carousel;
 
+import java.util.Arrays;
 import java.util.Locale;
 
-import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,7 +63,7 @@ public class CarouselValidatorImplTest {
 
     ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_CAROUSEL_NAME.getCauseKey())
         .message("no_name").build();
-    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
+    Error error = ErrorBuilder.create().causes(Arrays.asList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -79,7 +79,7 @@ public class CarouselValidatorImplTest {
 
     ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_CAROUSEL_NAME.getCauseKey())
         .message("no_name").build();
-    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
+    Error error = ErrorBuilder.create().causes(Arrays.asList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -125,7 +125,7 @@ public class CarouselValidatorImplTest {
 
     ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_CAROUSEL_ID.getCauseKey())
         .message("no_carousel").build();
-    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
+    Error error = ErrorBuilder.create().causes(Arrays.asList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -143,7 +143,7 @@ public class CarouselValidatorImplTest {
 
     ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_MEDIA_ID.getCauseKey()).message("no_media")
         .build();
-    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
+    Error error = ErrorBuilder.create().causes(Arrays.asList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
@@ -161,7 +161,7 @@ public class CarouselValidatorImplTest {
 
     ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_MEDIA_ID.getCauseKey()).message("no_media")
         .build();
-    Error error = ErrorBuilder.create().causes(Lists.newArrayList(cause)).build();
+    Error error = ErrorBuilder.create().causes(Arrays.asList(cause)).build();
     BDDMockito.doReturn(cause).when(validator)
         .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());

@@ -1,6 +1,7 @@
 package com.cmpl.web.core.carousel;
 
-import org.assertj.core.util.Lists;
+import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,8 +30,8 @@ public class CarouselServiceImplTest {
   public void testToEntity() throws Exception {
     CarouselDTO dto = CarouselDTOBuilder.create().build();
 
-    BDDMockito.doNothing().when(carouselService).fillObject(BDDMockito.any(CarouselDTO.class),
-        BDDMockito.any(Carousel.class));
+    BDDMockito.doNothing().when(carouselService)
+        .fillObject(BDDMockito.any(CarouselDTO.class), BDDMockito.any(Carousel.class));
     carouselService.toEntity(dto);
 
     BDDMockito.verify(carouselService, BDDMockito.times(1)).fillObject(BDDMockito.any(CarouselDTO.class),
@@ -44,10 +45,10 @@ public class CarouselServiceImplTest {
     MediaDTO media = MediaDTOBuilder.create().id(123456789l).build();
     CarouselItemDTO dto = CarouselItemDTOBuilder.create().media(media).build();
 
-    BDDMockito.given(carouselItemService.getByCarouselId(BDDMockito.anyString())).willReturn(Lists.newArrayList(dto));
+    BDDMockito.given(carouselItemService.getByCarouselId(BDDMockito.anyString())).willReturn(Arrays.asList(dto));
 
-    BDDMockito.doNothing().when(carouselService).fillObject(BDDMockito.any(Carousel.class),
-        BDDMockito.any(CarouselDTO.class));
+    BDDMockito.doNothing().when(carouselService)
+        .fillObject(BDDMockito.any(Carousel.class), BDDMockito.any(CarouselDTO.class));
     CarouselDTO result = carouselService.toDTO(entity);
     Assert.assertEquals(dto, result.getCarouselItems().get(0));
 
