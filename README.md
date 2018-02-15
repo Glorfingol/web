@@ -2,7 +2,7 @@
 
 A light application that allows you to create a simple website.
 Technologies :  
-Java 8, Spring Boot 2, Thymeleaf, Bootstrap, Jquery and FontAwesome
+Java 8, Spring Boot 2 M7, Thymeleaf 3.0.9, Bootstrap 4, Jquery 3.2.0 , CodeMirror 5.34.0 and FontAwesome
 
 # Configuration
 The main configuration file is application.yml  
@@ -32,10 +32,6 @@ The media url is your_localhost:your_port/public/media/
 In order to access to the backoffice you need to create backUser.json with a login and a password, store it on your server and declare the path in core.properties
 
 # Website management
-## Pages
-There is a menu where you can create a page with its body, its header and footer, its meta and open graph meta tags  
-You can also decide if the page has to contain some blog entries  
-Please not that the technology used for the templates is Thymeleaf (http://www.thymeleaf.org/doc/tutorials/2.1/thymeleafspring.html)
 ## Menu
 You can create a menu and any sub menu there and link it to a page
 ## Media
@@ -48,7 +44,19 @@ You can configure the stylesheet of the website there
 You can create blog entries there
 ## Facebook
 You can connect to your Facebook account and import the latest posts and convert them to Blog entries
-
+## Widgets
+Widgets are the core of the page content management  
+They are the html components that will construct your pages  
+You can personalize the widgets by selecting a datasource and modifying its html content in the desired language  
+There are many kinds of widgets from plain HTML, to IMAGE (linked to a media), VIDEO (linked to a media), MENU (linked to the menu)  
+BLOG (all the blog entries), BLOG_ENTRY (a specific blog entry) and CAROUSEL (linked to a carousel)
+There are some macros that you can drag and drop. They are bootstrap 4 components
+## Pages
+There is a menu where you can create a page with its body, its header and footer, its meta   
+You can link widgets to the page or remove said link  
+You can decide for which language the body,header,footer,meta will be created with the select
+In the editor (from codemirror) you can drag and drop any associated widget  
+Please note that the technology used for the templates is Thymeleaf (http://www.thymeleaf.org/doc/tutorials/2.1/thymeleafspring.html)
 
 
 # Posts from facebook
@@ -74,6 +82,12 @@ If you wish to deploy as an executable jar, you have to change the pom.xml file 
 Also you will need to change the main class so that it works as a simple springboot application  
 If you wish to deploy as a war, follow this :  
 https://docs.spring.io/spring-boot/docs/current/reference/html/howto-traditional-deployment.html
+
+# SEO
+You can congifure the url for the robots.txt by changing the file core.properties "websiteUrl"  
+As for the sitemap, it will create as many entries as there are pages and wil use the "websiteUrl" as root url  
+For any page, the meta tages can be configured  
+The pages are automatically compatible with OpenGraph as the necessary prefix is added to the pages
 
 # Error page
 The backoffice error pages are located in back/error/*.properties  
