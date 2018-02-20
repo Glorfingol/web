@@ -11,19 +11,13 @@ import com.cmpl.web.core.menu.Menu;
 import com.cmpl.web.core.menu.MenuRepository;
 import com.cmpl.web.core.page.Page;
 import com.cmpl.web.core.page.PageRepository;
-import com.cmpl.web.core.widget.WIDGET_TYPE;
-import com.cmpl.web.core.widget.Widget;
-import com.cmpl.web.core.widget.WidgetBuilder;
-import com.cmpl.web.core.widget.WidgetPage;
-import com.cmpl.web.core.widget.WidgetPageBuilder;
-import com.cmpl.web.core.widget.WidgetPageRepository;
-import com.cmpl.web.core.widget.WidgetRepository;
+import com.cmpl.web.core.widget.*;
 
 public class PageFactory {
 
   public static void createPages(PageRepository pageRepository, MenuRepository menuRepository,
 
-  CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
+      CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
       MediaRepository mediaRepository, WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
     createIndex(pageRepository, menuRepository, carouselRepository, carouselItemRepository, mediaRepository,
         widgetRepository, widgetPageRepository);
@@ -37,7 +31,7 @@ public class PageFactory {
 
   public static void createIndex(PageRepository pageRepository, MenuRepository menuRepository,
 
-  CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
+      CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
       MediaRepository mediaRepository, WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
 
     Page index = new Page();
@@ -93,8 +87,8 @@ public class PageFactory {
 
     carouselItemRepository.save(secondImage);
 
-    Widget widgetCarouselHome = WidgetBuilder.create().type(WIDGET_TYPE.CAROUSEL).name("carousel_home")
-        .entityId(carouselId).build();
+    Widget widgetCarouselHome = WidgetBuilder.create().type("CAROUSEL").name("carousel_home").entityId(carouselId)
+        .build();
     widgetCarouselHome = widgetRepository.save(widgetCarouselHome);
     WidgetPage widgetPage = WidgetPageBuilder.create().widgetId(String.valueOf(widgetCarouselHome.getId()))
         .pageId(pageId).build();
@@ -104,7 +98,7 @@ public class PageFactory {
 
   public static void createActualites(PageRepository pageRepository, MenuRepository menuRepository,
 
-  WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
+      WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
 
     Page actualites = new Page();
     actualites.setMenuTitle("Actualites");
@@ -122,12 +116,12 @@ public class PageFactory {
 
     menuRepository.save(menu);
 
-    Widget blog = WidgetBuilder.create().name("blog").type(WIDGET_TYPE.BLOG).build();
+    Widget blog = WidgetBuilder.create().name("blog").type("BLOG").build();
     blog = widgetRepository.save(blog);
     WidgetPage widgetPage = WidgetPageBuilder.create().pageId(pageId).widgetId(String.valueOf(blog.getId())).build();
     widgetPageRepository.save(widgetPage);
 
-    Widget widgetMenu = WidgetBuilder.create().type(WIDGET_TYPE.MENU).name("menu").build();
+    Widget widgetMenu = WidgetBuilder.create().type("MENU").name("menu").build();
     widgetMenu = widgetRepository.save(widgetMenu);
     WidgetPage widgetPageMenu = WidgetPageBuilder.create().widgetId(String.valueOf(widgetMenu.getId())).pageId(pageId)
         .build();

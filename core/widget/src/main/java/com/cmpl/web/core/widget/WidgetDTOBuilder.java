@@ -4,8 +4,7 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 
 public class WidgetDTOBuilder extends BaseBuilder<WidgetDTO> {
 
-
-  private WIDGET_TYPE type;
+  private String type;
 
   private String entityId;
 
@@ -13,11 +12,11 @@ public class WidgetDTOBuilder extends BaseBuilder<WidgetDTO> {
 
   private String personalization;
 
-  private WidgetDTOBuilder(){
+  private WidgetDTOBuilder() {
 
   }
 
-  public WidgetDTOBuilder type(WIDGET_TYPE type) {
+  public WidgetDTOBuilder type(String type) {
     this.type = type;
     return this;
   }
@@ -47,7 +46,7 @@ public class WidgetDTOBuilder extends BaseBuilder<WidgetDTO> {
     return widgetDTO;
   }
 
-  public static WidgetDTOBuilder create(){
+  public static WidgetDTOBuilder create() {
     return new WidgetDTOBuilder();
   }
 }

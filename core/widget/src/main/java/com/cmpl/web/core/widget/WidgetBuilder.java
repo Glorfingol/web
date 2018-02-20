@@ -4,17 +4,17 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 
 public class WidgetBuilder extends BaseBuilder<Widget> {
 
-  private WIDGET_TYPE type;
+  private String type;
 
   private String entityId;
 
   private String name;
 
-  private WidgetBuilder(){
+  private WidgetBuilder() {
 
   }
 
-  public WidgetBuilder type(WIDGET_TYPE type) {
+  public WidgetBuilder type(String type) {
     this.type = type;
     return this;
   }
@@ -38,7 +38,7 @@ public class WidgetBuilder extends BaseBuilder<Widget> {
     return widget;
   }
 
-  public static WidgetBuilder create(){
+  public static WidgetBuilder create() {
     return new WidgetBuilder();
   }
 }

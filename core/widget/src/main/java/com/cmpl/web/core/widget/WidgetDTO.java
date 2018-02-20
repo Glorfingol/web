@@ -4,7 +4,7 @@ import com.cmpl.web.core.common.dto.BaseDTO;
 
 public class WidgetDTO extends BaseDTO {
 
-  private WIDGET_TYPE type;
+  private String type;
 
   private String entityId;
 
@@ -12,11 +12,11 @@ public class WidgetDTO extends BaseDTO {
 
   private String personalization;
 
-  public WIDGET_TYPE getType() {
+  public String getType() {
     return type;
   }
 
-  public void setType(WIDGET_TYPE type) {
+  public void setType(String type) {
     this.type = type;
   }
 

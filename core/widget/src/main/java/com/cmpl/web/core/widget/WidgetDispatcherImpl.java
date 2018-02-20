@@ -47,6 +47,7 @@ public class WidgetDispatcherImpl implements WidgetDispatcher {
     widgetToUpdate.setName(form.getName());
     widgetToUpdate.setPersonalization(form.getPersonalization());
     widgetToUpdate.setType(form.getType());
+    widgetToUpdate.setEntityId(form.getEntityId());
 
     WidgetDTO updatedWidget = widgetService.updateEntity(widgetToUpdate, form.getLocaleCode());
 

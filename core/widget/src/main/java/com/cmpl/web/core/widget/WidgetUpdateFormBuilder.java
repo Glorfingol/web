@@ -6,7 +6,7 @@ import com.cmpl.web.core.common.builder.Builder;
 
 public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
 
-  private WIDGET_TYPE type;
+  private String type;
   private String entityId;
   private String name;
   private Long id;
@@ -16,7 +16,7 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
   private String localeCode;
   private String toolTipKey;
 
-  public WidgetUpdateFormBuilder type(WIDGET_TYPE type) {
+  public WidgetUpdateFormBuilder type(String type) {
     this.type = type;
     return this;
   }

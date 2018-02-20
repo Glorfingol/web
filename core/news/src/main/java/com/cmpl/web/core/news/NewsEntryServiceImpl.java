@@ -186,6 +186,8 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
       dto.setNewsImage(newsImageService.getEntity(Long.parseLong(entity.getImageId())));
     }
 
+    dto.setName(entity.getTitle());
+
     return dto;
   }
 

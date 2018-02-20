@@ -26,21 +26,15 @@ import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.widget.WIDGET_TYPE;
-import com.cmpl.web.core.widget.WidgetCreateForm;
-import com.cmpl.web.core.widget.WidgetCreateFormBuilder;
-import com.cmpl.web.core.widget.WidgetDTO;
-import com.cmpl.web.core.widget.WidgetDataSourceProvider;
-import com.cmpl.web.core.widget.WidgetService;
-import com.cmpl.web.core.widget.WidgetUpdateForm;
-import com.cmpl.web.core.widget.WidgetUpdateFormBuilder;
+import com.cmpl.web.core.provider.WidgetProviderPlugin;
+import com.cmpl.web.core.widget.*;
 
-public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<WidgetDTO> implements
-    WidgetManagerDisplayFactory {
+public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<WidgetDTO>
+    implements WidgetManagerDisplayFactory {
 
   private final WidgetService widgetService;
   private final ContextHolder contextHolder;
-  private final WidgetDataSourceProvider dataSourceProvider;
+  private final PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
 
   private static final String CREATE_FORM = "createForm";
   private static final String UPDATE_FORM = "updateForm";
@@ -52,11 +46,12 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
 
   public WidgetManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       ContextHolder contextHolder, WidgetService widgetService,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, WidgetDataSourceProvider widgetDataSourceProvider) {
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
+      PluginRegistry<WidgetProviderPlugin, String> widgetProviders) {
     super(menuFactory, messageSource, breadCrumbRegistry);
     this.widgetService = widgetService;
     this.contextHolder = contextHolder;
-    this.dataSourceProvider = widgetDataSourceProvider;
+    this.widgetProviders = widgetProviders;
   }
 
   @Override
@@ -76,7 +71,8 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
     ModelAndView widgetManager = super.computeModelAndViewForBackPage(BACK_PAGE.WIDGET_CREATE, locale);
     LOGGER.info("Construction du formulaire de creation des widgets ");
     widgetManager.addObject(CREATE_FORM, computeCreateForm());
-    List<WIDGET_TYPE> types = Arrays.stream(WIDGET_TYPE.values()).collect(Collectors.toList());
+    List<String> types = widgetProviders.getPlugins().stream().map(plugin -> plugin.getWidgetType())
+        .collect(Collectors.toList());
     widgetManager.addObject(WIDGET_TYPES, types);
     return widgetManager;
   }
@@ -97,7 +93,8 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
     WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
     LOGGER.info("Construction du formulaire de creation des widgets ");
     widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget, personalizationLanguageCode));
-    List<WIDGET_TYPE> types = Arrays.stream(WIDGET_TYPE.values()).collect(Collectors.toList());
+    List<String> types = widgetProviders.getPlugins().stream().map(plugin -> plugin.getWidgetType())
+        .collect(Collectors.toList());
     widgetManager.addObject(WIDGET_TYPES, types);
 
     BreadCrumbItem item = BreadCrumbItemBuilder.create().href("#").text(widget.getName()).build();
@@ -118,7 +115,8 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
     ModelAndView widgetManager = new ModelAndView("back/widgets/edit/tab_main");
     WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
     widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget, personalizationLanguageCode));
-    List<WIDGET_TYPE> types = Arrays.stream(WIDGET_TYPE.values()).collect(Collectors.toList());
+    List<String> types = widgetProviders.getPlugins().stream().map(plugin -> plugin.getWidgetType())
+        .collect(Collectors.toList());
     widgetManager.addObject(WIDGET_TYPES, types);
     return widgetManager;
   }
@@ -139,7 +137,7 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
     widgetManager.addObject(LOCALES, computeLocales());
     WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
     widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget, personalizationLanguageCode));
-    List<? extends BaseDTO> linkableEntities = dataSourceProvider.getLinkableEntities(widget.getType());
+    List<? extends BaseDTO> linkableEntities = widgetProviders.getPluginFor(widget.getType()).getLinkableEntities();
     widgetManager.addObject(LINKABLE_ENTITIES, linkableEntities);
     widgetManager.addObject(TOOLTIP_KEY, computeToolTipKey(widget.getType()));
     widgetManager.addObject(MACROS_KEY, computePersonalizationMacros());
@@ -159,8 +157,8 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
   protected Page<WidgetDTO> computeEntries(Locale locale, int pageNumber) {
     List<WidgetDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(), new Sort(Direction.ASC,
-        "name"));
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
+        new Sort(Direction.ASC, "name"));
     Page<WidgetDTO> pagedWidgetDTOEntries = widgetService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedWidgetDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
@@ -171,26 +169,8 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
     return new PageImpl<>(pageEntries, pageRequest, pagedWidgetDTOEntries.getTotalElements());
   }
 
-  String computeToolTipKey(WIDGET_TYPE widgetType) {
-    if (WIDGET_TYPE.CAROUSEL.equals(widgetType)) {
-      return "widget.carousel.tooltip";
-    }
-    if (WIDGET_TYPE.BLOG.equals(widgetType)) {
-      return "widget.blog.tooltip";
-    }
-    if (WIDGET_TYPE.BLOG_ENTRY.equals(widgetType)) {
-      return "widget.blog.entry.tooltip";
-    }
-    if (WIDGET_TYPE.MENU.equals(widgetType)) {
-      return "widget.menu.tooltip";
-    }
-    if (WIDGET_TYPE.IMAGE.equals(widgetType)) {
-      return "widget.image.tooltip";
-    }
-    if (WIDGET_TYPE.VIDEO.equals(widgetType)) {
-      return "widget.video.tooltip";
-    }
-
-    return "widget.default.tooltip";
+  String computeToolTipKey(String widgetType) {
+    WidgetProviderPlugin widgetProviderPlugin = widgetProviders.getPluginFor(widgetType);
+    return widgetProviderPlugin.getTooltipKey();
   }
 }

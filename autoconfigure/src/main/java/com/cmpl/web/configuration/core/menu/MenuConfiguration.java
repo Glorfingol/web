@@ -18,24 +18,8 @@ import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.factory.menu.MenuFactoryImpl;
-import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactory;
-import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactoryImpl;
-import com.cmpl.web.core.menu.BackMenu;
-import com.cmpl.web.core.menu.BackMenuItem;
-import com.cmpl.web.core.menu.BackMenuItemBuilder;
-import com.cmpl.web.core.menu.BackMenuItemPlugin;
-import com.cmpl.web.core.menu.Menu;
-import com.cmpl.web.core.menu.MenuDispatcher;
-import com.cmpl.web.core.menu.MenuDispatcherImpl;
-import com.cmpl.web.core.menu.MenuRepository;
-import com.cmpl.web.core.menu.MenuService;
-import com.cmpl.web.core.menu.MenuServiceImpl;
-import com.cmpl.web.core.menu.MenuTranslator;
-import com.cmpl.web.core.menu.MenuTranslatorImpl;
-import com.cmpl.web.core.menu.MenuValidator;
-import com.cmpl.web.core.menu.MenuValidatorImpl;
+import com.cmpl.web.core.factory.menu.*;
+import com.cmpl.web.core.menu.*;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.page.PageService;
 
@@ -64,6 +48,11 @@ public class MenuConfiguration {
   @Bean
   BreadCrumb menuCreateBreadCrumb() {
     return BreadCrumbBuilder.create().items(menuBreadCrumbItems()).page(BACK_PAGE.MENUS_CREATE).build();
+  }
+
+  @Bean
+  MenuWidgetProvider menuWidgetProvider(MenuFactory menuFactory, PageService pageService) {
+    return new MenuWidgetProvider(menuFactory, pageService);
   }
 
   List<BreadCrumbItem> menuBreadCrumbItems() {

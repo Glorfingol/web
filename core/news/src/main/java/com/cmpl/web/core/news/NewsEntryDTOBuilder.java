@@ -12,6 +12,7 @@ public class NewsEntryDTOBuilder extends BaseBuilder<NewsEntryDTO> {
   private String author;
   private String tags;
   private String title;
+  private String name;
 
   private NewsEntryDTOBuilder() {
 
@@ -34,6 +35,11 @@ public class NewsEntryDTOBuilder extends BaseBuilder<NewsEntryDTO> {
 
   public NewsEntryDTOBuilder author(String author) {
     this.author = author;
+    return this;
+  }
+
+  public NewsEntryDTOBuilder name(String name) {
+    this.name = name;
     return this;
   }
 
@@ -60,6 +66,7 @@ public class NewsEntryDTOBuilder extends BaseBuilder<NewsEntryDTO> {
     newsEntryDTO.setNewsContent(newsContent);
     newsEntryDTO.setNewsImage(newsImage);
     newsEntryDTO.setFacebookId(facebookId);
+    newsEntryDTO.setName(name);
 
     return newsEntryDTO;
   }

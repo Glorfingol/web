@@ -18,7 +18,7 @@ public class WidgetTranslatorImplTest {
   @Test
   public void testFromCreateFormToDTOWidget() {
     WidgetCreateForm form = WidgetCreateFormBuilder.create().localeCode(Locale.FRANCE.getLanguage()).name("someName")
-        .type(WIDGET_TYPE.HTML).build();
+        .type("HTML").build();
 
     WidgetDTO result = translator.fromCreateFormToDTO(form);
 

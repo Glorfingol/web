@@ -17,6 +17,7 @@ public class NewsEntryDTO extends BaseDTO {
   private String author;
   private String tags;
   private String title;
+  private String name;
 
   public String getTags() {
     return tags;
@@ -66,4 +67,11 @@ public class NewsEntryDTO extends BaseDTO {
     this.facebookId = facebookId;
   }
 
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }

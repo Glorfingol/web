@@ -4,7 +4,7 @@ import com.cmpl.web.core.common.builder.Builder;
 
 public class WidgetCreateFormBuilder extends Builder<WidgetCreateForm> {
 
-  private WIDGET_TYPE type;
+  private String type;
   private String name;
   private String localeCode;
 
@@ -12,7 +12,7 @@ public class WidgetCreateFormBuilder extends Builder<WidgetCreateForm> {
 
   }
 
-  public WidgetCreateFormBuilder type(WIDGET_TYPE type) {
+  public WidgetCreateFormBuilder type(String type) {
     this.type = type;
     return this;
   }

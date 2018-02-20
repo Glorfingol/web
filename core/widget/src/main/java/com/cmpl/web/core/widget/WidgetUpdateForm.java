@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 public class WidgetUpdateForm {
 
-  private WIDGET_TYPE type;
+  private String type;
   private String entityId;
   private String name;
   private Long id;
@@ -19,11 +19,11 @@ public class WidgetUpdateForm {
   private String localeCode;
   private String toolTipKey;
 
-  public WIDGET_TYPE getType() {
+  public String getType() {
     return type;
   }
 
-  public void setType(WIDGET_TYPE type) {
+  public void setType(String type) {
     this.type = type;
   }
 

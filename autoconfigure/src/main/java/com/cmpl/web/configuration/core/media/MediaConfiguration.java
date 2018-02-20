@@ -15,8 +15,10 @@ import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.factory.media.ImageWidgetProvider;
 import com.cmpl.web.core.factory.media.MediaManagerDisplayFactory;
 import com.cmpl.web.core.factory.media.MediaManagerDisplayFactoryImpl;
+import com.cmpl.web.core.factory.media.VideoWidgetProvider;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.Media;
@@ -33,7 +35,8 @@ import com.cmpl.web.core.page.BACK_PAGE;
 public class MediaConfiguration {
 
   @Bean
-  public MediaService mediaService(MediaRepository mediaRepository, FileService fileService, ContextHolder contextHolder) {
+  public MediaService mediaService(MediaRepository mediaRepository, FileService fileService,
+      ContextHolder contextHolder) {
     return new MediaServiceImpl(mediaRepository, fileService, contextHolder);
   }
 
@@ -56,6 +59,16 @@ public class MediaConfiguration {
   @Bean
   BreadCrumb mediaVisualizeBreadCrumb() {
     return BreadCrumbBuilder.create().items(mediaVisualizeBreadCrumbItems()).page(BACK_PAGE.MEDIA_VISUALIZE).build();
+  }
+
+  @Bean
+  ImageWidgetProvider imageWidgetProvider(MediaService mediaService) {
+    return new ImageWidgetProvider(mediaService);
+  }
+
+  @Bean
+  VideoWidgetProvider videoWidgetProvider(MediaService mediaService) {
+    return new VideoWidgetProvider(mediaService);
   }
 
   List<BreadCrumbItem> mediaBreadCrumbItems() {

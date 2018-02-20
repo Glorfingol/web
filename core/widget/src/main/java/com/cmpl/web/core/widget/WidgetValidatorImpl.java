@@ -57,12 +57,12 @@ public class WidgetValidatorImpl extends BaseValidator implements WidgetValidato
     return null;
   }
 
-  Error validate(String name, WIDGET_TYPE type, Locale locale) {
+  Error validate(String name, String type, Locale locale) {
     List<ErrorCause> causes = new ArrayList<>();
     if (!isStringValid(name)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_WIDGET_NAME, locale));
     }
-    if (type == null) {
+    if (!isStringValid(type)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_WIDGET_TYPE, locale));
     }
 

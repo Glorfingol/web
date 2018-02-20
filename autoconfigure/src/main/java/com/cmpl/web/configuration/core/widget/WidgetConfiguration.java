@@ -13,33 +13,17 @@ import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
-import com.cmpl.web.core.carousel.CarouselService;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactoryImpl;
 import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
-import com.cmpl.web.core.news.NewsEntryService;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.widget.Widget;
-import com.cmpl.web.core.widget.WidgetDataSourceProvider;
-import com.cmpl.web.core.widget.WidgetDispatcher;
-import com.cmpl.web.core.widget.WidgetDispatcherImpl;
-import com.cmpl.web.core.widget.WidgetPage;
-import com.cmpl.web.core.widget.WidgetPageRepository;
-import com.cmpl.web.core.widget.WidgetPageService;
-import com.cmpl.web.core.widget.WidgetPageServiceImpl;
-import com.cmpl.web.core.widget.WidgetRepository;
-import com.cmpl.web.core.widget.WidgetService;
-import com.cmpl.web.core.widget.WidgetServiceImpl;
-import com.cmpl.web.core.widget.WidgetTranslator;
-import com.cmpl.web.core.widget.WidgetTranslatorImpl;
-import com.cmpl.web.core.widget.WidgetValidator;
-import com.cmpl.web.core.widget.WidgetValidatorImpl;
+import com.cmpl.web.core.provider.WidgetProviderPlugin;
+import com.cmpl.web.core.widget.*;
 
 @Configuration
 @EntityScan(basePackageClasses = {Widget.class, WidgetPage.class})
@@ -85,17 +69,11 @@ public class WidgetConfiguration {
   }
 
   @Bean
-  WidgetDataSourceProvider widgetDataSourceProvider(CarouselService carouselService, MediaService mediaService,
-      NewsEntryService newsEntryService) {
-    return new WidgetDataSourceProvider(carouselService, mediaService, newsEntryService);
-  }
-
-  @Bean
   WidgetManagerDisplayFactory widgetManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      WidgetService widgetService, WidgetDataSourceProvider widgetDataSourceProvider, ContextHolder contextHolder,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+      WidgetService widgetService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs,
+      PluginRegistry<WidgetProviderPlugin, String> widgetProviders) {
     return new WidgetManagerDisplayFactoryImpl(menuFactory, messageSource, contextHolder, widgetService, breadCrumbs,
-        widgetDataSourceProvider);
+        widgetProviders);
   }
 
   @Bean

@@ -2,15 +2,15 @@ package com.cmpl.web.core.widget;
 
 public class WidgetCreateForm {
 
-  private WIDGET_TYPE type;
+  private String type;
   private String name;
   private String localeCode;
 
-  public WIDGET_TYPE getType() {
+  public String getType() {
     return type;
   }
 
-  public void setType(WIDGET_TYPE type) {
+  public void setType(String type) {
     this.type = type;
   }
 
