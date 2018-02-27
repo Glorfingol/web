@@ -24,6 +24,7 @@
     <module>autoconfigure</module>
     <module>modules</module>
     <module>launcher</module>
+      <module>user</module>
   </modules>
 
 

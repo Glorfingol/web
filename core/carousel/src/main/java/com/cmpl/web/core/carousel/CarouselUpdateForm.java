@@ -1,27 +1,18 @@
 package com.cmpl.web.core.carousel;
 
-import java.time.LocalDateTime;
+import com.cmpl.web.core.common.form.BaseUpdateForm;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
-public class CarouselUpdateForm {
+public class CarouselUpdateForm extends BaseUpdateForm<CarouselDTO> {
 
   private String name;
-  private Long id;
-  @DateTimeFormat(iso = ISO.DATE_TIME)
-  private LocalDateTime creationDate;
-  @DateTimeFormat(iso = ISO.DATE_TIME)
-  private LocalDateTime modificationDate;
 
   public CarouselUpdateForm() {
   }
 
   public CarouselUpdateForm(CarouselDTO carousel) {
+    super(carousel);
     this.name = carousel.getName();
-    this.id = carousel.getId();
-    this.creationDate = carousel.getCreationDate();
-    this.modificationDate = carousel.getModificationDate();
+
   }
 
   public String getName() {
@@ -30,30 +21,6 @@ public class CarouselUpdateForm {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public LocalDateTime getCreationDate() {
-    return creationDate;
-  }
-
-  public void setCreationDate(LocalDateTime creationDate) {
-    this.creationDate = creationDate;
-  }
-
-  public LocalDateTime getModificationDate() {
-    return modificationDate;
-  }
-
-  public void setModificationDate(LocalDateTime modificationDate) {
-    this.modificationDate = modificationDate;
   }
 
 }

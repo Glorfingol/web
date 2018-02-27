@@ -1,20 +1,32 @@
-package com.cmpl.web.core.common.dto;
+package com.cmpl.web.core.common.form;
 
 import java.time.LocalDateTime;
 
-/**
- * DTO commun
- * 
- * @author Louis
- *
- */
-public abstract class BaseDTO {
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.cmpl.web.core.common.dto.BaseDTO;
+
+public class BaseUpdateForm<D extends BaseDTO> {
 
   private Long id;
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime creationDate;
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime modificationDate;
   private String creationUser;
   private String modificationUser;
+
+  public BaseUpdateForm() {
+
+  }
+
+  public BaseUpdateForm(D dto) {
+    this.id = dto.getId();
+    this.creationDate = dto.getCreationDate();
+    this.creationUser = dto.getCreationUser();
+    this.modificationDate = dto.getModificationDate();
+    this.modificationUser = dto.getModificationUser();
+  }
 
   public Long getId() {
     return id;
@@ -40,20 +52,19 @@ public abstract class BaseDTO {
     this.modificationDate = modificationDate;
   }
 
+  public String getCreationUser() {
+    return creationUser;
+  }
+
+  public void setCreationUser(String creationUser) {
+    this.creationUser = creationUser;
+  }
+
   public String getModificationUser() {
     return modificationUser;
   }
 
   public void setModificationUser(String modificationUser) {
     this.modificationUser = modificationUser;
-  }
-
-  public String getCreationUser() {
-
-    return creationUser;
-  }
-
-  public void setCreationUser(String creationUser) {
-    this.creationUser = creationUser;
   }
 }

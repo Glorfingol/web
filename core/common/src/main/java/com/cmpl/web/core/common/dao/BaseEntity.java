@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+
 /**
  * Objet DAO commun
  * 
@@ -24,8 +27,16 @@ public abstract class BaseEntity {
   @Column(name = "creation_date")
   private LocalDateTime creationDate;
 
+  @CreatedBy
+  @Column(name = "creation_user")
+  private String creationUser;
+
   @Column(name = "modification_date")
   private LocalDateTime modificationDate;
+
+  @LastModifiedBy
+  @Column(name = "modification_user")
+  private String modificationUser;
 
   /**
    * S'assure que les elements not nullable commun sont renseignes (id, creationDate, modificationDate)
@@ -67,4 +78,19 @@ public abstract class BaseEntity {
     this.modificationDate = modificationDate;
   }
 
+  public String getCreationUser() {
+    return creationUser;
+  }
+
+  public void setCreationUser(String creationUser) {
+    this.creationUser = creationUser;
+  }
+
+  public String getModificationUser() {
+    return modificationUser;
+  }
+
+  public void setModificationUser(String modificationUser) {
+    this.modificationUser = modificationUser;
+  }
 }

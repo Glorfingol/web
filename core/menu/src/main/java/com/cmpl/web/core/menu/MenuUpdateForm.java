@@ -1,17 +1,9 @@
 package com.cmpl.web.core.menu;
 
-import java.time.LocalDateTime;
+import com.cmpl.web.core.common.form.BaseUpdateForm;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
+public class MenuUpdateForm extends BaseUpdateForm<MenuDTO> {
 
-public class MenuUpdateForm {
-
-  private Long id;
-  @DateTimeFormat(iso = ISO.DATE_TIME)
-  private LocalDateTime creationDate;
-  @DateTimeFormat(iso = ISO.DATE_TIME)
-  private LocalDateTime modificationDate;
   private String title;
   private String label;
   private String href;
@@ -24,9 +16,7 @@ public class MenuUpdateForm {
   }
 
   public MenuUpdateForm(MenuDTO menuDTO) {
-    this.id = menuDTO.getId();
-    this.creationDate = menuDTO.getCreationDate();
-    this.modificationDate = menuDTO.getModificationDate();
+    super(menuDTO);
     this.title = menuDTO.getTitle();
     this.href = menuDTO.getHref();
     this.label = menuDTO.getLabel();
@@ -81,30 +71,6 @@ public class MenuUpdateForm {
 
   public void setPageId(String pageId) {
     this.pageId = pageId;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public LocalDateTime getCreationDate() {
-    return creationDate;
-  }
-
-  public void setCreationDate(LocalDateTime creationDate) {
-    this.creationDate = creationDate;
-  }
-
-  public LocalDateTime getModificationDate() {
-    return modificationDate;
-  }
-
-  public void setModificationDate(LocalDateTime modificationDate) {
-    this.modificationDate = modificationDate;
   }
 
 }

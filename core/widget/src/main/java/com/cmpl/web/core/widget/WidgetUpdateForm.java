@@ -1,23 +1,29 @@
 package com.cmpl.web.core.widget;
 
-import java.time.LocalDateTime;
+import com.cmpl.web.core.common.form.BaseUpdateForm;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
-public class WidgetUpdateForm {
+public class WidgetUpdateForm extends BaseUpdateForm<WidgetDTO> {
 
   private String type;
   private String entityId;
   private String name;
-  private Long id;
-  @DateTimeFormat(iso = ISO.DATE_TIME)
-  private LocalDateTime creationDate;
-  @DateTimeFormat(iso = ISO.DATE_TIME)
-  private LocalDateTime modificationDate;
   private String personalization;
   private String localeCode;
   private String toolTipKey;
+
+  public WidgetUpdateForm() {
+
+  }
+
+  public WidgetUpdateForm(WidgetDTO dto, String localeCode, String toolTipKey) {
+    super(dto);
+    this.setType(dto.getType());
+    this.setEntityId(dto.getEntityId());
+    this.setName(dto.getName());
+    this.setPersonalization(dto.getPersonalization());
+    this.setLocaleCode(localeCode);
+    this.setToolTipKey(toolTipKey);
+  }
 
   public String getType() {
     return type;
@@ -41,30 +47,6 @@ public class WidgetUpdateForm {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public LocalDateTime getCreationDate() {
-    return creationDate;
-  }
-
-  public void setCreationDate(LocalDateTime creationDate) {
-    this.creationDate = creationDate;
-  }
-
-  public LocalDateTime getModificationDate() {
-    return modificationDate;
-  }
-
-  public void setModificationDate(LocalDateTime modificationDate) {
-    this.modificationDate = modificationDate;
   }
 
   public String getPersonalization() {

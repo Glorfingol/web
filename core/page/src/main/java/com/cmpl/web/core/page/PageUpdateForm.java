@@ -1,11 +1,8 @@
 package com.cmpl.web.core.page;
 
-import java.time.LocalDateTime;
+import com.cmpl.web.core.common.form.BaseUpdateForm;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
-public class PageUpdateForm {
+public class PageUpdateForm extends BaseUpdateForm<PageDTO> {
 
   private String name;
   private String menuTitle;
@@ -13,11 +10,6 @@ public class PageUpdateForm {
   private String header;
   private String footer;
   private String meta;
-  private Long id;
-  @DateTimeFormat(iso = ISO.DATE_TIME)
-  private LocalDateTime creationDate;
-  @DateTimeFormat(iso = ISO.DATE_TIME)
-  private LocalDateTime modificationDate;
   private String localeCode;
 
   public PageUpdateForm() {
@@ -25,14 +17,12 @@ public class PageUpdateForm {
   }
 
   public PageUpdateForm(PageDTO page, String personalizationLanguageCode) {
+    super(page);
     this.name = page.getName();
     this.menuTitle = page.getMenuTitle();
     this.body = page.getBody();
     this.footer = page.getFooter();
     this.header = page.getHeader();
-    this.id = page.getId();
-    this.creationDate = page.getCreationDate();
-    this.modificationDate = page.getModificationDate();
     this.localeCode = personalizationLanguageCode;
     this.meta = page.getMeta();
   }
@@ -59,30 +49,6 @@ public class PageUpdateForm {
 
   public void setBody(String body) {
     this.body = body;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public LocalDateTime getCreationDate() {
-    return creationDate;
-  }
-
-  public void setCreationDate(LocalDateTime creationDate) {
-    this.creationDate = creationDate;
-  }
-
-  public LocalDateTime getModificationDate() {
-    return modificationDate;
-  }
-
-  public void setModificationDate(LocalDateTime modificationDate) {
-    this.modificationDate = modificationDate;
   }
 
   public String getHeader() {
