@@ -29,6 +29,7 @@
         <module>role</module>
         <module>association-user-role</module>
         <module>user</module>
+      <module>assocation-user-role</module>
     </modules>
 
 

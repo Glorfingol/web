@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +18,9 @@ import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.style.StyleDispatcher;
 import com.cmpl.web.core.style.StyleForm;
 import com.cmpl.web.core.style.StyleResponse;
+import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
-@Controller
+@ManagerController
 @RequestMapping(value = "/manager/styles")
 public class StyleManagerController {
 
@@ -34,18 +35,21 @@ public class StyleManagerController {
   }
 
   @GetMapping
+  @PreAuthorize("hasAuthority('webmastering:style:read')")
   public ModelAndView printViewStyle(Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_VIEW.name());
     return displayFactory.computeModelAndViewForViewStyles(locale);
   }
 
   @GetMapping(value = "/_edit")
+  @PreAuthorize("hasAuthority('webmastering:style:read')")
   public ModelAndView printEditStyle(Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_VIEW.name());
     return displayFactory.computeModelAndViewForUpdateStyles(locale);
   }
 
   @PutMapping(value = "/_edit", produces = "application/json")
+  @PreAuthorize("hasAuthority('webmastering:style:update')")
   public ResponseEntity<StyleResponse> handleEditStyle(@RequestBody StyleForm form, Locale locale) {
     LOGGER.info("Tentative de modification du style global");
     try {
