@@ -6,6 +6,4 @@ import com.cmpl.web.core.common.repository.BaseRepository;
 
 @Repository
 public interface UserRepository extends BaseRepository<User> {
-
-  User findByLogin(String login);
 }

@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +23,8 @@ import com.cmpl.web.core.widget.WidgetCreateForm;
 import com.cmpl.web.core.widget.WidgetDispatcher;
 import com.cmpl.web.core.widget.WidgetResponse;
 import com.cmpl.web.core.widget.WidgetUpdateForm;
-import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
-@ManagerController
+@Controller
 @RequestMapping(value = "/manager/widgets")
 public class WidgetManagerController {
 
@@ -41,7 +40,6 @@ public class WidgetManagerController {
   }
 
   @GetMapping
-  @PreAuthorize("hasAuthority('webmastering:widgets:read')")
   public ModelAndView printViewWidgets(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
@@ -58,7 +56,6 @@ public class WidgetManagerController {
   }
 
   @GetMapping(value = "/_create")
-  @PreAuthorize("hasAuthority('webmastering:widgets:create')")
   public ModelAndView printCreateWidget(Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.WIDGET_CREATE.name());
     return widgetManagerDisplayFactory.computeModelAndViewForCreateWidget(locale);
@@ -66,7 +63,6 @@ public class WidgetManagerController {
 
   @PostMapping(produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:widgets:create')")
   public ResponseEntity<WidgetResponse> createWidget(@RequestBody WidgetCreateForm createForm, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
     try {
@@ -82,7 +78,6 @@ public class WidgetManagerController {
   }
 
   @GetMapping(value = "/{widgetId}")
-  @PreAuthorize("hasAuthority('webmastering:widgets:read')")
   public ModelAndView printViewUpdateWidget(@PathVariable(value = "widgetId") String widgetId, Locale locale,
       @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId);
@@ -90,7 +85,6 @@ public class WidgetManagerController {
   }
 
   @GetMapping(value = "/{widgetId}/_main")
-  @PreAuthorize("hasAuthority('webmastering:widgets:read')")
   public ModelAndView printViewUpdateWidgetMain(@PathVariable(value = "widgetId") String widgetId, Locale locale,
       @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId + " pour la partie main");
@@ -98,7 +92,6 @@ public class WidgetManagerController {
   }
 
   @GetMapping(value = "/{widgetId}/_personalization")
-  @PreAuthorize("hasAuthority('webmastering:widgets:read')")
   public ModelAndView printViewUpdateWidgetPersonalization(@PathVariable(value = "widgetId") String widgetId,
       Locale locale, @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId
@@ -109,7 +102,6 @@ public class WidgetManagerController {
 
   @PutMapping(value = "/{widgetId}", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:widgets:update')")
   public ResponseEntity<WidgetResponse> updateWidget(@RequestBody WidgetUpdateForm updateForm, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
     try {

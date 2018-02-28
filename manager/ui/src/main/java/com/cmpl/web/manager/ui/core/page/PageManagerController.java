@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +23,6 @@ import com.cmpl.web.core.page.PageCreateForm;
 import com.cmpl.web.core.page.PageDispatcher;
 import com.cmpl.web.core.page.PageResponse;
 import com.cmpl.web.core.page.PageUpdateForm;
-import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
 /**
  * Controller pour la gestion des pages dans le back office
@@ -31,7 +30,7 @@ import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
  * @author Louis
  *
  */
-@ManagerController
+@Controller
 @RequestMapping(value = "/manager/pages")
 public class PageManagerController {
 
@@ -51,7 +50,6 @@ public class PageManagerController {
    * @return
    */
   @GetMapping
-  @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewPages(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
@@ -68,7 +66,6 @@ public class PageManagerController {
   }
 
   @GetMapping(value = "/_create")
-  @PreAuthorize("hasAuthority('webmastering:pages:create')")
   public ModelAndView printCreatePage(Locale locale) {
     LOGGER.info("Accès à la page de création des pages");
     return pageManagerDisplayFactory.computeModelAndViewForCreatePage(locale);
@@ -76,7 +73,6 @@ public class PageManagerController {
 
   @PostMapping
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:pages:create')")
   public ResponseEntity<PageResponse> createPage(@RequestBody PageCreateForm createForm, Locale locale) {
 
     LOGGER.info("Tentative de création d'une page");
@@ -95,7 +91,6 @@ public class PageManagerController {
 
   @PutMapping(value = "/{pageId}", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:pages:update')")
   public ResponseEntity<PageResponse> updatePage(@RequestBody PageUpdateForm updateForm, Locale locale) {
 
     LOGGER.info("Tentative de modification d'une page");
@@ -113,7 +108,6 @@ public class PageManagerController {
   }
 
   @GetMapping(value = "/{pageId}")
-  @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePage(@PathVariable(value = "pageId") String pageId, Locale locale,
       @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId);
@@ -121,7 +115,6 @@ public class PageManagerController {
   }
 
   @GetMapping(value = "/{pageId}/_main")
-  @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageMain(@PathVariable(value = "pageId") String pageId, Locale locale,
       @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie main");
@@ -129,7 +122,6 @@ public class PageManagerController {
   }
 
   @GetMapping(value = "/{pageId}/_body")
-  @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageBody(@PathVariable(value = "pageId") String pageId, Locale locale,
       @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie body");
@@ -137,7 +129,6 @@ public class PageManagerController {
   }
 
   @GetMapping(value = "/{pageId}/_header")
-  @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageHeader(@PathVariable(value = "pageId") String pageId, Locale locale,
       @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie header");
@@ -145,7 +136,6 @@ public class PageManagerController {
   }
 
   @GetMapping(value = "/{pageId}/_footer")
-  @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageFooter(@PathVariable(value = "pageId") String pageId, Locale locale,
       @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie footer");
@@ -153,7 +143,6 @@ public class PageManagerController {
   }
 
   @GetMapping(value = "/{pageId}/_meta")
-  @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageMeta(@PathVariable(value = "pageId") String pageId, Locale locale,
       @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie meta");
@@ -161,7 +150,6 @@ public class PageManagerController {
   }
 
   @GetMapping(value = "/{pageId}/_widgets")
-  @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageWidgets(@PathVariable(value = "pageId") String pageId, Locale locale,
       @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie widgets");

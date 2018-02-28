@@ -31,21 +31,6 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>com.cmpl</groupId>
-      <artifactId>cmpl-web-core-user</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.cmpl</groupId>
-      <artifactId>cmpl-web-core-association-user-role</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.cmpl</groupId>
-      <artifactId>cmpl-web-core-role</artifactId>
-      <version>1.0.0</version>
-    </dependency>
 
   </dependencies>
 

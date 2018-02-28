@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,6 @@ import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.facebook.FacebookDispatcher;
 import com.cmpl.web.facebook.FacebookImportRequest;
 import com.cmpl.web.facebook.FacebookImportResponse;
-import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactory;
 
 /**
@@ -26,14 +26,14 @@ import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactory;
  * @author Louis
  *
  */
-@ManagerController
+@Controller
 public class FacebookController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FacebookController.class);
 
   private final FacebookDisplayFactory facebookDisplayFactory;
   private final FacebookDispatcher facebookDispatcher;
-
+  
   public FacebookController(FacebookDisplayFactory facebookDisplayFactory, FacebookDispatcher facebookDispatcher) {
     this.facebookDisplayFactory = facebookDisplayFactory;
     this.facebookDispatcher = facebookDispatcher;

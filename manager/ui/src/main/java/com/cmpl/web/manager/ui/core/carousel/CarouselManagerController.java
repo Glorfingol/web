@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,9 +27,8 @@ import com.cmpl.web.core.carousel.CarouselUpdateForm;
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
-@ManagerController
+@Controller
 @RequestMapping(value = "/manager/carousels")
 public class CarouselManagerController {
 
@@ -45,7 +44,6 @@ public class CarouselManagerController {
   }
 
   @GetMapping
-  @PreAuthorize("hasAuthority('webmastering:carousels:read')")
   public ModelAndView printViewCarousels(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
@@ -62,7 +60,6 @@ public class CarouselManagerController {
   }
 
   @GetMapping(value = "/_create")
-  @PreAuthorize("hasAuthority('webmastering:carousels:create')")
   public ModelAndView printCreateCarousel(Locale locale) {
     LOGGER.info("Accès à la page de création des carousels");
     return carouselDisplayFactory.computeModelAndViewForCreateCarousel(locale);
@@ -70,7 +67,6 @@ public class CarouselManagerController {
 
   @PostMapping
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:carousels:create')")
   public ResponseEntity<CarouselResponse> createCarousel(@RequestBody CarouselCreateForm createForm, Locale locale) {
 
     LOGGER.info("Tentative de création d'un carousel");
@@ -89,7 +85,6 @@ public class CarouselManagerController {
 
   @PutMapping(value = "/{carouselId}", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:carousels:update')")
   public ResponseEntity<CarouselResponse> updateCarousel(@RequestBody CarouselUpdateForm updateForm, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un carousel");
@@ -107,14 +102,12 @@ public class CarouselManagerController {
   }
 
   @GetMapping(value = "/{carouselId}")
-  @PreAuthorize("hasAuthority('webmastering:carousels:read')")
   public ModelAndView printViewUpdateCarousel(@PathVariable(value = "carouselId") String carouselId, Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.CAROUSELS_VIEW.name() + " pour " + carouselId);
     return carouselDisplayFactory.computeModelAndViewForUpdateCarousel(locale, carouselId);
   }
 
   @GetMapping(value = "/{carouselId}/_main")
-  @PreAuthorize("hasAuthority('webmastering:carousels:read')")
   public ModelAndView printViewUpdateCarouselMain(@PathVariable(value = "carouselId") String carouselId) {
     LOGGER
         .info("Accès à la page " + BACK_PAGE.CAROUSELS_UPDATE.name() + " pour " + carouselId + " pour la partie main");
@@ -122,7 +115,6 @@ public class CarouselManagerController {
   }
 
   @GetMapping(value = "/{carouselId}/_items")
-  @PreAuthorize("hasAuthority('webmastering:carousels:read')")
   public ModelAndView printViewUpdateCarouselItems(@PathVariable(value = "carouselId") String carouselId) {
     LOGGER.info("Accès à la page " + BACK_PAGE.CAROUSELS_UPDATE.name() + " pour " + carouselId
         + " pour la partie items");
@@ -131,7 +123,6 @@ public class CarouselManagerController {
 
   @PostMapping(value = "/{carouselId}/items")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:carousels:update')")
   public ResponseEntity<CarouselItemResponse> createCarouselItem(@RequestBody CarouselItemCreateForm createForm,
       Locale locale) {
 
@@ -151,7 +142,6 @@ public class CarouselManagerController {
 
   @DeleteMapping(value = "/{carouselId}/items/{carouselItemId}")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:carousels:delete')")
   public ResponseEntity<CarouselItemResponse> deleteCarouselItem(@PathVariable(value = "carouselId") String carouselId,
       @PathVariable(value = "carouselItemId") String carouselItemId, Locale locale) {
 

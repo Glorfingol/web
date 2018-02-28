@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +24,6 @@ import com.cmpl.web.core.news.NewsEntryDispatcher;
 import com.cmpl.web.core.news.NewsEntryRequest;
 import com.cmpl.web.core.news.NewsEntryResponse;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
 /**
  * Controller pour la gestion des NewsEntry dans le back office
@@ -32,7 +31,7 @@ import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
  * @author Louis
  *
  */
-@ManagerController
+@Controller
 public class NewsManagerController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(NewsManagerController.class);
@@ -51,7 +50,6 @@ public class NewsManagerController {
    * @return
    */
   @GetMapping(value = "/manager/news")
-  @PreAuthorize("hasAuthority('webmastering:news:read')")
   public ModelAndView printViewNews(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
@@ -65,7 +63,6 @@ public class NewsManagerController {
    * @return
    */
   @GetMapping(value = "/manager/news/_create")
-  @PreAuthorize("hasAuthority('webmastering:news:create')")
   public ModelAndView printCreateNews(Locale locale) {
 
     LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_CREATE.name());
@@ -80,7 +77,6 @@ public class NewsManagerController {
    */
   @PostMapping(value = "/manager/news", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:news:create')")
   public ResponseEntity<NewsEntryResponse> createNewsEntry(@RequestBody NewsEntryRequest newsEntryRequest, Locale locale) {
 
     LOGGER.info("Tentative de création d'une entrée de blog");
@@ -106,7 +102,6 @@ public class NewsManagerController {
    */
   @PutMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:news:update')")
   public ResponseEntity<NewsEntryResponse> updateNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId,
       @RequestBody NewsEntryRequest newsEntryRequest, Locale locale) {
 
@@ -130,7 +125,6 @@ public class NewsManagerController {
    */
   @DeleteMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:news:delete')")
   public ResponseEntity<NewsEntryResponse> deleteNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId,
       Locale locale) {
     LOGGER.info("Tentative de suppression d'une entrée d'id " + newsEntryId + ", action interdite");
@@ -144,7 +138,6 @@ public class NewsManagerController {
    * @return
    */
   @GetMapping(value = "/manager/news/{newsEntryId}")
-  @PreAuthorize("hasAuthority('webmastering:news:read')")
   public ModelAndView getNewsEntity(@PathVariable(value = "newsEntryId") String newsEntryId, Locale locale) {
 
     LOGGER.info("Récupération de l'entrée d'id " + newsEntryId);
@@ -161,7 +154,6 @@ public class NewsManagerController {
 
   @PostMapping(value = "/manager/news/media/{newsEntryId}", consumes = "multipart/form-data")
   @ResponseStatus(HttpStatus.CREATED)
-  @PreAuthorize("hasAuthority('webmastering:media:create')")
   public void uploadNewsImage(@RequestParam("media") MultipartFile uploadedMedia,
       @PathVariable(value = "newsEntryId") String newsEntryId) {
     if (uploadedMedia.isEmpty()) {

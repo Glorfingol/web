@@ -5,13 +5,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.util.CollectionUtils;
 
+import com.cmpl.web.core.common.repository.BaseRepository;
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 
 public class RoleServiceImpl extends BaseServiceImpl<RoleDTO, Role> implements RoleService {
 
   private final PrivilegeService privilegeService;
 
-  public RoleServiceImpl(RoleRepository entityRepository, PrivilegeService privilegeService) {
+  public RoleServiceImpl(BaseRepository<Role> entityRepository, PrivilegeService privilegeService) {
     super(entityRepository);
     this.privilegeService = privilegeService;
   }

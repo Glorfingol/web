@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +23,8 @@ import com.cmpl.web.core.menu.MenuDispatcher;
 import com.cmpl.web.core.menu.MenuResponse;
 import com.cmpl.web.core.menu.MenuUpdateForm;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
-@ManagerController
+@Controller
 @RequestMapping(value = "/manager/menus")
 public class MenuManagerController {
 
@@ -40,7 +39,6 @@ public class MenuManagerController {
   }
 
   @GetMapping
-  @PreAuthorize("hasAuthority('webmastering:menu:read')")
   public ModelAndView printViewMenus(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
@@ -57,14 +55,12 @@ public class MenuManagerController {
   }
 
   @GetMapping(value = "/_create")
-  @PreAuthorize("hasAuthority('webmastering:menu:create')")
   public ModelAndView printCreateMenu(Locale locale) {
     LOGGER.info("Accès à la page de création des menus");
     return displayFactory.computeModelAndViewForCreateMenu(locale);
   }
 
   @GetMapping(value = "/{menuId}")
-  @PreAuthorize("hasAuthority('webmastering:menu:read')")
   public ModelAndView printViewUpdateMenu(@PathVariable(value = "menuId") String menuId, Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.MENUS_UPDATE.name() + " pour " + menuId);
     return displayFactory.computeModelAndViewForUpdateMenu(locale, menuId);
@@ -72,7 +68,6 @@ public class MenuManagerController {
 
   @PutMapping(value = "/{menuId}", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:menu:update')")
   public ResponseEntity<MenuResponse> updateMenu(@RequestBody MenuUpdateForm updateForm, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un menu");
@@ -91,7 +86,6 @@ public class MenuManagerController {
 
   @PostMapping
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:menu:create')")
   public ResponseEntity<MenuResponse> createMenu(@RequestBody MenuCreateForm createForm, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un menu");

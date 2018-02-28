@@ -4,15 +4,15 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.factory.BackDisplayFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
-@ManagerController
+@Controller
 @RequestMapping(value = "/manager")
 public class IndexManagerController {
 

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
-import com.cmpl.web.core.common.context.ContextHolder;
+import com.cmpl.web.core.common.context.ContextHolder; 
 
 @Configuration
 public class TemplateResolverConfiguration {

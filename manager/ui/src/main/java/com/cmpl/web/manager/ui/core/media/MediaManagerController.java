@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +23,8 @@ import com.cmpl.web.core.factory.media.MediaManagerDisplayFactory;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
-@ManagerController
+@Controller
 @RequestMapping(value = "/manager/medias")
 public class MediaManagerController {
 
@@ -41,7 +40,6 @@ public class MediaManagerController {
 
   @PostMapping(consumes = "multipart/form-data")
   @ResponseStatus(HttpStatus.CREATED)
-  @PreAuthorize("hasAuthority('webmastering:media:create')")
   public void upload(@RequestParam("media") MultipartFile uploadedMedia) {
     if (uploadedMedia.isEmpty()) {
       return;
@@ -54,7 +52,6 @@ public class MediaManagerController {
   }
 
   @GetMapping
-  @PreAuthorize("hasAuthority('webmastering:media:read')")
   public ModelAndView printViewMedias(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
@@ -71,21 +68,18 @@ public class MediaManagerController {
   }
 
   @GetMapping(value = "/_upload")
-  @PreAuthorize("hasAuthority('webmastering:media:read')")
   public ModelAndView printUploadMedia(Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.MEDIA_UPLOAD.name());
     return mediaManagerDisplayFactory.computeModelAndViewForUploadMedia(locale);
   }
 
   @GetMapping(value = "/_view/{mediaId}")
-  @PreAuthorize("hasAuthority('webmastering:media:read')")
   public ModelAndView printViewMedia(@PathVariable("mediaId") String mediaId, Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.MEDIA_VISUALIZE.name());
     return mediaManagerDisplayFactory.computeModelAndViewForViewMedia(mediaId, locale);
   }
 
   @GetMapping("/{mediaId}")
-  @PreAuthorize("hasAuthority('webmastering:media:read')")
   public void serve(@PathVariable("mediaId") String mediaId, HttpServletResponse res) throws Exception {
     MediaDTO fileDTO = mediaService.getEntity(Long.valueOf(mediaId));
     if (fileDTO != null) {
