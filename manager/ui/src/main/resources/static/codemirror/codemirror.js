@@ -4639,7 +4639,7 @@ function resetModeState(cm) {
 // DOCUMENT DATA STRUCTURE
 
 // By default, updates that start and end at the beginning of a line
-// are treated specially, in order to make the association_user_role of line
+// are treated specially, in order to make the  line
 // widgets and marker elements with the text behave more intuitive.
 function isWholeLineUpdate(doc, change) {
   return change.from.ch == 0 && change.to.ch == 0 && lst(change.text) == "" &&
