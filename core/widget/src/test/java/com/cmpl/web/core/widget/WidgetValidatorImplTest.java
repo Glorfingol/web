@@ -12,8 +12,11 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.cmpl.web.core.common.error.*;
+import com.cmpl.web.core.common.error.ERROR_CAUSE;
 import com.cmpl.web.core.common.error.Error;
+import com.cmpl.web.core.common.error.ErrorBuilder;
+import com.cmpl.web.core.common.error.ErrorCause;
+import com.cmpl.web.core.common.error.ErrorCauseBuilder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,9 +31,11 @@ public class WidgetValidatorImplTest {
 
   @Test
   public void testValidate_Ok() {
-    Error result = validator.validate("someName", "HTML", Locale.FRANCE);
 
-    BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.anyString());
+    BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq("someName"));
+    BDDMockito.doReturn(true).when(validator).isStringValid(BDDMockito.eq("HTML"));
+
+    Error result = validator.validate("someName", "HTML", Locale.FRANCE);
 
     Assert.assertNull(result);
   }
@@ -41,8 +46,8 @@ public class WidgetValidatorImplTest {
     ErrorCause noNameCause = ErrorCauseBuilder.create().build();
     Error error = ErrorBuilder.create().causes(Arrays.asList(noNameCause)).build();
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
-    BDDMockito.doReturn(noNameCause).when(validator).computeCause(BDDMockito.any(ERROR_CAUSE.class),
-        BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(noNameCause).when(validator)
+        .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
     BDDMockito.doReturn(false).when(validator).isStringValid(BDDMockito.anyString());
 
     Error result = validator.validate("", "HTML", Locale.FRANCE);

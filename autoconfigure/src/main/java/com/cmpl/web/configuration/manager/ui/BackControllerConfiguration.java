@@ -28,6 +28,7 @@ import com.cmpl.web.manager.ui.core.menu.MenuManagerController;
 import com.cmpl.web.manager.ui.core.news.NewsManagerController;
 import com.cmpl.web.manager.ui.core.page.PageManagerController;
 import com.cmpl.web.manager.ui.core.style.StyleManagerController;
+import com.cmpl.web.manager.ui.core.user.CurrentUserControllerAdvice;
 import com.cmpl.web.manager.ui.core.widget.WidgetManagerController;
 import com.cmpl.web.manager.ui.core.widget.WidgetPageManagerController;
 import com.cmpl.web.manager.ui.modules.facebook.FacebookController;
@@ -95,6 +96,11 @@ public class BackControllerConfiguration {
   @Bean
   public WidgetPageManagerController widgetPageManagerController(WidgetDispatcher widgetDispatcher) {
     return new WidgetPageManagerController(widgetDispatcher);
+  }
+
+  @Bean
+  public CurrentUserControllerAdvice currentUserControllerAdvice() {
+    return new CurrentUserControllerAdvice();
   }
 
 }
