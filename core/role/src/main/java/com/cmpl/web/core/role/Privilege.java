@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import com.cmpl.web.core.common.dao.BaseEntity;
 
 @Entity(name = "privilege")
-@Table(name = "privilege", indexes = {@Index(name = "IDX_PRIVILEGE", columnList = "role_id", unique = true)})
+@Table(name = "privilege", indexes = {@Index(name = "IDX_PRIVILEGE", columnList = "role_id")})
 public class Privilege extends BaseEntity {
 
   @Column(name = "role_id")

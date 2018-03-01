@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.cmpl.web.configuration.EnableCMPLWeb;
@@ -59,7 +60,8 @@ public class WebLauncher {
       final WidgetRepository widgetRepository, final WidgetPageRepository widgetPageRepository,
       final UserRepository userRepository, final RoleRepository roleRepository,
       final PrivilegeRepository privilegeRepository, final AssociationUserRoleRepository associationUserRoleRepository,
-      final PasswordEncoder passwordEncoder) {
+      final PasswordEncoder passwordEncoder,
+      final PluginRegistry<com.cmpl.web.core.common.user.Privilege, String> privileges) {
     return (args) -> {
 
       NewsFactory.createNewsEntries(newsEntryRepository, newsContentRepository);
@@ -71,15 +73,18 @@ public class WebLauncher {
           .lastConnection(LocalDateTime.now()).password(passwordEncoder.encode("system")).build();
       system = userRepository.save(system);
       Role admin = RoleBuilder.create().description("admin").name("admin").build();
-      admin = roleRepository.save(admin);
+      final Role createdAdmin = roleRepository.save(admin);
 
       AssociationUserRole associationSystemAdmin = AssociationUserRoleBuilder.create()
           .roleId(String.valueOf(admin.getId())).userId(String.valueOf(system.getId())).build();
       associationUserRoleRepository.save(associationSystemAdmin);
 
-      Privilege newsRead = PrivilegeBuilder.create().roleId(String.valueOf(admin.getId()))
-          .content("webmastering:news:read").build();
-      privilegeRepository.save(newsRead);
+      privileges.getPlugins().forEach(
+          privilege -> {
+            Privilege privilegeToCreate = PrivilegeBuilder.create().roleId(String.valueOf(createdAdmin.getId()))
+                .content(privilege.privilege()).build();
+            privilegeRepository.save(privilegeToCreate);
+          });
 
     };
   }

@@ -11,21 +11,21 @@ public class WidgetPrivilegeConfiguration {
 
   @Bean
   public Privilege widgetReadPrivilege() {
-    return new SimplePrivilege("webmastering", "widget", "read");
+    return new SimplePrivilege("webmastering", "widgets", "read");
   }
 
   @Bean
   public Privilege widgetWritePrivilege() {
-    return new SimplePrivilege("webmastering", "widget", "write");
+    return new SimplePrivilege("webmastering", "widgets", "write");
   }
 
   @Bean
   public Privilege widgetCreatePrivilege() {
-    return new SimplePrivilege("webmastering", "widget", "create");
+    return new SimplePrivilege("webmastering", "widgets", "create");
   }
 
   @Bean
   public Privilege widgetDeletePrivilege() {
-    return new SimplePrivilege("webmastering", "widget", "delete");
+    return new SimplePrivilege("webmastering", "widgets", "delete");
   }
 }
