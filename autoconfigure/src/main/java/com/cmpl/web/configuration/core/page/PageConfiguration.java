@@ -15,6 +15,7 @@ import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.factory.page.PageManagerDisplayFactory;
 import com.cmpl.web.core.factory.page.PageManagerDisplayFactoryImpl;
@@ -49,9 +50,9 @@ public class PageConfiguration {
   }
 
   @Bean
-  BackMenuItem pagesBackMenuItem() {
+  BackMenuItem pagesBackMenuItem(BackMenuItem webmastering, Privilege pagesReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.pages.href").label("back.pages.label").title("back.pages.title")
-        .order(1).iconClass("fa fa-code").build();
+        .order(1).iconClass("fa fa-code").parent(webmastering).privilege(pagesReadPrivilege.privilege()).build();
   }
 
   @Bean

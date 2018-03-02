@@ -10,22 +10,22 @@ import com.cmpl.web.core.common.user.SimplePrivilege;
 public class WidgetPrivilegeConfiguration {
 
   @Bean
-  public Privilege widgetReadPrivilege() {
+  public Privilege widgetsReadPrivilege() {
     return new SimplePrivilege("webmastering", "widgets", "read");
   }
 
   @Bean
-  public Privilege widgetWritePrivilege() {
+  public Privilege widgetsWritePrivilege() {
     return new SimplePrivilege("webmastering", "widgets", "write");
   }
 
   @Bean
-  public Privilege widgetCreatePrivilege() {
+  public Privilege widgetsCreatePrivilege() {
     return new SimplePrivilege("webmastering", "widgets", "create");
   }
 
   @Bean
-  public Privilege widgetDeletePrivilege() {
+  public Privilege widgetsDeletePrivilege() {
     return new SimplePrivilege("webmastering", "widgets", "delete");
   }
 }

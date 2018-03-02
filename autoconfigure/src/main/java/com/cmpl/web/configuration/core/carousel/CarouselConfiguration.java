@@ -13,9 +13,23 @@ import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
-import com.cmpl.web.core.carousel.*;
+import com.cmpl.web.core.carousel.Carousel;
+import com.cmpl.web.core.carousel.CarouselDispatcher;
+import com.cmpl.web.core.carousel.CarouselDispatcherImpl;
+import com.cmpl.web.core.carousel.CarouselItem;
+import com.cmpl.web.core.carousel.CarouselItemRepository;
+import com.cmpl.web.core.carousel.CarouselItemService;
+import com.cmpl.web.core.carousel.CarouselItemServiceImpl;
+import com.cmpl.web.core.carousel.CarouselRepository;
+import com.cmpl.web.core.carousel.CarouselService;
+import com.cmpl.web.core.carousel.CarouselServiceImpl;
+import com.cmpl.web.core.carousel.CarouselTranslator;
+import com.cmpl.web.core.carousel.CarouselTranslatorImpl;
+import com.cmpl.web.core.carousel.CarouselValidator;
+import com.cmpl.web.core.carousel.CarouselValidatorImpl;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactoryImpl;
 import com.cmpl.web.core.factory.carousel.CarouselWidgetProvider;
@@ -36,9 +50,10 @@ public class CarouselConfiguration {
   }
 
   @Bean
-  BackMenuItem carouselsBackMenuItem() {
+  BackMenuItem carouselsBackMenuItem(BackMenuItem webmastering, Privilege carouselsReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.carousels.href").label("back.carousels.label")
-        .title("back.carousels.title").iconClass("fa fa-files-o").order(2).build();
+        .title("back.carousels.title").iconClass("fa fa-files-o").parent(webmastering).order(2)
+        .privilege(carouselsReadPrivilege.privilege()).build();
   }
 
   @Bean

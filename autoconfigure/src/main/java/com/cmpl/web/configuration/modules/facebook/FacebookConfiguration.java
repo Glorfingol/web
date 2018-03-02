@@ -39,6 +39,8 @@ import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.user.Privilege;
+import com.cmpl.web.core.common.user.SimplePrivilege;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaService;
@@ -72,9 +74,15 @@ public class FacebookConfiguration {
 
   @Bean
   @ConditionalOnProperty(prefix = "import.", name = "enabled")
-  BackMenuItem facebookBackMenuItem() {
+  BackMenuItem facebookBackMenuItem(BackMenuItem webmastering, Privilege facebookImportPrivilege) {
     return BackMenuItemBuilder.create().href("facebook.access.href").label("facebook.access.label")
-        .title("facebook.access.title").iconClass("fa fa-facebook").order(7).build();
+        .title("facebook.access.title").iconClass("fa fa-facebook").parent(webmastering).order(7)
+        .privilege(facebookImportPrivilege.privilege()).build();
+  }
+
+  @Bean
+  SimplePrivilege facebookImportPrivilege() {
+    return new SimplePrivilege("webmastering", "facebook", "import");
   }
 
   @Bean

@@ -70,6 +70,8 @@ function computeNewsEntryUpdate() {
   var inputId = $("#id");
   var inputCreationDate = $("#creationDate");
   var inputModificationDate = $("#modificationDate");
+  var inputCreationUser = $("#creationUser");
+  var inputModificationUser = $("#modificationUser");
 
   newsEntry.title = inputTitle.val();
   newsEntry.author = inputAuthor.val();
@@ -77,6 +79,8 @@ function computeNewsEntryUpdate() {
   newsEntry.id = inputId.val();
   newsEntry.creationDate = formatDate(inputCreationDate.val());
   newsEntry.modificationDate = formatDate(inputModificationDate.val());
+  newsEntry.creationUser = inputCreationUser.val();
+  newsEntry.modificationUser = inputModificationUser.val();
 
   var content = computeNewsContentUpdate();
   if (hasContent(content)) {
@@ -96,6 +100,8 @@ function computeNewsContentUpdate() {
   var inputId = $("#content\\.id");
   var inputCreationDate = $("#content\\.creationDate");
   var inputModificationDate = $("#content\\.modificationDate");
+  var inputCreationUser = $("#content\\.creationUser");
+  var inputModificationUser = $("#content\\.modificationUser");
 
   content.content = CKEDITOR.instances.newsContent.getData();
   if (inputId.val()) {
@@ -106,6 +112,12 @@ function computeNewsContentUpdate() {
   }
   if (inputModificationDate.val()) {
     content.modificationDate = formatDate(inputModificationDate.val());
+  }
+  if (inputCreationUser.val()) {
+    content.creationUser = inputCreationUser.val();
+  }
+  if (inputModificationUser.val()) {
+    content.modificationDate = inputModificationUser.val();
   }
   return content;
 }
@@ -118,6 +130,8 @@ function computeNewsImageUpdate() {
   var inputId = $("#image\\.id");
   var inputCreationDate = $("#image\\.creationDate");
   var inputModificationDate = $("#image\\.modificationDate");
+  var inputCreationUser = $("#image\\.creationUser");
+  var inputModificationUser = $("#image\\.modificationUser");
 
   image.alt = inputAlt.val();
   image.legend = inputLegend.val();
@@ -129,6 +143,12 @@ function computeNewsImageUpdate() {
   }
   if (inputModificationDate.val()) {
     image.modificationDate = formatDate(inputModificationDate.val());
+  }
+  if (inputCreationUser.val()) {
+    image.creationUser = inputCreationUser.val();
+  }
+  if (inputModificationUser.val()) {
+    image.modificationUser = inputModificationUser.val();
   }
   return image;
 }

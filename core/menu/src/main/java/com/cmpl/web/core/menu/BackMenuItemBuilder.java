@@ -9,6 +9,8 @@ public class BackMenuItemBuilder extends Builder<BackMenuItem> {
   private String href;
   private int order;
   private String iconClass;
+  private BackMenuItem parent;
+  private String privilege;
 
   private BackMenuItemBuilder() {
 
@@ -39,6 +41,16 @@ public class BackMenuItemBuilder extends Builder<BackMenuItem> {
     return this;
   }
 
+  public BackMenuItemBuilder parent(BackMenuItem parent) {
+    this.parent = parent;
+    return this;
+  }
+
+  public BackMenuItemBuilder privilege(String privilege) {
+    this.privilege = privilege;
+    return this;
+  }
+
   @Override
   public BackMenuItem build() {
     BackMenuItem backMenuItem = new BackMenuItem();
@@ -47,6 +59,8 @@ public class BackMenuItemBuilder extends Builder<BackMenuItem> {
     backMenuItem.setTitle(title);
     backMenuItem.setOrder(order);
     backMenuItem.setIconClass(iconClass);
+    backMenuItem.setParent(parent);
+    backMenuItem.setPrivilege(privilege);
     return backMenuItem;
   }
 

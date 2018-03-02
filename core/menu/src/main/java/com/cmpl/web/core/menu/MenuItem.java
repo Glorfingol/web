@@ -15,6 +15,7 @@ public class MenuItem {
   private String label;
   private String customCssClass;
   private String iconClass;
+  private String privilege;
 
   List<MenuItem> subMenuItems;
 
@@ -66,4 +67,11 @@ public class MenuItem {
     this.iconClass = iconClass;
   }
 
+  public String getPrivilege() {
+    return privilege;
+  }
+
+  public void setPrivilege(String privilege) {
+    this.privilege = privilege;
+  }
 }

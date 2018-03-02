@@ -12,6 +12,7 @@ public class MenuItemBuilder extends Builder<MenuItem> {
   private List<MenuItem> subMenuItems;
   private String customCssClass;
   private String iconClass;
+  private String privilege;
 
   private MenuItemBuilder() {
   }
@@ -46,6 +47,11 @@ public class MenuItemBuilder extends Builder<MenuItem> {
     return this;
   }
 
+  public MenuItemBuilder privilege(String privilege) {
+    this.privilege = privilege;
+    return this;
+  }
+
   @Override
   public MenuItem build() {
     MenuItem menuItem = new MenuItem();
@@ -55,6 +61,7 @@ public class MenuItemBuilder extends Builder<MenuItem> {
     menuItem.setSubMenuItems(subMenuItems);
     menuItem.setCustomCssClass(customCssClass);
     menuItem.setIconClass(iconClass);
+    menuItem.setPrivilege(privilege);
 
     return menuItem;
   }

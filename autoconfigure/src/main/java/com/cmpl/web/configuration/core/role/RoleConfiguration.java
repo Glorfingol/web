@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.cmpl.web.core.menu.BackMenuItem;
+import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.role.Privilege;
 import com.cmpl.web.core.role.PrivilegeRepository;
 import com.cmpl.web.core.role.PrivilegeService;
@@ -27,5 +29,11 @@ public class RoleConfiguration {
   @Bean
   RoleService roleService(RoleRepository entityRepository, PrivilegeService privilegeService) {
     return new RoleServiceImpl(entityRepository, privilegeService);
+  }
+
+  @Bean
+  BackMenuItem roleBackMenuItem(BackMenuItem administration, com.cmpl.web.core.common.user.Privilege rolesReadPrivilege) {
+    return BackMenuItemBuilder.create().href("back.roles.href").label("back.roles.label").title("back.roles.title")
+        .iconClass("fa fa-tasks").parent(administration).order(1).privilege(rolesReadPrivilege.privilege()).build();
   }
 }

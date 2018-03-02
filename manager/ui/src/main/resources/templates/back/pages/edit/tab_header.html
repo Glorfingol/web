@@ -20,6 +20,10 @@
         <small class="form-text text-muted" th:text="#{page.header.help}"/>
       </div>
       <input type="hidden" th:field="*{id}"/>
+      <input type="hidden" th:field="*{creationDate}"/>
+      <input type="hidden" th:field="*{creationUser}"/>
+      <input type="hidden" th:field="*{modificationDate}"/>
+      <input type="hidden" th:field="*{modificationUser}"/>
       <input type="hidden" th:field="*{name}"/>
       <input type="hidden" th:field="*{menuTitle}"/>
       <input type="hidden" th:field="*{body}"/>

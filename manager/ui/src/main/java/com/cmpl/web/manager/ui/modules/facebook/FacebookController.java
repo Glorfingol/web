@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,6 +46,7 @@ public class FacebookController {
    * @return
    */
   @GetMapping(value = "/manager/facebook")
+  @PreAuthorize("hasAuthority('webmastering:facebook:import')")
   public ModelAndView printFacebookAccess(Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.FACEBOOK_ACCESS.name());
     return facebookDisplayFactory.computeModelAndViewForFacebookAccessPage(locale);
@@ -56,6 +58,7 @@ public class FacebookController {
    * @return
    */
   @GetMapping(value = "/manager/facebook/import")
+  @PreAuthorize("hasAuthority('webmastering:facebook:import')")
   public ModelAndView printFacebookImport(Locale locale) {
 
     LOGGER.info("Accès à la page " + BACK_PAGE.FACEBOOK_IMPORT.name());
@@ -70,6 +73,7 @@ public class FacebookController {
    */
   @PostMapping(value = "/manager/facebook/import")
   @ResponseBody
+  @PreAuthorize("hasAuthority('webmastering:facebook:import')")
   public ResponseEntity<FacebookImportResponse> createNewsEntry(
       @RequestBody FacebookImportRequest facebookImportRequest, Locale locale) {
 

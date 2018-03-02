@@ -2,7 +2,9 @@
   <form id="styleViewForm" th:object="${styleForm}">
     <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{creationDate}"/>
+    <input type="hidden" th:field="*{creationUser}"/>
     <input type="hidden" th:field="*{modificationDate}"/>
+    <input type="hidden" th:field="*{modificationUser}"/>
     <input type="hidden" th:field="*{mediaId}"/>
     <input type="hidden" th:field="*{mediaName}"/>
     <div class="form-group mb-3" id="formInputContent">

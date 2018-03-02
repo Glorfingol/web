@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.menu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.BaseFactoryImpl;
@@ -35,7 +36,16 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
   @Override
   public List<MenuItem> computeBackMenuItems(BACK_PAGE backPage, Locale locale) {
     List<MenuItem> menuItems = new ArrayList<>();
-    backMenu.getItems().forEach(item -> menuItems.add(computeMenuItem(backPage, item, locale)));
+    List<BackMenuItem> parents = backMenu.getItems().stream().filter(item -> item.getParent() == null)
+        .collect(Collectors.toList());
+    parents.forEach(parent -> {
+      List<BackMenuItem> children = backMenu.getItems().stream().filter(item -> parent.equals(item.getParent()))
+          .collect(Collectors.toList());
+      List<MenuItem> childrenItems = new ArrayList<>();
+      children.forEach(childItem -> childrenItems.add(computeMenuItem(backPage, childItem, locale)));
+      menuItems.add(computeMenuItem(backPage, parent, locale, childrenItems));
+    });
+    // backMenu.getItems().forEach(item -> menuItems.add(computeMenuItem(backPage, item, locale)));
     return menuItems;
   }
 
@@ -43,7 +53,14 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
     return MenuItemBuilder.create().href(getI18nValue(item.getHref(), locale))
         .label(getI18nValue(item.getLabel(), locale)).title(getI18nValue(item.getTitle(), locale))
         .subMenuItems(new ArrayList<MenuItem>()).customCssClass(computeCustomCssClass(backPage, item))
-        .iconClass(item.getIconClass()).build();
+        .iconClass(item.getIconClass()).privilege(item.getPrivilege()).build();
+  }
+
+  MenuItem computeMenuItem(BACK_PAGE backPage, BackMenuItem item, Locale locale, List<MenuItem> children) {
+    return MenuItemBuilder.create().href(getI18nValue(item.getHref(), locale))
+        .label(getI18nValue(item.getLabel(), locale)).title(getI18nValue(item.getTitle(), locale))
+        .subMenuItems(children).customCssClass(computeCustomCssClass(backPage, item)).iconClass(item.getIconClass())
+        .privilege(item.getPrivilege()).build();
   }
 
   String computeCustomCssClass(BACK_PAGE backPage, BackMenuItem item) {

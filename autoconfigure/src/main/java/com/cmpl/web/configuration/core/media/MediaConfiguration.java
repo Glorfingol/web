@@ -15,6 +15,7 @@ import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.factory.media.ImageWidgetProvider;
 import com.cmpl.web.core.factory.media.MediaManagerDisplayFactory;
 import com.cmpl.web.core.factory.media.MediaManagerDisplayFactoryImpl;
@@ -35,15 +36,15 @@ import com.cmpl.web.core.page.BACK_PAGE;
 public class MediaConfiguration {
 
   @Bean
-  public MediaService mediaService(MediaRepository mediaRepository, FileService fileService,
-      ContextHolder contextHolder) {
+  public MediaService mediaService(MediaRepository mediaRepository, FileService fileService, ContextHolder contextHolder) {
     return new MediaServiceImpl(mediaRepository, fileService, contextHolder);
   }
 
   @Bean
-  BackMenuItem mediasBackMenuItem() {
+  BackMenuItem mediasBackMenuItem(BackMenuItem webmastering, Privilege mediaReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.medias.href").label("back.medias.label").title("back.medias.title")
-        .order(4).iconClass("fa fa-file-image-o").build();
+        .order(4).iconClass("fa fa-file-image-o").parent(webmastering).privilege(mediaReadPrivilege.privilege())
+        .build();
   }
 
   @Bean

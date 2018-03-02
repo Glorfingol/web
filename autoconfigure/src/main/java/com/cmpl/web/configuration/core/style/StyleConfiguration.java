@@ -15,6 +15,7 @@ import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.factory.style.StyleDisplayFactory;
 import com.cmpl.web.core.factory.style.StyleDisplayFactoryImpl;
@@ -48,9 +49,9 @@ public class StyleConfiguration {
   }
 
   @Bean
-  BackMenuItem styleBackMenuItem() {
+  BackMenuItem styleBackMenuItem(BackMenuItem webmastering, Privilege styleReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.style.href").label("back.style.label").title("back.style.title")
-        .order(5).iconClass("fa fa-css3").build();
+        .order(5).iconClass("fa fa-css3").parent(webmastering).privilege(styleReadPrivilege.privilege()).build();
   }
 
   @Bean
