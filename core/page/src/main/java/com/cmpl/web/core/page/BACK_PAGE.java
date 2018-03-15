@@ -31,12 +31,15 @@ public enum BACK_PAGE {
   STYLES_UPDATE("styles.update", "back.style.title"),
   WIDGET_VIEW("widgets.view", "back.widgets.title"),
   WIDGET_CREATE("widgets.create", "back.widgets.title"),
-  WIDGET_UPDATE("widgets.update", "back.widgets.title");
+  WIDGET_UPDATE("widgets.update", "back.widgets.title"),
+  USER_VIEW("users.view", "back.users.title"),
+  USER_CREATE("users.create", "back.users.title"),
+  USER_UPDATE("users.update", "back.users.title");
 
   private String tile;
   private String title;
 
-  private BACK_PAGE(String tile, String title) {
+  BACK_PAGE(String tile, String title) {
     this.tile = tile;
     this.title = title;
   }

@@ -9,6 +9,8 @@ public class MenuUpdateFormBuilder extends Builder<MenuUpdateForm> {
   private Long id;
   private LocalDateTime creationDate;
   private LocalDateTime modificationDate;
+  private String creationUser;
+  private String modificationUser;
   private String title;
   private String label;
   private String href;
@@ -64,6 +66,16 @@ public class MenuUpdateFormBuilder extends Builder<MenuUpdateForm> {
     return this;
   }
 
+  public MenuUpdateFormBuilder creationUser(String creationUser) {
+    this.creationUser = creationUser;
+    return this;
+  }
+
+  public MenuUpdateFormBuilder modificationUser(String modificationUser) {
+    this.modificationUser = modificationUser;
+    return this;
+  }
+
   @Override
   public MenuUpdateForm build() {
     MenuUpdateForm form = new MenuUpdateForm();
@@ -76,6 +88,8 @@ public class MenuUpdateFormBuilder extends Builder<MenuUpdateForm> {
     form.setPageId(pageId);
     form.setParentId(parentId);
     form.setTitle(title);
+    form.setCreationUser(creationUser);
+    form.setModificationUser(modificationUser);
     return form;
   }
 

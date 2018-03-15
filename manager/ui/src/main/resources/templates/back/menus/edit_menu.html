@@ -53,7 +53,8 @@
     <div class="card-footer">
       <div class="float-right">
         <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdateMenu()"></a>
-        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdateMenuForm()"></a>
+        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdateMenuForm()"
+           th:if="${currentUser.hasPrivilege('webmastering:menu:write')}"></a>
       </div>
     </div>
   </div>

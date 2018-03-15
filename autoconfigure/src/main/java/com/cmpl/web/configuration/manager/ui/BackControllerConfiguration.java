@@ -12,12 +12,14 @@ import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactory;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactory;
 import com.cmpl.web.core.factory.page.PageManagerDisplayFactory;
 import com.cmpl.web.core.factory.style.StyleDisplayFactory;
+import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.MenuDispatcher;
 import com.cmpl.web.core.news.NewsEntryDispatcher;
 import com.cmpl.web.core.page.PageDispatcher;
 import com.cmpl.web.core.style.StyleDispatcher;
+import com.cmpl.web.core.user.UserDispatcher;
 import com.cmpl.web.core.widget.WidgetDispatcher;
 import com.cmpl.web.facebook.FacebookDispatcher;
 import com.cmpl.web.manager.ui.core.carousel.CarouselManagerController;
@@ -29,6 +31,7 @@ import com.cmpl.web.manager.ui.core.news.NewsManagerController;
 import com.cmpl.web.manager.ui.core.page.PageManagerController;
 import com.cmpl.web.manager.ui.core.style.StyleManagerController;
 import com.cmpl.web.manager.ui.core.user.CurrentUserControllerAdvice;
+import com.cmpl.web.manager.ui.core.user.UserManagerController;
 import com.cmpl.web.manager.ui.core.widget.WidgetManagerController;
 import com.cmpl.web.manager.ui.core.widget.WidgetPageManagerController;
 import com.cmpl.web.manager.ui.modules.facebook.FacebookController;
@@ -101,6 +104,12 @@ public class BackControllerConfiguration {
   @Bean
   public CurrentUserControllerAdvice currentUserControllerAdvice() {
     return new CurrentUserControllerAdvice();
+  }
+
+  @Bean
+  public UserManagerController userManagerController(UserManagerDisplayFactory userManagerDisplayFactory,
+      UserDispatcher userDispatcher) {
+    return new UserManagerController(userManagerDisplayFactory, userDispatcher);
   }
 
 }

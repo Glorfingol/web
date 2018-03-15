@@ -4,25 +4,25 @@
       <div class="col">
         <div class="pull-right ">
           <a class="btn btn-md btn-primary fa fa-plus fa-white"
-             href="/manager/menus/_create"
-             id="buttonAdd" th:if="${currentUser.hasPrivilege('webmastering:menu:create')}"></a>
+             href="/manager/users/_create"
+             id="buttonAdd" th:if="${currentUser.hasPrivilege('administration:users:create')}"></a>
         </div>
       </div>
     </div>
     <div class="row mt-2">
       <table class="table table-bordered table-hover">
         <tbody>
-        <tr th:each="menuBean : ${wrappedMenus.page.content}">
+        <tr th:each="userBean : ${wrappedUsers.page.content}">
           <td>
-            <a th:href="'/manager/menus/' + ${menuBean.id}" class="table-link">
-              <span th:text="${menuBean.title}"/>
+            <a th:href="'/manager/users/' + ${userBean.id}" class="table-link">
+              <span th:text="${userBean.login}"/>
             </a>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
-    <div th:replace="common/pagination :: pagination(${wrappedMenus})"/>
+    <div th:replace="common/pagination :: pagination(${wrappedUsers})"/>
   </div>
 
 </div>

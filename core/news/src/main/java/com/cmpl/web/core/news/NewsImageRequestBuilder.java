@@ -12,6 +12,8 @@ public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
   private Long id;
   private LocalDateTime creationDate;
   private LocalDateTime modificationDate;
+  private String creationUser;
+  private String modificationUser;
   private MediaDTO media;
 
   private NewsImageRequestBuilder() {
@@ -48,6 +50,16 @@ public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
     return this;
   }
 
+  public NewsImageRequestBuilder creationUser(String creationUser) {
+    this.creationUser = creationUser;
+    return this;
+  }
+
+  public NewsImageRequestBuilder modificationUser(String modificationUser) {
+    this.modificationUser = modificationUser;
+    return this;
+  }
+
   @Override
   public NewsImageRequest build() {
     NewsImageRequest imageRequest = new NewsImageRequest();
@@ -58,6 +70,8 @@ public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
     imageRequest.setModificationDate(modificationDate);
     imageRequest.setLegend(legend);
     imageRequest.setMedia(media);
+    imageRequest.setCreationUser(creationUser);
+    imageRequest.setModificationUser(modificationUser);
 
     return imageRequest;
   }

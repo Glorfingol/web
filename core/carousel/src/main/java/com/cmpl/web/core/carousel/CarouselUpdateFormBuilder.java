@@ -10,6 +10,8 @@ public class CarouselUpdateFormBuilder extends Builder<CarouselUpdateForm> {
   private Long id;
   private LocalDateTime creationDate;
   private LocalDateTime modificationDate;
+  private String creationUser;
+  private String modificationUser;
 
   private CarouselUpdateFormBuilder() {
 
@@ -35,6 +37,16 @@ public class CarouselUpdateFormBuilder extends Builder<CarouselUpdateForm> {
     return this;
   }
 
+  public CarouselUpdateFormBuilder creationUser(String creationUser) {
+    this.creationUser = creationUser;
+    return this;
+  }
+
+  public CarouselUpdateFormBuilder modificationUser(String modificationUser) {
+    this.modificationUser = modificationUser;
+    return this;
+  }
+
   @Override
   public CarouselUpdateForm build() {
     CarouselUpdateForm form = new CarouselUpdateForm();
@@ -42,6 +54,8 @@ public class CarouselUpdateFormBuilder extends Builder<CarouselUpdateForm> {
     form.setId(id);
     form.setModificationDate(modificationDate);
     form.setName(name);
+    form.setCreationUser(creationUser);
+    form.setModificationUser(modificationUser);
     return form;
   }
 

@@ -45,7 +45,6 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
       children.forEach(childItem -> childrenItems.add(computeMenuItem(backPage, childItem, locale)));
       menuItems.add(computeMenuItem(backPage, parent, locale, childrenItems));
     });
-    // backMenu.getItems().forEach(item -> menuItems.add(computeMenuItem(backPage, item, locale)));
     return menuItems;
   }
 

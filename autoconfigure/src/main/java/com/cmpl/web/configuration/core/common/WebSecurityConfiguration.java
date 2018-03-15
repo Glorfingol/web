@@ -21,6 +21,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.cmpl.web.manager.ui.core.security.LoginAuthenticationProvider;
+import com.cmpl.web.manager.ui.core.user.LastConnectionUpdateAuthenticationSuccessHandlerImpl;
 
 /**
  * Configuration de la securite
@@ -65,9 +66,12 @@ public class WebSecurityConfiguration {
   @Configuration
   public static class LoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
     public final LoginAuthenticationProvider loginAuthenticationProvider;
+    private final LastConnectionUpdateAuthenticationSuccessHandlerImpl lastConnectionUpdateAuthenticationSuccessHandler;
 
-    public LoginWebSecurityConfigurerAdapter(LoginAuthenticationProvider loginAuthenticationProvider) {
+    public LoginWebSecurityConfigurerAdapter(LoginAuthenticationProvider loginAuthenticationProvider,
+        LastConnectionUpdateAuthenticationSuccessHandlerImpl lastConnectionUpdateAuthenticationSuccessHandler) {
       this.loginAuthenticationProvider = loginAuthenticationProvider;
+      this.lastConnectionUpdateAuthenticationSuccessHandler = lastConnectionUpdateAuthenticationSuccessHandler;
 
     }
 
@@ -75,7 +79,8 @@ public class WebSecurityConfiguration {
     protected void configure(HttpSecurity http) throws Exception {
       String[] authorizedUrls = prepareAuthorizedUrls();
       http.headers().frameOptions().sameOrigin().and().authorizeRequests().antMatchers(authorizedUrls).permitAll()
-          .anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().and().logout()
+          .anyRequest().authenticated().and().formLogin().loginPage("/login")
+          .successHandler(lastConnectionUpdateAuthenticationSuccessHandler).permitAll().and().logout()
           .logoutRequestMatcher(new AntPathRequestMatcher("/manager/logout")).permitAll();
 
     }

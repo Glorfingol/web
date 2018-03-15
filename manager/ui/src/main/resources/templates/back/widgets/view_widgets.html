@@ -5,7 +5,8 @@
         <div class="pull-right ">
           <a class="btn btn-md btn-primary fa fa-plus fa-white"
              href="/manager/widgets/_create"
-             id="buttonAdd"></a>
+             id="buttonAdd"
+             th:if="${currentUser.hasPrivilege('webmastering:widgets:create')}"></a>
         </div>
       </div>
     </div>

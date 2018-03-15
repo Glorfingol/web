@@ -15,7 +15,8 @@
     </div>
     <div class="float-right">
       <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdateStyle()"></a>
-      <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdateStyleForm()"></a>
+      <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdateStyleForm()"
+         th:if="${currentUser.hasPrivilege('webmastering:style:write')}"></a>
     </div>
   </form>
 </div>

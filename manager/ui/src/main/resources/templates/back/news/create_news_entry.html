@@ -62,7 +62,8 @@
         <a class="btn btn-md btn-danger collapsed fa fa-times fa-white"
            href="/manager/news"
         ></a>
-        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postCreateNewsForm()"></a>
+        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postCreateNewsForm()"
+           th:if="${currentUser.hasPrivilege('webmastering:news:create')}"></a>
       </div>
     </div>
   </div>

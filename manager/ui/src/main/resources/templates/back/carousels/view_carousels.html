@@ -4,7 +4,7 @@
       <div class="pull-right ">
         <a class="btn btn-md btn-primary fa fa-plus fa-white"
            href="/manager/carousels/_create"
-           id="buttonAdd"></a>
+           id="buttonAdd" th:if="${currentUser.hasPrivilege('webmastering:carousels:create')}"></a>
       </div>
     </div>
   </div>

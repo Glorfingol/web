@@ -18,7 +18,7 @@ public class LastConnectionUpdateAuthenticationSuccessHandlerImpl extends SavedR
 
   public LastConnectionUpdateAuthenticationSuccessHandlerImpl(UserService userService) {
     this.userService = userService;
-    this.setDefaultTargetUrl("/blossom");
+    this.setDefaultTargetUrl("/manager");
     this.setAlwaysUseDefaultTargetUrl(false);
   }
 

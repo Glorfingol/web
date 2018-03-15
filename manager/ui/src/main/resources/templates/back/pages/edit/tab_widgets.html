@@ -12,7 +12,8 @@
       <small class="form-text text-muted" th:text="#{widget.name.help}"/>
     </div>
     <div class="float-right">
-      <a class="btn btn-md btn-success fa fa-plus fa-white" onclick="postCreateWidgetForm()"></a>
+      <a class="btn btn-md btn-success fa fa-plus fa-white" onclick="postCreateWidgetForm()"
+         th:if="${currentUser.hasPrivilege('webmastering:pages:write')}"></a>
     </div>
   </div>
 </form>
@@ -40,6 +41,7 @@
       </td>
       <td class="text-center">
         <a class="btn btn-md btn-danger fa fa-times fa-white" th:id="${associatedWidget.id}"
+           th:if="${currentUser.hasPrivilege('webmastering:pages:delete')}"
            onclick="deleteAssociatedWidget(this.id)"></a>
       </td>
     </tr>

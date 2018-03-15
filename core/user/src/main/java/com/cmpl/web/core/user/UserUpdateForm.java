@@ -2,30 +2,31 @@ package com.cmpl.web.core.user;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import com.cmpl.web.core.common.dao.BaseEntity;
+import com.cmpl.web.core.common.form.BaseUpdateForm;
 
-@Entity(name = "user")
-@Table(name = "user")
-public class User extends BaseEntity {
+public class UserUpdateForm extends BaseUpdateForm<UserDTO> {
 
-  @Column(name = "login", nullable = false, unique = true)
   private String login;
-
-  @Column(name = "password", nullable = false)
   private String password;
-
-  @Column(name = "last_connection")
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime lastConnection;
-
-  @Column(name = "email", nullable = false, unique = true)
   private String email;
-
-  @Column(name = "description")
   private String description;
+
+  public UserUpdateForm() {
+
+  }
+
+  public UserUpdateForm(UserDTO userDTO) {
+    super(userDTO);
+    this.login = userDTO.getLogin();
+    this.password = userDTO.getPassword();
+    this.lastConnection = userDTO.getLastConnection();
+    this.email = userDTO.getEmail();
+    this.description = userDTO.getDescription();
+  }
 
   public String getLogin() {
     return login;
@@ -66,5 +67,4 @@ public class User extends BaseEntity {
   public void setDescription(String description) {
     this.description = description;
   }
-
 }

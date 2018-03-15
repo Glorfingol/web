@@ -17,7 +17,8 @@
       <div class="float-right">
         <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdateCarousel()"></a>
         <a class="btn btn-md btn-success fa fa-check fa-white"
-           onclick="postUpdateCarouselForm()"></a>
+           onclick="postUpdateCarouselForm()"
+           th:if="${currentUser.hasPrivilege('webmastering:carousels:write')}"></a>
       </div>
     </div>
   </div>

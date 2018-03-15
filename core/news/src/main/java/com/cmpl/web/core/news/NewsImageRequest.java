@@ -22,6 +22,8 @@ public class NewsImageRequest {
   private LocalDateTime creationDate;
   @DateTimeFormat(iso = ISO.DATE_TIME)
   private LocalDateTime modificationDate;
+  private String creationUser;
+  private String modificationUser;
   private MediaDTO media;
 
   public String getLegend() {
@@ -70,5 +72,21 @@ public class NewsImageRequest {
 
   public void setMedia(MediaDTO media) {
     this.media = media;
+  }
+
+  public String getCreationUser() {
+    return creationUser;
+  }
+
+  public void setCreationUser(String creationUser) {
+    this.creationUser = creationUser;
+  }
+
+  public String getModificationUser() {
+    return modificationUser;
+  }
+
+  public void setModificationUser(String modificationUser) {
+    this.modificationUser = modificationUser;
   }
 }

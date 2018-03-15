@@ -15,6 +15,8 @@ public class StyleForm {
   private LocalDateTime modificationDate;
   private String mediaName;
   private Long mediaId;
+  private String creationUser;
+  private String modificationUser;
 
   public StyleForm() {
 
@@ -27,6 +29,8 @@ public class StyleForm {
     this.modificationDate = style.getModificationDate();
     this.mediaId = style.getMedia().getId();
     this.mediaName = style.getMedia().getName();
+    this.creationUser = style.getCreationUser();
+    this.modificationUser = style.getModificationUser();
   }
 
   public String getContent() {
@@ -77,4 +81,19 @@ public class StyleForm {
     this.mediaId = mediaId;
   }
 
+  public String getCreationUser() {
+    return creationUser;
+  }
+
+  public void setCreationUser(String creationUser) {
+    this.creationUser = creationUser;
+  }
+
+  public String getModificationUser() {
+    return modificationUser;
+  }
+
+  public void setModificationUser(String modificationUser) {
+    this.modificationUser = modificationUser;
+  }
 }

@@ -32,7 +32,8 @@
         <a class="btn btn-md btn-danger collapsed fa fa-times fa-white"
            href="/manager/widgets"
         ></a>
-        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postCreateWidgetForm()"></a>
+        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postCreateWidgetForm()"
+           th:if="${currentUser.hasPrivilege('webmastering:widgets:create')}"></a>
       </div>
     </div>
   </div>

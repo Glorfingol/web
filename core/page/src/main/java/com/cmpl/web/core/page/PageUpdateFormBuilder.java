@@ -15,6 +15,8 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
   private Long id;
   private LocalDateTime creationDate;
   private LocalDateTime modificationDate;
+  private String creationUser;
+  private String modificationUser;
   private String localeCode;
 
   private PageUpdateFormBuilder() {
@@ -71,6 +73,16 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
     return this;
   }
 
+  public PageUpdateFormBuilder creationUser(String creationUser) {
+    this.creationUser = creationUser;
+    return this;
+  }
+
+  public PageUpdateFormBuilder modificationUser(String modificationUser) {
+    this.modificationUser = modificationUser;
+    return this;
+  }
+
   @Override
   public PageUpdateForm build() {
     PageUpdateForm form = new PageUpdateForm();
@@ -85,6 +97,8 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
     form.setName(name);
     form.setLocaleCode(localeCode);
     form.setMeta(meta);
+    form.setCreationUser(creationUser);
+    form.setModificationUser(modificationUser);
     return form;
   }
 

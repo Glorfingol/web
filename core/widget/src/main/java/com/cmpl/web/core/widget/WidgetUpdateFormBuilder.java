@@ -12,6 +12,8 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
   private Long id;
   private LocalDateTime creationDate;
   private LocalDateTime modificationDate;
+  private String creationUser;
+  private String modificationUser;
   private String personalization;
   private String localeCode;
   private String toolTipKey;
@@ -61,6 +63,16 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
     return this;
   }
 
+  public WidgetUpdateFormBuilder creationUser(String creationUser) {
+    this.creationUser = creationUser;
+    return this;
+  }
+
+  public WidgetUpdateFormBuilder modificationUser(String modificationUser) {
+    this.modificationUser = modificationUser;
+    return this;
+  }
+
   private WidgetUpdateFormBuilder() {
 
   }
@@ -77,6 +89,8 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
     form.setPersonalization(personalization);
     form.setLocaleCode(localeCode);
     form.setToolTipKey(toolTipKey);
+    form.setCreationUser(creationUser);
+    form.setModificationUser(modificationUser);
     return form;
   }
 

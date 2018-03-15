@@ -10,6 +10,8 @@ public class NewsContentRequestBuilder extends Builder<NewsContentRequest> {
   private Long id;
   private LocalDateTime creationDate;
   private LocalDateTime modificationDate;
+  private String creationUser;
+  private String modificationUser;
 
   private NewsContentRequestBuilder() {
 
@@ -35,6 +37,16 @@ public class NewsContentRequestBuilder extends Builder<NewsContentRequest> {
     return this;
   }
 
+  public NewsContentRequestBuilder creationUser(String creationUser) {
+    this.creationUser = creationUser;
+    return this;
+  }
+
+  public NewsContentRequestBuilder modificationUser(String modificationUser) {
+    this.modificationUser = modificationUser;
+    return this;
+  }
+
   @Override
   public NewsContentRequest build() {
     NewsContentRequest newsContentRequest = new NewsContentRequest();
@@ -43,6 +55,8 @@ public class NewsContentRequestBuilder extends Builder<NewsContentRequest> {
     newsContentRequest.setCreationDate(creationDate);
     newsContentRequest.setModificationDate(modificationDate);
     newsContentRequest.setContent(content);
+    newsContentRequest.setCreationUser(creationUser);
+    newsContentRequest.setModificationUser(modificationUser);
     return newsContentRequest;
   }
 

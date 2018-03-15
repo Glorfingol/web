@@ -74,7 +74,8 @@
     <div class="col-12">
       <div class="float-right">
         <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdateWidget()"></a>
-        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdateWidgetForm()"></a>
+        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdateWidgetForm()"
+           th:if="${currentUser.hasPrivilege('webmastering:widgets:write')}"></a>
       </div>
     </div>
   </div>

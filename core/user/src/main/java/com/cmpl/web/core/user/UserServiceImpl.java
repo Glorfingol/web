@@ -1,6 +1,7 @@
 package com.cmpl.web.core.user;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 
@@ -38,7 +39,11 @@ public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements U
 
   @Override
   public UserDTO updateLastConnection(Long userId, LocalDateTime connectionDateTime) {
-    UserDTO user = toDTO(userRepository.getOne(userId));
+    Optional<User> result = userRepository.findById(userId);
+    if (!result.isPresent()) {
+      return null;
+    }
+    UserDTO user = toDTO(result.get());
     user.setLastConnection(connectionDateTime);
     user = toDTO(userRepository.save(toEntity(user)));
 

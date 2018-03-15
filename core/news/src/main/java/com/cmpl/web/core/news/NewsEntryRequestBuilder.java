@@ -12,6 +12,8 @@ public class NewsEntryRequestBuilder extends Builder<NewsEntryRequest> {
   private Long id;
   private LocalDateTime creationDate;
   private LocalDateTime modificationDate;
+  private String creationUser;
+  private String modificationUser;
 
   private NewsContentRequest content;
   private NewsImageRequest image;
@@ -60,6 +62,16 @@ public class NewsEntryRequestBuilder extends Builder<NewsEntryRequest> {
     return this;
   }
 
+  public NewsEntryRequestBuilder creationUser(String creationUser) {
+    this.creationUser = creationUser;
+    return this;
+  }
+
+  public NewsEntryRequestBuilder modificationUser(String modificationUser) {
+    this.modificationUser = modificationUser;
+    return this;
+  }
+
   @Override
   public NewsEntryRequest build() {
     NewsEntryRequest request = new NewsEntryRequest();
@@ -72,7 +84,8 @@ public class NewsEntryRequestBuilder extends Builder<NewsEntryRequest> {
     request.setTags(tags);
     request.setTitle(title);
     request.setImage(image);
-
+    request.setCreationUser(creationUser);
+    request.setModificationUser(modificationUser);
     return request;
   }
 

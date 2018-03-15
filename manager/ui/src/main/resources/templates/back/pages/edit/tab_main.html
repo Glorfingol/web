@@ -23,7 +23,8 @@
   <input type="hidden" th:field="*{meta}"/>
   <div class="float-right">
     <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdatePage()"></a>
-    <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdatePageForm()"></a>
+    <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdatePageForm()"
+       th:if="${currentUser.hasPrivilege('webmastering:pages:write')}"></a>
   </div>
 </form>
 <div class="card card-loader">

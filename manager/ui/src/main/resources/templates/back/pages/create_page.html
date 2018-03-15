@@ -53,7 +53,8 @@
         <a class="btn btn-md btn-danger collapsed fa fa-times fa-white"
            href="/manager/pages"
         ></a>
-        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postCreatePageForm()"></a>
+        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postCreatePageForm()"
+           th:if="${currentUser.hasPrivilege('webmastering:style:create')}"></a>
       </div>
     </div>
   </div>
