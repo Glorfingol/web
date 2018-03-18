@@ -23,14 +23,7 @@ import com.cmpl.web.core.factory.user.UserManagerDisplayFactoryImpl;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.user.User;
-import com.cmpl.web.core.user.UserDispatcher;
-import com.cmpl.web.core.user.UserDispatcherImpl;
-import com.cmpl.web.core.user.UserMailService;
-import com.cmpl.web.core.user.UserMailServiceImpl;
-import com.cmpl.web.core.user.UserRepository;
-import com.cmpl.web.core.user.UserService;
-import com.cmpl.web.core.user.UserServiceImpl;
+import com.cmpl.web.core.user.*;
 
 @Configuration
 @EntityScan(basePackageClasses = User.class)
@@ -76,8 +69,18 @@ public class UserConfiguration {
   }
 
   @Bean
-  UserDispatcher userDispatcher() {
-    return new UserDispatcherImpl();
+  UserTranslator userTranslator() {
+    return new UserTranslatorImpl();
+  }
+
+  @Bean
+  UserValidator userValidator(WebMessageSource messageSource) {
+    return new UserValidatorImpl(messageSource);
+  }
+
+  @Bean
+  UserDispatcher userDispatcher(UserTranslator userTranslator, UserValidator userValidator, UserService userService) {
+    return new UserDispatcherImpl(userValidator, userTranslator, userService);
   }
 
   @Bean

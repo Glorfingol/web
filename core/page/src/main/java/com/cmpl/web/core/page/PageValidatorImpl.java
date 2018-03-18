@@ -28,12 +28,12 @@ public class PageValidatorImpl extends BaseValidator implements PageValidator {
     return validate(form.getName(), form.getMenuTitle(), locale);
   }
 
-  Error validate(String name, String menutTitle, Locale locale) {
+  Error validate(String name, String menuTitle, Locale locale) {
     List<ErrorCause> causes = new ArrayList<>();
     if (!isStringValid(name)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_PAGE_NAME, locale));
     }
-    if (!isStringValid(menutTitle)) {
+    if (!isStringValid(menuTitle)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_PAGE_MENU_TITLE, locale));
     }
 
