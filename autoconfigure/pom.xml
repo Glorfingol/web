@@ -98,17 +98,17 @@
     <dependency>
       <groupId>com.cmpl</groupId>
       <artifactId>cmpl-web-front</artifactId>
-      <version>1.0.0</version>
+      <version>${cmpl.web.version}</version>
     </dependency>
     <dependency>
       <groupId>com.cmpl</groupId>
       <artifactId>cmpl-web-manager-ui</artifactId>
-      <version>1.0.0</version>
+      <version>${cmpl.web.version}</version>
     </dependency>
     <dependency>
       <groupId>com.cmpl</groupId>
       <artifactId>cmpl-web-core-widget</artifactId>
-      <version>1.0.0</version>
+      <version>${cmpl.web.version}</version>
     </dependency>
 
 
