@@ -56,6 +56,7 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
 
   }
 
+  @Override
   @Transactional
   @CachePut(key = "#a0.id+'_'+#a1")
   public PageDTO updateEntity(PageDTO dto, String localeCode) {

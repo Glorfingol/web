@@ -20,12 +20,12 @@ public class UserValidatorImpl extends BaseValidator implements UserValidator {
 
   @Override
   public Error validateCreate(UserCreateForm form, Locale locale) {
-    return null;
+    return validate(form.getLogin(), form.getEmail(), locale);
   }
 
   @Override
   public Error validateUpdate(UserUpdateForm form, Locale locale) {
-    return null;
+    return validate(form.getLogin(), form.getEmail(), locale);
   }
 
   Error validate(String login, String email, Locale locale) {

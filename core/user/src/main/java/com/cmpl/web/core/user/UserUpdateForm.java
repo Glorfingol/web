@@ -9,7 +9,6 @@ import com.cmpl.web.core.common.form.BaseUpdateForm;
 public class UserUpdateForm extends BaseUpdateForm<UserDTO> {
 
   private String login;
-  private String password;
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime lastConnection;
   private String email;
@@ -22,7 +21,6 @@ public class UserUpdateForm extends BaseUpdateForm<UserDTO> {
   public UserUpdateForm(UserDTO userDTO) {
     super(userDTO);
     this.login = userDTO.getLogin();
-    this.password = userDTO.getPassword();
     this.lastConnection = userDTO.getLastConnection();
     this.email = userDTO.getEmail();
     this.description = userDTO.getDescription();
@@ -34,14 +32,6 @@ public class UserUpdateForm extends BaseUpdateForm<UserDTO> {
 
   public void setLogin(String login) {
     this.login = login;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
   }
 
   public LocalDateTime getLastConnection() {

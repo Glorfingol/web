@@ -7,7 +7,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
@@ -59,7 +66,7 @@ public class UserManagerController {
   @PostMapping(produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:users:create')")
-  public ResponseEntity<UserResponse> createWidget(@RequestBody UserCreateForm createForm, Locale locale) {
+  public ResponseEntity<UserResponse> createUser(@RequestBody UserCreateForm createForm, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
     try {
       UserResponse response = userDispatcher.createEntity(createForm, locale);
@@ -75,7 +82,7 @@ public class UserManagerController {
 
   @PutMapping(value = "/{userId}", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:users:update')")
+  @PreAuthorize("hasAuthority('administration:users:write')")
   public ResponseEntity<UserResponse> updateUser(@RequestBody UserUpdateForm updateForm, Locale locale) {
 
     LOGGER.info("Tentative de modification d'une page");
@@ -101,15 +108,14 @@ public class UserManagerController {
 
   @GetMapping(value = "/{userId}/_main")
   @PreAuthorize("hasAuthority('administration:users:read')")
-  public ModelAndView printViewUpdateWidgetMain(@PathVariable(value = "userId") String userId, Locale locale) {
+  public ModelAndView printViewUpdateUserMain(@PathVariable(value = "userId") String userId, Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.USER_UPDATE.name() + " pour " + userId + " pour la partie main");
     return userManagerDisplayFactory.computeModelAndViewForUpdateUserMain(locale, userId);
   }
 
   @GetMapping(value = "/{userId}/_roles")
   @PreAuthorize("hasAuthority('administration:users:read')")
-  public ModelAndView printViewUpdateWidgetPersonalization(@PathVariable(value = "userId") String userId,
-      Locale locale) {
+  public ModelAndView printViewUpdateUserRoles(@PathVariable(value = "userId") String userId, Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.USER_UPDATE.name() + " pour " + userId + " pour la partie roles");
     return userManagerDisplayFactory.computeModelAndViewForUpdateUserRoles(locale, userId);
   }

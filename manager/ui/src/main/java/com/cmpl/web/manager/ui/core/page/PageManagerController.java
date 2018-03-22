@@ -95,7 +95,7 @@ public class PageManagerController {
 
   @PutMapping(value = "/{pageId}", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:pages:update')")
+  @PreAuthorize("hasAuthority('webmastering:pages:write')")
   public ResponseEntity<PageResponse> updatePage(@RequestBody PageUpdateForm updateForm, Locale locale) {
 
     LOGGER.info("Tentative de modification d'une page");

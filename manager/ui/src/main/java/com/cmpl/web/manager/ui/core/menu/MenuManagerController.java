@@ -72,7 +72,7 @@ public class MenuManagerController {
 
   @PutMapping(value = "/{menuId}", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:menu:update')")
+  @PreAuthorize("hasAuthority('webmastering:menu:write')")
   public ResponseEntity<MenuResponse> updateMenu(@RequestBody MenuUpdateForm updateForm, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un menu");

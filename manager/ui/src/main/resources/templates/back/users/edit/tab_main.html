@@ -1,4 +1,9 @@
-<form id="userCreateForm" th:object="${createForm}">
+<form id="userUpdateForm" th:object="${updateForm}">
+  <input type="hidden" th:field="*{id}"/>
+  <input type="hidden" th:field="*{creationDate}"/>
+  <input type="hidden" th:field="*{creationUser}"/>
+  <input type="hidden" th:field="*{modificationDate}"/>
+  <input type="hidden" th:field="*{modificationUser}"/>
   <div class="card mb-4">
     <div class="card-body">
       <div class="form-group mb-3" id="formInputLogin">
@@ -19,14 +24,27 @@
         <div id="feedbackDescription" class="form-control-label"></div>
         <small class="form-text text-muted" th:text="#{user.description.help}"/>
       </div>
+      <div class="form-group mb-3" id="formInputLastConnection">
+        <label th:text="#{user.lastConnection.label}"/>
+        <input type="hidden" th:field="*{lastConnection}"/>
+        <label class="form-control">
+          <span th:text="#{user.the}"/>
+          <span
+              th:text="${#temporals.format(updateForm.lastConnection, 'dd/MM/yy')}"/>
+          <span th:text="#{user.at}"/>
+          <span
+              th:text="${#temporals.format(updateForm.lastConnection, 'HH:mm')}"/>
+        </label>
+        <small class="form-text text-muted" th:text="#{user.lastConnection.help}"/>
+      </div>
     </div>
     <div class="card-footer">
       <div class="float-right">
         <a class="btn btn-md btn-danger collapsed fa fa-times fa-white"
-           onclick="cancelCreateUser()"
+           onclick="cancelUpdateUser()"
         ></a>
-        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postCreateUserForm()"
-           th:if="${currentUser.hasPrivilege('administration:users:create')}"></a>
+        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdateUserForm()"
+           th:if="${currentUser.hasPrivilege('administration:users:write')}"></a>
       </div>
     </div>
   </div>
@@ -37,6 +55,8 @@
 <script type="text/javascript">
   $(document).ready(function () {
     CKEDITOR.replace("description");
+    $(".card-loader").hide();
+    $(".loader").hide();
   });
 
 </script>

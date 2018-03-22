@@ -43,7 +43,7 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
           .collect(Collectors.toList());
       List<MenuItem> childrenItems = new ArrayList<>();
       children.forEach(childItem -> childrenItems.add(computeMenuItem(backPage, childItem, locale)));
-      menuItems.add(computeMenuItem(backPage, parent, locale, childrenItems));
+      menuItems.add(computeMenuItem(backPage, parent, locale, childrenItems, children));
     });
     return menuItems;
   }
@@ -55,15 +55,30 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
         .iconClass(item.getIconClass()).privilege(item.getPrivilege()).build();
   }
 
-  MenuItem computeMenuItem(BACK_PAGE backPage, BackMenuItem item, Locale locale, List<MenuItem> children) {
+  MenuItem computeMenuItem(BACK_PAGE backPage, BackMenuItem item, Locale locale, List<MenuItem> children,
+      List<BackMenuItem> untransformedChildren) {
     return MenuItemBuilder.create().href(getI18nValue(item.getHref(), locale))
         .label(getI18nValue(item.getLabel(), locale)).title(getI18nValue(item.getTitle(), locale))
-        .subMenuItems(children).customCssClass(computeCustomCssClass(backPage, item)).iconClass(item.getIconClass())
-        .privilege(item.getPrivilege()).build();
+        .subMenuItems(children).customCssClass(computeCustomCssClass(backPage, item, untransformedChildren))
+        .iconClass(item.getIconClass()).privilege(item.getPrivilege()).build();
   }
 
   String computeCustomCssClass(BACK_PAGE backPage, BackMenuItem item) {
-    return backPage.getTitle().equals(item.getTitle()) ? "active" : "";
+    return isItemActive(backPage, item) ? "active" : "";
+  }
+
+  String computeCustomCssClass(BACK_PAGE backPage, BackMenuItem item, List<BackMenuItem> children) {
+    return (isItemActive(backPage, item) || isAnyChildActive(backPage, children)) ? "active" : "";
+  }
+
+  boolean isItemActive(BACK_PAGE backPage, BackMenuItem item) {
+    return backPage.getTitle().equals(item.getTitle());
+  }
+
+  boolean isAnyChildActive(BACK_PAGE backPage, List<BackMenuItem> children) {
+    List<Boolean> anyTrue = children.stream().map(child -> child.getTitle().equals(backPage.getTitle()))
+        .collect(Collectors.toList());
+    return anyTrue.contains(Boolean.TRUE);
   }
 
   @Override

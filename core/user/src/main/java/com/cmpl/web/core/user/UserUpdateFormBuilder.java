@@ -7,7 +7,6 @@ import com.cmpl.web.core.common.builder.Builder;
 public class UserUpdateFormBuilder extends Builder<UserUpdateForm> {
 
   private String login;
-  private String password;
   private LocalDateTime lastConnection;
   private String email;
   private String description;
@@ -23,11 +22,6 @@ public class UserUpdateFormBuilder extends Builder<UserUpdateForm> {
 
   public UserUpdateFormBuilder login(String login) {
     this.login = login;
-    return this;
-  }
-
-  public UserUpdateFormBuilder password(String password) {
-    this.password = password;
     return this;
   }
 
@@ -78,7 +72,6 @@ public class UserUpdateFormBuilder extends Builder<UserUpdateForm> {
     form.setEmail(email);
     form.setLastConnection(lastConnection);
     form.setLogin(login);
-    form.setPassword(password);
     form.setCreationDate(creationDate);
     form.setCreationUser(creationUser);
     form.setModificationDate(modificationDate);

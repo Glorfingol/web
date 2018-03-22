@@ -15,4 +15,19 @@
   </div>
 </div>
 </body>
+<script type="text/javascript">
+  $(document).ready(function () {
+    toggleActiveMenu();
+  });
+
+  function toggleActiveMenu() {
+    $("#menu .nav-item .nav-link").each(function () {
+      var that = $(this);
+      if (that.hasClass("collapsed") && that.parent().hasClass("active")) {
+        that.next(".collapse").collapse("show");
+      }
+    });
+  }
+
+</script>
 </html>

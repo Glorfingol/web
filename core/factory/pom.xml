@@ -62,22 +62,33 @@
       <artifactId>cmpl-web-modules-facebook</artifactId>
       <version>${cmpl.web.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-widget</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-user</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-role</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-association-user-role</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>com.cmpl</groupId>
-      <artifactId>cmpl-web-core-widget</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.cmpl</groupId>
-      <artifactId>cmpl-web-core-user</artifactId>
-      <version>1.0.0</version>
-    </dependency>
+
   </dependencies>
 
 

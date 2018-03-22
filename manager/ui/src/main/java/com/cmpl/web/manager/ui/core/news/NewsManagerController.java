@@ -106,7 +106,7 @@ public class NewsManagerController {
    */
   @PutMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:news:update')")
+  @PreAuthorize("hasAuthority('webmastering:news:write')")
   public ResponseEntity<NewsEntryResponse> updateNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId,
       @RequestBody NewsEntryRequest newsEntryRequest, Locale locale) {
 

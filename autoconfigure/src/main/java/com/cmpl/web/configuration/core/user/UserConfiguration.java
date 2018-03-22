@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
@@ -23,7 +24,19 @@ import com.cmpl.web.core.factory.user.UserManagerDisplayFactoryImpl;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.user.*;
+import com.cmpl.web.core.role.RoleService;
+import com.cmpl.web.core.user.User;
+import com.cmpl.web.core.user.UserDispatcher;
+import com.cmpl.web.core.user.UserDispatcherImpl;
+import com.cmpl.web.core.user.UserMailService;
+import com.cmpl.web.core.user.UserMailServiceImpl;
+import com.cmpl.web.core.user.UserRepository;
+import com.cmpl.web.core.user.UserService;
+import com.cmpl.web.core.user.UserServiceImpl;
+import com.cmpl.web.core.user.UserTranslator;
+import com.cmpl.web.core.user.UserTranslatorImpl;
+import com.cmpl.web.core.user.UserValidator;
+import com.cmpl.web.core.user.UserValidatorImpl;
 
 @Configuration
 @EntityScan(basePackageClasses = User.class)
@@ -84,8 +97,10 @@ public class UserConfiguration {
   }
 
   @Bean
-  UserManagerDisplayFactory userManagerDisplayFactory(UserService userService, ContextHolder contextHolder,
-      MenuFactory menuFactory, WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
-    return new UserManagerDisplayFactoryImpl(userService, contextHolder, menuFactory, messageSource, breadCrumbs);
+  UserManagerDisplayFactory userManagerDisplayFactory(UserService userService, RoleService roleService,
+      AssociationUserRoleService associationUserRoleService, ContextHolder contextHolder, MenuFactory menuFactory,
+      WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+    return new UserManagerDisplayFactoryImpl(userService, roleService, associationUserRoleService, contextHolder,
+        menuFactory, messageSource, breadCrumbs);
   }
 }

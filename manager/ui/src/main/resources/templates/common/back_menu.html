@@ -6,7 +6,7 @@
   </button>
   <div class="collapse navbar-collapse" id="menuCollapse">
     <ul id="menu" class="navbar-nav flex-column">
-      <li id="menu_index" class="nav-item" th:each="menuItem : ${menuItems}"
+      <li class="nav-item" th:each="menuItem : ${menuItems}"
           th:classappend="${menuItem.customCssClass}"
           th:if="${currentUser.hasPrivilege(menuItem.privilege)}">
         <a th:if="${(menuItem.subMenuItems.size() > 0)}"
@@ -23,6 +23,7 @@
              th:id="${'menu_' + menuItem.title}">
           <ul class="navbar-nav flex-column">
             <li class="nav-item" th:each="subMenuItem : ${menuItem.subMenuItems}"
+                th:classappend="${subMenuItem.customCssClass}"
                 th:if="${currentUser.hasPrivilege(subMenuItem.privilege)}">
               <a class=" nav-link
             " th:title="${subMenuItem.title}" th:href="${subMenuItem.href}">

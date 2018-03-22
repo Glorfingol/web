@@ -109,7 +109,7 @@ public class WidgetManagerController {
 
   @PutMapping(value = "/{widgetId}", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:widgets:update')")
+  @PreAuthorize("hasAuthority('webmastering:widgets:write')")
   public ResponseEntity<WidgetResponse> updateWidget(@RequestBody WidgetUpdateForm updateForm, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
     try {

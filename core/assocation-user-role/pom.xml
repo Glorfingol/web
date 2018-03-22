@@ -14,7 +14,7 @@
     <dependency>
       <groupId>com.cmpl</groupId>
       <artifactId>cmpl-web-core-common</artifactId>
-      <version>1.0.0</version>
+      <version>${cmpl.web.version}</version>
     </dependency>
   </dependencies>
 

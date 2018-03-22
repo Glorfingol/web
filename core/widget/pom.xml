@@ -27,17 +27,17 @@
     <dependency>
       <groupId>com.cmpl</groupId>
       <artifactId>cmpl-web-core-carousel</artifactId>
-      <version>1.0.0</version>
+      <version>${cmpl.web.version}</version>
     </dependency>
     <dependency>
       <groupId>com.cmpl</groupId>
       <artifactId>cmpl-web-core-media</artifactId>
-      <version>1.0.0</version>
+      <version>${cmpl.web.version}</version>
     </dependency>
     <dependency>
       <groupId>com.cmpl</groupId>
       <artifactId>cmpl-web-core-news</artifactId>
-      <version>1.0.0</version>
+      <version>${cmpl.web.version}</version>
     </dependency>
   </dependencies>
 

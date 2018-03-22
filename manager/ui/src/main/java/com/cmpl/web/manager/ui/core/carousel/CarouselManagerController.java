@@ -89,7 +89,7 @@ public class CarouselManagerController {
 
   @PutMapping(value = "/{carouselId}", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:carousels:update')")
+  @PreAuthorize("hasAuthority('webmastering:carousels:write')")
   public ResponseEntity<CarouselResponse> updateCarousel(@RequestBody CarouselUpdateForm updateForm, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un carousel");
@@ -131,7 +131,7 @@ public class CarouselManagerController {
 
   @PostMapping(value = "/{carouselId}/items")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:carousels:update')")
+  @PreAuthorize("hasAuthority('webmastering:carousels:write')")
   public ResponseEntity<CarouselItemResponse> createCarouselItem(@RequestBody CarouselItemCreateForm createForm,
       Locale locale) {
 

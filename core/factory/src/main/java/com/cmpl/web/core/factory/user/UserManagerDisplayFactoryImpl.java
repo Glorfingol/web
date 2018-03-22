@@ -13,6 +13,8 @@ import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.association_user_role.AssociationUserRoleDTO;
+import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
@@ -22,6 +24,8 @@ import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.role.RoleDTO;
+import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.user.UserCreateForm;
 import com.cmpl.web.core.user.UserDTO;
 import com.cmpl.web.core.user.UserService;
@@ -31,12 +35,17 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     UserManagerDisplayFactory {
 
   private final UserService userService;
+  private final RoleService roleService;
+  private final AssociationUserRoleService assocationUserRoleService;
   private final ContextHolder contextHolder;
 
-  public UserManagerDisplayFactoryImpl(UserService userService, ContextHolder contextHolder, MenuFactory menuFactory,
+  public UserManagerDisplayFactoryImpl(UserService userService, RoleService roleService,
+      AssociationUserRoleService assocationUserRoleService, ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry);
     this.userService = userService;
+    this.roleService = roleService;
+    this.assocationUserRoleService = assocationUserRoleService;
     this.contextHolder = contextHolder;
   }
 
@@ -84,12 +93,27 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   @Override
   public ModelAndView computeModelAndViewForUpdateUserMain(Locale locale, String userId) {
-    return null;
+    ModelAndView userManager = new ModelAndView("back/users/edit/tab_main");
+    LOGGER.info("Construction du user pour la page {} ", BACK_PAGE.USER_UPDATE.name());
+    UserDTO user = userService.getEntity(Long.parseLong(userId));
+    UserUpdateForm form = new UserUpdateForm(user);
+
+    userManager.addObject("updateForm", form);
+    return userManager;
   }
 
   @Override
   public ModelAndView computeModelAndViewForUpdateUserRoles(Locale locale, String userId) {
-    return null;
+    ModelAndView userManager = new ModelAndView("back/users/edit/tab_roles");
+    LOGGER.info("Construction des roles pour la page {} ", BACK_PAGE.USER_UPDATE.name());
+
+    List<RoleDTO> associatedRoles = new ArrayList<>();
+    List<AssociationUserRoleDTO> associationUserRoles = assocationUserRoleService.findByUserId(userId);
+    associationUserRoles.forEach(association -> associatedRoles.add(roleService.getEntity(Long.parseLong(association
+        .getRoleId()))));
+
+    userManager.addObject("linkedRoles", associatedRoles);
+    return userManager;
   }
 
   @Override

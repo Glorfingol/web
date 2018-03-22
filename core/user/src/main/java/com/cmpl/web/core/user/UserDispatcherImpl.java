@@ -44,7 +44,6 @@ public class UserDispatcherImpl implements UserDispatcher {
     userToUpdate.setEmail(form.getEmail());
     userToUpdate.setLastConnection(form.getLastConnection());
     userToUpdate.setLogin(form.getLogin());
-    userToUpdate.setPassword(form.getPassword());
 
     UserDTO userUpdated = service.updateEntity(userToUpdate);
     return translator.fromDTOToResponse(userUpdated);

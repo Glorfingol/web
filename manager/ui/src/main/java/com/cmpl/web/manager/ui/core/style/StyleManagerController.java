@@ -49,7 +49,7 @@ public class StyleManagerController {
   }
 
   @PutMapping(value = "/_edit", produces = "application/json")
-  @PreAuthorize("hasAuthority('webmastering:style:update')")
+  @PreAuthorize("hasAuthority('webmastering:style:write')")
   public ResponseEntity<StyleResponse> handleEditStyle(@RequestBody StyleForm form, Locale locale) {
     LOGGER.info("Tentative de modification du style global");
     try {
