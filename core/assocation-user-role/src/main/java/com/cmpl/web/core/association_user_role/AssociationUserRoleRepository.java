@@ -13,4 +13,6 @@ public interface AssociationUserRoleRepository extends BaseRepository<Associatio
 
   List<AssociationUserRole> findByRoleId(String roleId);
 
+  AssociationUserRole findByUserIdAndRoleId(String userId, String roleId);
+
 }

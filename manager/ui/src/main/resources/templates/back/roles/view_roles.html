@@ -1,0 +1,28 @@
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <div class="pull-right ">
+          <a class="btn btn-md btn-primary fa fa-plus fa-white"
+             href="/manager/roles/_create"
+             id="buttonAdd" th:if="${currentUser.hasPrivilege('administration:roles:create')}"></a>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <table class="table table-bordered table-hover">
+        <tbody>
+        <tr th:each="roleBean : ${wrappedRoles.page.content}">
+          <td>
+            <a th:href="'/manager/roles/' + ${roleBean.id}" class="table-link">
+              <span th:text="${roleBean.name}"/>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div th:replace="common/pagination :: pagination(${wrappedRoles})"/>
+  </div>
+
+</div>

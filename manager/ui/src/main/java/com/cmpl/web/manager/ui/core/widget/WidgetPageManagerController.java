@@ -33,10 +33,10 @@ public class WidgetPageManagerController {
   @PostMapping(value = "/manager/pages/{pageId}/widgets", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:widgets:create')")
-  public ResponseEntity<WidgetPageResponse> createMetaElement(@PathVariable(name = "pageId") String pageId,
+  public ResponseEntity<WidgetPageResponse> createWidgetAssociation(@PathVariable(name = "pageId") String pageId,
       @RequestBody WidgetPageCreateForm createForm, Locale locale) {
 
-    LOGGER.info("Tentative de création d'une association_user_role widget-page");
+    LOGGER.info("Tentative de création d'une association widget-page");
     try {
       WidgetPageResponse response = dispatcher.createEntity(pageId, createForm, locale);
       if (response.getWidgetPage() != null) {
@@ -52,14 +52,13 @@ public class WidgetPageManagerController {
 
   @DeleteMapping(value = "/manager/pages/{pageId}/widgets/{widgetId}", produces = "application/json")
   @PreAuthorize("hasAuthority('webmastering:widgets:delete')")
-  public ResponseEntity<WidgetPageResponse> deleteMetaElement(@PathVariable(name = "pageId") String pageId,
+  public ResponseEntity<WidgetPageResponse> deleteWidgetAssociation(@PathVariable(name = "pageId") String pageId,
       @PathVariable(name = "widgetId") String widgetId, Locale locale) {
     LOGGER.info("Tentative de suppression d'un widgetPage");
     try {
       dispatcher.deleteEntity(pageId, widgetId, locale);
     } catch (BaseException e) {
-      LOGGER.error("Echec de la suppression de l'association_user_role widget/meta " + widgetId + " pour la page "
-          + pageId, e);
+      LOGGER.error("Echec de la suppression de l'association widget/meta " + widgetId + " pour la page " + pageId, e);
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return new ResponseEntity<>(HttpStatus.OK);

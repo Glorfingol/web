@@ -11,6 +11,7 @@ import com.cmpl.web.core.factory.media.MediaManagerDisplayFactory;
 import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactory;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactory;
 import com.cmpl.web.core.factory.page.PageManagerDisplayFactory;
+import com.cmpl.web.core.factory.role.RoleManagerDisplayFactory;
 import com.cmpl.web.core.factory.style.StyleDisplayFactory;
 import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
@@ -18,6 +19,7 @@ import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.MenuDispatcher;
 import com.cmpl.web.core.news.NewsEntryDispatcher;
 import com.cmpl.web.core.page.PageDispatcher;
+import com.cmpl.web.core.role.RoleDispatcher;
 import com.cmpl.web.core.style.StyleDispatcher;
 import com.cmpl.web.core.user.UserDispatcher;
 import com.cmpl.web.core.widget.WidgetDispatcher;
@@ -29,6 +31,7 @@ import com.cmpl.web.manager.ui.core.media.MediaManagerController;
 import com.cmpl.web.manager.ui.core.menu.MenuManagerController;
 import com.cmpl.web.manager.ui.core.news.NewsManagerController;
 import com.cmpl.web.manager.ui.core.page.PageManagerController;
+import com.cmpl.web.manager.ui.core.role.RoleManagerController;
 import com.cmpl.web.manager.ui.core.style.StyleManagerController;
 import com.cmpl.web.manager.ui.core.user.CurrentUserControllerAdvice;
 import com.cmpl.web.manager.ui.core.user.UserManagerController;
@@ -110,6 +113,12 @@ public class BackControllerConfiguration {
   public UserManagerController userManagerController(UserManagerDisplayFactory userManagerDisplayFactory,
       UserDispatcher userDispatcher) {
     return new UserManagerController(userManagerDisplayFactory, userDispatcher);
+  }
+
+  @Bean
+  public RoleManagerController roleManagerController(RoleManagerDisplayFactory roleManagerDisplayFactory,
+      RoleDispatcher roleDispatcher) {
+    return new RoleManagerController(roleDispatcher, roleManagerDisplayFactory);
   }
 
 }

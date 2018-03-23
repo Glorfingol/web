@@ -10,4 +10,6 @@ public interface AssociationUserRoleService extends BaseService<AssociationUserR
 
   List<AssociationUserRoleDTO> findByRoleId(String roleId);
 
+  AssociationUserRoleDTO findByUserIdAndRoleId(String userId, String roleId);
+
 }

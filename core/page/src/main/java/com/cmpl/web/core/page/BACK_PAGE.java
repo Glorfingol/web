@@ -34,7 +34,10 @@ public enum BACK_PAGE {
   WIDGET_UPDATE("widgets.update", "back.widgets.title"),
   USER_VIEW("users.view", "back.users.title"),
   USER_CREATE("users.create", "back.users.title"),
-  USER_UPDATE("users.update", "back.users.title");
+  USER_UPDATE("users.update", "back.users.title"),
+  ROLE_VIEW("roles.view", "back.roles.title"),
+  ROLE_CREATE("roles.create", "back.roles.title"),
+  ROLE_UPDATE("roles.update", "back.roles.title");
 
   private String tile;
   private String title;

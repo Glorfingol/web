@@ -6,9 +6,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.cmpl.web.core.association_user_role.AssociationUserRole;
+import com.cmpl.web.core.association_user_role.AssociationUserRoleDispatcher;
+import com.cmpl.web.core.association_user_role.AssociationUserRoleDispatcherImpl;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleRepository;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleServiceImpl;
+import com.cmpl.web.core.association_user_role.AssociationUserRoleTranslator;
+import com.cmpl.web.core.association_user_role.AssociationUserRoleTranslatorImpl;
+import com.cmpl.web.core.association_user_role.AssociationUserRoleValidator;
+import com.cmpl.web.core.association_user_role.AssociationUserRoleValidatorImpl;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.manager.ui.core.association_user_role.AssociationUserRoleManagerController;
 
 @Configuration
 @EntityScan(basePackageClasses = AssociationUserRole.class)
@@ -18,6 +26,30 @@ public class AssociationUserRoleConfiguration {
   @Bean
   AssociationUserRoleService associationUserRoleService(AssociationUserRoleRepository associationUserRoleRepository) {
     return new AssociationUserRoleServiceImpl(associationUserRoleRepository);
+  }
+
+  @Bean
+  AssociationUserRoleValidator associationUserRoleValidator(WebMessageSource messageSource) {
+    return new AssociationUserRoleValidatorImpl(messageSource);
+  }
+
+  @Bean
+  AssociationUserRoleTranslator associationUserRoleTranslator() {
+    return new AssociationUserRoleTranslatorImpl();
+  }
+
+  @Bean
+  AssociationUserRoleDispatcher associationUserRoleDispatcher(AssociationUserRoleService associationUserRoleService,
+      AssociationUserRoleValidator associationUserRoleValidator,
+      AssociationUserRoleTranslator associationUserRoleTranslator) {
+    return new AssociationUserRoleDispatcherImpl(associationUserRoleService, associationUserRoleValidator,
+        associationUserRoleTranslator);
+  }
+
+  @Bean
+  AssociationUserRoleManagerController associationUserRoleManagerController(
+      AssociationUserRoleDispatcher associationUserRoleDispatcher) {
+    return new AssociationUserRoleManagerController(associationUserRoleDispatcher);
   }
 
 }

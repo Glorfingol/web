@@ -20,7 +20,6 @@ function computeUserToUpdate() {
   var user = {};
 
   var inputLogin = $("#login");
-  var inputDescription = $("#description");
   var inputEmail = $("#email");
   var inputLastConnection = $("#lastConnection");
   var inputId = $("#id");
@@ -30,7 +29,7 @@ function computeUserToUpdate() {
   var inputModificationUser = $("#modificationUser");
 
   user.login = inputLogin.val();
-  user.description = inputDescription.val();
+  user.description = computeUserDescription();
   user.email = inputEmail.val();
   user.lastConnection = inputLastConnection.val();
   user.id = inputId.val();
@@ -48,14 +47,19 @@ function computeUserToCreate() {
 
   var inputLogin = $("#login");
   var inputEmail = $("#email");
-  var inputDescription = $("#description");
 
   user.login = inputLogin.val();
   user.email = inputEmail.val();
-  user.description = inputDescription.val();
+  user.description = computeUserDescription();
 
   return user;
 
+}
+
+function computeUserDescription() {
+  var description = "";
+  description = CKEDITOR.instances.description.getData();
+  return description;
 }
 
 function postUpdateUserForm() {

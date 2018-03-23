@@ -11,22 +11,22 @@ public class AssociationUserRolePrivilegeConfiguration {
 
   @Bean
   public Privilege responsabilitiesReadPrivilege() {
-    return new SimplePrivilege("administration", "responsabilities", "read");
+    return new SimplePrivilege("administration", "responsibilities", "read");
   }
 
   @Bean
   public Privilege responsabilitiesWritePrivilege() {
-    return new SimplePrivilege("administration", "responsabilities", "write");
+    return new SimplePrivilege("administration", "responsibilities", "write");
   }
 
   @Bean
   public Privilege responsabilitiesCreatePrivilege() {
-    return new SimplePrivilege("administration", "responsabilities", "create");
+    return new SimplePrivilege("administration", "responsibilities", "create");
   }
 
   @Bean
   public Privilege responsabilitiesDeletePrivilege() {
-    return new SimplePrivilege("administration", "responsabilities", "delete");
+    return new SimplePrivilege("administration", "responsibilities", "delete");
   }
 
 }

@@ -25,6 +25,11 @@ public class AssociationUserRoleServiceImpl extends BaseServiceImpl<AssociationU
   }
 
   @Override
+  public AssociationUserRoleDTO findByUserIdAndRoleId(String userId, String roleId) {
+    return toDTO(entityRepository.findByUserIdAndRoleId(userId, roleId));
+  }
+
+  @Override
   protected AssociationUserRoleDTO toDTO(AssociationUserRole entity) {
     AssociationUserRoleDTO dto = AssociationUserRoleDTOBuilder.create().build();
     fillObject(entity, dto);

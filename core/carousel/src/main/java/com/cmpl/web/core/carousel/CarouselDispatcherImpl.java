@@ -29,9 +29,8 @@ public class CarouselDispatcherImpl implements CarouselDispatcher {
     Error error = validator.validateCreate(form, locale);
 
     if (error != null) {
-      CarouselResponse response = new CarouselResponse();
-      response.setError(error);
-      return response;
+      return CarouselResponseBuilder.create().error(error).build();
+
     }
 
     CarouselDTO carouselToCreate = translator.fromCreateFormToDTO(form);
@@ -44,9 +43,8 @@ public class CarouselDispatcherImpl implements CarouselDispatcher {
     Error error = validator.validateUpdate(form, locale);
 
     if (error != null) {
-      CarouselResponse response = new CarouselResponse();
-      response.setError(error);
-      return response;
+      return CarouselResponseBuilder.create().error(error).build();
+
     }
 
     CarouselDTO carouselToUpdate = carouselService.getEntity(form.getId());
@@ -62,9 +60,7 @@ public class CarouselDispatcherImpl implements CarouselDispatcher {
     Error error = validator.validateCreate(form, locale);
 
     if (error != null) {
-      CarouselItemResponse response = new CarouselItemResponse();
-      response.setError(error);
-      return response;
+      return CarouselItemResponseBuilder.create().error(error).build();
     }
 
     CarouselItemDTO itemToCreate = translator.fromCreateFormToDTO(form);

@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.user;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,6 +14,7 @@ import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.association_user_role.AssociationUserRoleCreateFormBuilder;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleDTO;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -112,7 +114,17 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     associationUserRoles.forEach(association -> associatedRoles.add(roleService.getEntity(Long.parseLong(association
         .getRoleId()))));
 
+    List<RoleDTO> linkableRoles = roleService
+        .getEntities()
+        .stream()
+        .filter(
+            role -> !associatedRoles.stream().filter(associatedRole -> associatedRole.getId().equals(role.getId()))
+                .map(filteredRole -> filteredRole.getId()).collect(Collectors.toList()).contains(role.getId()))
+        .collect(Collectors.toList());
+
     userManager.addObject("linkedRoles", associatedRoles);
+    userManager.addObject("linkableRoles", linkableRoles);
+    userManager.addObject("createForm", AssociationUserRoleCreateFormBuilder.create().userId(userId).build());
     return userManager;
   }
 

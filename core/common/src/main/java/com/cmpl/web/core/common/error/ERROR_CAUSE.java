@@ -36,12 +36,19 @@ public enum ERROR_CAUSE {
   EMPTY_WIDGET_ID("empty.widget.id"),
   EMPTY_WIDGET_PAGE_ID("empty.widget.page.id"),
 
+  EMPTY_USER_ID("empty.user.id"),
+  EMPTY_ROLE_ID("empty.role.id"),
+  EMPTY_USER_ROLE_ID("empty.user.role.id"),
+
   EMPTY_LOGIN("empty.user.login"),
-  EMPTY_EMAIL("empty.user.email");
+  EMPTY_EMAIL("empty.user.email"),
+
+  EMPTY_ROLE_NAME("empty.role.name"),
+  EMPTY_ROLE_DESCRIPTION("empty.role.description");
 
   private String causeKey;
 
-  private ERROR_CAUSE(String causeKey) {
+  ERROR_CAUSE(String causeKey) {
     this.causeKey = causeKey;
   }
 

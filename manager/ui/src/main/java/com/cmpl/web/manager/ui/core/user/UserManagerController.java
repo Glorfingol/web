@@ -67,7 +67,7 @@ public class UserManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:users:create')")
   public ResponseEntity<UserResponse> createUser(@RequestBody UserCreateForm createForm, Locale locale) {
-    LOGGER.info("Tentative de création d'une page");
+    LOGGER.info("Tentative de création d'un utilisateur");
     try {
       UserResponse response = userDispatcher.createEntity(createForm, locale);
       if (response.getUser() != null) {
@@ -85,7 +85,7 @@ public class UserManagerController {
   @PreAuthorize("hasAuthority('administration:users:write')")
   public ResponseEntity<UserResponse> updateUser(@RequestBody UserUpdateForm updateForm, Locale locale) {
 
-    LOGGER.info("Tentative de modification d'une page");
+    LOGGER.info("Tentative de modification d'un utilisateur");
     try {
       UserResponse response = userDispatcher.updateEntity(updateForm, locale);
       if (response.getUser() != null) {
@@ -101,7 +101,7 @@ public class UserManagerController {
 
   @GetMapping(value = "/{userId}")
   @PreAuthorize("hasAuthority('administration:users:read')")
-  public ModelAndView printViewUpdateWidget(@PathVariable(value = "userId") String userId, Locale locale) {
+  public ModelAndView printViewUpdateUser(@PathVariable(value = "userId") String userId, Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.USER_UPDATE.name() + " pour " + userId);
     return userManagerDisplayFactory.computeModelAndViewForUpdateUser(locale, userId);
   }
