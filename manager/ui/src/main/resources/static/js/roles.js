@@ -6,6 +6,10 @@ function cancelCreateRole() {
   window.location.href = "/manager/roles";
 }
 
+function cancelRolePrivileges() {
+  window.location.href = "/manager/roles";
+}
+
 function validateAndUpdateRole() {
   var role = computeRoleToUpdate();
   return role;
@@ -57,6 +61,23 @@ function computeRoleDescription() {
   return description;
 }
 
+function computePrivilegesForm() {
+  var privilegeForm = {}
+
+  var inputId = $("#id");
+  privilegeForm.roleId = inputId.val();
+
+  var privilegesToEnable = [];
+
+  $("input[type='checkbox']").each(function () {
+    if ($(this).is(':checked')) {
+      privilegesToEnable.push(this.id);
+    }
+  });
+  privilegeForm.privilegesToEnable = privilegesToEnable;
+  return privilegeForm;
+}
+
 function postUpdateRoleForm() {
   var roleToUpdate = validateAndUpdateRole();
   var url = "/manager/roles/" + roleToUpdate.id;
@@ -81,5 +102,19 @@ function postCreateRoleForm() {
         $("#roleCreateForm"), url)
   }).fail(function (error) {
     handleErrorPostResult(urlFallback);
+  });
+}
+
+function postUpdatePrivilegesForm() {
+  var privilegesForm = computePrivilegesForm();
+  var url = "/manager/roles/" + privilegesForm.roleId + "/privileges";
+  var urlFallback = "/manager/roles/" + privilegesForm.roleId;
+  update($("#rolePrivilegesForm"), $(".loader"), $(".card-loader"), url,
+      urlFallback,
+      privilegesForm).done(function (data) {
+    handleSuccessPutResult(data, $(".card-loader"), $(".loader"),
+        $("#rolePrivilegesForm"), url, true)
+  }).fail(function (error) {
+    handleErrorPutResult(urlFallback);
   });
 }

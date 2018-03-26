@@ -88,6 +88,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements U
 
   @Override
   @CacheEvict(value = {"pagedUsers", "listedUsers"}, allEntries = true)
+  @CachePut(key = "#a0")
   public UserDTO updateLastConnection(Long userId, LocalDateTime connectionDateTime) {
     Optional<User> result = userRepository.findById(userId);
     if (!result.isPresent()) {

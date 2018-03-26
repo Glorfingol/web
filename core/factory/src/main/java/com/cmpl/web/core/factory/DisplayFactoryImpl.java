@@ -17,7 +17,11 @@ import com.cmpl.web.core.news.NewsEntryService;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
-import com.cmpl.web.core.widget.*;
+import com.cmpl.web.core.widget.WidgetDTO;
+import com.cmpl.web.core.widget.WidgetDTOBuilder;
+import com.cmpl.web.core.widget.WidgetPageDTO;
+import com.cmpl.web.core.widget.WidgetPageService;
+import com.cmpl.web.core.widget.WidgetService;
 
 /**
  * Implementation de l'interface de factory pur generer des model and view pour les pages du site
@@ -72,7 +76,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     model.addObject("widgetNames", widgetNames);
 
-    LOGGER.info("Page {0} prête", pageName);
+    LOGGER.info("Page {} prête", pageName);
 
     return model;
   }
@@ -83,8 +87,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     LOGGER.info("Construction de l'entree de blog d'id {}", newsEntryId);
 
     WidgetProviderPlugin widgetProvider = widgetProviders.getPluginFor("BLOG_ENTRY");
-    ModelAndView model = new ModelAndView(
-        widgetProvider.computeWidgetTemplate(WidgetDTOBuilder.create().build(), locale));
+    ModelAndView model = new ModelAndView(widgetProvider.computeWidgetTemplate(WidgetDTOBuilder.create().build(),
+        locale));
     NewsEntryDTO newsEntry = newsEntryService.getEntity(Long.parseLong(newsEntryId));
     model.addObject("newsBean", newsEntry);
 

@@ -28,6 +28,18 @@ public class RoleValidatorImpl extends BaseValidator implements RoleValidator {
     return validate(form.getName(), form.getDescription(), locale);
   }
 
+  @Override
+  public Error validateUpdate(PrivilegeForm form, Locale locale) {
+    List<ErrorCause> causes = new ArrayList<>();
+    if (CollectionUtils.isEmpty(form.getPrivilegesToEnable())) {
+      causes.add(computeCause(ERROR_CAUSE.EMPTY_PRIVILEGES, locale));
+    }
+    if (!CollectionUtils.isEmpty(causes)) {
+      return computeError(causes);
+    }
+    return null;
+  }
+
   Error validate(String name, String description, Locale locale) {
     List<ErrorCause> causes = new ArrayList<>();
     if (!isStringValid(name)) {

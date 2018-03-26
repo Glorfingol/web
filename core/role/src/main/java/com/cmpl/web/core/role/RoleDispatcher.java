@@ -8,4 +8,6 @@ public interface RoleDispatcher {
 
   RoleResponse updateEntity(RoleUpdateForm form, Locale locale);
 
+  PrivilegeResponse updateEntity(PrivilegeForm form, Locale locale);
+
 }

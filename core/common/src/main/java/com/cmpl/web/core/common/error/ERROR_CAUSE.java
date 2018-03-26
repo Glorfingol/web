@@ -38,6 +38,7 @@ public enum ERROR_CAUSE {
 
   EMPTY_USER_ID("empty.user.id"),
   EMPTY_ROLE_ID("empty.role.id"),
+  EMPTY_PRIVILEGES("empty.role.privileges"),
   EMPTY_USER_ROLE_ID("empty.user.role.id"),
 
   EMPTY_LOGIN("empty.user.login"),

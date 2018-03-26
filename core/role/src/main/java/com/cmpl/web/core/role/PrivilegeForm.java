@@ -1,26 +1,35 @@
 package com.cmpl.web.core.role;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrivilegeForm {
 
-  private Map<String, Boolean> privileges;
+  private String roleId;
+  private List<String> privilegesToEnable;
 
   public PrivilegeForm() {
 
   }
 
-  public PrivilegeForm(Map<String, Boolean> privileges) {
-    this.privileges = new HashMap<>();
-    this.privileges.putAll(privileges);
+  public PrivilegeForm(List<String> privilegesToEnable) {
+    this.privilegesToEnable = new ArrayList<>();
+    this.privilegesToEnable.addAll(privilegesToEnable);
   }
 
-  public Map<String, Boolean> getPrivileges() {
-    return privileges;
+  public List<String> getPrivilegesToEnable() {
+    return privilegesToEnable;
   }
 
-  public void setPrivileges(Map<String, Boolean> privileges) {
-    this.privileges = privileges;
+  public void setPrivilegesToEnable(List<String> privilegesToEnable) {
+    this.privilegesToEnable = privilegesToEnable;
+  }
+
+  public String getRoleId() {
+    return roleId;
+  }
+
+  public void setRoleId(String roleId) {
+    this.roleId = roleId;
   }
 }

@@ -186,3 +186,7 @@ FONT AWESOME
 a.collapsed .fa-angle-up:before {
   content: "\f107";
 }
+
+.collapsing {
+  transition: none !important;
+}

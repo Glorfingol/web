@@ -10,4 +10,6 @@ public interface RoleValidator {
 
   Error validateUpdate(RoleUpdateForm form, Locale locale);
 
+  Error validateUpdate(PrivilegeForm form, Locale locale);
+
 }

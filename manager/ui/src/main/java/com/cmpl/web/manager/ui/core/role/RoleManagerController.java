@@ -19,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.factory.role.RoleManagerDisplayFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.role.PrivilegeForm;
+import com.cmpl.web.core.role.PrivilegeResponse;
 import com.cmpl.web.core.role.RoleCreateForm;
 import com.cmpl.web.core.role.RoleDispatcher;
 import com.cmpl.web.core.role.RoleResponse;
@@ -118,6 +120,22 @@ public class RoleManagerController {
   public ModelAndView printViewUpdateRolePrivileges(@PathVariable(value = "roleId") String roleId, Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.USER_UPDATE.name() + " pour " + roleId + " pour la partie privileges");
     return roleManagerDisplayFactory.computeModelAndViewForUpdateRolePrivileges(locale, roleId);
+  }
+
+  @PutMapping(value = "/{roleId}/privileges", produces = "application/json")
+  @ResponseBody
+  @PreAuthorize("hasAuthority('administration:roles:write')")
+  public ResponseEntity<PrivilegeResponse> updateRolePrivileges(@RequestBody PrivilegeForm privilegeForm, Locale locale) {
+
+    LOGGER.info("Tentative de modification des privileges d'un role");
+    try {
+      PrivilegeResponse response = roleDispatcher.updateEntity(privilegeForm, locale);
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      LOGGER.error("Echec de la modification de l'entrée", e);
+      return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
   }
 
 }

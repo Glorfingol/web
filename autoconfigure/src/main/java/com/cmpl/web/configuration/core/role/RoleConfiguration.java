@@ -91,8 +91,10 @@ public class RoleConfiguration {
   }
 
   @Bean
-  RoleDispatcher roleDispatcher(RoleService roleService, RoleTranslator roleTranslator, RoleValidator roleValidator) {
-    return new RoleDispatcherImpl(roleService, roleValidator, roleTranslator);
+  RoleDispatcher roleDispatcher(RoleService roleService, PrivilegeService privilegeService,
+      RoleTranslator roleTranslator, RoleValidator roleValidator,
+      @Qualifier(value = "privileges") PluginRegistry<com.cmpl.web.core.common.user.Privilege, String> privileges) {
+    return new RoleDispatcherImpl(roleService, privilegeService, roleValidator, roleTranslator, privileges);
   }
 
   @Bean

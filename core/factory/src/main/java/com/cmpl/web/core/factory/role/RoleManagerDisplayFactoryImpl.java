@@ -1,9 +1,11 @@
 package com.cmpl.web.core.factory.role;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,7 +22,6 @@ import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
-import com.cmpl.web.core.common.tree.TreeNode;
 import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
@@ -101,45 +102,57 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
     roleManager.addObject("updateForm", form);
 
-    List<PrivilegeDTO> privilegesOfRole = privilegeService.findByRoleId(roleId);
-
-    List<Privilege> availablePrivileges = privileges.getPlugins();
-
-    TreeNode<Privilege> rootNode = new TreeNode<>("ALL", messageSource.getI18n("rights:all", locale), null);
-    availablePrivileges.stream().forEach(
-        p -> {
-          TreeNode<Privilege> treeNode = rootNode;
-          String[] keyParts = p.privilege().split(":");
-          int i = 0;
-          String currentKey = null;
-          do {
-            currentKey = currentKey != null ? currentKey + ":" + keyParts[i] : keyParts[i];
-            Optional<TreeNode<Privilege>> child = treeNode.findChildWithId(currentKey);
-            if (child.isPresent()) {
-              treeNode = child.get();
-            } else {
-              String labelKey = ("right." + currentKey).replaceAll(":", ".");
-              TreeNode<Privilege> newNode = new TreeNode<>(currentKey, messageSource.getMessage(labelKey, null,
-                  labelKey, locale));
-              if (currentKey.equals(p.privilege())) {
-                newNode.setData(p);
-              }
-              treeNode.addChild(newNode);
-              treeNode = newNode;
-            }
-            i++;
-          } while (i <= keyParts.length - 1);
-
-        });
-
-    roleManager.addObject("selectedPrivileges", privilegesOfRole);
-    roleManager.addObject("privilegesTree", rootNode);
     return roleManager;
   }
 
   @Override
   public ModelAndView computeModelAndViewForUpdateRolePrivileges(Locale locale, String roleId) {
-    return null;
+    ModelAndView roleManager = new ModelAndView("back/roles/edit/tab_privileges");
+
+    LOGGER.info("Construction des privileges du role pour la page {} ", BACK_PAGE.ROLE_UPDATE.name());
+    RoleDTO role = roleService.getEntity(Long.parseLong(roleId));
+    RoleUpdateForm form = new RoleUpdateForm(role);
+
+    roleManager.addObject("updateForm", form);
+
+    List<PrivilegeDTO> privilegesOfRole = privilegeService.findByRoleId(roleId);
+
+    List<Privilege> availablePrivileges = privileges.getPlugins();
+
+    roleManager.addObject("selectedPrivileges", privilegesOfRole);
+
+    Map<String, Map<String, Map<String, Boolean>>> privileges = new HashMap<>();
+    boolean isAllSelected = availablePrivileges.size() == privilegesOfRole.size();
+    privileges.put("all", prepareAllRightsFeature(isAllSelected));
+
+    availablePrivileges.forEach(privilege -> {
+      Map<String, Map<String, Boolean>> namespacePrivileges = privileges.get(privilege.namespace());
+      if (namespacePrivileges == null) {
+        namespacePrivileges = new HashMap<>();
+        privileges.put(privilege.namespace(), namespacePrivileges);
+      }
+      Map<String, Boolean> featurePrivileges = namespacePrivileges.get(privilege.feature());
+      if (featurePrivileges == null) {
+        featurePrivileges = new HashMap<>();
+        namespacePrivileges.put(privilege.feature(), featurePrivileges);
+      }
+
+      featurePrivileges.put(
+          privilege.right(),
+          !privilegesOfRole.stream()
+              .filter(privilegeOfRole -> privilegeOfRole.getContent().equals(privilege.privilege()))
+              .collect(Collectors.toList()).isEmpty());
+    });
+    roleManager.addObject("privilegesTree", privileges);
+    return roleManager;
+  }
+
+  private Map<String, Map<String, Boolean>> prepareAllRightsFeature(boolean isAllSelected) {
+    Map<String, Map<String, Boolean>> allFeature = new HashMap<>();
+    Map<String, Boolean> allRight = new HashMap<>();
+    allRight.put("all", isAllSelected);
+    allFeature.put("all", allRight);
+    return allFeature;
   }
 
   @Override
