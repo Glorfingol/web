@@ -62,7 +62,7 @@ public class MenuFactoryImplTest {
         .doReturn(index)
         .when(menuFactory)
         .computeMenuItem(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(BackMenuItem.class),
-            BDDMockito.eq(Locale.FRANCE));
+            BDDMockito.eq(Locale.FRANCE), BDDMockito.anyList(), BDDMockito.anyList());
 
     List<MenuItem> result = menuFactory.computeBackMenuItems(BACK_PAGE.NEWS_CREATE, Locale.FRANCE);
     Assert.assertTrue(index == result.get(0));

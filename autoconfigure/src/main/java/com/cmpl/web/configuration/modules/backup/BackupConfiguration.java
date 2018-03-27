@@ -6,6 +6,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.cmpl.web.backup.writer.DataManipulator;
+import com.cmpl.web.core.association_user_role.AssociationUserRole;
+import com.cmpl.web.core.association_user_role.AssociationUserRoleRepository;
 import com.cmpl.web.core.carousel.Carousel;
 import com.cmpl.web.core.carousel.CarouselItem;
 import com.cmpl.web.core.carousel.CarouselItemRepository;
@@ -22,10 +24,15 @@ import com.cmpl.web.core.news.NewsImage;
 import com.cmpl.web.core.news.NewsImageRepository;
 import com.cmpl.web.core.page.Page;
 import com.cmpl.web.core.page.PageRepository;
+import com.cmpl.web.core.role.Privilege;
+import com.cmpl.web.core.role.PrivilegeRepository;
+import com.cmpl.web.core.role.Role;
+import com.cmpl.web.core.role.RoleRepository;
 import com.cmpl.web.core.style.Style;
 import com.cmpl.web.core.style.StyleRepository;
+import com.cmpl.web.core.user.User;
+import com.cmpl.web.core.user.UserRepository;
 import com.cmpl.web.core.widget.Widget;
-import com.cmpl.web.core.widget.WidgetPage;
 import com.cmpl.web.core.widget.WidgetPageRepository;
 import com.cmpl.web.core.widget.WidgetRepository;
 
@@ -33,7 +40,8 @@ import com.cmpl.web.core.widget.WidgetRepository;
 @PropertySource("classpath:/backup/backup.properties")
 @EnableJpaRepositories(basePackageClasses = {MenuRepository.class, StyleRepository.class, PageRepository.class,
     MediaRepository.class, CarouselRepository.class, CarouselItemRepository.class, NewsEntryRepository.class,
-    NewsContentRepository.class, NewsImageRepository.class, WidgetRepository.class, WidgetPageRepository.class})
+    NewsContentRepository.class, NewsImageRepository.class, WidgetRepository.class, WidgetPageRepository.class,
+    UserRepository.class, RoleRepository.class, AssociationUserRoleRepository.class, PrivilegeRepository.class})
 public class BackupConfiguration {
 
   @Bean
@@ -87,8 +95,24 @@ public class BackupConfiguration {
   }
 
   @Bean
-  public DataManipulator<WidgetPage> widgetPageDataManipulator(WidgetPageRepository widgetPageRepository) {
-    return new DataManipulator<>(widgetPageRepository);
+  public DataManipulator<User> userDataManipulator(UserRepository userRepository) {
+    return new DataManipulator<>(userRepository);
+  }
+
+  @Bean
+  public DataManipulator<Role> roleDataManipulator(RoleRepository roleRepository) {
+    return new DataManipulator<>(roleRepository);
+  }
+
+  @Bean
+  public DataManipulator<AssociationUserRole> associationUserRoleDataManipulator(
+      AssociationUserRoleRepository associationUserRoleRepository) {
+    return new DataManipulator<>(associationUserRoleRepository);
+  }
+
+  @Bean
+  public DataManipulator<Privilege> privilegeDataManipulator(PrivilegeRepository privilegeRepository) {
+    return new DataManipulator<>(privilegeRepository);
   }
 
 }

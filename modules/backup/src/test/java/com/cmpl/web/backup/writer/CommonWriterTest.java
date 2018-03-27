@@ -51,7 +51,8 @@ public class CommonWriterTest {
   @Test
   public void testGetFileHeader() throws Exception {
     List<String> headerToCreate = Arrays.asList("date", "bytes", "locale", "localDate", "strings", "string",
-        "booleanValue", "integerValue", "someLong", "id", "creationDate", "modificationDate");
+        "booleanValue", "integerValue", "someLong", "id", "creationDate", "creationUser", "modificationDate",
+        "modificationUser");
     Assert.assertEquals(headerToCreate, writer.getFileHeader(new EntityTestBuilder().build()));
   }
 

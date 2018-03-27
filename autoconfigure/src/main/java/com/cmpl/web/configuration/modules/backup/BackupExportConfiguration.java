@@ -19,6 +19,7 @@ import com.cmpl.web.backup.BackupExporterJob;
 import com.cmpl.web.backup.CSVGeneratorImpl;
 import com.cmpl.web.backup.writer.ArchiveManager;
 import com.cmpl.web.backup.writer.ArchiveManagerImpl;
+import com.cmpl.web.backup.writer.AssociationUserRoleCSVWriter;
 import com.cmpl.web.backup.writer.CSVGenerator;
 import com.cmpl.web.backup.writer.CarouselCSVWriter;
 import com.cmpl.web.backup.writer.CarouselItemCSVWriter;
@@ -30,9 +31,13 @@ import com.cmpl.web.backup.writer.NewsContentCSVWriter;
 import com.cmpl.web.backup.writer.NewsEntryCSVWriter;
 import com.cmpl.web.backup.writer.NewsImageCSVWriter;
 import com.cmpl.web.backup.writer.PageCSVWriter;
+import com.cmpl.web.backup.writer.PrivilegeCSVWriter;
+import com.cmpl.web.backup.writer.RoleCSVWriter;
 import com.cmpl.web.backup.writer.StyleCSVWriter;
+import com.cmpl.web.backup.writer.UserCSVWriter;
 import com.cmpl.web.backup.writer.WidgetCSVWriter;
 import com.cmpl.web.backup.writer.WidgetPageCSVWriter;
+import com.cmpl.web.core.association_user_role.AssociationUserRole;
 import com.cmpl.web.core.carousel.Carousel;
 import com.cmpl.web.core.carousel.CarouselItem;
 import com.cmpl.web.core.media.Media;
@@ -41,7 +46,10 @@ import com.cmpl.web.core.news.NewsContent;
 import com.cmpl.web.core.news.NewsEntry;
 import com.cmpl.web.core.news.NewsImage;
 import com.cmpl.web.core.page.Page;
+import com.cmpl.web.core.role.Privilege;
+import com.cmpl.web.core.role.Role;
 import com.cmpl.web.core.style.Style;
+import com.cmpl.web.core.user.User;
 import com.cmpl.web.core.widget.Widget;
 import com.cmpl.web.core.widget.WidgetPage;
 import com.cmpl.web.google.DriveAdapter;
@@ -125,12 +133,39 @@ public class BackupExportConfiguration {
   }
 
   @Bean
-  public CSVGenerator csvGenerator(MenuCSVWriter menuCSVWriter, StyleCSVWriter styleCSVWriter,
-      PageCSVWriter pageCSVWriter, MediaCSVWriter mediaCSVWriter, CarouselCSVWriter carouselCSVWriter,
-      CarouselItemCSVWriter carouselItemCSVWriter, NewsEntryCSVWriter newsEntryCSVWriter,
-      NewsImageCSVWriter newsImageCSVWriter, NewsContentCSVWriter newsContentCSVWriter,
-      WidgetCSVWriter widgetCSVWriter, WidgetPageCSVWriter widgetPageCSVWriter) {
+  public UserCSVWriter userCSVWriter(DataManipulator<User> userDataManipulator) {
+    return new UserCSVWriter(dateFormatter, userDataManipulator, backupFilePath);
+  }
+
+  @Bean
+  public RoleCSVWriter roleCSVWriter(DataManipulator<Role> roleDataManipulator) {
+    return new RoleCSVWriter(dateFormatter, roleDataManipulator, backupFilePath);
+  }
+
+  @Bean
+  public PrivilegeCSVWriter privilegeCSVWriter(DataManipulator<Privilege> privilegeDataManipulator) {
+    return new PrivilegeCSVWriter(dateFormatter, privilegeDataManipulator, backupFilePath);
+  }
+
+  @Bean
+  public AssociationUserRoleCSVWriter associationUserRoleCSVWriter(
+      DataManipulator<AssociationUserRole> associationUserRoleDataManipulator) {
+    return new AssociationUserRoleCSVWriter(dateFormatter, associationUserRoleDataManipulator, backupFilePath);
+  }
+
+  @Bean
+  public CSVGenerator csvGenerator(UserCSVWriter userCSVWriter, RoleCSVWriter roleCSVWriter,
+      PrivilegeCSVWriter privilegeCSVWriter, AssociationUserRoleCSVWriter associationUserRoleCSVWriter,
+      MenuCSVWriter menuCSVWriter, StyleCSVWriter styleCSVWriter, PageCSVWriter pageCSVWriter,
+      MediaCSVWriter mediaCSVWriter, CarouselCSVWriter carouselCSVWriter, CarouselItemCSVWriter carouselItemCSVWriter,
+      NewsEntryCSVWriter newsEntryCSVWriter, NewsImageCSVWriter newsImageCSVWriter,
+      NewsContentCSVWriter newsContentCSVWriter, WidgetCSVWriter widgetCSVWriter,
+      WidgetPageCSVWriter widgetPageCSVWriter) {
     List<CommonWriter<?>> writers = new ArrayList<>();
+    writers.add(userCSVWriter);
+    writers.add(roleCSVWriter);
+    writers.add(privilegeCSVWriter);
+    writers.add(associationUserRoleCSVWriter);
     writers.add(menuCSVWriter);
     writers.add(styleCSVWriter);
     writers.add(pageCSVWriter);

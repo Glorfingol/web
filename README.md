@@ -30,7 +30,17 @@ The backoffice url is your_localhost:your_port/manager/*
 The front office url is your_localhost:your_port/pages/your_page_name  
 The media url is your_localhost:your_port/public/media/
 
-In order to access to the backoffice you need to create backUser.json with a login and a password, store it on your server and declare the path in core.properties
+In order to access to the backoffice you need to create a user in the db and a role with all the privileges and associate the user with the role
+
+#Administration
+## Users  
+You can create and manage users for the manager here.  
+You cannot edit the password of the user.  
+But you can add roles
+## Roles
+You can create and manage roles for the users here.  
+### Rights  
+This tab's purpose is to define which rights are given to the role
 
 # Website management
 ## Menu
