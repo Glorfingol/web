@@ -11,6 +11,7 @@ public class UserDTOBuilder extends BaseBuilder<UserDTO> {
   private LocalDateTime lastConnection;
   private String email;
   private String description;
+  private LocalDateTime lastPasswordModification;
 
   private UserDTOBuilder() {
 
@@ -28,6 +29,11 @@ public class UserDTOBuilder extends BaseBuilder<UserDTO> {
 
   public UserDTOBuilder lastConnection(LocalDateTime lastConnection) {
     this.lastConnection = lastConnection;
+    return this;
+  }
+
+  public UserDTOBuilder lastPasswordModification(LocalDateTime lastPasswordModification) {
+    this.lastPasswordModification = lastPasswordModification;
     return this;
   }
 
@@ -49,6 +55,7 @@ public class UserDTOBuilder extends BaseBuilder<UserDTO> {
     user.setLastConnection(lastConnection);
     user.setLogin(login);
     user.setPassword(password);
+    user.setLastPasswordModification(lastPasswordModification);
     return user;
   }
 

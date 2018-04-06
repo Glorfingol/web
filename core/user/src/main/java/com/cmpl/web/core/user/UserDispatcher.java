@@ -8,4 +8,8 @@ public interface UserDispatcher {
 
   UserResponse updateEntity(UserUpdateForm form, Locale locale);
 
+  RequestPasswordLinkResponse sendChangePasswordLink(String email, Locale locale);
+
+  ChangePasswordResponse changePassword(ChangePasswordForm form, Locale locale);
+
 }

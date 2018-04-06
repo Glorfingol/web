@@ -27,6 +27,9 @@ public class User extends BaseEntity {
   @Column(name = "description")
   private String description;
 
+  @Column(name = "last_password_modification")
+  private LocalDateTime lastPasswordModification;
+
   public String getLogin() {
     return login;
   }
@@ -67,4 +70,11 @@ public class User extends BaseEntity {
     this.description = description;
   }
 
+  public LocalDateTime getLastPasswordModification() {
+    return lastPasswordModification;
+  }
+
+  public void setLastPasswordModification(LocalDateTime lastPasswordModification) {
+    this.lastPasswordModification = lastPasswordModification;
+  }
 }

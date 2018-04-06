@@ -68,6 +68,10 @@ a, button {
   cursor: pointer;
 }
 
+.forgotten-password-link {
+  cursor: pointer;
+}
+
 .form-control-file {
   display: none;
 }

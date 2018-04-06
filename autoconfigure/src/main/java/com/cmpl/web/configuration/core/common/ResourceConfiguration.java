@@ -12,7 +12,7 @@ import com.cmpl.web.core.common.message.WebMessageSourceImpl;
  * @author Louis
  *
  */
-@Configuration 
+@Configuration
 public class ResourceConfiguration {
 
   /**
@@ -23,7 +23,7 @@ public class ResourceConfiguration {
   @Bean
   public WebMessageSource messageSource() {
     WebMessageSourceImpl source = new WebMessageSourceImpl();
-    source.setBasenames("i18n/keys", "i18n/back", "i18n/error", "i18n/form");
+    source.setBasenames("i18n/keys", "i18n/back", "i18n/error", "i18n/form", "i18n/mails");
     source.setUseCodeAsDefaultMessage(true);
     source.setDefaultEncoding("UTF-8");
     return source;

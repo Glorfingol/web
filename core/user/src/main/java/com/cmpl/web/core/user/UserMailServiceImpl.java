@@ -21,7 +21,7 @@ public class UserMailServiceImpl implements UserMailService {
     context.setVariable("user", user);
     context.setVariable("token", token);
 
-    this.mailSender.sendMail("user-activation", context, "activation.subject", locale, user.getEmail());
+    this.mailSender.sendMail("mails/user-activation", context, "activation.subject", locale, user.getEmail());
   }
 
   @Override
@@ -31,6 +31,6 @@ public class UserMailServiceImpl implements UserMailService {
     context.setVariable("user", user);
     context.setVariable("token", token);
 
-    this.mailSender.sendMail("user-change-password", context, "change.password.subject", locale, user.getEmail());
+    this.mailSender.sendMail("mails/user-change-password", context, "change.subject", locale, user.getEmail());
   }
 }

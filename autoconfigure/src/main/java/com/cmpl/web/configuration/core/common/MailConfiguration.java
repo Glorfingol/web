@@ -1,45 +1,40 @@
 package com.cmpl.web.configuration.core.common;
 
-import java.util.Collections;
+import java.io.FileReader;
+import java.util.Properties;
+import java.util.Set;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import com.cmpl.web.core.common.mail.DoNothingMailSenderImpl;
 import com.cmpl.web.core.common.mail.MailSender;
+import com.cmpl.web.core.common.mail.MailSenderImpl;
+import com.cmpl.web.core.common.message.WebMessageSource;
 
 @Configuration
+@PropertySource("classpath:/core/core.properties")
 public class MailConfiguration {
 
-  @Bean
-  public TemplateEngine emailTemplateEngine() {
-    final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+  @Value("${mailSenderConfigurationFile}")
+  String mailSenderConfigurationFile;
 
-    // Resolver for HTML emails (except the editable one)
-    templateEngine.addTemplateResolver(htmlTemplateResolver());
-    // Resolver for HTML editable emails (which will be treated as a String)
+  @Value("${baseUrl}")
+  String baseUrl;
 
-    templateEngine.setTemplateEngineMessageSource(emailMessageSource());
-    return templateEngine;
-  }
+  @Value("${mailFrom}")
+  String from;
 
-  private ITemplateResolver htmlTemplateResolver() {
-    final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-    templateResolver.setOrder(Integer.valueOf(2));
-    templateResolver.setResolvablePatterns(Collections.singleton("html/*"));
-    templateResolver.setPrefix("/templates/mail");
-    templateResolver.setSuffix(".html");
-    templateResolver.setTemplateMode(TemplateMode.HTML);
-    templateResolver.setCharacterEncoding("UTF-8");
-    templateResolver.setCacheable(false);
-    return templateResolver;
-  }
+  @Value("${mailFilters}")
+  Set<String> filters;
 
   @Bean
   public ResourceBundleMessageSource emailMessageSource() {
@@ -49,8 +44,38 @@ public class MailConfiguration {
   }
 
   @Bean
-  MailSender mailSender() {
+  MailSender fakeMailSender() {
     return new DoNothingMailSenderImpl();
+  }
+
+  @Bean
+  MailSender mailSender(JavaMailSender javaMailSender, TemplateEngine templateEngine, WebMessageSource messageSource) {
+    return new MailSenderImpl(javaMailSender, templateEngine, filters, messageSource, from, baseUrl);
+  }
+
+  @Bean
+  JavaMailSender javaMailSender() {
+    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+    Properties mailProperties = new Properties();
+    JSONObject object = computeProperties();
+    mailProperties.put("mail.smtp.auth", Boolean.parseBoolean(String.valueOf(object.get("mailSmtpAuth"))));
+    mailProperties.put("mail.smtp.starttls.enable",
+        Boolean.parseBoolean(String.valueOf(object.get("mailSmtpStarttlsEnable"))));
+    mailSender.setJavaMailProperties(mailProperties);
+    mailSender.setHost(String.valueOf(object.get("host")));
+    mailSender.setPort(Integer.parseInt(String.valueOf(object.get("port"))));
+    mailSender.setUsername(String.valueOf(object.get("username")));
+    mailSender.setPassword(String.valueOf(object.get("password")));
+    return mailSender;
+  }
+
+  JSONObject computeProperties() {
+    JSONParser parser = new JSONParser();
+    try {
+      return (JSONObject) parser.parse(new FileReader(mailSenderConfigurationFile));
+    } catch (Exception e) {
+      return null;
+    }
   }
 
 }

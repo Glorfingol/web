@@ -10,6 +10,8 @@ public enum BACK_PAGE {
 
   INDEX("index.tile", "back.index.title"),
   LOGIN("login.tile", ""),
+  FORGOTTEN_PASSWORD("forgotten.password.tile", ""),
+  CHANGE_PASSWORD("change.password.tile", ""),
   NEWS_VIEW("news.view", "back.news.title"),
   NEWS_CREATE("news.create", "back.news.title"),
   NEWS_UPDATE("news.update", "back.news.title"),

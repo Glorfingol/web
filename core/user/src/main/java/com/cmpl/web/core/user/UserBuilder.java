@@ -11,6 +11,7 @@ public class UserBuilder extends BaseBuilder<User> {
   private LocalDateTime lastConnection;
   private String email;
   private String description;
+  private LocalDateTime lastPasswordModification;
 
   private UserBuilder() {
 
@@ -31,6 +32,11 @@ public class UserBuilder extends BaseBuilder<User> {
     return this;
   }
 
+  public UserBuilder lastPasswordModification(LocalDateTime lastPasswordModification) {
+    this.lastPasswordModification = lastPasswordModification;
+    return this;
+  }
+
   public UserBuilder email(String email) {
     this.email = email;
     return this;
@@ -47,6 +53,7 @@ public class UserBuilder extends BaseBuilder<User> {
     user.setDescription(description);
     user.setEmail(email);
     user.setLastConnection(lastConnection);
+    user.setLastPasswordModification(lastPasswordModification);
     user.setLogin(login);
     user.setPassword(password);
     return user;

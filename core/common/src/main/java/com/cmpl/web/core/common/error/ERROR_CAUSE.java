@@ -2,12 +2,6 @@ package com.cmpl.web.core.common.error;
 
 public enum ERROR_CAUSE {
 
-  EMPTY_META_ID("empty.meta.id"),
-  EMPTY_META_NAME("empty.meta.name"),
-  EMPTY_META_CONTENT("empty.meta.content"),
-  EMPTY_META_PAGE_ID("empty.meta.pageId"),
-  EMPTY_META_PROPERTY("empty.meta.property"),
-
   EMPTY_NEWS_ID("empty.id"),
   EMPTY_NEWS_TITLE("empty.title"),
   EMPTY_NEWS_AUTHOR("empty.author"),
@@ -45,7 +39,14 @@ public enum ERROR_CAUSE {
   EMPTY_EMAIL("empty.user.email"),
 
   EMPTY_ROLE_NAME("empty.role.name"),
-  EMPTY_ROLE_DESCRIPTION("empty.role.description");
+  EMPTY_ROLE_DESCRIPTION("empty.role.description"),
+
+  EMPTY_PASSWORD("empty.user.password"),
+  PASSWORD_CONFIRMATION_DIFFERENT("different.password.confirmation"),
+  PASSWORD_SAME_AS_OLD("same.password.as.before"),
+  PASSWORD_NOT_STRONG("password.not.strong"),
+  EMPTY_CONFIRMATION("empty.user.confirmation"),
+  INVALID_TOKEN("token.invalid");
 
   private String causeKey;
 

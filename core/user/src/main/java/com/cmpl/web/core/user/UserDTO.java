@@ -11,6 +11,7 @@ public class UserDTO extends BaseDTO {
   private LocalDateTime lastConnection;
   private String email;
   private String description;
+  private LocalDateTime lastPasswordModification;
 
   public String getLogin() {
     return login;
@@ -50,5 +51,13 @@ public class UserDTO extends BaseDTO {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public LocalDateTime getLastPasswordModification() {
+    return lastPasswordModification;
+  }
+
+  public void setLastPasswordModification(LocalDateTime lastPasswordModification) {
+    this.lastPasswordModification = lastPasswordModification;
   }
 }

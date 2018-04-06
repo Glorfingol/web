@@ -40,19 +40,19 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
   public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
 
     String backPageName = backPage.name();
-    LOGGER.info("Construction de la page du back {}", backPageName);
+    LOGGER.debug("Construction de la page du back {}", backPageName);
     ModelAndView model = computeModelAndViewBaseTile(backPage, locale);
 
-    LOGGER.info("Construction du menu pour la page {}", backPageName);
+    LOGGER.debug("Construction du menu pour la page {}", backPageName);
     model.addObject("menuItems", computeBackMenuItems(backPage, locale));
-    LOGGER.info("Construction des locales pour la page {}", backPageName);
+    LOGGER.debug("Construction des locales pour la page {}", backPageName);
     model.addObject("locales", computeLocales());
-    LOGGER.info("Construction du fil d'ariane pour la page {}", backPageName);
+    LOGGER.debug("Construction du fil d'ariane pour la page {}", backPageName);
     model.addObject("breadcrumb", computeBreadCrumb(backPage));
-    LOGGER.info("Construction du lien du back pour la page {}", backPageName);
+    LOGGER.debug("Construction du lien du back pour la page {}", backPageName);
     model.addObject("hiddenLink", computeHiddenLink(locale));
 
-    LOGGER.info("Page du back {} prête", backPageName);
+    LOGGER.debug("Page du back {} prête", backPageName);
 
     return model;
   }
@@ -75,7 +75,8 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
 
   ModelAndView computeModelAndViewBaseTile(BACK_PAGE backPage, Locale locale) {
 
-    if (BACK_PAGE.LOGIN.equals(backPage)) {
+    if (BACK_PAGE.LOGIN.equals(backPage) || BACK_PAGE.FORGOTTEN_PASSWORD.equals(backPage)
+        || BACK_PAGE.CHANGE_PASSWORD.equals(backPage)) {
       return new ModelAndView(computeTileName(backPage.getTile(), locale));
     }
 

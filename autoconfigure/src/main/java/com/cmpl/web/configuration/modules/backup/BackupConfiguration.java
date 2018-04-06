@@ -33,6 +33,7 @@ import com.cmpl.web.core.style.StyleRepository;
 import com.cmpl.web.core.user.User;
 import com.cmpl.web.core.user.UserRepository;
 import com.cmpl.web.core.widget.Widget;
+import com.cmpl.web.core.widget.WidgetPage;
 import com.cmpl.web.core.widget.WidgetPageRepository;
 import com.cmpl.web.core.widget.WidgetRepository;
 
@@ -92,6 +93,11 @@ public class BackupConfiguration {
   @Bean
   public DataManipulator<Widget> widgetDataManipulator(WidgetRepository widgetRepository) {
     return new DataManipulator<>(widgetRepository);
+  }
+
+  @Bean
+  public DataManipulator<WidgetPage> widgetPageDataManipulator(WidgetPageRepository widgetPageRepository) {
+    return new DataManipulator<>(widgetPageRepository);
   }
 
   @Bean

@@ -11,9 +11,9 @@ public class UserTranslatorImpl implements UserTranslator {
   @Override
   public UserDTO fromUpdateFormToDTO(UserUpdateForm form) {
     return UserDTOBuilder.create().email(form.getEmail()).login(form.getLogin()).description(form.getDescription())
-        .lastConnection(form.getLastConnection()).creationDate(form.getCreationDate())
-        .modificationDate(form.getModificationDate()).creationUser(form.getCreationUser())
-        .modificationUser(form.getModificationUser()).id(form.getId()).build();
+        .lastConnection(form.getLastConnection()).lastPasswordModification(form.getLastPasswordModification())
+        .creationDate(form.getCreationDate()).modificationDate(form.getModificationDate())
+        .creationUser(form.getCreationUser()).modificationUser(form.getModificationUser()).id(form.getId()).build();
   }
 
   @Override

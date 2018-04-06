@@ -1,9 +1,16 @@
 package com.cmpl.web.core.user;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -15,14 +22,23 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.common.user.ActionToken;
+import com.cmpl.web.core.common.user.ActionTokenService;
 
 @CacheConfig(cacheNames = "users")
 public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements UserService {
 
-  private final UserRepository userRepository;
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+  private static final String creationDateParameter = "creationDate";
 
-  public UserServiceImpl(UserRepository userRepository) {
+  private final UserRepository userRepository;
+  private final ActionTokenService tokenService;
+  private final UserMailService userMailService;
+
+  public UserServiceImpl(ActionTokenService tokenService, UserMailService userMailService, UserRepository userRepository) {
     super(userRepository);
+    this.tokenService = tokenService;
+    this.userMailService = userMailService;
     this.userRepository = userRepository;
   }
 
@@ -57,6 +73,15 @@ public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements U
   }
 
   @Override
+  public UserDTO findByEmail(String email) {
+    User user = userRepository.findByEmail(email);
+    if (user == null) {
+      return null;
+    }
+    return toDTO(user);
+  }
+
+  @Override
   @Cacheable(value = "pagedUsers")
   public Page<UserDTO> getPagedEntities(PageRequest pageRequest) {
     return super.getPagedEntities(pageRequest);
@@ -65,7 +90,26 @@ public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements U
   @Override
   @Cacheable(value = "listedUsers")
   public List<UserDTO> getUsers() {
+
     return toListDTO(userRepository.findAll(new Sort(Direction.ASC, "login")));
+  }
+
+  @Override
+  public void askPasswordChange(long userId, Locale locale) throws Exception {
+    UserDTO user = getEntity(userId);
+    userMailService.sendChangePasswordEmail(user, generatePasswordResetToken(user), locale);
+  }
+
+  @Override
+  @CacheEvict(value = {"pagedUsers", "listedUsers"}, allEntries = true)
+  public UserDTO createUser(UserDTO dto, Locale locale) {
+    UserDTO createdUser = createEntity(dto);
+    try {
+      userMailService.sendAccountCreationEmail(createdUser, generateActivationToken(createdUser), locale);
+    } catch (Exception e) {
+      LOGGER.error("Impossible d'envoyer le mail d'activation de compte", e);
+    }
+    return createdUser;
   }
 
   @Override
@@ -100,5 +144,32 @@ public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements U
 
     return user;
 
+  }
+
+  String generateActivationToken(UserDTO user) {
+    ActionToken actionToken = new ActionToken();
+    actionToken.setAction(UserService.USER_ACTIVATION);
+    actionToken.setUserId(user.getId());
+    actionToken.setExpirationDate(Instant.now().plus(3, ChronoUnit.DAYS));
+
+    Map<String, String> additionalParameters = new HashMap<>();
+    additionalParameters.put(creationDateParameter, Long.toString(Instant.now().toEpochMilli()));
+    actionToken.setAdditionalParameters(additionalParameters);
+
+    return tokenService.generateToken(actionToken);
+  }
+
+  @Override
+  public String generatePasswordResetToken(UserDTO user) {
+    ActionToken actionToken = new ActionToken();
+    actionToken.setAction(UserService.USER_RESET_PASSWORD);
+    actionToken.setUserId(user.getId());
+    actionToken.setExpirationDate(Instant.now().plus(3, ChronoUnit.HOURS));
+
+    Map<String, String> additionalParameters = new HashMap<>();
+    additionalParameters.put(creationDateParameter, Long.toString(Instant.now().toEpochMilli()));
+    actionToken.setAdditionalParameters(additionalParameters);
+
+    return tokenService.generateToken(actionToken);
   }
 }

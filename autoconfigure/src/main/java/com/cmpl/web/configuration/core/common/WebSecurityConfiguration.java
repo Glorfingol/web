@@ -14,13 +14,25 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.cmpl.web.core.common.user.ActionTokenService;
+import com.cmpl.web.core.common.user.ActionTokenServiceImpl;
+import com.cmpl.web.core.common.user.StatelessSecretTokenService;
+import com.cmpl.web.core.user.UserService;
+import com.cmpl.web.manager.ui.core.security.AuthenticationFailureListener;
+import com.cmpl.web.manager.ui.core.security.AuthenticationSuccessListener;
+import com.cmpl.web.manager.ui.core.security.LoginAttemptsService;
+import com.cmpl.web.manager.ui.core.security.LoginAttemptsServiceImpl;
 import com.cmpl.web.manager.ui.core.security.LoginAuthenticationProvider;
+import com.cmpl.web.manager.ui.core.security.PasswordTooOldInterceptor;
 import com.cmpl.web.manager.ui.core.user.LastConnectionUpdateAuthenticationSuccessHandlerImpl;
 
 /**
@@ -38,11 +50,46 @@ public class WebSecurityConfiguration {
   @Value("${backUserFile}")
   String backUserJson;
 
+  @Value("${secret}")
+  String secret;
+
+  @Bean
+  @ConditionalOnMissingBean(TokenService.class)
+  public TokenService tokenService() {
+    return new StatelessSecretTokenService(secret);
+  }
+
+  @Bean
+  LoginAttemptsService loginAttemptsService() {
+    return new LoginAttemptsServiceImpl(10);
+  }
+
+  @Bean
+  ActionTokenService actionTokenService(TokenService tokenService) {
+    return new ActionTokenServiceImpl(tokenService);
+  }
+
+  @Bean
+  public AuthenticationFailureListener authenticationFailureListener(LoginAttemptsService loginAttemptService) {
+    return new AuthenticationFailureListener(loginAttemptService);
+  }
+
+  @Bean
+  PasswordTooOldInterceptor passwordTooOldInterceptor(UserService userService) {
+    return new PasswordTooOldInterceptor(userService);
+  }
+
+  @Bean
+  public AuthenticationSuccessListener authenticationSuccessListener(LoginAttemptsService loginAttemptService) {
+    return new AuthenticationSuccessListener(loginAttemptService);
+  }
+
   @Bean
   public LoginAuthenticationProvider loginAuthenticationProvider(UserDetailsService dbUserDetailsService,
-      PasswordEncoder passwordEncoder) {
+      PasswordEncoder passwordEncoder, LoginAttemptsService userLoginAttemptsService) {
 
-    LoginAuthenticationProvider provider = new LoginAuthenticationProvider(dbUserDetailsService);
+    LoginAuthenticationProvider provider = new LoginAuthenticationProvider(dbUserDetailsService,
+        userLoginAttemptsService);
     provider.setPasswordEncoder(passwordEncoder);
     return provider;
   }
@@ -88,7 +135,8 @@ public class WebSecurityConfiguration {
     String[] prepareAuthorizedUrls() {
       return new String[]{"/", "/pages/**", "/robots", "/robot", "/robot.txt", "/robots.txt", "/bootstrap/**",
           "/jquery/**", "/tether/**", "/fontawesome/**", "/ckeditor/**", "/codemirror/**", "/js/**", "/img/**",
-          "/css/**", "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**", "/widgets/**"};
+          "/css/**", "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**", "/widgets/**", "/forgotten_password",
+          "/change_password"};
     }
 
     @Bean
@@ -99,6 +147,24 @@ public class WebSecurityConfiguration {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
       auth.authenticationProvider(loginAuthenticationProvider);
+    }
+
+  }
+
+  @Configuration
+  public class InterceptorsConfiguration implements WebMvcConfigurer {
+
+    public final PasswordTooOldInterceptor passwordTooOldInterceptor;
+
+    public InterceptorsConfiguration(PasswordTooOldInterceptor passwordTooOldInterceptor) {
+      this.passwordTooOldInterceptor = passwordTooOldInterceptor;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+
+      registry.addInterceptor(passwordTooOldInterceptor).addPathPatterns("/manager/**");
+
     }
   }
 

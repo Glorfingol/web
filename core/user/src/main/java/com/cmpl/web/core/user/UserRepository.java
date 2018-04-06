@@ -8,4 +8,6 @@ import com.cmpl.web.core.common.repository.BaseRepository;
 public interface UserRepository extends BaseRepository<User> {
 
   User findByLogin(String login);
+
+  User findByEmail(String email);
 }

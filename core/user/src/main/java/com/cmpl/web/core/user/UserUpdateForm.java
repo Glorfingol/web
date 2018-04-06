@@ -11,6 +11,8 @@ public class UserUpdateForm extends BaseUpdateForm<UserDTO> {
   private String login;
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime lastConnection;
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private LocalDateTime lastPasswordModification;
   private String email;
   private String description;
 
@@ -24,6 +26,7 @@ public class UserUpdateForm extends BaseUpdateForm<UserDTO> {
     this.lastConnection = userDTO.getLastConnection();
     this.email = userDTO.getEmail();
     this.description = userDTO.getDescription();
+    this.lastPasswordModification = userDTO.getLastPasswordModification();
   }
 
   public String getLogin() {
@@ -56,5 +59,13 @@ public class UserUpdateForm extends BaseUpdateForm<UserDTO> {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public LocalDateTime getLastPasswordModification() {
+    return lastPasswordModification;
+  }
+
+  public void setLastPasswordModification(LocalDateTime lastPasswordModification) {
+    this.lastPasswordModification = lastPasswordModification;
   }
 }

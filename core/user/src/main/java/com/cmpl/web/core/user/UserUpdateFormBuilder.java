@@ -15,6 +15,7 @@ public class UserUpdateFormBuilder extends Builder<UserUpdateForm> {
   private LocalDateTime modificationDate;
   private String creationUser;
   private String modificationUser;
+  private LocalDateTime lastPasswordModification;
 
   private UserUpdateFormBuilder() {
 
@@ -27,6 +28,11 @@ public class UserUpdateFormBuilder extends Builder<UserUpdateForm> {
 
   public UserUpdateFormBuilder lastConnection(LocalDateTime lastConnection) {
     this.lastConnection = lastConnection;
+    return this;
+  }
+
+  public UserUpdateFormBuilder lastPasswordModification(LocalDateTime lastPasswordModification) {
+    this.lastConnection = lastPasswordModification;
     return this;
   }
 

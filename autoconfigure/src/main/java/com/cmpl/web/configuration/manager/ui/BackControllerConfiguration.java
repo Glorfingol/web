@@ -61,8 +61,8 @@ public class BackControllerConfiguration {
   }
 
   @Bean
-  public LoginController loginController(LoginDisplayFactory loginDisplayFactory) {
-    return new LoginController(loginDisplayFactory);
+  public LoginController loginController(LoginDisplayFactory loginDisplayFactory, UserDispatcher userDispatcher) {
+    return new LoginController(loginDisplayFactory, userDispatcher);
   }
 
   @Bean

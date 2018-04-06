@@ -52,22 +52,22 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
   @Override
   public ModelAndView computeModelAndViewForPage(String pageName, Locale locale, int pageNumber) {
-    LOGGER.info("Construction de la page  {}", pageName);
+    LOGGER.debug("Construction de la page  {}", pageName);
 
     PageDTO page = pageService.getPageByName(pageName, locale.getLanguage());
 
     ModelAndView model = new ModelAndView("decorator");
     model.addObject("content", computePageContent(page, locale));
-    LOGGER.info("Construction du footer pour la page  {}", pageName);
+    LOGGER.debug("Construction du footer pour la page  {}", pageName);
     model.addObject("footerTemplate", computePageFooter(page, locale));
-    LOGGER.info("Construction du header pour la page  {}", pageName);
+    LOGGER.debug("Construction du header pour la page  {}", pageName);
     model.addObject("header", computePageHeader(page, locale));
-    LOGGER.info("Construction de la meta pour la page  {}", pageName);
+    LOGGER.debug("Construction de la meta pour la page  {}", pageName);
     model.addObject("meta", computePageMeta(page, locale));
-    LOGGER.info("Construction du lien du back pour la page {}", pageName);
+    LOGGER.debug("Construction du lien du back pour la page {}", pageName);
     model.addObject("hiddenLink", computeHiddenLink(locale));
 
-    LOGGER.info("Construction des widgets pour la page {}", pageName);
+    LOGGER.debug("Construction des widgets pour la page {}", pageName);
     List<WidgetPageDTO> widgetPageDTOS = widgetPageService.findByPageId(String.valueOf(page.getId()));
     List<String> widgetIds = new ArrayList<>();
     widgetPageDTOS.forEach(widgetPageDTO -> widgetIds.add(widgetPageDTO.getWidgetId()));
@@ -76,7 +76,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     model.addObject("widgetNames", widgetNames);
 
-    LOGGER.info("Page {} prête", pageName);
+    LOGGER.debug("Page {} prête", pageName);
 
     return model;
   }
@@ -84,7 +84,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   @Override
   public ModelAndView computeModelAndViewForBlogEntry(String newsEntryId, String widgetId, Locale locale) {
 
-    LOGGER.info("Construction de l'entree de blog d'id {}", newsEntryId);
+    LOGGER.debug("Construction de l'entree de blog d'id {}", newsEntryId);
 
     WidgetProviderPlugin widgetProvider = widgetProviders.getPluginFor("BLOG_ENTRY");
     ModelAndView model = new ModelAndView(widgetProvider.computeWidgetTemplate(WidgetDTOBuilder.create().build(),
@@ -92,7 +92,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     NewsEntryDTO newsEntry = newsEntryService.getEntity(Long.parseLong(newsEntryId));
     model.addObject("newsBean", newsEntry);
 
-    LOGGER.info("Entree de blog {}  prête", newsEntryId);
+    LOGGER.debug("Entree de blog {}  prête", newsEntryId);
 
     return model;
   }
@@ -100,7 +100,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   @Override
   public ModelAndView computeModelAndViewForWidget(String widgetName, Locale locale, int pageNumber, String pageName) {
 
-    LOGGER.info("Construction du wiget {}", widgetName);
+    LOGGER.debug("Construction du wiget {}", widgetName);
 
     WidgetDTO widget = widgetService.findByName(widgetName, locale.getLanguage());
     ModelAndView model = new ModelAndView(computeWidgetTemplate(widget, locale));
@@ -113,7 +113,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     }
     model.addObject("widgetName", widget.getName());
 
-    LOGGER.info("Widget {} prêt", widgetName);
+    LOGGER.debug("Widget {} prêt", widgetName);
 
     return model;
   }

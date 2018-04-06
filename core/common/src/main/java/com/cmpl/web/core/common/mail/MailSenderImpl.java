@@ -28,17 +28,15 @@ public class MailSenderImpl implements MailSender {
   private final WebMessageSource messageSource;
   private final String from;
   private final String basePath;
-  private final Locale defaultLocale;
 
   public MailSenderImpl(JavaMailSender javaMailSender, TemplateEngine emailTemplateEngine, Set<String> filters,
-      WebMessageSource messageSource, String from, String basePath, Locale defaultLocale) {
+      WebMessageSource messageSource, String from, String basePath) {
     this.javaMailSender = javaMailSender;
     this.emailTemplateEngine = emailTemplateEngine;
     this.filters = filters;
     this.messageSource = messageSource;
     this.from = from;
     this.basePath = basePath;
-    this.defaultLocale = defaultLocale;
 
   }
 
@@ -72,7 +70,6 @@ public class MailSenderImpl implements MailSender {
 
   private void enrichContext(Context context, Locale locale) {
     context.setVariable("basePath", basePath);
-    context.setVariable("lang", locale);
   }
 
   private String[] filterMails(String[] mailTo) {

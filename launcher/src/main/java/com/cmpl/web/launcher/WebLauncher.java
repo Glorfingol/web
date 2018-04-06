@@ -70,7 +70,8 @@ public class WebLauncher {
           mediaRepository, widgetRepository, widgetPageRepository);
 
       User system = UserBuilder.create().login("system").email("lperrod@cardiweb.com").description("system")
-          .lastConnection(LocalDateTime.now()).password(passwordEncoder.encode("system")).build();
+          .lastConnection(LocalDateTime.now()).lastPasswordModification(LocalDateTime.now().minusMonths(1))
+          .password(passwordEncoder.encode("system")).build();
       system = userRepository.save(system);
       Role admin = RoleBuilder.create().description("admin").name("admin").build();
       final Role createdAdmin = roleRepository.save(admin);

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -17,6 +18,7 @@ import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.mail.MailSender;
 import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.user.ActionTokenService;
 import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
@@ -44,8 +46,9 @@ import com.cmpl.web.core.user.UserValidatorImpl;
 public class UserConfiguration {
 
   @Bean
-  UserService userService(UserRepository userRepository) {
-    return new UserServiceImpl(userRepository);
+  UserService userService(UserRepository userRepository, ActionTokenService actionTokenService,
+      UserMailService userMailService) {
+    return new UserServiceImpl(actionTokenService, userMailService, userRepository);
   }
 
   @Bean
@@ -92,8 +95,9 @@ public class UserConfiguration {
   }
 
   @Bean
-  UserDispatcher userDispatcher(UserTranslator userTranslator, UserValidator userValidator, UserService userService) {
-    return new UserDispatcherImpl(userValidator, userTranslator, userService);
+  UserDispatcher userDispatcher(UserTranslator userTranslator, UserValidator userValidator, UserService userService,
+      PasswordEncoder passwordEncoder, ActionTokenService tokenService) {
+    return new UserDispatcherImpl(userValidator, userTranslator, userService, passwordEncoder, tokenService);
   }
 
   @Bean
