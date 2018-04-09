@@ -28,7 +28,6 @@
     <module>user</module>
     <module>role</module>
     <module>association-user-role</module>
-    <module>user</module>
   </modules>
 
 
