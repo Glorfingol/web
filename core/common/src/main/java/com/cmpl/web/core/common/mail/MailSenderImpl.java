@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -51,21 +53,35 @@ public class MailSenderImpl implements MailSender {
 
     String[] destinations = filterMails(mailTo);
     if (destinations != null && destinations.length > 0) {
-      final MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-      final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-      message.setSubject(subject);
-      message.setText(htmlContent, true);
-      message.setFrom(from);
-      message.setTo(destinations);
-      javaMailSender.send(mimeMessage);
+      MimeMessage mimeMessage = computeMimeMessage(subject, htmlContent, destinations);
+      sendMailViaExecutor(mimeMessage);
     } else {
-
       LOGGER
           .info(
               "A mail with recipient(s) '{}' and subject '{}' was not sent because the recipient adresses were filtered by mailfilters {}",
               Arrays.toString(mailTo), mailSubject, filters);
     }
 
+  }
+
+  private MimeMessage computeMimeMessage(String subject, String htmlContent, String[] destinations) throws Exception {
+    MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+    MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+    message.setSubject(subject);
+    message.setText(htmlContent, true);
+    message.setFrom(from);
+    message.setTo(destinations);
+    return mimeMessage;
+  }
+
+  private void sendMailViaExecutor(MimeMessage mimeMessage) {
+    ExecutorService emailExecutor = Executors.newCachedThreadPool();
+    emailExecutor.execute(new Runnable() {
+      @Override
+      public void run() {
+        javaMailSender.send(mimeMessage);
+      }
+    });
   }
 
   private void enrichContext(Context context, Locale locale) {
