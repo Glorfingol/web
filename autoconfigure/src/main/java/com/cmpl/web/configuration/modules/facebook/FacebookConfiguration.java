@@ -31,7 +31,6 @@ import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.connect.web.GenericConnectionStatusView;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.autoconfigure.FacebookProperties;
-import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
@@ -51,6 +50,7 @@ import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.facebook.DoNothingFacebookAdapter;
 import com.cmpl.web.facebook.FacebookAdapter;
 import com.cmpl.web.facebook.FacebookAdapterImpl;
+import com.cmpl.web.facebook.FacebookCustomApiVersionConnectionFactory;
 import com.cmpl.web.facebook.FacebookDispatcher;
 import com.cmpl.web.facebook.FacebookDispatcherImpl;
 import com.cmpl.web.facebook.FacebookImportService;
@@ -189,7 +189,8 @@ public class FacebookConfiguration {
 
     @Override
     protected ConnectionFactory<?> createConnectionFactory() {
-      return new FacebookConnectionFactory(facebookProperties.getAppId(), facebookProperties.getAppSecret());
+      return new FacebookCustomApiVersionConnectionFactory("2.7", facebookProperties.getAppId(),
+          facebookProperties.getAppSecret());
 
     }
 

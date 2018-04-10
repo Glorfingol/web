@@ -5,7 +5,7 @@
 
   <groupId>com.cmpl</groupId>
   <artifactId>cmpl-web</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
 
@@ -55,5 +55,5 @@
     </plugins>
   </build>
 
- 
+
 </project>

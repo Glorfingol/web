@@ -18,7 +18,7 @@ public class UserValidatorImpl extends BaseValidator implements UserValidator {
   private static final String REGEX_AT_LEAST_ONE_NUMERIC_CHARACTER = ".*[0-9].*";
   private static final String REGEX_AT_LEAST_ONE_LOWER_CASE_CHARACTER = ".*[a-z].*";
   private static final String REGEX_AT_LEAST_ONE_UPPER_CASE_CHARACTER = ".*[A-Z].*";
-  private static final String REGEX_AT_LEAST_ONE_SPECIAL_CHARACTER = ".*\\W.*";
+  private static final String REGEX_AT_LEAST_ONE_SPECIAL_CHARACTER = ".*[^a-zA-Z0-9].*";
   private static final int USER_PASSWORD_MINIMUM_SIZE = 8;
 
   public UserValidatorImpl(WebMessageSource messageSource) {
