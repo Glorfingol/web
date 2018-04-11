@@ -8,11 +8,11 @@
 <meta th:each="metaItem : ${metaItems}" th:name="${metaItem.name}"
       th:content="${metaItem.content}"/>
 
-<script type="text/javascript" th:src="@{../../../jquery/jquery-3.2.0.min.js}"></script>
-<script type="text/javascript" th:src="@{../../../tether/js/tether.min.js}"></script>
-<script type="text/javascript" th:src="@{../../..//bootstrap/v4/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{../../../ckeditor/ckeditor.js}"></script>
-<script type="text/javascript" th:src="@{../../../codemirror/codemirror.js}"></script>
+<script type="text/javascript" th:src="@{../../../webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{../../../webjars/tether/dist/js/tether.min.js}"></script>
+<script type="text/javascript" th:src="@{../../../webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{../../../webjars/ckeditor/basic/ckeditor.js}"></script>
+<script type="text/javascript" th:src="@{../../../webjars/codemirror/lib/codemirror.js}"></script>
 <script type="text/javascript" th:src="@{../../../js/common.js}"></script>
 <script type="text/javascript" th:src="@{../../../js/news.js}"></script>
 <script type="text/javascript" th:src="@{../../../js/page.js}"></script>
@@ -25,15 +25,18 @@
 <script type="text/javascript" th:src="@{../../../js/widgets.js}"></script>
 <script type="text/javascript" th:src="@{../../../js/users.js}"></script>
 <script type="text/javascript" th:src="@{../../../js/roles.js}"></script>
-<script type="text/javascript" th:src="@{../../../codemirror/htmlmixed/htmlmixed.js}"></script>
-<script type="text/javascript" th:src="@{../../../codemirror/xml/xml.js}"></script>
-<script type="text/javascript" th:src="@{../../../codemirror/javascript/javascript.js}"></script>
-<script type="text/javascript" th:src="@{../../../codemirror/css/css.js}"></script>
+<script type="text/javascript"
+        th:src="@{../../../webjars/codemirror/mode/htmlmixed/htmlmixed.js}"></script>
+<script type="text/javascript" th:src="@{../../../webjars/codemirror/mode/xml/xml.js}"></script>
+<script type="text/javascript"
+        th:src="@{../../../webjars/codemirror/mode/javascript/javascript.js}"></script>
+<script type="text/javascript" th:src="@{../../../webjars/codemirror/mode/css/css.js}"></script>
 
 
-<link rel="stylesheet" th:href="@{../../../../../fontawesome/css/font-awesome.min.css}"></link>
-<link rel="stylesheet" th:href="@{../../../bootstrap/v4/css/bootstrap.min.css}"></link>
-<link rel="stylesheet" th:href="@{../../../codemirror/codemirror.css}"></link>
-<link rel="stylesheet" th:href="@{../../../codemirror/neo.css}"></link>
+<link rel="stylesheet"
+      th:href="@{../../../../../webjars/font-awesome/css/font-awesome.min.css}"></link>
+<link rel="stylesheet" th:href="@{../../../webjars/bootstrap/css/bootstrap.min.css}"></link>
+<link rel="stylesheet" th:href="@{../../../webjars/codemirror/lib/codemirror.css}"></link>
+<link rel="stylesheet" th:href="@{../../../webjars/codemirror/theme/neo.css}"></link>
 <link rel="stylesheet" th:href="@{../../../css/style_back.css}"></link>
 

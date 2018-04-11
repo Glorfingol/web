@@ -46,6 +46,7 @@
       <artifactId>cmpl-web-core-sitemap</artifactId>
       <version>${cmpl.web.version}</version>
     </dependency>
+    
   </dependencies>
 
 

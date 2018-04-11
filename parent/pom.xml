@@ -30,6 +30,13 @@
     <json.simple.version>1.1.1</json.simple.version>
     <jackson.datatype.jsr310.version>2.9.3</jackson.datatype.jsr310.version>
     <powermock2.version>1.7.3</powermock2.version>
+    <webjar.locator.version>0.30</webjar.locator.version>
+    <webjar.jquery.version>3.3.1-1</webjar.jquery.version>
+    <webjar.bootstrap.version>4.0.0-2</webjar.bootstrap.version>
+    <webjar.fontawesome.version>4.7.0</webjar.fontawesome.version>
+    <webjar.tether.version>1.3.3</webjar.tether.version>
+    <webjar.codemirror.version>5.34.0</webjar.codemirror.version>
+    <webjar.ckeditor.version>4.9.1</webjar.ckeditor.version>
   </properties>
 
 

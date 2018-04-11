@@ -132,6 +132,44 @@
       <version>${cmpl.web.version}</version>
     </dependency>
     <!-- CMPL -->
+
+
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>webjars-locator</artifactId>
+      <version>${webjar.locator.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>jquery</artifactId>
+      <version>${webjar.jquery.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>bootstrap</artifactId>
+      <version>${webjar.bootstrap.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>font-awesome</artifactId>
+      <version>${webjar.fontawesome.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars.bower</groupId>
+      <artifactId>tether</artifactId>
+      <version>${webjar.tether.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars.npm</groupId>
+      <artifactId>codemirror</artifactId>
+      <version>${webjar.codemirror.version}</version>
+    </dependency>
+ 
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>ckeditor</artifactId>
+      <version>${webjar.ckeditor.version}</version>
+    </dependency>
   </dependencies>
 
 
