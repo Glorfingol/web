@@ -25,8 +25,6 @@
     <google.client.version>1.23.0</google.client.version>
     <google.api.version>v3-rev90-1.23.0</google.api.version>
     <springboot.social.facebook.version>2.0.0.M6</springboot.social.facebook.version>
-    <springboot.social.facebook.configuration.version>3.0.0.BUILD-SNAPSHOT
-    </springboot.social.facebook.configuration.version>
     <h2.version>1.4.196</h2.version>
     <quartz.version>2.3.0</quartz.version>
     <json.simple.version>1.1.1</json.simple.version>

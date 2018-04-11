@@ -30,6 +30,7 @@ com.cmpl.web.configuration.modules.backup.BackupConfiguration,\
 com.cmpl.web.configuration.modules.backup.BackupExportConfiguration,\
 com.cmpl.web.configuration.modules.backup.BackupImportConfiguration,\
 com.cmpl.web.configuration.modules.facebook.FacebookConfiguration,\
+com.cmpl.web.configuration.modules.facebook.FacebookAutoConfiguration,\
 com.cmpl.web.configuration.modules.google.GoogleConfiguration,\
 com.cmpl.web.configuration.front.FrontControllerConfiguration,\
 com.cmpl.web.configuration.core.user.UserConfiguration,\

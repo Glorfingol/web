@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.social.UserIdSource;
-import org.springframework.social.autoconfigure.SocialAutoConfigurerAdapter;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionFactory;
@@ -30,7 +29,6 @@ import org.springframework.social.connect.mem.InMemoryConnectionRepository;
 import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.connect.web.GenericConnectionStatusView;
 import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.autoconfigure.FacebookProperties;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
@@ -61,6 +59,7 @@ import com.cmpl.web.facebook.FacebookService;
 import com.cmpl.web.facebook.FacebookServiceImpl;
 import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactory;
 import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactoryImpl;
+import com.cmpl.web.modules.social.configuration.SocialAutoConfigurerAdapter;
 
 @Configuration
 @EnableSocial

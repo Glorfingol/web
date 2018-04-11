@@ -17,6 +17,7 @@
     <module>facebook</module>
     <module>backup</module>
     <module>google</module>
+    <module>socialConfiguration</module>
   </modules>
 
 
