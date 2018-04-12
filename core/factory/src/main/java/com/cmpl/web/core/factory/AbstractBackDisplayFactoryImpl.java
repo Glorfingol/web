@@ -29,11 +29,22 @@ public abstract class AbstractBackDisplayFactoryImpl<T> extends BackDisplayFacto
     int currentPageNumber = pagedDTOEntries.getNumber();
 
     return new PageWrapperBuilder<T>().currentPageNumber(currentPageNumber).firstPage(isFirstPage).lastPage(isLastPage)
-        .page(pagedDTOEntries).totalPages(totalPages).pageBaseUrl(getBaseUrl())
+        .page(pagedDTOEntries).totalPages(totalPages).pageBaseUrl(getBaseUrl()).createItemLink(getCreateItemLink())
+        .createItemPrivilege(getCreateItemPrivilege()).itemLink(getItemLink())
         .pageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages)).build();
   }
 
   protected abstract String getBaseUrl();
+
+  protected String getItemLink() {
+    return getBaseUrl() + "/";
+  }
+
+  protected String getCreateItemLink() {
+    return getBaseUrl() + "/_create";
+  }
+
+  protected abstract String getCreateItemPrivilege();
 
   protected abstract Page<T> computeEntries(Locale locale, int pageNumber);
 

@@ -229,6 +229,7 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
         }
       });
     }
+
     return linkableWidgets;
   }
 
@@ -246,6 +247,11 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   protected String getBaseUrl() {
     return "/manager/pages";
+  }
+
+  @Override
+  protected String getCreateItemPrivilege() {
+    return "webmastering:pages:create";
   }
 
 }

@@ -129,11 +129,6 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
-  protected String getBaseUrl() {
-    return "manager/users";
-  }
-
-  @Override
   protected Page<UserDTO> computeEntries(Locale locale, int pageNumber) {
     List<UserDTO> pageEntries = new ArrayList<>();
 
@@ -147,5 +142,15 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     pageEntries.addAll(pagedUserDTOEntries.getContent());
 
     return new PageImpl<>(pageEntries, pageRequest, pagedUserDTOEntries.getTotalElements());
+  }
+
+  @Override
+  protected String getBaseUrl() {
+    return "manager/users";
+  }
+
+  @Override
+  protected String getCreateItemPrivilege() {
+    return "administration:users:create";
   }
 }

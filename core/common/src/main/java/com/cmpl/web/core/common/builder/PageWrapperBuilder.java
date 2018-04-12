@@ -13,7 +13,10 @@ public class PageWrapperBuilder<T> extends Builder<PageWrapper<T>> {
   private int currentPageNumber;
   private String pageBaseUrl;
   private String pageLabel;
- 
+  private String itemLink;
+  private String createItemLink;
+  private String createItemPrivilege;
+
   public PageWrapperBuilder<T> page(Page<T> page) {
     this.page = page;
     return this;
@@ -49,6 +52,21 @@ public class PageWrapperBuilder<T> extends Builder<PageWrapper<T>> {
     return this;
   }
 
+  public PageWrapperBuilder<T> itemLink(String itemLink) {
+    this.itemLink = itemLink;
+    return this;
+  }
+
+  public PageWrapperBuilder<T> createItemLink(String createItemLink) {
+    this.createItemLink = createItemLink;
+    return this;
+  }
+
+  public PageWrapperBuilder<T> createItemPrivilege(String createItemPrivilege) {
+    this.createItemPrivilege = createItemPrivilege;
+    return this;
+  }
+
   @Override
   public PageWrapper<T> build() {
     PageWrapper<T> wrapper = new PageWrapper<>();
@@ -59,6 +77,9 @@ public class PageWrapperBuilder<T> extends Builder<PageWrapper<T>> {
     wrapper.setPageBaseUrl(pageBaseUrl);
     wrapper.setPageLabel(pageLabel);
     wrapper.setTotalPages(totalPages);
+    wrapper.setCreateItemLink(createItemLink);
+    wrapper.setCreateItemPrivilege(createItemPrivilege);
+    wrapper.setItemLink(itemLink);
     return wrapper;
   }
 

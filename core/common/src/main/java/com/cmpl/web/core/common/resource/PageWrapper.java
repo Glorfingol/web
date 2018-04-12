@@ -11,6 +11,9 @@ public class PageWrapper<T> {
   private int currentPageNumber;
   private String pageBaseUrl;
   private String pageLabel;
+  private String itemLink;
+  private String createItemLink;
+  private String createItemPrivilege;
 
   public Page<T> getPage() {
     return page;
@@ -68,4 +71,27 @@ public class PageWrapper<T> {
     this.pageLabel = pageLabel;
   }
 
+  public String getItemLink() {
+    return itemLink;
+  }
+
+  public void setItemLink(String itemLink) {
+    this.itemLink = itemLink;
+  }
+
+  public String getCreateItemLink() {
+    return createItemLink;
+  }
+
+  public void setCreateItemLink(String createItemLink) {
+    this.createItemLink = createItemLink;
+  }
+
+  public String getCreateItemPrivilege() {
+    return createItemPrivilege;
+  }
+
+  public void setCreateItemPrivilege(String createItemPrivilege) {
+    this.createItemPrivilege = createItemPrivilege;
+  }
 }

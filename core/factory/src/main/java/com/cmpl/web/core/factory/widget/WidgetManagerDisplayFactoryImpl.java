@@ -27,10 +27,15 @@ import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
-import com.cmpl.web.core.widget.*;
+import com.cmpl.web.core.widget.WidgetCreateForm;
+import com.cmpl.web.core.widget.WidgetCreateFormBuilder;
+import com.cmpl.web.core.widget.WidgetDTO;
+import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.WidgetUpdateForm;
+import com.cmpl.web.core.widget.WidgetUpdateFormBuilder;
 
-public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<WidgetDTO>
-    implements WidgetManagerDisplayFactory {
+public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<WidgetDTO> implements
+    WidgetManagerDisplayFactory {
 
   private final WidgetService widgetService;
   private final ContextHolder contextHolder;
@@ -157,8 +162,8 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
   protected Page<WidgetDTO> computeEntries(Locale locale, int pageNumber) {
     List<WidgetDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        new Sort(Direction.ASC, "name"));
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(), new Sort(Direction.ASC,
+        "name"));
     Page<WidgetDTO> pagedWidgetDTOEntries = widgetService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedWidgetDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
@@ -172,5 +177,10 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
   String computeToolTipKey(String widgetType) {
     WidgetProviderPlugin widgetProviderPlugin = widgetProviders.getPluginFor(widgetType);
     return widgetProviderPlugin.getTooltipKey();
+  }
+
+  @Override
+  protected String getCreateItemPrivilege() {
+    return "webmastering:widgets:create";
   }
 }

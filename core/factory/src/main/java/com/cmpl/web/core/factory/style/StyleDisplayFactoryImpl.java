@@ -82,4 +82,9 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
     return null;
   }
 
+  @Override
+  protected String getCreateItemPrivilege() {
+    return "webmastering:style:create";
+  }
+
 }

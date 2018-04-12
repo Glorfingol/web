@@ -148,4 +148,9 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
     return "/manager/carousels";
   }
 
+  @Override
+  protected String getCreateItemPrivilege() {
+    return "webmastering:carousels:create";
+  }
+
 }

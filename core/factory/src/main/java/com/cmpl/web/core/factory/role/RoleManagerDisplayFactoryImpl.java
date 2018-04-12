@@ -175,4 +175,9 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
     return new PageImpl<>(pageEntries, pageRequest, pagedRoleDTOEntries.getTotalElements());
   }
+
+  @Override
+  protected String getCreateItemPrivilege() {
+    return "administration:roles:create";
+  }
 }

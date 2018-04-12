@@ -131,4 +131,9 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     return "/manager/menus";
   }
 
+  @Override
+  protected String getCreateItemPrivilege() {
+    return "webmastering:menu:create";
+  }
+
 }

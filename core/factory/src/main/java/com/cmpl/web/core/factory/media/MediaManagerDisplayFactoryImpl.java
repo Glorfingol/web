@@ -82,4 +82,18 @@ public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
     return "/manager/medias";
   }
 
+  @Override
+  protected String getCreateItemPrivilege() {
+    return "webmastering:media:create";
+  }
+
+  @Override
+  protected String getItemLink() {
+    return getBaseUrl() + "/_view/";
+  }
+
+  @Override
+  protected String getCreateItemLink() {
+    return getBaseUrl() + "/_upload";
+  }
 }

@@ -133,4 +133,9 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   protected String getBaseUrl() {
     return "/manager/news";
   }
+
+  @Override
+  protected String getCreateItemPrivilege() {
+    return "webmastering:news:create";
+  }
 }
