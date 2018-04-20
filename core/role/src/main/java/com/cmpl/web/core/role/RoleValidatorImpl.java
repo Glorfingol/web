@@ -43,7 +43,7 @@ public class RoleValidatorImpl extends BaseValidator implements RoleValidator {
   Error validate(String name, String description, Locale locale) {
     List<ErrorCause> causes = new ArrayList<>();
     if (!isStringValid(name)) {
-      causes.add(computeCause(ERROR_CAUSE.EMPTY_ROLE_ID, locale));
+      causes.add(computeCause(ERROR_CAUSE.EMPTY_ROLE_NAME, locale));
     }
     if (!isStringValid(description)) {
       causes.add(computeCause(ERROR_CAUSE.EMPTY_ROLE_DESCRIPTION, locale));

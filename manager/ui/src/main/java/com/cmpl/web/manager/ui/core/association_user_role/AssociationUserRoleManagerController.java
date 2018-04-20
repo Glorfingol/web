@@ -17,6 +17,8 @@ import com.cmpl.web.core.association_user_role.AssociationUserRoleCreateForm;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleDispatcher;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleResponse;
 import com.cmpl.web.core.common.exception.BaseException;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
 @ManagerController
@@ -25,9 +27,14 @@ public class AssociationUserRoleManagerController {
   private static final Logger LOGGER = LoggerFactory.getLogger(AssociationUserRoleManagerController.class);
 
   private final AssociationUserRoleDispatcher dispatcher;
+  private final NotificationCenter notificationCenter;
+  private final WebMessageSource messageSource;
 
-  public AssociationUserRoleManagerController(AssociationUserRoleDispatcher dispatcher) {
+  public AssociationUserRoleManagerController(AssociationUserRoleDispatcher dispatcher,
+      NotificationCenter notificationCenter, WebMessageSource messageSource) {
     this.dispatcher = dispatcher;
+    this.notificationCenter = notificationCenter;
+    this.messageSource = messageSource;
   }
 
   @PostMapping(value = "/manager/responsibilities", produces = "application/json")
@@ -42,9 +49,15 @@ public class AssociationUserRoleManagerController {
       if (response.getAssociationUserRoleDTO() != null) {
         LOGGER.info("Entrée crée, id " + response.getAssociationUserRoleDTO().getId());
       }
+      if (response.getError() == null) {
+        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      } else {
+        notificationCenter.sendNotification(response.getError());
+      }
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (BaseException e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -54,15 +67,20 @@ public class AssociationUserRoleManagerController {
   @PreAuthorize("hasAuthority('administration:responsibilities:delete')")
   public ResponseEntity<AssociationUserRoleResponse> deleteAssociationUserRole(
       @PathVariable(name = "userId") String userId, @PathVariable(name = "roleId") String roleId, Locale locale) {
-    LOGGER.info("Tentative de suppression d'un widgetPage");
+    LOGGER.info("Tentative de suppression d'une association user role");
     try {
       dispatcher.deleteEntity(userId, roleId, locale);
+      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
+      LOGGER.info("Association entre le user " + userId + " et le role " + roleId + " supprimée");
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     } catch (BaseException e) {
       LOGGER.error("Echec de la suppression de l'association user/role pour  l'association entre l'utilisateur d'id "
           + userId + " et le role d'id " + roleId, e);
+      notificationCenter.sendNotification("success", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return new ResponseEntity<>(HttpStatus.OK);
+
   }
 
 }

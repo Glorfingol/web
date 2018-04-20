@@ -206,12 +206,14 @@ function postUpdateNewsForm() {
     });
   }
 
-  function hasMediaToUpload() {
-    return (droppedFiles && droppedFiles[0]) || ($(
-        "#newsEntryEditForm")[0][4].files && $(
-        "#newsEntryEditForm")[0][4].files[0]);
-  }
+}
 
+function hasMediaToUpload() {
+  return (droppedFiles && droppedFiles[0]) || ($(
+      "#newsEntryEditForm")[0] && $(
+      "#newsEntryEditForm")[0][4] && $(
+      "#newsEntryEditForm")[0][4].files && $(
+      "#newsEntryEditForm")[0][4].files[0]);
 }
 
 

@@ -43,11 +43,8 @@ public class NewsEntryTranslatorImpl implements NewsEntryTranslator {
 
   @Override
   public NewsEntryResponse fromDTOToResponse(NewsEntryDTO dto) {
-    NewsEntryResponse response = new NewsEntryResponse();
-    response.setNewsEntry(dto);
-    response.setCreatedEntityId(String.valueOf(dto.getId()));
+    return NewsEntryResponseBuilder.create().newsEntry(dto).createdEntityId(String.valueOf(dto.getId())).build();
 
-    return response;
   }
 
 }

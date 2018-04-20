@@ -1,5 +1,8 @@
 package com.cmpl.web.configuration.core.login;
 
+import java.util.Locale;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,12 +34,16 @@ public class LoginConfigurationTest {
   @Mock
   private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
 
+  @Mock
+  private Set<Locale> availableLocales;
+
   @Spy
   LoginConfiguration configuration;
 
   @Test
   public void testLogindisplayFactory() throws Exception {
-    LoginDisplayFactory result = configuration.loginDisplayFactory(menuFactory, messageSource, breadCrumbRegistry);
+    LoginDisplayFactory result = configuration.loginDisplayFactory(menuFactory, messageSource, breadCrumbRegistry,
+        availableLocales);
 
     Assert.assertEquals(LoginDisplayFactoryImpl.class, result.getClass());
   }

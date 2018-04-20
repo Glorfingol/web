@@ -2,6 +2,8 @@ package com.cmpl.web.core.association_user_role;
 
 import java.util.List;
 
+import org.springframework.context.ApplicationEventPublisher;
+
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 
 public class AssociationUserRoleServiceImpl extends BaseServiceImpl<AssociationUserRoleDTO, AssociationUserRole>
@@ -9,8 +11,9 @@ public class AssociationUserRoleServiceImpl extends BaseServiceImpl<AssociationU
 
   private final AssociationUserRoleRepository entityRepository;
 
-  public AssociationUserRoleServiceImpl(AssociationUserRoleRepository entityRepository) {
-    super(entityRepository);
+  public AssociationUserRoleServiceImpl(ApplicationEventPublisher publisher,
+      AssociationUserRoleRepository entityRepository) {
+    super(entityRepository, publisher);
     this.entityRepository = entityRepository;
   }
 

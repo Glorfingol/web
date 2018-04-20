@@ -2,13 +2,17 @@ package com.cmpl.web.configuration.core.widget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.core.events_listeners.WidgetEventsListeners;
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
@@ -74,21 +78,22 @@ public class WidgetConfiguration {
   }
 
   @Bean
-  WidgetService widgetService(WidgetRepository widgetRepository, FileService fileService) {
-    return new WidgetServiceImpl(widgetRepository, fileService);
+  WidgetService widgetService(ApplicationEventPublisher publisher, WidgetRepository widgetRepository,
+      FileService fileService) {
+    return new WidgetServiceImpl(publisher, widgetRepository, fileService);
   }
 
   @Bean
-  WidgetPageService widgetPageService(WidgetPageRepository widgetPageRepository) {
-    return new WidgetPageServiceImpl(widgetPageRepository);
+  WidgetPageService widgetPageService(ApplicationEventPublisher publisher, WidgetPageRepository widgetPageRepository) {
+    return new WidgetPageServiceImpl(publisher, widgetPageRepository);
   }
 
   @Bean
   WidgetManagerDisplayFactory widgetManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
       WidgetService widgetService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs,
-      PluginRegistry<WidgetProviderPlugin, String> widgetProviders) {
+      PluginRegistry<WidgetProviderPlugin, String> widgetProviders, Set<Locale> availableLocales) {
     return new WidgetManagerDisplayFactoryImpl(menuFactory, messageSource, contextHolder, widgetService, breadCrumbs,
-        widgetProviders);
+        widgetProviders, availableLocales);
   }
 
   @Bean
@@ -105,6 +110,12 @@ public class WidgetConfiguration {
   WidgetDispatcher widgetDispatcher(WidgetService widgetService, WidgetPageService widgetPageService,
       WidgetValidator widgetValidator, WidgetTranslator widgetTranslator) {
     return new WidgetDispatcherImpl(widgetTranslator, widgetValidator, widgetService, widgetPageService);
+  }
+
+  @Bean
+  WidgetEventsListeners widgetEventsListener(WidgetPageService widgetPageService, FileService fileService,
+      Set<Locale> availableLocales) {
+    return new WidgetEventsListeners(widgetPageService, fileService, availableLocales);
   }
 
 }

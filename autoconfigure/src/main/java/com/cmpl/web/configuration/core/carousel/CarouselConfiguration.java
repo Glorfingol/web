@@ -2,8 +2,11 @@ package com.cmpl.web.configuration.core.carousel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -45,8 +48,9 @@ import com.cmpl.web.core.page.BACK_PAGE;
 public class CarouselConfiguration {
 
   @Bean
-  CarouselItemService carouselItemService(CarouselItemRepository carouselItemRepository, MediaService mediaService) {
-    return new CarouselItemServiceImpl(carouselItemRepository, mediaService);
+  CarouselItemService carouselItemService(ApplicationEventPublisher publisher,
+      CarouselItemRepository carouselItemRepository, MediaService mediaService) {
+    return new CarouselItemServiceImpl(publisher, carouselItemRepository, mediaService);
   }
 
   @Bean
@@ -84,8 +88,9 @@ public class CarouselConfiguration {
   }
 
   @Bean
-  CarouselService carouselService(CarouselRepository carouselRepository, CarouselItemService carouselItemService) {
-    return new CarouselServiceImpl(carouselRepository, carouselItemService);
+  CarouselService carouselService(ApplicationEventPublisher publisher, CarouselRepository carouselRepository,
+      CarouselItemService carouselItemService) {
+    return new CarouselServiceImpl(publisher, carouselRepository, carouselItemService);
   }
 
   @Bean
@@ -101,9 +106,9 @@ public class CarouselConfiguration {
   @Bean
   CarouselManagerDisplayFactory carouselManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
       CarouselService carouselService, CarouselItemService carouselItemService, MediaService mediaService,
-      ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+      ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs, Set<Locale> availableLocales) {
     return new CarouselManagerDisplayFactoryImpl(menuFactory, messageSource, carouselService, carouselItemService,
-        mediaService, contextHolder, breadCrumbs);
+        mediaService, contextHolder, breadCrumbs, availableLocales);
   }
 
   @Bean

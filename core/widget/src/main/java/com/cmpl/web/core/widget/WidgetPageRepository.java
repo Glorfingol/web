@@ -11,6 +11,8 @@ public interface WidgetPageRepository extends BaseRepository<WidgetPage> {
 
   List<WidgetPage> findByPageId(String pageId);
 
+  List<WidgetPage> findByWidgetId(String widgetId);
+
   WidgetPage findByPageIdAndWidgetId(String pageId, String widgetId);
 
 }

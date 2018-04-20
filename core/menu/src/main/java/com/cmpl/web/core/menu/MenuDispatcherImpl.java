@@ -69,4 +69,10 @@ public class MenuDispatcherImpl implements MenuDispatcher {
     return translator.fromDTOToResponse(updatedMenu);
   }
 
+  @Override
+  public MenuResponse deleteEntity(String menuId, Locale locale) {
+    menuService.deleteEntity(Long.parseLong(menuId));
+    return MenuResponseBuilder.create().build();
+  }
+
 }

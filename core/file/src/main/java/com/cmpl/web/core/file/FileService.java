@@ -46,4 +46,8 @@ public interface FileService {
    */
   InputStream read(String fileName);
 
+  void removeFileFromSystem(String fileName);
+
+  void removeMediaFromSystem(String fileName);
+
 }

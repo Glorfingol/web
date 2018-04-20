@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.media.MediaService;
@@ -16,8 +17,9 @@ public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, Ca
   private final CarouselItemRepository carouselItemRepository;
   private final MediaService mediaService;
 
-  public CarouselItemServiceImpl(CarouselItemRepository carouselItemRepository, MediaService mediaService) {
-    super(carouselItemRepository);
+  public CarouselItemServiceImpl(ApplicationEventPublisher publisher, CarouselItemRepository carouselItemRepository,
+      MediaService mediaService) {
+    super(carouselItemRepository, publisher);
     this.carouselItemRepository = carouselItemRepository;
     this.mediaService = mediaService;
   }

@@ -10,6 +10,8 @@ public interface WidgetDispatcher {
 
   WidgetResponse updateEntity(WidgetUpdateForm form, Locale locale);
 
+  WidgetResponse deleteEntity(String widgetId, Locale locale);
+
   WidgetPageResponse createEntity(String pageId, WidgetPageCreateForm form, Locale locale);
 
   void deleteEntity(String pageId, String widgetId, Locale locale) throws BaseException;

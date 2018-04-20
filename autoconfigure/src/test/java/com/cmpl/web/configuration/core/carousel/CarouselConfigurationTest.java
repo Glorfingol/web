@@ -1,5 +1,8 @@
 package com.cmpl.web.configuration.core.carousel;
 
+import java.util.Locale;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.plugin.core.PluginRegistry;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -49,6 +53,11 @@ public class CarouselConfigurationTest {
   private CarouselTranslator carouselTranslator;
   @Mock
   private CarouselValidator carouselValidator;
+  @Mock
+  private Set<Locale> availableLocales;
+
+  @Mock
+  private ApplicationEventPublisher publisher;
 
   @Mock
   private ContextHolder contextHolder;
@@ -62,13 +71,13 @@ public class CarouselConfigurationTest {
   @Test
   public void testCarouselItemService() throws Exception {
     Assert.assertEquals(CarouselItemServiceImpl.class,
-        configuration.carouselItemService(carouselItemRepository, mediaService).getClass());
+        configuration.carouselItemService(publisher, carouselItemRepository, mediaService).getClass());
   }
 
   @Test
   public void testCarouselService() throws Exception {
     Assert.assertEquals(CarouselServiceImpl.class,
-        configuration.carouselService(carouselRepository, carouselItemService).getClass());
+        configuration.carouselService(publisher, carouselRepository, carouselItemService).getClass());
   }
 
   @Test
@@ -83,18 +92,16 @@ public class CarouselConfigurationTest {
 
   @Test
   public void testCarouselManagerDisplayFactory() throws Exception {
-    Assert.assertEquals(
-        CarouselManagerDisplayFactoryImpl.class,
+    Assert.assertEquals(CarouselManagerDisplayFactoryImpl.class,
         configuration.carouselManagerDisplayFactory(menuFactory, messageSource, carouselService, carouselItemService,
-            mediaService, contextHolder, breadCrumbRegistry).getClass());
+            mediaService, contextHolder, breadCrumbRegistry, availableLocales).getClass());
   }
 
   @Test
   public void testCarouselDispatcher() throws Exception {
-    Assert.assertEquals(
-        CarouselDispatcherImpl.class,
-        configuration.carouselDispatcher(carouselService, carouselItemService, carouselTranslator, carouselValidator,
-            mediaService).getClass());
+    Assert.assertEquals(CarouselDispatcherImpl.class, configuration
+        .carouselDispatcher(carouselService, carouselItemService, carouselTranslator, carouselValidator, mediaService)
+        .getClass());
   }
 
 }

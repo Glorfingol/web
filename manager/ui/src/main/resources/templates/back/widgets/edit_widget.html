@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs card-header-tabs" id="widgetTabs" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"
-           onclick="goToMainTab()">
+           onclick="goToWidgetMainTab()">
           <span th:text="#{widget.tab.main}"/>
         </a>
       </li>
@@ -13,10 +13,14 @@
           <span th:text="#{widget.tab.personalization}"/>
         </a>
       </li>
-
+      <li class="ml-auto nav-item">
+        <a class="btn btn-md btn-danger collapsed fa fa-trash fa-white"
+           data-toggle="modal" data-target="#deleteModal">
+        </a>
+      </li>
     </ul>
   </div>
-  <div class="tab-content card-body" id="pageTabContent">
+  <div class="tab-content card-body" id="widgetTabContent">
     <div role="tabpanel" class="tab-pane fade active show" id="ajaxTab">
     </div>
   </div>
@@ -26,7 +30,7 @@
   var languageCode = [[${updateForm.localeCode}]];
   var codeMirrorPersonalization;
 
-  var goToMainTab = function () {
+  var goToWidgetMainTab = function () {
     if (currentTab !== "main") {
       var url = "/manager/widgets/" + [['' + ${updateForm.id} +'']] + "/_main?languageCode="
           + languageCode;
@@ -52,7 +56,16 @@
   };
 
   $(document).ready(function () {
-    goToMainTab();
+    goToWidgetMainTab();
+
+    $("#confirmDelete").click(function () {
+      var url = "/manager/widgets/" + [['' + ${updateForm.id} +'']];
+      var urlFallBack = "/manager/widgets";
+      var form = $("#widgetTabContent");
+      var loader = $(".loader");
+      var cardLoader = $(".card-loader");
+      deleteAndHandleResult(form, loader, cardLoader, url, urlFallBack);
+    });
   });
 
   var setUpCodeMirror = function (textAreaId) {

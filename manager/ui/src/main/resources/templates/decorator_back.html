@@ -11,13 +11,16 @@
       <div th:include="common/back_navigation"/>
       <div th:include="common/back_breadcrumb"/>
       <div th:replace="${content}"/>
+      <div th:include="common/back_modals"/>
     </div>
   </div>
 </div>
 </body>
 <script type="text/javascript">
+  var stompClient = null;
   $(document).ready(function () {
     toggleActiveMenu();
+    connect();
   });
 
   function toggleActiveMenu() {
@@ -28,6 +31,34 @@
       }
     });
   }
+
+  function connect() {
+    var socket = new SockJS('/manager-websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.debug = null;
+    stompClient.connect({}, function (frame) {
+      stompClient.subscribe('/notifications', function (data) {
+        showNotification('top', 'right', JSON.parse(data.body));
+      });
+    });
+  }
+
+  function showNotification(from, align, notification) {
+
+    $.notify({
+      icon: "notifications",
+      message: notification.content
+
+    }, {
+      type: notification.type,
+      timer: 1000,
+      placement: {
+        from: from,
+        align: align
+      }
+    });
+  }
+
 
 </script>
 </html>

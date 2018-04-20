@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cmpl.web.core.common.exception.BaseException;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.widget.WidgetDispatcher;
 import com.cmpl.web.core.widget.WidgetPageCreateForm;
 import com.cmpl.web.core.widget.WidgetPageResponse;
@@ -25,9 +27,14 @@ public class WidgetPageManagerController {
   private static final Logger LOGGER = LoggerFactory.getLogger(WidgetPageManagerController.class);
 
   private final WidgetDispatcher dispatcher;
+  private final NotificationCenter notificationCenter;
+  private final WebMessageSource messageSource;
 
-  public WidgetPageManagerController(WidgetDispatcher dispatcher) {
+  public WidgetPageManagerController(WidgetDispatcher dispatcher, NotificationCenter notificationCenter,
+      WebMessageSource messageSource) {
     this.dispatcher = dispatcher;
+    this.notificationCenter = notificationCenter;
+    this.messageSource = messageSource;
   }
 
   @PostMapping(value = "/manager/pages/{pageId}/widgets", produces = "application/json")
@@ -42,9 +49,15 @@ public class WidgetPageManagerController {
       if (response.getWidgetPage() != null) {
         LOGGER.info("Entrée crée, id " + response.getWidgetPage().getId());
       }
+      if (response.getError() == null) {
+        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      } else {
+        notificationCenter.sendNotification(response.getError());
+      }
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -57,8 +70,10 @@ public class WidgetPageManagerController {
     LOGGER.info("Tentative de suppression d'un widgetPage");
     try {
       dispatcher.deleteEntity(pageId, widgetId, locale);
+      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
     } catch (BaseException e) {
       LOGGER.error("Echec de la suppression de l'association widget/meta " + widgetId + " pour la page " + pageId, e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return new ResponseEntity<>(HttpStatus.OK);

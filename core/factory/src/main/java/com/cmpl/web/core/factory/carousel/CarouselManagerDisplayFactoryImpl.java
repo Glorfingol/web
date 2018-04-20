@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.carousel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -34,8 +35,8 @@ import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.page.BACK_PAGE;
 
-public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<CarouselDTO> implements
-    CarouselManagerDisplayFactory {
+public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<CarouselDTO>
+    implements CarouselManagerDisplayFactory {
 
   private final CarouselService carouselService;
   private final MediaService mediaService;
@@ -50,8 +51,9 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
 
   public CarouselManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       CarouselService carouselService, CarouselItemService carouselItemService, MediaService mediaService,
-      ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry);
+      ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
+      Set<Locale> availableLocales) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
     this.carouselItemService = carouselItemService;
     this.carouselService = carouselService;
     this.contextHolder = contextHolder;
@@ -74,8 +76,8 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
   protected Page<CarouselDTO> computeEntries(Locale locale, int pageNumber) {
     List<CarouselDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(), new Sort(Direction.ASC,
-        "name"));
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
+        new Sort(Direction.ASC, "name"));
     Page<CarouselDTO> pagedCarouselDTOEntries = carouselService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedCarouselDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
@@ -146,6 +148,11 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
   @Override
   protected String getBaseUrl() {
     return "/manager/carousels";
+  }
+
+  @Override
+  protected String getItemLink() {
+    return "/manager/carousels/";
   }
 
   @Override

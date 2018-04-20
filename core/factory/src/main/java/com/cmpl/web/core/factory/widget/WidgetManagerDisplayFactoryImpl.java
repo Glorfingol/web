@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -34,8 +35,8 @@ import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.WidgetUpdateForm;
 import com.cmpl.web.core.widget.WidgetUpdateFormBuilder;
 
-public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<WidgetDTO> implements
-    WidgetManagerDisplayFactory {
+public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<WidgetDTO>
+    implements WidgetManagerDisplayFactory {
 
   private final WidgetService widgetService;
   private final ContextHolder contextHolder;
@@ -52,8 +53,8 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
   public WidgetManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       ContextHolder contextHolder, WidgetService widgetService,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
-      PluginRegistry<WidgetProviderPlugin, String> widgetProviders) {
-    super(menuFactory, messageSource, breadCrumbRegistry);
+      PluginRegistry<WidgetProviderPlugin, String> widgetProviders, Set<Locale> availableLocales) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
     this.widgetService = widgetService;
     this.contextHolder = contextHolder;
     this.widgetProviders = widgetProviders;
@@ -139,7 +140,7 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
       personalizationLanguageCode = locale.getLanguage();
     }
     ModelAndView widgetManager = new ModelAndView("back/widgets/edit/tab_personalization");
-    widgetManager.addObject(LOCALES, computeLocales());
+    widgetManager.addObject(LOCALES, availableLocales);
     WidgetDTO widget = widgetService.getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
     widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget, personalizationLanguageCode));
     List<? extends BaseDTO> linkableEntities = widgetProviders.getPluginFor(widget.getType()).getLinkableEntities();
@@ -159,11 +160,16 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
   }
 
   @Override
+  protected String getItemLink() {
+    return "/manager/widgets/";
+  }
+
+  @Override
   protected Page<WidgetDTO> computeEntries(Locale locale, int pageNumber) {
     List<WidgetDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(), new Sort(Direction.ASC,
-        "name"));
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
+        new Sort(Direction.ASC, "name"));
     Page<WidgetDTO> pagedWidgetDTOEntries = widgetService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedWidgetDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);

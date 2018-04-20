@@ -55,6 +55,12 @@ public class WidgetDispatcherImpl implements WidgetDispatcher {
   }
 
   @Override
+  public WidgetResponse deleteEntity(String widgetId, Locale locale) {
+    widgetService.deleteEntity(Long.parseLong(widgetId));
+    return WidgetResponseBuilder.create().build();
+  }
+
+  @Override
   public WidgetPageResponse createEntity(String pageId, WidgetPageCreateForm form, Locale locale) {
     Error error = validator.validateCreate(form, locale);
 

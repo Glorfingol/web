@@ -40,4 +40,5 @@ com.cmpl.web.configuration.core.role.RolePrivilegeConfiguration,\
 com.cmpl.web.configuration.core.association_user_role.AssociationUserRoleConfiguration,\
 com.cmpl.web.configuration.core.association_user_role.AssociationUserRolePrivilegeConfiguration,\
 com.cmpl.web.configuration.core.common.MailConfiguration,\
+com.cmpl.web.configuration.core.notification.NotificationConfiguration,\
 com.cmpl.web.configuration.manager.ui.BackControllerConfiguration

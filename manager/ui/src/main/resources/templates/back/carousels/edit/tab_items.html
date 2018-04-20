@@ -3,7 +3,6 @@
     <div class="form-group mb-3" id="formInputOrderInCarousel">
       <label th:text="#{carousel.item.order.label}"/>
       <input type="number" class="form-control" th:field="*{orderInCarousel}"/>
-      <div id="feedbackOrderInCarousel"></div>
       <small class="form-text text-muted" th:text="#{carousel.item.order.help}"/>
     </div>
     <div class="form-group mb-3" id="formInputContent">
@@ -11,7 +10,6 @@
       <select th:field="*{mediaId}" class="form-control">
         <option th:each="media : ${medias}" th:value="${media.id}" th:text="${media.name}"></option>
       </select>
-      <div id="feedbackMedia"></div>
       <small class="form-text text-muted" th:text="#{carousel.item.media.help}"/>
     </div>
     <div class="float-right">
@@ -55,7 +53,8 @@
 </div>
 </div>
 <div class="card card-loader">
-  <div class="loader"/>
+  <div class="loader">
+  </div>
 </div>
 <script type="text/javascript">
   $(document).ready(function () {

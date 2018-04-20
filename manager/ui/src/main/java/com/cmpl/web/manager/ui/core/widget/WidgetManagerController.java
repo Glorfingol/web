@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.widget.WidgetCreateForm;
@@ -33,11 +36,15 @@ public class WidgetManagerController {
 
   private final WidgetManagerDisplayFactory widgetManagerDisplayFactory;
   private final WidgetDispatcher widgetDispatcher;
+  private final NotificationCenter notificationCenter;
+  private final WebMessageSource messageSource;
 
   public WidgetManagerController(WidgetManagerDisplayFactory widgetManagerDisplayFactory,
-      WidgetDispatcher widgetDispatcher) {
+      WidgetDispatcher widgetDispatcher, NotificationCenter notificationCenter, WebMessageSource messageSource) {
     this.widgetManagerDisplayFactory = widgetManagerDisplayFactory;
     this.widgetDispatcher = widgetDispatcher;
+    this.notificationCenter = notificationCenter;
+    this.messageSource = messageSource;
   }
 
   @GetMapping
@@ -74,9 +81,15 @@ public class WidgetManagerController {
       if (response.getWidget() != null) {
         LOGGER.info("Entrée crée, id " + response.getWidget().getId());
       }
+      if (response.getError() == null) {
+        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      } else {
+        notificationCenter.sendNotification(response.getError());
+      }
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
   }
@@ -101,10 +114,10 @@ public class WidgetManagerController {
   @PreAuthorize("hasAuthority('webmastering:widgets:read')")
   public ModelAndView printViewUpdateWidgetPersonalization(@PathVariable(value = "widgetId") String widgetId,
       Locale locale, @RequestParam(name = "languageCode", required = false) String languageCode) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId
-        + " pour la partie personnalisation");
-    return widgetManagerDisplayFactory
-        .computeModelAndViewForUpdateWidgetPersonalization(locale, widgetId, languageCode);
+    LOGGER.info(
+        "Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId + " pour la partie personnalisation");
+    return widgetManagerDisplayFactory.computeModelAndViewForUpdateWidgetPersonalization(locale, widgetId,
+        languageCode);
   }
 
   @PutMapping(value = "/{widgetId}", produces = "application/json")
@@ -117,11 +130,33 @@ public class WidgetManagerController {
       if (response.getWidget() != null) {
         LOGGER.info("Entrée modifiée, id " + response.getWidget().getId());
       }
+      if (response.getError() == null) {
+        notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+      } else {
+        notificationCenter.sendNotification(response.getError());
+      }
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
-      LOGGER.error("Echec de la creation de l'entrée", e);
+      LOGGER.error("Echec de la modification de l'entrée", e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
   }
 
+  @DeleteMapping(value = "/{widgetId}", produces = "application/json")
+  @ResponseBody
+  @PreAuthorize("hasAuthority('webmastering:widgets:delete')")
+  public ResponseEntity<WidgetResponse> deleteWidget(@PathVariable(value = "widgetId") String widgetId, Locale locale) {
+    LOGGER.info("Tentative de création d'une page");
+    try {
+      WidgetResponse response = widgetDispatcher.deleteEntity(widgetId, locale);
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
+      return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      LOGGER.error("Echec de la creation de l'entrée", e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
+      return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+  }
 }

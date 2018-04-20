@@ -86,7 +86,9 @@ function postUpdateRoleForm() {
       urlFallback,
       roleToUpdate).done(function (data) {
     handleSuccessPutResult(data, $(".card-loader"), $(".loader"),
-        $("#roleUpdateForm"), url)
+        $("#roleUpdateForm"), url, true);
+    currentTab = "";
+    goToRoleMainTab();
   }).fail(function (error) {
     handleErrorPutResult(urlFallback);
   });
@@ -99,7 +101,7 @@ function postCreateRoleForm() {
   create($("#roleCreateForm"), $(".loader"), $(".card-loader"), url,
       urlFallback, roleToCreate).done(function (data) {
     handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
-        $("#roleCreateForm"), url)
+        $("#roleCreateForm"), url);
   }).fail(function (error) {
     handleErrorPostResult(urlFallback);
   });
@@ -113,7 +115,9 @@ function postUpdatePrivilegesForm() {
       urlFallback,
       privilegesForm).done(function (data) {
     handleSuccessPutResult(data, $(".card-loader"), $(".loader"),
-        $("#rolePrivilegesForm"), url, true)
+        $("#rolePrivilegesForm"), url, true);
+    currentTab = "";
+    goToPrivilegesTab();
   }).fail(function (error) {
     handleErrorPutResult(urlFallback);
   });

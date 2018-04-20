@@ -1,6 +1,7 @@
 package com.cmpl.web.core.factory.style;
 
 import java.util.Locale;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -27,8 +28,9 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
   private final ContextHolder contextHolder;
 
   public StyleDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource, StyleService styleService,
-      ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry);
+      ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
+      Set<Locale> availableLocales) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
     this.styleService = styleService;
     this.contextHolder = contextHolder;
   }
@@ -74,6 +76,11 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
 
   @Override
   protected String getBaseUrl() {
+    return null;
+  }
+
+  @Override
+  protected String getItemLink() {
     return null;
   }
 

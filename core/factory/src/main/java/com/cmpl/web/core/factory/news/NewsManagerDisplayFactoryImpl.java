@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.news;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,16 +36,16 @@ import com.cmpl.web.core.page.BACK_PAGE;
  * @author Louis
  *
  */
-public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDTO> implements
-    NewsManagerDisplayFactory {
+public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDTO>
+    implements NewsManagerDisplayFactory {
 
   private final NewsEntryService newsEntryService;
   private final ContextHolder contextHolder;
 
   public NewsManagerDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, NewsEntryService newsEntryService,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry);
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
     this.newsEntryService = newsEntryService;
     this.contextHolder = contextHolder;
   }
@@ -132,6 +133,11 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   protected String getBaseUrl() {
     return "/manager/news";
+  }
+
+  @Override
+  protected String getItemLink() {
+    return "/manager/news/";
   }
 
   @Override

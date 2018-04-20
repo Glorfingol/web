@@ -133,9 +133,9 @@ public class WebSecurityConfiguration {
     }
 
     String[] prepareAuthorizedUrls() {
-      return new String[]{"/", "/pages/**", "/robots", "/robot", "/robot.txt", "/robots.txt", "/webjars/**", "/js/**",
-          "/img/**", "/css/**", "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**", "/widgets/**",
-          "/forgotten_password", "/change_password"};
+      return new String[]{"/", "/pages/**", "/manager-websocket/**", "/robots", "/robot", "/robot.txt", "/robots.txt",
+          "/webjars/**", "/js/**", "/img/**", "/css/**", "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**",
+          "/widgets/**", "/forgotten_password", "/change_password"};
     }
 
     @Bean

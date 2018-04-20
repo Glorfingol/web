@@ -3,6 +3,7 @@ package com.cmpl.web.core.carousel;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -14,8 +15,9 @@ public class CarouselServiceImpl extends BaseServiceImpl<CarouselDTO, Carousel> 
   private final CarouselRepository carouselRepository;
   private final CarouselItemService carouselItemService;
 
-  public CarouselServiceImpl(CarouselRepository carouselRepository, CarouselItemService carouselItemService) {
-    super(carouselRepository);
+  public CarouselServiceImpl(ApplicationEventPublisher publisher, CarouselRepository carouselRepository,
+      CarouselItemService carouselItemService) {
+    super(carouselRepository, publisher);
     this.carouselRepository = carouselRepository;
     this.carouselItemService = carouselItemService;
   }
@@ -51,6 +53,12 @@ public class CarouselServiceImpl extends BaseServiceImpl<CarouselDTO, Carousel> 
   @CacheEvict(value = "pagedCarousels", allEntries = true)
   public CarouselDTO createEntity(CarouselDTO dto) {
     return super.createEntity(dto);
+  }
+
+  @Override
+  @CacheEvict(value = "pagedCarousels", allEntries = true)
+  public void deleteEntity(Long id) {
+    super.deleteEntity(id);
   }
 
 }

@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -19,8 +20,9 @@ public class StyleServiceImpl extends BaseServiceImpl<StyleDTO, Style> implement
   private final MediaService mediaService;
   private final FileService fileService;
 
-  public StyleServiceImpl(StyleRepository styleRepository, MediaService mediaService, FileService fileService) {
-    super(styleRepository);
+  public StyleServiceImpl(ApplicationEventPublisher publisher, StyleRepository styleRepository,
+      MediaService mediaService, FileService fileService) {
+    super(styleRepository, publisher);
     this.styleRepository = styleRepository;
     this.mediaService = mediaService;
     this.fileService = fileService;

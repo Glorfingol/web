@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -33,8 +34,8 @@ import com.cmpl.web.core.role.RoleDTO;
 import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.role.RoleUpdateForm;
 
-public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<RoleDTO> implements
-    RoleManagerDisplayFactory {
+public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<RoleDTO>
+    implements RoleManagerDisplayFactory {
 
   private final RoleService roleService;
   private final PrivilegeService privilegeService;
@@ -43,8 +44,9 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   public RoleManagerDisplayFactoryImpl(RoleService roleService, PrivilegeService privilegeService,
       ContextHolder contextHolder, MenuFactory menuFactory, WebMessageSource messageSource,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, PluginRegistry<Privilege, String> privileges) {
-    super(menuFactory, messageSource, breadCrumbRegistry);
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, PluginRegistry<Privilege, String> privileges,
+      Set<Locale> availableLocales) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
     this.roleService = roleService;
     this.privilegeService = privilegeService;
     this.contextHolder = contextHolder;
@@ -137,8 +139,7 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
         namespacePrivileges.put(privilege.feature(), featurePrivileges);
       }
 
-      featurePrivileges.put(
-          privilege.right(),
+      featurePrivileges.put(privilege.right(),
           !privilegesOfRole.stream()
               .filter(privilegeOfRole -> privilegeOfRole.getContent().equals(privilege.privilege()))
               .collect(Collectors.toList()).isEmpty());
@@ -161,11 +162,16 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
+  protected String getItemLink() {
+    return "/manager/roles/";
+  }
+
+  @Override
   protected Page<RoleDTO> computeEntries(Locale locale, int pageNumber) {
     List<RoleDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(), new Sort(Direction.ASC,
-        "name"));
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
+        new Sort(Direction.ASC, "name"));
     Page<RoleDTO> pagedRoleDTOEntries = roleService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedRoleDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);

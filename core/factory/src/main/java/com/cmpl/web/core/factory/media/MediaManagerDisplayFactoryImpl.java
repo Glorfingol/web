@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.media;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,15 +22,16 @@ import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.page.BACK_PAGE;
 
-public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<MediaDTO> implements
-    MediaManagerDisplayFactory {
+public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<MediaDTO>
+    implements MediaManagerDisplayFactory {
 
   private final MediaService mediaService;
   private final ContextHolder contextHolder;
 
   public MediaManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry);
+      MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
+      Set<Locale> availableLocales) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
     this.mediaService = mediaService;
     this.contextHolder = contextHolder;
   }
@@ -89,7 +91,7 @@ public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
 
   @Override
   protected String getItemLink() {
-    return getBaseUrl() + "/_view/";
+    return "/manager/medias/_view/";
   }
 
   @Override

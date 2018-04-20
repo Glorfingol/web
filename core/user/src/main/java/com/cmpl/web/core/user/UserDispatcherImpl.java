@@ -68,6 +68,12 @@ public class UserDispatcherImpl implements UserDispatcher {
   }
 
   @Override
+  public UserResponse deleteEntity(String userId, Locale locale) {
+    service.deleteEntity(Long.parseLong(userId));
+    return UserResponseBuilder.create().build();
+  }
+
+  @Override
   public RequestPasswordLinkResponse sendChangePasswordLink(String email, Locale locale) {
     UserDTO userDTO = service.findByEmail(email);
     if (userDTO == null) {

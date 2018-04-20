@@ -4,13 +4,11 @@
       <div class="form-group mb-3" id="formInputName">
         <label th:text="#{role.name.label}"/>
         <input type="text" class="form-control" th:field="*{name}"/>
-        <div id="feedbackName" class="form-control-label"></div>
         <small class="form-text text-muted" th:text="#{role.name.help}"/>
       </div>
       <div class="form-group mb-3" id="formInputDescription">
         <label th:text="#{role.description.label}"/>
         <textarea rows="3" id="description" class="form-control" th:field="*{description}"/>
-        <div id="feedbackDescription" class="form-control-label"></div>
         <small class="form-text text-muted" th:text="#{role.description.help}"/>
       </div>
     </div>
@@ -26,7 +24,8 @@
   </div>
 </form>
 <div class="card card-loader">
-  <div class="loader"/>
+  <div class="loader">
+  </div>
 </div>
 <script type="text/javascript">
   $(document).ready(function () {

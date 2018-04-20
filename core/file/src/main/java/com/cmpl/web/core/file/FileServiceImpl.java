@@ -64,4 +64,22 @@ public class FileServiceImpl implements FileService {
     }
   }
 
+  @Override
+  public void removeFileFromSystem(String fileName) {
+    try {
+      Files.delete(Paths.get(contextHolder.getTemplateBasePath() + fileName));
+    } catch (IOException e) {
+      LOGGER.error("Impossible de supprimer le fichier " + fileName, e);
+    }
+  }
+
+  @Override
+  public void removeMediaFromSystem(String fileName) {
+    try {
+      Files.delete(Paths.get(contextHolder.getMediaBasePath() + fileName));
+    } catch (IOException e) {
+      LOGGER.error("Impossible de supprimer le fichier " + fileName, e);
+    }
+  }
+
 }

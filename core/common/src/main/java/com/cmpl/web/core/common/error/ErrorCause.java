@@ -10,6 +10,7 @@ public class ErrorCause {
 
   private String code;
   private String message;
+  private String faultyInput;
 
   public String getCode() {
     return code;
@@ -27,4 +28,11 @@ public class ErrorCause {
     this.message = message;
   }
 
+  public String getFaultyInput() {
+    return faultyInput;
+  }
+
+  public void setFaultyInput(String faultyInput) {
+    this.faultyInput = faultyInput;
+  }
 }

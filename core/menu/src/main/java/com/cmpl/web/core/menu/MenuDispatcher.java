@@ -8,4 +8,6 @@ public interface MenuDispatcher {
 
   MenuResponse updateEntity(MenuUpdateForm form, Locale locale);
 
+  MenuResponse deleteEntity(String menuId, Locale locale);
+
 }

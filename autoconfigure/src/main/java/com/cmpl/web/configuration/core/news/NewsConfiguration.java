@@ -2,13 +2,17 @@ package com.cmpl.web.configuration.core.news;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.core.events_listeners.NewsEventsListeners;
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
@@ -104,8 +108,9 @@ public class NewsConfiguration {
   @Bean
   NewsManagerDisplayFactory newsManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, NewsEntryService newsEntryService,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
-    return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, messageSource, newsEntryService, breadCrumbs);
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs, Set<Locale> availableLocales) {
+    return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, messageSource, newsEntryService, breadCrumbs,
+        availableLocales);
   }
 
   @Bean
@@ -119,19 +124,21 @@ public class NewsConfiguration {
   }
 
   @Bean
-  NewsEntryService newsEntryService(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
-      NewsContentService newsContentService, MediaService mediaService) {
-    return new NewsEntryServiceImpl(newsEntryRepository, newsImageService, newsContentService, mediaService);
+  NewsEntryService newsEntryService(ApplicationEventPublisher publisher, NewsEntryRepository newsEntryRepository,
+      NewsImageService newsImageService, NewsContentService newsContentService, MediaService mediaService) {
+    return new NewsEntryServiceImpl(publisher, newsEntryRepository, newsImageService, newsContentService, mediaService);
   }
 
   @Bean
-  NewsImageService newsImageService(NewsImageRepository newsImageRepository, MediaService mediaService) {
-    return new NewsImageServiceImpl(newsImageRepository, mediaService);
+  NewsImageService newsImageService(ApplicationEventPublisher publisher, NewsImageRepository newsImageRepository,
+      MediaService mediaService) {
+    return new NewsImageServiceImpl(publisher, newsImageRepository, mediaService);
   }
 
   @Bean
-  NewsContentService newsContentService(NewsContentRepository newsContentRepository) {
-    return new NewsContentServiceImpl(newsContentRepository);
+  NewsContentService newsContentService(ApplicationEventPublisher publisher,
+      NewsContentRepository newsContentRepository) {
+    return new NewsContentServiceImpl(publisher, newsContentRepository);
   }
 
   @Bean
@@ -144,5 +151,11 @@ public class NewsConfiguration {
   @Bean
   BlogEntryWidgetProvider blogEntryWidgetProvider(NewsEntryService newsEntryService) {
     return new BlogEntryWidgetProvider(newsEntryService);
+  }
+
+  @Bean
+  NewsEventsListeners newsEventsListener(NewsContentService newsContentService, NewsImageService newsImageService,
+      FileService fileService) {
+    return new NewsEventsListeners(newsContentService, newsImageService, fileService);
   }
 }

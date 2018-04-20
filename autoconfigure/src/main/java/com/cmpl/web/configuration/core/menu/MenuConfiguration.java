@@ -2,10 +2,13 @@ package com.cmpl.web.configuration.core.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -81,8 +84,8 @@ public class MenuConfiguration {
   }
 
   @Bean
-  MenuService menuService(MenuRepository menuRepository) {
-    return new MenuServiceImpl(menuRepository);
+  MenuService menuService(ApplicationEventPublisher publisher, MenuRepository menuRepository) {
+    return new MenuServiceImpl(publisher, menuRepository);
   }
 
   @Bean
@@ -109,9 +112,9 @@ public class MenuConfiguration {
   @Bean
   MenuManagerDisplayFactory menuManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
       MenuService menuService, PageService pageService, ContextHolder contextHolder,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs, Set<Locale> availableLocales) {
     return new MenuManagerDisplayFactoryImpl(menuFactory, messageSource, menuService, pageService, contextHolder,
-        breadCrumbs);
+        breadCrumbs, availableLocales);
   }
 
   @Autowired

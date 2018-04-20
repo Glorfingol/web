@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -35,9 +36,9 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   private final NewsContentService newsContentService;
   private final MediaService mediaService;
 
-  public NewsEntryServiceImpl(NewsEntryRepository newsEntryRepository, NewsImageService newsImageService,
-      NewsContentService newsContentService, MediaService mediaService) {
-    super(newsEntryRepository);
+  public NewsEntryServiceImpl(ApplicationEventPublisher publisher, NewsEntryRepository newsEntryRepository,
+      NewsImageService newsImageService, NewsContentService newsContentService, MediaService mediaService) {
+    super(newsEntryRepository, publisher);
     this.newsEntryRepository = newsEntryRepository;
     this.newsImageService = newsImageService;
     this.newsContentService = newsContentService;

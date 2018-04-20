@@ -8,7 +8,6 @@
           <option th:each="entity : ${linkableEntities}" th:value="${entity.id}"
                   th:text="${entity.name}"></option>
         </select>
-        <div id="feedbackEntity" class="form-control-label"></div>
         <small class="form-text text-muted" th:text="#{widget.datasource.help}"/>
       </div>
       <div class="form-group">
@@ -18,7 +17,6 @@
           <option th:each="locale : ${locales}" th:value="${locale.language}"
                   th:text="${locale.displayLanguage}"></option>
         </select>
-        <div id="feedbackLanguage"></div>
         <small class="form-text text-muted" th:text="#{widget.personalization.language.help}"/>
       </div>
       <div class="form-group mb-3" id="variables">
@@ -38,7 +36,6 @@
         <label th:text="#{widget.personalization.label}"/>
         <textarea rows="3" id="widgetPersonalization" class="form-control"
                   th:field="*{personalization}"/>
-        <div id="feedbackPersonalization" class="form-control-label"></div>
         <small class="form-text text-muted" th:text="#{widget.personalization.help}"/>
       </div>
       <input type="hidden" th:field="*{name}"/>
@@ -81,7 +78,8 @@
   </div>
 </form>
 <div class="card card-loader">
-  <div class="loader"/>
+  <div class="loader">
+  </div>
 </div>
 <script type="text/javascript">
   $(document).ready(function () {

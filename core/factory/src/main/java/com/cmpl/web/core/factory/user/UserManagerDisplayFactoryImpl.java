@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.user;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -33,8 +34,8 @@ import com.cmpl.web.core.user.UserDTO;
 import com.cmpl.web.core.user.UserService;
 import com.cmpl.web.core.user.UserUpdateForm;
 
-public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<UserDTO> implements
-    UserManagerDisplayFactory {
+public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<UserDTO>
+    implements UserManagerDisplayFactory {
 
   private final UserService userService;
   private final RoleService roleService;
@@ -43,8 +44,9 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   public UserManagerDisplayFactoryImpl(UserService userService, RoleService roleService,
       AssociationUserRoleService assocationUserRoleService, ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry);
+      WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
+      Set<Locale> availableLocales) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
     this.userService = userService;
     this.roleService = roleService;
     this.assocationUserRoleService = assocationUserRoleService;
@@ -111,15 +113,12 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
     List<RoleDTO> associatedRoles = new ArrayList<>();
     List<AssociationUserRoleDTO> associationUserRoles = assocationUserRoleService.findByUserId(userId);
-    associationUserRoles.forEach(association -> associatedRoles.add(roleService.getEntity(Long.parseLong(association
-        .getRoleId()))));
+    associationUserRoles
+        .forEach(association -> associatedRoles.add(roleService.getEntity(Long.parseLong(association.getRoleId()))));
 
-    List<RoleDTO> linkableRoles = roleService
-        .getEntities()
-        .stream()
-        .filter(
-            role -> !associatedRoles.stream().filter(associatedRole -> associatedRole.getId().equals(role.getId()))
-                .map(filteredRole -> filteredRole.getId()).collect(Collectors.toList()).contains(role.getId()))
+    List<RoleDTO> linkableRoles = roleService.getEntities().stream()
+        .filter(role -> !associatedRoles.stream().filter(associatedRole -> associatedRole.getId().equals(role.getId()))
+            .map(filteredRole -> filteredRole.getId()).collect(Collectors.toList()).contains(role.getId()))
         .collect(Collectors.toList());
 
     userManager.addObject("linkedRoles", associatedRoles);
@@ -132,8 +131,8 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   protected Page<UserDTO> computeEntries(Locale locale, int pageNumber) {
     List<UserDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(), new Sort(Direction.ASC,
-        "login"));
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
+        new Sort(Direction.ASC, "login"));
     Page<UserDTO> pagedUserDTOEntries = userService.getPagedEntities(pageRequest);
     if (CollectionUtils.isEmpty(pagedUserDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
@@ -147,6 +146,11 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   protected String getBaseUrl() {
     return "manager/users";
+  }
+
+  @Override
+  protected String getItemLink() {
+    return "/manager/users/";
   }
 
   @Override

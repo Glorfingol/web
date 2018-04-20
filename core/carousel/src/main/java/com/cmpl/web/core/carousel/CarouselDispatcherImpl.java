@@ -72,6 +72,12 @@ public class CarouselDispatcherImpl implements CarouselDispatcher {
   }
 
   @Override
+  public CarouselResponse deleteEntity(String carouselId, Locale locale) {
+    carouselService.deleteEntity(Long.parseLong(carouselId));
+    return CarouselResponseBuilder.create().build();
+  }
+
+  @Override
   public void deleteCarouselItemEntity(String carouselId, String carouselItemId, Locale locale) throws BaseException {
     Error error = validator.validateDelete(carouselItemId, locale);
     if (error != null) {

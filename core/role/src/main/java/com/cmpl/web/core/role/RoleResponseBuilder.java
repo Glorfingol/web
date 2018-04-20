@@ -5,8 +5,8 @@ import com.cmpl.web.core.common.error.Error;
 
 public class RoleResponseBuilder extends Builder<RoleResponse> {
 
-  public RoleDTO role;
-  public Error error;
+  private RoleDTO role;
+  private Error error;
 
   public RoleResponseBuilder role(RoleDTO role) {
     this.role = role;
@@ -27,6 +27,7 @@ public class RoleResponseBuilder extends Builder<RoleResponse> {
     RoleResponse response = new RoleResponse();
     response.setRole(role);
     response.setError(error);
+
     return response;
   }
 

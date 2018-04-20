@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs card-header-tabs" id="pageTabs" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"
-           onclick="goToMainTab()">
+           onclick="goToUserMainTab()">
           <span th:text="#{users.tab.main}"/>
         </a>
       </li>
@@ -11,6 +11,11 @@
         <a class="nav-link" id="body-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToRolesTab()">
           <span th:text="#{users.tab.roles}"/>
+        </a>
+      </li>
+      <li class="ml-auto nav-item">
+        <a class="btn btn-md btn-danger collapsed fa fa-trash fa-white"
+           data-toggle="modal" data-target="#deleteModal">
         </a>
       </li>
     </ul>
@@ -34,7 +39,7 @@
     }
   };
 
-  var goToMainTab = function () {
+  var goToUserMainTab = function () {
     if (currentTab !== "main") {
       var url = "/manager/users/" + [['' + ${updateForm.id} +'']] + "/_main";
       $.get(url, function (data) {
@@ -45,7 +50,16 @@
   };
 
   $(document).ready(function () {
-    goToMainTab();
+    goToUserMainTab();
+
+    $("#confirmDelete").click(function () {
+      var url = "/manager/users/" + [['' + ${updateForm.id} +'']];
+      var urlFallBack = "/manager/users";
+      var form = $("#userTabContent");
+      var loader = $(".loader");
+      var cardLoader = $(".card-loader");
+      deleteAndHandleResult(form, loader, cardLoader, url, urlFallBack);
+    });
   });
 
 </script>

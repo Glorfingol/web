@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.factory.style.StyleDisplayFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.style.StyleDispatcher;
@@ -28,10 +30,15 @@ public class StyleManagerController {
 
   private final StyleDisplayFactory displayFactory;
   private final StyleDispatcher dispatcher;
+  private final NotificationCenter notificationCenter;
+  private final WebMessageSource messageSource;
 
-  public StyleManagerController(StyleDisplayFactory displayFactory, StyleDispatcher dispatcher) {
+  public StyleManagerController(StyleDisplayFactory displayFactory, StyleDispatcher dispatcher,
+      NotificationCenter notificationCenter, WebMessageSource messageSource) {
     this.displayFactory = displayFactory;
     this.dispatcher = dispatcher;
+    this.notificationCenter = notificationCenter;
+    this.messageSource = messageSource;
   }
 
   @GetMapping
@@ -57,6 +64,7 @@ public class StyleManagerController {
       if (response.getStyle() != null) {
         LOGGER.info("Style global modifié");
       }
+      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification du style global", e);

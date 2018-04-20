@@ -1,6 +1,7 @@
 package com.cmpl.web.core.news;
 
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 
@@ -13,8 +14,8 @@ import com.cmpl.web.core.common.service.BaseServiceImpl;
 @CacheConfig(cacheNames = "newsContents")
 public class NewsContentServiceImpl extends BaseServiceImpl<NewsContentDTO, NewsContent> implements NewsContentService {
 
-  public NewsContentServiceImpl(NewsContentRepository newsContentRepository) {
-    super(newsContentRepository);
+  public NewsContentServiceImpl(ApplicationEventPublisher publisher, NewsContentRepository newsContentRepository) {
+    super(newsContentRepository, publisher);
   }
 
   @Override

@@ -2,13 +2,17 @@ package com.cmpl.web.configuration.core.page;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.core.events_listeners.PageEventsListeners;
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
@@ -44,9 +48,10 @@ public class PageConfiguration {
   @Bean
   PageManagerDisplayFactory pageManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, PageService pageService, WidgetService widgetService,
-      WidgetPageService widgetPageService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+      WidgetPageService widgetPageService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs,
+      Set<Locale> availableLocales) {
     return new PageManagerDisplayFactoryImpl(menuFactory, messageSource, pageService, contextHolder, widgetService,
-        widgetPageService, breadCrumbs);
+        widgetPageService, breadCrumbs, availableLocales);
   }
 
   @Bean
@@ -83,8 +88,8 @@ public class PageConfiguration {
   }
 
   @Bean
-  PageService pageService(PageRepository pageRepository, FileService fileService) {
-    return new PageServiceImpl(pageRepository, fileService);
+  PageService pageService(ApplicationEventPublisher publisher, PageRepository pageRepository, FileService fileService) {
+    return new PageServiceImpl(publisher, pageRepository, fileService);
   }
 
   @Bean
@@ -95,5 +100,11 @@ public class PageConfiguration {
   @Bean
   PageTranslator pageTranslator() {
     return new PageTranslatorImpl();
+  }
+
+  @Bean
+  PageEventsListeners pageEventsListener(WidgetPageService widgetPageService, FileService fileService,
+      Set<Locale> availableLocales) {
+    return new PageEventsListeners(widgetPageService, fileService, availableLocales);
   }
 }

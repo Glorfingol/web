@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactory;
 import com.cmpl.web.core.menu.MenuCreateForm;
 import com.cmpl.web.core.menu.MenuDispatcher;
@@ -33,10 +36,15 @@ public class MenuManagerController {
 
   private final MenuDispatcher dispatcher;
   private final MenuManagerDisplayFactory displayFactory;
+  private final NotificationCenter notificationCenter;
+  private final WebMessageSource messageSource;
 
-  public MenuManagerController(MenuDispatcher dispatcher, MenuManagerDisplayFactory displayFactory) {
+  public MenuManagerController(MenuDispatcher dispatcher, MenuManagerDisplayFactory displayFactory,
+      NotificationCenter notificationCenter, WebMessageSource messageSource) {
     this.dispatcher = dispatcher;
     this.displayFactory = displayFactory;
+    this.messageSource = messageSource;
+    this.notificationCenter = notificationCenter;
   }
 
   @GetMapping
@@ -81,9 +89,15 @@ public class MenuManagerController {
       if (response.getMenu() != null) {
         LOGGER.info("Entrée modifiée, id " + response.getMenu().getId());
       }
+      if (response.getError() == null) {
+        notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+      } else {
+        notificationCenter.sendNotification(response.getError());
+      }
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -100,10 +114,35 @@ public class MenuManagerController {
       if (response.getMenu() != null) {
         LOGGER.info("Entrée créee, id " + response.getMenu().getId());
       }
+      if (response.getError() == null) {
+        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      } else {
+        notificationCenter.sendNotification(response.getError());
+      }
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la création de l'entrée", e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+  }
+
+  @DeleteMapping(value = "/{menuId}", produces = "application/json")
+  @ResponseBody
+  @PreAuthorize("hasAuthority('webmastering:menu:delete')")
+  public ResponseEntity<MenuResponse> deleteMenu(@PathVariable(value = "menuId") String menuId, Locale locale) {
+
+    LOGGER.info("Tentative de suppression d'un menu");
+    try {
+      MenuResponse response = dispatcher.deleteEntity(menuId, locale);
+      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
+      LOGGER.info("Menu " + menuId + " supprimée");
+      return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      LOGGER.error("Erreur lors de la suppression du menu " + menuId, e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
   }

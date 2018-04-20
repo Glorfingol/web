@@ -3,6 +3,8 @@ package com.cmpl.web.configuration.modules.facebook;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import java.util.UUID;
 
 import org.json.simple.JSONObject;
@@ -138,8 +140,9 @@ public class FacebookConfiguration {
 
   @Bean
   FacebookDisplayFactory facebookDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      FacebookAdapter facebookAdapter, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
-    return new FacebookDisplayFactoryImpl(menuFactory, messageSource, facebookAdapter, breadCrumbs);
+      FacebookAdapter facebookAdapter, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs,
+      Set<Locale> availableLocales) {
+    return new FacebookDisplayFactoryImpl(menuFactory, messageSource, facebookAdapter, breadCrumbs, availableLocales);
   }
 
   @Bean

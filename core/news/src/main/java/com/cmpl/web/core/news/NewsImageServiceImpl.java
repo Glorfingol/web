@@ -1,6 +1,7 @@
 package com.cmpl.web.core.news;
 
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
@@ -17,12 +18,11 @@ import com.cmpl.web.core.media.MediaService;
 public class NewsImageServiceImpl extends BaseServiceImpl<NewsImageDTO, NewsImage> implements NewsImageService {
 
   private final MediaService mediaService;
-  private final NewsImageRepository newsImageRepository;
 
-  public NewsImageServiceImpl(NewsImageRepository newsImageRepository, MediaService mediaService) {
-    super(newsImageRepository);
+  public NewsImageServiceImpl(ApplicationEventPublisher publisher, NewsImageRepository newsImageRepository,
+      MediaService mediaService) {
+    super(newsImageRepository, publisher);
     this.mediaService = mediaService;
-    this.newsImageRepository = newsImageRepository;
   }
 
   @Override

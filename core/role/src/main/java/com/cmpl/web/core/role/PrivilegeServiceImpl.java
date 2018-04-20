@@ -2,14 +2,16 @@ package com.cmpl.web.core.role;
 
 import java.util.List;
 
+import org.springframework.context.ApplicationEventPublisher;
+
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 
 public class PrivilegeServiceImpl extends BaseServiceImpl<PrivilegeDTO, Privilege> implements PrivilegeService {
 
   private final PrivilegeRepository privilegeRepository;
 
-  public PrivilegeServiceImpl(PrivilegeRepository privilegeRepository) {
-    super(privilegeRepository);
+  public PrivilegeServiceImpl(ApplicationEventPublisher publisher, PrivilegeRepository privilegeRepository) {
+    super(privilegeRepository, publisher);
     this.privilegeRepository = privilegeRepository;
   }
 

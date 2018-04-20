@@ -2,8 +2,11 @@ package com.cmpl.web.configuration.core.style;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -39,8 +42,9 @@ import com.cmpl.web.core.style.StyleTranslatorImpl;
 public class StyleConfiguration {
 
   @Bean
-  public StyleService styleService(StyleRepository styleRepository, MediaService mediaService, FileService fileService) {
-    return new StyleServiceImpl(styleRepository, mediaService, fileService);
+  public StyleService styleService(ApplicationEventPublisher publisher, StyleRepository styleRepository,
+      MediaService mediaService, FileService fileService) {
+    return new StyleServiceImpl(publisher, styleRepository, mediaService, fileService);
   }
 
   @Bean
@@ -78,7 +82,9 @@ public class StyleConfiguration {
 
   @Bean
   public StyleDisplayFactory styleDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      StyleService styleService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
-    return new StyleDisplayFactoryImpl(menuFactory, messageSource, styleService, contextHolder, breadCrumbs);
+      StyleService styleService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs,
+      Set<Locale> availableLocales) {
+    return new StyleDisplayFactoryImpl(menuFactory, messageSource, styleService, contextHolder, breadCrumbs,
+        availableLocales);
   }
 }

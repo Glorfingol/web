@@ -2,13 +2,17 @@ package com.cmpl.web.configuration.core.media;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.core.events_listeners.MediaEventsListeners;
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
@@ -36,8 +40,9 @@ import com.cmpl.web.core.page.BACK_PAGE;
 public class MediaConfiguration {
 
   @Bean
-  public MediaService mediaService(MediaRepository mediaRepository, FileService fileService, ContextHolder contextHolder) {
-    return new MediaServiceImpl(mediaRepository, fileService, contextHolder);
+  public MediaService mediaService(ApplicationEventPublisher publisher, MediaRepository mediaRepository,
+      FileService fileService) {
+    return new MediaServiceImpl(publisher, mediaRepository, fileService);
   }
 
   @Bean
@@ -89,8 +94,15 @@ public class MediaConfiguration {
 
   @Bean
   public MediaManagerDisplayFactory mediaManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
-    return new MediaManagerDisplayFactoryImpl(menuFactory, messageSource, mediaService, contextHolder, breadCrumbs);
+      MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs,
+      Set<Locale> availableLocales) {
+    return new MediaManagerDisplayFactoryImpl(menuFactory, messageSource, mediaService, contextHolder, breadCrumbs,
+        availableLocales);
+  }
+
+  @Bean
+  MediaEventsListeners mediaEventsListener(FileService fileService) {
+    return new MediaEventsListeners(fileService);
   }
 
 }

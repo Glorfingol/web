@@ -8,14 +8,12 @@
           <option th:each="locale : ${locales}" th:value="${locale.language}"
                   th:text="${locale.displayLanguage}"></option>
         </select>
-        <div id="feedbackLanguage"></div>
         <small class="form-text text-muted" th:text="#{page.body.language.help}"/>
       </div>
       <div class="form-group mb-3" id="formInputBody">
         <label th:text="#{page.meta.label}"/>
         <br/>
         <textarea rows="3" id="pageMeta" class="form-control" th:field="*{meta}"/>
-        <div id="feedbackBody" class="form-control-label"></div>
         <small class="form-text text-muted" th:text="#{page.meta.help}"/>
       </div>
       <input type="hidden" th:field="*{id}"/>
@@ -35,14 +33,16 @@
     <div class="col-12">
       <div class="float-right">
         <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdatePage()"></a>
-        <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdatePageForm()"
+        <a class="btn btn-md btn-success fa fa-check fa-white"
+           onclick="postUpdatePageForm(goToMetaTab)"
            th:if="${currentUser.hasPrivilege('webmastering:pages:write')}"></a>
       </div>
     </div>
   </div>
 </form>
 <div class="card card-loader">
-  <div class="loader"/>
+  <div class="loader">
+  </div>
 </div>
 <script type="text/javascript">
   $(document).ready(function () {

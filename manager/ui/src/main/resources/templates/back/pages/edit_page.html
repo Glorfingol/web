@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs card-header-tabs" id="pageTabs" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"
-           onclick="goToMainTab()">
+           onclick="goToPageMainTab()">
           <span th:text="#{page.tab.main}"/>
         </a>
       </li>
@@ -42,6 +42,11 @@
         <a class="nav-link" id="preview-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToPreviewTab()">
           <span th:text="#{page.preview}"/>
+        </a>
+      </li>
+      <li class="ml-auto nav-item">
+        <a class="btn btn-md btn-danger collapsed fa fa-trash fa-white"
+           data-toggle="modal" data-target="#deleteModal">
         </a>
       </li>
     </ul>
@@ -122,7 +127,7 @@
     }
   };
 
-  var goToMainTab = function () {
+  var goToPageMainTab = function () {
     if (currentTab !== "main") {
       var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_main?languageCode="
           + languageCode;
@@ -143,7 +148,16 @@
   };
 
   $(document).ready(function () {
-    goToMainTab();
+    goToPageMainTab();
+
+    $("#confirmDelete").click(function () {
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']];
+      var urlFallBack = "/manager/pages";
+      var form = $("#pageTabContent");
+      var loader = $(".loader");
+      var cardLoader = $(".card-loader");
+      deleteAndHandleResult(form, loader, cardLoader, url, urlFallBack);
+    });
   });
 
   var prepareDragAndDrop = function () {

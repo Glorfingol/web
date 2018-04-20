@@ -4,7 +4,6 @@
       <div class="form-group mb-3" id="formInputTitle">
         <label th:text="#{carousel.name.label}"/>
         <input type="text" class="form-control" th:field="*{name}"/>
-        <div id="feedbackName"></div>
         <small class="form-text text-muted" th:text="#{carousel.name.help}"/>
       </div>
     </div>
@@ -18,5 +17,6 @@
   </div>
 </form>
 <div class="card card-loader">
-  <div class="loader"/>
+  <div class="loader">
+  </div>
 </div>

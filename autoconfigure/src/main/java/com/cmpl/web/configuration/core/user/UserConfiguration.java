@@ -2,14 +2,18 @@ package com.cmpl.web.configuration.core.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.cmpl.core.events_listeners.UserEventsListeners;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
@@ -46,9 +50,9 @@ import com.cmpl.web.core.user.UserValidatorImpl;
 public class UserConfiguration {
 
   @Bean
-  UserService userService(UserRepository userRepository, ActionTokenService actionTokenService,
-      UserMailService userMailService) {
-    return new UserServiceImpl(actionTokenService, userMailService, userRepository);
+  UserService userService(ApplicationEventPublisher publisher, UserRepository userRepository,
+      ActionTokenService actionTokenService, UserMailService userMailService) {
+    return new UserServiceImpl(publisher, actionTokenService, userMailService, userRepository);
   }
 
   @Bean
@@ -103,8 +107,13 @@ public class UserConfiguration {
   @Bean
   UserManagerDisplayFactory userManagerDisplayFactory(UserService userService, RoleService roleService,
       AssociationUserRoleService associationUserRoleService, ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
+      WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs, Set<Locale> availableLocales) {
     return new UserManagerDisplayFactoryImpl(userService, roleService, associationUserRoleService, contextHolder,
-        menuFactory, messageSource, breadCrumbs);
+        menuFactory, messageSource, breadCrumbs, availableLocales);
+  }
+
+  @Bean
+  UserEventsListeners userEventsListener(AssociationUserRoleService associationUserRoleService) {
+    return new UserEventsListeners(associationUserRoleService);
   }
 }

@@ -44,7 +44,7 @@ public interface NewsEntryDispatcher {
    * @param locale
    * @throws BaseException
    */
-  void deleteEntity(String newsEntryId, Locale locale) throws BaseException;
+  NewsEntryResponse deleteEntity(String newsEntryId, Locale locale);
 
   void saveNewsMedia(String newsEntryId, MultipartFile uploadedMedia) throws IOException;
 

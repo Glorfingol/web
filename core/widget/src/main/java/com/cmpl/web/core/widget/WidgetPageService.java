@@ -8,6 +8,8 @@ public interface WidgetPageService extends BaseService<WidgetPageDTO> {
 
   List<WidgetPageDTO> findByPageId(String pageId);
 
+  List<WidgetPageDTO> findByWidgetId(String widgetId);
+
   WidgetPageDTO findByPageIdAndWidgetId(String pageId, String widgetId);
 
 }

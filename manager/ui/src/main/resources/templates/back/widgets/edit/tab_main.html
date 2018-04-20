@@ -2,7 +2,6 @@
   <div class="form-group mb-3" id="formInputName">
     <label th:text="#{widget.name.label}"/>
     <input type="text" class="form-control" th:field="*{name}"/>
-    <div id="feedbackName" class="form-control-label"></div>
     <small class="form-text text-muted" th:text="#{widget.name.help}"/>
   </div>
   <div class="form-group mb-3" id="formInputType">
@@ -11,7 +10,6 @@
       <option th:each="widgetType : ${widgetTypes}" th:value="${widgetType}"
               th:text="${widgetType}"></option>
     </select>
-    <div id="feedbackType"></div>
     <small class="form-text text-muted" th:text="#{widget.type.help}"/>
   </div>
   <input type="hidden" th:field="*{id}"/>
@@ -28,7 +26,8 @@
   </div>
 </form>
 <div class="card card-loader">
-  <div class="loader"/>
+  <div class="loader">
+  </div>
 </div>
 <script type="text/javascript">
   $(document).ready(function () {

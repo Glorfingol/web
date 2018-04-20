@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 
 import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.dto.BaseDTO;
+import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.common.filler.ObjectReflexiveFillerImpl;
 import com.cmpl.web.core.common.repository.BaseRepository;
 
@@ -27,20 +29,23 @@ import com.cmpl.web.core.common.repository.BaseRepository;
 public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> implements BaseService<D> {
 
   private final BaseRepository<E> entityRepository;
+  private final ApplicationEventPublisher publisher;
 
   /**
    * Constructeur a appeler via super
    * 
    * @param entityRepository
    */
-  public BaseServiceImpl(BaseRepository<E> entityRepository) {
+  public BaseServiceImpl(BaseRepository<E> entityRepository, ApplicationEventPublisher publisher) {
     this.entityRepository = entityRepository;
+    this.publisher = publisher;
   }
 
   @Override
   public D createEntity(D dto) {
     dto.setModificationDate(LocalDateTime.now());
     return toDTO(entityRepository.save(toEntity(dto)));
+
   }
 
   @Override
@@ -60,7 +65,9 @@ public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> i
 
   @Override
   public void deleteEntity(Long id) {
+    D deletedDTO = toDTO(entityRepository.getOne(id));
     entityRepository.deleteById(id);
+    publisher.publishEvent(new DeletedEvent<D>(this, deletedDTO));
   }
 
   @Override

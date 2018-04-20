@@ -25,6 +25,8 @@ import com.cmpl.web.core.carousel.CarouselItemResponse;
 import com.cmpl.web.core.carousel.CarouselResponse;
 import com.cmpl.web.core.carousel.CarouselUpdateForm;
 import com.cmpl.web.core.common.exception.BaseException;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
@@ -37,16 +39,22 @@ public class CarouselManagerController {
 
   private final CarouselDispatcher carouselDispatcher;
   private final CarouselManagerDisplayFactory carouselDisplayFactory;
+  private final NotificationCenter notificationCenter;
+  private final WebMessageSource messageSource;
 
   public CarouselManagerController(CarouselDispatcher carouselDispatcher,
-      CarouselManagerDisplayFactory carouselDisplayFactory) {
+      CarouselManagerDisplayFactory carouselDisplayFactory, NotificationCenter notificationCenter,
+      WebMessageSource messageSource) {
     this.carouselDisplayFactory = carouselDisplayFactory;
     this.carouselDispatcher = carouselDispatcher;
+    this.notificationCenter = notificationCenter;
+    this.messageSource = messageSource;
   }
 
   @GetMapping
   @PreAuthorize("hasAuthority('webmastering:carousels:read')")
-  public ModelAndView printViewCarousels(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
+  public ModelAndView printViewCarousels(@RequestParam(name = "p", required = false) Integer pageNumber,
+      Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     LOGGER.info("Accès à la page " + BACK_PAGE.CAROUSELS_VIEW.name());
@@ -79,6 +87,11 @@ public class CarouselManagerController {
       if (response.getCarousel() != null) {
         LOGGER.info("Entrée crée, id " + response.getCarousel().getId());
       }
+      if (response.getError() == null) {
+        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      } else {
+        notificationCenter.sendNotification(response.getError());
+      }
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
@@ -98,9 +111,15 @@ public class CarouselManagerController {
       if (response.getCarousel() != null) {
         LOGGER.info("Entrée modifiée, id " + response.getCarousel().getId());
       }
+      if (response.getError() == null) {
+        notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+      } else {
+        notificationCenter.sendNotification(response.getError());
+      }
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -124,8 +143,8 @@ public class CarouselManagerController {
   @GetMapping(value = "/{carouselId}/_items")
   @PreAuthorize("hasAuthority('webmastering:carousels:read')")
   public ModelAndView printViewUpdateCarouselItems(@PathVariable(value = "carouselId") String carouselId) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.CAROUSELS_UPDATE.name() + " pour " + carouselId
-        + " pour la partie items");
+    LOGGER
+        .info("Accès à la page " + BACK_PAGE.CAROUSELS_UPDATE.name() + " pour " + carouselId + " pour la partie items");
     return carouselDisplayFactory.computeModelAndViewForUpdateCarouselItems(carouselId);
   }
 
@@ -141,9 +160,15 @@ public class CarouselManagerController {
       if (response.getItem() != null) {
         LOGGER.info("Entrée crée, id " + response.getItem().getId());
       }
+      if (response.getError() == null) {
+        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      } else {
+        notificationCenter.sendNotification(response.getError());
+      }
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -158,10 +183,33 @@ public class CarouselManagerController {
     LOGGER.info("Tentative de suppression d'un élément de carousel");
     try {
       carouselDispatcher.deleteCarouselItemEntity(carouselId, carouselItemId, locale);
+      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
+      LOGGER.info("Element de carousel " + carouselItemId + " supprimé");
     } catch (BaseException e) {
       LOGGER.error("Echec de la suppression de l'élément de carousel " + carouselItemId, e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @DeleteMapping(value = "/{carouselId}", produces = "application/json")
+  @ResponseBody
+  @PreAuthorize("hasAuthority('webmastering:carousels:delete')")
+  public ResponseEntity<CarouselResponse> deleteMenu(@PathVariable(value = "carouselId") String carouselId,
+      Locale locale) {
+
+    LOGGER.info("Tentative de suppression d'un Carousel");
+    try {
+      CarouselResponse response = carouselDispatcher.deleteEntity(carouselId, locale);
+      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
+      LOGGER.info("Carousel " + carouselId + " supprimée");
+      return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      LOGGER.error("Erreur lors de la suppression du Carousel " + carouselId, e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
   }
 }

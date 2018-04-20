@@ -2,6 +2,7 @@ package com.cmpl.web.modules.facebook.factory;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,8 +26,9 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
   private final FacebookAdapter facebookAdapter;
 
   public FacebookDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      FacebookAdapter facebookAdapter, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry);
+      FacebookAdapter facebookAdapter, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
+      Set<Locale> availableLocales) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
     this.facebookAdapter = facebookAdapter;
   }
 

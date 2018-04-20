@@ -52,4 +52,10 @@ public class PageDispatcherImpl implements PageDispatcher {
     return translator.fromDTOToResponse(updatedPage);
   }
 
+  @Override
+  public PageResponse deleteEntity(String pageId, Locale locale) {
+    pageService.deleteEntity(Long.parseLong(pageId));
+    return PageResponseBuilder.create().build();
+  }
+
 }

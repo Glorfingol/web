@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.common.exception.BaseException;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.facebook.FacebookDispatcher;
 import com.cmpl.web.facebook.FacebookImportRequest;
@@ -34,10 +36,15 @@ public class FacebookController {
 
   private final FacebookDisplayFactory facebookDisplayFactory;
   private final FacebookDispatcher facebookDispatcher;
+  private final NotificationCenter notificationCenter;
+  private final WebMessageSource messageSource;
 
-  public FacebookController(FacebookDisplayFactory facebookDisplayFactory, FacebookDispatcher facebookDispatcher) {
+  public FacebookController(FacebookDisplayFactory facebookDisplayFactory, FacebookDispatcher facebookDispatcher,
+      NotificationCenter notificationCenter, WebMessageSource messageSource) {
     this.facebookDisplayFactory = facebookDisplayFactory;
     this.facebookDispatcher = facebookDispatcher;
+    this.notificationCenter = notificationCenter;
+    this.messageSource = messageSource;
   }
 
   /**
@@ -80,10 +87,16 @@ public class FacebookController {
     LOGGER.info("Tentative de création d'entrées de blog venant de facebook");
     try {
       FacebookImportResponse response = facebookDispatcher.createEntity(facebookImportRequest, locale);
+      if (response.getError() == null) {
+        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      } else {
+        notificationCenter.sendNotification(response.getError());
+      }
       LOGGER.info("Entrées crées");
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (BaseException e) {
       LOGGER.info("Echec de l'import des posts facebook", e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 

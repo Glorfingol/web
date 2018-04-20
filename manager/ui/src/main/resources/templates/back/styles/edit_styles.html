@@ -10,7 +10,6 @@
     <div class="form-group mb-3" id="formInputContent">
       <label th:text="#{style.content.label}"/>
       <textarea rows="3" id="styleContent" class="form-control" th:field="*{content}"/>
-      <div id="feedbackBody" class="form-control-label"></div>
       <small class="form-text text-muted" th:text="#{style.content.help}"/>
     </div>
     <div class="float-right">
@@ -21,7 +20,8 @@
   </form>
 </div>
 <div class="card card-loader">
-  <div class="loader"/>
+  <div class="loader">
+  </div>
 </div>
 <script th:inline="javascript">
   var codeMirrorStyleContent;

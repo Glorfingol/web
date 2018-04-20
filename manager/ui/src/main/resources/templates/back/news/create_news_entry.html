@@ -4,25 +4,21 @@
       <div class="form-group mb-3" id="formInputTitle">
         <label th:text="#{title.label}"/>
         <input type="text" class="form-control" th:field="*{title}"/>
-        <div id="feedbackTitle"></div>
         <small class="form-text text-muted" th:text="#{title.help}"/>
       </div>
       <div class="form-group mb-3" id="formInputAuthor">
         <label th:text="#{author.label}"/>
         <input type="text" class="form-control" th:field="*{author}"/>
-        <div id="feedbackAuthor"></div>
         <small class="form-text text-muted" th:text="#{author.help}"/>
       </div>
       <div class="form-group mb-3" id="formInputTags">
         <label th:text="#{tags.label}"/>
         <input type="text" class="form-control" th:field="*{tags}"/>
-        <div id="feedbackTags"></div>
         <small class="form-text text-muted" th:text="#{tags.help}"/>
       </div>
       <div class="form-group mb-3" id="formInputContent">
         <label th:text="#{content.label}"/>
         <textarea rows="3" id="newsContent" class="form-control" th:field="*{content.content}"/>
-        <div id="feedbackContent"></div>
         <small class="form-text text-muted" th:text="#{content.help}"/>
       </div>
       <div class="form-group mb-3" id="formInputImage">
@@ -38,7 +34,6 @@
             </label>
           </div>
         </div>
-        <div id="feedbackImage" class="form-control-label"></div>
         <small class="form-text text-muted" th:text="#{image.help}"/>
       </div>
       <div class="mb-3" id="formPreviewImage">
@@ -47,13 +42,11 @@
       <div class="form-group mb-3" id="formInputLegend">
         <label th:text="#{legend.label}"/>
         <input type="text" class="form-control" th:field="*{image.legend}"/>
-        <div id="feedbackLegend"></div>
         <small class="form-text text-muted" th:text="#{legend.help}"/>
       </div>
       <div class="form-group mb-3" id="formInputAlt">
         <label th:text="#{alt.label}"/>
         <input type="text" class="form-control" th:field="*{image.alt}"/>
-        <div id="feedbackAlt"></div>
         <small class="form-text text-muted" th:text="#{alt.help}"/>
       </div>
     </div>
@@ -70,7 +63,8 @@
 </form>
 </form>
 <div class="card card-loader">
-  <div class="loader"/>
+  <div class="loader">
+  </div>
 </div>
 <script type="text/javascript">
 

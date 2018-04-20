@@ -1,5 +1,8 @@
 package com.cmpl.web.configuration.core.page;
 
+import java.util.Locale;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.plugin.core.PluginRegistry;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -52,6 +56,11 @@ public class PageConfigurationTest {
   private WidgetPageService widgetPageService;
   @Mock
   private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  @Mock
+  private Set<Locale> availableLocales;
+
+  @Mock
+  private ApplicationEventPublisher publisher;
 
   @Spy
   @InjectMocks
@@ -60,21 +69,21 @@ public class PageConfigurationTest {
   @Test
   public void testPageManagerDisplayFactory() throws Exception {
 
-    Assert.assertEquals(
-        PageManagerDisplayFactoryImpl.class,
+    Assert.assertEquals(PageManagerDisplayFactoryImpl.class,
         configuration.pageManagerDisplayFactory(contextHolder, menuFactory, messageSource, pageService, widgetService,
-            widgetPageService, breadCrumbRegistry).getClass());
+            widgetPageService, breadCrumbRegistry, availableLocales).getClass());
   }
 
   @Test
   public void testPageDispatcher() throws Exception {
-    Assert.assertEquals(PageDispatcherImpl.class, configuration.pageDispatcher(validator, translator, pageService)
-        .getClass());
+    Assert.assertEquals(PageDispatcherImpl.class,
+        configuration.pageDispatcher(validator, translator, pageService).getClass());
   }
 
   @Test
   public void testPageService() throws Exception {
-    Assert.assertEquals(PageServiceImpl.class, configuration.pageService(pageRepository, fileService).getClass());
+    Assert.assertEquals(PageServiceImpl.class,
+        configuration.pageService(publisher, pageRepository, fileService).getClass());
   }
 
   @Test

@@ -6,7 +6,6 @@ import java.util.Locale;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cmpl.web.core.common.error.Error;
-import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaDTOBuilder;
@@ -43,9 +42,7 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
     Error error = validator.validateCreate(newsEntryRequest, locale);
 
     if (error != null) {
-      NewsEntryResponse response = new NewsEntryResponse();
-      response.setError(error);
-      return response;
+      return NewsEntryResponseBuilder.create().error(error).build();
     }
 
     NewsEntryDTO entityToCreate = translator.fromRequestToDTO(newsEntryRequest);
@@ -60,9 +57,7 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
     Error error = validator.validateUpdate(newsEntryRequest, newsEntryId, locale);
 
     if (error != null) {
-      NewsEntryResponse response = new NewsEntryResponse();
-      response.setError(error);
-      return response;
+      return NewsEntryResponseBuilder.create().error(error).build();
     }
 
     newsEntryRequest.setId(Long.parseLong(newsEntryId));
@@ -75,12 +70,13 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   }
 
   @Override
-  public void deleteEntity(String newsEntryId, Locale locale) throws BaseException {
+  public NewsEntryResponse deleteEntity(String newsEntryId, Locale locale) {
     Error error = validator.validateDelete(newsEntryId, locale);
     if (error != null) {
-      throw new BaseException(error.getCauses().get(0).getMessage());
+      NewsEntryResponseBuilder.create().error(error).build();
     }
     newsEntryService.deleteEntity(Long.parseLong(newsEntryId));
+    return NewsEntryResponseBuilder.create().build();
   }
 
   @Override

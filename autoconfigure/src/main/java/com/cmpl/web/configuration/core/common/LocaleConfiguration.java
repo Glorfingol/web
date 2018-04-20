@@ -1,6 +1,8 @@
 package com.cmpl.web.configuration.core.common;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +18,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
  * @author Louis
  *
  */
-@Configuration 
+@Configuration
 public class LocaleConfiguration implements WebMvcConfigurer {
 
   /**
@@ -41,6 +43,14 @@ public class LocaleConfiguration implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(localeChangeInterceptor());
+  }
+
+  @Bean
+  public Set<Locale> availableLocales() {
+    Set<Locale> locales = new HashSet<>();
+    locales.add(Locale.FRANCE);
+    locales.add(Locale.US);
+    return locales;
   }
 
 }

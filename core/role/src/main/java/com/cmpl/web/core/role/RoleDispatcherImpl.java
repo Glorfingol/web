@@ -37,6 +37,7 @@ public class RoleDispatcherImpl implements RoleDispatcher {
 
     RoleDTO roleToCreate = translator.fromCreateFormToDTO(form);
     RoleDTO createdRole = service.createEntity(roleToCreate);
+
     return translator.fromDTOToResponse(createdRole);
   }
 
@@ -53,7 +54,14 @@ public class RoleDispatcherImpl implements RoleDispatcher {
     roleToUpdate.setName(form.getName());
 
     RoleDTO roleUpdated = service.updateEntity(roleToUpdate);
+
     return translator.fromDTOToResponse(roleUpdated);
+  }
+
+  @Override
+  public RoleResponse deleteEntity(String roleId, Locale locale) {
+    service.deleteEntity(Long.parseLong(roleId));
+    return RoleResponseBuilder.create().build();
   }
 
   @Override
@@ -76,15 +84,13 @@ public class RoleDispatcherImpl implements RoleDispatcher {
   List<PrivilegeDTO> computePrivilegesToCreate(PrivilegeForm form) {
     List<PrivilegeDTO> privilegesDTOToAdd = new ArrayList<>();
     if (isAll(form)) {
-      privilegesRegistry.getPlugins().forEach(
-          privilege -> {
-            privilegesDTOToAdd.add(PrivilegeDTOBuilder.create().content(privilege.privilege()).roleId(form.getRoleId())
-                .build());
-          });
+      privilegesRegistry.getPlugins().forEach(privilege -> {
+        privilegesDTOToAdd
+            .add(PrivilegeDTOBuilder.create().content(privilege.privilege()).roleId(form.getRoleId()).build());
+      });
     } else {
-      form.getPrivilegesToEnable().forEach(
-          privilegeToEnable -> privilegesDTOToAdd.add(PrivilegeDTOBuilder.create().content(privilegeToEnable)
-              .roleId(form.getRoleId()).build()));
+      form.getPrivilegesToEnable().forEach(privilegeToEnable -> privilegesDTOToAdd
+          .add(PrivilegeDTOBuilder.create().content(privilegeToEnable).roleId(form.getRoleId()).build()));
     }
     return privilegesDTOToAdd;
   }

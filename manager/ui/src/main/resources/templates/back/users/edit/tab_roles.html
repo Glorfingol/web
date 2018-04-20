@@ -8,7 +8,6 @@
         <option th:each="linkableRole : ${linkableRoles}" th:value="${linkableRole.id}"
                 th:text="${linkableRole.name}"></option>
       </select>
-      <div id="feedbackRoleId" class="form-control-label"></div>
       <small class="form-text text-muted" th:text="#{role.name.help}"/>
     </div>
     <div class="float-right">

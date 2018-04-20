@@ -1,5 +1,8 @@
 package com.cmpl.web.configuration.core.style;
 
+import java.util.Locale;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.plugin.core.PluginRegistry;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -45,6 +49,11 @@ public class StyleConfigurationTest {
   private ContextHolder contextHolder;
   @Mock
   private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  @Mock
+  private Set<Locale> availableLocales;
+
+  @Mock
+  private ApplicationEventPublisher publisher;
 
   @Spy
   @InjectMocks
@@ -53,14 +62,14 @@ public class StyleConfigurationTest {
   @Test
   public void testStyleService() throws Exception {
 
-    Assert.assertEquals(StyleServiceImpl.class, configuration.styleService(styleRepository, mediaService, fileService)
-        .getClass());
+    Assert.assertEquals(StyleServiceImpl.class,
+        configuration.styleService(publisher, styleRepository, mediaService, fileService).getClass());
   }
 
   @Test
   public void testStyleDispacther() throws Exception {
-    Assert.assertEquals(StyleDispatcherImpl.class, configuration.styleDispacther(styleService, styleTranslator)
-        .getClass());
+    Assert.assertEquals(StyleDispatcherImpl.class,
+        configuration.styleDispacther(styleService, styleTranslator).getClass());
   }
 
   @Test
@@ -70,8 +79,7 @@ public class StyleConfigurationTest {
 
   @Test
   public void testStyleDisplayFactory() throws Exception {
-    Assert.assertEquals(StyleDisplayFactoryImpl.class,
-        configuration.styleDisplayFactory(menuFactory, messageSource, styleService, contextHolder, breadCrumbRegistry)
-            .getClass());
+    Assert.assertEquals(StyleDisplayFactoryImpl.class, configuration.styleDisplayFactory(menuFactory, messageSource,
+        styleService, contextHolder, breadCrumbRegistry, availableLocales).getClass());
   }
 }

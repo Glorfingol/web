@@ -3,6 +3,7 @@ package com.cmpl.web.core.role;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.CollectionUtils;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
@@ -11,8 +12,9 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleDTO, Role> implements R
 
   private final PrivilegeService privilegeService;
 
-  public RoleServiceImpl(RoleRepository entityRepository, PrivilegeService privilegeService) {
-    super(entityRepository);
+  public RoleServiceImpl(ApplicationEventPublisher publisher, RoleRepository entityRepository,
+      PrivilegeService privilegeService) {
+    super(entityRepository, publisher);
     this.privilegeService = privilegeService;
   }
 

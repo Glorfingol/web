@@ -1,8 +1,8 @@
 package com.cmpl.web.core.factory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,12 +28,14 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
 
   private final MenuFactory menuFactory;
   private final PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  protected final Set<Locale> availableLocales;
 
   public BackDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales) {
     super(messageSource);
     this.menuFactory = menuFactory;
     this.breadCrumbRegistry = breadCrumbRegistry;
+    this.availableLocales = availableLocales;
   }
 
   @Override
@@ -46,7 +48,7 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     LOGGER.debug("Construction du menu pour la page {}", backPageName);
     model.addObject("menuItems", computeBackMenuItems(backPage, locale));
     LOGGER.debug("Construction des locales pour la page {}", backPageName);
-    model.addObject("locales", computeLocales());
+    model.addObject("locales", availableLocales);
     LOGGER.debug("Construction du fil d'ariane pour la page {}", backPageName);
     model.addObject("breadcrumb", computeBreadCrumb(backPage));
     LOGGER.debug("Construction du lien du back pour la page {}", backPageName);
@@ -55,13 +57,6 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     LOGGER.debug("Page du back {} prête", backPageName);
 
     return model;
-  }
-
-  public List<Locale> computeLocales() {
-    List<Locale> locales = new ArrayList<>();
-    locales.add(Locale.FRANCE);
-    locales.add(Locale.US);
-    return locales;
   }
 
   public BreadCrumb computeBreadCrumb(BACK_PAGE backPage) {

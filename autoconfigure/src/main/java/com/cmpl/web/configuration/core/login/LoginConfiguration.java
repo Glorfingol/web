@@ -1,5 +1,8 @@
 package com.cmpl.web.configuration.core.login;
 
+import java.util.Locale;
+import java.util.Set;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.plugin.core.PluginRegistry;
@@ -16,8 +19,8 @@ public class LoginConfiguration {
 
   @Bean
   public LoginDisplayFactory loginDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs) {
-    return new LoginDisplayFactoryImpl(menuFactory, messageSource, breadCrumbs);
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs, Set<Locale> availableLocales) {
+    return new LoginDisplayFactoryImpl(menuFactory, messageSource, breadCrumbs, availableLocales);
   }
 
 }

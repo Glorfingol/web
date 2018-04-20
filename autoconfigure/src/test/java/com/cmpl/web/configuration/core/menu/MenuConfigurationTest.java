@@ -1,5 +1,8 @@
 package com.cmpl.web.configuration.core.menu;
 
+import java.util.Locale;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +50,8 @@ public class MenuConfigurationTest {
   private BackMenu backMenu;
   @Mock
   private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  @Mock
+  private Set<Locale> availableLocales;
 
   @Spy
   @InjectMocks
@@ -54,8 +59,8 @@ public class MenuConfigurationTest {
 
   @Test
   public void testMenuFactory() throws Exception {
-    Assert.assertEquals(MenuFactoryImpl.class, configuration.menuFactory(messageSource, menuService, backMenu)
-        .getClass());
+    Assert.assertEquals(MenuFactoryImpl.class,
+        configuration.menuFactory(messageSource, menuService, backMenu).getClass());
 
   }
 
@@ -77,10 +82,8 @@ public class MenuConfigurationTest {
 
   @Test
   public void testMenuManagerDisplayFactory() throws Exception {
-    Assert.assertEquals(
-        MenuManagerDisplayFactoryImpl.class,
-        configuration.menuManagerDisplayFactory(menuFactory, messageSource, menuService, pageService, contextHolder,
-            breadCrumbRegistry).getClass());
+    Assert.assertEquals(MenuManagerDisplayFactoryImpl.class, configuration.menuManagerDisplayFactory(menuFactory,
+        messageSource, menuService, pageService, contextHolder, breadCrumbRegistry, availableLocales).getClass());
     ;
   }
 

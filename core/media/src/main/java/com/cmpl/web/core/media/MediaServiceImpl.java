@@ -7,27 +7,25 @@ import java.sql.SQLException;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.file.FileService;
 
 @CacheConfig(cacheNames = "medias")
 public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implements MediaService {
 
-  private final ContextHolder contextHolder;
   private final FileService fileService;
   private final MediaRepository mediaRepository;
   private static final String MEDIA_CONTROLLER_PATH = "/public/medias/";
 
-  public MediaServiceImpl(MediaRepository entityRepository, FileService fileService, ContextHolder contextHolder) {
-    super(entityRepository);
+  public MediaServiceImpl(ApplicationEventPublisher publisher, MediaRepository entityRepository, FileService fileService) {
+    super(entityRepository, publisher);
     this.fileService = fileService;
-    this.contextHolder = contextHolder;
     this.mediaRepository = entityRepository;
   }
 

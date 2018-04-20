@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -33,8 +34,8 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   private final PageRepository pageRepository;
   private final FileService fileService;
 
-  public PageServiceImpl(PageRepository pageRepository, FileService fileService) {
-    super(pageRepository);
+  public PageServiceImpl(ApplicationEventPublisher publisher, PageRepository pageRepository, FileService fileService) {
+    super(pageRepository, publisher);
     this.pageRepository = pageRepository;
     this.fileService = fileService;
   }
@@ -82,14 +83,14 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   @Cacheable(key = "#a0+'_'+#a1")
   public PageDTO getEntity(Long pageId, String localeCode) {
     PageDTO fetchedPage = super.getEntity(pageId);
-    fetchedPage.setBody(fileService.readFileContentFromSystem(fetchedPage.getName() + LOCALE_CODE_PREFIX + localeCode
-        + HTML_SUFFIX));
-    fetchedPage.setFooter(fileService.readFileContentFromSystem(fetchedPage.getName() + FOOTER_SUFFIX
-        + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
-    fetchedPage.setHeader(fileService.readFileContentFromSystem(fetchedPage.getName() + HEADER_SUFFIX
-        + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
-    fetchedPage.setMeta(fileService.readFileContentFromSystem(fetchedPage.getName() + META_SUFFIX + LOCALE_CODE_PREFIX
-        + localeCode + HTML_SUFFIX));
+    fetchedPage.setBody(
+        fileService.readFileContentFromSystem(fetchedPage.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+    fetchedPage.setFooter(fileService.readFileContentFromSystem(
+        fetchedPage.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+    fetchedPage.setHeader(fileService.readFileContentFromSystem(
+        fetchedPage.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+    fetchedPage.setMeta(fileService.readFileContentFromSystem(
+        fetchedPage.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     return fetchedPage;
   }
 
@@ -134,6 +135,12 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
     List<PageDTO> pages = new ArrayList<>();
     entities.forEach(entity -> pages.add(toDTO(entity)));
     return pages;
+  }
+
+  @Override
+  @CacheEvict(value = {"pagedPages", "listedPages"}, allEntries = true)
+  public void deleteEntity(Long id) {
+    super.deleteEntity(id);
   }
 
 }

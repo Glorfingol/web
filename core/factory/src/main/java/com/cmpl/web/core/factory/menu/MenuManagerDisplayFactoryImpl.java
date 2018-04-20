@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.menu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,8 +28,8 @@ import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
 
-public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<MenuDTO> implements
-    MenuManagerDisplayFactory {
+public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<MenuDTO>
+    implements MenuManagerDisplayFactory {
 
   private final MenuService menuService;
   private final PageService pageService;
@@ -40,10 +41,10 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   private static final String MENUS_PARENTS = "menusThatCanBeParents";
   private static final String PAGES_LINKABLE = "pagesThatCanBeLinkedTo";
 
-  public MenuManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      MenuService menuService, PageService pageService, ContextHolder contextHolder,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry);
+  public MenuManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource, MenuService menuService,
+      PageService pageService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
+      Set<Locale> availableLocales) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
     this.menuService = menuService;
     this.contextHolder = contextHolder;
     this.pageService = pageService;
@@ -129,6 +130,11 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   protected String getBaseUrl() {
     return "/manager/menus";
+  }
+
+  @Override
+  protected String getItemLink() {
+    return "/manager/menus/";
   }
 
   @Override

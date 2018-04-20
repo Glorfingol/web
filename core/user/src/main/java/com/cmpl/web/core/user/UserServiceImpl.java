@@ -15,6 +15,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -35,8 +36,9 @@ public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements U
   private final ActionTokenService tokenService;
   private final UserMailService userMailService;
 
-  public UserServiceImpl(ActionTokenService tokenService, UserMailService userMailService, UserRepository userRepository) {
-    super(userRepository);
+  public UserServiceImpl(ApplicationEventPublisher publisher, ActionTokenService tokenService,
+      UserMailService userMailService, UserRepository userRepository) {
+    super(userRepository, publisher);
     this.tokenService = tokenService;
     this.userMailService = userMailService;
     this.userRepository = userRepository;

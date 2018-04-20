@@ -1,6 +1,7 @@
 package com.cmpl.web.configuration.core.association_user_role;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -16,7 +17,6 @@ import com.cmpl.web.core.association_user_role.AssociationUserRoleTranslatorImpl
 import com.cmpl.web.core.association_user_role.AssociationUserRoleValidator;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleValidatorImpl;
 import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.manager.ui.core.association_user_role.AssociationUserRoleManagerController;
 
 @Configuration
 @EntityScan(basePackageClasses = AssociationUserRole.class)
@@ -24,8 +24,9 @@ import com.cmpl.web.manager.ui.core.association_user_role.AssociationUserRoleMan
 public class AssociationUserRoleConfiguration {
 
   @Bean
-  AssociationUserRoleService associationUserRoleService(AssociationUserRoleRepository associationUserRoleRepository) {
-    return new AssociationUserRoleServiceImpl(associationUserRoleRepository);
+  AssociationUserRoleService associationUserRoleService(ApplicationEventPublisher publisher,
+      AssociationUserRoleRepository associationUserRoleRepository) {
+    return new AssociationUserRoleServiceImpl(publisher, associationUserRoleRepository);
   }
 
   @Bean
@@ -44,12 +45,6 @@ public class AssociationUserRoleConfiguration {
       AssociationUserRoleTranslator associationUserRoleTranslator) {
     return new AssociationUserRoleDispatcherImpl(associationUserRoleService, associationUserRoleValidator,
         associationUserRoleTranslator);
-  }
-
-  @Bean
-  AssociationUserRoleManagerController associationUserRoleManagerController(
-      AssociationUserRoleDispatcher associationUserRoleDispatcher) {
-    return new AssociationUserRoleManagerController(associationUserRoleDispatcher);
   }
 
 }

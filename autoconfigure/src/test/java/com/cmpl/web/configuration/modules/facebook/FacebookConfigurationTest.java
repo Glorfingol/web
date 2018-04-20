@@ -1,5 +1,8 @@
 package com.cmpl.web.configuration.modules.facebook;
 
+import java.util.Locale;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,6 +71,8 @@ public class FacebookConfigurationTest {
 
   @Mock
   private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  @Mock
+  private Set<Locale> availableLocales;
 
   @Spy
   private FacebookConfiguration configuration;
@@ -92,7 +97,7 @@ public class FacebookConfigurationTest {
   @Test
   public void testFacebookDisplayFactory() throws Exception {
     FacebookDisplayFactory result = configuration.facebookDisplayFactory(menuFactory, messageSource, facebookAdapter,
-        breadCrumbRegistry);
+        breadCrumbRegistry, availableLocales);
 
     Assert.assertEquals(FacebookDisplayFactoryImpl.class, result.getClass());
   }

@@ -8,7 +8,6 @@
         <option th:each="linkableWidget : ${linkableWidgets}" th:value="${linkableWidget.id}"
                 th:text="${linkableWidget.name}"></option>
       </select>
-      <div id="feedbackWidgetId" class="form-control-label"></div>
       <small class="form-text text-muted" th:text="#{widget.name.help}"/>
     </div>
     <div class="float-right">

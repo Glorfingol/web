@@ -4,6 +4,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +21,8 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   private static final String HTML_SUFFIX = ".html";
   private static final String LOCALE_CODE_PREFIX = "_";
 
-  public WidgetServiceImpl(WidgetRepository repository, FileService fileService) {
-    super(repository);
+  public WidgetServiceImpl(ApplicationEventPublisher publisher, WidgetRepository repository, FileService fileService) {
+    super(repository, publisher);
     this.fileService = fileService;
     this.repository = repository;
   }

@@ -1,5 +1,8 @@
 package com.cmpl.web.core.factory.login;
 
+import java.util.Locale;
+import java.util.Set;
+
 import org.springframework.plugin.core.PluginRegistry;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -17,8 +20,8 @@ import com.cmpl.web.core.page.BACK_PAGE;
 public class LoginDisplayFactoryImpl extends BackDisplayFactoryImpl implements LoginDisplayFactory {
 
   public LoginDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry);
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
   }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -25,8 +26,8 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDTO, Menu> implements M
 
   private final MenuRepository menuRepository;
 
-  public MenuServiceImpl(MenuRepository menuRepository) {
-    super(menuRepository);
+  public MenuServiceImpl(ApplicationEventPublisher publisher, MenuRepository menuRepository) {
+    super(menuRepository, publisher);
     this.menuRepository = menuRepository;
   }
 

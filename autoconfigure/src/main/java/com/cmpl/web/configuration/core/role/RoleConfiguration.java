@@ -2,14 +2,19 @@ package com.cmpl.web.configuration.core.role;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.plugin.core.PluginRegistry;
 
+import com.cmpl.core.events_listeners.RoleEventsListeners;
+import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
@@ -43,17 +48,19 @@ import com.cmpl.web.core.role.RoleValidatorImpl;
 public class RoleConfiguration {
 
   @Bean
-  PrivilegeService privilegeService(PrivilegeRepository privilegeRepository) {
-    return new PrivilegeServiceImpl(privilegeRepository);
+  PrivilegeService privilegeService(ApplicationEventPublisher publisher, PrivilegeRepository privilegeRepository) {
+    return new PrivilegeServiceImpl(publisher, privilegeRepository);
   }
 
   @Bean
-  RoleService roleService(RoleRepository entityRepository, PrivilegeService privilegeService) {
-    return new RoleServiceImpl(entityRepository, privilegeService);
+  RoleService roleService(ApplicationEventPublisher publisher, RoleRepository entityRepository,
+      PrivilegeService privilegeService) {
+    return new RoleServiceImpl(publisher, entityRepository, privilegeService);
   }
 
   @Bean
-  BackMenuItem roleBackMenuItem(BackMenuItem administration, com.cmpl.web.core.common.user.Privilege rolesReadPrivilege) {
+  BackMenuItem roleBackMenuItem(BackMenuItem administration,
+      com.cmpl.web.core.common.user.Privilege rolesReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.roles.href").label("back.roles.label").title("back.roles.title")
         .iconClass("fa fa-tasks").parent(administration).order(1).privilege(rolesReadPrivilege.privilege()).build();
   }
@@ -101,9 +108,16 @@ public class RoleConfiguration {
   RoleManagerDisplayFactory roleManagerDisplayFactory(RoleService roleService, PrivilegeService privilegeService,
       ContextHolder contextHolder, MenuFactory menuFactory, WebMessageSource messageSource,
       @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
-      @Qualifier(value = "privileges") PluginRegistry<com.cmpl.web.core.common.user.Privilege, String> privileges) {
+      @Qualifier(value = "privileges") PluginRegistry<com.cmpl.web.core.common.user.Privilege, String> privileges,
+      Set<Locale> availableLocales) {
     return new RoleManagerDisplayFactoryImpl(roleService, privilegeService, contextHolder, menuFactory, messageSource,
-        breadCrumbRegistry, privileges);
+        breadCrumbRegistry, privileges, availableLocales);
+  }
+
+  @Bean
+  RoleEventsListeners roleEventsListener(AssociationUserRoleService associationUserRoleService,
+      PrivilegeService privilegeService) {
+    return new RoleEventsListeners(associationUserRoleService, privilegeService);
   }
 
 }
