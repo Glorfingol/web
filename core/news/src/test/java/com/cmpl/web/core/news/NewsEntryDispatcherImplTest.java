@@ -18,7 +18,6 @@ import com.cmpl.web.core.common.error.ERROR_CAUSE;
 import com.cmpl.web.core.common.error.ERROR_TYPE;
 import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.error.ErrorCause;
-import com.cmpl.web.core.common.exception.BaseException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsEntryDispatcherImplTest {
@@ -60,9 +59,6 @@ public class NewsEntryDispatcherImplTest {
     error.setCode(ERROR_TYPE.INVALID_REQUEST.toString());
     error.setCauses(Arrays.asList(errorCause));
 
-    exception.expect(BaseException.class);
-    exception.expectMessage(errorCause.getMessage());
-
     BDDMockito.doReturn(error).when(validator).validateDelete(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
 
     dispatcher.deleteEntity(String.valueOf(1L), Locale.FRANCE);
@@ -77,8 +73,8 @@ public class NewsEntryDispatcherImplTest {
 
     NewsEntryResponse response = new NewsEntryResponse();
 
-    BDDMockito.doReturn(null).when(validator)
-        .validateUpdate(BDDMockito.any(NewsEntryRequest.class), BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(null).when(validator).validateUpdate(BDDMockito.any(NewsEntryRequest.class),
+        BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.given(translator.fromDTOToResponse(BDDMockito.any(NewsEntryDTO.class))).willReturn(response);
 
     NewsEntryDTO dto = NewsEntryDTOBuilder.create().build();
@@ -111,8 +107,8 @@ public class NewsEntryDispatcherImplTest {
     NewsEntryResponse response = new NewsEntryResponse();
     response.setError(error);
 
-    BDDMockito.doReturn(error).when(validator)
-        .validateUpdate(BDDMockito.any(NewsEntryRequest.class), BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(error).when(validator).validateUpdate(BDDMockito.any(NewsEntryRequest.class),
+        BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
 
     NewsEntryResponse result = dispatcher.updateEntity(new NewsEntryRequest(), String.valueOf(1L), Locale.FRANCE);
 
@@ -163,8 +159,8 @@ public class NewsEntryDispatcherImplTest {
     NewsEntryResponse response = new NewsEntryResponse();
     response.setError(error);
 
-    BDDMockito.doReturn(error).when(validator)
-        .validateCreate(BDDMockito.any(NewsEntryRequest.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(error).when(validator).validateCreate(BDDMockito.any(NewsEntryRequest.class),
+        BDDMockito.eq(Locale.FRANCE));
 
     NewsEntryResponse result = dispatcher.createEntity(new NewsEntryRequest(), Locale.FRANCE);
 

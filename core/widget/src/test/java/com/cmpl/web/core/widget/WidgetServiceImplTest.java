@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.file.FileService;
 
@@ -23,8 +24,11 @@ public class WidgetServiceImplTest {
   @Mock
   private WidgetRepository widgetRepository;
 
-  @Spy
+  @Mock
+  private ApplicationEventPublisher publisher;
+
   @InjectMocks
+  @Spy
   private WidgetServiceImpl widgetService;
 
   @Test
@@ -32,8 +36,8 @@ public class WidgetServiceImplTest {
 
     WidgetDTO dto = WidgetDTOBuilder.create().build();
 
-    BDDMockito.doNothing().when(widgetService)
-        .fillObject(BDDMockito.any(WidgetDTO.class), BDDMockito.any(Widget.class));
+    BDDMockito.doNothing().when(widgetService).fillObject(BDDMockito.any(WidgetDTO.class),
+        BDDMockito.any(Widget.class));
     widgetService.toEntity(dto);
 
     BDDMockito.verify(widgetService, BDDMockito.times(1)).fillObject(BDDMockito.any(WidgetDTO.class),
@@ -44,8 +48,8 @@ public class WidgetServiceImplTest {
   public void testToDTO() {
     Widget entity = WidgetBuilder.create().build();
 
-    BDDMockito.doNothing().when(widgetService)
-        .fillObject(BDDMockito.any(Widget.class), BDDMockito.any(WidgetDTO.class));
+    BDDMockito.doNothing().when(widgetService).fillObject(BDDMockito.any(Widget.class),
+        BDDMockito.any(WidgetDTO.class));
     widgetService.toDTO(entity);
 
     BDDMockito.verify(widgetService, BDDMockito.times(1)).fillObject(BDDMockito.any(Widget.class),
@@ -125,8 +129,8 @@ public class WidgetServiceImplTest {
 
     Assert.assertEquals(toUpdate, result);
 
-    BDDMockito.verify(fileService, BDDMockito.times(1))
-        .saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString());
+    BDDMockito.verify(fileService, BDDMockito.times(1)).saveFileOnSystem(BDDMockito.anyString(),
+        BDDMockito.anyString());
   }
 
   @Test

@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.CollectionUtils;
 
@@ -21,6 +22,9 @@ public class NewsContentServiceImplTest {
 
   @Mock
   private NewsContentRepository repository;
+
+  @Mock
+  private ApplicationEventPublisher publisher;
 
   @InjectMocks
   @Spy
@@ -93,7 +97,10 @@ public class NewsContentServiceImplTest {
   }
 
   @Test
-  public void testDeletEntity() {
+  public void testDeleteEntity() {
+
+    BDDMockito.doReturn(NewsContentDTOBuilder.create().build()).when(service).toDTO(BDDMockito.any(NewsContent.class));
+    BDDMockito.given(repository.getOne(BDDMockito.anyLong())).willReturn(NewsContentBuilder.create().build());
 
     BDDMockito.doNothing().when(repository).deleteById(BDDMockito.anyLong());
 

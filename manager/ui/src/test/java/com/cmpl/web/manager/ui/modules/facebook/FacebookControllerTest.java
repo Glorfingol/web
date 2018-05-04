@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.common.exception.BaseException;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.facebook.FacebookDispatcher;
 import com.cmpl.web.facebook.FacebookImportRequest;
 import com.cmpl.web.facebook.FacebookImportResponse;
@@ -30,6 +32,12 @@ public class FacebookControllerTest {
 
   @Mock
   private FacebookDisplayFactory facebookDisplayFactory;
+
+  @Mock
+  private NotificationCenter notificationCenter;
+
+  @Mock
+  private WebMessageSource messageSource;
 
   @InjectMocks
   @Spy
@@ -66,8 +74,8 @@ public class FacebookControllerTest {
 
     FacebookImportResponse response = new FacebookImportResponse();
 
-    BDDMockito.doReturn(response).when(dispatcher)
-        .createEntity(BDDMockito.any(FacebookImportRequest.class), BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(response).when(dispatcher).createEntity(BDDMockito.any(FacebookImportRequest.class),
+        BDDMockito.any(Locale.class));
 
     ResponseEntity<FacebookImportResponse> result = controller.createNewsEntry(request, Locale.FRANCE);
 
@@ -80,8 +88,8 @@ public class FacebookControllerTest {
 
     FacebookImportRequest request = new FacebookImportRequest();
 
-    BDDMockito.doThrow(new BaseException()).when(dispatcher)
-        .createEntity(BDDMockito.any(FacebookImportRequest.class), BDDMockito.any(Locale.class));
+    BDDMockito.doThrow(new BaseException()).when(dispatcher).createEntity(BDDMockito.any(FacebookImportRequest.class),
+        BDDMockito.any(Locale.class));
 
     ResponseEntity<FacebookImportResponse> result = controller.createNewsEntry(request, Locale.FRANCE);
 

@@ -126,7 +126,7 @@ public class NewsConfigurationTest {
   @Test
   public void testNewsEntryService() throws Exception {
     NewsEntryService result = configuration.newsEntryService(publisher, newsEntryRepository, newsImageService,
-        newsContentService, mediaService);
+        newsContentService);
 
     Assert.assertEquals(NewsEntryServiceImpl.class, result.getClass());
   }

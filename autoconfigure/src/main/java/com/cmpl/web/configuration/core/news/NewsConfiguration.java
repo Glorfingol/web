@@ -125,8 +125,8 @@ public class NewsConfiguration {
 
   @Bean
   NewsEntryService newsEntryService(ApplicationEventPublisher publisher, NewsEntryRepository newsEntryRepository,
-      NewsImageService newsImageService, NewsContentService newsContentService, MediaService mediaService) {
-    return new NewsEntryServiceImpl(publisher, newsEntryRepository, newsImageService, newsContentService, mediaService);
+      NewsImageService newsImageService, NewsContentService newsContentService) {
+    return new NewsEntryServiceImpl(publisher, newsEntryRepository, newsImageService, newsContentService);
   }
 
   @Bean

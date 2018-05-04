@@ -73,7 +73,7 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
   public NewsEntryResponse deleteEntity(String newsEntryId, Locale locale) {
     Error error = validator.validateDelete(newsEntryId, locale);
     if (error != null) {
-      NewsEntryResponseBuilder.create().error(error).build();
+      return NewsEntryResponseBuilder.create().error(error).build();
     }
     newsEntryService.deleteEntity(Long.parseLong(newsEntryId));
     return NewsEntryResponseBuilder.create().build();

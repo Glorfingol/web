@@ -18,7 +18,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
-import com.cmpl.web.core.media.MediaService;
 
 /**
  * Implementation de l'interface pour la gestion des NewsEntry
@@ -34,15 +33,13 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   private final NewsEntryRepository newsEntryRepository;
   private final NewsImageService newsImageService;
   private final NewsContentService newsContentService;
-  private final MediaService mediaService;
 
   public NewsEntryServiceImpl(ApplicationEventPublisher publisher, NewsEntryRepository newsEntryRepository,
-      NewsImageService newsImageService, NewsContentService newsContentService, MediaService mediaService) {
+      NewsImageService newsImageService, NewsContentService newsContentService) {
     super(newsEntryRepository, publisher);
     this.newsEntryRepository = newsEntryRepository;
     this.newsImageService = newsImageService;
     this.newsContentService = newsContentService;
-    this.mediaService = mediaService;
   }
 
   @Override
