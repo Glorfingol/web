@@ -39,6 +39,12 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" id="amp-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToPageAmpTab()">
+          <span th:text="#{page.tab.amp}"/>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" id="preview-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToPreviewTab()">
           <span th:text="#{page.preview}"/>
@@ -134,6 +140,17 @@
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         currentTab = "main";
+      });
+    }
+  };
+
+  var goToPageAmpTab = function () {
+    if (currentTab !== "amp") {
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_amp?languageCode="
+          + languageCode;
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "amp";
       });
     }
   };

@@ -168,6 +168,20 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
+  public ModelAndView computeModelAndViewForUpdatePageAMP(Locale locale, String pageId,
+      String personalizationLanguageCode) {
+    if (!StringUtils.hasText(personalizationLanguageCode)) {
+      personalizationLanguageCode = locale.getLanguage();
+    }
+    ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_amp");
+    pageManager.addObject(LOCALES, availableLocales);
+    PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
+    pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
+
+    return pageManager;
+  }
+
+  @Override
   public ModelAndView computeModelAndViewForUpdatePageHeader(Locale locale, String pageId,
       String personalizationLanguageCode) {
     if (!StringUtils.hasText(personalizationLanguageCode)) {

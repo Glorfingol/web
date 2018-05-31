@@ -16,6 +16,7 @@ public class PageDTO extends BaseDTO {
   private String header;
   private String footer;
   private String meta;
+  private String amp;
 
   public String getName() {
     return name;
@@ -63,5 +64,13 @@ public class PageDTO extends BaseDTO {
 
   public void setMeta(String meta) {
     this.meta = meta;
+  }
+
+  public String getAmp() {
+    return amp;
+  }
+
+  public void setAmp(String amp) {
+    this.amp = amp;
   }
 }

@@ -10,6 +10,7 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
   private String header;
   private String footer;
   private String meta;
+  private String amp;
 
   private PageDTOBuilder() {
 
@@ -45,6 +46,11 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
     return this;
   }
 
+  public PageDTOBuilder amp(String amp) {
+    this.amp = amp;
+    return this;
+  }
+
   @Override
   public PageDTO build() {
     PageDTO pageDTO = new PageDTO();
@@ -57,6 +63,7 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
     pageDTO.setMenuTitle(menuTitle);
     pageDTO.setModificationDate(modificationDate);
     pageDTO.setName(name);
+    pageDTO.setAmp(amp);
 
     return pageDTO;
   }

@@ -82,13 +82,27 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   }
 
   @Override
+  public ModelAndView computeModelAndViewForAMP(String pageName, Locale locale, int pageNumber) {
+    LOGGER.debug("Construction de la page amp {}", pageName);
+
+    PageDTO page = pageService.getPageByName(pageName, locale.getLanguage());
+
+    ModelAndView model = new ModelAndView("decorator_amp");
+    model.addObject("amp_content", computePageAMPContent(page, locale));
+
+    LOGGER.debug("Page {} prête", pageName);
+
+    return model;
+  }
+
+  @Override
   public ModelAndView computeModelAndViewForBlogEntry(String newsEntryId, String widgetId, Locale locale) {
 
     LOGGER.debug("Construction de l'entree de blog d'id {}", newsEntryId);
 
     WidgetProviderPlugin widgetProvider = widgetProviders.getPluginFor("BLOG_ENTRY");
-    ModelAndView model = new ModelAndView(widgetProvider.computeWidgetTemplate(WidgetDTOBuilder.create().build(),
-        locale));
+    ModelAndView model = new ModelAndView(
+        widgetProvider.computeWidgetTemplate(WidgetDTOBuilder.create().build(), locale));
     NewsEntryDTO newsEntry = newsEntryService.getEntity(Long.parseLong(newsEntryId));
     model.addObject("newsBean", newsEntry);
 
@@ -125,6 +139,10 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
   String computePageContent(PageDTO page, Locale locale) {
     return page.getName() + "_" + locale.getLanguage();
+  }
+
+  String computePageAMPContent(PageDTO page, Locale locale) {
+    return page.getName() + "_amp_" + locale.getLanguage();
   }
 
   String computePageHeader(PageDTO page, Locale locale) {

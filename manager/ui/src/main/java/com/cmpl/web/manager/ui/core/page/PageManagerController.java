@@ -188,6 +188,14 @@ public class PageManagerController {
     return pageManagerDisplayFactory.computeModelAndViewForUpdatePageWidgets(locale, pageId, languageCode);
   }
 
+  @GetMapping(value = "/{pageId}/_amp")
+  @PreAuthorize("hasAuthority('webmastering:pages:read')")
+  public ModelAndView printViewUpdatePageAMP(@PathVariable(value = "pageId") String pageId, Locale locale,
+      @RequestParam(name = "languageCode", required = false) String languageCode) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie amp");
+    return pageManagerDisplayFactory.computeModelAndViewForUpdatePageMeta(locale, pageId, languageCode);
+  }
+
   @DeleteMapping(value = "/{pageId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:pages:delete')")

@@ -20,7 +20,10 @@ public interface PageManagerDisplayFactory {
 
   ModelAndView computeModelAndViewForUpdatePageMeta(Locale locale, String pageId, String personalizationLanguageCode);
 
+  ModelAndView computeModelAndViewForUpdatePageAMP(Locale locale, String pageId, String personalizationLanguageCode);
+
   ModelAndView computeModelAndViewForCreatePage(Locale locale);
 
-  ModelAndView computeModelAndViewForUpdatePageWidgets(Locale locale, String pageId, String personalizationLanguageCode);
+  ModelAndView computeModelAndViewForUpdatePageWidgets(Locale locale, String pageId,
+      String personalizationLanguageCode);
 }

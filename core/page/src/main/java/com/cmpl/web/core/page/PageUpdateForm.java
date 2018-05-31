@@ -10,6 +10,7 @@ public class PageUpdateForm extends BaseUpdateForm<PageDTO> {
   private String header;
   private String footer;
   private String meta;
+  private String amp;
   private String localeCode;
 
   public PageUpdateForm() {
@@ -25,6 +26,7 @@ public class PageUpdateForm extends BaseUpdateForm<PageDTO> {
     this.header = page.getHeader();
     this.localeCode = personalizationLanguageCode;
     this.meta = page.getMeta();
+    this.amp = page.getAmp();
   }
 
   public String getName() {
@@ -81,5 +83,13 @@ public class PageUpdateForm extends BaseUpdateForm<PageDTO> {
 
   public void setMeta(String meta) {
     this.meta = meta;
+  }
+
+  public String getAmp() {
+    return amp;
+  }
+
+  public void setAmp(String amp) {
+    this.amp = amp;
   }
 }

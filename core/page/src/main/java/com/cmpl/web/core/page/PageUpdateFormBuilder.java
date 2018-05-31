@@ -12,6 +12,7 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
   private String header;
   private String footer;
   private String meta;
+  private String amp;
   private Long id;
   private LocalDateTime creationDate;
   private LocalDateTime modificationDate;
@@ -50,6 +51,11 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
 
   public PageUpdateFormBuilder meta(String meta) {
     this.meta = meta;
+    return this;
+  }
+
+  public PageUpdateFormBuilder amp(String amp) {
+    this.amp = amp;
     return this;
   }
 
@@ -99,6 +105,7 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
     form.setMeta(meta);
     form.setCreationUser(creationUser);
     form.setModificationUser(modificationUser);
+    form.setAmp(amp);
     return form;
   }
 
