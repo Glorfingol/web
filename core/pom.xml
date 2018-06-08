@@ -29,6 +29,7 @@
     <module>role</module>
     <module>association-user-role</module>
     <module>eventsListeners</module>
+    <module>cmpl-web-core-group</module>
   </modules>
 
 

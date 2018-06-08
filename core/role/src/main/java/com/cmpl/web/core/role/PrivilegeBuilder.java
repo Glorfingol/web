@@ -27,6 +27,11 @@ public class PrivilegeBuilder extends BaseBuilder<Privilege> {
     Privilege privilege = new Privilege();
     privilege.setContent(content);
     privilege.setRoleId(roleId);
+    privilege.setId(id);
+    privilege.setCreationDate(creationDate);
+    privilege.setModificationDate(modificationDate);
+    privilege.setCreationUser(creationUser);
+    privilege.setModificationUser(modificationUser);
     return privilege;
   }
 

@@ -27,6 +27,11 @@ public class RoleBuilder extends BaseBuilder<Role> {
     Role role = new Role();
     role.setDescription(description);
     role.setName(name);
+    role.setId(id);
+    role.setCreationDate(creationDate);
+    role.setModificationDate(modificationDate);
+    role.setCreationUser(creationUser);
+    role.setModificationUser(modificationUser);
     return role;
   }
 
