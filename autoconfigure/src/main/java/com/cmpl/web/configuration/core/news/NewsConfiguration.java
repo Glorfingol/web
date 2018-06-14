@@ -29,24 +29,33 @@ import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
-import com.cmpl.web.core.news.NewsContent;
-import com.cmpl.web.core.news.NewsContentRepository;
-import com.cmpl.web.core.news.NewsContentService;
-import com.cmpl.web.core.news.NewsContentServiceImpl;
-import com.cmpl.web.core.news.NewsEntry;
-import com.cmpl.web.core.news.NewsEntryDispatcher;
-import com.cmpl.web.core.news.NewsEntryDispatcherImpl;
-import com.cmpl.web.core.news.NewsEntryRepository;
-import com.cmpl.web.core.news.NewsEntryRequestValidator;
-import com.cmpl.web.core.news.NewsEntryRequestValidatorImpl;
-import com.cmpl.web.core.news.NewsEntryService;
-import com.cmpl.web.core.news.NewsEntryServiceImpl;
-import com.cmpl.web.core.news.NewsEntryTranslator;
-import com.cmpl.web.core.news.NewsEntryTranslatorImpl;
-import com.cmpl.web.core.news.NewsImage;
-import com.cmpl.web.core.news.NewsImageRepository;
-import com.cmpl.web.core.news.NewsImageService;
-import com.cmpl.web.core.news.NewsImageServiceImpl;
+import com.cmpl.web.core.news.content.NewsContent;
+import com.cmpl.web.core.news.content.NewsContentDAO;
+import com.cmpl.web.core.news.content.NewsContentDAOImpl;
+import com.cmpl.web.core.news.content.NewsContentMapper;
+import com.cmpl.web.core.news.content.NewsContentRepository;
+import com.cmpl.web.core.news.content.NewsContentService;
+import com.cmpl.web.core.news.content.NewsContentServiceImpl;
+import com.cmpl.web.core.news.entry.NewsEntry;
+import com.cmpl.web.core.news.entry.NewsEntryDAO;
+import com.cmpl.web.core.news.entry.NewsEntryDAOImpl;
+import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
+import com.cmpl.web.core.news.entry.NewsEntryDispatcherImpl;
+import com.cmpl.web.core.news.entry.NewsEntryMapper;
+import com.cmpl.web.core.news.entry.NewsEntryRepository;
+import com.cmpl.web.core.news.entry.NewsEntryRequestValidator;
+import com.cmpl.web.core.news.entry.NewsEntryRequestValidatorImpl;
+import com.cmpl.web.core.news.entry.NewsEntryService;
+import com.cmpl.web.core.news.entry.NewsEntryServiceImpl;
+import com.cmpl.web.core.news.entry.NewsEntryTranslator;
+import com.cmpl.web.core.news.entry.NewsEntryTranslatorImpl;
+import com.cmpl.web.core.news.image.NewsImage;
+import com.cmpl.web.core.news.image.NewsImageDAO;
+import com.cmpl.web.core.news.image.NewsImageDAOImpl;
+import com.cmpl.web.core.news.image.NewsImageMapper;
+import com.cmpl.web.core.news.image.NewsImageRepository;
+import com.cmpl.web.core.news.image.NewsImageService;
+import com.cmpl.web.core.news.image.NewsImageServiceImpl;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 @Configuration
@@ -56,29 +65,29 @@ import com.cmpl.web.core.page.BACK_PAGE;
 public class NewsConfiguration {
 
   @Bean
-  NewsEntryDispatcher newsEntryDispatcher(NewsEntryRequestValidator validator, NewsEntryTranslator translator,
+  public NewsEntryDispatcher newsEntryDispatcher(NewsEntryRequestValidator validator, NewsEntryTranslator translator,
       NewsEntryService newsEntryService, FileService fileService, MediaService mediaService) {
     return new NewsEntryDispatcherImpl(validator, translator, newsEntryService, fileService, mediaService);
   }
 
   @Bean
-  BackMenuItem newsBackMenuItem(BackMenuItem webmastering, Privilege newsReadPrivilege) {
+  public BackMenuItem newsBackMenuItem(BackMenuItem webmastering, Privilege newsReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.news.href").label("back.news.label").title("back.news.title")
         .order(6).iconClass("fa fa-newspaper-o").parent(webmastering).privilege(newsReadPrivilege.privilege()).build();
   }
 
   @Bean
-  BreadCrumb newsViewBreadCrumb() {
+  public BreadCrumb newsViewBreadCrumb() {
     return BreadCrumbBuilder.create().items(newsBreadCrumbItems()).page(BACK_PAGE.NEWS_VIEW).build();
   }
 
   @Bean
-  BreadCrumb newsEditBreadCrumb() {
+  public BreadCrumb newsEditBreadCrumb() {
     return BreadCrumbBuilder.create().items(newsUpdateBreadCrumbItems()).page(BACK_PAGE.NEWS_UPDATE).build();
   }
 
   @Bean
-  BreadCrumb newsCreateBreadCrumb() {
+  public BreadCrumb newsCreateBreadCrumb() {
     return BreadCrumbBuilder.create().items(newsBreadCrumbItems()).page(BACK_PAGE.NEWS_CREATE).build();
   }
 
@@ -106,7 +115,7 @@ public class NewsConfiguration {
   }
 
   @Bean
-  NewsManagerDisplayFactory newsManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
+  public NewsManagerDisplayFactory newsManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, NewsEntryService newsEntryService,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs, Set<Locale> availableLocales) {
     return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, messageSource, newsEntryService, breadCrumbs,
@@ -114,48 +123,77 @@ public class NewsConfiguration {
   }
 
   @Bean
-  NewsEntryTranslator newsEntryTranslator() {
+  public NewsEntryTranslator newsEntryTranslator() {
     return new NewsEntryTranslatorImpl();
   }
 
   @Bean
-  NewsEntryRequestValidator newsEntryRequestValidator(WebMessageSource messageSource) {
+  public NewsEntryRequestValidator newsEntryRequestValidator(WebMessageSource messageSource) {
     return new NewsEntryRequestValidatorImpl(messageSource);
   }
 
   @Bean
-  NewsEntryService newsEntryService(ApplicationEventPublisher publisher, NewsEntryRepository newsEntryRepository,
+  public NewsEntryDAO newsEntryDAO(NewsEntryRepository newsEntryRepository, ApplicationEventPublisher publisher) {
+    return new NewsEntryDAOImpl(newsEntryRepository, publisher);
+  }
+
+  @Bean
+  public NewsEntryMapper newsEntryMapper(NewsContentService newsContentService, NewsImageService newsImageService) {
+    return new NewsEntryMapper(newsContentService, newsImageService);
+  }
+
+  @Bean
+  public NewsEntryService newsEntryService(NewsEntryDAO newsEntryDAO, NewsEntryMapper newsEntryMapper,
       NewsImageService newsImageService, NewsContentService newsContentService) {
-    return new NewsEntryServiceImpl(publisher, newsEntryRepository, newsImageService, newsContentService);
+    return new NewsEntryServiceImpl(newsEntryDAO, newsImageService, newsContentService, newsEntryMapper);
   }
 
   @Bean
-  NewsImageService newsImageService(ApplicationEventPublisher publisher, NewsImageRepository newsImageRepository,
-      MediaService mediaService) {
-    return new NewsImageServiceImpl(publisher, newsImageRepository, mediaService);
+  public NewsImageDAO newsImageDAO(ApplicationEventPublisher publisher, NewsImageRepository newsImageRepository) {
+    return new NewsImageDAOImpl(newsImageRepository, publisher);
   }
 
   @Bean
-  NewsContentService newsContentService(ApplicationEventPublisher publisher,
+  public NewsImageMapper newsImageMapper(MediaService mediaService) {
+    return new NewsImageMapper(mediaService);
+  }
+
+  @Bean
+  public NewsImageService newsImageService(NewsImageDAO newsImageDAO, NewsImageMapper newsImageMapper) {
+    return new NewsImageServiceImpl(newsImageDAO, newsImageMapper);
+  }
+
+  @Bean
+  public NewsContentDAO newsContentDAO(ApplicationEventPublisher publisher,
       NewsContentRepository newsContentRepository) {
-    return new NewsContentServiceImpl(publisher, newsContentRepository);
+    return new NewsContentDAOImpl(newsContentRepository, publisher);
   }
 
   @Bean
-  BlogWidgetProvider blogWidgetProvider(WebMessageSource messageSource, ContextHolder contextHolder,
+  public NewsContentMapper newsContentMapper() {
+    return new NewsContentMapper();
+  }
+
+  @Bean
+  public NewsContentService newsContentService(NewsContentDAO newsContentDAO, NewsContentMapper newsContentMapper) {
+    return new NewsContentServiceImpl(newsContentDAO, newsContentMapper);
+  }
+
+  @Bean
+  public BlogWidgetProvider blogWidgetProvider(WebMessageSource messageSource, ContextHolder contextHolder,
       NewsEntryService newsEntryService) {
     return new BlogWidgetProvider(messageSource, contextHolder, newsEntryService);
 
   }
 
   @Bean
-  BlogEntryWidgetProvider blogEntryWidgetProvider(NewsEntryService newsEntryService) {
+  public BlogEntryWidgetProvider blogEntryWidgetProvider(NewsEntryService newsEntryService) {
     return new BlogEntryWidgetProvider(newsEntryService);
   }
 
   @Bean
-  NewsEventsListeners newsEventsListener(NewsContentService newsContentService, NewsImageService newsImageService,
-      FileService fileService) {
+  public NewsEventsListeners newsEventsListener(NewsContentService newsContentService,
+      NewsImageService newsImageService, FileService fileService) {
     return new NewsEventsListeners(newsContentService, newsImageService, fileService);
   }
 }

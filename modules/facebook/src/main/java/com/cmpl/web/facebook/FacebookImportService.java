@@ -3,7 +3,7 @@ package com.cmpl.web.facebook;
 import java.util.List;
 import java.util.Locale;
 
-import com.cmpl.web.core.news.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
 
 /**
  * Interface d'import de posts facebook en NewsEntry

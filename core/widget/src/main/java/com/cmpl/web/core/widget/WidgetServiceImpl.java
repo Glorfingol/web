@@ -1,10 +1,11 @@
 package com.cmpl.web.core.widget;
 
+import java.util.Objects;
+
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,15 +17,16 @@ import com.cmpl.web.core.file.FileService;
 public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implements WidgetService {
 
   private final FileService fileService;
-  private final WidgetRepository repository;
+  private final WidgetDAO widgetDAO;
   private static final String WIDGET_PREFIX = "widget_";
   private static final String HTML_SUFFIX = ".html";
   private static final String LOCALE_CODE_PREFIX = "_";
 
-  public WidgetServiceImpl(ApplicationEventPublisher publisher, WidgetRepository repository, FileService fileService) {
-    super(repository, publisher);
+  public WidgetServiceImpl(WidgetDAO widgetDAO, WidgetMapper widgetMapper, FileService fileService) {
+    super(widgetDAO, widgetMapper);
+    Objects.requireNonNull(fileService);
     this.fileService = fileService;
-    this.repository = repository;
+    this.widgetDAO = widgetDAO;
   }
 
   @Override
@@ -58,35 +60,21 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   @Cacheable(key = "#a0+'_'+#a1")
   public WidgetDTO getEntity(Long widgetId, String localeCode) {
     WidgetDTO fetchedWidget = super.getEntity(widgetId);
-    fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(WIDGET_PREFIX + fetchedWidget.getName()
-        + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+    fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(
+        WIDGET_PREFIX + fetchedWidget.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     return fetchedWidget;
-  }
-
-  @Override
-  protected WidgetDTO toDTO(Widget entity) {
-    WidgetDTO dto = WidgetDTOBuilder.create().build();
-    fillObject(entity, dto);
-    return dto;
-  }
-
-  @Override
-  protected Widget toEntity(WidgetDTO dto) {
-    Widget entity = WidgetBuilder.create().build();
-    fillObject(dto, entity);
-    return entity;
   }
 
   @Override
   @Cacheable(key = "#a0+'_'+#a1")
   public WidgetDTO findByName(String widgetName, String localeCode) {
-    Widget entity = repository.findByName(widgetName);
+    Widget entity = widgetDAO.findByName(widgetName);
     if (entity == null) {
       return WidgetDTOBuilder.create().build();
     }
-    WidgetDTO fetchedWidget = toDTO(entity);
-    fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(WIDGET_PREFIX + fetchedWidget.getName()
-        + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+    WidgetDTO fetchedWidget = mapper.toDTO(entity);
+    fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(
+        WIDGET_PREFIX + fetchedWidget.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     return fetchedWidget;
   }
 

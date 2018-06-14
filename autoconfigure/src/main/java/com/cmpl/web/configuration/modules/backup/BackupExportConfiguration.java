@@ -39,19 +39,19 @@ import com.cmpl.web.backup.writer.WidgetCSVWriter;
 import com.cmpl.web.backup.writer.WidgetPageCSVWriter;
 import com.cmpl.web.core.association_user_role.AssociationUserRole;
 import com.cmpl.web.core.carousel.Carousel;
-import com.cmpl.web.core.carousel.CarouselItem;
+import com.cmpl.web.core.carousel.item.CarouselItem;
 import com.cmpl.web.core.media.Media;
 import com.cmpl.web.core.menu.Menu;
-import com.cmpl.web.core.news.NewsContent;
-import com.cmpl.web.core.news.NewsEntry;
-import com.cmpl.web.core.news.NewsImage;
+import com.cmpl.web.core.news.content.NewsContent;
+import com.cmpl.web.core.news.entry.NewsEntry;
+import com.cmpl.web.core.news.image.NewsImage;
 import com.cmpl.web.core.page.Page;
 import com.cmpl.web.core.role.Privilege;
 import com.cmpl.web.core.role.Role;
 import com.cmpl.web.core.style.Style;
 import com.cmpl.web.core.user.User;
 import com.cmpl.web.core.widget.Widget;
-import com.cmpl.web.core.widget.WidgetPage;
+import com.cmpl.web.core.widget.page.WidgetPage;
 import com.cmpl.web.google.DriveAdapter;
 
 @Configuration

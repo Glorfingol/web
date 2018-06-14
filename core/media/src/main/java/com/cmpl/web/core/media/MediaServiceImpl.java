@@ -3,11 +3,11 @@ package com.cmpl.web.core.media;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +20,14 @@ import com.cmpl.web.core.file.FileService;
 public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implements MediaService {
 
   private final FileService fileService;
-  private final MediaRepository mediaRepository;
+  private final MediaDAO mediaDAO;
   private static final String MEDIA_CONTROLLER_PATH = "/public/medias/";
 
-  public MediaServiceImpl(ApplicationEventPublisher publisher, MediaRepository entityRepository, FileService fileService) {
-    super(entityRepository, publisher);
+  public MediaServiceImpl(MediaDAO mediaDAO, MediaMapper mediaMapper, FileService fileService) {
+    super(mediaDAO, mediaMapper);
+    Objects.requireNonNull(fileService);
     this.fileService = fileService;
-    this.mediaRepository = entityRepository;
+    this.mediaDAO = mediaDAO;
   }
 
   @Override
@@ -61,25 +62,6 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
   }
 
   @Override
-  protected MediaDTO toDTO(Media entity) {
-    if (entity == null) {
-      return null;
-    }
-    MediaDTO dto = MediaDTOBuilder.create().build();
-
-    fillObject(entity, dto);
-
-    return dto;
-  }
-
-  @Override
-  protected Media toEntity(MediaDTO dto) {
-    Media entity = MediaBuilder.create().build();
-    fillObject(dto, entity);
-    return entity;
-  }
-
-  @Override
   @Cacheable(key = "#a0")
   public MediaDTO getEntity(Long id) {
     return super.getEntity(id);
@@ -94,7 +76,7 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
   @Override
   @Cacheable(key = "#a0", unless = "#result == null")
   public MediaDTO findByName(String name) {
-    return toDTO(mediaRepository.findByName(name));
+    return mapper.toDTO(mediaDAO.findByName(name));
   }
 
 }

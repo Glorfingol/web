@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.login;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,8 @@ public class LoginController {
    * @param displayFactory
    */
   public LoginController(LoginDisplayFactory displayFactory, UserDispatcher userDispatcher) {
+    Objects.requireNonNull(displayFactory);
+    Objects.requireNonNull(userDispatcher);
     this.displayFactory = displayFactory;
     this.userDispatcher = userDispatcher;
   }
@@ -74,15 +77,15 @@ public class LoginController {
   public ModelAndView printChangePassword(@RequestParam("token") String token, Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.FORGOTTEN_PASSWORD.name());
 
-    ModelAndView changePasswordModel = displayFactory.computeModelAndViewForBackPage(BACK_PAGE.CHANGE_PASSWORD,
-        Locale.FRANCE);
+    ModelAndView changePasswordModel = displayFactory.computeModelAndViewForBackPage(BACK_PAGE.CHANGE_PASSWORD, locale);
     changePasswordModel.addObject("token", token);
     return changePasswordModel;
   }
 
   @PostMapping(value = "/change_password")
   @ResponseBody
-  public ResponseEntity<ChangePasswordResponse> handleChangePassword(@RequestBody ChangePasswordForm form, Locale locale) {
+  public ResponseEntity<ChangePasswordResponse> handleChangePassword(@RequestBody ChangePasswordForm form,
+      Locale locale) {
     ChangePasswordResponse response = userDispatcher.changePassword(form, locale);
     return new ResponseEntity<>(response, HttpStatus.OK);
   }

@@ -4,11 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.util.StringUtils;
 
-import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.widget.WidgetDTO;
 
@@ -17,6 +18,7 @@ public class BlogEntryWidgetProvider implements WidgetProviderPlugin {
   private final NewsEntryService newsEntryService;
 
   public BlogEntryWidgetProvider(NewsEntryService newsEntryService) {
+    Objects.requireNonNull(newsEntryService);
     this.newsEntryService = newsEntryService;
   }
 

@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.index;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ public class IndexManagerController {
   private final BackDisplayFactory displayFactory;
 
   public IndexManagerController(BackDisplayFactory displayFactory) {
+    Objects.requireNonNull(displayFactory);
     this.displayFactory = displayFactory;
   }
 

@@ -2,6 +2,7 @@ package com.cmpl.web.core.common.validator;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.springframework.util.StringUtils;
 
@@ -18,6 +19,7 @@ public class BaseValidator {
   private final WebMessageSource messageSource;
 
   public BaseValidator(WebMessageSource messageSource) {
+    Objects.requireNonNull(messageSource);
     this.messageSource = messageSource;
   }
 
@@ -26,8 +28,7 @@ public class BaseValidator {
   }
 
   public ErrorCause computeCause(ERROR_CAUSE errorCause, Locale locale) {
-    return ErrorCauseBuilder
-        .create().code(errorCause.toString()).message(getI18n(errorCause.getCauseKey(), locale))
+    return ErrorCauseBuilder.create().code(errorCause.toString()).message(getI18n(errorCause.getCauseKey(), locale))
         .build();
   }
 

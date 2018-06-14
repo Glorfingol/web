@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -30,6 +32,10 @@ public class BackDisplayFactoryImplTest {
   private MenuFactory menuFactory;
   @Mock
   private WebMessageSourceImpl messageSource;
+  @Mock
+  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  @Mock
+  private Set<Locale> availableLocales;
 
   @InjectMocks
   @Spy
@@ -69,10 +75,10 @@ public class BackDisplayFactoryImplTest {
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
-    BDDMockito.doReturn(tile).when(displayFactory)
-        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(backMenu).when(displayFactory)
-        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPage(BACK_PAGE.LOGIN, Locale.FRANCE);

@@ -14,12 +14,12 @@ import com.cmpl.web.configuration.EnableCMPLWeb;
 import com.cmpl.web.core.association_user_role.AssociationUserRole;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleBuilder;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleRepository;
-import com.cmpl.web.core.carousel.CarouselItemRepository;
 import com.cmpl.web.core.carousel.CarouselRepository;
+import com.cmpl.web.core.carousel.item.CarouselItemRepository;
 import com.cmpl.web.core.media.MediaRepository;
 import com.cmpl.web.core.menu.MenuRepository;
-import com.cmpl.web.core.news.NewsContentRepository;
-import com.cmpl.web.core.news.NewsEntryRepository;
+import com.cmpl.web.core.news.content.NewsContentRepository;
+import com.cmpl.web.core.news.entry.NewsEntryRepository;
 import com.cmpl.web.core.page.PageRepository;
 import com.cmpl.web.core.role.Privilege;
 import com.cmpl.web.core.role.PrivilegeBuilder;
@@ -30,8 +30,8 @@ import com.cmpl.web.core.role.RoleRepository;
 import com.cmpl.web.core.user.User;
 import com.cmpl.web.core.user.UserBuilder;
 import com.cmpl.web.core.user.UserRepository;
-import com.cmpl.web.core.widget.WidgetPageRepository;
 import com.cmpl.web.core.widget.WidgetRepository;
+import com.cmpl.web.core.widget.page.WidgetPageRepository;
 
 /**
  * Main du projet, lance une application springboot
@@ -80,12 +80,11 @@ public class WebLauncher {
           .roleId(String.valueOf(admin.getId())).userId(String.valueOf(system.getId())).build();
       associationUserRoleRepository.save(associationSystemAdmin);
 
-      privileges.getPlugins().forEach(
-          privilege -> {
-            Privilege privilegeToCreate = PrivilegeBuilder.create().roleId(String.valueOf(createdAdmin.getId()))
-                .content(privilege.privilege()).build();
-            privilegeRepository.save(privilegeToCreate);
-          });
+      privileges.getPlugins().forEach(privilege -> {
+        Privilege privilegeToCreate = PrivilegeBuilder.create().roleId(String.valueOf(createdAdmin.getId()))
+            .content(privilege.privilege()).build();
+        privilegeRepository.save(privilegeToCreate);
+      });
 
     };
   }

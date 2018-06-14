@@ -1,6 +1,7 @@
 package com.cmpl.web.backup.reader;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ public class CSVReaderImpl implements CSVReader {
   private final List<CommonParser<?>> parsers;
 
   public CSVReaderImpl(List<CommonParser<?>> parsers) {
+    Objects.requireNonNull(parsers);
     this.parsers = parsers;
   }
 

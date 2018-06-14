@@ -1,7 +1,6 @@
 package com.cmpl.web.core.user;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Locale;
 
 import com.cmpl.web.core.common.service.BaseService;
@@ -16,8 +15,6 @@ public interface UserService extends BaseService<UserDTO> {
   UserDTO findByEmail(String email);
 
   UserDTO updateLastConnection(Long userId, LocalDateTime connectionDateTime);
-
-  List<UserDTO> getUsers();
 
   void askPasswordChange(long userId, Locale locale) throws Exception;
 

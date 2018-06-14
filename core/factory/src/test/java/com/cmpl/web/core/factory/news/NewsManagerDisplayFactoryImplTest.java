@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -25,19 +27,19 @@ import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.menu.MenuItem;
 import com.cmpl.web.core.menu.MenuItemBuilder;
-import com.cmpl.web.core.news.NewsContentDTO;
-import com.cmpl.web.core.news.NewsContentDTOBuilder;
-import com.cmpl.web.core.news.NewsContentRequest;
-import com.cmpl.web.core.news.NewsContentRequestBuilder;
-import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsEntryDTOBuilder;
-import com.cmpl.web.core.news.NewsEntryRequest;
-import com.cmpl.web.core.news.NewsEntryRequestBuilder;
-import com.cmpl.web.core.news.NewsEntryService;
-import com.cmpl.web.core.news.NewsImageDTO;
-import com.cmpl.web.core.news.NewsImageDTOBuilder;
-import com.cmpl.web.core.news.NewsImageRequest;
-import com.cmpl.web.core.news.NewsImageRequestBuilder;
+import com.cmpl.web.core.news.content.NewsContentDTO;
+import com.cmpl.web.core.news.content.NewsContentDTOBuilder;
+import com.cmpl.web.core.news.content.NewsContentRequest;
+import com.cmpl.web.core.news.content.NewsContentRequestBuilder;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
+import com.cmpl.web.core.news.entry.NewsEntryRequest;
+import com.cmpl.web.core.news.entry.NewsEntryRequestBuilder;
+import com.cmpl.web.core.news.entry.NewsEntryService;
+import com.cmpl.web.core.news.image.NewsImageDTO;
+import com.cmpl.web.core.news.image.NewsImageDTOBuilder;
+import com.cmpl.web.core.news.image.NewsImageRequest;
+import com.cmpl.web.core.news.image.NewsImageRequestBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -51,6 +53,10 @@ public class NewsManagerDisplayFactoryImplTest {
   private NewsEntryService newsEntryService;
   @Mock
   private ContextHolder contextHolder;
+  @Mock
+  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  @Mock
+  private Set<Locale> availableLocales;
 
   @InjectMocks
   @Spy
@@ -91,10 +97,10 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
     BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(displayFactory)
-        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(backMenu).when(displayFactory)
-        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(request).when(displayFactory).computeNewsEntryRequest(BDDMockito.any(NewsEntryDTO.class));
     BDDMockito.doReturn(newsEntry).when(newsEntryService).getEntity(BDDMockito.anyLong());
@@ -146,13 +152,13 @@ public class NewsManagerDisplayFactoryImplTest {
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
-    BDDMockito.doReturn(tile).when(displayFactory)
-        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(backMenu).when(displayFactory)
-        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(pageWrapper).when(displayFactory)
-        .computePageWrapper(BDDMockito.eq(Locale.FRANCE), BDDMockito.anyInt());
+    BDDMockito.doReturn(pageWrapper).when(displayFactory).computePageWrapper(BDDMockito.eq(Locale.FRANCE),
+        BDDMockito.anyInt());
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPage(Locale.FRANCE, 0);
 
@@ -184,10 +190,10 @@ public class NewsManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
     BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(displayFactory)
-        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(backMenu).when(displayFactory)
-        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPageCreateNews(Locale.FRANCE);
@@ -205,8 +211,8 @@ public class NewsManagerDisplayFactoryImplTest {
   @Test
   public void testComputeNewsContentRequest() throws Exception {
     LocalDateTime date = LocalDateTime.now();
-    NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(123456789L)
-        .creationDate(date).modificationDate(date).build();
+    NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(123456789L).creationDate(date)
+        .modificationDate(date).build();
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsContent(newsContent).build();
 
     NewsContentRequest result = displayFactory.computeNewsContentRequest(newsEntry);
@@ -272,8 +278,8 @@ public class NewsManagerDisplayFactoryImplTest {
     LocalDateTime modificationDate = LocalDateTime.now();
     long id = 123456789L;
 
-    NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(id)
-        .creationDate(creationDate).modificationDate(modificationDate).build();
+    NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(id).creationDate(creationDate)
+        .modificationDate(modificationDate).build();
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsContent(newsContent).id(id).build();
 
     NewsContentRequest contentRequest = NewsContentRequestBuilder.create().id(id).content("someContent")
@@ -345,8 +351,8 @@ public class NewsManagerDisplayFactoryImplTest {
     long id = 123456789L;
 
     NewsImageDTO newsImage = NewsImageDTOBuilder.create().id(id).build();
-    NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(id)
-        .creationDate(creationDate).modificationDate(modificationDate).build();
+    NewsContentDTO newsContent = NewsContentDTOBuilder.create().content("someContent").id(id).creationDate(creationDate)
+        .modificationDate(modificationDate).build();
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().newsImage(newsImage).newsContent(newsContent).id(id).build();
 
     NewsContentRequest contentRequest = NewsContentRequestBuilder.create().id(id).content("someContent")

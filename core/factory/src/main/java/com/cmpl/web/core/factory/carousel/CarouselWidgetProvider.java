@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.util.StringUtils;
 
@@ -17,6 +18,7 @@ public class CarouselWidgetProvider implements WidgetProviderPlugin {
   private final CarouselService carouselService;
 
   public CarouselWidgetProvider(CarouselService carouselService) {
+    Objects.requireNonNull(carouselService);
     this.carouselService = carouselService;
   }
 

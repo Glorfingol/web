@@ -12,9 +12,9 @@ import com.cmpl.web.core.common.dto.BaseDTO;
  * 
  * @author Louis
  *
- * @param <T>
+ * @param <DTO>
  */
-public interface BaseService<T extends BaseDTO> {
+public interface BaseService<DTO extends BaseDTO> {
 
   /**
    * Creer une entite
@@ -22,7 +22,7 @@ public interface BaseService<T extends BaseDTO> {
    * @param entity
    * @return
    */
-  T createEntity(T entity);
+  DTO createEntity(DTO entity);
 
   /**
    * Recuperer une entite
@@ -30,7 +30,7 @@ public interface BaseService<T extends BaseDTO> {
    * @param id
    * @return
    */
-  T getEntity(Long id);
+  DTO getEntity(Long id);
 
   /**
    * Mettre a jour une entite
@@ -38,7 +38,7 @@ public interface BaseService<T extends BaseDTO> {
    * @param entity
    * @return
    */
-  T updateEntity(T entity);
+  DTO updateEntity(DTO entity);
 
   /**
    * Supprimer une entite
@@ -52,7 +52,7 @@ public interface BaseService<T extends BaseDTO> {
    * 
    * @return
    */
-  List<T> getEntities();
+  List<DTO> getEntities();
 
   /**
    * Recuperer une page d'entites
@@ -60,6 +60,15 @@ public interface BaseService<T extends BaseDTO> {
    * @param pageRequest
    * @return
    */
-  Page<T> getPagedEntities(PageRequest pageRequest);
+  Page<DTO> getPagedEntities(PageRequest pageRequest);
+
+  /**
+   * Faire une recherche
+   * 
+   * @param pageRequest
+   * @param query
+   * @return
+   */
+  Page<DTO> searchEntities(PageRequest pageRequest, String query);
 
 }

@@ -26,3 +26,5 @@ core/user/target/*
 core/widget/target/*
 modules/socialConfiguration/target/*
 core/widget/target/classes/com/cmpl/web/core/widget/WidgetDispatcher.class
+*.class
+*.class

@@ -10,23 +10,27 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.common.context.ContextHolder;
+import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageDTOBuilder;
 import com.cmpl.web.core.page.PageService;
-import com.cmpl.web.core.widget.WidgetPageService;
+import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.page.WidgetPageService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DisplayFactoryImplTest {
 
   @Mock
   private MenuFactory menuFactory;
-
+  @Mock
+  private WebMessageSource messageSource;
   @Mock
   private PageService pageService;
   @Mock
@@ -37,6 +41,8 @@ public class DisplayFactoryImplTest {
   private WidgetPageService widgetPageService;
   @Mock
   private WidgetService widgetService;
+  @Mock
+  private PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
 
   @Spy
   @InjectMocks

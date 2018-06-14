@@ -1,6 +1,7 @@
 package com.cmpl.web.google;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.drive.Drive;
@@ -11,6 +12,7 @@ public class DriveAdapterImpl implements DriveAdapter {
   private final Drive driveService;
 
   public DriveAdapterImpl(Drive driveService) {
+    Objects.requireNonNull(driveService);
     this.driveService = driveService;
   }
 

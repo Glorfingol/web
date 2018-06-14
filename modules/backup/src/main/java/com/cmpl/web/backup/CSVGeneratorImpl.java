@@ -1,6 +1,7 @@
 package com.cmpl.web.backup;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ public class CSVGeneratorImpl implements CSVGenerator {
   private final List<CommonWriter<?>> writers;
 
   public CSVGeneratorImpl(List<CommonWriter<?>> writers) {
+    Objects.requireNonNull(writers);
     this.writers = writers;
   }
 

@@ -2,47 +2,32 @@ package com.cmpl.web.core.association_user_role;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationEventPublisher;
-
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 
 public class AssociationUserRoleServiceImpl extends BaseServiceImpl<AssociationUserRoleDTO, AssociationUserRole>
     implements AssociationUserRoleService {
 
-  private final AssociationUserRoleRepository entityRepository;
+  private final AssociationUserRoleDAO associationUserRoleDAO;
 
-  public AssociationUserRoleServiceImpl(ApplicationEventPublisher publisher,
-      AssociationUserRoleRepository entityRepository) {
-    super(entityRepository, publisher);
-    this.entityRepository = entityRepository;
+  public AssociationUserRoleServiceImpl(AssociationUserRoleDAO associationUserRoleDAO,
+      AssociationUserRoleMapper associationUserRoleMapper) {
+    super(associationUserRoleDAO, associationUserRoleMapper);
+    this.associationUserRoleDAO = associationUserRoleDAO;
   }
 
   @Override
   public List<AssociationUserRoleDTO> findByUserId(String userId) {
-    return toListDTO(entityRepository.findByUserId(userId));
+    return mapper.toListDTO(associationUserRoleDAO.findByUserId(userId));
   }
 
   @Override
   public List<AssociationUserRoleDTO> findByRoleId(String roleId) {
-    return toListDTO(entityRepository.findByRoleId(roleId));
+    return mapper.toListDTO(associationUserRoleDAO.findByRoleId(roleId));
   }
 
   @Override
   public AssociationUserRoleDTO findByUserIdAndRoleId(String userId, String roleId) {
-    return toDTO(entityRepository.findByUserIdAndRoleId(userId, roleId));
+    return mapper.toDTO(associationUserRoleDAO.findByUserIdAndRoleId(userId, roleId));
   }
 
-  @Override
-  protected AssociationUserRoleDTO toDTO(AssociationUserRole entity) {
-    AssociationUserRoleDTO dto = AssociationUserRoleDTOBuilder.create().build();
-    fillObject(entity, dto);
-    return dto;
-  }
-
-  @Override
-  protected AssociationUserRole toEntity(AssociationUserRoleDTO dto) {
-    AssociationUserRole entity = AssociationUserRoleBuilder.create().build();
-    fillObject(dto, entity);
-    return entity;
-  }
 }

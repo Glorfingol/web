@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -32,6 +33,11 @@ public class BackupImporter {
 
   public BackupImporter(CSVReader csvReader, String backupFilePath, String mediaFilePath, String pagesFilePath,
       String actualitesFilePath) {
+    Objects.requireNonNull(csvReader);
+    Objects.requireNonNull(backupFilePath);
+    Objects.requireNonNull(mediaFilePath);
+    Objects.requireNonNull(pagesFilePath);
+    Objects.requireNonNull(actualitesFilePath);
     this.csvReader = csvReader;
     this.backupFilePath = backupFilePath;
     this.mediaFilePath = mediaFilePath;
@@ -118,8 +124,8 @@ public class BackupImporter {
     zis.close();
   }
 
-  private void writeZipEntryToFile(ZipInputStream zis, byte[] buffer, File newFile) throws FileNotFoundException,
-      IOException {
+  private void writeZipEntryToFile(ZipInputStream zis, byte[] buffer, File newFile)
+      throws FileNotFoundException, IOException {
     FileOutputStream fos = new FileOutputStream(newFile);
 
     int len;

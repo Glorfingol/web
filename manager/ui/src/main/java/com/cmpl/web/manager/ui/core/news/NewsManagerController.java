@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.news;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactory;
-import com.cmpl.web.core.news.NewsEntryDispatcher;
-import com.cmpl.web.core.news.NewsEntryRequest;
-import com.cmpl.web.core.news.NewsEntryResponse;
+import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
+import com.cmpl.web.core.news.entry.NewsEntryRequest;
+import com.cmpl.web.core.news.entry.NewsEntryResponse;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
@@ -46,6 +47,10 @@ public class NewsManagerController {
 
   public NewsManagerController(NewsManagerDisplayFactory newsManagerDisplayFactory, NewsEntryDispatcher dispatcher,
       NotificationCenter notificationCenter, WebMessageSource webMessageSource) {
+    Objects.requireNonNull(dispatcher);
+    Objects.requireNonNull(newsManagerDisplayFactory);
+    Objects.requireNonNull(webMessageSource);
+    Objects.requireNonNull(dispatcher);
     this.newsManagerDisplayFactory = newsManagerDisplayFactory;
     this.dispatcher = dispatcher;
     this.notificationCenter = notificationCenter;

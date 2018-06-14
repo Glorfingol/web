@@ -2,6 +2,7 @@ package com.cmpl.web.manager.ui.core.security;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +23,9 @@ public class CurrentUserDetailsServiceImpl implements UserDetailsService {
 
   public CurrentUserDetailsServiceImpl(UserService userService, RoleService roleService,
       AssociationUserRoleService associationUserRoleService) {
+    Objects.requireNonNull(userService);
+    Objects.requireNonNull(roleService);
+    Objects.requireNonNull(associationUserRoleService);
     this.userService = userService;
     this.roleService = roleService;
     this.associationUserRoleService = associationUserRoleService;
@@ -34,14 +38,13 @@ public class CurrentUserDetailsServiceImpl implements UserDetailsService {
       throw new UsernameNotFoundException(String.format("User with email=%s was not found", login));
     }
 
-    List<AssociationUserRoleDTO> associationsUserRoles = associationUserRoleService.findByUserId(String.valueOf(user
-        .getId()));
+    List<AssociationUserRoleDTO> associationsUserRoles = associationUserRoleService
+        .findByUserId(String.valueOf(user.getId()));
     Set<String> mergedPrivileges = new HashSet<>();
-    associationsUserRoles
-        .forEach(associationUserRoleDTO -> {
-          mergedPrivileges.addAll(roleService.getEntity(Long.parseLong(associationUserRoleDTO.getRoleId()))
-              .getPrivileges());
-        });
+    associationsUserRoles.forEach(associationUserRoleDTO -> {
+      mergedPrivileges
+          .addAll(roleService.getEntity(Long.parseLong(associationUserRoleDTO.getRoleId())).getPrivileges());
+    });
 
     return new CurrentUser(user, mergedPrivileges);
   }

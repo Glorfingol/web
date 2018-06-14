@@ -3,6 +3,8 @@ package com.cmpl.web.core.widget;
 import java.util.Locale;
 
 import com.cmpl.web.core.common.exception.BaseException;
+import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
+import com.cmpl.web.core.widget.page.WidgetPageResponse;
 
 public interface WidgetDispatcher {
 

@@ -27,6 +27,9 @@ import com.cmpl.web.core.factory.media.VideoWidgetProvider;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.Media;
+import com.cmpl.web.core.media.MediaDAO;
+import com.cmpl.web.core.media.MediaDAOImpl;
+import com.cmpl.web.core.media.MediaMapper;
 import com.cmpl.web.core.media.MediaRepository;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.media.MediaServiceImpl;
@@ -40,40 +43,49 @@ import com.cmpl.web.core.page.BACK_PAGE;
 public class MediaConfiguration {
 
   @Bean
-  public MediaService mediaService(ApplicationEventPublisher publisher, MediaRepository mediaRepository,
-      FileService fileService) {
-    return new MediaServiceImpl(publisher, mediaRepository, fileService);
+  public MediaDAO mediaDAO(MediaRepository mediaRepository, ApplicationEventPublisher publisher) {
+    return new MediaDAOImpl(mediaRepository, publisher);
   }
 
   @Bean
-  BackMenuItem mediasBackMenuItem(BackMenuItem webmastering, Privilege mediaReadPrivilege) {
+  public MediaMapper mediaMapper() {
+    return new MediaMapper();
+  }
+
+  @Bean
+  public MediaService mediaService(MediaDAO mediaDAO, MediaMapper mediaMapper, FileService fileService) {
+    return new MediaServiceImpl(mediaDAO, mediaMapper, fileService);
+  }
+
+  @Bean
+  public BackMenuItem mediasBackMenuItem(BackMenuItem webmastering, Privilege mediaReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.medias.href").label("back.medias.label").title("back.medias.title")
         .order(4).iconClass("fa fa-file-image-o").parent(webmastering).privilege(mediaReadPrivilege.privilege())
         .build();
   }
 
   @Bean
-  BreadCrumb mediaBreadCrumb() {
+  public BreadCrumb mediaBreadCrumb() {
     return BreadCrumbBuilder.create().items(mediaBreadCrumbItems()).page(BACK_PAGE.MEDIA_VIEW).build();
   }
 
   @Bean
-  BreadCrumb mediaUpdateBreadCrumb() {
+  public BreadCrumb mediaUpdateBreadCrumb() {
     return BreadCrumbBuilder.create().items(mediaBreadCrumbItems()).page(BACK_PAGE.MEDIA_UPLOAD).build();
   }
 
   @Bean
-  BreadCrumb mediaVisualizeBreadCrumb() {
+  public BreadCrumb mediaVisualizeBreadCrumb() {
     return BreadCrumbBuilder.create().items(mediaVisualizeBreadCrumbItems()).page(BACK_PAGE.MEDIA_VISUALIZE).build();
   }
 
   @Bean
-  ImageWidgetProvider imageWidgetProvider(MediaService mediaService) {
+  public ImageWidgetProvider imageWidgetProvider(MediaService mediaService) {
     return new ImageWidgetProvider(mediaService);
   }
 
   @Bean
-  VideoWidgetProvider videoWidgetProvider(MediaService mediaService) {
+  public VideoWidgetProvider videoWidgetProvider(MediaService mediaService) {
     return new VideoWidgetProvider(mediaService);
   }
 
@@ -101,7 +113,7 @@ public class MediaConfiguration {
   }
 
   @Bean
-  MediaEventsListeners mediaEventsListener(FileService fileService) {
+  public MediaEventsListeners mediaEventsListener(FileService fileService) {
     return new MediaEventsListeners(fileService);
   }
 

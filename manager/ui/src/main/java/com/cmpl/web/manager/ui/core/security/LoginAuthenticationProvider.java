@@ -1,5 +1,7 @@
 package com.cmpl.web.manager.ui.core.security;
 
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,6 +21,7 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
   public LoginAuthenticationProvider(UserDetailsService userDetailsService,
       LoginAttemptsService userLoginAttemptsService) {
     super.setUserDetailsService(userDetailsService);
+    Objects.requireNonNull(userLoginAttemptsService);
     this.userLoginAttemptsService = userLoginAttemptsService;
   }
 
@@ -31,8 +34,8 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
       if (userLoginAttemptsService.isBlocked(authentication.getName(), details.getRemoteAddress())) {
         LOGGER.error("L'utilisateur de login " + authentication.getName() + " pour l'ip " + details.getRemoteAddress()
             + " est bloqué");
-        throw new LockedException(messages.getMessage("AbstractUserDetailsAuthenticationProvider.locked",
-            "User account is locked"));
+        throw new LockedException(
+            messages.getMessage("AbstractUserDetailsAuthenticationProvider.locked", "User account is locked"));
       }
 
       try {

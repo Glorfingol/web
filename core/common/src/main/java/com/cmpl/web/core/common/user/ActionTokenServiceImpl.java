@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.token.Token;
@@ -18,6 +19,7 @@ public class ActionTokenServiceImpl implements ActionTokenService {
   private final TokenService tokenService;
 
   public ActionTokenServiceImpl(TokenService tokenService) {
+    Objects.requireNonNull(tokenService);
     this.tokenService = tokenService;
   }
 

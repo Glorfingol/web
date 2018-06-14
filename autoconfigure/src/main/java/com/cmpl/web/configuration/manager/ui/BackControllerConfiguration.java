@@ -20,7 +20,7 @@ import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.MenuDispatcher;
-import com.cmpl.web.core.news.NewsEntryDispatcher;
+import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
 import com.cmpl.web.core.page.PageDispatcher;
 import com.cmpl.web.core.role.RoleDispatcher;
 import com.cmpl.web.core.style.StyleDispatcher;
@@ -132,7 +132,7 @@ public class BackControllerConfiguration {
   }
 
   @Bean
-  AssociationUserRoleManagerController associationUserRoleManagerController(
+  public AssociationUserRoleManagerController associationUserRoleManagerController(
       AssociationUserRoleDispatcher associationUserRoleDispatcher, NotificationCenter notificationCenter,
       WebMessageSource messageSource) {
     return new AssociationUserRoleManagerController(associationUserRoleDispatcher, notificationCenter, messageSource);

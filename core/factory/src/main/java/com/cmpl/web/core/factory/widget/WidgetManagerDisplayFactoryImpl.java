@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -55,6 +56,9 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       PluginRegistry<WidgetProviderPlugin, String> widgetProviders, Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+    Objects.requireNonNull(widgetService);
+    Objects.requireNonNull(contextHolder);
+    Objects.requireNonNull(widgetProviders);
     this.widgetService = widgetService;
     this.contextHolder = contextHolder;
     this.widgetProviders = widgetProviders;

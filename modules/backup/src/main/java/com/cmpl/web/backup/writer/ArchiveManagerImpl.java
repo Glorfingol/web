@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -37,6 +38,11 @@ public class ArchiveManagerImpl implements ArchiveManager {
 
   public ArchiveManagerImpl(String backupFilePath, String mediaFilePath, String pagesFilePath,
       String actualitesFilePath, DriveAdapter driveAdapter) {
+    Objects.requireNonNull(backupFilePath);
+    Objects.requireNonNull(mediaFilePath);
+    Objects.requireNonNull(pagesFilePath);
+    Objects.requireNonNull(actualitesFilePath);
+    Objects.requireNonNull(driveAdapter);
     this.backupFilePath = backupFilePath;
     this.mediaFilePath = mediaFilePath;
     this.pagesFilePath = pagesFilePath;
@@ -113,8 +119,8 @@ public class ArchiveManagerImpl implements ArchiveManager {
 
     if (directory.exists()) {
       try {
-        String zipFile = backupFilePath + File.separator + "backup_web_"
-            + LocalDateTime.now().format(dateTimeFormatter) + DOT + ZIP_EXTENSION;
+        String zipFile = backupFilePath + File.separator + "backup_web_" + LocalDateTime.now().format(dateTimeFormatter)
+            + DOT + ZIP_EXTENSION;
         FileOutputStream fos = new FileOutputStream(zipFile);
         ZipOutputStream zos = new ZipOutputStream(fos);
         if (!CollectionUtils.isEmpty(csvFiles)) {

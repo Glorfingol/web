@@ -1,6 +1,12 @@
 package com.cmpl.web.core.factory.media;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.util.StringUtils;
 
@@ -15,6 +21,7 @@ public class VideoWidgetProvider implements WidgetProviderPlugin {
   private final List<String> movieExtensions;
 
   public VideoWidgetProvider(MediaService mediaService) {
+    Objects.requireNonNull(mediaService);
     this.mediaService = mediaService;
     this.movieExtensions = Arrays.asList("avi", "mp4", "flv", "mkv");
   }

@@ -1,6 +1,7 @@
 package com.cmpl.web.core.common.form;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,6 +22,7 @@ public class BaseUpdateForm<D extends BaseDTO> {
   }
 
   public BaseUpdateForm(D dto) {
+    Objects.requireNonNull(dto);
     this.id = dto.getId();
     this.creationDate = dto.getCreationDate();
     this.creationUser = dto.getCreationUser();

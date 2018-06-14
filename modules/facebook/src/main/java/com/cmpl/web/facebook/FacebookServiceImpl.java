@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
@@ -16,7 +17,7 @@ import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.exception.BaseException;
-import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.entry.NewsEntryService;
 
 /**
  * Implementation de l'interface qui va recuperer les posts facebook d'unutilisateur
@@ -33,6 +34,10 @@ public class FacebookServiceImpl implements FacebookService {
 
   public FacebookServiceImpl(ContextHolder contextHolder, Facebook facebookConnector,
       ConnectionRepository connectionRepository, NewsEntryService newsEntryService) {
+    Objects.requireNonNull(connectionRepository);
+    Objects.requireNonNull(facebookConnector);
+    Objects.requireNonNull(newsEntryService);
+    Objects.requireNonNull(contextHolder);
     this.facebookConnector = facebookConnector;
     this.connectionRepository = connectionRepository;
     this.contextHolder = contextHolder;

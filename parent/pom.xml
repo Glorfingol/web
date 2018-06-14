@@ -42,6 +42,7 @@
     <webjar.sockjs.client.version>1.0.2</webjar.sockjs.client.version>
     <caffeine.version>2.6.2</caffeine.version>
     <bcprov-jdk15on.version>1.59</bcprov-jdk15on.version>
+    <querydsl.version>4.1.4</querydsl.version>
   </properties>
 
 
@@ -106,6 +107,19 @@
         <artifactId>powermock-api-mockito2</artifactId>
         <version>1.7.3</version>
         <scope>test</scope>
+      </dependency>
+
+
+      <!-- QUERYDSL-->
+      <dependency>
+        <groupId>com.querydsl</groupId>
+        <artifactId>querydsl-apt</artifactId>
+        <version>${querydsl.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.querydsl</groupId>
+        <artifactId>querydsl-jpa</artifactId>
+        <version>${querydsl.version}</version>
       </dependency>
 
 

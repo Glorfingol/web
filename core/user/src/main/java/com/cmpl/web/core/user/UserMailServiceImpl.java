@@ -1,6 +1,7 @@
 package com.cmpl.web.core.user;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.thymeleaf.context.Context;
 
@@ -11,6 +12,8 @@ public class UserMailServiceImpl implements UserMailService {
   private final MailSender mailSender;
 
   public UserMailServiceImpl(MailSender mailSender) {
+    Objects.requireNonNull(mailSender);
+
     this.mailSender = mailSender;
   }
 

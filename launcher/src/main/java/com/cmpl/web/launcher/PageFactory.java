@@ -1,9 +1,9 @@
 package com.cmpl.web.launcher;
 
 import com.cmpl.web.core.carousel.Carousel;
-import com.cmpl.web.core.carousel.CarouselItem;
-import com.cmpl.web.core.carousel.CarouselItemRepository;
 import com.cmpl.web.core.carousel.CarouselRepository;
+import com.cmpl.web.core.carousel.item.CarouselItem;
+import com.cmpl.web.core.carousel.item.CarouselItemRepository;
 import com.cmpl.web.core.media.Media;
 import com.cmpl.web.core.media.MediaBuilder;
 import com.cmpl.web.core.media.MediaRepository;
@@ -11,7 +11,12 @@ import com.cmpl.web.core.menu.Menu;
 import com.cmpl.web.core.menu.MenuRepository;
 import com.cmpl.web.core.page.Page;
 import com.cmpl.web.core.page.PageRepository;
-import com.cmpl.web.core.widget.*;
+import com.cmpl.web.core.widget.Widget;
+import com.cmpl.web.core.widget.WidgetBuilder;
+import com.cmpl.web.core.widget.WidgetRepository;
+import com.cmpl.web.core.widget.page.WidgetPage;
+import com.cmpl.web.core.widget.page.WidgetPageBuilder;
+import com.cmpl.web.core.widget.page.WidgetPageRepository;
 
 public class PageFactory {
 

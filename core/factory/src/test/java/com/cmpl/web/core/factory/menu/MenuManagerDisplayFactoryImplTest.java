@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,6 +50,10 @@ public class MenuManagerDisplayFactoryImplTest {
   private MenuFactory menuFactory;
   @Mock
   private WebMessageSource messageSource;
+  @Mock
+  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  @Mock
+  private Set<Locale> availableLocales;
 
   @Spy
   @InjectMocks
@@ -92,8 +98,8 @@ public class MenuManagerDisplayFactoryImplTest {
     String pageLabel = "Page 1";
 
     BDDMockito.doReturn(page).when(displayFactory).computeEntries(BDDMockito.any(Locale.class), BDDMockito.anyInt());
-    BDDMockito.doReturn(pageLabel).when(displayFactory)
-        .getI18nValue(BDDMockito.anyString(), BDDMockito.any(Locale.class), BDDMockito.anyInt(), BDDMockito.anyInt());
+    BDDMockito.doReturn(pageLabel).when(displayFactory).getI18nValue(BDDMockito.anyString(),
+        BDDMockito.any(Locale.class), BDDMockito.anyInt(), BDDMockito.anyInt());
     PageWrapper<MenuDTO> wrapper = displayFactory.computePageWrapper(Locale.FRANCE, 1);
 
     Assert.assertEquals(0, wrapper.getCurrentPageNumber());
@@ -128,8 +134,8 @@ public class MenuManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForViewAllMenus() throws Exception {
 
     PageWrapper<MenuDTO> wrapper = new PageWrapperBuilder<MenuDTO>().build();
-    BDDMockito.doReturn(wrapper).when(displayFactory)
-        .computePageWrapper(BDDMockito.any(Locale.class), BDDMockito.anyInt());
+    BDDMockito.doReturn(wrapper).when(displayFactory).computePageWrapper(BDDMockito.any(Locale.class),
+        BDDMockito.anyInt());
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));

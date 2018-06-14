@@ -2,6 +2,7 @@ package com.cmpl.web.core.user;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -24,6 +25,11 @@ public class UserDispatcherImpl implements UserDispatcher {
 
   public UserDispatcherImpl(UserValidator validator, UserTranslator translator, UserService userService,
       PasswordEncoder passwordEncoder, ActionTokenService tokenService) {
+    Objects.requireNonNull(validator);
+    Objects.requireNonNull(translator);
+    Objects.requireNonNull(userService);
+    Objects.requireNonNull(passwordEncoder);
+    Objects.requireNonNull(tokenService);
     this.validator = validator;
     this.translator = translator;
     this.service = userService;

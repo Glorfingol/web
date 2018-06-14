@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.menu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
@@ -45,6 +46,9 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       PageService pageService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+    Objects.requireNonNull(menuService);
+    Objects.requireNonNull(pageService);
+    Objects.requireNonNull(contextHolder);
     this.menuService = menuService;
     this.contextHolder = contextHolder;
     this.pageService = pageService;

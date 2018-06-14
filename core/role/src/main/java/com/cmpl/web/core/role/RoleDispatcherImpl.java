@@ -3,6 +3,7 @@ package com.cmpl.web.core.role;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.plugin.core.PluginRegistry;
@@ -20,6 +21,11 @@ public class RoleDispatcherImpl implements RoleDispatcher {
 
   public RoleDispatcherImpl(RoleService service, PrivilegeService privilegeService, RoleValidator validator,
       RoleTranslator translator, PluginRegistry<Privilege, String> privilegesRegistry) {
+    Objects.requireNonNull(validator);
+    Objects.requireNonNull(service);
+    Objects.requireNonNull(translator);
+    Objects.requireNonNull(privilegeService);
+    Objects.requireNonNull(privilegesRegistry);
     this.validator = validator;
     this.service = service;
     this.translator = translator;

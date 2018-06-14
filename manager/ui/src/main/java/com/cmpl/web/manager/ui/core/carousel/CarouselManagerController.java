@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.carousel;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.carousel.CarouselCreateForm;
 import com.cmpl.web.core.carousel.CarouselDispatcher;
-import com.cmpl.web.core.carousel.CarouselItemCreateForm;
-import com.cmpl.web.core.carousel.CarouselItemResponse;
 import com.cmpl.web.core.carousel.CarouselResponse;
 import com.cmpl.web.core.carousel.CarouselUpdateForm;
+import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
+import com.cmpl.web.core.carousel.item.CarouselItemResponse;
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
@@ -45,6 +46,10 @@ public class CarouselManagerController {
   public CarouselManagerController(CarouselDispatcher carouselDispatcher,
       CarouselManagerDisplayFactory carouselDisplayFactory, NotificationCenter notificationCenter,
       WebMessageSource messageSource) {
+    Objects.requireNonNull(carouselDispatcher);
+    Objects.requireNonNull(carouselDisplayFactory);
+    Objects.requireNonNull(notificationCenter);
+    Objects.requireNonNull(messageSource);
     this.carouselDisplayFactory = carouselDisplayFactory;
     this.carouselDispatcher = carouselDispatcher;
     this.notificationCenter = notificationCenter;

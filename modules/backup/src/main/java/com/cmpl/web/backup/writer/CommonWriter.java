@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
@@ -34,6 +35,9 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
   }
 
   public CommonWriter(DateTimeFormatter dateFormatter, DataManipulator<T> dataManipulator, String backupFilePath) {
+    Objects.requireNonNull(dateFormatter);
+    Objects.requireNonNull(dataManipulator);
+    Objects.requireNonNull(backupFilePath);
     this.dateFormatter = dateFormatter;
     this.dataManipulator = dataManipulator;
     this.backupFilePath = backupFilePath;
@@ -106,8 +110,8 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
 
       return parseObject(field, entityToWrite);
     } catch (Exception e) {
-      LOGGER.error(
-          "Impossible de parser le field : " + field.getName() + " pour l'objet : " + entityToWrite.getClass(), e);
+      LOGGER.error("Impossible de parser le field : " + field.getName() + " pour l'objet : " + entityToWrite.getClass(),
+          e);
     }
 
     return result;

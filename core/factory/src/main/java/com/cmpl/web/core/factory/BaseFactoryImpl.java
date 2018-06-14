@@ -1,6 +1,7 @@
 package com.cmpl.web.core.factory;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
 
@@ -15,6 +16,7 @@ public class BaseFactoryImpl implements BaseFactory {
   protected WebMessageSource messageSource;
 
   protected BaseFactoryImpl(WebMessageSource messageSource) {
+    Objects.requireNonNull(messageSource);
     this.messageSource = messageSource;
   }
 

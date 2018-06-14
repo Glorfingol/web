@@ -1,6 +1,7 @@
 package com.cmpl.web.front.ui.blog;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class BlogController {
   private final DisplayFactory displayFactory;
 
   public BlogController(DisplayFactory displayFactory) {
+    Objects.requireNonNull(displayFactory);
     this.displayFactory = displayFactory;
   }
 

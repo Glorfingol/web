@@ -11,6 +11,7 @@ import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.error.ErrorCause;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.validator.BaseValidator;
+import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
 
 public class WidgetValidatorImpl extends BaseValidator implements WidgetValidator {
 

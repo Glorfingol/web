@@ -19,6 +19,9 @@ import com.cmpl.web.core.file.FileService;
 @RunWith(MockitoJUnitRunner.class)
 public class MediaServiceImplTest {
 
+  @Mock
+  private MediaMapper mapper;
+
   @Spy
   @InjectMocks
   private MediaServiceImpl mediaService;
@@ -28,38 +31,16 @@ public class MediaServiceImplTest {
   @Mock
   private FileService fileService;
   @Mock
-  private MediaRepository mediaRepository;
+  private MediaDAO mediaDAO;
 
   @Test
   public void testFindByName() throws Exception {
     MediaDTO result = MediaDTOBuilder.create().build();
 
-    BDDMockito.doReturn(result).when(mediaService).toDTO(BDDMockito.any(Media.class));
-    BDDMockito.given(mediaRepository.findByName(BDDMockito.anyString())).willReturn(MediaBuilder.create().build());
+    BDDMockito.doReturn(result).when(mapper).toDTO(BDDMockito.any(Media.class));
+    BDDMockito.given(mediaDAO.findByName(BDDMockito.anyString())).willReturn(MediaBuilder.create().build());
 
     Assert.assertEquals(result, mediaService.findByName("someName"));
-  }
-
-  @Test
-  public void testToEntity() throws Exception {
-    MediaDTO dto = MediaDTOBuilder.create().build();
-
-    BDDMockito.doNothing().when(mediaService).fillObject(BDDMockito.any(MediaDTO.class), BDDMockito.any(Media.class));
-    mediaService.toEntity(dto);
-
-    BDDMockito.verify(mediaService, BDDMockito.times(1)).fillObject(BDDMockito.any(MediaDTO.class),
-        BDDMockito.any(Media.class));
-  }
-
-  @Test
-  public void testToDTO() throws Exception {
-    Media entity = MediaBuilder.create().build();
-
-    BDDMockito.doNothing().when(mediaService).fillObject(BDDMockito.any(Media.class), BDDMockito.any(MediaDTO.class));
-    mediaService.toDTO(entity);
-
-    BDDMockito.verify(mediaService, BDDMockito.times(1)).fillObject(BDDMockito.any(Media.class),
-        BDDMockito.any(MediaDTO.class));
   }
 
   @Test

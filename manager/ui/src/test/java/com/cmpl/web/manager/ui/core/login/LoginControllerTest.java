@@ -14,12 +14,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.factory.login.LoginDisplayFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.user.UserDispatcher;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoginControllerTest {
 
   @Mock
   private LoginDisplayFactory displayFactory;
+  @Mock
+  private UserDispatcher userDispatcher;
 
   @Spy
   @InjectMocks
@@ -29,14 +32,14 @@ public class LoginControllerTest {
   public void testPrintLogin() throws Exception {
 
     ModelAndView loginView = new ModelAndView("back/login");
-    BDDMockito.doReturn(loginView).when(displayFactory)
-        .computeModelAndViewForBackPage(BDDMockito.eq(BACK_PAGE.LOGIN), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(loginView).when(displayFactory).computeModelAndViewForBackPage(BDDMockito.eq(BACK_PAGE.LOGIN),
+        BDDMockito.eq(Locale.FRANCE));
 
     ModelAndView result = controller.printLogin();
 
     Assert.assertEquals(loginView, result);
 
-    BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeModelAndViewForBackPage(
-        BDDMockito.eq(BACK_PAGE.LOGIN), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(displayFactory, BDDMockito.times(1))
+        .computeModelAndViewForBackPage(BDDMockito.eq(BACK_PAGE.LOGIN), BDDMockito.eq(Locale.FRANCE));
   }
 }

@@ -2,6 +2,8 @@ package com.cmpl.web.core.carousel;
 
 import java.util.Locale;
 
+import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
+import com.cmpl.web.core.carousel.item.CarouselItemResponse;
 import com.cmpl.web.core.common.exception.BaseException;
 
 public interface CarouselDispatcher {

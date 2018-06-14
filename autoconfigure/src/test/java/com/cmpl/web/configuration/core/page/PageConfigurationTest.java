@@ -20,7 +20,9 @@ import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.factory.page.PageManagerDisplayFactoryImpl;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.page.PageDAO;
 import com.cmpl.web.core.page.PageDispatcherImpl;
+import com.cmpl.web.core.page.PageMapper;
 import com.cmpl.web.core.page.PageRepository;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.page.PageServiceImpl;
@@ -28,11 +30,17 @@ import com.cmpl.web.core.page.PageTranslator;
 import com.cmpl.web.core.page.PageTranslatorImpl;
 import com.cmpl.web.core.page.PageValidator;
 import com.cmpl.web.core.page.PageValidatorImpl;
-import com.cmpl.web.core.widget.WidgetPageService;
 import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.page.WidgetPageService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PageConfigurationTest {
+
+  @Mock
+  private PageDAO pageDAO;
+
+  @Mock
+  private PageMapper pageMapper;
 
   @Mock
   private ContextHolder contextHolder;
@@ -82,8 +90,7 @@ public class PageConfigurationTest {
 
   @Test
   public void testPageService() throws Exception {
-    Assert.assertEquals(PageServiceImpl.class,
-        configuration.pageService(publisher, pageRepository, fileService).getClass());
+    Assert.assertEquals(PageServiceImpl.class, configuration.pageService(pageDAO, pageMapper, fileService).getClass());
   }
 
   @Test

@@ -2,6 +2,7 @@ package com.cmpl.web.front.ui.media;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,6 +24,7 @@ public class MediaController {
   private final MediaService mediaService;
 
   public MediaController(MediaService mediaService) {
+    Objects.requireNonNull(mediaService);
     this.mediaService = mediaService;
   }
 

@@ -6,6 +6,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +19,13 @@ import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaDTOBuilder;
 import com.cmpl.web.core.media.MediaService;
-import com.cmpl.web.core.news.NewsContentDTO;
-import com.cmpl.web.core.news.NewsContentDTOBuilder;
-import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsEntryDTOBuilder;
-import com.cmpl.web.core.news.NewsEntryService;
-import com.cmpl.web.core.news.NewsImageDTO;
-import com.cmpl.web.core.news.NewsImageDTOBuilder;
+import com.cmpl.web.core.news.content.NewsContentDTO;
+import com.cmpl.web.core.news.content.NewsContentDTOBuilder;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
+import com.cmpl.web.core.news.entry.NewsEntryService;
+import com.cmpl.web.core.news.image.NewsImageDTO;
+import com.cmpl.web.core.news.image.NewsImageDTOBuilder;
 
 /**
  * Service qui sert a importer des post facebook en tant que NewsEntry
@@ -48,6 +49,12 @@ public class FacebookImportServiceImpl implements FacebookImportService {
 
   public FacebookImportServiceImpl(NewsEntryService newsEntryService, FacebookAdapter facebookAdapter,
       MediaService mediaService, FileService fileService, WebMessageSource messageSource) {
+    Objects.requireNonNull(newsEntryService);
+    Objects.requireNonNull(facebookAdapter);
+    Objects.requireNonNull(mediaService);
+    Objects.requireNonNull(fileService);
+    Objects.requireNonNull(messageSource);
+
     this.newsEntryService = newsEntryService;
     this.facebookAdapter = facebookAdapter;
     this.mediaService = mediaService;

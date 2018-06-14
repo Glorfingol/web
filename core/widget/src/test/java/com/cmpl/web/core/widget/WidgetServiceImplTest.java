@@ -1,7 +1,6 @@
 package com.cmpl.web.core.widget;
 
 import java.util.Locale;
-import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.file.FileService;
 
@@ -19,42 +17,17 @@ import com.cmpl.web.core.file.FileService;
 public class WidgetServiceImplTest {
 
   @Mock
+  private WidgetMapper mapper;
+
+  @Mock
   private FileService fileService;
 
   @Mock
-  private WidgetRepository widgetRepository;
-
-  @Mock
-  private ApplicationEventPublisher publisher;
+  private WidgetDAO widgetDAO;
 
   @InjectMocks
   @Spy
   private WidgetServiceImpl widgetService;
-
-  @Test
-  public void testToEntity() {
-
-    WidgetDTO dto = WidgetDTOBuilder.create().build();
-
-    BDDMockito.doNothing().when(widgetService).fillObject(BDDMockito.any(WidgetDTO.class),
-        BDDMockito.any(Widget.class));
-    widgetService.toEntity(dto);
-
-    BDDMockito.verify(widgetService, BDDMockito.times(1)).fillObject(BDDMockito.any(WidgetDTO.class),
-        BDDMockito.any(Widget.class));
-  }
-
-  @Test
-  public void testToDTO() {
-    Widget entity = WidgetBuilder.create().build();
-
-    BDDMockito.doNothing().when(widgetService).fillObject(BDDMockito.any(Widget.class),
-        BDDMockito.any(WidgetDTO.class));
-    widgetService.toDTO(entity);
-
-    BDDMockito.verify(widgetService, BDDMockito.times(1)).fillObject(BDDMockito.any(Widget.class),
-        BDDMockito.any(WidgetDTO.class));
-  }
 
   @Test
   public void testFindByName_Found() {
@@ -62,8 +35,8 @@ public class WidgetServiceImplTest {
 
     Widget widget = WidgetBuilder.create().build();
 
-    BDDMockito.doReturn(result).when(widgetService).toDTO(BDDMockito.any(Widget.class));
-    BDDMockito.given(widgetRepository.findByName(BDDMockito.anyString())).willReturn(widget);
+    BDDMockito.doReturn(result).when(mapper).toDTO(BDDMockito.any(Widget.class));
+    BDDMockito.given(widgetDAO.findByName(BDDMockito.anyString())).willReturn(widget);
     BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString())).willReturn("someContent");
 
     WidgetDTO widgetDTO = widgetService.findByName("someName", Locale.FRANCE.getLanguage());
@@ -75,7 +48,7 @@ public class WidgetServiceImplTest {
   @Test
   public void testFindByName_Not_Found() {
 
-    BDDMockito.given(widgetRepository.findByName(BDDMockito.anyString())).willReturn(null);
+    BDDMockito.given(widgetDAO.findByName(BDDMockito.anyString())).willReturn(null);
 
     WidgetDTO result = widgetService.findByName("someName", Locale.FRANCE.getLanguage());
     Assert.assertNull(result.getId());
@@ -87,10 +60,10 @@ public class WidgetServiceImplTest {
     WidgetDTO result = WidgetDTOBuilder.create().id(123456789l).build();
     Widget widget = WidgetBuilder.create().build();
 
-    Optional<Widget> optional = Optional.of(WidgetBuilder.create().build());
+    Widget optional = WidgetBuilder.create().build();
 
-    BDDMockito.given(widgetRepository.findById(BDDMockito.anyLong())).willReturn(optional);
-    BDDMockito.doReturn(result).when(widgetService).toDTO(BDDMockito.any(Widget.class));
+    BDDMockito.given(widgetDAO.getEntity(BDDMockito.anyLong())).willReturn(optional);
+    BDDMockito.doReturn(result).when(mapper).toDTO(BDDMockito.any(Widget.class));
     BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString())).willReturn(null);
 
     WidgetDTO resultDTO = widgetService.getEntity(123456789L, Locale.FRANCE.getLanguage());
@@ -104,10 +77,10 @@ public class WidgetServiceImplTest {
   public void testGetEntity_With_Personalization() {
     WidgetDTO result = WidgetDTOBuilder.create().id(123456789l).build();
 
-    Optional<Widget> optional = Optional.of(WidgetBuilder.create().build());
+    Widget optional = WidgetBuilder.create().build();
 
-    BDDMockito.given(widgetRepository.findById(BDDMockito.anyLong())).willReturn(optional);
-    BDDMockito.doReturn(result).when(widgetService).toDTO(BDDMockito.any(Widget.class));
+    BDDMockito.given(widgetDAO.getEntity(BDDMockito.anyLong())).willReturn(optional);
+    BDDMockito.doReturn(result).when(mapper).toDTO(BDDMockito.any(Widget.class));
     BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString())).willReturn("someContent");
 
     WidgetDTO resultDTO = widgetService.getEntity(123456789L, Locale.FRANCE.getLanguage());
@@ -122,8 +95,8 @@ public class WidgetServiceImplTest {
 
     Widget toSave = WidgetBuilder.create().build();
 
-    BDDMockito.given(widgetRepository.save(BDDMockito.any())).willReturn(toSave);
-    BDDMockito.doReturn(toUpdate).when(widgetService).toDTO(BDDMockito.any(Widget.class));
+    BDDMockito.given(widgetDAO.updateEntity(BDDMockito.any())).willReturn(toSave);
+    BDDMockito.doReturn(toUpdate).when(mapper).toDTO(BDDMockito.any(Widget.class));
 
     WidgetDTO result = widgetService.updateEntity(toUpdate, Locale.FRANCE.getLanguage());
 
@@ -139,10 +112,11 @@ public class WidgetServiceImplTest {
 
     Widget toSave = WidgetBuilder.create().build();
 
-    BDDMockito.given(widgetRepository.save(BDDMockito.any())).willReturn(toSave);
-    BDDMockito.doReturn(toCreate).when(widgetService).toDTO(BDDMockito.any(Widget.class));
+    BDDMockito.given(widgetDAO.createEntity(BDDMockito.any())).willReturn(toSave);
+    BDDMockito.given(mapper.toDTO(BDDMockito.any(Widget.class))).willReturn(toCreate);
+    BDDMockito.given(mapper.toEntity(BDDMockito.any(WidgetDTO.class))).willReturn(toSave);
 
-    WidgetDTO result = widgetService.updateEntity(toCreate, Locale.FRANCE.getLanguage());
+    WidgetDTO result = widgetService.createEntity(toCreate, Locale.FRANCE.getLanguage());
 
     Assert.assertEquals(toCreate, result);
 

@@ -26,7 +26,7 @@ public class NotificationConfiguration implements WebSocketMessageBrokerConfigur
   }
 
   @Bean
-  NotificationCenter notificationCenter(SimpMessagingTemplate template) {
+  public NotificationCenter notificationCenter(SimpMessagingTemplate template) {
     return new NotificationCenter(template);
   }
 

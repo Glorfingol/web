@@ -9,6 +9,12 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.util.StringUtils;
 
+import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
+import com.cmpl.web.core.widget.page.WidgetPageCreateFormBuilder;
+import com.cmpl.web.core.widget.page.WidgetPageDTO;
+import com.cmpl.web.core.widget.page.WidgetPageDTOBuilder;
+import com.cmpl.web.core.widget.page.WidgetPageResponse;
+
 @RunWith(MockitoJUnitRunner.class)
 public class WidgetTranslatorImplTest {
 

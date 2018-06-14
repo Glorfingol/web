@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.media;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
@@ -32,6 +33,8 @@ public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
       MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+    Objects.requireNonNull(mediaService);
+    Objects.requireNonNull(contextHolder);
     this.mediaService = mediaService;
     this.contextHolder = contextHolder;
   }

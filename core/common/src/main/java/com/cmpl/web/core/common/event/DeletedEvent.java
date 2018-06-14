@@ -1,10 +1,10 @@
 package com.cmpl.web.core.common.event;
 
-import com.cmpl.web.core.common.dto.BaseDTO;
+import com.cmpl.web.core.common.dao.BaseEntity;
 
-public class DeletedEvent<D extends BaseDTO> extends Event<D> {
+public class DeletedEvent<ENTITY extends BaseEntity> extends Event<ENTITY> {
 
-  public DeletedEvent(Object source, D dto) {
-    super(source, dto);
+  public DeletedEvent(Object source, ENTITY entity) {
+    super(source, entity);
   }
 }

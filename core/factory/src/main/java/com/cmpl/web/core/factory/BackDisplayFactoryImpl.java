@@ -2,6 +2,7 @@ package com.cmpl.web.core.factory;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -33,6 +34,9 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
   public BackDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales) {
     super(messageSource);
+    Objects.requireNonNull(menuFactory);
+    Objects.requireNonNull(breadCrumbRegistry);
+    Objects.requireNonNull(availableLocales);
     this.menuFactory = menuFactory;
     this.breadCrumbRegistry = breadCrumbRegistry;
     this.availableLocales = availableLocales;

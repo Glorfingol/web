@@ -2,6 +2,7 @@ package com.cmpl.web.facebook;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,8 @@ public class FacebookAdapterImpl implements FacebookAdapter {
   private final Facebook facebookConnector;
 
   public FacebookAdapterImpl(FacebookService facebookService, Facebook facebookConnector) {
+    Objects.requireNonNull(facebookConnector);
+    Objects.requireNonNull(facebookConnector);
     this.facebookService = facebookService;
     this.facebookConnector = facebookConnector;
   }

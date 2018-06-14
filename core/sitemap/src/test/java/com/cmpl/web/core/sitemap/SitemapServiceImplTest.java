@@ -25,8 +25,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsEntryDTOBuilder;
+import com.cmpl.web.core.menu.MenuService;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
 import com.redfin.sitemapgenerator.ChangeFreq;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
 
@@ -41,6 +42,9 @@ public class SitemapServiceImplTest {
 
   @Mock
   private ContextHolder contextHolder;
+
+  @Mock
+  private MenuService menuService;
 
   @InjectMocks
   @Spy
@@ -144,8 +148,8 @@ public class SitemapServiceImplTest {
   public void testCreateSiteMap_Exception() throws Exception {
 
     exception.expect(BaseException.class);
-    BDDMockito.doThrow(new IOException("")).when(service)
-        .writeSitemap(BDDMockito.any(Path.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doThrow(new IOException("")).when(service).writeSitemap(BDDMockito.any(Path.class),
+        BDDMockito.eq(Locale.FRANCE));
 
     service.createSiteMap(Locale.FRANCE);
 

@@ -1,6 +1,7 @@
 package com.cmpl.web.core.factory.style;
 
 import java.util.Locale;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -36,6 +38,10 @@ public class StyleDisplayFactoryImplTest {
   private MenuFactory menuFactory;
   @Mock
   private WebMessageSource messageSource;
+  @Mock
+  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  @Mock
+  private Set<Locale> availableLocales;
 
   @Spy
   @InjectMocks

@@ -21,7 +21,9 @@ import com.cmpl.web.core.factory.style.StyleDisplayFactoryImpl;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.style.StyleDAO;
 import com.cmpl.web.core.style.StyleDispatcherImpl;
+import com.cmpl.web.core.style.StyleMapper;
 import com.cmpl.web.core.style.StyleRepository;
 import com.cmpl.web.core.style.StyleService;
 import com.cmpl.web.core.style.StyleServiceImpl;
@@ -30,6 +32,12 @@ import com.cmpl.web.core.style.StyleTranslatorImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StyleConfigurationTest {
+
+  @Mock
+  private StyleDAO styleDAO;
+
+  @Mock
+  private StyleMapper styleMapper;
 
   @Mock
   private StyleRepository styleRepository;
@@ -63,7 +71,7 @@ public class StyleConfigurationTest {
   public void testStyleService() throws Exception {
 
     Assert.assertEquals(StyleServiceImpl.class,
-        configuration.styleService(publisher, styleRepository, mediaService, fileService).getClass());
+        configuration.styleService(styleDAO, styleMapper, mediaService, fileService).getClass());
   }
 
   @Test

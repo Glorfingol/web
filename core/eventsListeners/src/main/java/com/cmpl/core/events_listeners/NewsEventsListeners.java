@@ -1,16 +1,17 @@
 package com.cmpl.core.events_listeners;
 
 import org.springframework.context.event.EventListener;
+import org.springframework.util.StringUtils;
 
-import com.cmpl.web.core.common.dto.BaseDTO;
+import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaDTO;
-import com.cmpl.web.core.news.NewsContentDTO;
-import com.cmpl.web.core.news.NewsContentService;
-import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsImageDTO;
-import com.cmpl.web.core.news.NewsImageService;
+import com.cmpl.web.core.news.content.NewsContentService;
+import com.cmpl.web.core.news.entry.NewsEntry;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.image.NewsImageDTO;
+import com.cmpl.web.core.news.image.NewsImageService;
 
 public class NewsEventsListeners {
 
@@ -28,26 +29,25 @@ public class NewsEventsListeners {
   @EventListener
   public void handleEntityDeletion(DeletedEvent deletedEvent) {
 
-    Class<? extends BaseDTO> clazz = deletedEvent.getDto().getClass();
+    Class<? extends BaseEntity> clazz = deletedEvent.getEntity().getClass();
     if (NewsEntryDTO.class.equals(clazz)) {
 
-      NewsEntryDTO deletedNewsEntry = (NewsEntryDTO) deletedEvent.getDto();
+      NewsEntry deletedNewsEntry = (NewsEntry) deletedEvent.getEntity();
 
       if (deletedNewsEntry != null) {
-        NewsContentDTO deletedNewsContent = deletedNewsEntry.getNewsContent();
-        if (deletedNewsContent != null) {
-          newsContentService.deleteEntity(deletedNewsContent.getId());
+        String contentId = deletedNewsEntry.getContentId();
+        if (StringUtils.hasText(contentId)) {
+          newsContentService.deleteEntity(Long.parseLong(contentId));
         }
-        NewsImageDTO deletedNewsImage = deletedNewsEntry.getNewsImage();
-        if (deletedNewsImage != null) {
+        String imageId = deletedNewsEntry.getImageId();
+        if (StringUtils.hasText(imageId)) {
+          NewsImageDTO deletedNewsImage = newsImageService.getEntity(Long.parseLong(imageId));
           newsImageService.deleteEntity(deletedNewsImage.getId());
           MediaDTO deletedNewsMedia = deletedNewsImage.getMedia();
           if (deletedNewsMedia != null) {
             fileService.removeMediaFromSystem(deletedNewsMedia.getName());
           }
-
         }
-
       }
 
     }

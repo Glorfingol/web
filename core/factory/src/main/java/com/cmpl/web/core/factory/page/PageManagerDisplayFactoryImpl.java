@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.page;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,11 +31,11 @@ import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.page.PageUpdateForm;
 import com.cmpl.web.core.widget.WidgetDTO;
-import com.cmpl.web.core.widget.WidgetPageCreateForm;
-import com.cmpl.web.core.widget.WidgetPageCreateFormBuilder;
-import com.cmpl.web.core.widget.WidgetPageDTO;
-import com.cmpl.web.core.widget.WidgetPageService;
 import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
+import com.cmpl.web.core.widget.page.WidgetPageCreateFormBuilder;
+import com.cmpl.web.core.widget.page.WidgetPageDTO;
+import com.cmpl.web.core.widget.page.WidgetPageService;
 
 public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<PageDTO>
     implements PageManagerDisplayFactory {
@@ -54,6 +55,10 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       ContextHolder contextHolder, WidgetService widgetService, WidgetPageService widgetPageService,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+    Objects.requireNonNull(pageService);
+    Objects.requireNonNull(contextHolder);
+    Objects.requireNonNull(widgetService);
+    Objects.requireNonNull(widgetPageService);
     this.pageService = pageService;
     this.contextHolder = contextHolder;
     this.widgetService = widgetService;

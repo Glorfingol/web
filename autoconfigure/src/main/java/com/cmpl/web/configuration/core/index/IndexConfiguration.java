@@ -20,7 +20,7 @@ import com.cmpl.web.core.page.BACK_PAGE;
 public class IndexConfiguration {
 
   @Bean
-  BreadCrumb indexBreadCrumb() {
+  public BreadCrumb indexBreadCrumb() {
     return BreadCrumbBuilder.create().items(indexBreadCrumbItems()).page(BACK_PAGE.INDEX).build();
   }
 
@@ -31,19 +31,19 @@ public class IndexConfiguration {
   }
 
   @Bean
-  BackMenuItem indexBackMenuItem(Privilege indexReadPrivilege) {
+  public BackMenuItem indexBackMenuItem(Privilege indexReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.index.href").label("back.index.label").title("back.index.title")
         .iconClass("fa fa-home").order(0).privilege(indexReadPrivilege.privilege()).build();
   }
 
   @Bean
-  BackMenuItem administration(Privilege administrationReadPrivilege) {
+  public BackMenuItem administration(Privilege administrationReadPrivilege) {
     return BackMenuItemBuilder.create().href("#").label("back.administration.label").title("back.administration.title")
         .iconClass("fa fa-id-badge").order(1).privilege(administrationReadPrivilege.privilege()).build();
   }
 
   @Bean
-  BackMenuItem webmastering(Privilege webmasteringReadPrivilege) {
+  public BackMenuItem webmastering(Privilege webmasteringReadPrivilege) {
     return BackMenuItemBuilder.create().href("#").label("back.webmastering.label").title("back.webmastering.title")
         .iconClass("fa fa-sitemap").order(2).privilege(webmasteringReadPrivilege.privilege()).build();
   }

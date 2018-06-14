@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,8 +38,8 @@ import com.cmpl.web.core.page.PageDTOBuilder;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.page.PageUpdateForm;
 import com.cmpl.web.core.page.PageUpdateFormBuilder;
-import com.cmpl.web.core.widget.WidgetPageService;
 import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.page.WidgetPageService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PageManagerDisplayFactoryImplTest {
@@ -54,6 +56,10 @@ public class PageManagerDisplayFactoryImplTest {
   private WidgetPageService widgetPageService;
   @Mock
   private WidgetService widgetService;
+  @Mock
+  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  @Mock
+  private Set<Locale> availableLocales;
 
   @Spy
   @InjectMocks
@@ -66,8 +72,8 @@ public class PageManagerDisplayFactoryImplTest {
     BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
-    BDDMockito.doReturn(form).when(displayFactory)
-        .createUpdateForm(BDDMockito.any(PageDTO.class), BDDMockito.anyString());
+    BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class),
+        BDDMockito.anyString());
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdatePageFooter(Locale.FRANCE, "123456789",
         Locale.FRANCE.getLanguage());
@@ -82,8 +88,8 @@ public class PageManagerDisplayFactoryImplTest {
     BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
-    BDDMockito.doReturn(form).when(displayFactory)
-        .createUpdateForm(BDDMockito.any(PageDTO.class), BDDMockito.anyString());
+    BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class),
+        BDDMockito.anyString());
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdatePageHeader(Locale.FRANCE, "123456789",
         Locale.FRANCE.getLanguage());
@@ -97,8 +103,8 @@ public class PageManagerDisplayFactoryImplTest {
     BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
-    BDDMockito.doReturn(form).when(displayFactory)
-        .createUpdateForm(BDDMockito.any(PageDTO.class), BDDMockito.anyString());
+    BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class),
+        BDDMockito.anyString());
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdatePageBody(Locale.FRANCE, "123456789",
         Locale.FRANCE.getLanguage());
@@ -112,8 +118,8 @@ public class PageManagerDisplayFactoryImplTest {
     BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
-    BDDMockito.doReturn(form).when(displayFactory)
-        .createUpdateForm(BDDMockito.any(PageDTO.class), BDDMockito.anyString());
+    BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class),
+        BDDMockito.anyString());
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdatePageMain(Locale.FRANCE, "123456789",
         Locale.FRANCE.getLanguage());
@@ -131,8 +137,8 @@ public class PageManagerDisplayFactoryImplTest {
     BreadCrumbItem item = BreadCrumbItemBuilder.create().text("someText").build();
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().items(Arrays.asList(item)).build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
-    BDDMockito.doReturn(form).when(displayFactory)
-        .createUpdateForm(BDDMockito.any(PageDTO.class), BDDMockito.anyString());
+    BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class),
+        BDDMockito.anyString());
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdatePage(Locale.FRANCE, "123456789",
         Locale.FRANCE.getLanguage());
@@ -176,8 +182,8 @@ public class PageManagerDisplayFactoryImplTest {
         .firstPage(isFirstPage).lastPage(isLastPage).page(page).totalPages(totalPages).pageBaseUrl("/manager/pages")
         .pageLabel("someLabel").build();
 
-    BDDMockito.doReturn(wrapper).when(displayFactory)
-        .computePageWrapper(BDDMockito.any(Locale.class), BDDMockito.anyInt());
+    BDDMockito.doReturn(wrapper).when(displayFactory).computePageWrapper(BDDMockito.any(Locale.class),
+        BDDMockito.anyInt());
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
@@ -224,8 +230,8 @@ public class PageManagerDisplayFactoryImplTest {
     String pageLabel = "Page 1";
 
     BDDMockito.doReturn(page).when(displayFactory).computeEntries(BDDMockito.any(Locale.class), BDDMockito.anyInt());
-    BDDMockito.doReturn(pageLabel).when(displayFactory)
-        .getI18nValue(BDDMockito.anyString(), BDDMockito.any(Locale.class), BDDMockito.anyInt(), BDDMockito.anyInt());
+    BDDMockito.doReturn(pageLabel).when(displayFactory).getI18nValue(BDDMockito.anyString(),
+        BDDMockito.any(Locale.class), BDDMockito.anyInt(), BDDMockito.anyInt());
     PageWrapper<PageDTO> wrapper = displayFactory.computePageWrapper(Locale.FRANCE, 1);
 
     Assert.assertEquals(0, wrapper.getCurrentPageNumber());

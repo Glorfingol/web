@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,11 +14,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.menu.MenuItem;
 import com.cmpl.web.core.menu.MenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
@@ -30,6 +34,14 @@ public class FacebookDisplayFactoryImplTest {
 
   @Mock
   private FacebookAdapter facebookAdapter;
+  @Mock
+  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  @Mock
+  private Set<Locale> availableLocales;
+  @Mock
+  private WebMessageSource messageSource;
+  @Mock
+  private MenuFactory menuFactory;
 
   @InjectMocks
   @Spy
@@ -95,18 +107,18 @@ public class FacebookDisplayFactoryImplTest {
     BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
         .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl)
-        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
-        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(false).when(facebookDisplayFactoryImpl).isAlreadyConnected();
 
     ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookAccessPage(Locale.FRANCE);
     Assert.assertEquals("login", result.getModel().get("content"));
 
-    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(0)).computeModelAndViewForFacebookImportPage(
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(0))
+        .computeModelAndViewForFacebookImportPage(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(0)).computeRecentFeeds();
 
   }
@@ -133,10 +145,10 @@ public class FacebookDisplayFactoryImplTest {
     BDDMockito.doReturn(postsToReturn).when(facebookDisplayFactoryImpl).computeRecentFeeds();
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
         .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl)
-        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
-        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(true).when(facebookDisplayFactoryImpl).isAlreadyConnected();
 
@@ -145,8 +157,8 @@ public class FacebookDisplayFactoryImplTest {
     Assert.assertEquals(postsToReturn, result.getModel().get("feeds"));
 
     BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(1)).computeRecentFeeds();
-    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(1)).computeModelAndViewForFacebookImportPage(
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(1))
+        .computeModelAndViewForFacebookImportPage(BDDMockito.eq(Locale.FRANCE));
   }
 
   @Test
@@ -168,18 +180,18 @@ public class FacebookDisplayFactoryImplTest {
 
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
         .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl)
-        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
-        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(false).when(facebookDisplayFactoryImpl).isAlreadyConnected();
 
     ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookImportPage(Locale.FRANCE);
     Assert.assertEquals("login", result.getModel().get("content"));
 
-    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(1)).computeModelAndViewForFacebookAccessPage(
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(1))
+        .computeModelAndViewForFacebookAccessPage(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(0)).computeRecentFeeds();
   }
 
@@ -205,10 +217,10 @@ public class FacebookDisplayFactoryImplTest {
     BDDMockito.doReturn(postsToReturn).when(facebookDisplayFactoryImpl).computeRecentFeeds();
     BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
         .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl)
-        .computeTileName(BDDMockito.anyString(), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
-        .computeBackMenuItems(BDDMockito.any(BACK_PAGE.class), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(BDDMockito.anyString(),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(true).when(facebookDisplayFactoryImpl).isAlreadyConnected();
 
@@ -217,7 +229,7 @@ public class FacebookDisplayFactoryImplTest {
     Assert.assertEquals(postsToReturn, result.getModel().get("feeds"));
 
     BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(1)).computeRecentFeeds();
-    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(0)).computeModelAndViewForFacebookAccessPage(
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(0))
+        .computeModelAndViewForFacebookAccessPage(BDDMockito.eq(Locale.FRANCE));
   }
 }

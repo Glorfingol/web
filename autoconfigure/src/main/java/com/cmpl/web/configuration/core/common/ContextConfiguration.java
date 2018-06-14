@@ -42,7 +42,7 @@ public class ContextConfiguration {
   String websiteUrl;
 
   @Bean
-  ContextHolder contextHolder() {
+  public ContextHolder contextHolder() {
 
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yy");
 

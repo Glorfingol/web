@@ -60,12 +60,12 @@ public class WebSecurityConfiguration {
   }
 
   @Bean
-  LoginAttemptsService loginAttemptsService() {
+  public LoginAttemptsService loginAttemptsService() {
     return new LoginAttemptsServiceImpl(10);
   }
 
   @Bean
-  ActionTokenService actionTokenService(TokenService tokenService) {
+  public ActionTokenService actionTokenService(TokenService tokenService) {
     return new ActionTokenServiceImpl(tokenService);
   }
 
@@ -75,7 +75,7 @@ public class WebSecurityConfiguration {
   }
 
   @Bean
-  PasswordTooOldInterceptor passwordTooOldInterceptor(UserService userService) {
+  public PasswordTooOldInterceptor passwordTooOldInterceptor(UserService userService) {
     return new PasswordTooOldInterceptor(userService);
   }
 

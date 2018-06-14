@@ -1,5 +1,11 @@
 package com.cmpl.web.core.carousel;
 
+import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
+import com.cmpl.web.core.carousel.item.CarouselItemDTO;
+import com.cmpl.web.core.carousel.item.CarouselItemDTOBuilder;
+import com.cmpl.web.core.carousel.item.CarouselItemResponse;
+import com.cmpl.web.core.carousel.item.CarouselItemResponseBuilder;
+
 public class CarouselTranslatorImpl implements CarouselTranslator {
 
   @Override

@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.user;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,10 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+    Objects.requireNonNull(userService);
+    Objects.requireNonNull(roleService);
+    Objects.requireNonNull(assocationUserRoleService);
+    Objects.requireNonNull(contextHolder);
     this.userService = userService;
     this.roleService = roleService;
     this.assocationUserRoleService = assocationUserRoleService;

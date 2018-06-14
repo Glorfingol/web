@@ -2,6 +2,7 @@ package com.cmpl.web.core.carousel;
 
 import java.util.List;
 
+import com.cmpl.web.core.carousel.item.CarouselItemDTO;
 import com.cmpl.web.core.common.dto.BaseDTO;
 
 public class CarouselDTO extends BaseDTO {

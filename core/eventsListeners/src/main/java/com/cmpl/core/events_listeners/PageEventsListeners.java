@@ -5,11 +5,12 @@ import java.util.Set;
 
 import org.springframework.context.event.EventListener;
 
-import com.cmpl.web.core.common.dto.BaseDTO;
+import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.page.Page;
 import com.cmpl.web.core.page.PageDTO;
-import com.cmpl.web.core.widget.WidgetPageService;
+import com.cmpl.web.core.widget.page.WidgetPageService;
 
 public class PageEventsListeners {
 
@@ -32,9 +33,9 @@ public class PageEventsListeners {
   @EventListener
   public void handleEntityDeletion(DeletedEvent deletedEvent) {
 
-    Class<? extends BaseDTO> clazz = deletedEvent.getDto().getClass();
+    Class<? extends BaseEntity> clazz = deletedEvent.getEntity().getClass();
     if (PageDTO.class.equals(clazz)) {
-      PageDTO deletedPage = (PageDTO) deletedEvent.getDto();
+      Page deletedPage = (Page) deletedEvent.getEntity();
 
       if (deletedPage != null) {
         widgetPageService.findByPageId(String.valueOf(deletedPage.getId()))

@@ -1,0 +1,7 @@
+package com.cmpl.web.core.role;
+
+import com.cmpl.web.core.common.dao.BaseDAO;
+
+public interface RoleDAO extends BaseDAO<Role> {
+
+}

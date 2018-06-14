@@ -18,7 +18,7 @@
       <groupId>com.cmpl</groupId>
       <artifactId>cmpl-web-core-page</artifactId>
       <version>${cmpl.web.version}</version>
-  </dependency>
+    </dependency>
     <dependency>
       <groupId>com.cmpl</groupId>
       <artifactId>cmpl-web-core-common</artifactId>
@@ -30,6 +30,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-
 </project>

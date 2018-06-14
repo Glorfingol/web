@@ -1,5 +1,6 @@
 package com.cmpl.web.core.common.notification;
 
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ public class NotificationCenter {
   private static final String WEBSOCKET_DOMAIN = "/notifications";
 
   public NotificationCenter(SimpMessagingTemplate template) {
+    Objects.requireNonNull(template);
     this.template = template;
   }
 

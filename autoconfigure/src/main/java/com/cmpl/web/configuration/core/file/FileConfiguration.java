@@ -11,7 +11,7 @@ import com.cmpl.web.core.file.FileServiceImpl;
 public class FileConfiguration {
 
   @Bean
-  FileService fileService(ContextHolder contextHolder) {
+  public FileService fileService(ContextHolder contextHolder) {
     return new FileServiceImpl(contextHolder);
   }
 

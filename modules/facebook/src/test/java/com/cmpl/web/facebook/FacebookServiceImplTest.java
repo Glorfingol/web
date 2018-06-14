@@ -26,14 +26,14 @@ import org.springframework.social.facebook.api.FeedOperations;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Post;
-import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.Post.PostType;
+import org.springframework.social.facebook.api.Reference;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.exception.BaseException;
-import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.entry.NewsEntryService;
 
 ;
 
@@ -290,8 +290,8 @@ public class FacebookServiceImplTest {
     BDDMockito.doReturn(onclick).when(facebookService).computeOnclick(BDDMockito.eq(post));
     BDDMockito.doReturn(createdTime).when(facebookService).computeCreatedTime(BDDMockito.eq(post));
     BDDMockito.doReturn(objectId).when(facebookService).computeObjectId(BDDMockito.eq(post));
-    BDDMockito.doReturn(formattedDate).when(facebookService)
-        .computeFormattedDate(BDDMockito.eq(post), BDDMockito.eq(formatter));
+    BDDMockito.doReturn(formattedDate).when(facebookService).computeFormattedDate(BDDMockito.eq(post),
+        BDDMockito.eq(formatter));
 
     ImportablePost result = facebookService.computeImportablePost(post, formatter);
 
@@ -400,8 +400,8 @@ public class FacebookServiceImplTest {
     ImportablePost importable = new ImportablePostBuilder().build();
 
     BDDMockito.doReturn(formatter).when(contextHolder).getDateFormat();
-    BDDMockito.doReturn(importable).when(facebookService)
-        .computeImportablePost(BDDMockito.eq(postToImport), BDDMockito.any(DateTimeFormatter.class));
+    BDDMockito.doReturn(importable).when(facebookService).computeImportablePost(BDDMockito.eq(postToImport),
+        BDDMockito.any(DateTimeFormatter.class));
     BDDMockito.doReturn(true).when(facebookService).canImportPost(BDDMockito.eq(importable));
 
     List<ImportablePost> postsImportable = facebookService.computeImportablePosts(postsToImport);
@@ -423,8 +423,8 @@ public class FacebookServiceImplTest {
     ImportablePost importable = new ImportablePostBuilder().build();
 
     BDDMockito.doReturn(formatter).when(contextHolder).getDateFormat();
-    BDDMockito.doReturn(importable).when(facebookService)
-        .computeImportablePost(BDDMockito.eq(postToImport), BDDMockito.any(DateTimeFormatter.class));
+    BDDMockito.doReturn(importable).when(facebookService).computeImportablePost(BDDMockito.eq(postToImport),
+        BDDMockito.any(DateTimeFormatter.class));
     BDDMockito.doReturn(false).when(facebookService).canImportPost(BDDMockito.eq(importable));
 
     List<ImportablePost> postsImportable = facebookService.computeImportablePosts(postsToImport);

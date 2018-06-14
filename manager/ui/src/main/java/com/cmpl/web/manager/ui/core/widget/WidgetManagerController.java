@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.widget;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,10 @@ public class WidgetManagerController {
 
   public WidgetManagerController(WidgetManagerDisplayFactory widgetManagerDisplayFactory,
       WidgetDispatcher widgetDispatcher, NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    Objects.requireNonNull(widgetManagerDisplayFactory);
+    Objects.requireNonNull(notificationCenter);
+    Objects.requireNonNull(messageSource);
+    Objects.requireNonNull(widgetDispatcher);
     this.widgetManagerDisplayFactory = widgetManagerDisplayFactory;
     this.widgetDispatcher = widgetDispatcher;
     this.notificationCenter = notificationCenter;

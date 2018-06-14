@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.association_user_role;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,9 @@ public class AssociationUserRoleManagerController {
 
   public AssociationUserRoleManagerController(AssociationUserRoleDispatcher dispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    Objects.requireNonNull(dispatcher);
+    Objects.requireNonNull(notificationCenter);
+    Objects.requireNonNull(messageSource);
     this.dispatcher = dispatcher;
     this.notificationCenter = notificationCenter;
     this.messageSource = messageSource;

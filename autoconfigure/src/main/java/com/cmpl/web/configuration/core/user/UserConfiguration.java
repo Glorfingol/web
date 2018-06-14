@@ -32,10 +32,13 @@ import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.user.User;
+import com.cmpl.web.core.user.UserDAO;
+import com.cmpl.web.core.user.UserDAOImpl;
 import com.cmpl.web.core.user.UserDispatcher;
 import com.cmpl.web.core.user.UserDispatcherImpl;
 import com.cmpl.web.core.user.UserMailService;
 import com.cmpl.web.core.user.UserMailServiceImpl;
+import com.cmpl.web.core.user.UserMapper;
 import com.cmpl.web.core.user.UserRepository;
 import com.cmpl.web.core.user.UserService;
 import com.cmpl.web.core.user.UserServiceImpl;
@@ -50,34 +53,44 @@ import com.cmpl.web.core.user.UserValidatorImpl;
 public class UserConfiguration {
 
   @Bean
-  UserService userService(ApplicationEventPublisher publisher, UserRepository userRepository,
-      ActionTokenService actionTokenService, UserMailService userMailService) {
-    return new UserServiceImpl(publisher, actionTokenService, userMailService, userRepository);
+  public UserMapper userMapper() {
+    return new UserMapper();
   }
 
   @Bean
-  UserMailService userMailService(MailSender mailSender) {
+  public UserDAO userDAO(UserRepository userRepository, ApplicationEventPublisher publisher) {
+    return new UserDAOImpl(userRepository, publisher);
+  }
+
+  @Bean
+  public UserService userService(UserMapper userMapper, UserDAO userDAO, ActionTokenService actionTokenService,
+      UserMailService userMailService) {
+    return new UserServiceImpl(actionTokenService, userMailService, userDAO, userMapper);
+  }
+
+  @Bean
+  public UserMailService userMailService(MailSender mailSender) {
     return new UserMailServiceImpl(mailSender);
   }
 
   @Bean
-  BackMenuItem userBackMenuItem(BackMenuItem administration, Privilege usersReadPrivilege) {
+  public BackMenuItem userBackMenuItem(BackMenuItem administration, Privilege usersReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.users.href").label("back.users.label").title("back.users.title")
         .iconClass("fa fa-user").parent(administration).privilege(usersReadPrivilege.privilege()).order(0).build();
   }
 
   @Bean
-  BreadCrumb userBreadCrumb() {
+  public BreadCrumb userBreadCrumb() {
     return BreadCrumbBuilder.create().items(userBreadCrumbItems()).page(BACK_PAGE.USER_VIEW).build();
   }
 
   @Bean
-  BreadCrumb userUpdateBreadCrumb() {
+  public BreadCrumb userUpdateBreadCrumb() {
     return BreadCrumbBuilder.create().items(userBreadCrumbItems()).page(BACK_PAGE.USER_UPDATE).build();
   }
 
   @Bean
-  BreadCrumb userCreateBreadCrumb() {
+  public BreadCrumb userCreateBreadCrumb() {
     return BreadCrumbBuilder.create().items(userBreadCrumbItems()).page(BACK_PAGE.USER_CREATE).build();
   }
 
@@ -89,23 +102,23 @@ public class UserConfiguration {
   }
 
   @Bean
-  UserTranslator userTranslator() {
+  public UserTranslator userTranslator() {
     return new UserTranslatorImpl();
   }
 
   @Bean
-  UserValidator userValidator(WebMessageSource messageSource) {
+  public UserValidator userValidator(WebMessageSource messageSource) {
     return new UserValidatorImpl(messageSource);
   }
 
   @Bean
-  UserDispatcher userDispatcher(UserTranslator userTranslator, UserValidator userValidator, UserService userService,
-      PasswordEncoder passwordEncoder, ActionTokenService tokenService) {
+  public UserDispatcher userDispatcher(UserTranslator userTranslator, UserValidator userValidator,
+      UserService userService, PasswordEncoder passwordEncoder, ActionTokenService tokenService) {
     return new UserDispatcherImpl(userValidator, userTranslator, userService, passwordEncoder, tokenService);
   }
 
   @Bean
-  UserManagerDisplayFactory userManagerDisplayFactory(UserService userService, RoleService roleService,
+  public UserManagerDisplayFactory userManagerDisplayFactory(UserService userService, RoleService roleService,
       AssociationUserRoleService associationUserRoleService, ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs, Set<Locale> availableLocales) {
     return new UserManagerDisplayFactoryImpl(userService, roleService, associationUserRoleService, contextHolder,
@@ -113,7 +126,7 @@ public class UserConfiguration {
   }
 
   @Bean
-  UserEventsListeners userEventsListener(AssociationUserRoleService associationUserRoleService) {
+  public UserEventsListeners userEventsListener(AssociationUserRoleService associationUserRoleService) {
     return new UserEventsListeners(associationUserRoleService);
   }
 }

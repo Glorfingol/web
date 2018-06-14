@@ -1,6 +1,7 @@
 package com.cmpl.web.core.association_user_role;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.exception.BaseException;
@@ -13,6 +14,9 @@ public class AssociationUserRoleDispatcherImpl implements AssociationUserRoleDis
 
   public AssociationUserRoleDispatcherImpl(AssociationUserRoleService service, AssociationUserRoleValidator validator,
       AssociationUserRoleTranslator translator) {
+    Objects.requireNonNull(service);
+    Objects.requireNonNull(validator);
+    Objects.requireNonNull(translator);
     this.service = service;
     this.translator = translator;
     this.validator = validator;

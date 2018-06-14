@@ -2,6 +2,7 @@ package com.cmpl.web.manager.ui.core.user;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +13,13 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 
 import com.cmpl.web.core.user.UserService;
 
-public class LastConnectionUpdateAuthenticationSuccessHandlerImpl extends SavedRequestAwareAuthenticationSuccessHandler {
+public class LastConnectionUpdateAuthenticationSuccessHandlerImpl
+    extends SavedRequestAwareAuthenticationSuccessHandler {
 
   private final UserService userService;
 
   public LastConnectionUpdateAuthenticationSuccessHandlerImpl(UserService userService) {
+    Objects.requireNonNull(userService);
     this.userService = userService;
     this.setDefaultTargetUrl("/manager");
     this.setAlwaysUseDefaultTargetUrl(false);

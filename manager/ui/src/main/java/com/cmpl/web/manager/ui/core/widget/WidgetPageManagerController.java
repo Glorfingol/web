@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.widget;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,8 @@ import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.widget.WidgetDispatcher;
-import com.cmpl.web.core.widget.WidgetPageCreateForm;
-import com.cmpl.web.core.widget.WidgetPageResponse;
+import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
+import com.cmpl.web.core.widget.page.WidgetPageResponse;
 import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
 @ManagerController
@@ -32,6 +33,9 @@ public class WidgetPageManagerController {
 
   public WidgetPageManagerController(WidgetDispatcher dispatcher, NotificationCenter notificationCenter,
       WebMessageSource messageSource) {
+    Objects.requireNonNull(dispatcher);
+    Objects.requireNonNull(notificationCenter);
+    Objects.requireNonNull(messageSource);
     this.dispatcher = dispatcher;
     this.notificationCenter = notificationCenter;
     this.messageSource = messageSource;

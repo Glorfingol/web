@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.menu;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,10 @@ public class MenuManagerController {
 
   public MenuManagerController(MenuDispatcher dispatcher, MenuManagerDisplayFactory displayFactory,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    Objects.requireNonNull(dispatcher);
+    Objects.requireNonNull(displayFactory);
+    Objects.requireNonNull(messageSource);
+    Objects.requireNonNull(notificationCenter);
     this.dispatcher = dispatcher;
     this.displayFactory = displayFactory;
     this.messageSource = messageSource;

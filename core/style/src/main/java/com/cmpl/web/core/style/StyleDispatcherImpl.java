@@ -1,6 +1,7 @@
 package com.cmpl.web.core.style;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public class StyleDispatcherImpl implements StyleDispatcher {
 
@@ -8,6 +9,8 @@ public class StyleDispatcherImpl implements StyleDispatcher {
   private final StyleTranslator translator;
 
   public StyleDispatcherImpl(StyleService styleService, StyleTranslator translator) {
+    Objects.requireNonNull(styleService);
+    Objects.requireNonNull(translator);
     this.styleService = styleService;
     this.translator = translator;
   }

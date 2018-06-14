@@ -2,7 +2,7 @@ package com.cmpl.web.facebook;
 
 import java.util.List;
 
-import com.cmpl.web.core.news.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
 
 /**
  * Translator pour les request d'import de post facebook

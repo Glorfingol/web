@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,10 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, PluginRegistry<Privilege, String> privileges,
       Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+    Objects.requireNonNull(roleService);
+    Objects.requireNonNull(privilegeService);
+    Objects.requireNonNull(contextHolder);
+    Objects.requireNonNull(privileges);
     this.roleService = roleService;
     this.privilegeService = privilegeService;
     this.contextHolder = contextHolder;

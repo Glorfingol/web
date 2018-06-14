@@ -11,11 +11,11 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.DisplayFactory;
 import com.cmpl.web.core.factory.DisplayFactoryImpl;
 import com.cmpl.web.core.factory.HtmlWidgetProvider;
-import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
-import com.cmpl.web.core.widget.WidgetPageService;
 import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.page.WidgetPageService;
 
 /**
  * Configuration des factory
@@ -32,14 +32,14 @@ public class FactoryConfiguration {
   private PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
 
   @Bean
-  DisplayFactory displayFactory(WebMessageSource messageSource, PageService pageService,
+  public DisplayFactory displayFactory(WebMessageSource messageSource, PageService pageService,
       NewsEntryService newsEntryService, WidgetPageService widgetPageService, WidgetService widgetService) {
     return new DisplayFactoryImpl(messageSource, pageService, newsEntryService, widgetPageService, widgetService,
         widgetProviders);
   }
 
   @Bean
-  HtmlWidgetProvider htmlWidgetProvider() {
+  public HtmlWidgetProvider htmlWidgetProvider() {
     return new HtmlWidgetProvider();
   }
 

@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Objects;
 
 import org.springframework.security.core.token.DefaultToken;
 import org.springframework.security.core.token.Token;
@@ -17,6 +18,7 @@ public class StatelessSecretTokenService implements TokenService {
   private final String secret;
 
   public StatelessSecretTokenService(String secret) {
+    Objects.requireNonNull(secret);
     this.secret = secret;
   }
 

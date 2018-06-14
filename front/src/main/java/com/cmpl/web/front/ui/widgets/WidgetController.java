@@ -1,6 +1,7 @@
 package com.cmpl.web.front.ui.widgets;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ public class WidgetController {
   private final DisplayFactory displayFactory;
 
   public WidgetController(DisplayFactory displayFactory) {
+    Objects.requireNonNull(displayFactory);
     this.displayFactory = displayFactory;
   }
 

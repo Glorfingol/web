@@ -17,12 +17,11 @@ import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.carousel.Carousel;
+import com.cmpl.web.core.carousel.CarouselDAO;
+import com.cmpl.web.core.carousel.CarouselDAOImpl;
 import com.cmpl.web.core.carousel.CarouselDispatcher;
 import com.cmpl.web.core.carousel.CarouselDispatcherImpl;
-import com.cmpl.web.core.carousel.CarouselItem;
-import com.cmpl.web.core.carousel.CarouselItemRepository;
-import com.cmpl.web.core.carousel.CarouselItemService;
-import com.cmpl.web.core.carousel.CarouselItemServiceImpl;
+import com.cmpl.web.core.carousel.CarouselMapper;
 import com.cmpl.web.core.carousel.CarouselRepository;
 import com.cmpl.web.core.carousel.CarouselService;
 import com.cmpl.web.core.carousel.CarouselServiceImpl;
@@ -30,6 +29,13 @@ import com.cmpl.web.core.carousel.CarouselTranslator;
 import com.cmpl.web.core.carousel.CarouselTranslatorImpl;
 import com.cmpl.web.core.carousel.CarouselValidator;
 import com.cmpl.web.core.carousel.CarouselValidatorImpl;
+import com.cmpl.web.core.carousel.item.CarouselItem;
+import com.cmpl.web.core.carousel.item.CarouselItemDAO;
+import com.cmpl.web.core.carousel.item.CarouselItemDAOImpl;
+import com.cmpl.web.core.carousel.item.CarouselItemMapper;
+import com.cmpl.web.core.carousel.item.CarouselItemRepository;
+import com.cmpl.web.core.carousel.item.CarouselItemService;
+import com.cmpl.web.core.carousel.item.CarouselItemServiceImpl;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.user.Privilege;
@@ -48,35 +54,46 @@ import com.cmpl.web.core.page.BACK_PAGE;
 public class CarouselConfiguration {
 
   @Bean
-  CarouselItemService carouselItemService(ApplicationEventPublisher publisher,
-      CarouselItemRepository carouselItemRepository, MediaService mediaService) {
-    return new CarouselItemServiceImpl(publisher, carouselItemRepository, mediaService);
+  public CarouselItemDAO carouselItemDAO(CarouselItemRepository carouselItemRepository,
+      ApplicationEventPublisher publisher) {
+    return new CarouselItemDAOImpl(carouselItemRepository, publisher);
   }
 
   @Bean
-  BackMenuItem carouselsBackMenuItem(BackMenuItem webmastering, Privilege carouselsReadPrivilege) {
+  public CarouselItemMapper carouselItemMapper(MediaService mediaService) {
+    return new CarouselItemMapper(mediaService);
+  }
+
+  @Bean
+  public CarouselItemService carouselItemService(CarouselItemDAO carouselItemDAO,
+      CarouselItemMapper carouselItemMapper) {
+    return new CarouselItemServiceImpl(carouselItemDAO, carouselItemMapper);
+  }
+
+  @Bean
+  public BackMenuItem carouselsBackMenuItem(BackMenuItem webmastering, Privilege carouselsReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.carousels.href").label("back.carousels.label")
         .title("back.carousels.title").iconClass("fa fa-files-o").parent(webmastering).order(2)
         .privilege(carouselsReadPrivilege.privilege()).build();
   }
 
   @Bean
-  BreadCrumb carouselBreadCrumb() {
+  public BreadCrumb carouselBreadCrumb() {
     return BreadCrumbBuilder.create().items(carouselBreadCrumbItems()).page(BACK_PAGE.CAROUSELS_VIEW).build();
   }
 
   @Bean
-  BreadCrumb carouselUpdateBreadCrumb() {
+  public BreadCrumb carouselUpdateBreadCrumb() {
     return BreadCrumbBuilder.create().items(carouselBreadCrumbItems()).page(BACK_PAGE.CAROUSELS_UPDATE).build();
   }
 
   @Bean
-  CarouselWidgetProvider carouselWidgetProvider(CarouselService carouselService) {
+  public CarouselWidgetProvider carouselWidgetProvider(CarouselService carouselService) {
     return new CarouselWidgetProvider(carouselService);
   }
 
   @Bean
-  BreadCrumb carouselCreateBreadCrumb() {
+  public BreadCrumb carouselCreateBreadCrumb() {
     return BreadCrumbBuilder.create().items(carouselBreadCrumbItems()).page(BACK_PAGE.CAROUSELS_CREATE).build();
   }
 
@@ -88,31 +105,41 @@ public class CarouselConfiguration {
   }
 
   @Bean
-  CarouselService carouselService(ApplicationEventPublisher publisher, CarouselRepository carouselRepository,
-      CarouselItemService carouselItemService) {
-    return new CarouselServiceImpl(publisher, carouselRepository, carouselItemService);
+  public CarouselDAO carouselDAO(CarouselRepository carouselRepository, ApplicationEventPublisher publisher) {
+    return new CarouselDAOImpl(carouselRepository, publisher);
   }
 
   @Bean
-  CarouselTranslator carouselTranslator() {
+  public CarouselMapper carouselMapper(CarouselItemService carouselItemService) {
+    return new CarouselMapper(carouselItemService);
+  }
+
+  @Bean
+  public CarouselService carouselService(CarouselDAO carouselDAO, CarouselMapper carouselMapper) {
+    return new CarouselServiceImpl(carouselDAO, carouselMapper);
+  }
+
+  @Bean
+  public CarouselTranslator carouselTranslator() {
     return new CarouselTranslatorImpl();
   }
 
   @Bean
-  CarouselValidator carouselValidator(WebMessageSource messageSource) {
+  public CarouselValidator carouselValidator(WebMessageSource messageSource) {
     return new CarouselValidatorImpl(messageSource);
   }
 
   @Bean
-  CarouselManagerDisplayFactory carouselManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      CarouselService carouselService, CarouselItemService carouselItemService, MediaService mediaService,
-      ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs, Set<Locale> availableLocales) {
+  public CarouselManagerDisplayFactory carouselManagerDisplayFactory(MenuFactory menuFactory,
+      WebMessageSource messageSource, CarouselService carouselService, CarouselItemService carouselItemService,
+      MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs,
+      Set<Locale> availableLocales) {
     return new CarouselManagerDisplayFactoryImpl(menuFactory, messageSource, carouselService, carouselItemService,
         mediaService, contextHolder, breadCrumbs, availableLocales);
   }
 
   @Bean
-  CarouselDispatcher carouselDispatcher(CarouselService carouselService, CarouselItemService carouselItemService,
+  public CarouselDispatcher carouselDispatcher(CarouselService carouselService, CarouselItemService carouselItemService,
       CarouselTranslator carouselTranslator, CarouselValidator carouselValidator, MediaService mediaService) {
     return new CarouselDispatcherImpl(carouselService, carouselItemService, mediaService, carouselTranslator,
         carouselValidator);

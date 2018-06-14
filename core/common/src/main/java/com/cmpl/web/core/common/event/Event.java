@@ -2,18 +2,18 @@ package com.cmpl.web.core.common.event;
 
 import org.springframework.context.ApplicationEvent;
 
-import com.cmpl.web.core.common.dto.BaseDTO;
+import com.cmpl.web.core.common.dao.BaseEntity;
 
-public class Event<D extends BaseDTO> extends ApplicationEvent {
+public class Event<ENTITY extends BaseEntity> extends ApplicationEvent {
 
-  protected D dto;
+  protected ENTITY entity;
 
-  public Event(Object source, D dto) {
+  public Event(Object source, ENTITY entity) {
     super(source);
-    this.dto = dto;
+    this.entity = entity;
   }
 
-  public D getDto() {
-    return dto;
+  public ENTITY getEntity() {
+    return entity;
   }
 }

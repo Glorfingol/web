@@ -44,17 +44,18 @@ public class MailConfiguration {
   }
 
   @Bean
-  MailSender fakeMailSender() {
+  public MailSender fakeMailSender() {
     return new DoNothingMailSenderImpl();
   }
 
   @Bean
-  MailSender mailSender(JavaMailSender javaMailSender, TemplateEngine templateEngine, WebMessageSource messageSource) {
+  public MailSender mailSender(JavaMailSender javaMailSender, TemplateEngine templateEngine,
+      WebMessageSource messageSource) {
     return new MailSenderImpl(javaMailSender, templateEngine, filters, messageSource, from, baseUrl);
   }
 
   @Bean
-  JavaMailSender javaMailSender() {
+  public JavaMailSender javaMailSender() {
     JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
     Properties mailProperties = new Properties();
     JSONObject object = computeProperties();

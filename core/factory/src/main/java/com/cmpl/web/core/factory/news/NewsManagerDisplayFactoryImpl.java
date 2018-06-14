@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.news;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
@@ -18,16 +19,16 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.news.NewsContentDTO;
-import com.cmpl.web.core.news.NewsContentRequest;
-import com.cmpl.web.core.news.NewsContentRequestBuilder;
-import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsEntryRequest;
-import com.cmpl.web.core.news.NewsEntryRequestBuilder;
-import com.cmpl.web.core.news.NewsEntryService;
-import com.cmpl.web.core.news.NewsImageDTO;
-import com.cmpl.web.core.news.NewsImageRequest;
-import com.cmpl.web.core.news.NewsImageRequestBuilder;
+import com.cmpl.web.core.news.content.NewsContentDTO;
+import com.cmpl.web.core.news.content.NewsContentRequest;
+import com.cmpl.web.core.news.content.NewsContentRequestBuilder;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryRequest;
+import com.cmpl.web.core.news.entry.NewsEntryRequestBuilder;
+import com.cmpl.web.core.news.entry.NewsEntryService;
+import com.cmpl.web.core.news.image.NewsImageDTO;
+import com.cmpl.web.core.news.image.NewsImageRequest;
+import com.cmpl.web.core.news.image.NewsImageRequestBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 /**
@@ -46,6 +47,8 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       WebMessageSource messageSource, NewsEntryService newsEntryService,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+    Objects.requireNonNull(newsEntryService);
+    Objects.requireNonNull(contextHolder);
     this.newsEntryService = newsEntryService;
     this.contextHolder = contextHolder;
   }

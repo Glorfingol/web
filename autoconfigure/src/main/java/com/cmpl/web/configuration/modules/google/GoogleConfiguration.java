@@ -98,13 +98,13 @@ public class GoogleConfiguration {
 
   @Bean
   @ConditionalOnProperty(prefix = "drive.", name = "enabled")
-  DriveAdapter driveAdapter(Drive driveService) {
+  public DriveAdapter driveAdapter(Drive driveService) {
     return new DriveAdapterImpl(driveService);
   }
 
   @Bean
   @ConditionalOnProperty(prefix = "drive.", name = "enabled", havingValue = "false")
-  DriveAdapter mockDriveAdapter() {
+  public DriveAdapter mockDriveAdapter() {
     return new DoNothingDriveAdapter();
   }
 

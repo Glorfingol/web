@@ -2,9 +2,10 @@ package com.cmpl.core.events_listeners;
 
 import org.springframework.context.event.EventListener;
 
-import com.cmpl.web.core.common.dto.BaseDTO;
+import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.media.Media;
 import com.cmpl.web.core.media.MediaDTO;
 
 public class MediaEventsListeners {
@@ -18,9 +19,9 @@ public class MediaEventsListeners {
   @EventListener
   public void handleEntityDeletion(DeletedEvent deletedEvent) {
 
-    Class<? extends BaseDTO> clazz = deletedEvent.getDto().getClass();
+    Class<? extends BaseEntity> clazz = deletedEvent.getEntity().getClass();
     if (MediaDTO.class.equals(clazz)) {
-      MediaDTO deletedMedia = (MediaDTO) deletedEvent.getDto();
+      Media deletedMedia = (Media) deletedEvent.getEntity();
 
       if (deletedMedia != null) {
         fileService.removeMediaFromSystem(deletedMedia.getName());

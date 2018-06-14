@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.page;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,10 @@ public class PageManagerController {
 
   public PageManagerController(PageManagerDisplayFactory pageManagerDisplayFactory, PageDispatcher pageDispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    Objects.requireNonNull(pageManagerDisplayFactory);
+    Objects.requireNonNull(notificationCenter);
+    Objects.requireNonNull(messageSource);
+    Objects.requireNonNull(pageDispatcher);
     this.pageManagerDisplayFactory = pageManagerDisplayFactory;
     this.pageDispatcher = pageDispatcher;
     this.notificationCenter = notificationCenter;

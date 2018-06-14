@@ -18,6 +18,8 @@ import com.cmpl.web.core.common.message.WebMessageSourceImpl;
 import com.cmpl.web.core.factory.media.MediaManagerDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.media.MediaDAO;
+import com.cmpl.web.core.media.MediaMapper;
 import com.cmpl.web.core.media.MediaRepository;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.media.MediaServiceImpl;
@@ -28,6 +30,12 @@ public class MediaConfigurationTest {
 
   @Spy
   private MediaConfiguration configuration;
+
+  @Mock
+  private MediaDAO mediaDAO;
+
+  @Mock
+  private MediaMapper mediaMapper;
 
   @Mock
   private MediaRepository mediaRepository;
@@ -52,7 +60,7 @@ public class MediaConfigurationTest {
   @Test
   public void testMediaService() throws Exception {
     Assert.assertEquals(MediaServiceImpl.class,
-        configuration.mediaService(publisher, mediaRepository, fileService).getClass());
+        configuration.mediaService(mediaDAO, mediaMapper, fileService).getClass());
   }
 
   @Test

@@ -3,6 +3,7 @@ package com.cmpl.web.core.common.mail;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,6 +34,12 @@ public class MailSenderImpl implements MailSender {
 
   public MailSenderImpl(JavaMailSender javaMailSender, TemplateEngine emailTemplateEngine, Set<String> filters,
       WebMessageSource messageSource, String from, String basePath) {
+    Objects.requireNonNull(javaMailSender);
+    Objects.requireNonNull(emailTemplateEngine);
+    Objects.requireNonNull(filters);
+    Objects.requireNonNull(messageSource);
+    Objects.requireNonNull(from);
+    Objects.requireNonNull(basePath);
     this.javaMailSender = javaMailSender;
     this.emailTemplateEngine = emailTemplateEngine;
     this.filters = filters;
@@ -56,10 +63,9 @@ public class MailSenderImpl implements MailSender {
       MimeMessage mimeMessage = computeMimeMessage(subject, htmlContent, destinations);
       sendMailViaExecutor(mimeMessage);
     } else {
-      LOGGER
-          .info(
-              "A mail with recipient(s) '{}' and subject '{}' was not sent because the recipient adresses were filtered by mailfilters {}",
-              Arrays.toString(mailTo), mailSubject, filters);
+      LOGGER.info(
+          "A mail with recipient(s) '{}' and subject '{}' was not sent because the recipient adresses were filtered by mailfilters {}",
+          Arrays.toString(mailTo), mailSubject, filters);
     }
 
   }

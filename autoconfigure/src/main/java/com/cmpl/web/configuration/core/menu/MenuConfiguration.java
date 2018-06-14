@@ -32,8 +32,11 @@ import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.menu.BackMenuItemPlugin;
 import com.cmpl.web.core.menu.Menu;
+import com.cmpl.web.core.menu.MenuDAO;
+import com.cmpl.web.core.menu.MenuDAOImpl;
 import com.cmpl.web.core.menu.MenuDispatcher;
 import com.cmpl.web.core.menu.MenuDispatcherImpl;
+import com.cmpl.web.core.menu.MenuMapper;
 import com.cmpl.web.core.menu.MenuRepository;
 import com.cmpl.web.core.menu.MenuService;
 import com.cmpl.web.core.menu.MenuServiceImpl;
@@ -51,28 +54,28 @@ import com.cmpl.web.core.page.PageService;
 public class MenuConfiguration {
 
   @Bean
-  BackMenuItem menuBackMenuItem(BackMenuItem webmastering, Privilege menuReadPrivilege) {
+  public BackMenuItem menuBackMenuItem(BackMenuItem webmastering, Privilege menuReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.menus.href").label("back.menus.label").title("back.menus.title")
         .order(3).iconClass("fa fa-list-alt").parent(webmastering).privilege(menuReadPrivilege.privilege()).build();
   }
 
   @Bean
-  BreadCrumb menuBreadCrumb() {
+  public BreadCrumb menuBreadCrumb() {
     return BreadCrumbBuilder.create().items(menuBreadCrumbItems()).page(BACK_PAGE.MENUS_VIEW).build();
   }
 
   @Bean
-  BreadCrumb menuUpdateBreadCrumb() {
+  public BreadCrumb menuUpdateBreadCrumb() {
     return BreadCrumbBuilder.create().items(menuBreadCrumbItems()).page(BACK_PAGE.MENUS_UPDATE).build();
   }
 
   @Bean
-  BreadCrumb menuCreateBreadCrumb() {
+  public BreadCrumb menuCreateBreadCrumb() {
     return BreadCrumbBuilder.create().items(menuBreadCrumbItems()).page(BACK_PAGE.MENUS_CREATE).build();
   }
 
   @Bean
-  MenuWidgetProvider menuWidgetProvider(MenuFactory menuFactory, PageService pageService) {
+  public MenuWidgetProvider menuWidgetProvider(MenuFactory menuFactory, PageService pageService) {
     return new MenuWidgetProvider(menuFactory, pageService);
   }
 
@@ -84,33 +87,43 @@ public class MenuConfiguration {
   }
 
   @Bean
-  MenuService menuService(ApplicationEventPublisher publisher, MenuRepository menuRepository) {
-    return new MenuServiceImpl(publisher, menuRepository);
+  public MenuDAO menuDAO(ApplicationEventPublisher publisher, MenuRepository menuRepository) {
+    return new MenuDAOImpl(menuRepository, publisher);
   }
 
   @Bean
-  MenuFactory menuFactory(WebMessageSource messageSource, MenuService menuService, BackMenu backMenu) {
+  public MenuMapper menuMapper() {
+    return new MenuMapper();
+  }
+
+  @Bean
+  public MenuService menuService(MenuDAO menuDAO, MenuMapper menuMapper) {
+    return new MenuServiceImpl(menuDAO, menuMapper);
+  }
+
+  @Bean
+  public MenuFactory menuFactory(WebMessageSource messageSource, MenuService menuService, BackMenu backMenu) {
     return new MenuFactoryImpl(messageSource, menuService, backMenu);
   }
 
   @Bean
-  MenuValidator menuValidator(WebMessageSource messageSource) {
+  public MenuValidator menuValidator(WebMessageSource messageSource) {
     return new MenuValidatorImpl(messageSource);
   }
 
   @Bean
-  MenuTranslator menuTranslator() {
+  public MenuTranslator menuTranslator() {
     return new MenuTranslatorImpl();
   }
 
   @Bean
-  MenuDispatcher menuDispatcher(MenuValidator validator, MenuTranslator translator, MenuService menuService,
+  public MenuDispatcher menuDispatcher(MenuValidator validator, MenuTranslator translator, MenuService menuService,
       PageService pageService) {
     return new MenuDispatcherImpl(validator, translator, menuService, pageService);
   }
 
   @Bean
-  MenuManagerDisplayFactory menuManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
+  public MenuManagerDisplayFactory menuManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
       MenuService menuService, PageService pageService, ContextHolder contextHolder,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs, Set<Locale> availableLocales) {
     return new MenuManagerDisplayFactoryImpl(menuFactory, messageSource, menuService, pageService, contextHolder,
@@ -122,7 +135,7 @@ public class MenuConfiguration {
   private PluginRegistry<BackMenuItem, String> backMenus;
 
   @Bean
-  BackMenu backMenu() {
+  public BackMenu backMenu() {
     return new BackMenu(backMenus);
   }
 

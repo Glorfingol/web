@@ -1,6 +1,7 @@
 package com.cmpl.web.core.factory.style;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,6 +32,8 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
       ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+    Objects.requireNonNull(styleService);
+    Objects.requireNonNull(contextHolder);
     this.styleService = styleService;
     this.contextHolder = contextHolder;
   }

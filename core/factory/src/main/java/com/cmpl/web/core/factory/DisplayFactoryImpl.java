@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,16 +13,16 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.widget.WidgetDTO;
 import com.cmpl.web.core.widget.WidgetDTOBuilder;
-import com.cmpl.web.core.widget.WidgetPageDTO;
-import com.cmpl.web.core.widget.WidgetPageService;
 import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.page.WidgetPageDTO;
+import com.cmpl.web.core.widget.page.WidgetPageService;
 
 /**
  * Implementation de l'interface de factory pur generer des model and view pour les pages du site
@@ -42,7 +43,11 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
       WidgetPageService widgetPageService, WidgetService widgetService,
       PluginRegistry<WidgetProviderPlugin, String> widgetProviders) {
     super(messageSource);
-
+    Objects.requireNonNull(pageService);
+    Objects.requireNonNull(newsEntryService);
+    Objects.requireNonNull(widgetPageService);
+    Objects.requireNonNull(widgetService);
+    Objects.requireNonNull(widgetProviders);
     this.pageService = pageService;
     this.newsEntryService = newsEntryService;
     this.widgetPageService = widgetPageService;

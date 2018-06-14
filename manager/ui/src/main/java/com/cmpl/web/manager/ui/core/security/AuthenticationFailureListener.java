@@ -1,5 +1,7 @@
 package com.cmpl.web.manager.ui.core.security;
 
+import java.util.Objects;
+
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.core.Authentication;
@@ -13,6 +15,7 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
 
   public AuthenticationFailureListener(LoginAttemptsService loginAttemptService) {
     Preconditions.checkArgument(loginAttemptService != null);
+    Objects.requireNonNull(loginAttemptService);
     this.loginAttemptService = loginAttemptService;
   }
 

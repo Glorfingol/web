@@ -1,6 +1,7 @@
 package com.cmpl.web.core.page;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import com.cmpl.web.core.common.error.Error;
 
@@ -11,6 +12,9 @@ public class PageDispatcherImpl implements PageDispatcher {
   private final PageService pageService;
 
   public PageDispatcherImpl(PageValidator validator, PageTranslator translator, PageService pageService) {
+    Objects.requireNonNull(validator);
+    Objects.requireNonNull(translator);
+    Objects.requireNonNull(pageService);
     this.validator = validator;
     this.translator = translator;
     this.pageService = pageService;

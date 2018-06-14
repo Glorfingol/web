@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.carousel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
@@ -20,12 +21,12 @@ import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
 import com.cmpl.web.core.carousel.CarouselCreateForm;
 import com.cmpl.web.core.carousel.CarouselCreateFormBuilder;
 import com.cmpl.web.core.carousel.CarouselDTO;
-import com.cmpl.web.core.carousel.CarouselItemCreateForm;
-import com.cmpl.web.core.carousel.CarouselItemCreateFormBuilder;
-import com.cmpl.web.core.carousel.CarouselItemDTO;
-import com.cmpl.web.core.carousel.CarouselItemService;
 import com.cmpl.web.core.carousel.CarouselService;
 import com.cmpl.web.core.carousel.CarouselUpdateForm;
+import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
+import com.cmpl.web.core.carousel.item.CarouselItemCreateFormBuilder;
+import com.cmpl.web.core.carousel.item.CarouselItemDTO;
+import com.cmpl.web.core.carousel.item.CarouselItemService;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
@@ -54,6 +55,10 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
       ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+    Objects.requireNonNull(carouselItemService);
+    Objects.requireNonNull(carouselService);
+    Objects.requireNonNull(contextHolder);
+    Objects.requireNonNull(mediaService);
     this.carouselItemService = carouselItemService;
     this.carouselService = carouselService;
     this.contextHolder = contextHolder;

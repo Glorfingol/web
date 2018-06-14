@@ -1,111 +1,70 @@
 package com.cmpl.web.core.common.service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 
+import com.cmpl.web.core.common.dao.BaseDAO;
 import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.dto.BaseDTO;
-import com.cmpl.web.core.common.event.DeletedEvent;
-import com.cmpl.web.core.common.filler.ObjectReflexiveFillerImpl;
-import com.cmpl.web.core.common.repository.BaseRepository;
+import com.cmpl.web.core.common.mapper.BaseMapper;
 
 /**
  * Implementation abstraire du service lie aux DAO
  * 
  * @author Louis
  *
- * @param <D>
- * @param <E>
+ * @param <DTO>
+ * @param <ENTITY>
  */
-public abstract class BaseServiceImpl<D extends BaseDTO, E extends BaseEntity> implements BaseService<D> {
+public class BaseServiceImpl<DTO extends BaseDTO, ENTITY extends BaseEntity> implements BaseService<DTO> {
 
-  private final BaseRepository<E> entityRepository;
-  private final ApplicationEventPublisher publisher;
+  private final BaseDAO<ENTITY> dao;
+  protected final BaseMapper<DTO, ENTITY> mapper;
 
-  /**
-   * Constructeur a appeler via super
-   * 
-   * @param entityRepository
-   */
-  public BaseServiceImpl(BaseRepository<E> entityRepository, ApplicationEventPublisher publisher) {
-    this.entityRepository = entityRepository;
-    this.publisher = publisher;
+  public BaseServiceImpl(BaseDAO<ENTITY> dao, BaseMapper<DTO, ENTITY> mapper) {
+    Objects.requireNonNull(dao);
+    Objects.requireNonNull(mapper);
+    this.dao = dao;
+    this.mapper = mapper;
   }
 
   @Override
-  public D createEntity(D dto) {
-    dto.setModificationDate(LocalDateTime.now());
-    return toDTO(entityRepository.save(toEntity(dto)));
+  public DTO createEntity(DTO dto) {
+    return mapper.toDTO(dao.createEntity(mapper.toEntity(dto)));
 
   }
 
   @Override
-  public D getEntity(Long id) {
-    Optional<E> result = entityRepository.findById(id);
-    if (result == null || !result.isPresent()) {
-      return null;
-    }
-    return toDTO(result.get());
+  public DTO getEntity(Long id) {
+    return mapper.toDTO(dao.getEntity(id));
   }
 
   @Override
-  public D updateEntity(D dto) {
-    dto.setModificationDate(LocalDateTime.now());
-    return toDTO(entityRepository.save(toEntity(dto)));
+  public DTO updateEntity(DTO dto) {
+    return mapper.toDTO(dao.updateEntity(mapper.toEntity(dto)));
   }
 
   @Override
   public void deleteEntity(Long id) {
-    D deletedDTO = toDTO(entityRepository.getOne(id));
-    entityRepository.deleteById(id);
-    publisher.publishEvent(new DeletedEvent<D>(this, deletedDTO));
+    dao.deleteEntity(id);
   }
 
   @Override
-  public List<D> getEntities() {
-    return toListDTO(entityRepository.findAll(new Sort(Direction.ASC, "creationDate")));
+  public List<DTO> getEntities() {
+    return mapper.toListDTO(dao.getEntities());
   }
 
   @Override
-  public Page<D> getPagedEntities(PageRequest pageRequest) {
-    return toPageDTO(entityRepository.findAll(pageRequest), pageRequest);
+  public Page<DTO> getPagedEntities(PageRequest pageRequest) {
+    return mapper.toPageDTO(dao.getPagedEntities(pageRequest), pageRequest);
   }
 
-  protected Page<D> toPageDTO(Page<E> pagedEntities, PageRequest pageRequest) {
-
-    List<D> dtos = new ArrayList<>();
-
-    pagedEntities.getContent().forEach(entity -> dtos.add(toDTO(entity)));
-
-    return new PageImpl<>(dtos, pageRequest, pagedEntities.getTotalElements());
-  }
-
-  public List<D> toListDTO(List<E> entities) {
-    List<D> dtos = new ArrayList<>();
-
-    entities.forEach(entity -> dtos.add(toDTO(entity)));
-
-    return dtos;
-  }
-
-  protected abstract D toDTO(E entity);
-
-  protected abstract E toEntity(D dto);
-
-  public void fillObject(Object origin, Object destination) {
-
-    ObjectReflexiveFillerImpl reflexiveFiller = ObjectReflexiveFillerImpl.fromOriginAndDestination(origin, destination);
-    reflexiveFiller.fillDestination();
-
+  @Override
+  public Page<DTO> searchEntities(PageRequest pageRequest, String query) {
+    return mapper.toPageDTO(dao.searchEntities(pageRequest, query), pageRequest);
   }
 
 }

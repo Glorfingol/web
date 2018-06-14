@@ -1,6 +1,11 @@
 package com.cmpl.web.core.factory.menu;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.util.StringUtils;
 
@@ -17,6 +22,9 @@ public class MenuWidgetProvider implements WidgetProviderPlugin {
   private final PageService pageService;
 
   public MenuWidgetProvider(MenuFactory menuFactory, PageService pageService) {
+    Objects.requireNonNull(menuFactory);
+    Objects.requireNonNull(pageService);
+
     this.menuFactory = menuFactory;
     this.pageService = pageService;
   }

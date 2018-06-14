@@ -3,6 +3,7 @@ package com.cmpl.web.core.widget;
 import java.util.Locale;
 
 import com.cmpl.web.core.common.error.Error;
+import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
 
 public interface WidgetValidator {
 

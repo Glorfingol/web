@@ -3,6 +3,7 @@ package com.cmpl.web.core.factory.menu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
@@ -29,6 +30,8 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
 
   public MenuFactoryImpl(WebMessageSource messageSource, MenuService menuService, BackMenu backMenu) {
     super(messageSource);
+    Objects.requireNonNull(menuService);
+    Objects.requireNonNull(backMenu);
     this.menuService = menuService;
     this.backMenu = backMenu;
   }

@@ -1,5 +1,7 @@
 package com.cmpl.web.front.ui.robot;
 
+import java.util.Objects;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -23,6 +25,7 @@ public class RobotsController {
   private final ContextHolder contextHolder;
 
   public RobotsController(ContextHolder contextHolder) {
+    Objects.requireNonNull(contextHolder);
     this.contextHolder = contextHolder;
   }
 

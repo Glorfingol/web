@@ -28,8 +28,11 @@ import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.page.Page;
+import com.cmpl.web.core.page.PageDAO;
+import com.cmpl.web.core.page.PageDAOImpl;
 import com.cmpl.web.core.page.PageDispatcher;
 import com.cmpl.web.core.page.PageDispatcherImpl;
+import com.cmpl.web.core.page.PageMapper;
 import com.cmpl.web.core.page.PageRepository;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.page.PageServiceImpl;
@@ -37,8 +40,8 @@ import com.cmpl.web.core.page.PageTranslator;
 import com.cmpl.web.core.page.PageTranslatorImpl;
 import com.cmpl.web.core.page.PageValidator;
 import com.cmpl.web.core.page.PageValidatorImpl;
-import com.cmpl.web.core.widget.WidgetPageService;
 import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.page.WidgetPageService;
 
 @Configuration
 @EntityScan(basePackageClasses = Page.class)
@@ -46,7 +49,7 @@ import com.cmpl.web.core.widget.WidgetService;
 public class PageConfiguration {
 
   @Bean
-  PageManagerDisplayFactory pageManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
+  public PageManagerDisplayFactory pageManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, PageService pageService, WidgetService widgetService,
       WidgetPageService widgetPageService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs,
       Set<Locale> availableLocales) {
@@ -55,23 +58,23 @@ public class PageConfiguration {
   }
 
   @Bean
-  BackMenuItem pagesBackMenuItem(BackMenuItem webmastering, Privilege pagesReadPrivilege) {
+  public BackMenuItem pagesBackMenuItem(BackMenuItem webmastering, Privilege pagesReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.pages.href").label("back.pages.label").title("back.pages.title")
         .order(1).iconClass("fa fa-code").parent(webmastering).privilege(pagesReadPrivilege.privilege()).build();
   }
 
   @Bean
-  BreadCrumb pageBreadCrumb() {
+  public BreadCrumb pageBreadCrumb() {
     return BreadCrumbBuilder.create().items(pageBreadCrumbItems()).page(BACK_PAGE.PAGES_VIEW).build();
   }
 
   @Bean
-  BreadCrumb pageUpdateBreadCrumb() {
+  public BreadCrumb pageUpdateBreadCrumb() {
     return BreadCrumbBuilder.create().items(pageBreadCrumbItems()).page(BACK_PAGE.PAGES_UPDATE).build();
   }
 
   @Bean
-  BreadCrumb pageCreateBreadCrumb() {
+  public BreadCrumb pageCreateBreadCrumb() {
     return BreadCrumbBuilder.create().items(pageBreadCrumbItems()).page(BACK_PAGE.PAGES_CREATE).build();
   }
 
@@ -83,27 +86,37 @@ public class PageConfiguration {
   }
 
   @Bean
-  PageDispatcher pageDispatcher(PageValidator validator, PageTranslator translator, PageService pageService) {
+  public PageDispatcher pageDispatcher(PageValidator validator, PageTranslator translator, PageService pageService) {
     return new PageDispatcherImpl(validator, translator, pageService);
   }
 
   @Bean
-  PageService pageService(ApplicationEventPublisher publisher, PageRepository pageRepository, FileService fileService) {
-    return new PageServiceImpl(publisher, pageRepository, fileService);
+  public PageDAO pageDAO(PageRepository pageRepository, ApplicationEventPublisher publisher) {
+    return new PageDAOImpl(pageRepository, publisher);
   }
 
   @Bean
-  PageValidator pageValidator(WebMessageSource messageSource) {
+  public PageMapper pageMapper() {
+    return new PageMapper();
+  }
+
+  @Bean
+  public PageService pageService(PageDAO pageDAO, PageMapper pageMapper, FileService fileService) {
+    return new PageServiceImpl(pageDAO, pageMapper, fileService);
+  }
+
+  @Bean
+  public PageValidator pageValidator(WebMessageSource messageSource) {
     return new PageValidatorImpl(messageSource);
   }
 
   @Bean
-  PageTranslator pageTranslator() {
+  public PageTranslator pageTranslator() {
     return new PageTranslatorImpl();
   }
 
   @Bean
-  PageEventsListeners pageEventsListener(WidgetPageService widgetPageService, FileService fileService,
+  public PageEventsListeners pageEventsListener(WidgetPageService widgetPageService, FileService fileService,
       Set<Locale> availableLocales) {
     return new PageEventsListeners(widgetPageService, fileService, availableLocales);
   }

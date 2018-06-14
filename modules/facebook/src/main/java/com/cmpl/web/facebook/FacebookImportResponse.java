@@ -3,7 +3,7 @@ package com.cmpl.web.facebook;
 import java.util.List;
 
 import com.cmpl.web.core.common.resource.BaseResponse;
-import com.cmpl.web.core.news.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
 
 /**
  * Reponse a la requete d'import de post facebook

@@ -19,7 +19,7 @@ import com.cmpl.web.core.common.message.WebMessageSourceImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaService;
-import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.facebook.FacebookAdapter;
 import com.cmpl.web.facebook.FacebookDispatcher;

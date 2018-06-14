@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -16,9 +17,13 @@ import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.error.ErrorBuilder;
 import com.cmpl.web.core.common.error.ErrorCause;
 import com.cmpl.web.core.common.error.ErrorCauseBuilder;
+import com.cmpl.web.core.common.message.WebMessageSource;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MenuValidatorImplTest {
+
+  @Mock
+  private WebMessageSource messageSource;
 
   @Spy
   @InjectMocks
@@ -40,8 +45,8 @@ public class MenuValidatorImplTest {
 
     ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.BAD_ORDER.getCauseKey()).message("badOrder").build();
     Error error = ErrorBuilder.create().causes(Arrays.asList(cause)).build();
-    BDDMockito.doReturn(cause).when(validator)
-        .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(cause).when(validator).computeCause(BDDMockito.any(ERROR_CAUSE.class),
+        BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Assert.assertEquals(error, validator.validateUpdate(form, Locale.FRANCE));
@@ -57,8 +62,8 @@ public class MenuValidatorImplTest {
     ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_PAGE.getCauseKey()).message("empty_page")
         .build();
     Error error = ErrorBuilder.create().causes(Arrays.asList(cause)).build();
-    BDDMockito.doReturn(cause).when(validator)
-        .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(cause).when(validator).computeCause(BDDMockito.any(ERROR_CAUSE.class),
+        BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Assert.assertEquals(error, validator.validateUpdate(form, Locale.FRANCE));
@@ -74,8 +79,8 @@ public class MenuValidatorImplTest {
     ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_MENU_TITLE.getCauseKey())
         .message("empty_title").build();
     Error error = ErrorBuilder.create().causes(Arrays.asList(cause)).build();
-    BDDMockito.doReturn(cause).when(validator)
-        .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(cause).when(validator).computeCause(BDDMockito.any(ERROR_CAUSE.class),
+        BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Assert.assertEquals(error, validator.validateUpdate(form, Locale.FRANCE));
@@ -92,8 +97,8 @@ public class MenuValidatorImplTest {
     ErrorCause causeTitle = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_MENU_TITLE.getCauseKey())
         .message("empty_title").build();
     Error error = ErrorBuilder.create().causes(Arrays.asList(cause, causeTitle)).build();
-    BDDMockito.doReturn(cause).when(validator)
-        .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(cause).when(validator).computeCause(BDDMockito.any(ERROR_CAUSE.class),
+        BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Assert.assertEquals(error, validator.validateUpdate(form, Locale.FRANCE));
@@ -115,8 +120,8 @@ public class MenuValidatorImplTest {
 
     ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.BAD_ORDER.getCauseKey()).message("badOrder").build();
     Error error = ErrorBuilder.create().causes(Arrays.asList(cause)).build();
-    BDDMockito.doReturn(cause).when(validator)
-        .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(cause).when(validator).computeCause(BDDMockito.any(ERROR_CAUSE.class),
+        BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Assert.assertEquals(error, validator.validateCreate(form, Locale.FRANCE));
@@ -132,8 +137,8 @@ public class MenuValidatorImplTest {
     ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_PAGE.getCauseKey()).message("empty_page")
         .build();
     Error error = ErrorBuilder.create().causes(Arrays.asList(cause)).build();
-    BDDMockito.doReturn(cause).when(validator)
-        .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(cause).when(validator).computeCause(BDDMockito.any(ERROR_CAUSE.class),
+        BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Assert.assertEquals(error, validator.validateCreate(form, Locale.FRANCE));
@@ -149,8 +154,8 @@ public class MenuValidatorImplTest {
     ErrorCause cause = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_MENU_TITLE.getCauseKey())
         .message("empty_title").build();
     Error error = ErrorBuilder.create().causes(Arrays.asList(cause)).build();
-    BDDMockito.doReturn(cause).when(validator)
-        .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(cause).when(validator).computeCause(BDDMockito.any(ERROR_CAUSE.class),
+        BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Assert.assertEquals(error, validator.validateCreate(form, Locale.FRANCE));
@@ -167,8 +172,8 @@ public class MenuValidatorImplTest {
     ErrorCause causeTitle = ErrorCauseBuilder.create().code(ERROR_CAUSE.EMPTY_MENU_TITLE.getCauseKey())
         .message("empty_title").build();
     Error error = ErrorBuilder.create().causes(Arrays.asList(cause, causeTitle)).build();
-    BDDMockito.doReturn(cause).when(validator)
-        .computeCause(BDDMockito.any(ERROR_CAUSE.class), BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(cause).when(validator).computeCause(BDDMockito.any(ERROR_CAUSE.class),
+        BDDMockito.any(Locale.class));
     BDDMockito.doReturn(error).when(validator).computeError(BDDMockito.anyList());
 
     Assert.assertEquals(error, validator.validateCreate(form, Locale.FRANCE));

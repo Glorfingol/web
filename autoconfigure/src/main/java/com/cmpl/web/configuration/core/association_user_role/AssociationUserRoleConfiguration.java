@@ -7,8 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.cmpl.web.core.association_user_role.AssociationUserRole;
+import com.cmpl.web.core.association_user_role.AssociationUserRoleDAO;
+import com.cmpl.web.core.association_user_role.AssociationUserRoleDAOImpl;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleDispatcher;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleDispatcherImpl;
+import com.cmpl.web.core.association_user_role.AssociationUserRoleMapper;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleRepository;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleServiceImpl;
@@ -24,24 +27,35 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 public class AssociationUserRoleConfiguration {
 
   @Bean
-  AssociationUserRoleService associationUserRoleService(ApplicationEventPublisher publisher,
-      AssociationUserRoleRepository associationUserRoleRepository) {
-    return new AssociationUserRoleServiceImpl(publisher, associationUserRoleRepository);
+  public AssociationUserRoleDAO associationUserRoleDAO(AssociationUserRoleRepository associationUserRoleRepository,
+      ApplicationEventPublisher publisher) {
+    return new AssociationUserRoleDAOImpl(associationUserRoleRepository, publisher);
   }
 
   @Bean
-  AssociationUserRoleValidator associationUserRoleValidator(WebMessageSource messageSource) {
+  public AssociationUserRoleMapper associationUserRoleMapper() {
+    return new AssociationUserRoleMapper();
+  }
+
+  @Bean
+  public AssociationUserRoleService associationUserRoleService(AssociationUserRoleDAO associationUserRoleDAO,
+      AssociationUserRoleMapper associationUserRoleMapper) {
+    return new AssociationUserRoleServiceImpl(associationUserRoleDAO, associationUserRoleMapper);
+  }
+
+  @Bean
+  public AssociationUserRoleValidator associationUserRoleValidator(WebMessageSource messageSource) {
     return new AssociationUserRoleValidatorImpl(messageSource);
   }
 
   @Bean
-  AssociationUserRoleTranslator associationUserRoleTranslator() {
+  public AssociationUserRoleTranslator associationUserRoleTranslator() {
     return new AssociationUserRoleTranslatorImpl();
   }
 
   @Bean
-  AssociationUserRoleDispatcher associationUserRoleDispatcher(AssociationUserRoleService associationUserRoleService,
-      AssociationUserRoleValidator associationUserRoleValidator,
+  public AssociationUserRoleDispatcher associationUserRoleDispatcher(
+      AssociationUserRoleService associationUserRoleService, AssociationUserRoleValidator associationUserRoleValidator,
       AssociationUserRoleTranslator associationUserRoleTranslator) {
     return new AssociationUserRoleDispatcherImpl(associationUserRoleService, associationUserRoleValidator,
         associationUserRoleTranslator);

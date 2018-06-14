@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -35,6 +36,9 @@ public abstract class CommonParser<T extends BaseEntity> extends CommonReflexion
   private final String backupFilePath;
 
   public CommonParser(DateTimeFormatter dateFormatter, DataManipulator<T> dataManipulator, String backupFilePath) {
+    Objects.requireNonNull(dataManipulator);
+    Objects.requireNonNull(dateFormatter);
+    Objects.requireNonNull(backupFilePath);
     this.dateFormatter = dateFormatter;
     this.dataManipulator = dataManipulator;
     this.backupFilePath = backupFilePath;
@@ -142,8 +146,8 @@ public abstract class CommonParser<T extends BaseEntity> extends CommonReflexion
     if (checkedDateToParse.length() > 19) {
       checkedDateToParse = checkedDateToParse.substring(0, 19);
     }
-    return Date.from(LocalDateTime.from(dateFormatter.parse(checkedDateToParse)).atZone(ZoneId.systemDefault())
-        .toInstant());
+    return Date
+        .from(LocalDateTime.from(dateFormatter.parse(checkedDateToParse)).atZone(ZoneId.systemDefault()).toInstant());
   }
 
   private String parseString(CSVRecord record, String propertyName) {

@@ -13,7 +13,8 @@ import com.cmpl.web.core.sitemap.SitemapServiceImpl;
 public class SitemapConfiguration {
 
   @Bean
-  SitemapService sitemapService(MenuService menuService, WebMessageSource messageSource, ContextHolder contextHolder) {
+  public SitemapService sitemapService(MenuService menuService, WebMessageSource messageSource,
+      ContextHolder contextHolder) {
     return new SitemapServiceImpl(messageSource, menuService, contextHolder);
   }
 }

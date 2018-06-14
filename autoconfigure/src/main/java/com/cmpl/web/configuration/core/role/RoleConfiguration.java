@@ -28,12 +28,18 @@ import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.role.Privilege;
+import com.cmpl.web.core.role.PrivilegeDAO;
+import com.cmpl.web.core.role.PrivilegeDAOImpl;
+import com.cmpl.web.core.role.PrivilegeMapper;
 import com.cmpl.web.core.role.PrivilegeRepository;
 import com.cmpl.web.core.role.PrivilegeService;
 import com.cmpl.web.core.role.PrivilegeServiceImpl;
 import com.cmpl.web.core.role.Role;
+import com.cmpl.web.core.role.RoleDAO;
+import com.cmpl.web.core.role.RoleDAOImpl;
 import com.cmpl.web.core.role.RoleDispatcher;
 import com.cmpl.web.core.role.RoleDispatcherImpl;
+import com.cmpl.web.core.role.RoleMapper;
 import com.cmpl.web.core.role.RoleRepository;
 import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.role.RoleServiceImpl;
@@ -48,35 +54,54 @@ import com.cmpl.web.core.role.RoleValidatorImpl;
 public class RoleConfiguration {
 
   @Bean
-  PrivilegeService privilegeService(ApplicationEventPublisher publisher, PrivilegeRepository privilegeRepository) {
-    return new PrivilegeServiceImpl(publisher, privilegeRepository);
+  public PrivilegeMapper privilegeMapper() {
+    return new PrivilegeMapper();
   }
 
   @Bean
-  RoleService roleService(ApplicationEventPublisher publisher, RoleRepository entityRepository,
-      PrivilegeService privilegeService) {
-    return new RoleServiceImpl(publisher, entityRepository, privilegeService);
+  public PrivilegeDAO privilegeDAO(ApplicationEventPublisher publisher, PrivilegeRepository privilegeRepository) {
+    return new PrivilegeDAOImpl(privilegeRepository, publisher);
   }
 
   @Bean
-  BackMenuItem roleBackMenuItem(BackMenuItem administration,
+  public PrivilegeService privilegeService(PrivilegeDAO privilegeDAO, PrivilegeMapper privilegeMapper) {
+    return new PrivilegeServiceImpl(privilegeDAO, privilegeMapper);
+  }
+
+  @Bean
+  public RoleMapper roleMapper(PrivilegeService privilegeService) {
+    return new RoleMapper(privilegeService);
+  }
+
+  @Bean
+  public RoleDAO roleDAO(ApplicationEventPublisher publisher, RoleRepository roleRepository) {
+    return new RoleDAOImpl(roleRepository, publisher);
+  }
+
+  @Bean
+  public RoleService roleService(RoleDAO roleDAO, RoleMapper roleMapper) {
+    return new RoleServiceImpl(roleDAO, roleMapper);
+  }
+
+  @Bean
+  public BackMenuItem roleBackMenuItem(BackMenuItem administration,
       com.cmpl.web.core.common.user.Privilege rolesReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.roles.href").label("back.roles.label").title("back.roles.title")
         .iconClass("fa fa-tasks").parent(administration).order(1).privilege(rolesReadPrivilege.privilege()).build();
   }
 
   @Bean
-  BreadCrumb roleBreadCrumb() {
+  public BreadCrumb roleBreadCrumb() {
     return BreadCrumbBuilder.create().items(roleBreadCrumbItems()).page(BACK_PAGE.ROLE_VIEW).build();
   }
 
   @Bean
-  BreadCrumb roleUpdateBreadCrumb() {
+  public BreadCrumb roleUpdateBreadCrumb() {
     return BreadCrumbBuilder.create().items(roleBreadCrumbItems()).page(BACK_PAGE.ROLE_UPDATE).build();
   }
 
   @Bean
-  BreadCrumb roleCreateBreadCrumb() {
+  public BreadCrumb roleCreateBreadCrumb() {
     return BreadCrumbBuilder.create().items(roleBreadCrumbItems()).page(BACK_PAGE.ROLE_CREATE).build();
   }
 
@@ -88,24 +113,24 @@ public class RoleConfiguration {
   }
 
   @Bean
-  RoleTranslator roleTranslator() {
+  public RoleTranslator roleTranslator() {
     return new RoleTranslatorImpl();
   }
 
   @Bean
-  RoleValidator roleValidator(WebMessageSource messageSource) {
+  public RoleValidator roleValidator(WebMessageSource messageSource) {
     return new RoleValidatorImpl(messageSource);
   }
 
   @Bean
-  RoleDispatcher roleDispatcher(RoleService roleService, PrivilegeService privilegeService,
+  public RoleDispatcher roleDispatcher(RoleService roleService, PrivilegeService privilegeService,
       RoleTranslator roleTranslator, RoleValidator roleValidator,
       @Qualifier(value = "privileges") PluginRegistry<com.cmpl.web.core.common.user.Privilege, String> privileges) {
     return new RoleDispatcherImpl(roleService, privilegeService, roleValidator, roleTranslator, privileges);
   }
 
   @Bean
-  RoleManagerDisplayFactory roleManagerDisplayFactory(RoleService roleService, PrivilegeService privilegeService,
+  public RoleManagerDisplayFactory roleManagerDisplayFactory(RoleService roleService, PrivilegeService privilegeService,
       ContextHolder contextHolder, MenuFactory menuFactory, WebMessageSource messageSource,
       @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       @Qualifier(value = "privileges") PluginRegistry<com.cmpl.web.core.common.user.Privilege, String> privileges,
@@ -115,7 +140,7 @@ public class RoleConfiguration {
   }
 
   @Bean
-  RoleEventsListeners roleEventsListener(AssociationUserRoleService associationUserRoleService,
+  public RoleEventsListeners roleEventsListener(AssociationUserRoleService associationUserRoleService,
       PrivilegeService privilegeService) {
     return new RoleEventsListeners(associationUserRoleService, privilegeService);
   }

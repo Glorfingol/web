@@ -28,8 +28,11 @@ import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.style.Style;
+import com.cmpl.web.core.style.StyleDAO;
+import com.cmpl.web.core.style.StyleDAOImpl;
 import com.cmpl.web.core.style.StyleDispatcher;
 import com.cmpl.web.core.style.StyleDispatcherImpl;
+import com.cmpl.web.core.style.StyleMapper;
 import com.cmpl.web.core.style.StyleRepository;
 import com.cmpl.web.core.style.StyleService;
 import com.cmpl.web.core.style.StyleServiceImpl;
@@ -42,9 +45,19 @@ import com.cmpl.web.core.style.StyleTranslatorImpl;
 public class StyleConfiguration {
 
   @Bean
-  public StyleService styleService(ApplicationEventPublisher publisher, StyleRepository styleRepository,
-      MediaService mediaService, FileService fileService) {
-    return new StyleServiceImpl(publisher, styleRepository, mediaService, fileService);
+  public StyleDAO styleDAO(StyleRepository styleRepository, ApplicationEventPublisher publisher) {
+    return new StyleDAOImpl(styleRepository, publisher);
+  }
+
+  @Bean
+  public StyleMapper styleMapper(MediaService mediaService, FileService fileService) {
+    return new StyleMapper(mediaService, fileService);
+  }
+
+  @Bean
+  public StyleService styleService(StyleDAO styleDAO, StyleMapper styleMapper, MediaService mediaService,
+      FileService fileService) {
+    return new StyleServiceImpl(styleDAO, styleMapper, mediaService, fileService);
   }
 
   @Bean
@@ -53,18 +66,18 @@ public class StyleConfiguration {
   }
 
   @Bean
-  BackMenuItem styleBackMenuItem(BackMenuItem webmastering, Privilege styleReadPrivilege) {
+  public BackMenuItem styleBackMenuItem(BackMenuItem webmastering, Privilege styleReadPrivilege) {
     return BackMenuItemBuilder.create().href("back.style.href").label("back.style.label").title("back.style.title")
         .order(5).iconClass("fa fa-css3").parent(webmastering).privilege(styleReadPrivilege.privilege()).build();
   }
 
   @Bean
-  BreadCrumb styleBreadCrumb() {
+  public BreadCrumb styleBreadCrumb() {
     return BreadCrumbBuilder.create().items(styleBreadCrumbItems()).page(BACK_PAGE.STYLES_VIEW).build();
   }
 
   @Bean
-  BreadCrumb styleUpdateBreadCrumb() {
+  public BreadCrumb styleUpdateBreadCrumb() {
     return BreadCrumbBuilder.create().items(styleBreadCrumbItems()).page(BACK_PAGE.STYLES_UPDATE).build();
   }
 

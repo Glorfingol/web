@@ -20,25 +20,49 @@ import com.cmpl.web.core.factory.news.NewsManagerDisplayFactory;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactoryImpl;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaService;
-import com.cmpl.web.core.news.NewsContentRepository;
-import com.cmpl.web.core.news.NewsContentService;
-import com.cmpl.web.core.news.NewsContentServiceImpl;
-import com.cmpl.web.core.news.NewsEntryDispatcher;
-import com.cmpl.web.core.news.NewsEntryDispatcherImpl;
-import com.cmpl.web.core.news.NewsEntryRepository;
-import com.cmpl.web.core.news.NewsEntryRequestValidator;
-import com.cmpl.web.core.news.NewsEntryRequestValidatorImpl;
-import com.cmpl.web.core.news.NewsEntryService;
-import com.cmpl.web.core.news.NewsEntryServiceImpl;
-import com.cmpl.web.core.news.NewsEntryTranslator;
-import com.cmpl.web.core.news.NewsEntryTranslatorImpl;
-import com.cmpl.web.core.news.NewsImageRepository;
-import com.cmpl.web.core.news.NewsImageService;
-import com.cmpl.web.core.news.NewsImageServiceImpl;
+import com.cmpl.web.core.news.content.NewsContentDAO;
+import com.cmpl.web.core.news.content.NewsContentMapper;
+import com.cmpl.web.core.news.content.NewsContentRepository;
+import com.cmpl.web.core.news.content.NewsContentService;
+import com.cmpl.web.core.news.content.NewsContentServiceImpl;
+import com.cmpl.web.core.news.entry.NewsEntryDAO;
+import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
+import com.cmpl.web.core.news.entry.NewsEntryDispatcherImpl;
+import com.cmpl.web.core.news.entry.NewsEntryMapper;
+import com.cmpl.web.core.news.entry.NewsEntryRepository;
+import com.cmpl.web.core.news.entry.NewsEntryRequestValidator;
+import com.cmpl.web.core.news.entry.NewsEntryRequestValidatorImpl;
+import com.cmpl.web.core.news.entry.NewsEntryService;
+import com.cmpl.web.core.news.entry.NewsEntryServiceImpl;
+import com.cmpl.web.core.news.entry.NewsEntryTranslator;
+import com.cmpl.web.core.news.entry.NewsEntryTranslatorImpl;
+import com.cmpl.web.core.news.image.NewsImageDAO;
+import com.cmpl.web.core.news.image.NewsImageMapper;
+import com.cmpl.web.core.news.image.NewsImageRepository;
+import com.cmpl.web.core.news.image.NewsImageService;
+import com.cmpl.web.core.news.image.NewsImageServiceImpl;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsConfigurationTest {
+
+  @Mock
+  NewsContentDAO newsContentDAO;
+
+  @Mock
+  NewsContentMapper newsContentMapper;
+
+  @Mock
+  NewsEntryDAO newsEntryDAO;
+
+  @Mock
+  NewsEntryMapper newsEntryMapper;
+
+  @Mock
+  NewsImageDAO newsImageDAO;
+
+  @Mock
+  NewsImageMapper newsImageMapper;
 
   @Mock
   NewsEntryRequestValidator validator;
@@ -125,7 +149,7 @@ public class NewsConfigurationTest {
 
   @Test
   public void testNewsEntryService() throws Exception {
-    NewsEntryService result = configuration.newsEntryService(publisher, newsEntryRepository, newsImageService,
+    NewsEntryService result = configuration.newsEntryService(newsEntryDAO, newsEntryMapper, newsImageService,
         newsContentService);
 
     Assert.assertEquals(NewsEntryServiceImpl.class, result.getClass());
@@ -133,7 +157,7 @@ public class NewsConfigurationTest {
 
   @Test
   public void testNewsImageService() throws Exception {
-    NewsImageService result = configuration.newsImageService(publisher, newsImageRepository, mediaService);
+    NewsImageService result = configuration.newsImageService(newsImageDAO, newsImageMapper);
 
     Assert.assertEquals(NewsImageServiceImpl.class, result.getClass());
 
@@ -141,7 +165,7 @@ public class NewsConfigurationTest {
 
   @Test
   public void testNewsContentService() throws Exception {
-    NewsContentService result = configuration.newsContentService(publisher, newsContentRepository);
+    NewsContentService result = configuration.newsContentService(newsContentDAO, newsContentMapper);
 
     Assert.assertEquals(NewsContentServiceImpl.class, result.getClass());
   }

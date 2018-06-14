@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.menu.MenuDTO;
 import com.cmpl.web.core.menu.MenuService;
-import com.cmpl.web.core.news.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
 import com.redfin.sitemapgenerator.ChangeFreq;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
@@ -46,6 +47,9 @@ public class SitemapServiceImpl implements SitemapService {
   private final ContextHolder contextHolder;
 
   public SitemapServiceImpl(WebMessageSource messageSource, MenuService menuService, ContextHolder contextHolder) {
+    Objects.requireNonNull(menuService);
+    Objects.requireNonNull(messageSource);
+    Objects.requireNonNull(contextHolder);
     this.messageSource = messageSource;
     this.menuService = menuService;
     this.contextHolder = contextHolder;
@@ -68,8 +72,8 @@ public class SitemapServiceImpl implements SitemapService {
   }
 
   void writeSitemap(Path temporarySitemapFile, Locale locale) throws IOException {
-    WebSitemapGenerator sitemap = WebSitemapGenerator.builder(contextHolder.getWebsiteUrl(),
-        temporarySitemapFile.toFile()).build();
+    WebSitemapGenerator sitemap = WebSitemapGenerator
+        .builder(contextHolder.getWebsiteUrl(), temporarySitemapFile.toFile()).build();
 
     List<WebSitemapUrl> menuUrls = computeMenuUrls(locale);
     sitemap.addUrls(menuUrls);

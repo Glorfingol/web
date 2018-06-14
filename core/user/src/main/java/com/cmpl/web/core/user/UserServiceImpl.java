@@ -4,10 +4,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +13,8 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
@@ -30,18 +25,18 @@ import com.cmpl.web.core.common.user.ActionTokenService;
 public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements UserService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
-  private static final String creationDateParameter = "creationDate";
+  private static final String CREATION_DATE_PARAMETER = "creationDate";
 
-  private final UserRepository userRepository;
+  private final UserDAO userDAO;
   private final ActionTokenService tokenService;
   private final UserMailService userMailService;
 
-  public UserServiceImpl(ApplicationEventPublisher publisher, ActionTokenService tokenService,
-      UserMailService userMailService, UserRepository userRepository) {
-    super(userRepository, publisher);
+  public UserServiceImpl(ActionTokenService tokenService, UserMailService userMailService, UserDAO userDAO,
+      UserMapper userMapper) {
+    super(userDAO, userMapper);
     this.tokenService = tokenService;
     this.userMailService = userMailService;
-    this.userRepository = userRepository;
+    this.userDAO = userDAO;
   }
 
   @Override
@@ -52,48 +47,27 @@ public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements U
   }
 
   @Override
-  protected UserDTO toDTO(User entity) {
-    UserDTO dto = UserDTOBuilder.create().build();
-    fillObject(entity, dto);
-    return dto;
-  }
-
-  @Override
-  protected User toEntity(UserDTO dto) {
-    User entity = UserBuilder.create().build();
-    fillObject(dto, entity);
-    return entity;
-  }
-
-  @Override
   public UserDTO findByLogin(String login) {
-    User user = userRepository.findByLogin(login);
+    User user = userDAO.findByLogin(login);
     if (user == null) {
       return null;
     }
-    return toDTO(user);
+    return mapper.toDTO(user);
   }
 
   @Override
   public UserDTO findByEmail(String email) {
-    User user = userRepository.findByEmail(email);
+    User user = userDAO.findByEmail(email);
     if (user == null) {
       return null;
     }
-    return toDTO(user);
+    return mapper.toDTO(user);
   }
 
   @Override
   @Cacheable(value = "pagedUsers")
   public Page<UserDTO> getPagedEntities(PageRequest pageRequest) {
     return super.getPagedEntities(pageRequest);
-  }
-
-  @Override
-  @Cacheable(value = "listedUsers")
-  public List<UserDTO> getUsers() {
-
-    return toListDTO(userRepository.findAll(new Sort(Direction.ASC, "login")));
   }
 
   @Override
@@ -136,13 +110,13 @@ public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements U
   @CacheEvict(value = {"pagedUsers", "listedUsers"}, allEntries = true)
   @CachePut(key = "#a0")
   public UserDTO updateLastConnection(Long userId, LocalDateTime connectionDateTime) {
-    Optional<User> result = userRepository.findById(userId);
-    if (!result.isPresent()) {
+    User result = userDAO.getEntity(userId);
+    if (result == null) {
       return null;
     }
-    UserDTO user = toDTO(result.get());
+    UserDTO user = mapper.toDTO(result);
     user.setLastConnection(connectionDateTime);
-    user = toDTO(userRepository.save(toEntity(user)));
+    user = mapper.toDTO(userDAO.updateEntity(mapper.toEntity(user)));
 
     return user;
 
@@ -155,7 +129,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements U
     actionToken.setExpirationDate(Instant.now().plus(3, ChronoUnit.DAYS));
 
     Map<String, String> additionalParameters = new HashMap<>();
-    additionalParameters.put(creationDateParameter, Long.toString(Instant.now().toEpochMilli()));
+    additionalParameters.put(CREATION_DATE_PARAMETER, Long.toString(Instant.now().toEpochMilli()));
     actionToken.setAdditionalParameters(additionalParameters);
 
     return tokenService.generateToken(actionToken);
@@ -169,7 +143,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements U
     actionToken.setExpirationDate(Instant.now().plus(3, ChronoUnit.HOURS));
 
     Map<String, String> additionalParameters = new HashMap<>();
-    additionalParameters.put(creationDateParameter, Long.toString(Instant.now().toEpochMilli()));
+    additionalParameters.put(CREATION_DATE_PARAMETER, Long.toString(Instant.now().toEpochMilli()));
     actionToken.setAdditionalParameters(additionalParameters);
 
     return tokenService.generateToken(actionToken);

@@ -1,6 +1,11 @@
 package com.cmpl.web.core.factory.news;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,8 +18,8 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.dto.BaseDTO;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
-import com.cmpl.web.core.news.NewsEntryDTO;
-import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.widget.WidgetDTO;
 
@@ -26,6 +31,9 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
 
   public BlogWidgetProvider(WebMessageSource messageSource, ContextHolder contextHolder,
       NewsEntryService newsEntryService) {
+    Objects.requireNonNull(messageSource);
+    Objects.requireNonNull(newsEntryService);
+    Objects.requireNonNull(contextHolder);
     this.messageSource = messageSource;
     this.newsEntryService = newsEntryService;
     this.contextHolder = contextHolder;

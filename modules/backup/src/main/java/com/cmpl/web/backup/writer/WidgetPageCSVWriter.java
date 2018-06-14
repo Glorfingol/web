@@ -2,7 +2,7 @@ package com.cmpl.web.backup.writer;
 
 import java.time.format.DateTimeFormatter;
 
-import com.cmpl.web.core.widget.WidgetPage;
+import com.cmpl.web.core.widget.page.WidgetPage;
 
 public class WidgetPageCSVWriter extends CommonWriter<WidgetPage> {
 

@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.modules.facebook;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,11 @@ public class FacebookController {
 
   public FacebookController(FacebookDisplayFactory facebookDisplayFactory, FacebookDispatcher facebookDispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    Objects.requireNonNull(facebookDispatcher);
+    Objects.requireNonNull(notificationCenter);
+    Objects.requireNonNull(messageSource);
+    Objects.requireNonNull(facebookDisplayFactory);
+
     this.facebookDisplayFactory = facebookDisplayFactory;
     this.facebookDispatcher = facebookDispatcher;
     this.notificationCenter = notificationCenter;

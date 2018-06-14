@@ -3,6 +3,7 @@ package com.cmpl.web.configuration.core.common;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -14,11 +15,11 @@ import com.cmpl.web.core.common.message.WebMessageSourceImpl;
 import com.cmpl.web.core.factory.DisplayFactory;
 import com.cmpl.web.core.factory.DisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.news.NewsEntryService;
+import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
-import com.cmpl.web.core.widget.WidgetPageService;
 import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.page.WidgetPageService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FactoryConfigurationTest {
@@ -43,6 +44,7 @@ public class FactoryConfigurationTest {
   private PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
 
   @Spy
+  @InjectMocks
   private FactoryConfiguration configuration;
 
   @Test

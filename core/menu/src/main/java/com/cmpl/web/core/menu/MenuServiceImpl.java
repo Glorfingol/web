@@ -7,7 +7,6 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -24,11 +23,11 @@ import com.cmpl.web.core.common.service.BaseServiceImpl;
 @CacheConfig(cacheNames = "menus")
 public class MenuServiceImpl extends BaseServiceImpl<MenuDTO, Menu> implements MenuService {
 
-  private final MenuRepository menuRepository;
+  private final MenuDAO menuDAO;
 
-  public MenuServiceImpl(ApplicationEventPublisher publisher, MenuRepository menuRepository) {
-    super(menuRepository, publisher);
-    this.menuRepository = menuRepository;
+  public MenuServiceImpl(MenuDAO menuDAO, MenuMapper menuMapper) {
+    super(menuDAO, menuMapper);
+    this.menuDAO = menuDAO;
   }
 
   @Override
@@ -56,34 +55,15 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDTO, Menu> implements M
   }
 
   @Override
-  protected MenuDTO toDTO(Menu entity) {
-    MenuDTO dto = new MenuDTO();
-    fillObject(entity, dto);
-    return dto;
-  }
-
-  @Override
-  protected Menu toEntity(MenuDTO dto) {
-    Menu entity = new Menu();
-    fillObject(dto, entity);
-    return entity;
-  }
-
-  @Override
   @Cacheable(value = "listedMenus")
   public List<MenuDTO> getMenus() {
-    return toListDTO(menuRepository.findAll(new Sort(Direction.ASC, "orderInMenu")));
-  }
-
-  @Override
-  public List<MenuDTO> toListDTO(List<Menu> entities) {
-    return computeMenus(entities);
+    return computeMenus(menuDAO.getMenus(new Sort(Direction.ASC, "orderInMenu")));
   }
 
   MenuDTO computeMenuDTOToReturn(Menu menu) {
-    MenuDTO menuDTO = toDTO(menu);
+    MenuDTO menuDTO = mapper.toDTO(menu);
 
-    List<Menu> children = menuRepository.findByParentId(String.valueOf(menu.getId()));
+    List<Menu> children = menuDAO.findByParentId(String.valueOf(menu.getId()));
     menuDTO.setChildren(computeMenus(children));
 
     return menuDTO;

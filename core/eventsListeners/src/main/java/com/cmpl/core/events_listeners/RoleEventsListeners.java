@@ -3,9 +3,10 @@ package com.cmpl.core.events_listeners;
 import org.springframework.context.event.EventListener;
 
 import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
-import com.cmpl.web.core.common.dto.BaseDTO;
+import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.role.PrivilegeService;
+import com.cmpl.web.core.role.Role;
 import com.cmpl.web.core.role.RoleDTO;
 
 public class RoleEventsListeners {
@@ -21,9 +22,9 @@ public class RoleEventsListeners {
   @EventListener
   public void handleEntityDeletion(DeletedEvent deletedEvent) {
 
-    Class<? extends BaseDTO> clazz = deletedEvent.getDto().getClass();
+    Class<? extends BaseEntity> clazz = deletedEvent.getEntity().getClass();
     if (RoleDTO.class.equals(clazz)) {
-      RoleDTO deletedRole = (RoleDTO) deletedEvent.getDto();
+      Role deletedRole = (Role) deletedEvent.getEntity();
       if (deletedRole != null) {
         String roleId = String.valueOf(deletedRole.getId());
         associationUserRoleService.findByRoleId(roleId)

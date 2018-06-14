@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.security;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
@@ -18,6 +19,7 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
   private final RedirectStrategy redirectStrategy;
 
   public AuthenticationSuccessListener(LoginAttemptsService loginAttemptService) {
+    Objects.requireNonNull(loginAttemptService);
     this.loginAttemptService = loginAttemptService;
     this.redirectStrategy = new DefaultRedirectStrategy();
   }

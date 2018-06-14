@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.user;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,10 @@ public class UserManagerController {
 
   public UserManagerController(UserManagerDisplayFactory userManagerDisplayFactory, UserDispatcher userDispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    Objects.requireNonNull(userManagerDisplayFactory);
+    Objects.requireNonNull(notificationCenter);
+    Objects.requireNonNull(messageSource);
+    Objects.requireNonNull(userDispatcher);
     this.userManagerDisplayFactory = userManagerDisplayFactory;
     this.userDispatcher = userDispatcher;
     this.notificationCenter = notificationCenter;

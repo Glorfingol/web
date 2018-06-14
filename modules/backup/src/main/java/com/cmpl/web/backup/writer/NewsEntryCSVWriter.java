@@ -2,7 +2,7 @@ package com.cmpl.web.backup.writer;
 
 import java.time.format.DateTimeFormatter;
 
-import com.cmpl.web.core.news.NewsEntry;
+import com.cmpl.web.core.news.entry.NewsEntry;
 
 public class NewsEntryCSVWriter extends CommonWriter<NewsEntry> {
 

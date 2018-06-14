@@ -1,9 +1,15 @@
 package com.cmpl.web.core.widget;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.exception.BaseException;
+import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
+import com.cmpl.web.core.widget.page.WidgetPageDTO;
+import com.cmpl.web.core.widget.page.WidgetPageResponse;
+import com.cmpl.web.core.widget.page.WidgetPageResponseBuilder;
+import com.cmpl.web.core.widget.page.WidgetPageService;
 
 public class WidgetDispatcherImpl implements WidgetDispatcher {
 
@@ -14,6 +20,10 @@ public class WidgetDispatcherImpl implements WidgetDispatcher {
 
   public WidgetDispatcherImpl(WidgetTranslator translator, WidgetValidator validator, WidgetService widgetService,
       WidgetPageService widgetPageService) {
+    Objects.requireNonNull(translator);
+    Objects.requireNonNull(validator);
+    Objects.requireNonNull(widgetService);
+    Objects.requireNonNull(widgetPageService);
     this.translator = translator;
     this.validator = validator;
     this.widgetService = widgetService;

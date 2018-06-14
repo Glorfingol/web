@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.media;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -42,6 +43,10 @@ public class MediaManagerController {
 
   public MediaManagerController(MediaService mediaService, MediaManagerDisplayFactory mediaManagerDisplayFactory,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    Objects.requireNonNull(mediaService);
+    Objects.requireNonNull(mediaManagerDisplayFactory);
+    Objects.requireNonNull(messageSource);
+    Objects.requireNonNull(notificationCenter);
     this.mediaService = mediaService;
     this.mediaManagerDisplayFactory = mediaManagerDisplayFactory;
     this.notificationCenter = notificationCenter;

@@ -19,7 +19,9 @@ import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.factory.menu.MenuFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactoryImpl;
 import com.cmpl.web.core.menu.BackMenu;
+import com.cmpl.web.core.menu.MenuDAO;
 import com.cmpl.web.core.menu.MenuDispatcherImpl;
+import com.cmpl.web.core.menu.MenuMapper;
 import com.cmpl.web.core.menu.MenuService;
 import com.cmpl.web.core.menu.MenuTranslator;
 import com.cmpl.web.core.menu.MenuTranslatorImpl;
@@ -33,6 +35,12 @@ public class MenuConfigurationTest {
 
   @Mock
   private WebMessageSourceImpl messageSource;
+
+  @Mock
+  private MenuDAO menuDAO;
+
+  @Mock
+  private MenuMapper menuMapper;
 
   @Mock
   private MenuService menuService;

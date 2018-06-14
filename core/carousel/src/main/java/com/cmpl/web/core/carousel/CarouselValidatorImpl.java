@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import org.springframework.util.CollectionUtils;
 
+import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
 import com.cmpl.web.core.common.error.ERROR_CAUSE;
 import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.error.ErrorCause;

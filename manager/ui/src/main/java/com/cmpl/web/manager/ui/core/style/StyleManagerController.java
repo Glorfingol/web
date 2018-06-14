@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.style;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,10 @@ public class StyleManagerController {
 
   public StyleManagerController(StyleDisplayFactory displayFactory, StyleDispatcher dispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    Objects.requireNonNull(dispatcher);
+    Objects.requireNonNull(notificationCenter);
+    Objects.requireNonNull(messageSource);
+    Objects.requireNonNull(dispatcher);
     this.displayFactory = displayFactory;
     this.dispatcher = dispatcher;
     this.notificationCenter = notificationCenter;

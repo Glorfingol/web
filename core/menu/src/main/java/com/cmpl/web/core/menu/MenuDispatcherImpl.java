@@ -1,6 +1,7 @@
 package com.cmpl.web.core.menu;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.springframework.util.StringUtils;
 
@@ -17,6 +18,10 @@ public class MenuDispatcherImpl implements MenuDispatcher {
 
   public MenuDispatcherImpl(MenuValidator validator, MenuTranslator translator, MenuService menuService,
       PageService pageService) {
+    Objects.requireNonNull(validator);
+    Objects.requireNonNull(translator);
+    Objects.requireNonNull(menuService);
+    Objects.requireNonNull(pageService);
     this.validator = validator;
     this.translator = translator;
     this.menuService = menuService;

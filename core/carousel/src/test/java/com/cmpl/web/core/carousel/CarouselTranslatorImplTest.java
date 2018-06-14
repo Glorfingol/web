@@ -7,6 +7,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
+import com.cmpl.web.core.carousel.item.CarouselItemCreateFormBuilder;
+import com.cmpl.web.core.carousel.item.CarouselItemDTO;
+import com.cmpl.web.core.carousel.item.CarouselItemDTOBuilder;
+import com.cmpl.web.core.carousel.item.CarouselItemResponse;
+
 @RunWith(MockitoJUnitRunner.class)
 public class CarouselTranslatorImplTest {
 

@@ -1,13 +1,12 @@
 package com.cmpl.web.core.page;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -32,12 +31,13 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   private static final String HEADER_SUFFIX = "_header";
   private static final String LOCALE_CODE_PREFIX = "_";
 
-  private final PageRepository pageRepository;
+  private final PageDAO pageDAO;
   private final FileService fileService;
 
-  public PageServiceImpl(ApplicationEventPublisher publisher, PageRepository pageRepository, FileService fileService) {
-    super(pageRepository, publisher);
-    this.pageRepository = pageRepository;
+  public PageServiceImpl(PageDAO pageDAO, PageMapper pageMapper, FileService fileService) {
+    super(pageDAO, pageMapper);
+    this.pageDAO = pageDAO;
+    Objects.requireNonNull(fileService);
     this.fileService = fileService;
   }
 
@@ -109,40 +109,19 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   }
 
   @Override
-  protected PageDTO toDTO(Page entity) {
-    PageDTO dto = PageDTOBuilder.create().build();
-    fillObject(entity, dto);
-    return dto;
-  }
-
-  @Override
-  protected Page toEntity(PageDTO dto) {
-    Page entity = PageBuilder.create().build();
-    fillObject(dto, entity);
-    return entity;
-  }
-
-  @Override
   @Cacheable(key = "#a0")
   public PageDTO getPageByName(String pageName, String localeCode) {
-    Page page = pageRepository.findByName(pageName);
+    Page page = pageDAO.getPageByName(pageName);
     if (page == null) {
       return PageDTOBuilder.create().build();
     }
-    return toDTO(page);
+    return mapper.toDTO(page);
   }
 
   @Override
   @Cacheable(value = "listedPages")
   public List<PageDTO> getPages() {
-    return toListDTO(pageRepository.findAll(new Sort(Direction.ASC, "name")));
-  }
-
-  @Override
-  public List<PageDTO> toListDTO(List<Page> entities) {
-    List<PageDTO> pages = new ArrayList<>();
-    entities.forEach(entity -> pages.add(toDTO(entity)));
-    return pages;
+    return mapper.toListDTO(pageDAO.getPages(new Sort(Direction.ASC, "name")));
   }
 
   @Override

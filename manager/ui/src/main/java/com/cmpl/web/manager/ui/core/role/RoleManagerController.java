@@ -1,6 +1,7 @@
 package com.cmpl.web.manager.ui.core.role;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,10 @@ public class RoleManagerController {
 
   public RoleManagerController(RoleDispatcher roleDispatcher, RoleManagerDisplayFactory roleManagerDisplayFactory,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    Objects.requireNonNull(roleDispatcher);
+    Objects.requireNonNull(notificationCenter);
+    Objects.requireNonNull(messageSource);
+    Objects.requireNonNull(roleManagerDisplayFactory);
     this.roleDispatcher = roleDispatcher;
     this.roleManagerDisplayFactory = roleManagerDisplayFactory;
     this.notificationCenter = notificationCenter;
