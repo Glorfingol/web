@@ -1,4 +1,4 @@
-package com.cmpl.web.core.role;
+package com.cmpl.web.core.role.privilege;
 
 import com.cmpl.web.core.common.builder.Builder;
 import com.cmpl.web.core.common.error.Error;

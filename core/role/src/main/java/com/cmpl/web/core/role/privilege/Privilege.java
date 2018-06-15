@@ -1,4 +1,4 @@
-package com.cmpl.web.core.role;
+package com.cmpl.web.core.role.privilege;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

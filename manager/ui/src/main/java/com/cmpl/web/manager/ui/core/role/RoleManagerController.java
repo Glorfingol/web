@@ -24,12 +24,12 @@ import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.common.resource.BaseResponse;
 import com.cmpl.web.core.factory.role.RoleManagerDisplayFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.role.PrivilegeForm;
-import com.cmpl.web.core.role.PrivilegeResponse;
 import com.cmpl.web.core.role.RoleCreateForm;
 import com.cmpl.web.core.role.RoleDispatcher;
 import com.cmpl.web.core.role.RoleResponse;
 import com.cmpl.web.core.role.RoleUpdateForm;
+import com.cmpl.web.core.role.privilege.PrivilegeForm;
+import com.cmpl.web.core.role.privilege.PrivilegeResponse;
 import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
 @ManagerController

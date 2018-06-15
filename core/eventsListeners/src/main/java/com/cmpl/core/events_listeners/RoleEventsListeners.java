@@ -5,9 +5,9 @@ import org.springframework.context.event.EventListener;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.event.DeletedEvent;
-import com.cmpl.web.core.role.PrivilegeService;
 import com.cmpl.web.core.role.Role;
 import com.cmpl.web.core.role.RoleDTO;
+import com.cmpl.web.core.role.privilege.PrivilegeService;
 
 public class RoleEventsListeners {
 

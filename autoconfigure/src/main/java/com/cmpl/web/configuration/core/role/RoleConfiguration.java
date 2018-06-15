@@ -27,13 +27,6 @@ import com.cmpl.web.core.factory.role.RoleManagerDisplayFactoryImpl;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.role.Privilege;
-import com.cmpl.web.core.role.PrivilegeDAO;
-import com.cmpl.web.core.role.PrivilegeDAOImpl;
-import com.cmpl.web.core.role.PrivilegeMapper;
-import com.cmpl.web.core.role.PrivilegeRepository;
-import com.cmpl.web.core.role.PrivilegeService;
-import com.cmpl.web.core.role.PrivilegeServiceImpl;
 import com.cmpl.web.core.role.Role;
 import com.cmpl.web.core.role.RoleDAO;
 import com.cmpl.web.core.role.RoleDAOImpl;
@@ -47,6 +40,13 @@ import com.cmpl.web.core.role.RoleTranslator;
 import com.cmpl.web.core.role.RoleTranslatorImpl;
 import com.cmpl.web.core.role.RoleValidator;
 import com.cmpl.web.core.role.RoleValidatorImpl;
+import com.cmpl.web.core.role.privilege.Privilege;
+import com.cmpl.web.core.role.privilege.PrivilegeDAO;
+import com.cmpl.web.core.role.privilege.PrivilegeDAOImpl;
+import com.cmpl.web.core.role.privilege.PrivilegeMapper;
+import com.cmpl.web.core.role.privilege.PrivilegeRepository;
+import com.cmpl.web.core.role.privilege.PrivilegeService;
+import com.cmpl.web.core.role.privilege.PrivilegeServiceImpl;
 
 @Configuration
 @EntityScan(basePackageClasses = {Role.class, Privilege.class})

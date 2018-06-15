@@ -28,12 +28,12 @@ import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.role.PrivilegeDTO;
-import com.cmpl.web.core.role.PrivilegeService;
 import com.cmpl.web.core.role.RoleCreateForm;
 import com.cmpl.web.core.role.RoleDTO;
 import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.role.RoleUpdateForm;
+import com.cmpl.web.core.role.privilege.PrivilegeDTO;
+import com.cmpl.web.core.role.privilege.PrivilegeService;
 
 public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<RoleDTO>
     implements RoleManagerDisplayFactory {

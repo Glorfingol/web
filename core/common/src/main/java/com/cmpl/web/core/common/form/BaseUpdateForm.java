@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.cmpl.web.core.common.dto.BaseDTO;
 
-public class BaseUpdateForm<D extends BaseDTO> {
+public class BaseUpdateForm<DTO extends BaseDTO> {
 
   private Long id;
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -21,7 +21,7 @@ public class BaseUpdateForm<D extends BaseDTO> {
 
   }
 
-  public BaseUpdateForm(D dto) {
+  public BaseUpdateForm(DTO dto) {
     Objects.requireNonNull(dto);
     this.id = dto.getId();
     this.creationDate = dto.getCreationDate();

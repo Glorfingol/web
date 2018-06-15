@@ -2,7 +2,7 @@ package com.cmpl.web.backup.writer;
 
 import java.time.format.DateTimeFormatter;
 
-import com.cmpl.web.core.role.Privilege;
+import com.cmpl.web.core.role.privilege.Privilege;
 
 public class PrivilegeCSVWriter extends CommonWriter<Privilege> {
 

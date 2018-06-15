@@ -3,6 +3,7 @@ package com.cmpl.web.core.role;
 import java.util.Locale;
 
 import com.cmpl.web.core.common.error.Error;
+import com.cmpl.web.core.role.privilege.PrivilegeForm;
 
 public interface RoleValidator {
 

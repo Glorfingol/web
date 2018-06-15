@@ -15,6 +15,6 @@ public class StyleDAOImpl extends BaseDAOImpl<Style> implements StyleDAO {
 
   @Override
   public Style getStyle() {
-    return null;
+    return styleRepository.findAll().get(0);
   }
 }

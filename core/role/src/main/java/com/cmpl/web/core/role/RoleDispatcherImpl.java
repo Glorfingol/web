@@ -10,6 +10,12 @@ import org.springframework.plugin.core.PluginRegistry;
 
 import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.user.Privilege;
+import com.cmpl.web.core.role.privilege.PrivilegeDTO;
+import com.cmpl.web.core.role.privilege.PrivilegeDTOBuilder;
+import com.cmpl.web.core.role.privilege.PrivilegeForm;
+import com.cmpl.web.core.role.privilege.PrivilegeResponse;
+import com.cmpl.web.core.role.privilege.PrivilegeResponseBuilder;
+import com.cmpl.web.core.role.privilege.PrivilegeService;
 
 public class RoleDispatcherImpl implements RoleDispatcher {
 

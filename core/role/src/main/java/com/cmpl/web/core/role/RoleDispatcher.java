@@ -3,6 +3,8 @@ package com.cmpl.web.core.role;
 import java.util.Locale;
 
 import com.cmpl.web.core.common.resource.BaseResponse;
+import com.cmpl.web.core.role.privilege.PrivilegeForm;
+import com.cmpl.web.core.role.privilege.PrivilegeResponse;
 
 public interface RoleDispatcher {
 
