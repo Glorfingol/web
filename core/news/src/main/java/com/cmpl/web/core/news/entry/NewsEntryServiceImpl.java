@@ -38,11 +38,10 @@ public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntr
   public NewsEntryServiceImpl(NewsEntryDAO newsEntryDAO, NewsImageService newsImageService,
       NewsContentService newsContentService, NewsEntryMapper newsEntryMapper) {
     super(newsEntryDAO, newsEntryMapper);
-    Objects.requireNonNull(newsImageService);
-    Objects.requireNonNull(newsContentService);
+
     this.newsEntryDAO = newsEntryDAO;
-    this.newsImageService = newsImageService;
-    this.newsContentService = newsContentService;
+    this.newsImageService = Objects.requireNonNull(newsImageService);
+    this.newsContentService = Objects.requireNonNull(newsContentService);
   }
 
   @Override

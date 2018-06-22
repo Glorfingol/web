@@ -1,8 +1,12 @@
 package com.cmpl.web.core.user;
 
+import javax.validation.constraints.NotBlank;
+
 public class UserCreateForm {
 
+  @NotBlank(message = "empty.user.login")
   private String login;
+  @NotBlank(message = "empty.user.email")
   private String email;
   private String description;
 
@@ -29,4 +33,5 @@ public class UserCreateForm {
   public void setDescription(String description) {
     this.description = description;
   }
+
 }

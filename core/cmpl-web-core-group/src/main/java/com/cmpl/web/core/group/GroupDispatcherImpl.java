@@ -13,12 +13,9 @@ public class GroupDispatcherImpl implements GroupDispatcher {
   private final GroupService service;
 
   public GroupDispatcherImpl(GroupValidator validator, GroupTranslator translator, GroupService service) {
-    Objects.requireNonNull(validator);
-    Objects.requireNonNull(service);
-    Objects.requireNonNull(translator);
-    this.validator = validator;
-    this.service = service;
-    this.translator = translator;
+    this.validator = Objects.requireNonNull(validator);
+    this.service = Objects.requireNonNull(service);
+    this.translator = Objects.requireNonNull(translator);
   }
 
   @Override

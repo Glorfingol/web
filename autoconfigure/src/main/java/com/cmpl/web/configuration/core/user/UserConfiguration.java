@@ -44,8 +44,6 @@ import com.cmpl.web.core.user.UserService;
 import com.cmpl.web.core.user.UserServiceImpl;
 import com.cmpl.web.core.user.UserTranslator;
 import com.cmpl.web.core.user.UserTranslatorImpl;
-import com.cmpl.web.core.user.UserValidator;
-import com.cmpl.web.core.user.UserValidatorImpl;
 
 @Configuration
 @EntityScan(basePackageClasses = User.class)
@@ -107,14 +105,9 @@ public class UserConfiguration {
   }
 
   @Bean
-  public UserValidator userValidator(WebMessageSource messageSource) {
-    return new UserValidatorImpl(messageSource);
-  }
-
-  @Bean
-  public UserDispatcher userDispatcher(UserTranslator userTranslator, UserValidator userValidator,
-      UserService userService, PasswordEncoder passwordEncoder, ActionTokenService tokenService) {
-    return new UserDispatcherImpl(userValidator, userTranslator, userService, passwordEncoder, tokenService);
+  public UserDispatcher userDispatcher(UserTranslator userTranslator, UserService userService,
+      PasswordEncoder passwordEncoder, ActionTokenService tokenService) {
+    return new UserDispatcherImpl(userTranslator, userService, passwordEncoder, tokenService);
   }
 
   @Bean

@@ -47,12 +47,12 @@ public class SitemapServiceImpl implements SitemapService {
   private final ContextHolder contextHolder;
 
   public SitemapServiceImpl(WebMessageSource messageSource, MenuService menuService, ContextHolder contextHolder) {
-    Objects.requireNonNull(menuService);
-    Objects.requireNonNull(messageSource);
-    Objects.requireNonNull(contextHolder);
-    this.messageSource = messageSource;
-    this.menuService = menuService;
-    this.contextHolder = contextHolder;
+    this.messageSource = Objects.requireNonNull(messageSource);
+
+    this.menuService = Objects.requireNonNull(menuService);
+
+    this.contextHolder = Objects.requireNonNull(contextHolder);
+
   }
 
   @Override

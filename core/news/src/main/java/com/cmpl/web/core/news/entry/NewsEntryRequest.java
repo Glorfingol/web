@@ -2,8 +2,12 @@ package com.cmpl.web.core.news.entry;
 
 import java.time.LocalDateTime;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.lang.Nullable;
 
 import com.cmpl.web.core.news.content.NewsContentRequest;
 import com.cmpl.web.core.news.image.NewsImageRequest;
@@ -16,8 +20,10 @@ import com.cmpl.web.core.news.image.NewsImageRequest;
  */
 public class NewsEntryRequest {
 
+  @NotBlank(message = "empty.author")
   private String author;
   private Long id;
+  @NotBlank(message = "empty.title")
   private String title;
   private String tags;
   @DateTimeFormat(iso = ISO.DATE_TIME)
@@ -27,7 +33,11 @@ public class NewsEntryRequest {
   private String creationUser;
   private String modificationUser;
 
+  @Valid
+  @Nullable
   private NewsContentRequest content;
+  @Valid
+  @Nullable
   private NewsImageRequest image;
 
   public String getAuthor() {

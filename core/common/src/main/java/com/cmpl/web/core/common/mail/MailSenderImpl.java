@@ -34,18 +34,18 @@ public class MailSenderImpl implements MailSender {
 
   public MailSenderImpl(JavaMailSender javaMailSender, TemplateEngine emailTemplateEngine, Set<String> filters,
       WebMessageSource messageSource, String from, String basePath) {
-    Objects.requireNonNull(javaMailSender);
-    Objects.requireNonNull(emailTemplateEngine);
-    Objects.requireNonNull(filters);
-    Objects.requireNonNull(messageSource);
-    Objects.requireNonNull(from);
-    Objects.requireNonNull(basePath);
-    this.javaMailSender = javaMailSender;
-    this.emailTemplateEngine = emailTemplateEngine;
-    this.filters = filters;
-    this.messageSource = messageSource;
-    this.from = from;
-    this.basePath = basePath;
+
+    this.javaMailSender = Objects.requireNonNull(javaMailSender);
+
+    this.emailTemplateEngine = Objects.requireNonNull(emailTemplateEngine);
+
+    this.filters = Objects.requireNonNull(filters);
+
+    this.messageSource = Objects.requireNonNull(messageSource);
+
+    this.from = Objects.requireNonNull(from);
+
+    this.basePath = Objects.requireNonNull(basePath);
 
   }
 

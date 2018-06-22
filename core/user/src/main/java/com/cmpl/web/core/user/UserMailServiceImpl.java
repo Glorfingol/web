@@ -12,9 +12,8 @@ public class UserMailServiceImpl implements UserMailService {
   private final MailSender mailSender;
 
   public UserMailServiceImpl(MailSender mailSender) {
-    Objects.requireNonNull(mailSender);
+    this.mailSender = Objects.requireNonNull(mailSender);
 
-    this.mailSender = mailSender;
   }
 
   @Override

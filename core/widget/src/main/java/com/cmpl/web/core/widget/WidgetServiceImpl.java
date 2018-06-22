@@ -24,8 +24,8 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
 
   public WidgetServiceImpl(WidgetDAO widgetDAO, WidgetMapper widgetMapper, FileService fileService) {
     super(widgetDAO, widgetMapper);
-    Objects.requireNonNull(fileService);
-    this.fileService = fileService;
+
+    this.fileService = Objects.requireNonNull(fileService);
     this.widgetDAO = widgetDAO;
   }
 

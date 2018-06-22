@@ -9,7 +9,7 @@ import com.cmpl.web.core.common.dao.BaseEntity;
 
 @Entity(name = "associationUserRole")
 @Table(name = "association_user_role", indexes = {@Index(name = "IDX_USER", columnList = "user_id"),
-    @Index(name = "IDX_ROLE", columnList = "role_id")})
+    @Index(name = "IDX_ROLE", columnList = "role_id"), @Index(name = "IDX_ROLE_USER", columnList = "role_id,user_id")})
 public class AssociationUserRole extends BaseEntity {
 
   @Column(name = "user_id")

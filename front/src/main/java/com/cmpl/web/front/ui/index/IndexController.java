@@ -24,8 +24,8 @@ public class IndexController {
   private final DisplayFactory displayFactory;
 
   public IndexController(DisplayFactory displayFactory) {
-    Objects.requireNonNull(displayFactory);
-    this.displayFactory = displayFactory;
+    this.displayFactory = Objects.requireNonNull(displayFactory);
+
   }
 
   /**

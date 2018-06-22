@@ -39,8 +39,6 @@ import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.WidgetServiceImpl;
 import com.cmpl.web.core.widget.WidgetTranslator;
 import com.cmpl.web.core.widget.WidgetTranslatorImpl;
-import com.cmpl.web.core.widget.WidgetValidator;
-import com.cmpl.web.core.widget.WidgetValidatorImpl;
 import com.cmpl.web.core.widget.page.WidgetPage;
 import com.cmpl.web.core.widget.page.WidgetPageDAO;
 import com.cmpl.web.core.widget.page.WidgetPageDAOImpl;
@@ -128,14 +126,9 @@ public class WidgetConfiguration {
   }
 
   @Bean
-  public WidgetValidator widgetValidator(WebMessageSource messageSource) {
-    return new WidgetValidatorImpl(messageSource);
-  }
-
-  @Bean
   public WidgetDispatcher widgetDispatcher(WidgetService widgetService, WidgetPageService widgetPageService,
-      WidgetValidator widgetValidator, WidgetTranslator widgetTranslator) {
-    return new WidgetDispatcherImpl(widgetTranslator, widgetValidator, widgetService, widgetPageService);
+      WidgetTranslator widgetTranslator) {
+    return new WidgetDispatcherImpl(widgetTranslator, widgetService, widgetPageService);
   }
 
   @Bean

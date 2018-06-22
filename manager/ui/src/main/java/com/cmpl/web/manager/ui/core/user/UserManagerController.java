@@ -3,11 +3,15 @@ package com.cmpl.web.manager.ui.core.user;
 import java.util.Locale;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,14 +46,11 @@ public class UserManagerController {
 
   public UserManagerController(UserManagerDisplayFactory userManagerDisplayFactory, UserDispatcher userDispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    Objects.requireNonNull(userManagerDisplayFactory);
-    Objects.requireNonNull(notificationCenter);
-    Objects.requireNonNull(messageSource);
-    Objects.requireNonNull(userDispatcher);
-    this.userManagerDisplayFactory = userManagerDisplayFactory;
-    this.userDispatcher = userDispatcher;
-    this.notificationCenter = notificationCenter;
-    this.messageSource = messageSource;
+
+    this.userManagerDisplayFactory = Objects.requireNonNull(userManagerDisplayFactory);
+    this.userDispatcher = Objects.requireNonNull(userDispatcher);
+    this.notificationCenter = Objects.requireNonNull(notificationCenter);
+    this.messageSource = Objects.requireNonNull(messageSource);
   }
 
   @GetMapping
@@ -79,18 +80,21 @@ public class UserManagerController {
   @PostMapping(produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:users:create')")
-  public ResponseEntity<UserResponse> createUser(@RequestBody UserCreateForm createForm, Locale locale) {
+  public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserCreateForm createForm,
+      BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de création d'un utilisateur");
+
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       UserResponse response = userDispatcher.createEntity(createForm, locale);
-      if (response.getUser() != null) {
-        LOGGER.info("Entrée crée, id " + response.getUser().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée crée, id " + response.getUser().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
@@ -102,19 +106,22 @@ public class UserManagerController {
   @PutMapping(value = "/{userId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:users:write')")
-  public ResponseEntity<UserResponse> updateUser(@RequestBody UserUpdateForm updateForm, Locale locale) {
+  public ResponseEntity<UserResponse> updateUser(@Valid @RequestBody UserUpdateForm updateForm,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un utilisateur");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("update.error", bindingResult, locale);
+      LOGGER.error("Echec de la modification de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       UserResponse response = userDispatcher.updateEntity(updateForm, locale);
-      if (response.getUser() != null) {
-        LOGGER.info("Entrée modifiée, id " + response.getUser().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée modifiée, id " + response.getUser().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
@@ -127,16 +134,22 @@ public class UserManagerController {
   @DeleteMapping(value = "/{userId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:users:delete')")
-  public ResponseEntity<UserResponse> deleteUser(@PathVariable(value = "userId") String userId, Locale locale) {
+  public ResponseEntity<UserResponse> deleteUser(@Valid @NotBlank @PathVariable(value = "userId") String userId,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un utilisateur");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("delete.error", bindingResult, locale);
+      LOGGER.error("Echec de la suppression de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       UserResponse response = userDispatcher.deleteEntity(userId, locale);
       LOGGER.info("User " + userId + " supprimé");
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     } catch (Exception e) {
-      LOGGER.error("Echec de la modification de l'entrée", e);
+      LOGGER.error("Echec de la suppression de l'entrée", e);
       notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }

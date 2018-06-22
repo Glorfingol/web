@@ -34,12 +34,13 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
   public BackDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales) {
     super(messageSource);
-    Objects.requireNonNull(menuFactory);
-    Objects.requireNonNull(breadCrumbRegistry);
-    Objects.requireNonNull(availableLocales);
-    this.menuFactory = menuFactory;
-    this.breadCrumbRegistry = breadCrumbRegistry;
-    this.availableLocales = availableLocales;
+
+    this.menuFactory = Objects.requireNonNull(menuFactory);
+
+    this.breadCrumbRegistry = Objects.requireNonNull(breadCrumbRegistry);
+
+    this.availableLocales = Objects.requireNonNull(availableLocales);
+
   }
 
   @Override
@@ -76,11 +77,11 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
 
     if (BACK_PAGE.LOGIN.equals(backPage) || BACK_PAGE.FORGOTTEN_PASSWORD.equals(backPage)
         || BACK_PAGE.CHANGE_PASSWORD.equals(backPage)) {
-      return new ModelAndView(computeTileName(backPage.getTile(), locale));
+      return new ModelAndView(backPage.getTile());
     }
 
-    ModelAndView model = new ModelAndView(computeDecoratorBackTileName(locale));
-    model.addObject("content", computeTileName(backPage.getTile(), locale));
+    ModelAndView model = new ModelAndView("decorator_back");
+    model.addObject("content", backPage.getTile());
     return model;
 
   }

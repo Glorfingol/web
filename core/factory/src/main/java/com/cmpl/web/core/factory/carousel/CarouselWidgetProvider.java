@@ -18,8 +18,8 @@ public class CarouselWidgetProvider implements WidgetProviderPlugin {
   private final CarouselService carouselService;
 
   public CarouselWidgetProvider(CarouselService carouselService) {
-    Objects.requireNonNull(carouselService);
-    this.carouselService = carouselService;
+    this.carouselService = Objects.requireNonNull(carouselService);
+
   }
 
   @Override

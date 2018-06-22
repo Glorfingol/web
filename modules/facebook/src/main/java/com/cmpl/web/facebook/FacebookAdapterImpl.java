@@ -18,10 +18,8 @@ public class FacebookAdapterImpl implements FacebookAdapter {
   private final Facebook facebookConnector;
 
   public FacebookAdapterImpl(FacebookService facebookService, Facebook facebookConnector) {
-    Objects.requireNonNull(facebookConnector);
-    Objects.requireNonNull(facebookConnector);
-    this.facebookService = facebookService;
-    this.facebookConnector = facebookConnector;
+    this.facebookService = Objects.requireNonNull(facebookService);
+    this.facebookConnector = Objects.requireNonNull(facebookConnector);
   }
 
   @Override

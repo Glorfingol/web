@@ -38,8 +38,6 @@ import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.role.RoleServiceImpl;
 import com.cmpl.web.core.role.RoleTranslator;
 import com.cmpl.web.core.role.RoleTranslatorImpl;
-import com.cmpl.web.core.role.RoleValidator;
-import com.cmpl.web.core.role.RoleValidatorImpl;
 import com.cmpl.web.core.role.privilege.Privilege;
 import com.cmpl.web.core.role.privilege.PrivilegeDAO;
 import com.cmpl.web.core.role.privilege.PrivilegeDAOImpl;
@@ -118,15 +116,10 @@ public class RoleConfiguration {
   }
 
   @Bean
-  public RoleValidator roleValidator(WebMessageSource messageSource) {
-    return new RoleValidatorImpl(messageSource);
-  }
-
-  @Bean
   public RoleDispatcher roleDispatcher(RoleService roleService, PrivilegeService privilegeService,
-      RoleTranslator roleTranslator, RoleValidator roleValidator,
+      RoleTranslator roleTranslator,
       @Qualifier(value = "privileges") PluginRegistry<com.cmpl.web.core.common.user.Privilege, String> privileges) {
-    return new RoleDispatcherImpl(roleService, privilegeService, roleValidator, roleTranslator, privileges);
+    return new RoleDispatcherImpl(roleService, privilegeService, roleTranslator, privileges);
   }
 
   @Bean

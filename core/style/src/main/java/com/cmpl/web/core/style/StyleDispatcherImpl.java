@@ -9,10 +9,10 @@ public class StyleDispatcherImpl implements StyleDispatcher {
   private final StyleTranslator translator;
 
   public StyleDispatcherImpl(StyleService styleService, StyleTranslator translator) {
-    Objects.requireNonNull(styleService);
-    Objects.requireNonNull(translator);
-    this.styleService = styleService;
-    this.translator = translator;
+    this.styleService = Objects.requireNonNull(styleService);
+
+    this.translator = Objects.requireNonNull(translator);
+
   }
 
   @Override

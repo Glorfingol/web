@@ -42,10 +42,9 @@ public class LoginController {
    * @param displayFactory
    */
   public LoginController(LoginDisplayFactory displayFactory, UserDispatcher userDispatcher) {
-    Objects.requireNonNull(displayFactory);
-    Objects.requireNonNull(userDispatcher);
-    this.displayFactory = displayFactory;
-    this.userDispatcher = userDispatcher;
+
+    this.displayFactory = Objects.requireNonNull(displayFactory);
+    this.userDispatcher = Objects.requireNonNull(userDispatcher);
   }
 
   /**

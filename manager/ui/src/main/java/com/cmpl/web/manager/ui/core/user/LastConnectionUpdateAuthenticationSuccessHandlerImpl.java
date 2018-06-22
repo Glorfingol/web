@@ -19,8 +19,8 @@ public class LastConnectionUpdateAuthenticationSuccessHandlerImpl
   private final UserService userService;
 
   public LastConnectionUpdateAuthenticationSuccessHandlerImpl(UserService userService) {
-    Objects.requireNonNull(userService);
-    this.userService = userService;
+
+    this.userService = Objects.requireNonNull(userService);
     this.setDefaultTargetUrl("/manager");
     this.setAlwaysUseDefaultTargetUrl(false);
   }

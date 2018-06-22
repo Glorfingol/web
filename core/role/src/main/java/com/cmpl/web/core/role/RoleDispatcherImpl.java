@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.plugin.core.PluginRegistry;
 
-import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.role.privilege.PrivilegeDTO;
 import com.cmpl.web.core.role.privilege.PrivilegeDTOBuilder;
@@ -19,33 +18,21 @@ import com.cmpl.web.core.role.privilege.PrivilegeService;
 
 public class RoleDispatcherImpl implements RoleDispatcher {
 
-  private final RoleValidator validator;
   private final RoleTranslator translator;
   private final RoleService service;
   private final PrivilegeService privilegeService;
   private final PluginRegistry<Privilege, String> privilegesRegistry;
 
-  public RoleDispatcherImpl(RoleService service, PrivilegeService privilegeService, RoleValidator validator,
-      RoleTranslator translator, PluginRegistry<Privilege, String> privilegesRegistry) {
-    Objects.requireNonNull(validator);
-    Objects.requireNonNull(service);
-    Objects.requireNonNull(translator);
-    Objects.requireNonNull(privilegeService);
-    Objects.requireNonNull(privilegesRegistry);
-    this.validator = validator;
-    this.service = service;
-    this.translator = translator;
-    this.privilegeService = privilegeService;
-    this.privilegesRegistry = privilegesRegistry;
+  public RoleDispatcherImpl(RoleService service, PrivilegeService privilegeService, RoleTranslator translator,
+      PluginRegistry<Privilege, String> privilegesRegistry) {
+    this.service = Objects.requireNonNull(service);
+    this.translator = Objects.requireNonNull(translator);
+    this.privilegeService = Objects.requireNonNull(privilegeService);
+    this.privilegesRegistry = Objects.requireNonNull(privilegesRegistry);
   }
 
   @Override
   public RoleResponse createEntity(RoleCreateForm form, Locale locale) {
-    Error error = validator.validateCreate(form, locale);
-
-    if (error != null) {
-      return RoleResponseBuilder.create().error(error).build();
-    }
 
     RoleDTO roleToCreate = translator.fromCreateFormToDTO(form);
     RoleDTO createdRole = service.createEntity(roleToCreate);
@@ -55,11 +42,6 @@ public class RoleDispatcherImpl implements RoleDispatcher {
 
   @Override
   public RoleResponse updateEntity(RoleUpdateForm form, Locale locale) {
-    Error error = validator.validateUpdate(form, locale);
-
-    if (error != null) {
-      return RoleResponseBuilder.create().error(error).build();
-    }
 
     RoleDTO roleToUpdate = service.getEntity(form.getId());
     roleToUpdate.setDescription(form.getDescription());
@@ -78,11 +60,6 @@ public class RoleDispatcherImpl implements RoleDispatcher {
 
   @Override
   public PrivilegeResponse updateEntity(PrivilegeForm form, Locale locale) {
-    Error error = validator.validateUpdate(form, locale);
-
-    if (error != null) {
-      return PrivilegeResponseBuilder.create().error(error).build();
-    }
 
     List<PrivilegeDTO> privileges = privilegeService.findByRoleId(form.getRoleId());
     privileges.forEach(privilegeDTO -> privilegeService.deleteEntity(privilegeDTO.getId()));

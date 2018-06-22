@@ -32,10 +32,10 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
       ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
-    Objects.requireNonNull(styleService);
-    Objects.requireNonNull(contextHolder);
-    this.styleService = styleService;
-    this.contextHolder = contextHolder;
+    this.styleService = Objects.requireNonNull(styleService);
+
+    this.contextHolder = Objects.requireNonNull(contextHolder);
+
   }
 
   @Override

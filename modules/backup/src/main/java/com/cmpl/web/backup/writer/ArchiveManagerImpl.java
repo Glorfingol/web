@@ -38,17 +38,13 @@ public class ArchiveManagerImpl implements ArchiveManager {
 
   public ArchiveManagerImpl(String backupFilePath, String mediaFilePath, String pagesFilePath,
       String actualitesFilePath, DriveAdapter driveAdapter) {
-    Objects.requireNonNull(backupFilePath);
-    Objects.requireNonNull(mediaFilePath);
-    Objects.requireNonNull(pagesFilePath);
-    Objects.requireNonNull(actualitesFilePath);
-    Objects.requireNonNull(driveAdapter);
-    this.backupFilePath = backupFilePath;
-    this.mediaFilePath = mediaFilePath;
-    this.pagesFilePath = pagesFilePath;
-    this.actualitesFilePath = actualitesFilePath;
+
+    this.backupFilePath = Objects.requireNonNull(backupFilePath);
+    this.mediaFilePath = Objects.requireNonNull(mediaFilePath);
+    this.pagesFilePath = Objects.requireNonNull(pagesFilePath);
+    this.actualitesFilePath = Objects.requireNonNull(actualitesFilePath);
     this.dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
-    this.driveAdapter = driveAdapter;
+    this.driveAdapter = Objects.requireNonNull(driveAdapter);
   }
 
   @Override

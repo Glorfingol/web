@@ -21,8 +21,8 @@ public class ImageWidgetProvider implements WidgetProviderPlugin {
   private final List<String> movieExtensions;
 
   public ImageWidgetProvider(MediaService mediaService) {
-    Objects.requireNonNull(mediaService);
-    this.mediaService = mediaService;
+
+    this.mediaService = Objects.requireNonNull(mediaService);
     this.movieExtensions = Arrays.asList("avi", "mp4", "flv", "mkv");
   }
 

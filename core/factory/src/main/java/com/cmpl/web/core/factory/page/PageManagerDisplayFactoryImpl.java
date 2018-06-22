@@ -55,14 +55,15 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       ContextHolder contextHolder, WidgetService widgetService, WidgetPageService widgetPageService,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
-    Objects.requireNonNull(pageService);
-    Objects.requireNonNull(contextHolder);
-    Objects.requireNonNull(widgetService);
-    Objects.requireNonNull(widgetPageService);
-    this.pageService = pageService;
-    this.contextHolder = contextHolder;
-    this.widgetService = widgetService;
-    this.widgetPageService = widgetPageService;
+
+    this.pageService = Objects.requireNonNull(pageService);
+
+    this.contextHolder = Objects.requireNonNull(contextHolder);
+
+    this.widgetService = Objects.requireNonNull(widgetService);
+
+    this.widgetPageService = Objects.requireNonNull(widgetPageService);
+
   }
 
   @Override

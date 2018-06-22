@@ -21,8 +21,8 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
   public LoginAuthenticationProvider(UserDetailsService userDetailsService,
       LoginAttemptsService userLoginAttemptsService) {
     super.setUserDetailsService(userDetailsService);
-    Objects.requireNonNull(userLoginAttemptsService);
-    this.userLoginAttemptsService = userLoginAttemptsService;
+    this.userLoginAttemptsService = Objects.requireNonNull(userLoginAttemptsService);
+
   }
 
   @Override

@@ -25,8 +25,8 @@ public class RobotsController {
   private final ContextHolder contextHolder;
 
   public RobotsController(ContextHolder contextHolder) {
-    Objects.requireNonNull(contextHolder);
-    this.contextHolder = contextHolder;
+    this.contextHolder = Objects.requireNonNull(contextHolder);
+
   }
 
   /**

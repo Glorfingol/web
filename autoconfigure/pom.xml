@@ -120,6 +120,11 @@
       <artifactId>cmpl-web-core-events-listeners</artifactId>
       <version>${cmpl.web.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-group</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
 
 
   </dependencies>

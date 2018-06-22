@@ -18,8 +18,9 @@ public class BlogEntryWidgetProvider implements WidgetProviderPlugin {
   private final NewsEntryService newsEntryService;
 
   public BlogEntryWidgetProvider(NewsEntryService newsEntryService) {
-    Objects.requireNonNull(newsEntryService);
-    this.newsEntryService = newsEntryService;
+
+    this.newsEntryService = Objects.requireNonNull(newsEntryService);
+
   }
 
   @Override

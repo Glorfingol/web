@@ -20,10 +20,10 @@ public class FacebookDispatcherImpl implements FacebookDispatcher {
 
   public FacebookDispatcherImpl(FacebookImportService facebookImportService,
       FacebookImportTranslator facebookImportTranslator) {
-    Objects.requireNonNull(facebookImportService);
-    Objects.requireNonNull(facebookImportTranslator);
-    this.facebookImportService = facebookImportService;
-    this.facebookImportTranslator = facebookImportTranslator;
+    this.facebookImportService = Objects.requireNonNull(facebookImportService);
+
+    this.facebookImportTranslator = Objects.requireNonNull(facebookImportTranslator);
+
   }
 
   @Override

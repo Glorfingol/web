@@ -18,14 +18,11 @@ public class MenuDispatcherImpl implements MenuDispatcher {
 
   public MenuDispatcherImpl(MenuValidator validator, MenuTranslator translator, MenuService menuService,
       PageService pageService) {
-    Objects.requireNonNull(validator);
-    Objects.requireNonNull(translator);
-    Objects.requireNonNull(menuService);
-    Objects.requireNonNull(pageService);
-    this.validator = validator;
-    this.translator = translator;
-    this.menuService = menuService;
-    this.pageService = pageService;
+
+    this.validator = Objects.requireNonNull(validator);
+    this.translator = Objects.requireNonNull(translator);
+    this.menuService = Objects.requireNonNull(menuService);
+    this.pageService = Objects.requireNonNull(pageService);
   }
 
   @Override

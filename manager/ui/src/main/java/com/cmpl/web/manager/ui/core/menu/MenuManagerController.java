@@ -42,14 +42,11 @@ public class MenuManagerController {
 
   public MenuManagerController(MenuDispatcher dispatcher, MenuManagerDisplayFactory displayFactory,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    Objects.requireNonNull(dispatcher);
-    Objects.requireNonNull(displayFactory);
-    Objects.requireNonNull(messageSource);
-    Objects.requireNonNull(notificationCenter);
-    this.dispatcher = dispatcher;
-    this.displayFactory = displayFactory;
-    this.messageSource = messageSource;
-    this.notificationCenter = notificationCenter;
+
+    this.dispatcher = Objects.requireNonNull(dispatcher);
+    this.displayFactory = Objects.requireNonNull(displayFactory);
+    this.messageSource = Objects.requireNonNull(messageSource);
+    this.notificationCenter = Objects.requireNonNull(notificationCenter);
   }
 
   @GetMapping

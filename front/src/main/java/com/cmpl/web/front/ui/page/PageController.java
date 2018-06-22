@@ -26,8 +26,8 @@ public class PageController {
   private final DisplayFactory displayFactory;
 
   public PageController(DisplayFactory displayFactory) {
-    Objects.requireNonNull(displayFactory);
-    this.displayFactory = displayFactory;
+    this.displayFactory = Objects.requireNonNull(displayFactory);
+
   }
 
   /**

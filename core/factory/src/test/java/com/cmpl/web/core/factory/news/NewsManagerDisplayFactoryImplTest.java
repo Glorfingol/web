@@ -96,9 +96,6 @@ public class NewsManagerDisplayFactoryImplTest {
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
-    BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(BDDMockito.anyString(),
-        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
@@ -108,10 +105,8 @@ public class NewsManagerDisplayFactoryImplTest {
     ModelAndView result = displayFactory.computeModelAndViewForOneNewsEntry(Locale.FRANCE, "123");
 
     Assert.assertEquals(decoratorBack, result.getViewName());
-    Assert.assertEquals(tile, result.getModel().get("content"));
+    Assert.assertEquals(BACK_PAGE.NEWS_UPDATE.getTile(), result.getModel().get("content"));
 
-    BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeTileName(BDDMockito.anyString(),
-        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
@@ -152,8 +147,6 @@ public class NewsManagerDisplayFactoryImplTest {
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
-    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(BDDMockito.anyString(),
-        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
@@ -162,10 +155,8 @@ public class NewsManagerDisplayFactoryImplTest {
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPage(Locale.FRANCE, 0);
 
-    Assert.assertEquals(tile, result.getModel().get("content"));
+    Assert.assertEquals(BACK_PAGE.NEWS_VIEW.getTile(), result.getModel().get("content"));
 
-    BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeTileName(BDDMockito.anyString(),
-        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
@@ -175,7 +166,7 @@ public class NewsManagerDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForBackPageCreateNews() throws Exception {
-    String tile = "login";
+
     String href = "/";
     String label = "label";
     String title = "title";
@@ -189,9 +180,6 @@ public class NewsManagerDisplayFactoryImplTest {
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
-    BDDMockito.doReturn(decoratorBack).when(displayFactory).computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(BDDMockito.anyString(),
-        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
@@ -199,10 +187,8 @@ public class NewsManagerDisplayFactoryImplTest {
     ModelAndView result = displayFactory.computeModelAndViewForBackPageCreateNews(Locale.FRANCE);
 
     Assert.assertEquals(decoratorBack, result.getViewName());
-    Assert.assertEquals(tile, result.getModel().get("content"));
+    Assert.assertEquals(BACK_PAGE.NEWS_CREATE.getTile(), result.getModel().get("content"));
 
-    BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeTileName(BDDMockito.anyString(),
-        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));

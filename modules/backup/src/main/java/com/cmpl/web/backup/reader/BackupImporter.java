@@ -33,16 +33,12 @@ public class BackupImporter {
 
   public BackupImporter(CSVReader csvReader, String backupFilePath, String mediaFilePath, String pagesFilePath,
       String actualitesFilePath) {
-    Objects.requireNonNull(csvReader);
-    Objects.requireNonNull(backupFilePath);
-    Objects.requireNonNull(mediaFilePath);
-    Objects.requireNonNull(pagesFilePath);
-    Objects.requireNonNull(actualitesFilePath);
-    this.csvReader = csvReader;
-    this.backupFilePath = backupFilePath;
-    this.mediaFilePath = mediaFilePath;
-    this.pagesFilePath = pagesFilePath;
-    this.actualitesFilePath = actualitesFilePath;
+
+    this.csvReader = Objects.requireNonNull(csvReader);
+    this.backupFilePath = Objects.requireNonNull(backupFilePath);
+    this.mediaFilePath = Objects.requireNonNull(mediaFilePath);
+    this.pagesFilePath = Objects.requireNonNull(pagesFilePath);
+    this.actualitesFilePath = Objects.requireNonNull(actualitesFilePath);
   }
 
   public void importBackup() {

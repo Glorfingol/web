@@ -47,14 +47,13 @@ public class NewsManagerController {
 
   public NewsManagerController(NewsManagerDisplayFactory newsManagerDisplayFactory, NewsEntryDispatcher dispatcher,
       NotificationCenter notificationCenter, WebMessageSource webMessageSource) {
-    Objects.requireNonNull(dispatcher);
-    Objects.requireNonNull(newsManagerDisplayFactory);
-    Objects.requireNonNull(webMessageSource);
-    Objects.requireNonNull(dispatcher);
-    this.newsManagerDisplayFactory = newsManagerDisplayFactory;
-    this.dispatcher = dispatcher;
-    this.notificationCenter = notificationCenter;
-    this.messageSource = webMessageSource;
+
+    this.newsManagerDisplayFactory = Objects.requireNonNull(newsManagerDisplayFactory);
+    this.dispatcher = Objects.requireNonNull(dispatcher);
+    this.notificationCenter = Objects.requireNonNull(notificationCenter);
+
+    this.messageSource = Objects.requireNonNull(webMessageSource);
+
   }
 
   /**

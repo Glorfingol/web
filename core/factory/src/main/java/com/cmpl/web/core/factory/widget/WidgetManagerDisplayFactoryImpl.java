@@ -56,12 +56,12 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       PluginRegistry<WidgetProviderPlugin, String> widgetProviders, Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
-    Objects.requireNonNull(widgetService);
-    Objects.requireNonNull(contextHolder);
-    Objects.requireNonNull(widgetProviders);
-    this.widgetService = widgetService;
-    this.contextHolder = contextHolder;
-    this.widgetProviders = widgetProviders;
+    this.widgetService = Objects.requireNonNull(widgetService);
+
+    this.contextHolder = Objects.requireNonNull(contextHolder);
+
+    this.widgetProviders = Objects.requireNonNull(widgetProviders);
+
   }
 
   @Override

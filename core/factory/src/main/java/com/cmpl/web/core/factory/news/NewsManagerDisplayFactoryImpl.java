@@ -47,10 +47,11 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       WebMessageSource messageSource, NewsEntryService newsEntryService,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
-    Objects.requireNonNull(newsEntryService);
-    Objects.requireNonNull(contextHolder);
-    this.newsEntryService = newsEntryService;
-    this.contextHolder = contextHolder;
+
+    this.newsEntryService = Objects.requireNonNull(newsEntryService);
+
+    this.contextHolder = Objects.requireNonNull(contextHolder);
+
   }
 
   @Override

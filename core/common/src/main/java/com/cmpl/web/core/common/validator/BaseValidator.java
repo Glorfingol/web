@@ -19,8 +19,8 @@ public class BaseValidator {
   private final WebMessageSource messageSource;
 
   public BaseValidator(WebMessageSource messageSource) {
-    Objects.requireNonNull(messageSource);
-    this.messageSource = messageSource;
+    this.messageSource = Objects.requireNonNull(messageSource);
+
   }
 
   public boolean isStringValid(String stringToValidate) {

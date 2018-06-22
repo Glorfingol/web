@@ -26,8 +26,9 @@ public class SitemapController {
   private final SitemapService sitemapService;
 
   public SitemapController(SitemapService sitemapService) {
-    Objects.requireNonNull(sitemapService);
-    this.sitemapService = sitemapService;
+
+    this.sitemapService = Objects.requireNonNull(sitemapService);
+
   }
 
   /**

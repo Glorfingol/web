@@ -43,14 +43,11 @@ public class MediaManagerController {
 
   public MediaManagerController(MediaService mediaService, MediaManagerDisplayFactory mediaManagerDisplayFactory,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    Objects.requireNonNull(mediaService);
-    Objects.requireNonNull(mediaManagerDisplayFactory);
-    Objects.requireNonNull(messageSource);
-    Objects.requireNonNull(notificationCenter);
-    this.mediaService = mediaService;
-    this.mediaManagerDisplayFactory = mediaManagerDisplayFactory;
-    this.notificationCenter = notificationCenter;
-    this.messageSource = messageSource;
+
+    this.mediaService = Objects.requireNonNull(mediaService);
+    this.mediaManagerDisplayFactory = Objects.requireNonNull(mediaManagerDisplayFactory);
+    this.notificationCenter = Objects.requireNonNull(notificationCenter);
+    this.messageSource = Objects.requireNonNull(messageSource);
   }
 
   @PostMapping(consumes = "multipart/form-data")

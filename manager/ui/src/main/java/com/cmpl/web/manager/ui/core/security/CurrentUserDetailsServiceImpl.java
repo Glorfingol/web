@@ -23,12 +23,12 @@ public class CurrentUserDetailsServiceImpl implements UserDetailsService {
 
   public CurrentUserDetailsServiceImpl(UserService userService, RoleService roleService,
       AssociationUserRoleService associationUserRoleService) {
-    Objects.requireNonNull(userService);
-    Objects.requireNonNull(roleService);
-    Objects.requireNonNull(associationUserRoleService);
-    this.userService = userService;
-    this.roleService = roleService;
-    this.associationUserRoleService = associationUserRoleService;
+    this.userService = Objects.requireNonNull(userService);
+
+    this.roleService = Objects.requireNonNull(roleService);
+
+    this.associationUserRoleService = Objects.requireNonNull(associationUserRoleService);
+
   }
 
   @Override

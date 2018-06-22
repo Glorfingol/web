@@ -10,8 +10,8 @@ public class CarouselItemMapper extends BaseMapper<CarouselItemDTO, CarouselItem
   private final MediaService mediaService;
 
   public CarouselItemMapper(MediaService mediaService) {
-    Objects.requireNonNull(mediaService);
-    this.mediaService = mediaService;
+
+    this.mediaService = Objects.requireNonNull(mediaService);
 
   }
 

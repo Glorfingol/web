@@ -20,8 +20,8 @@ public class AMPController {
   private final DisplayFactory displayFactory;
 
   public AMPController(DisplayFactory displayFactory) {
-    Objects.requireNonNull(displayFactory);
-    this.displayFactory = displayFactory;
+
+    this.displayFactory = Objects.requireNonNull(displayFactory);
   }
 
   /**

@@ -30,10 +30,10 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
 
   public MenuFactoryImpl(WebMessageSource messageSource, MenuService menuService, BackMenu backMenu) {
     super(messageSource);
-    Objects.requireNonNull(menuService);
-    Objects.requireNonNull(backMenu);
-    this.menuService = menuService;
-    this.backMenu = backMenu;
+    this.menuService = Objects.requireNonNull(menuService);
+
+    this.backMenu = Objects.requireNonNull(backMenu);
+
   }
 
   @Override

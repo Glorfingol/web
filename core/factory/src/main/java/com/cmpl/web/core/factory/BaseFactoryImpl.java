@@ -16,8 +16,9 @@ public class BaseFactoryImpl implements BaseFactory {
   protected WebMessageSource messageSource;
 
   protected BaseFactoryImpl(WebMessageSource messageSource) {
-    Objects.requireNonNull(messageSource);
-    this.messageSource = messageSource;
+
+    this.messageSource = Objects.requireNonNull(messageSource);
+
   }
 
   @Override

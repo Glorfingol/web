@@ -6,11 +6,15 @@ public class GroupMapper extends BaseMapper<GroupDTO, Group> {
 
   @Override
   public GroupDTO toDTO(Group entity) {
-    return null;
+    GroupDTO dto = GroupDTOBuilder.create().build();
+    fillObject(entity, dto);
+    return dto;
   }
 
   @Override
   public Group toEntity(GroupDTO dto) {
-    return null;
+    Group entity = GroupBuilder.create().build();
+    fillObject(dto, entity);
+    return entity;
   }
 }

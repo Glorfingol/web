@@ -46,14 +46,10 @@ public class CarouselManagerController {
   public CarouselManagerController(CarouselDispatcher carouselDispatcher,
       CarouselManagerDisplayFactory carouselDisplayFactory, NotificationCenter notificationCenter,
       WebMessageSource messageSource) {
-    Objects.requireNonNull(carouselDispatcher);
-    Objects.requireNonNull(carouselDisplayFactory);
-    Objects.requireNonNull(notificationCenter);
-    Objects.requireNonNull(messageSource);
-    this.carouselDisplayFactory = carouselDisplayFactory;
-    this.carouselDispatcher = carouselDispatcher;
-    this.notificationCenter = notificationCenter;
-    this.messageSource = messageSource;
+    this.carouselDisplayFactory = Objects.requireNonNull(carouselDisplayFactory);
+    this.carouselDispatcher = Objects.requireNonNull(carouselDispatcher);
+    this.notificationCenter = Objects.requireNonNull(notificationCenter);
+    this.messageSource = Objects.requireNonNull(messageSource);
   }
 
   @GetMapping

@@ -92,11 +92,9 @@ public class FacebookDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForFacebookAccessPage_Not_Connected() throws Exception {
 
-    String tile = "login";
     String href = "/";
     String label = "label";
     String title = "title";
-    String decoratorBack = "decorator_back";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
     MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
     MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
@@ -105,17 +103,14 @@ public class FacebookDisplayFactoryImplTest {
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
-    BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
-        .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(BDDMockito.anyString(),
-        BDDMockito.eq(Locale.FRANCE));
+
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(false).when(facebookDisplayFactoryImpl).isAlreadyConnected();
 
     ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookAccessPage(Locale.FRANCE);
-    Assert.assertEquals("login", result.getModel().get("content"));
+    Assert.assertEquals(BACK_PAGE.FACEBOOK_ACCESS.getTile(), result.getModel().get("content"));
 
     BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(0))
         .computeModelAndViewForFacebookImportPage(BDDMockito.eq(Locale.FRANCE));
@@ -126,11 +121,9 @@ public class FacebookDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForFacebookAccessPage_Connected() throws Exception {
 
-    String tile = "login";
     String href = "/";
     String label = "label";
     String title = "title";
-    String decoratorBack = "decorator_back";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
     MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
     MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
@@ -143,10 +136,7 @@ public class FacebookDisplayFactoryImplTest {
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
     BDDMockito.doReturn(postsToReturn).when(facebookDisplayFactoryImpl).computeRecentFeeds();
-    BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
-        .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(BDDMockito.anyString(),
-        BDDMockito.eq(Locale.FRANCE));
+
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
@@ -164,11 +154,9 @@ public class FacebookDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForFacebookImportPage_Not_Connected() throws Exception {
 
-    String tile = "login";
     String href = "/";
     String label = "label";
     String title = "title";
-    String decoratorBack = "decorator_back";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
     MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
     MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
@@ -178,17 +166,13 @@ public class FacebookDisplayFactoryImplTest {
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
-    BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
-        .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(BDDMockito.anyString(),
-        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(false).when(facebookDisplayFactoryImpl).isAlreadyConnected();
 
     ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookImportPage(Locale.FRANCE);
-    Assert.assertEquals("login", result.getModel().get("content"));
+    Assert.assertEquals(BACK_PAGE.FACEBOOK_ACCESS.getTile(), result.getModel().get("content"));
 
     BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(1))
         .computeModelAndViewForFacebookAccessPage(BDDMockito.eq(Locale.FRANCE));
@@ -198,11 +182,10 @@ public class FacebookDisplayFactoryImplTest {
   @Test
   public void testComputeModelAndViewForFacebookImportPage_Connected() throws Exception {
 
-    String tile = "login";
     String href = "/";
     String label = "label";
     String title = "title";
-    String decoratorBack = "decorator_back";
+
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
     MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
     MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
@@ -215,10 +198,7 @@ public class FacebookDisplayFactoryImplTest {
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
     BDDMockito.doReturn(postsToReturn).when(facebookDisplayFactoryImpl).computeRecentFeeds();
-    BDDMockito.doReturn(decoratorBack).when(facebookDisplayFactoryImpl)
-        .computeDecoratorBackTileName(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(tile).when(facebookDisplayFactoryImpl).computeTileName(BDDMockito.anyString(),
-        BDDMockito.eq(Locale.FRANCE));
+
     BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));

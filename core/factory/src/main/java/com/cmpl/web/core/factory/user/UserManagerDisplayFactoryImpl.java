@@ -48,14 +48,14 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
-    Objects.requireNonNull(userService);
-    Objects.requireNonNull(roleService);
-    Objects.requireNonNull(assocationUserRoleService);
-    Objects.requireNonNull(contextHolder);
-    this.userService = userService;
-    this.roleService = roleService;
-    this.assocationUserRoleService = assocationUserRoleService;
-    this.contextHolder = contextHolder;
+    this.userService = Objects.requireNonNull(userService);
+
+    this.roleService = Objects.requireNonNull(roleService);
+
+    this.assocationUserRoleService = Objects.requireNonNull(assocationUserRoleService);
+
+    this.contextHolder = Objects.requireNonNull(contextHolder);
+
   }
 
   @Override
@@ -150,7 +150,7 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   @Override
   protected String getBaseUrl() {
-    return "manager/users";
+    return "/manager/users";
   }
 
   @Override

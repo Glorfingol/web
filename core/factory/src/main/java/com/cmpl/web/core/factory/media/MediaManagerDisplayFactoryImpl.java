@@ -33,10 +33,8 @@ public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
       MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
-    Objects.requireNonNull(mediaService);
-    Objects.requireNonNull(contextHolder);
-    this.mediaService = mediaService;
-    this.contextHolder = contextHolder;
+    this.mediaService = Objects.requireNonNull(mediaService);
+    this.contextHolder = Objects.requireNonNull(contextHolder);
   }
 
   @Override

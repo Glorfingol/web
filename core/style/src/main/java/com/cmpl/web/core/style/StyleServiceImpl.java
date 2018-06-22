@@ -15,11 +15,9 @@ public class StyleServiceImpl extends BaseServiceImpl<StyleDTO, Style> implement
   public StyleServiceImpl(StyleDAO styleDAO, StyleMapper styleMapper, MediaService mediaService,
       FileService fileService) {
     super(styleDAO, styleMapper);
-    Objects.requireNonNull(fileService);
-    Objects.requireNonNull(mediaService);
     this.styleDAO = styleDAO;
-    this.mediaService = mediaService;
-    this.fileService = fileService;
+    this.mediaService = Objects.requireNonNull(mediaService);
+    this.fileService = Objects.requireNonNull(fileService);
   }
 
   @Override

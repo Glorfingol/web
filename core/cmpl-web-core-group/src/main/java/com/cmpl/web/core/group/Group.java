@@ -6,8 +6,8 @@ import javax.persistence.Table;
 
 import com.cmpl.web.core.common.dao.BaseEntity;
 
-@Entity(name = "group")
-@Table(name = "group")
+@Entity(name = "groups")
+@Table(name = "groups")
 public class Group extends BaseEntity {
 
   @Column(name = "name")

@@ -23,8 +23,8 @@ public class PasswordTooOldInterceptor extends HandlerInterceptorAdapter {
 
   public PasswordTooOldInterceptor(UserService userService) {
     this.redirectStrategy = new DefaultRedirectStrategy();
-    Objects.requireNonNull(userService);
-    this.userService = userService;
+    this.userService = Objects.requireNonNull(userService);
+
   }
 
   @Override

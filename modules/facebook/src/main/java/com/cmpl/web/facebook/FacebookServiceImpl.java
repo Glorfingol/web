@@ -34,14 +34,14 @@ public class FacebookServiceImpl implements FacebookService {
 
   public FacebookServiceImpl(ContextHolder contextHolder, Facebook facebookConnector,
       ConnectionRepository connectionRepository, NewsEntryService newsEntryService) {
-    Objects.requireNonNull(connectionRepository);
-    Objects.requireNonNull(facebookConnector);
-    Objects.requireNonNull(newsEntryService);
-    Objects.requireNonNull(contextHolder);
-    this.facebookConnector = facebookConnector;
-    this.connectionRepository = connectionRepository;
-    this.contextHolder = contextHolder;
-    this.newsEntryService = newsEntryService;
+    this.facebookConnector = Objects.requireNonNull(facebookConnector);
+
+    this.connectionRepository = Objects.requireNonNull(connectionRepository);
+
+    this.contextHolder = Objects.requireNonNull(contextHolder);
+
+    this.newsEntryService = Objects.requireNonNull(newsEntryService);
+
   }
 
   @Override

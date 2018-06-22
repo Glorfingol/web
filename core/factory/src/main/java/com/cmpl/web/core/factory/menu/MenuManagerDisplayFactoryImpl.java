@@ -46,12 +46,13 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       PageService pageService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
-    Objects.requireNonNull(menuService);
-    Objects.requireNonNull(pageService);
-    Objects.requireNonNull(contextHolder);
-    this.menuService = menuService;
-    this.contextHolder = contextHolder;
-    this.pageService = pageService;
+
+    this.menuService = Objects.requireNonNull(menuService);
+
+    this.contextHolder = Objects.requireNonNull(contextHolder);
+
+    this.pageService = Objects.requireNonNull(pageService);
+
   }
 
   @Override

@@ -15,8 +15,8 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
 
   public AuthenticationFailureListener(LoginAttemptsService loginAttemptService) {
     Preconditions.checkArgument(loginAttemptService != null);
-    Objects.requireNonNull(loginAttemptService);
-    this.loginAttemptService = loginAttemptService;
+
+    this.loginAttemptService = Objects.requireNonNull(loginAttemptService);
   }
 
   public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent e) {

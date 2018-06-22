@@ -42,15 +42,11 @@ public class FacebookController {
 
   public FacebookController(FacebookDisplayFactory facebookDisplayFactory, FacebookDispatcher facebookDispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    Objects.requireNonNull(facebookDispatcher);
-    Objects.requireNonNull(notificationCenter);
-    Objects.requireNonNull(messageSource);
-    Objects.requireNonNull(facebookDisplayFactory);
 
-    this.facebookDisplayFactory = facebookDisplayFactory;
-    this.facebookDispatcher = facebookDispatcher;
-    this.notificationCenter = notificationCenter;
-    this.messageSource = messageSource;
+    this.facebookDisplayFactory = Objects.requireNonNull(facebookDisplayFactory);
+    this.facebookDispatcher = Objects.requireNonNull(facebookDispatcher);
+    this.notificationCenter = Objects.requireNonNull(notificationCenter);
+    this.messageSource = Objects.requireNonNull(messageSource);
   }
 
   /**

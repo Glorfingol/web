@@ -35,12 +35,9 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
   }
 
   public CommonWriter(DateTimeFormatter dateFormatter, DataManipulator<T> dataManipulator, String backupFilePath) {
-    Objects.requireNonNull(dateFormatter);
-    Objects.requireNonNull(dataManipulator);
-    Objects.requireNonNull(backupFilePath);
-    this.dateFormatter = dateFormatter;
-    this.dataManipulator = dataManipulator;
-    this.backupFilePath = backupFilePath;
+    this.dateFormatter = Objects.requireNonNull(dateFormatter);
+    this.dataManipulator = Objects.requireNonNull(dataManipulator);
+    this.backupFilePath = Objects.requireNonNull(backupFilePath);
   }
 
   public void writeCSVFile() {

@@ -3,11 +3,15 @@ package com.cmpl.web.manager.ui.core.role;
 import java.util.Locale;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,14 +49,11 @@ public class RoleManagerController {
 
   public RoleManagerController(RoleDispatcher roleDispatcher, RoleManagerDisplayFactory roleManagerDisplayFactory,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    Objects.requireNonNull(roleDispatcher);
-    Objects.requireNonNull(notificationCenter);
-    Objects.requireNonNull(messageSource);
-    Objects.requireNonNull(roleManagerDisplayFactory);
-    this.roleDispatcher = roleDispatcher;
-    this.roleManagerDisplayFactory = roleManagerDisplayFactory;
-    this.notificationCenter = notificationCenter;
-    this.messageSource = messageSource;
+    this.roleDispatcher = Objects.requireNonNull(roleDispatcher);
+    this.roleManagerDisplayFactory = Objects.requireNonNull(roleManagerDisplayFactory);
+    this.notificationCenter = Objects.requireNonNull(notificationCenter);
+    this.messageSource = Objects.requireNonNull(messageSource);
+
   }
 
   @GetMapping
@@ -60,7 +61,7 @@ public class RoleManagerController {
   public ModelAndView printViewRoles(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
-    LOGGER.info("Accès à la page " + BACK_PAGE.USER_VIEW.name());
+    LOGGER.info("Accès à la page " + BACK_PAGE.ROLE_VIEW.name());
     return roleManagerDisplayFactory.computeModelAndViewForViewAllRoles(locale, pageNumberToUse);
   }
 
@@ -82,18 +83,21 @@ public class RoleManagerController {
   @PostMapping(produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:roles:create')")
-  public ResponseEntity<RoleResponse> createRole(@RequestBody RoleCreateForm createForm, Locale locale) {
+  public ResponseEntity<RoleResponse> createRole(@Valid @RequestBody RoleCreateForm createForm,
+      BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de création d'un role");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       RoleResponse response = roleDispatcher.createEntity(createForm, locale);
-      if (response.getRole() != null) {
-        LOGGER.info("Entrée crée, id " + response.getRole().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée crée, id " + response.getRole().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
@@ -105,19 +109,21 @@ public class RoleManagerController {
   @PutMapping(value = "/{roleId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:roles:write')")
-  public ResponseEntity<RoleResponse> updateRole(@RequestBody RoleUpdateForm updateForm, Locale locale) {
+  public ResponseEntity<RoleResponse> updateRole(@Valid @RequestBody RoleUpdateForm updateForm,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un role");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("update.error", bindingResult, locale);
+      LOGGER.error("Echec de la modification de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       RoleResponse response = roleDispatcher.updateEntity(updateForm, locale);
-      if (response.getRole() != null) {
-        LOGGER.info("Entrée modifiée, id " + response.getRole().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée modifiée, id " + response.getRole().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
@@ -131,31 +137,36 @@ public class RoleManagerController {
   @GetMapping(value = "/{roleId}")
   @PreAuthorize("hasAuthority('administration:roles:read')")
   public ModelAndView printViewUpdateRole(@PathVariable(value = "roleId") String roleId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.USER_UPDATE.name() + " pour " + roleId);
+    LOGGER.info("Accès à la page " + BACK_PAGE.ROLE_UPDATE.name() + " pour " + roleId);
     return roleManagerDisplayFactory.computeModelAndViewForUpdateRole(locale, roleId);
   }
 
   @GetMapping(value = "/{roleId}/_main")
   @PreAuthorize("hasAuthority('administration:roles:read')")
   public ModelAndView printViewUpdateRoleMain(@PathVariable(value = "roleId") String roleId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.USER_UPDATE.name() + " pour " + roleId + " pour la partie main");
+    LOGGER.info("Accès à la page " + BACK_PAGE.ROLE_UPDATE.name() + " pour " + roleId + " pour la partie main");
     return roleManagerDisplayFactory.computeModelAndViewForUpdateRoleMain(locale, roleId);
   }
 
   @GetMapping(value = "/{roleId}/_privileges")
   @PreAuthorize("hasAuthority('administration:roles:read')")
   public ModelAndView printViewUpdateRolePrivileges(@PathVariable(value = "roleId") String roleId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.USER_UPDATE.name() + " pour " + roleId + " pour la partie privileges");
+    LOGGER.info("Accès à la page " + BACK_PAGE.ROLE_UPDATE.name() + " pour " + roleId + " pour la partie privileges");
     return roleManagerDisplayFactory.computeModelAndViewForUpdateRolePrivileges(locale, roleId);
   }
 
   @PutMapping(value = "/{roleId}/privileges", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:roles:write')")
-  public ResponseEntity<PrivilegeResponse> updateRolePrivileges(@RequestBody PrivilegeForm privilegeForm,
-      Locale locale) {
+  public ResponseEntity<PrivilegeResponse> updateRolePrivileges(@Valid @RequestBody PrivilegeForm privilegeForm,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification des privileges d'un role");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("update.error", bindingResult, locale);
+      LOGGER.error("Echec de la modification de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       PrivilegeResponse response = roleDispatcher.updateEntity(privilegeForm, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
@@ -171,8 +182,14 @@ public class RoleManagerController {
   @DeleteMapping(value = "/{roleId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:roles:delete')")
-  public ResponseEntity<BaseResponse> deleteRole(@PathVariable(value = "roleId") String roleId, Locale locale) {
+  public ResponseEntity<BaseResponse> deleteRole(@Valid @NotBlank @PathVariable(value = "roleId") String roleId,
+      BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de suppression d'un role");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("delete.error", bindingResult, locale);
+      LOGGER.error("Echec de la suppression de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       BaseResponse response = roleDispatcher.deleteEntity(roleId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
@@ -181,9 +198,7 @@ public class RoleManagerController {
     } catch (Exception e) {
       LOGGER.error("Erreur lors de la suppression du role " + roleId, e);
       notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
-      return new ResponseEntity<>(
-
-          HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

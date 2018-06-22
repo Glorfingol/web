@@ -49,17 +49,12 @@ public class FacebookImportServiceImpl implements FacebookImportService {
 
   public FacebookImportServiceImpl(NewsEntryService newsEntryService, FacebookAdapter facebookAdapter,
       MediaService mediaService, FileService fileService, WebMessageSource messageSource) {
-    Objects.requireNonNull(newsEntryService);
-    Objects.requireNonNull(facebookAdapter);
-    Objects.requireNonNull(mediaService);
-    Objects.requireNonNull(fileService);
-    Objects.requireNonNull(messageSource);
 
-    this.newsEntryService = newsEntryService;
-    this.facebookAdapter = facebookAdapter;
-    this.mediaService = mediaService;
-    this.fileService = fileService;
-    this.messageSource = messageSource;
+    this.newsEntryService = Objects.requireNonNull(newsEntryService);
+    this.facebookAdapter = Objects.requireNonNull(facebookAdapter);
+    this.mediaService = Objects.requireNonNull(mediaService);
+    this.fileService = Objects.requireNonNull(fileService);
+    this.messageSource = Objects.requireNonNull(messageSource);
   }
 
   @Override

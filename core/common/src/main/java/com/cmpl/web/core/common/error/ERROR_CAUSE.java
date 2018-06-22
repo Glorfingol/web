@@ -25,28 +25,16 @@ public enum ERROR_CAUSE {
   EMPTY_CAROUSEL_PAGE("empty.carousel.page"),
   EMPTY_CAROUSEL_ITEM_ID("empty.carousel.item.id"),
 
-  EMPTY_WIDGET_NAME("empty.widget.name"),
-  EMPTY_WIDGET_TYPE("empty.widget.type"),
-  EMPTY_WIDGET_ID("empty.widget.id"),
-  EMPTY_WIDGET_PAGE_ID("empty.widget.page.id"),
-
   EMPTY_USER_ID("empty.user.id"),
   EMPTY_ROLE_ID("empty.role.id"),
   EMPTY_PRIVILEGES("empty.role.privileges"),
   EMPTY_USER_ROLE_ID("empty.user.role.id"),
 
-  EMPTY_LOGIN("empty.user.login"),
-  EMPTY_EMAIL("empty.user.email"),
-
   EMPTY_ROLE_NAME("empty.role.name"),
   EMPTY_ROLE_DESCRIPTION("empty.role.description"),
 
-  EMPTY_PASSWORD("empty.user.password"),
-  PASSWORD_CONFIRMATION_DIFFERENT("different.password.confirmation"),
-  PASSWORD_SAME_AS_OLD("same.password.as.before"),
-  PASSWORD_NOT_STRONG("password.not.strong"),
-  EMPTY_CONFIRMATION("empty.user.confirmation"),
-  INVALID_TOKEN("token.invalid");
+  EMPTY_GROUP_NAME("empty.group.name"),
+  EMPTY_GROUP_DESCRIPTION("empty.group.description");
 
   private String causeKey;
 

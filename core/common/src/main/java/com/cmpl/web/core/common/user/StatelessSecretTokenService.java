@@ -18,8 +18,8 @@ public class StatelessSecretTokenService implements TokenService {
   private final String secret;
 
   public StatelessSecretTokenService(String secret) {
-    Objects.requireNonNull(secret);
-    this.secret = secret;
+    this.secret = Objects.requireNonNull(secret);
+
   }
 
   @Override

@@ -6,22 +6,22 @@
   <input type="hidden" th:field="*{modificationUser}"/>
   <div class="card mb-4">
     <div class="card-body">
-      <div class="form-group mb-3" id="formInputLogin">
+      <div class="form-check form-group mb-3" id="formInputLogin">
         <label th:text="#{user.login.label}"/>
         <input type="text" class="form-control" th:field="*{login}"/>
         <small class="form-text text-muted" th:text="#{user.login.help}"/>
       </div>
-      <div class="form-group mb-3" id="formInputEmail">
+      <div class="form-check form-group mb-3" id="formInputEmail">
         <label th:text="#{user.email.label}"/>
         <input type="email" class="form-control" th:field="*{email}"/>
         <small class="form-text text-muted" th:text="#{user.email.help}"/>
       </div>
-      <div class="form-group mb-3" id="formInputDescription">
+      <div class="form-check form-group mb-3" id="formInputDescription">
         <label th:text="#{user.description.label}"/>
         <textarea rows="3" id="description" class="form-control" th:field="*{description}"/>
         <small class="form-text text-muted" th:text="#{user.description.help}"/>
       </div>
-      <div class="form-group mb-3" id="formInputLastConnection">
+      <div class="form-check form-group mb-3" id="formInputLastConnection">
         <label th:text="#{user.lastConnection.label}"/>
         <input type="hidden" th:field="*{lastConnection}"/>
         <label class="form-control">

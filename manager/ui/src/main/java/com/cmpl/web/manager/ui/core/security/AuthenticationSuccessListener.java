@@ -19,8 +19,8 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
   private final RedirectStrategy redirectStrategy;
 
   public AuthenticationSuccessListener(LoginAttemptsService loginAttemptService) {
-    Objects.requireNonNull(loginAttemptService);
-    this.loginAttemptService = loginAttemptService;
+
+    this.loginAttemptService = Objects.requireNonNull(loginAttemptService);
     this.redirectStrategy = new DefaultRedirectStrategy();
   }
 

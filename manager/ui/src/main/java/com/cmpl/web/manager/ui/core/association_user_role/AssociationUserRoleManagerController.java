@@ -33,12 +33,10 @@ public class AssociationUserRoleManagerController {
 
   public AssociationUserRoleManagerController(AssociationUserRoleDispatcher dispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    Objects.requireNonNull(dispatcher);
-    Objects.requireNonNull(notificationCenter);
-    Objects.requireNonNull(messageSource);
-    this.dispatcher = dispatcher;
-    this.notificationCenter = notificationCenter;
-    this.messageSource = messageSource;
+
+    this.dispatcher = Objects.requireNonNull(dispatcher);
+    this.notificationCenter = Objects.requireNonNull(notificationCenter);
+    this.messageSource = Objects.requireNonNull(messageSource);
   }
 
   @PostMapping(value = "/manager/responsibilities", produces = "application/json")

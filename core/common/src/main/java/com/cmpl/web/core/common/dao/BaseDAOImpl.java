@@ -23,10 +23,9 @@ public class BaseDAOImpl<ENTITY extends BaseEntity> extends QuerydslRepositorySu
   public BaseDAOImpl(Class<?> domainClass, BaseRepository<ENTITY> entityRepository,
       ApplicationEventPublisher publisher) {
     super(domainClass);
-    Objects.requireNonNull(entityRepository);
-    Objects.requireNonNull(publisher);
-    this.entityRepository = entityRepository;
-    this.publisher = publisher;
+
+    this.entityRepository = Objects.requireNonNull(entityRepository);
+    this.publisher = Objects.requireNonNull(publisher);
   }
 
   @Override

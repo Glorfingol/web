@@ -1,10 +1,14 @@
 package com.cmpl.web.core.page;
 
+import javax.validation.constraints.NotBlank;
+
 import com.cmpl.web.core.common.form.BaseUpdateForm;
 
 public class PageUpdateForm extends BaseUpdateForm<PageDTO> {
 
+  @NotBlank(message = "empty.name")
   private String name;
+  @NotBlank(message = "empty.menuTitle")
   private String menuTitle;
   private String body;
   private String header;

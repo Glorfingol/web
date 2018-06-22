@@ -1,11 +1,14 @@
 package com.cmpl.web.core.role;
 
+import javax.validation.constraints.NotBlank;
+
 import com.cmpl.web.core.common.form.BaseUpdateForm;
 
 public class RoleUpdateForm extends BaseUpdateForm<RoleDTO> {
 
+  @NotBlank(message = "empty.role.name")
   private String name;
-
+  @NotBlank(message = "empty.role.description")
   private String description;
 
   public RoleUpdateForm() {

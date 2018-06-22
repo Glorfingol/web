@@ -30,6 +30,7 @@
     <module>association-user-role</module>
     <module>eventsListeners</module>
     <module>cmpl-web-core-group</module>
+    <module>cmpl-web-core-association-entity-group</module>
   </modules>
 
 

@@ -20,8 +20,9 @@ public class WidgetController {
   private final DisplayFactory displayFactory;
 
   public WidgetController(DisplayFactory displayFactory) {
-    Objects.requireNonNull(displayFactory);
-    this.displayFactory = displayFactory;
+
+    this.displayFactory = Objects.requireNonNull(displayFactory);
+
   }
 
   @GetMapping(value = "/widgets/{widgetName}")

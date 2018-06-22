@@ -17,17 +17,8 @@ public class BaseDisplayFactoryImpl extends BaseFactoryImpl implements BaseDispl
   }
 
   @Override
-  public String computeTileName(String tileName, Locale locale) {
-    return getI18nValue(tileName, locale);
-  }
-
-  @Override
   public String computeHiddenLink(Locale locale) {
     return getI18nValue("back.index.href", locale);
   }
 
-  @Override
-  public String computeDecoratorBackTileName(Locale locale) {
-    return getI18nValue("decorator.back", locale);
-  }
 }

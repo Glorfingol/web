@@ -43,7 +43,7 @@ function displayError(error) {
 
 function update(formToToggle, loader, cardLoader, url, urlFallBack, dataToSend,
     stay) {
-
+  hideFeedback();
   formToToggle.hide();
   loader.show();
   cardLoader.show();
@@ -60,6 +60,7 @@ function update(formToToggle, loader, cardLoader, url, urlFallBack, dataToSend,
 
 function create(formToToggle, loader, cardLoader, url, urlFallBack,
     dataToSend) {
+  hideFeedback();
   formToToggle.hide();
   loader.show();
   cardLoader.show();
@@ -75,6 +76,7 @@ function create(formToToggle, loader, cardLoader, url, urlFallBack,
 }
 
 function deleteEntity(formToToggle, loader, cardLoader, url, urlFallBack) {
+  hideFeedback();
   formToToggle.hide();
   loader.show();
   cardLoader.show();
@@ -96,6 +98,7 @@ function deleteAndHandleResult(formToToggle, loader, cardLoader, url,
 
 function upload(formToToggle, loader, cardLoader, url, urlFallBack,
     dataToSend) {
+  hideFeedback();
   formToToggle.hide();
   loader.show();
   cardLoader.show();
@@ -203,4 +206,37 @@ function handleDeleteError(error, form, cardLoader, loader) {
   formToToggle.show();
   loader.hide();
   cardLoader.hide();
+}
+
+function hideFeedback() {
+  $(":input").each(function () {
+    if ($(this).hasClass("is-invalid")) {
+      $(this).removeClass("is-invalid");
+    }
+  });
+}
+
+function displayFeedBack(errors) {
+  for (var errorIndex in errors) {
+    var currentError = errors[errorIndex];
+    var errorField = currentError.field;
+    var errorMessage = currentError.defaultMessage;
+    var capitalizedErrorField = errorField.charAt(0).toUpperCase()
+        + errorField.substring(1);
+
+    var formId = "#formInput" + capitalizedErrorField;
+    var formInputId = "#" + errorField;
+    var feedBackId = "#feedBack" + capitalizedErrorField;
+    var feedBackDiv = $(feedBackId);
+    if (feedBackDiv.length > 0) {
+      feedBackDiv.html(errorMessage);
+    } else {
+      var feedBackDiv = '<div class="invalid-feedback" id="'
+          + feedBackId.substring(1) + '">'
+          + errorMessage
+          + '</div>';
+      $(formId).append(feedBackDiv);
+    }
+    $(formInputId).addClass("is-invalid");
+  }
 }

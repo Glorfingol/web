@@ -1,8 +1,12 @@
 package com.cmpl.web.core.role;
 
+import javax.validation.constraints.NotBlank;
+
 public class RoleCreateForm {
 
+  @NotBlank(message = "empty.role.name")
   private String name;
+  @NotBlank(message = "empty.role.description")
   private String description;
 
   public String getName() {

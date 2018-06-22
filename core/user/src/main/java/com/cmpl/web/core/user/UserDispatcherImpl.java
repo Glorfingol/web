@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.user.ActionToken;
 import com.cmpl.web.core.common.user.ActionTokenService;
 
@@ -17,34 +16,22 @@ public class UserDispatcherImpl implements UserDispatcher {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(UserDispatcherImpl.class);
 
-  private final UserValidator validator;
   private final UserTranslator translator;
   private final UserService service;
   private final PasswordEncoder passwordEncoder;
   private final ActionTokenService tokenService;
 
-  public UserDispatcherImpl(UserValidator validator, UserTranslator translator, UserService userService,
-      PasswordEncoder passwordEncoder, ActionTokenService tokenService) {
-    Objects.requireNonNull(validator);
-    Objects.requireNonNull(translator);
-    Objects.requireNonNull(userService);
-    Objects.requireNonNull(passwordEncoder);
-    Objects.requireNonNull(tokenService);
-    this.validator = validator;
-    this.translator = translator;
-    this.service = userService;
-    this.passwordEncoder = passwordEncoder;
-    this.tokenService = tokenService;
+  public UserDispatcherImpl(UserTranslator translator, UserService userService, PasswordEncoder passwordEncoder,
+      ActionTokenService tokenService) {
+
+    this.translator = Objects.requireNonNull(translator);
+    this.service = Objects.requireNonNull(userService);
+    this.passwordEncoder = Objects.requireNonNull(passwordEncoder);
+    this.tokenService = Objects.requireNonNull(tokenService);
   }
 
   @Override
   public UserResponse createEntity(UserCreateForm form, Locale locale) {
-
-    Error error = validator.validateCreate(form, locale);
-
-    if (error != null) {
-      return UserResponseBuilder.create().error(error).build();
-    }
 
     UserDTO userToCreate = translator.fromCreateFormToDTO(form);
     userToCreate.setLastPasswordModification(LocalDateTime.now());
@@ -57,11 +44,6 @@ public class UserDispatcherImpl implements UserDispatcher {
 
   @Override
   public UserResponse updateEntity(UserUpdateForm form, Locale locale) {
-    Error error = validator.validateUpdate(form, locale);
-
-    if (error != null) {
-      return UserResponseBuilder.create().error(error).build();
-    }
 
     UserDTO userToUpdate = service.getEntity(form.getId());
     userToUpdate.setDescription(form.getDescription());
@@ -97,27 +79,11 @@ public class UserDispatcherImpl implements UserDispatcher {
 
   @Override
   public ChangePasswordResponse changePassword(ChangePasswordForm form, Locale locale) {
-    Error error = validator.validateChangePassword(form, locale);
-
-    if (error != null) {
-      return ChangePasswordResponseBuilder.create().error(error).build();
-    }
 
     String token = form.getToken();
     ActionToken actionToken = tokenService.decryptToken(token);
-    error = validator.validateToken(actionToken, locale);
-    if (error != null) {
-      return ChangePasswordResponseBuilder.create().error(error).build();
-    }
-
     UserDTO userToUpdate = service.getEntity(actionToken.getUserId());
     String encodedNewPassword = passwordEncoder.encode(form.getPassword());
-    error = validator.validateNewPassword(userToUpdate.getPassword(), form.getPassword(), encodedNewPassword, locale);
-
-    if (error != null) {
-      return ChangePasswordResponseBuilder.create().error(error).build();
-    }
-
     userToUpdate.setPassword(encodedNewPassword);
     userToUpdate.setLastPasswordModification(LocalDateTime.now());
     service.updateEntity(userToUpdate);

@@ -18,10 +18,9 @@ public class StyleMapper extends BaseMapper<StyleDTO, Style> {
   private final FileService fileService;
 
   public StyleMapper(MediaService mediaService, FileService fileService) {
-    Objects.requireNonNull(mediaService);
-    Objects.requireNonNull(fileService);
-    this.fileService = fileService;
-    this.mediaService = mediaService;
+
+    this.fileService = Objects.requireNonNull(fileService);
+    this.mediaService = Objects.requireNonNull(mediaService);
   }
 
   @Override

@@ -23,8 +23,9 @@ public class BlogController {
   private final DisplayFactory displayFactory;
 
   public BlogController(DisplayFactory displayFactory) {
-    Objects.requireNonNull(displayFactory);
-    this.displayFactory = displayFactory;
+
+    this.displayFactory = Objects.requireNonNull(displayFactory);
+
   }
 
   @GetMapping(value = "/entries/{newsEntryId}")

@@ -36,14 +36,11 @@ public class StyleManagerController {
 
   public StyleManagerController(StyleDisplayFactory displayFactory, StyleDispatcher dispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    Objects.requireNonNull(dispatcher);
-    Objects.requireNonNull(notificationCenter);
-    Objects.requireNonNull(messageSource);
-    Objects.requireNonNull(dispatcher);
-    this.displayFactory = displayFactory;
-    this.dispatcher = dispatcher;
-    this.notificationCenter = notificationCenter;
-    this.messageSource = messageSource;
+
+    this.displayFactory = Objects.requireNonNull(displayFactory);
+    this.dispatcher = Objects.requireNonNull(dispatcher);
+    this.notificationCenter = Objects.requireNonNull(notificationCenter);
+    this.messageSource = Objects.requireNonNull(messageSource);
   }
 
   @GetMapping

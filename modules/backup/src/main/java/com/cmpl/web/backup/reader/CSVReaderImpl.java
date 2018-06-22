@@ -13,8 +13,8 @@ public class CSVReaderImpl implements CSVReader {
   private final List<CommonParser<?>> parsers;
 
   public CSVReaderImpl(List<CommonParser<?>> parsers) {
-    Objects.requireNonNull(parsers);
-    this.parsers = parsers;
+
+    this.parsers = Objects.requireNonNull(parsers);
   }
 
   @Override

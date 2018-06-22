@@ -36,12 +36,9 @@ public abstract class CommonParser<T extends BaseEntity> extends CommonReflexion
   private final String backupFilePath;
 
   public CommonParser(DateTimeFormatter dateFormatter, DataManipulator<T> dataManipulator, String backupFilePath) {
-    Objects.requireNonNull(dataManipulator);
-    Objects.requireNonNull(dateFormatter);
-    Objects.requireNonNull(backupFilePath);
-    this.dateFormatter = dateFormatter;
-    this.dataManipulator = dataManipulator;
-    this.backupFilePath = backupFilePath;
+    this.dateFormatter = Objects.requireNonNull(dateFormatter);
+    this.dataManipulator = Objects.requireNonNull(dataManipulator);
+    this.backupFilePath = Objects.requireNonNull(backupFilePath);
   }
 
   public void parseCSVFile() {

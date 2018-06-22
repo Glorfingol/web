@@ -21,8 +21,8 @@ public class VideoWidgetProvider implements WidgetProviderPlugin {
   private final List<String> movieExtensions;
 
   public VideoWidgetProvider(MediaService mediaService) {
-    Objects.requireNonNull(mediaService);
-    this.mediaService = mediaService;
+
+    this.mediaService = Objects.requireNonNull(mediaService);
     this.movieExtensions = Arrays.asList("avi", "mp4", "flv", "mkv");
   }
 

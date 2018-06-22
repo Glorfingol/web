@@ -48,14 +48,14 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, PluginRegistry<Privilege, String> privileges,
       Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
-    Objects.requireNonNull(roleService);
-    Objects.requireNonNull(privilegeService);
-    Objects.requireNonNull(contextHolder);
-    Objects.requireNonNull(privileges);
-    this.roleService = roleService;
-    this.privilegeService = privilegeService;
-    this.contextHolder = contextHolder;
-    this.privileges = privileges;
+    this.roleService = Objects.requireNonNull(roleService);
+
+    this.privilegeService = Objects.requireNonNull(privilegeService);
+
+    this.contextHolder = Objects.requireNonNull(contextHolder);
+
+    this.privileges = Objects.requireNonNull(privileges);
+
   }
 
   @Override
@@ -163,7 +163,7 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   @Override
   protected String getBaseUrl() {
-    return "manager/roles";
+    return "/manager/roles";
   }
 
   @Override

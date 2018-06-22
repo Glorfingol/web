@@ -22,11 +22,10 @@ public class MenuWidgetProvider implements WidgetProviderPlugin {
   private final PageService pageService;
 
   public MenuWidgetProvider(MenuFactory menuFactory, PageService pageService) {
-    Objects.requireNonNull(menuFactory);
-    Objects.requireNonNull(pageService);
+    this.menuFactory = Objects.requireNonNull(menuFactory);
 
-    this.menuFactory = menuFactory;
-    this.pageService = pageService;
+    this.pageService = Objects.requireNonNull(pageService);
+
   }
 
   @Override

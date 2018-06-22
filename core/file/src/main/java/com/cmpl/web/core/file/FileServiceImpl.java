@@ -25,8 +25,9 @@ public class FileServiceImpl implements FileService {
   private final ContextHolder contextHolder;
 
   public FileServiceImpl(ContextHolder contextHolder) {
-    Objects.requireNonNull(contextHolder);
-    this.contextHolder = contextHolder;
+
+    this.contextHolder = Objects.requireNonNull(contextHolder);
+
   }
 
   @Override

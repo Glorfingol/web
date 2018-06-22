@@ -75,21 +75,17 @@ public class BackDisplayFactoryImplTest {
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
-    BDDMockito.doReturn(tile).when(displayFactory).computeTileName(BDDMockito.anyString(),
-        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(backMenu).when(displayFactory).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPage(BACK_PAGE.LOGIN, Locale.FRANCE);
 
-    Assert.assertEquals(tile, result.getViewName());
+    Assert.assertEquals(BACK_PAGE.LOGIN.getTile(), result.getViewName());
 
     Assert.assertEquals(backMenu, result.getModel().get("menuItems"));
     Assert.assertEquals(href, result.getModel().get("hiddenLink"));
 
-    BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeTileName(BDDMockito.anyString(),
-        BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));

@@ -2,6 +2,8 @@ package com.cmpl.web.core.news.image;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -15,7 +17,9 @@ import com.cmpl.web.core.media.MediaDTO;
  */
 public class NewsImageRequest {
 
+  @NotBlank(message = "empty.legend")
   private String legend;
+  @NotBlank(message = "empty.alt")
   private String alt;
   private Long id;
   @DateTimeFormat(iso = ISO.DATE_TIME)

@@ -2,6 +2,8 @@ package com.cmpl.web.core.news.content;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -13,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
  */
 public class NewsContentRequest {
 
+  @NotBlank(message = "empty.content")
   private String content;
   private Long id;
   @DateTimeFormat(iso = ISO.DATE_TIME)

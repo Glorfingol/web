@@ -24,8 +24,8 @@ public class MediaController {
   private final MediaService mediaService;
 
   public MediaController(MediaService mediaService) {
-    Objects.requireNonNull(mediaService);
-    this.mediaService = mediaService;
+    this.mediaService = Objects.requireNonNull(mediaService);
+
   }
 
   @GetMapping("/{mediaName:.+}")

@@ -3,9 +3,12 @@ package com.cmpl.web.core.role.privilege;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
+
 public class PrivilegeForm {
 
   private String roleId;
+  @NotEmpty(message = "empty.role.privileges")
   private List<String> privilegesToEnable;
 
   public PrivilegeForm() {

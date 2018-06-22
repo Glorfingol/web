@@ -72,7 +72,9 @@ function postUpdateUserForm() {
     handleSuccessPutResult(data, $(".card-loader"), $(".loader"),
         $("#userUpdateForm"), url)
   }).fail(function (error) {
-    handleErrorPutResult(urlFallback);
+    $(".loader").hide();
+    $(".card-loader").hide();
+    $("#userUpdateForm").show();
   });
 }
 
@@ -85,6 +87,8 @@ function postCreateUserForm() {
     handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
         $("#userCreateForm"), url)
   }).fail(function (error) {
-    handleErrorPostResult(urlFallback);
+    $(".loader").hide();
+    $(".card-loader").hide();
+    $("#userCreateForm").show();
   });
 }

@@ -16,8 +16,8 @@ public class CSVGeneratorImpl implements CSVGenerator {
   private final List<CommonWriter<?>> writers;
 
   public CSVGeneratorImpl(List<CommonWriter<?>> writers) {
-    Objects.requireNonNull(writers);
-    this.writers = writers;
+
+    this.writers = Objects.requireNonNull(writers);
   }
 
   @Override

@@ -25,10 +25,9 @@ public class BaseServiceImpl<DTO extends BaseDTO, ENTITY extends BaseEntity> imp
   protected final BaseMapper<DTO, ENTITY> mapper;
 
   public BaseServiceImpl(BaseDAO<ENTITY> dao, BaseMapper<DTO, ENTITY> mapper) {
-    Objects.requireNonNull(dao);
-    Objects.requireNonNull(mapper);
-    this.dao = dao;
-    this.mapper = mapper;
+
+    this.dao = Objects.requireNonNull(dao);
+    this.mapper = Objects.requireNonNull(mapper);
   }
 
   @Override

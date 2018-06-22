@@ -43,16 +43,17 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
       WidgetPageService widgetPageService, WidgetService widgetService,
       PluginRegistry<WidgetProviderPlugin, String> widgetProviders) {
     super(messageSource);
-    Objects.requireNonNull(pageService);
-    Objects.requireNonNull(newsEntryService);
-    Objects.requireNonNull(widgetPageService);
-    Objects.requireNonNull(widgetService);
-    Objects.requireNonNull(widgetProviders);
-    this.pageService = pageService;
-    this.newsEntryService = newsEntryService;
-    this.widgetPageService = widgetPageService;
-    this.widgetService = widgetService;
-    this.widgetProviders = widgetProviders;
+
+    this.pageService = Objects.requireNonNull(pageService);
+
+    this.newsEntryService = Objects.requireNonNull(newsEntryService);
+
+    this.widgetPageService = Objects.requireNonNull(widgetPageService);
+
+    this.widgetService = Objects.requireNonNull(widgetService);
+
+    this.widgetProviders = Objects.requireNonNull(widgetProviders);
+
   }
 
   @Override

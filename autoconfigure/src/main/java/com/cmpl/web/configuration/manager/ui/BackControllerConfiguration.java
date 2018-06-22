@@ -9,6 +9,7 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.factory.BackDisplayFactory;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
+import com.cmpl.web.core.factory.group.GroupManagerDisplayFactory;
 import com.cmpl.web.core.factory.login.LoginDisplayFactory;
 import com.cmpl.web.core.factory.media.MediaManagerDisplayFactory;
 import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactory;
@@ -18,6 +19,7 @@ import com.cmpl.web.core.factory.role.RoleManagerDisplayFactory;
 import com.cmpl.web.core.factory.style.StyleDisplayFactory;
 import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
+import com.cmpl.web.core.group.GroupDispatcher;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.MenuDispatcher;
 import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
@@ -29,6 +31,7 @@ import com.cmpl.web.core.widget.WidgetDispatcher;
 import com.cmpl.web.facebook.FacebookDispatcher;
 import com.cmpl.web.manager.ui.core.association_user_role.AssociationUserRoleManagerController;
 import com.cmpl.web.manager.ui.core.carousel.CarouselManagerController;
+import com.cmpl.web.manager.ui.core.group.GroupManagerController;
 import com.cmpl.web.manager.ui.core.index.IndexManagerController;
 import com.cmpl.web.manager.ui.core.login.LoginController;
 import com.cmpl.web.manager.ui.core.media.MediaManagerController;
@@ -136,6 +139,12 @@ public class BackControllerConfiguration {
       AssociationUserRoleDispatcher associationUserRoleDispatcher, NotificationCenter notificationCenter,
       WebMessageSource messageSource) {
     return new AssociationUserRoleManagerController(associationUserRoleDispatcher, notificationCenter, messageSource);
+  }
+
+  @Bean
+  public GroupManagerController groupManagerController(GroupManagerDisplayFactory groupManagerDisplayFactory,
+      GroupDispatcher groupDispatcher, NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    return new GroupManagerController(groupDispatcher, groupManagerDisplayFactory, notificationCenter, messageSource);
   }
 
 }

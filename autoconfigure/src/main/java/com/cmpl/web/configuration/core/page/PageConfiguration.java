@@ -38,8 +38,6 @@ import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.page.PageServiceImpl;
 import com.cmpl.web.core.page.PageTranslator;
 import com.cmpl.web.core.page.PageTranslatorImpl;
-import com.cmpl.web.core.page.PageValidator;
-import com.cmpl.web.core.page.PageValidatorImpl;
 import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
 
@@ -86,8 +84,8 @@ public class PageConfiguration {
   }
 
   @Bean
-  public PageDispatcher pageDispatcher(PageValidator validator, PageTranslator translator, PageService pageService) {
-    return new PageDispatcherImpl(validator, translator, pageService);
+  public PageDispatcher pageDispatcher(PageTranslator translator, PageService pageService) {
+    return new PageDispatcherImpl(translator, pageService);
   }
 
   @Bean
@@ -103,11 +101,6 @@ public class PageConfiguration {
   @Bean
   public PageService pageService(PageDAO pageDAO, PageMapper pageMapper, FileService fileService) {
     return new PageServiceImpl(pageDAO, pageMapper, fileService);
-  }
-
-  @Bean
-  public PageValidator pageValidator(WebMessageSource messageSource) {
-    return new PageValidatorImpl(messageSource);
   }
 
   @Bean

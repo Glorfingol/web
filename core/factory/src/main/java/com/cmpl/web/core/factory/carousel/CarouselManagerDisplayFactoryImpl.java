@@ -55,14 +55,11 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
       ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       Set<Locale> availableLocales) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
-    Objects.requireNonNull(carouselItemService);
-    Objects.requireNonNull(carouselService);
-    Objects.requireNonNull(contextHolder);
-    Objects.requireNonNull(mediaService);
-    this.carouselItemService = carouselItemService;
-    this.carouselService = carouselService;
-    this.contextHolder = contextHolder;
-    this.mediaService = mediaService;
+
+    this.carouselItemService = Objects.requireNonNull(carouselItemService);
+    this.carouselService = Objects.requireNonNull(carouselService);
+    this.contextHolder = Objects.requireNonNull(contextHolder);
+    this.mediaService = Objects.requireNonNull(mediaService);
   }
 
   @Override

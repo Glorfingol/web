@@ -4,7 +4,7 @@
       <div class="col">
         <div class="pull-right ">
           <a class="btn btn-md btn-primary fa fa-plus fa-white"
-             th:href="@{${wrappedBeans.createItemLink}}"
+             th:href="@{ ${wrappedBeans.createItemLink}}"
              id="buttonAdd"
              th:if="${currentUser.hasPrivilege(wrappedBeans.createItemPrivilege)}"></a>
         </div>

@@ -3,11 +3,15 @@ package com.cmpl.web.manager.ui.core.page;
 import java.util.Locale;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,14 +52,11 @@ public class PageManagerController {
 
   public PageManagerController(PageManagerDisplayFactory pageManagerDisplayFactory, PageDispatcher pageDispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    Objects.requireNonNull(pageManagerDisplayFactory);
-    Objects.requireNonNull(notificationCenter);
-    Objects.requireNonNull(messageSource);
-    Objects.requireNonNull(pageDispatcher);
-    this.pageManagerDisplayFactory = pageManagerDisplayFactory;
-    this.pageDispatcher = pageDispatcher;
-    this.notificationCenter = notificationCenter;
-    this.messageSource = messageSource;
+
+    this.pageManagerDisplayFactory = Objects.requireNonNull(pageManagerDisplayFactory);
+    this.pageDispatcher = Objects.requireNonNull(pageDispatcher);
+    this.notificationCenter = Objects.requireNonNull(notificationCenter);
+    this.messageSource = Objects.requireNonNull(messageSource);
   }
 
   /**
@@ -90,19 +91,22 @@ public class PageManagerController {
   @PostMapping
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:pages:create')")
-  public ResponseEntity<PageResponse> createPage(@RequestBody PageCreateForm createForm, Locale locale) {
+  public ResponseEntity<PageResponse> createPage(@Valid @RequestBody PageCreateForm createForm,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de création d'une page");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       PageResponse response = pageDispatcher.createEntity(createForm, locale);
-      if (response.getPage() != null) {
-        LOGGER.info("Entrée crée, id " + response.getPage().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée crée, id " + response.getPage().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
@@ -115,19 +119,22 @@ public class PageManagerController {
   @PutMapping(value = "/{pageId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:pages:write')")
-  public ResponseEntity<PageResponse> updatePage(@RequestBody PageUpdateForm updateForm, Locale locale) {
+  public ResponseEntity<PageResponse> updatePage(@Valid @RequestBody PageUpdateForm updateForm,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification d'une page");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("update.error", bindingResult, locale);
+      LOGGER.error("Echec de la modification de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       PageResponse response = pageDispatcher.updateEntity(updateForm, locale);
-      if (response.getPage() != null) {
-        LOGGER.info("Entrée modifiée, id " + response.getPage().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée modifiée, id " + response.getPage().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
@@ -198,15 +205,21 @@ public class PageManagerController {
   public ModelAndView printViewUpdatePageAMP(@PathVariable(value = "pageId") String pageId, Locale locale,
       @RequestParam(name = "languageCode", required = false) String languageCode) {
     LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie amp");
-    return pageManagerDisplayFactory.computeModelAndViewForUpdatePageMeta(locale, pageId, languageCode);
+    return pageManagerDisplayFactory.computeModelAndViewForUpdatePageAMP(locale, pageId, languageCode);
   }
 
   @DeleteMapping(value = "/{pageId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:pages:delete')")
-  public ResponseEntity<PageResponse> deletePage(@PathVariable(value = "pageId") String pageId, Locale locale) {
+  public ResponseEntity<PageResponse> deletePage(@Valid @NotBlank @PathVariable(value = "pageId") String pageId,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de suppression d'une page");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("delete.error", bindingResult, locale);
+      LOGGER.error("Echec de la suppression de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       PageResponse response = pageDispatcher.deleteEntity(pageId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

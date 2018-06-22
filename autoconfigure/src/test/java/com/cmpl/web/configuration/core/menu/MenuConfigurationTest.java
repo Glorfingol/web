@@ -92,7 +92,7 @@ public class MenuConfigurationTest {
   public void testMenuManagerDisplayFactory() throws Exception {
     Assert.assertEquals(MenuManagerDisplayFactoryImpl.class, configuration.menuManagerDisplayFactory(menuFactory,
         messageSource, menuService, pageService, contextHolder, breadCrumbRegistry, availableLocales).getClass());
-    ;
+
   }
 
 }

@@ -12,8 +12,9 @@ public class DriveAdapterImpl implements DriveAdapter {
   private final Drive driveService;
 
   public DriveAdapterImpl(Drive driveService) {
-    Objects.requireNonNull(driveService);
-    this.driveService = driveService;
+
+    this.driveService = Objects.requireNonNull(driveService);
+
   }
 
   @Override

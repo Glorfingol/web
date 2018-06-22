@@ -14,12 +14,13 @@ public class AssociationUserRoleDispatcherImpl implements AssociationUserRoleDis
 
   public AssociationUserRoleDispatcherImpl(AssociationUserRoleService service, AssociationUserRoleValidator validator,
       AssociationUserRoleTranslator translator) {
-    Objects.requireNonNull(service);
-    Objects.requireNonNull(validator);
-    Objects.requireNonNull(translator);
-    this.service = service;
-    this.translator = translator;
-    this.validator = validator;
+
+    this.service = Objects.requireNonNull(service);
+
+    this.translator = Objects.requireNonNull(translator);
+
+    this.validator = Objects.requireNonNull(validator);
+
   }
 
   @Override

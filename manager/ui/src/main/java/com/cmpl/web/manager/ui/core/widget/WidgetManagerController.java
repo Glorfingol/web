@@ -3,11 +3,15 @@ package com.cmpl.web.manager.ui.core.widget;
 import java.util.Locale;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,14 +46,11 @@ public class WidgetManagerController {
 
   public WidgetManagerController(WidgetManagerDisplayFactory widgetManagerDisplayFactory,
       WidgetDispatcher widgetDispatcher, NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    Objects.requireNonNull(widgetManagerDisplayFactory);
-    Objects.requireNonNull(notificationCenter);
-    Objects.requireNonNull(messageSource);
-    Objects.requireNonNull(widgetDispatcher);
-    this.widgetManagerDisplayFactory = widgetManagerDisplayFactory;
-    this.widgetDispatcher = widgetDispatcher;
-    this.notificationCenter = notificationCenter;
-    this.messageSource = messageSource;
+    this.widgetManagerDisplayFactory = Objects.requireNonNull(widgetManagerDisplayFactory);
+    this.widgetDispatcher = Objects.requireNonNull(widgetDispatcher);
+    this.notificationCenter = Objects.requireNonNull(notificationCenter);
+    this.messageSource = Objects.requireNonNull(messageSource);
+
   }
 
   @GetMapping
@@ -79,18 +80,22 @@ public class WidgetManagerController {
   @PostMapping(produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:widgets:create')")
-  public ResponseEntity<WidgetResponse> createWidget(@RequestBody WidgetCreateForm createForm, Locale locale) {
+  public ResponseEntity<WidgetResponse> createWidget(@Valid @RequestBody WidgetCreateForm createForm,
+      BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
+
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       WidgetResponse response = widgetDispatcher.createEntity(createForm, locale);
-      if (response.getWidget() != null) {
-        LOGGER.info("Entrée crée, id " + response.getWidget().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée crée, id " + response.getWidget().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
@@ -128,18 +133,23 @@ public class WidgetManagerController {
   @PutMapping(value = "/{widgetId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:widgets:write')")
-  public ResponseEntity<WidgetResponse> updateWidget(@RequestBody WidgetUpdateForm updateForm, Locale locale) {
+  public ResponseEntity<WidgetResponse> updateWidget(@Valid @RequestBody WidgetUpdateForm updateForm,
+      BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
+
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("update.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
     try {
       WidgetResponse response = widgetDispatcher.updateEntity(updateForm, locale);
-      if (response.getWidget() != null) {
-        LOGGER.info("Entrée modifiée, id " + response.getWidget().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée modifiée, id " + response.getWidget().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
@@ -151,15 +161,21 @@ public class WidgetManagerController {
   @DeleteMapping(value = "/{widgetId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:widgets:delete')")
-  public ResponseEntity<WidgetResponse> deleteWidget(@PathVariable(value = "widgetId") String widgetId, Locale locale) {
+  public ResponseEntity<WidgetResponse> deleteWidget(@Valid @NotBlank @PathVariable(value = "widgetId") String widgetId,
+      BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("delete.error", bindingResult, locale);
+      LOGGER.error("Echec de la suppression de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       WidgetResponse response = widgetDispatcher.deleteEntity(widgetId, locale);
 
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     } catch (Exception e) {
-      LOGGER.error("Echec de la creation de l'entrée", e);
+      LOGGER.error("Echec de la suppression de l'entrée", e);
       notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }

@@ -150,6 +150,8 @@
           + languageCode;
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
+        codeMirrorHeader = setUpCodeMirror("pageAmp");
+        prepareDragAndDrop();
         currentTab = "amp";
       });
     }

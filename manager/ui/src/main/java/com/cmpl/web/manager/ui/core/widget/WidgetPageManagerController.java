@@ -3,11 +3,15 @@ package com.cmpl.web.manager.ui.core.widget;
 import java.util.Locale;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,31 +37,31 @@ public class WidgetPageManagerController {
 
   public WidgetPageManagerController(WidgetDispatcher dispatcher, NotificationCenter notificationCenter,
       WebMessageSource messageSource) {
-    Objects.requireNonNull(dispatcher);
-    Objects.requireNonNull(notificationCenter);
-    Objects.requireNonNull(messageSource);
-    this.dispatcher = dispatcher;
-    this.notificationCenter = notificationCenter;
-    this.messageSource = messageSource;
+
+    this.dispatcher = Objects.requireNonNull(dispatcher);
+    this.notificationCenter = Objects.requireNonNull(notificationCenter);
+    this.messageSource = Objects.requireNonNull(messageSource);
   }
 
   @PostMapping(value = "/manager/pages/{pageId}/widgets", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:widgets:create')")
   public ResponseEntity<WidgetPageResponse> createWidgetAssociation(@PathVariable(name = "pageId") String pageId,
-      @RequestBody WidgetPageCreateForm createForm, Locale locale) {
+      @Valid @RequestBody WidgetPageCreateForm createForm, BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de création d'une association widget-page");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       WidgetPageResponse response = dispatcher.createEntity(pageId, createForm, locale);
-      if (response.getWidgetPage() != null) {
-        LOGGER.info("Entrée crée, id " + response.getWidgetPage().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée crée, id " + response.getWidgetPage().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
@@ -69,9 +73,15 @@ public class WidgetPageManagerController {
 
   @DeleteMapping(value = "/manager/pages/{pageId}/widgets/{widgetId}", produces = "application/json")
   @PreAuthorize("hasAuthority('webmastering:widgets:delete')")
-  public ResponseEntity<WidgetPageResponse> deleteWidgetAssociation(@PathVariable(name = "pageId") String pageId,
-      @PathVariable(name = "widgetId") String widgetId, Locale locale) {
+  public ResponseEntity<WidgetPageResponse> deleteWidgetAssociation(
+      @Valid @NotBlank @PathVariable(name = "pageId") String pageId,
+      @Valid @NotBlank @PathVariable(name = "widgetId") String widgetId, BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de suppression d'un widgetPage");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("delete.error", bindingResult, locale);
+      LOGGER.error("Echec de la suppression de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       dispatcher.deleteEntity(pageId, widgetId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

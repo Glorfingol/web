@@ -35,7 +35,7 @@ public class CommonParserTest {
   @Before
   public void setUp() {
     dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault());
-    ;
+
     backupFilePath = "test";
     parser = new PageCSVParser(dateFormatter, dataManipulator, backupFilePath);
   }

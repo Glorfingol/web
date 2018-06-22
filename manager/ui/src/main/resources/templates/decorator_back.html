@@ -44,10 +44,14 @@
   }
 
   function showNotification(from, align, notification) {
-
+    var message = notification.content;
+    var errors = notification.errors;
+    if (errors) {
+      displayFeedBack(errors);
+    }
     $.notify({
       icon: "notifications",
-      message: notification.content
+      message: message
 
     }, {
       type: notification.type,

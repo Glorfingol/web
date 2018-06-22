@@ -1,8 +1,12 @@
 package com.cmpl.web.core.widget;
 
+import javax.validation.constraints.NotBlank;
+
 public class WidgetCreateForm {
 
+  @NotBlank(message = "empty.widget.type")
   private String type;
+  @NotBlank(message = "empty.widget.name")
   private String name;
   private String localeCode;
 

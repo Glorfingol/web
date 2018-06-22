@@ -25,8 +25,7 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
 
   public MediaServiceImpl(MediaDAO mediaDAO, MediaMapper mediaMapper, FileService fileService) {
     super(mediaDAO, mediaMapper);
-    Objects.requireNonNull(fileService);
-    this.fileService = fileService;
+    this.fileService = Objects.requireNonNull(fileService);
     this.mediaDAO = mediaDAO;
   }
 

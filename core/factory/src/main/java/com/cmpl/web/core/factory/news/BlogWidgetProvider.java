@@ -31,12 +31,12 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
 
   public BlogWidgetProvider(WebMessageSource messageSource, ContextHolder contextHolder,
       NewsEntryService newsEntryService) {
-    Objects.requireNonNull(messageSource);
-    Objects.requireNonNull(newsEntryService);
-    Objects.requireNonNull(contextHolder);
-    this.messageSource = messageSource;
-    this.newsEntryService = newsEntryService;
-    this.contextHolder = contextHolder;
+
+    this.messageSource = Objects.requireNonNull(messageSource);
+
+    this.newsEntryService = Objects.requireNonNull(newsEntryService);
+
+    this.contextHolder = Objects.requireNonNull(contextHolder);
 
   }
 

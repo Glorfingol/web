@@ -3,41 +3,29 @@ package com.cmpl.web.core.widget;
 import java.util.Locale;
 import java.util.Objects;
 
-import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
 import com.cmpl.web.core.widget.page.WidgetPageDTO;
 import com.cmpl.web.core.widget.page.WidgetPageResponse;
-import com.cmpl.web.core.widget.page.WidgetPageResponseBuilder;
 import com.cmpl.web.core.widget.page.WidgetPageService;
 
 public class WidgetDispatcherImpl implements WidgetDispatcher {
 
   private final WidgetTranslator translator;
-  private final WidgetValidator validator;
   private final WidgetService widgetService;
   private final WidgetPageService widgetPageService;
 
-  public WidgetDispatcherImpl(WidgetTranslator translator, WidgetValidator validator, WidgetService widgetService,
+  public WidgetDispatcherImpl(WidgetTranslator translator, WidgetService widgetService,
       WidgetPageService widgetPageService) {
-    Objects.requireNonNull(translator);
-    Objects.requireNonNull(validator);
-    Objects.requireNonNull(widgetService);
-    Objects.requireNonNull(widgetPageService);
-    this.translator = translator;
-    this.validator = validator;
-    this.widgetService = widgetService;
-    this.widgetPageService = widgetPageService;
+
+    this.translator = Objects.requireNonNull(translator);
+    this.widgetService = Objects.requireNonNull(widgetService);
+    this.widgetPageService = Objects.requireNonNull(widgetPageService);
 
   }
 
   @Override
   public WidgetResponse createEntity(WidgetCreateForm form, Locale locale) {
-    Error error = validator.validateCreate(form, locale);
-
-    if (error != null) {
-      return WidgetResponseBuilder.create().error(error).build();
-    }
 
     WidgetDTO widgetToCreate = translator.fromCreateFormToDTO(form);
     WidgetDTO createdWidget = widgetService.createEntity(widgetToCreate, form.getLocaleCode());
@@ -46,12 +34,6 @@ public class WidgetDispatcherImpl implements WidgetDispatcher {
 
   @Override
   public WidgetResponse updateEntity(WidgetUpdateForm form, Locale locale) {
-
-    Error error = validator.validateUpdate(form, locale);
-
-    if (error != null) {
-      return WidgetResponseBuilder.create().error(error).build();
-    }
 
     WidgetDTO widgetToUpdate = widgetService.getEntity(form.getId());
     widgetToUpdate.setName(form.getName());
@@ -72,11 +54,6 @@ public class WidgetDispatcherImpl implements WidgetDispatcher {
 
   @Override
   public WidgetPageResponse createEntity(String pageId, WidgetPageCreateForm form, Locale locale) {
-    Error error = validator.validateCreate(form, locale);
-
-    if (error != null) {
-      return WidgetPageResponseBuilder.create().error(error).build();
-    }
 
     WidgetPageDTO widgetPageToCreateToCreate = translator.fromCreateFormToDTO(form);
     WidgetPageDTO createdWidgetPageToCreate = widgetPageService.createEntity(widgetPageToCreateToCreate);
@@ -85,12 +62,6 @@ public class WidgetDispatcherImpl implements WidgetDispatcher {
 
   @Override
   public void deleteEntity(String pageId, String widgetId, Locale locale) throws BaseException {
-
-    Error error = validator.validateDelete(widgetId, locale);
-
-    if (error != null) {
-      throw new BaseException(error.getCauses().get(0).getMessage());
-    }
 
     WidgetPageDTO widgetPageDTO = widgetPageService.findByPageIdAndWidgetId(pageId, widgetId);
     widgetPageService.deleteEntity(widgetPageDTO.getId());

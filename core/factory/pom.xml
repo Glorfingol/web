@@ -82,12 +82,18 @@
       <artifactId>cmpl-web-core-association-user-role</artifactId>
       <version>${cmpl.web.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-group</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+
 
   </dependencies>
 

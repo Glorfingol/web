@@ -36,9 +36,10 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
 
   public PageServiceImpl(PageDAO pageDAO, PageMapper pageMapper, FileService fileService) {
     super(pageDAO, pageMapper);
-    this.pageDAO = pageDAO;
-    Objects.requireNonNull(fileService);
-    this.fileService = fileService;
+    this.pageDAO = Objects.requireNonNull(pageDAO);
+
+    this.fileService = Objects.requireNonNull(fileService);
+
   }
 
   @Override

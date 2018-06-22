@@ -19,8 +19,8 @@ public class ActionTokenServiceImpl implements ActionTokenService {
   private final TokenService tokenService;
 
   public ActionTokenServiceImpl(TokenService tokenService) {
-    Objects.requireNonNull(tokenService);
-    this.tokenService = tokenService;
+    this.tokenService = Objects.requireNonNull(tokenService);
+
   }
 
   @Override

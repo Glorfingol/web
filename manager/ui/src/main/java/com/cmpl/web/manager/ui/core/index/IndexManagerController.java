@@ -21,8 +21,8 @@ public class IndexManagerController {
   private final BackDisplayFactory displayFactory;
 
   public IndexManagerController(BackDisplayFactory displayFactory) {
-    Objects.requireNonNull(displayFactory);
-    this.displayFactory = displayFactory;
+
+    this.displayFactory = Objects.requireNonNull(displayFactory);
   }
 
   @GetMapping

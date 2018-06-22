@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaDTOBuilder;
@@ -20,7 +19,6 @@ import com.cmpl.web.core.media.MediaService;
  */
 public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
 
-  private final NewsEntryRequestValidator validator;
   private final NewsEntryTranslator translator;
   private final NewsEntryService newsEntryService;
   private final FileService fileService;
@@ -28,28 +26,21 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
 
   private static final String MEDIA_CONTROLLER_PATH = "/public/medias/";
 
-  public NewsEntryDispatcherImpl(NewsEntryRequestValidator validator, NewsEntryTranslator translator,
-      NewsEntryService newsEntryService, FileService fileService, MediaService mediaService) {
-    Objects.requireNonNull(validator);
-    Objects.requireNonNull(translator);
-    Objects.requireNonNull(fileService);
-    Objects.requireNonNull(newsEntryService);
-    Objects.requireNonNull(mediaService);
-    this.validator = validator;
-    this.translator = translator;
-    this.newsEntryService = newsEntryService;
-    this.fileService = fileService;
-    this.mediaService = mediaService;
+  public NewsEntryDispatcherImpl(NewsEntryTranslator translator, NewsEntryService newsEntryService,
+      FileService fileService, MediaService mediaService) {
+
+    this.translator = Objects.requireNonNull(translator);
+
+    this.newsEntryService = Objects.requireNonNull(newsEntryService);
+
+    this.fileService = Objects.requireNonNull(fileService);
+
+    this.mediaService = Objects.requireNonNull(mediaService);
+
   }
 
   @Override
   public NewsEntryResponse createEntity(NewsEntryRequest newsEntryRequest, Locale locale) {
-
-    Error error = validator.validateCreate(newsEntryRequest, locale);
-
-    if (error != null) {
-      return NewsEntryResponseBuilder.create().error(error).build();
-    }
 
     NewsEntryDTO entityToCreate = translator.fromRequestToDTO(newsEntryRequest);
     NewsEntryDTO entityCreated = newsEntryService.createEntity(entityToCreate);
@@ -59,12 +50,6 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
 
   @Override
   public NewsEntryResponse updateEntity(NewsEntryRequest newsEntryRequest, String newsEntryId, Locale locale) {
-
-    Error error = validator.validateUpdate(newsEntryRequest, newsEntryId, locale);
-
-    if (error != null) {
-      return NewsEntryResponseBuilder.create().error(error).build();
-    }
 
     newsEntryRequest.setId(Long.parseLong(newsEntryId));
     NewsEntryDTO entityToUpdate = translator.fromRequestToDTO(newsEntryRequest);
@@ -77,10 +62,7 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
 
   @Override
   public NewsEntryResponse deleteEntity(String newsEntryId, Locale locale) {
-    Error error = validator.validateDelete(newsEntryId, locale);
-    if (error != null) {
-      return NewsEntryResponseBuilder.create().error(error).build();
-    }
+
     newsEntryService.deleteEntity(Long.parseLong(newsEntryId));
     return NewsEntryResponseBuilder.create().build();
   }

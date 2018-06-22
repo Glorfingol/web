@@ -8,6 +8,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
 
 @Configuration
@@ -26,8 +27,8 @@ public class NotificationConfiguration implements WebSocketMessageBrokerConfigur
   }
 
   @Bean
-  public NotificationCenter notificationCenter(SimpMessagingTemplate template) {
-    return new NotificationCenter(template);
+  public NotificationCenter notificationCenter(SimpMessagingTemplate template, WebMessageSource messageSource) {
+    return new NotificationCenter(template, messageSource);
   }
 
 }
