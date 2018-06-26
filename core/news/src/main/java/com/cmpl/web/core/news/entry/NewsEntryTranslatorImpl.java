@@ -17,35 +17,29 @@ public class NewsEntryTranslatorImpl implements NewsEntryTranslator {
 
   @Override
   public NewsEntryDTO fromRequestToDTO(NewsEntryRequest request) {
-    NewsEntryDTOBuilder dtoBuilder = NewsEntryDTOBuilder.create().author(request.getAuthor()).tags(request.getTags())
-        .title(request.getTitle());
-
-    NewsContentRequest contentRequest = request.getContent();
-    if (contentRequest != null) {
-      dtoBuilder.newsContent(fromContentRequestToDTO(contentRequest));
-    }
-
-    NewsImageRequest imageRequest = request.getImage();
-    if (imageRequest != null) {
-      dtoBuilder.newsImage(fromImageRequestToDTO(imageRequest));
-    }
-    dtoBuilder.id(request.getId()).creationDate(request.getCreationDate())
-        .modificationDate(request.getModificationDate());
-    return dtoBuilder.build();
+    return NewsEntryDTOBuilder.create().author(request.getAuthor()).tags(request.getTags()).title(request.getTitle())
+        .newsContent(fromRequestToDTO(request.getContent())).newsImage(fromRequestToDTO(request.getImage()))
+        .id(request.getId()).creationDate(request.getCreationDate()).modificationDate(request.getModificationDate())
+        .build();
   }
 
-  NewsContentDTO fromContentRequestToDTO(NewsContentRequest contentRequest) {
-    return NewsContentDTOBuilder.create().content(contentRequest.getContent())
-        .creationDate(contentRequest.getCreationDate()).id(contentRequest.getId())
-        .modificationDate(contentRequest.getModificationDate()).build();
-
+  @Override
+  public NewsContentDTO fromRequestToDTO(NewsContentRequest request) {
+    if (request == null) {
+      return null;
+    }
+    return NewsContentDTOBuilder.create().content(request.getContent()).creationDate(request.getCreationDate())
+        .id(request.getId()).modificationDate(request.getModificationDate()).build();
   }
 
-  NewsImageDTO fromImageRequestToDTO(NewsImageRequest imageRequest) {
-    return NewsImageDTOBuilder.create().alt(imageRequest.getAlt()).legend(imageRequest.getLegend())
-        .creationDate(imageRequest.getCreationDate()).id(imageRequest.getId())
-        .modificationDate(imageRequest.getModificationDate()).build();
-
+  @Override
+  public NewsImageDTO fromRequestToDTO(NewsImageRequest request) {
+    if (request == null) {
+      return null;
+    }
+    return NewsImageDTOBuilder.create().alt(request.getAlt()).legend(request.getLegend())
+        .creationDate(request.getCreationDate()).id(request.getId()).modificationDate(request.getModificationDate())
+        .build();
   }
 
   @Override

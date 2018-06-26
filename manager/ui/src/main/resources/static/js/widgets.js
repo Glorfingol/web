@@ -67,7 +67,8 @@ function postCreateWidgetForm() {
     handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
         $("#widgetCreateForm"), url)
   }).fail(function (error) {
-    handleErrorPostResult(urlFallback);
+    handleErrorPostResult($(".loader"), $(".card-loader"),
+        $("#widgetCreateForm"));
   });
 }
 
@@ -80,7 +81,8 @@ function postUpdateWidgetForm() {
     handleSuccessPutResult(data, $(".card-loader"), $(".loader"),
         $("#widgetUpdateForm"), url, true)
   }).fail(function (error) {
-    handleErrorPutResult(urlFallback);
+    handleErrorPutResult($(".loader"), $(".card-loader"),
+        $("#widgetUpdateForm"));
   });
 }
 

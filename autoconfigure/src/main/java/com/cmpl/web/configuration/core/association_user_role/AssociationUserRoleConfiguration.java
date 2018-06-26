@@ -17,9 +17,6 @@ import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleServiceImpl;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleTranslator;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleTranslatorImpl;
-import com.cmpl.web.core.association_user_role.AssociationUserRoleValidator;
-import com.cmpl.web.core.association_user_role.AssociationUserRoleValidatorImpl;
-import com.cmpl.web.core.common.message.WebMessageSource;
 
 @Configuration
 @EntityScan(basePackageClasses = AssociationUserRole.class)
@@ -44,21 +41,15 @@ public class AssociationUserRoleConfiguration {
   }
 
   @Bean
-  public AssociationUserRoleValidator associationUserRoleValidator(WebMessageSource messageSource) {
-    return new AssociationUserRoleValidatorImpl(messageSource);
-  }
-
-  @Bean
   public AssociationUserRoleTranslator associationUserRoleTranslator() {
     return new AssociationUserRoleTranslatorImpl();
   }
 
   @Bean
   public AssociationUserRoleDispatcher associationUserRoleDispatcher(
-      AssociationUserRoleService associationUserRoleService, AssociationUserRoleValidator associationUserRoleValidator,
+      AssociationUserRoleService associationUserRoleService,
       AssociationUserRoleTranslator associationUserRoleTranslator) {
-    return new AssociationUserRoleDispatcherImpl(associationUserRoleService, associationUserRoleValidator,
-        associationUserRoleTranslator);
+    return new AssociationUserRoleDispatcherImpl(associationUserRoleService, associationUserRoleTranslator);
   }
 
 }

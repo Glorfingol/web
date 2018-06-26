@@ -28,8 +28,6 @@ import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.page.PageServiceImpl;
 import com.cmpl.web.core.page.PageTranslator;
 import com.cmpl.web.core.page.PageTranslatorImpl;
-import com.cmpl.web.core.page.PageValidator;
-import com.cmpl.web.core.page.PageValidatorImpl;
 import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
 
@@ -50,8 +48,7 @@ public class PageConfigurationTest {
   private WebMessageSource messageSource;
   @Mock
   private PageService pageService;
-  @Mock
-  private PageValidator validator;
+
   @Mock
   private PageTranslator translator;
   @Mock
@@ -84,18 +81,12 @@ public class PageConfigurationTest {
 
   @Test
   public void testPageDispatcher() throws Exception {
-    Assert.assertEquals(PageDispatcherImpl.class,
-        configuration.pageDispatcher(validator, translator, pageService).getClass());
+    Assert.assertEquals(PageDispatcherImpl.class, configuration.pageDispatcher(translator, pageService).getClass());
   }
 
   @Test
   public void testPageService() throws Exception {
     Assert.assertEquals(PageServiceImpl.class, configuration.pageService(pageDAO, pageMapper, fileService).getClass());
-  }
-
-  @Test
-  public void testPageValidator() throws Exception {
-    Assert.assertEquals(PageValidatorImpl.class, configuration.pageValidator(messageSource).getClass());
   }
 
   @Test

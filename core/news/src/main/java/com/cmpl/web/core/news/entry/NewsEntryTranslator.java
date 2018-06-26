@@ -1,5 +1,10 @@
 package com.cmpl.web.core.news.entry;
 
+import com.cmpl.web.core.news.content.NewsContentDTO;
+import com.cmpl.web.core.news.content.NewsContentRequest;
+import com.cmpl.web.core.news.image.NewsImageDTO;
+import com.cmpl.web.core.news.image.NewsImageRequest;
+
 /**
  * Translator pour les requetes de creation/modification de NewsEntry
  * 
@@ -8,19 +13,11 @@ package com.cmpl.web.core.news.entry;
  */
 public interface NewsEntryTranslator {
 
-  /**
-   * Transforme les request REST en objet pour l'import
-   * 
-   * @param request
-   * @return
-   */
   NewsEntryDTO fromRequestToDTO(NewsEntryRequest request);
 
-  /**
-   * Transforme les objets importes en reponse
-   * 
-   * @param dto
-   * @return
-   */
+  NewsContentDTO fromRequestToDTO(NewsContentRequest request);
+
+  NewsImageDTO fromRequestToDTO(NewsImageRequest request);
+
   NewsEntryResponse fromDTOToResponse(NewsEntryDTO dto);
 }

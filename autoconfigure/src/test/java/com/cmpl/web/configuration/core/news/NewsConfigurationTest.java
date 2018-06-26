@@ -30,8 +30,6 @@ import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
 import com.cmpl.web.core.news.entry.NewsEntryDispatcherImpl;
 import com.cmpl.web.core.news.entry.NewsEntryMapper;
 import com.cmpl.web.core.news.entry.NewsEntryRepository;
-import com.cmpl.web.core.news.entry.NewsEntryRequestValidator;
-import com.cmpl.web.core.news.entry.NewsEntryRequestValidatorImpl;
 import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.news.entry.NewsEntryServiceImpl;
 import com.cmpl.web.core.news.entry.NewsEntryTranslator;
@@ -63,9 +61,6 @@ public class NewsConfigurationTest {
 
   @Mock
   NewsImageMapper newsImageMapper;
-
-  @Mock
-  NewsEntryRequestValidator validator;
 
   @Mock
   NewsEntryTranslator translator;
@@ -118,7 +113,7 @@ public class NewsConfigurationTest {
   @Test
   public void testNewsEntryDispatcher() throws Exception {
 
-    NewsEntryDispatcher result = configuration.newsEntryDispatcher(validator, translator, newsEntryService, fileService,
+    NewsEntryDispatcher result = configuration.newsEntryDispatcher(translator, newsEntryService, fileService,
         mediaService);
 
     Assert.assertEquals(NewsEntryDispatcherImpl.class, result.getClass());
@@ -129,14 +124,6 @@ public class NewsConfigurationTest {
     NewsEntryTranslator result = configuration.newsEntryTranslator();
 
     Assert.assertEquals(NewsEntryTranslatorImpl.class, result.getClass());
-  }
-
-  @Test
-  public void testNewsEntryRequestValidator() throws Exception {
-
-    NewsEntryRequestValidator result = configuration.newsEntryRequestValidator(messageSource);
-
-    Assert.assertEquals(NewsEntryRequestValidatorImpl.class, result.getClass());
   }
 
   @Test

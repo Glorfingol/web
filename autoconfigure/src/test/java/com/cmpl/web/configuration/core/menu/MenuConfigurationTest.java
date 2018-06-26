@@ -25,8 +25,6 @@ import com.cmpl.web.core.menu.MenuMapper;
 import com.cmpl.web.core.menu.MenuService;
 import com.cmpl.web.core.menu.MenuTranslator;
 import com.cmpl.web.core.menu.MenuTranslatorImpl;
-import com.cmpl.web.core.menu.MenuValidator;
-import com.cmpl.web.core.menu.MenuValidatorImpl;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.page.PageService;
 
@@ -44,8 +42,7 @@ public class MenuConfigurationTest {
 
   @Mock
   private MenuService menuService;
-  @Mock
-  private MenuValidator validator;
+
   @Mock
   private MenuTranslator translator;
   @Mock
@@ -73,11 +70,6 @@ public class MenuConfigurationTest {
   }
 
   @Test
-  public void testMenuValidator() throws Exception {
-    Assert.assertEquals(MenuValidatorImpl.class, configuration.menuValidator(messageSource).getClass());
-  }
-
-  @Test
   public void testMenuTranslator() throws Exception {
     Assert.assertEquals(MenuTranslatorImpl.class, configuration.menuTranslator().getClass());
   }
@@ -85,7 +77,7 @@ public class MenuConfigurationTest {
   @Test
   public void testMenuDispatcher() throws Exception {
     Assert.assertEquals(MenuDispatcherImpl.class,
-        configuration.menuDispatcher(validator, translator, menuService, pageService).getClass());
+        configuration.menuDispatcher(translator, menuService, pageService).getClass());
   }
 
   @Test

@@ -31,11 +31,9 @@ public class NewsImageMapper extends BaseMapper<NewsImageDTO, NewsImage> {
   public NewsImage toEntity(NewsImageDTO dto) {
     NewsImage entity = new NewsImage();
     fillObject(dto, entity);
-    String mediaId = null;
     if (dto.getMedia() != null) {
-      mediaId = String.valueOf(dto.getMedia().getId());
+      entity.setMediaId(String.valueOf(dto.getMedia().getId()));
     }
-    entity.setMediaId(mediaId);
 
     return entity;
 

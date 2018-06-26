@@ -30,7 +30,7 @@ public class NewsEntryTranslatorImplTest {
     NewsImageRequest imageRequest = NewsImageRequestBuilder.create().alt("someAlt").legend("someLegend")
         .creationDate(date).modificationDate(date).id(1L).build();
 
-    NewsImageDTO result = translator.fromImageRequestToDTO(imageRequest);
+    NewsImageDTO result = translator.fromRequestToDTO(imageRequest);
 
     Assert.assertEquals(imageRequest.getAlt(), result.getAlt());
     Assert.assertEquals(imageRequest.getCreationDate(), result.getCreationDate());
@@ -45,7 +45,7 @@ public class NewsEntryTranslatorImplTest {
     NewsContentRequest contentRequest = NewsContentRequestBuilder.create().content("someContent").creationDate(date)
         .modificationDate(date).id(1L).build();
 
-    NewsContentDTO result = translator.fromContentRequestToDTO(contentRequest);
+    NewsContentDTO result = translator.fromRequestToDTO(contentRequest);
 
     Assert.assertEquals(contentRequest.getContent(), result.getContent());
     Assert.assertEquals(contentRequest.getCreationDate(), result.getCreationDate());

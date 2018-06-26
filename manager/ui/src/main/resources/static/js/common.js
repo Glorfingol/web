@@ -127,10 +127,11 @@ function createThenUpload(formToToggle, loader, cardLoader, url, urlFallBack,
         mediaToSend).done(function (data) {
       handleSuccessPostResult(data, cardLoader, loader, formToToggle, url);
     }).fail(function (error) {
-      handleErrorPostResult(urlFallBack);
+      handleErrorPostResult(loader, cardLoader, formToToggle);
     });
   }).fail(function (error) {
-    handleErrorPostResult(urlFallBack);
+    handleErrorPostResult(loader, cardLoader, formToToggle
+    );
   });
 
 }
@@ -147,10 +148,11 @@ function updateThenUpload(formToToggle, loader, cardLoader, url, urlFallBack,
         mediaToSend).done(function (data) {
       handleSuccessPostResult(data, cardLoader, loader, formToToggle, url);
     }).fail(function (error) {
-      handleErrorPostResult(urlFallBack);
+      handleErrorPostResult(loader, cardLoader,
+          formToToggle);
     });
   }).fail(function (error) {
-    handleErrorPutResult(urlFallBack);
+    handleErrorPutResult(loader, cardLoader, formToToggle);
   });
 
 }
@@ -166,8 +168,10 @@ function handleSuccessPostResult(data, cardLoader, loader, formToToggle, url) {
   }
 }
 
-function handleErrorPostResult(urlFallbak) {
-  window.location.href = urlFallbak;
+function handleErrorPostResult(loader, cardLoader, form) {
+  loader.hide();
+  cardLoader.hide();
+  form.show();
 }
 
 function handleSuccessPutResult(data, cardLoader, loader, formToToggle,
@@ -189,8 +193,10 @@ function handleSuccessPutResult(data, cardLoader, loader, formToToggle,
   }
 }
 
-function handleErrorPutResult(urlFallBack) {
-  window.location.href = urlFallBack;
+function handleErrorPutResult(loader, cardLoader, form) {
+  loader.hide();
+  cardLoader.hide();
+  form.show();
 }
 
 function fix_height() {

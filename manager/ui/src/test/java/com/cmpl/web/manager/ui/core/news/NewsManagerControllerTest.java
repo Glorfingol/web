@@ -12,6 +12,7 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.common.exception.BaseException;
@@ -45,7 +46,9 @@ public class NewsManagerControllerTest {
 
   @Test
   public void testDeleteNewsEntry() throws Exception {
-    ResponseEntity<NewsEntryResponse> result = controller.deleteNewsEntry("666", Locale.FRANCE);
+    BindingResult bindingResult = BDDMockito.mock(BindingResult.class);
+    BDDMockito.given(bindingResult.hasErrors()).willReturn(false);
+    ResponseEntity<NewsEntryResponse> result = controller.deleteNewsEntry("666", bindingResult, Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
   }
@@ -68,27 +71,15 @@ public class NewsManagerControllerTest {
     NewsEntryRequest request = NewsEntryRequestBuilder.create().build();
 
     NewsEntryResponse response = new NewsEntryResponse();
+    BindingResult bindingResult = BDDMockito.mock(BindingResult.class);
+    BDDMockito.given(bindingResult.hasErrors()).willReturn(false);
 
     BDDMockito.doReturn(response).when(dispatcher).updateEntity(BDDMockito.eq(request), BDDMockito.eq("666"),
         BDDMockito.eq(Locale.FRANCE));
-    ResponseEntity<NewsEntryResponse> result = controller.updateNewsEntry("666", request, Locale.FRANCE);
+    ResponseEntity<NewsEntryResponse> result = controller.updateNewsEntry("666", request, bindingResult, Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
     Assert.assertEquals(response, result.getBody());
-  }
-
-  @Test
-  public void testUpdateNewsEntry_Ko() throws BaseException {
-
-    NewsEntryRequest request = NewsEntryRequestBuilder.create().build();
-
-    BDDMockito.doThrow(new BaseException("")).when(dispatcher).updateEntity(BDDMockito.eq(request),
-        BDDMockito.eq("666"), BDDMockito.eq(Locale.FRANCE));
-
-    ResponseEntity<NewsEntryResponse> result = controller.updateNewsEntry("666", request, Locale.FRANCE);
-
-    Assert.assertEquals(HttpStatus.CONFLICT, result.getStatusCode());
-
   }
 
   @Test
@@ -99,8 +90,11 @@ public class NewsManagerControllerTest {
     NewsEntryResponse response = new NewsEntryResponse();
     response.setNewsEntry(entryDTO);
 
+    BindingResult bindingResult = BDDMockito.mock(BindingResult.class);
+    BDDMockito.given(bindingResult.hasErrors()).willReturn(false);
+
     BDDMockito.doReturn(response).when(dispatcher).createEntity(BDDMockito.eq(request), BDDMockito.eq(Locale.FRANCE));
-    ResponseEntity<NewsEntryResponse> result = controller.createNewsEntry(request, Locale.FRANCE);
+    ResponseEntity<NewsEntryResponse> result = controller.createNewsEntry(request, bindingResult, Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.CREATED, result.getStatusCode());
     Assert.assertEquals(response, result.getBody());
@@ -111,10 +105,13 @@ public class NewsManagerControllerTest {
 
     NewsEntryRequest request = NewsEntryRequestBuilder.create().build();
 
+    BindingResult bindingResult = BDDMockito.mock(BindingResult.class);
+    BDDMockito.given(bindingResult.hasErrors()).willReturn(false);
+
     BDDMockito.doThrow(new BaseException("")).when(dispatcher).createEntity(BDDMockito.eq(request),
         BDDMockito.eq(Locale.FRANCE));
 
-    ResponseEntity<NewsEntryResponse> result = controller.createNewsEntry(request, Locale.FRANCE);
+    ResponseEntity<NewsEntryResponse> result = controller.createNewsEntry(request, bindingResult, Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.CONFLICT, result.getStatusCode());
 

@@ -1,9 +1,13 @@
 package com.cmpl.web.core.carousel.item;
 
+import javax.validation.constraints.NotBlank;
+
 public class CarouselItemCreateForm {
 
+  @NotBlank(message = "empty.carousel.id")
   private String carouselId;
   private int orderInCarousel;
+  @NotBlank(message = "empty.media.id")
   private String mediaId;
 
   public String getCarouselId() {

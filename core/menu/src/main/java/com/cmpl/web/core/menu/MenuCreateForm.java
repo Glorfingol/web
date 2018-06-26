@@ -1,12 +1,18 @@
 package com.cmpl.web.core.menu;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+
 public class MenuCreateForm {
 
+  @NotBlank(message = "empty.menu.title")
   private String title;
   private String label;
   private String href;
+  @Positive(message = "bad.menu.order")
   private int orderInMenu;
   private String parentId;
+  @NotBlank(message = "empty.menu.page")
   private String pageId;
 
   public String getTitle() {

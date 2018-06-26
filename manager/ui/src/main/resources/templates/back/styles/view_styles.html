@@ -1,6 +1,6 @@
 <div class="card card-body mb-4">
   <form id="styleViewForm" th:object="${style}">
-    <div class="form-group mb-3" id="formInputContent">
+    <div class="form-check form-group mb-3" id="formInputContent">
       <label th:text="#{style.content.label}"/>
       <textarea rows="3" id="styleContent" class="form-control" th:field="*{content}"/>
       <small class="form-text text-muted" th:text="#{style.content.help}"/>

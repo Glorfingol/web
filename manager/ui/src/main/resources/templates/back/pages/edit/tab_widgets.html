@@ -1,7 +1,7 @@
 <form id="widgetAssociationForm" th:object="${createForm}" class="row">
   <div class="mb-3 col-12">
     <input type="hidden" th:field="*{pageId}"/>
-    <div class="form-group mb-3" id="formInputWidget">
+    <div class="form-check form-group mb-3" id="formInputWidget">
       <label th:text="#{widget.name.label}"/>
       <select th:field="*{widgetId}" class="form-control">
         <option value=""></option>

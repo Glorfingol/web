@@ -69,7 +69,8 @@ function postUpdateGroupForm() {
     currentTab = "";
     goToGroupMainTab();
   }).fail(function (error) {
-    handleErrorPutResult(urlFallback);
+    handleErrorPutResult($(".loader"), $(".card-loader"),
+        $("#groupUpdateForm"));
   });
 }
 
@@ -82,6 +83,7 @@ function postCreateGroupForm() {
     handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
         $("#groupCreateForm"), url);
   }).fail(function (error) {
-    handleErrorPostResult(urlFallback);
+    handleErrorPostResult($(".loader"), $(".card-loader"),
+        $("#groupCreateForm"));
   });
 }

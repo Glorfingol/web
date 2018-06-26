@@ -48,6 +48,7 @@ function postUpdateStyleForm() {
     handleSuccessPutResult(data, $(".card-loader"), $(".loader"),
         $("#styleUpdateForm"), url)
   }).fail(function (error) {
-    handleErrorPutResult(urlFallback);
+    handleErrorPutResult($(".loader"), $(".card-loader"),
+        $("#styleUpdateForm"));
   });
 }

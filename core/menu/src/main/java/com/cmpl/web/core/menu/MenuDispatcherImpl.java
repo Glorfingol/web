@@ -5,21 +5,17 @@ import java.util.Objects;
 
 import org.springframework.util.StringUtils;
 
-import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
 
 public class MenuDispatcherImpl implements MenuDispatcher {
 
-  private final MenuValidator validator;
   private final MenuTranslator translator;
   private final MenuService menuService;
   private final PageService pageService;
 
-  public MenuDispatcherImpl(MenuValidator validator, MenuTranslator translator, MenuService menuService,
-      PageService pageService) {
+  public MenuDispatcherImpl(MenuTranslator translator, MenuService menuService, PageService pageService) {
 
-    this.validator = Objects.requireNonNull(validator);
     this.translator = Objects.requireNonNull(translator);
     this.menuService = Objects.requireNonNull(menuService);
     this.pageService = Objects.requireNonNull(pageService);
@@ -27,12 +23,6 @@ public class MenuDispatcherImpl implements MenuDispatcher {
 
   @Override
   public MenuResponse createEntity(MenuCreateForm form, Locale locale) {
-
-    Error error = validator.validateCreate(form, locale);
-
-    if (error != null) {
-      return MenuResponseBuilder.create().error(error).build();
-    }
 
     MenuDTO menuToCreate = translator.fromCreateFormToDTO(form);
 
@@ -48,12 +38,6 @@ public class MenuDispatcherImpl implements MenuDispatcher {
 
   @Override
   public MenuResponse updateEntity(MenuUpdateForm form, Locale locale) {
-
-    Error error = validator.validateUpdate(form, locale);
-
-    if (error != null) {
-      return MenuResponseBuilder.create().error(error).build();
-    }
 
     MenuDTO menuToUpdate = menuService.getEntity(form.getId());
     MenuDTOBuilder menuToUpdateBuilder = MenuDTOBuilder.create().href(form.getHref()).label(form.getLabel())

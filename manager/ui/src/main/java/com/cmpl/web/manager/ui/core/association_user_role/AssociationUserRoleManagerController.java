@@ -3,11 +3,15 @@ package com.cmpl.web.manager.ui.core.association_user_role;
 import java.util.Locale;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,19 +47,21 @@ public class AssociationUserRoleManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:responsibilities:create')")
   public ResponseEntity<AssociationUserRoleResponse> createAssociationUserRole(
-      @RequestBody AssociationUserRoleCreateForm createForm, Locale locale) {
+      @Valid @RequestBody AssociationUserRoleCreateForm createForm, BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de création d'une association user/role");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       AssociationUserRoleResponse response = dispatcher.createEntity(createForm, locale);
-      if (response.getAssociationUserRoleDTO() != null) {
-        LOGGER.info("Entrée crée, id " + response.getAssociationUserRoleDTO().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée crée, id " + response.getAssociationUserRoleDTO().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (BaseException e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
@@ -68,8 +74,14 @@ public class AssociationUserRoleManagerController {
   @DeleteMapping(value = "/manager/responsibilities/{userId}/{roleId}", produces = "application/json")
   @PreAuthorize("hasAuthority('administration:responsibilities:delete')")
   public ResponseEntity<AssociationUserRoleResponse> deleteAssociationUserRole(
-      @PathVariable(name = "userId") String userId, @PathVariable(name = "roleId") String roleId, Locale locale) {
+      @Valid @NotBlank @PathVariable(name = "userId") String userId,
+      @Valid @NotBlank @PathVariable(name = "roleId") String roleId, BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de suppression d'une association user role");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("delete.error", bindingResult, locale);
+      LOGGER.error("Echec de la suppression de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       dispatcher.deleteEntity(userId, roleId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

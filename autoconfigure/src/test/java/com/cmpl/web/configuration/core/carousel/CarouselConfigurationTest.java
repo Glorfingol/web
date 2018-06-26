@@ -22,8 +22,6 @@ import com.cmpl.web.core.carousel.CarouselService;
 import com.cmpl.web.core.carousel.CarouselServiceImpl;
 import com.cmpl.web.core.carousel.CarouselTranslator;
 import com.cmpl.web.core.carousel.CarouselTranslatorImpl;
-import com.cmpl.web.core.carousel.CarouselValidator;
-import com.cmpl.web.core.carousel.CarouselValidatorImpl;
 import com.cmpl.web.core.carousel.item.CarouselItemDAO;
 import com.cmpl.web.core.carousel.item.CarouselItemMapper;
 import com.cmpl.web.core.carousel.item.CarouselItemRepository;
@@ -67,8 +65,7 @@ public class CarouselConfigurationTest {
   private CarouselService carouselService;
   @Mock
   private CarouselTranslator carouselTranslator;
-  @Mock
-  private CarouselValidator carouselValidator;
+
   @Mock
   private Set<Locale> availableLocales;
 
@@ -102,11 +99,6 @@ public class CarouselConfigurationTest {
   }
 
   @Test
-  public void testCarouselValidator() throws Exception {
-    Assert.assertEquals(CarouselValidatorImpl.class, configuration.carouselValidator(messageSource).getClass());
-  }
-
-  @Test
   public void testCarouselManagerDisplayFactory() throws Exception {
     Assert.assertEquals(CarouselManagerDisplayFactoryImpl.class,
         configuration.carouselManagerDisplayFactory(menuFactory, messageSource, carouselService, carouselItemService,
@@ -116,8 +108,7 @@ public class CarouselConfigurationTest {
   @Test
   public void testCarouselDispatcher() throws Exception {
     Assert.assertEquals(CarouselDispatcherImpl.class, configuration
-        .carouselDispatcher(carouselService, carouselItemService, carouselTranslator, carouselValidator, mediaService)
-        .getClass());
+        .carouselDispatcher(carouselService, carouselItemService, carouselTranslator, mediaService).getClass());
   }
 
 }

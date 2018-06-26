@@ -34,8 +34,6 @@ import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.group.GroupServiceImpl;
 import com.cmpl.web.core.group.GroupTranslator;
 import com.cmpl.web.core.group.GroupTranslatorImpl;
-import com.cmpl.web.core.group.GroupValidator;
-import com.cmpl.web.core.group.GroupValidatorImpl;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
@@ -95,14 +93,8 @@ public class GroupConfiguration {
   }
 
   @Bean
-  public GroupValidator groupValidator(WebMessageSource messageSource) {
-    return new GroupValidatorImpl(messageSource);
-  }
-
-  @Bean
-  public GroupDispatcher groupDispatcher(GroupService groupService, GroupTranslator groupTranslator,
-      GroupValidator groupValidator) {
-    return new GroupDispatcherImpl(groupValidator, groupTranslator, groupService);
+  public GroupDispatcher groupDispatcher(GroupService groupService, GroupTranslator groupTranslator) {
+    return new GroupDispatcherImpl(groupTranslator, groupService);
   }
 
   @Bean

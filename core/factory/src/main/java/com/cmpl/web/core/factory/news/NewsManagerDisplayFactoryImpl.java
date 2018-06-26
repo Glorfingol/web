@@ -20,6 +20,7 @@ import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.news.content.NewsContentDTO;
+import com.cmpl.web.core.news.content.NewsContentDTOBuilder;
 import com.cmpl.web.core.news.content.NewsContentRequest;
 import com.cmpl.web.core.news.content.NewsContentRequestBuilder;
 import com.cmpl.web.core.news.entry.NewsEntryDTO;
@@ -27,6 +28,7 @@ import com.cmpl.web.core.news.entry.NewsEntryRequest;
 import com.cmpl.web.core.news.entry.NewsEntryRequestBuilder;
 import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.news.image.NewsImageDTO;
+import com.cmpl.web.core.news.image.NewsImageDTOBuilder;
 import com.cmpl.web.core.news.image.NewsImageRequest;
 import com.cmpl.web.core.news.image.NewsImageRequestBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
@@ -91,7 +93,7 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   public ModelAndView computeModelAndViewForOneNewsEntry(Locale locale, String newsEntryId) {
     ModelAndView newsManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_UPDATE, locale);
-    newsManager.addObject("newsFormBean", computeNewsRequestForEditForm(newsEntryId));
+    newsManager.addObject("updateForm", computeNewsRequestForEditForm(newsEntryId));
 
     return newsManager;
   }
@@ -132,6 +134,42 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     return NewsContentRequestBuilder.create().content(dto.getNewsContent().getContent())
         .id(dto.getNewsContent().getId()).creationDate(dto.getNewsContent().getCreationDate())
         .modificationDate(dto.getNewsContent().getModificationDate()).build();
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForUpdateNewsMain(String newsEntryId, Locale locale) {
+    ModelAndView newsManager = new ModelAndView("back/news/edit/tab_main");
+    newsManager.addObject("newsEntryFormBean", computeNewsRequestForEditForm(newsEntryId));
+
+    return newsManager;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForUpdateNewsContent(String newsEntryId, Locale locale) {
+    ModelAndView newsManager = new ModelAndView("back/news/edit/tab_content");
+    NewsEntryDTO newsEntryDTO = newsEntryService.getEntity(Long.parseLong(newsEntryId));
+    NewsContentDTO newsContentDTO = newsEntryDTO.getNewsContent();
+    if (newsContentDTO == null) {
+      newsEntryDTO.setNewsContent(NewsContentDTOBuilder.create().build());
+    }
+    newsManager.addObject("newsContentFormBean", computeNewsContentRequest(newsEntryDTO));
+    newsManager.addObject("newsEntryId", String.valueOf(newsEntryDTO.getId()));
+
+    return newsManager;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForUpdateNewsImage(String newsEntryId, Locale locale) {
+    ModelAndView newsManager = new ModelAndView("back/news/edit/tab_image");
+    NewsEntryDTO newsEntryDTO = newsEntryService.getEntity(Long.parseLong(newsEntryId));
+    NewsImageDTO newsImageDTO = newsEntryDTO.getNewsImage();
+    if (newsImageDTO == null) {
+      newsEntryDTO.setNewsImage(NewsImageDTOBuilder.create().build());
+    }
+    newsManager.addObject("newsImageFormBean", computeNewsImageRequest(newsEntryDTO));
+    newsManager.addObject("newsEntryId", String.valueOf(newsEntryDTO.getId()));
+
+    return newsManager;
   }
 
   @Override

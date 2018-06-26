@@ -77,7 +77,8 @@ function postUpdateMenuForm() {
     handleSuccessPutResult(data, $(".card-loader"), $(".loader"),
         $("#menuEditForm"), url)
   }).fail(function (error) {
-    handleErrorPutResult(urlFallback);
+    handleErrorPutResult($(".loader"), $(".card-loader"),
+        $("#menuEditForm"));
   });
 }
 
@@ -90,6 +91,7 @@ function postCreateMenuForm() {
     handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
         $("#menuCreateForm"), url)
   }).fail(function (error) {
-    handleErrorPostResult(urlFallback);
+    handleErrorPostResult($(".loader"), $(".card-loader"),
+        $("#menuCreateForm"));
   });
 }

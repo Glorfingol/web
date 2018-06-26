@@ -43,8 +43,6 @@ import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
 import com.cmpl.web.core.news.entry.NewsEntryDispatcherImpl;
 import com.cmpl.web.core.news.entry.NewsEntryMapper;
 import com.cmpl.web.core.news.entry.NewsEntryRepository;
-import com.cmpl.web.core.news.entry.NewsEntryRequestValidator;
-import com.cmpl.web.core.news.entry.NewsEntryRequestValidatorImpl;
 import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.news.entry.NewsEntryServiceImpl;
 import com.cmpl.web.core.news.entry.NewsEntryTranslator;
@@ -65,9 +63,9 @@ import com.cmpl.web.core.page.BACK_PAGE;
 public class NewsConfiguration {
 
   @Bean
-  public NewsEntryDispatcher newsEntryDispatcher(NewsEntryRequestValidator validator, NewsEntryTranslator translator,
-      NewsEntryService newsEntryService, FileService fileService, MediaService mediaService) {
-    return new NewsEntryDispatcherImpl(validator, translator, newsEntryService, fileService, mediaService);
+  public NewsEntryDispatcher newsEntryDispatcher(NewsEntryTranslator translator, NewsEntryService newsEntryService,
+      FileService fileService, MediaService mediaService) {
+    return new NewsEntryDispatcherImpl(translator, newsEntryService, fileService, mediaService);
   }
 
   @Bean
@@ -125,11 +123,6 @@ public class NewsConfiguration {
   @Bean
   public NewsEntryTranslator newsEntryTranslator() {
     return new NewsEntryTranslatorImpl();
-  }
-
-  @Bean
-  public NewsEntryRequestValidator newsEntryRequestValidator(WebMessageSource messageSource) {
-    return new NewsEntryRequestValidatorImpl(messageSource);
   }
 
   @Bean

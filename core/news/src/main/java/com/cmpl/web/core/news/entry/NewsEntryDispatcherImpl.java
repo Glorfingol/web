@@ -10,6 +10,8 @@ import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaDTOBuilder;
 import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.news.content.NewsContentRequest;
+import com.cmpl.web.core.news.image.NewsImageRequest;
 
 /**
  * Implementation du dispatcher pour les NewsEntry
@@ -30,11 +32,8 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
       FileService fileService, MediaService mediaService) {
 
     this.translator = Objects.requireNonNull(translator);
-
     this.newsEntryService = Objects.requireNonNull(newsEntryService);
-
     this.fileService = Objects.requireNonNull(fileService);
-
     this.mediaService = Objects.requireNonNull(mediaService);
 
   }
@@ -58,6 +57,25 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
 
     return translator.fromDTOToResponse(entityUpdated);
 
+  }
+
+  @Override
+  public NewsEntryResponse updateContent(NewsContentRequest newsContentRequest, String newsEntryId, Locale locale) {
+
+    NewsEntryDTO newsEntryDTO = newsEntryService.getEntity(Long.parseLong(newsEntryId));
+    newsEntryDTO.setNewsContent(translator.fromRequestToDTO(newsContentRequest));
+    NewsEntryDTO updatedNewsEntry = newsEntryService.updateEntity(newsEntryDTO);
+
+    return NewsEntryResponseBuilder.create().newsEntry(updatedNewsEntry).build();
+  }
+
+  @Override
+  public NewsEntryResponse updateImage(NewsImageRequest newsImageRequest, String newsEntryId, Locale locale) {
+    NewsEntryDTO newsEntryDTO = newsEntryService.getEntity(Long.parseLong(newsEntryId));
+    newsEntryDTO.setNewsImage(translator.fromRequestToDTO(newsImageRequest));
+    NewsEntryDTO updatedNewsEntry = newsEntryService.updateEntity(newsEntryDTO);
+
+    return NewsEntryResponseBuilder.create().newsEntry(updatedNewsEntry).build();
   }
 
   @Override

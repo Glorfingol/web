@@ -40,4 +40,10 @@ public interface NewsManagerDisplayFactory {
    */
   ModelAndView computeModelAndViewForBackPageCreateNews(Locale locale);
 
+  ModelAndView computeModelAndViewForUpdateNewsMain(String newsEntryId, Locale locale);
+
+  ModelAndView computeModelAndViewForUpdateNewsContent(String newsEntryId, Locale locale);
+
+  ModelAndView computeModelAndViewForUpdateNewsImage(String newsEntryId, Locale locale);
+
 }

@@ -90,7 +90,8 @@ function postUpdateRoleForm() {
     currentTab = "";
     goToRoleMainTab();
   }).fail(function (error) {
-    handleErrorPutResult(urlFallback);
+    handleErrorPutResult($(".loader"), $(".card-loader"),
+        $("#roleUpdateForm"));
   });
 }
 
@@ -103,7 +104,8 @@ function postCreateRoleForm() {
     handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
         $("#roleCreateForm"), url);
   }).fail(function (error) {
-    handleErrorPostResult(urlFallback);
+    handleErrorPostResult($(".loader"), $(".card-loader"),
+        $("#roleCreateForm"));
   });
 }
 

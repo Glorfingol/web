@@ -1,11 +1,11 @@
 <form id="carouselItemForm" th:object="${createForm}" class="row">
   <div class="mb-3 col-12">
-    <div class="form-group mb-3" id="formInputOrderInCarousel">
+    <div class="form-check form-group mb-3" id="formInputOrderInCarousel">
       <label th:text="#{carousel.item.order.label}"/>
       <input type="number" class="form-control" th:field="*{orderInCarousel}"/>
       <small class="form-text text-muted" th:text="#{carousel.item.order.help}"/>
     </div>
-    <div class="form-group mb-3" id="formInputContent">
+    <div class="form-check form-group mb-3" id="formInputContent">
       <label th:text="#{carousel.item.media.label}"/>
       <select th:field="*{mediaId}" class="form-control">
         <option th:each="media : ${medias}" th:value="${media.id}" th:text="${media.name}"></option>

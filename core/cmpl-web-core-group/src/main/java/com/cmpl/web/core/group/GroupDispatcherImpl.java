@@ -3,28 +3,21 @@ package com.cmpl.web.core.group;
 import java.util.Locale;
 import java.util.Objects;
 
-import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.resource.BaseResponse;
 
 public class GroupDispatcherImpl implements GroupDispatcher {
 
-  private final GroupValidator validator;
   private final GroupTranslator translator;
   private final GroupService service;
 
-  public GroupDispatcherImpl(GroupValidator validator, GroupTranslator translator, GroupService service) {
-    this.validator = Objects.requireNonNull(validator);
+  public GroupDispatcherImpl(GroupTranslator translator, GroupService service) {
+
     this.service = Objects.requireNonNull(service);
     this.translator = Objects.requireNonNull(translator);
   }
 
   @Override
   public GroupResponse createEntity(GroupCreateForm form, Locale locale) {
-    Error error = validator.validateCreate(form, locale);
-
-    if (error != null) {
-      return GroupResponseBuilder.create().error(error).build();
-    }
 
     GroupDTO groupToCreate = translator.fromCreateFormToDTO(form);
     GroupDTO createdGroup = service.createEntity(groupToCreate);
@@ -34,11 +27,6 @@ public class GroupDispatcherImpl implements GroupDispatcher {
 
   @Override
   public GroupResponse updateEntity(GroupUpdateForm form, Locale locale) {
-    Error error = validator.validateUpdate(form, locale);
-
-    if (error != null) {
-      return GroupResponseBuilder.create().error(error).build();
-    }
 
     GroupDTO groupToUpdate = service.getEntity(form.getId());
     groupToUpdate.setDescription(form.getDescription());

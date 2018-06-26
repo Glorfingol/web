@@ -1,7 +1,7 @@
 <form id="widgetUpdateForm" th:object="${updateForm}">
   <div class="row">
     <div class="col-9">
-      <div class="form-group mb-3" id="formInputDatasource">
+      <div class="form-check form-group mb-3" id="formInputDatasource">
         <label th:text="#{widget.datasource.label}"/>
         <select th:field="*{entityId}" class="form-control">
           <option value=""></option>
@@ -10,7 +10,7 @@
         </select>
         <small class="form-text text-muted" th:text="#{widget.datasource.help}"/>
       </div>
-      <div class="form-group">
+      <div class="form-check form-group">
         <label th:text="#{widget.personalization.language.label}"/>
         <select name="localeCode" id="localeCode" th:field="*{localeCode}"
                 class="form-control">
@@ -19,7 +19,7 @@
         </select>
         <small class="form-text text-muted" th:text="#{widget.personalization.language.help}"/>
       </div>
-      <div class="form-group mb-3" id="variables">
+      <div class="form-check form-group mb-3" id="variables">
         <p>
           <button class="btn btn-primary" type="button" data-toggle="collapse"
                   data-target="#collapseVariables" aria-expanded="false"
@@ -32,7 +32,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group mb-3" id="formInputPersonalization">
+      <div class="form-check form-group mb-3" id="formInputPersonalization">
         <label th:text="#{widget.personalization.label}"/>
         <textarea rows="3" id="widgetPersonalization" class="form-control"
                   th:field="*{personalization}"/>

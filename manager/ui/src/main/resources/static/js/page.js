@@ -93,7 +93,8 @@ function postCreatePageForm() {
     handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
         $("#pageCreateForm"), url)
   }).fail(function (error) {
-    handleErrorPostResult(urlFallback);
+    handleErrorPostResult($(".loader"), $(".card-loader"),
+        $("#pageCreateForm"));
   });
 }
 
@@ -110,7 +111,8 @@ function postUpdatePageForm(successFunction) {
       successFunction();
     }
   }).fail(function (error) {
-    handleErrorPutResult(urlFallback);
+    handleErrorPutResult($(".loader"), $(".card-loader"),
+        $("#pageUpdateForm"));
   });
 }
 

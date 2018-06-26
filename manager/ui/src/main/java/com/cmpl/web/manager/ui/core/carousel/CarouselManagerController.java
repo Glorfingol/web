@@ -3,11 +3,15 @@ package com.cmpl.web.manager.ui.core.carousel;
 import java.util.Locale;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -80,19 +84,22 @@ public class CarouselManagerController {
   @PostMapping
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:carousels:create')")
-  public ResponseEntity<CarouselResponse> createCarousel(@RequestBody CarouselCreateForm createForm, Locale locale) {
+  public ResponseEntity<CarouselResponse> createCarousel(@Valid @RequestBody CarouselCreateForm createForm,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de création d'un carousel");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       CarouselResponse response = carouselDispatcher.createEntity(createForm, locale);
-      if (response.getCarousel() != null) {
-        LOGGER.info("Entrée crée, id " + response.getCarousel().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée crée, id " + response.getCarousel().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
@@ -104,19 +111,22 @@ public class CarouselManagerController {
   @PutMapping(value = "/{carouselId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:carousels:write')")
-  public ResponseEntity<CarouselResponse> updateCarousel(@RequestBody CarouselUpdateForm updateForm, Locale locale) {
+  public ResponseEntity<CarouselResponse> updateCarousel(@Valid @RequestBody CarouselUpdateForm updateForm,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un carousel");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("update.error", bindingResult, locale);
+      LOGGER.error("Echec de la modification de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       CarouselResponse response = carouselDispatcher.updateEntity(updateForm, locale);
-      if (response.getCarousel() != null) {
-        LOGGER.info("Entrée modifiée, id " + response.getCarousel().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée modifiée, id " + response.getCarousel().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
@@ -152,20 +162,22 @@ public class CarouselManagerController {
   @PostMapping(value = "/{carouselId}/items")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:carousels:write')")
-  public ResponseEntity<CarouselItemResponse> createCarouselItem(@RequestBody CarouselItemCreateForm createForm,
-      Locale locale) {
+  public ResponseEntity<CarouselItemResponse> createCarouselItem(@Valid @RequestBody CarouselItemCreateForm createForm,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de création d'un élément de carousel");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       CarouselItemResponse response = carouselDispatcher.createEntity(createForm, locale);
-      if (response.getItem() != null) {
-        LOGGER.info("Entrée crée, id " + response.getItem().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée crée, id " + response.getItem().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
@@ -178,10 +190,17 @@ public class CarouselManagerController {
   @DeleteMapping(value = "/{carouselId}/items/{carouselItemId}")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:carousels:delete')")
-  public ResponseEntity<CarouselItemResponse> deleteCarouselItem(@PathVariable(value = "carouselId") String carouselId,
-      @PathVariable(value = "carouselItemId") String carouselItemId, Locale locale) {
+  public ResponseEntity<CarouselItemResponse> deleteCarouselItem(
+      @Valid @NotBlank @PathVariable(value = "carouselId") String carouselId,
+      @Valid @NotBlank @PathVariable(value = "carouselItemId") String carouselItemId, BindingResult bindingResult,
+      Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un élément de carousel");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("delete.error", bindingResult, locale);
+      LOGGER.error("Echec de la suppression de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       carouselDispatcher.deleteCarouselItemEntity(carouselId, carouselItemId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
@@ -197,10 +216,16 @@ public class CarouselManagerController {
   @DeleteMapping(value = "/{carouselId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:carousels:delete')")
-  public ResponseEntity<CarouselResponse> deleteMenu(@PathVariable(value = "carouselId") String carouselId,
+  public ResponseEntity<CarouselResponse> deleteCarousel(
+      @Valid @NotBlank @PathVariable(value = "carouselId") String carouselId, BindingResult bindingResult,
       Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un Carousel");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("delete.error", bindingResult, locale);
+      LOGGER.error("Echec de la suppression de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       CarouselResponse response = carouselDispatcher.deleteEntity(carouselId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

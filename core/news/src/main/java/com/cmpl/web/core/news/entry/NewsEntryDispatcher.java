@@ -6,6 +6,8 @@ import java.util.Locale;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cmpl.web.core.common.exception.BaseException;
+import com.cmpl.web.core.news.content.NewsContentRequest;
+import com.cmpl.web.core.news.image.NewsImageRequest;
 
 /**
  * Dispatcher pour le controller des NewsEntry
@@ -34,8 +36,11 @@ public interface NewsEntryDispatcher {
    * @return
    * @throws BaseException
    */
-  NewsEntryResponse updateEntity(NewsEntryRequest newsEntryRequest, String newsEntryId, Locale locale)
-      throws BaseException;
+  NewsEntryResponse updateEntity(NewsEntryRequest newsEntryRequest, String newsEntryId, Locale locale);
+
+  NewsEntryResponse updateContent(NewsContentRequest newsContentRequest, String newsEntryId, Locale locale);
+
+  NewsEntryResponse updateImage(NewsImageRequest newsImageRequest, String newsEntryId, Locale locale);
 
   /**
    * Permet le suppression d'une NewsEntry a partir d'une requete

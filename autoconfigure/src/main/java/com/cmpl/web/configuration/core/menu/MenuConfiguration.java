@@ -42,8 +42,6 @@ import com.cmpl.web.core.menu.MenuService;
 import com.cmpl.web.core.menu.MenuServiceImpl;
 import com.cmpl.web.core.menu.MenuTranslator;
 import com.cmpl.web.core.menu.MenuTranslatorImpl;
-import com.cmpl.web.core.menu.MenuValidator;
-import com.cmpl.web.core.menu.MenuValidatorImpl;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.page.PageService;
 
@@ -107,19 +105,13 @@ public class MenuConfiguration {
   }
 
   @Bean
-  public MenuValidator menuValidator(WebMessageSource messageSource) {
-    return new MenuValidatorImpl(messageSource);
-  }
-
-  @Bean
   public MenuTranslator menuTranslator() {
     return new MenuTranslatorImpl();
   }
 
   @Bean
-  public MenuDispatcher menuDispatcher(MenuValidator validator, MenuTranslator translator, MenuService menuService,
-      PageService pageService) {
-    return new MenuDispatcherImpl(validator, translator, menuService, pageService);
+  public MenuDispatcher menuDispatcher(MenuTranslator translator, MenuService menuService, PageService pageService) {
+    return new MenuDispatcherImpl(translator, menuService, pageService);
   }
 
   @Bean

@@ -1,7 +1,7 @@
 <form id="pageUpdateForm" th:object="${updateForm}">
   <div class="row">
     <div class="col-9">
-      <div class="form-group">
+      <div class="form-check form-group">
         <label th:text="#{page.body.language.label}"/>
         <select name="localeCode" id="localeCode" th:field="*{localeCode}"
                 class="form-control">
@@ -10,7 +10,7 @@
         </select>
         <small class="form-text text-muted" th:text="#{page.body.language.help}"/>
       </div>
-      <div class="form-group mb-3" id="formInputBody">
+      <div class="form-check form-group mb-3" id="formInputBody">
         <label th:text="#{page.meta.label}"/>
         <br/>
         <textarea rows="3" id="pageMeta" class="form-control" th:field="*{meta}"/>

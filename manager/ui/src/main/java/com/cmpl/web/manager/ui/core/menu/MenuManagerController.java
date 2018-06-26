@@ -3,11 +3,15 @@ package com.cmpl.web.manager.ui.core.menu;
 import java.util.Locale;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,19 +87,22 @@ public class MenuManagerController {
   @PutMapping(value = "/{menuId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:menu:write')")
-  public ResponseEntity<MenuResponse> updateMenu(@RequestBody MenuUpdateForm updateForm, Locale locale) {
+  public ResponseEntity<MenuResponse> updateMenu(@Valid @RequestBody MenuUpdateForm updateForm,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un menu");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("update.error", bindingResult, locale);
+      LOGGER.error("Echec de la modification de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       MenuResponse response = dispatcher.updateEntity(updateForm, locale);
-      if (response.getMenu() != null) {
-        LOGGER.info("Entrée modifiée, id " + response.getMenu().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée modifiée, id " + response.getMenu().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
@@ -108,19 +115,22 @@ public class MenuManagerController {
   @PostMapping
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:menu:create')")
-  public ResponseEntity<MenuResponse> createMenu(@RequestBody MenuCreateForm createForm, Locale locale) {
+  public ResponseEntity<MenuResponse> createMenu(@Valid @RequestBody MenuCreateForm createForm,
+      BindingResult bindingResult, Locale locale) {
 
-    LOGGER.info("Tentative de modification d'un menu");
+    LOGGER.info("Tentative de creation d'un menu");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       MenuResponse response = dispatcher.createEntity(createForm, locale);
-      if (response.getMenu() != null) {
-        LOGGER.info("Entrée créee, id " + response.getMenu().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée créee, id " + response.getMenu().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la création de l'entrée", e);
@@ -133,9 +143,15 @@ public class MenuManagerController {
   @DeleteMapping(value = "/{menuId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:menu:delete')")
-  public ResponseEntity<MenuResponse> deleteMenu(@PathVariable(value = "menuId") String menuId, Locale locale) {
+  public ResponseEntity<MenuResponse> deleteMenu(@Valid @NotBlank @PathVariable(value = "menuId") String menuId,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un menu");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la suppression de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       MenuResponse response = dispatcher.deleteEntity(menuId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

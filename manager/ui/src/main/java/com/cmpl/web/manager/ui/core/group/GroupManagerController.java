@@ -3,11 +3,15 @@ package com.cmpl.web.manager.ui.core.group;
 import java.util.Locale;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,18 +81,22 @@ public class GroupManagerController {
   @PostMapping(produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:groups:create')")
-  public ResponseEntity<GroupResponse> createGroup(@RequestBody GroupCreateForm createForm, Locale locale) {
+  public ResponseEntity<GroupResponse> createGroup(@Valid @RequestBody GroupCreateForm createForm,
+      BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de création d'un group");
+
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       GroupResponse response = groupDispatcher.createEntity(createForm, locale);
-      if (response.getGroup() != null) {
-        LOGGER.info("Entrée crée, id " + response.getGroup().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée crée, id " + response.getGroup().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
@@ -100,19 +108,21 @@ public class GroupManagerController {
   @PutMapping(value = "/{groupId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:groups:write')")
-  public ResponseEntity<GroupResponse> updateGroup(@RequestBody GroupUpdateForm updateForm, Locale locale) {
+  public ResponseEntity<GroupResponse> updateGroup(@Valid @RequestBody GroupUpdateForm updateForm,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un group");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("update.error", bindingResult, locale);
+      LOGGER.error("Echec de la modification de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       GroupResponse response = groupDispatcher.updateEntity(updateForm, locale);
-      if (response.getGroup() != null) {
-        LOGGER.info("Entrée modifiée, id " + response.getGroup().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée modifiée, id " + response.getGroup().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
@@ -140,8 +150,14 @@ public class GroupManagerController {
   @DeleteMapping(value = "/{groupId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:groups:delete')")
-  public ResponseEntity<BaseResponse> deleteGroup(@PathVariable(value = "groupId") String groupId, Locale locale) {
+  public ResponseEntity<BaseResponse> deleteGroup(@Valid @NotBlank @PathVariable(value = "groupId") String groupId,
+      BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de suppression d'un groupe");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("delete.error", bindingResult, locale);
+      LOGGER.error("Echec de la suppression de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       BaseResponse response = groupDispatcher.deleteEntity(groupId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

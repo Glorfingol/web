@@ -66,7 +66,8 @@ function postCreateCarouselForm() {
     handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
         $("#carouselCreateForm"), url)
   }).fail(function (error) {
-    handleErrorPostResult(urlFallback);
+    handleErrorPostResult($(".loader"), $(".card-loader"),
+        $("#carouselCreateForm"));
   });
 }
 

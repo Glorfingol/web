@@ -27,8 +27,6 @@ import com.cmpl.web.core.carousel.CarouselService;
 import com.cmpl.web.core.carousel.CarouselServiceImpl;
 import com.cmpl.web.core.carousel.CarouselTranslator;
 import com.cmpl.web.core.carousel.CarouselTranslatorImpl;
-import com.cmpl.web.core.carousel.CarouselValidator;
-import com.cmpl.web.core.carousel.CarouselValidatorImpl;
 import com.cmpl.web.core.carousel.item.CarouselItem;
 import com.cmpl.web.core.carousel.item.CarouselItemDAO;
 import com.cmpl.web.core.carousel.item.CarouselItemDAOImpl;
@@ -125,11 +123,6 @@ public class CarouselConfiguration {
   }
 
   @Bean
-  public CarouselValidator carouselValidator(WebMessageSource messageSource) {
-    return new CarouselValidatorImpl(messageSource);
-  }
-
-  @Bean
   public CarouselManagerDisplayFactory carouselManagerDisplayFactory(MenuFactory menuFactory,
       WebMessageSource messageSource, CarouselService carouselService, CarouselItemService carouselItemService,
       MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs,
@@ -140,9 +133,8 @@ public class CarouselConfiguration {
 
   @Bean
   public CarouselDispatcher carouselDispatcher(CarouselService carouselService, CarouselItemService carouselItemService,
-      CarouselTranslator carouselTranslator, CarouselValidator carouselValidator, MediaService mediaService) {
-    return new CarouselDispatcherImpl(carouselService, carouselItemService, mediaService, carouselTranslator,
-        carouselValidator);
+      CarouselTranslator carouselTranslator, MediaService mediaService) {
+    return new CarouselDispatcherImpl(carouselService, carouselItemService, mediaService, carouselTranslator);
   }
 
 }

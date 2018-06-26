@@ -3,11 +3,15 @@ package com.cmpl.web.manager.ui.core.news;
 import java.util.Locale;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +27,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactory;
+import com.cmpl.web.core.news.content.NewsContentRequest;
 import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
 import com.cmpl.web.core.news.entry.NewsEntryRequest;
 import com.cmpl.web.core.news.entry.NewsEntryResponse;
+import com.cmpl.web.core.news.image.NewsImageRequest;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
 
@@ -92,20 +98,22 @@ public class NewsManagerController {
   @PostMapping(value = "/manager/news", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:news:create')")
-  public ResponseEntity<NewsEntryResponse> createNewsEntry(@RequestBody NewsEntryRequest newsEntryRequest,
-      Locale locale) {
+  public ResponseEntity<NewsEntryResponse> createNewsEntry(@Valid @RequestBody NewsEntryRequest newsEntryRequest,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de création d'une entrée de blog");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       NewsEntryResponse response = dispatcher.createEntity(newsEntryRequest, locale);
-      if (response.getNewsEntry() != null) {
-        LOGGER.info("Entrée crée, id " + response.getNewsEntry().getId());
-      }
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      LOGGER.info("Entrée crée, id " + response.getNewsEntry().getId());
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
@@ -125,18 +133,22 @@ public class NewsManagerController {
   @PutMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:news:write')")
-  public ResponseEntity<NewsEntryResponse> updateNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId,
-      @RequestBody NewsEntryRequest newsEntryRequest, Locale locale) {
+  public ResponseEntity<NewsEntryResponse> updateNewsEntry(
+      @Valid @PathVariable(value = "newsEntryId") String newsEntryId, @RequestBody NewsEntryRequest newsEntryRequest,
+      BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de mise à jour d'une entrée de blog d'id " + newsEntryId);
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("update.error", bindingResult, locale);
+      LOGGER.error("Echec de la modification de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       NewsEntryResponse response = dispatcher.updateEntity(newsEntryRequest, newsEntryId, locale);
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
-        LOGGER.info("Entrée modifiée, id " + newsEntryId);
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+      LOGGER.info("Entrée modifiée, id " + newsEntryId);
+
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la mise à jour de l'entrée d'id " + newsEntryId, e);
@@ -155,9 +167,15 @@ public class NewsManagerController {
   @DeleteMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:news:delete')")
-  public ResponseEntity<NewsEntryResponse> deleteNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId,
+  public ResponseEntity<NewsEntryResponse> deleteNewsEntry(
+      @Valid @NotBlank() @PathVariable(value = "newsEntryId") String newsEntryId, BindingResult bindingResult,
       Locale locale) {
     LOGGER.info("Tentative de suppression d'une entrée d'id " + newsEntryId);
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("delete.error", bindingResult, locale);
+      LOGGER.error("Echec de la suppression de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     NewsEntryResponse response = dispatcher.deleteEntity(newsEntryId, locale);
     notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
     LOGGER.info("NewsEntry " + newsEntryId + " supprimée");
@@ -202,6 +220,79 @@ public class NewsManagerController {
       notificationCenter.sendNotification("danger", messageSource.getMessage("update.error", locale));
       LOGGER.error("Cannot save multipart file !", e);
     }
+  }
+
+  @GetMapping(value = "/manager/news/{newsEntryId}/_main")
+  @PreAuthorize("hasAuthority('webmastering:news:read')")
+  public ModelAndView printUpdateNewsMain(@PathVariable(value = "newsEntryId") String newsEntryId, Locale locale) {
+
+    LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_UPDATE.name());
+    return newsManagerDisplayFactory.computeModelAndViewForUpdateNewsMain(newsEntryId, locale);
+  }
+
+  @GetMapping(value = "/manager/news/{newsEntryId}/_content")
+  @PreAuthorize("hasAuthority('webmastering:news:read')")
+  public ModelAndView printUpdateNewsContent(@PathVariable(value = "newsEntryId") String newsEntryId, Locale locale) {
+
+    LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_UPDATE.name());
+    return newsManagerDisplayFactory.computeModelAndViewForUpdateNewsContent(newsEntryId, locale);
+  }
+
+  @PutMapping(value = "/manager/news/{newsEntryId}/content")
+  @PreAuthorize("hasAuthority('webmastering:news:write')")
+  public ResponseEntity<NewsEntryResponse> handleUpdateContent(@PathVariable(value = "newsEntryId") String newsEntryId,
+      @Valid @RequestBody NewsContentRequest request, BindingResult bindingResult, Locale locale) {
+    LOGGER.info("Tentative de modification du contenu d'une entrée d'id " + newsEntryId);
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("update.error", bindingResult, locale);
+      LOGGER.error("Echec de la modification de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    try {
+      NewsEntryResponse response = dispatcher.updateContent(request, newsEntryId, locale);
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+      LOGGER.info("Entrée modifiée, id " + newsEntryId);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      LOGGER.error("Echec de la mise à jour de l'entrée d'id " + newsEntryId, e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("update.error", locale));
+      return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+  }
+
+  @GetMapping(value = "/manager/news/{newsEntryId}/_image")
+  @PreAuthorize("hasAuthority('webmastering:news:read')")
+  public ModelAndView printUpdateNewsImage(@PathVariable(value = "newsEntryId") String newsEntryId, Locale locale) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_UPDATE.name());
+    return newsManagerDisplayFactory.computeModelAndViewForUpdateNewsImage(newsEntryId, locale);
+  }
+
+  @PutMapping(value = "/manager/news/{newsEntryId}/image")
+  @PreAuthorize("hasAuthority('webmastering:news:write')")
+  public ResponseEntity<NewsEntryResponse> handleUpdateImage(@PathVariable(value = "newsEntryId") String newsEntryId,
+      @Valid @RequestBody NewsImageRequest request, BindingResult bindingResult, Locale locale) {
+    LOGGER.info("Tentative de modification de l'image d'une entrée d'id " + newsEntryId);
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("update.error", bindingResult, locale);
+      LOGGER.error("Echec de la modification de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    try {
+      NewsEntryResponse response = dispatcher.updateImage(request, newsEntryId, locale);
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+      LOGGER.info("Entrée modifiée, id " + newsEntryId);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      LOGGER.error("Echec de la mise à jour de l'entrée d'id " + newsEntryId, e);
+      notificationCenter.sendNotification("danger", messageSource.getMessage("update.error", locale));
+      return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
   }
 
 }

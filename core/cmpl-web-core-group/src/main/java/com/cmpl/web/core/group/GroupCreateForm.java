@@ -1,13 +1,13 @@
 package com.cmpl.web.core.group;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 public class GroupCreateForm {
 
-  @NotEmpty(message = "empty.group.name")
+  @NotBlank(message = "empty.group.name")
   private String name;
 
-  @NotEmpty(message = "empty.group.description")
+  @NotBlank(message = "empty.group.description")
   private String description;
 
   public String getName() {
