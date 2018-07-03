@@ -1,6 +1,7 @@
 package com.cmpl.web.core.menu;
 
 import com.cmpl.web.core.common.mapper.BaseMapper;
+import com.cmpl.web.core.models.Menu;
 
 public class MenuMapper extends BaseMapper<MenuDTO, Menu> {
 

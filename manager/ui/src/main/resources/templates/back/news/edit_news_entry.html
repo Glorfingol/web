@@ -63,6 +63,7 @@
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         currentTab = "image";
+        setUpDragAndDrop("#imageMedia");
       });
     }
   };

@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.carousel.Carousel;
+import com.cmpl.web.core.models.Carousel;
 
 public class CarouselCSVParser extends CommonParser<Carousel> {
 

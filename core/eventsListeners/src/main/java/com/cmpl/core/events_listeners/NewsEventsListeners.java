@@ -3,12 +3,12 @@ package com.cmpl.core.events_listeners;
 import org.springframework.context.event.EventListener;
 import org.springframework.util.StringUtils;
 
-import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaDTO;
+import com.cmpl.web.core.models.BaseEntity;
+import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.news.content.NewsContentService;
-import com.cmpl.web.core.news.entry.NewsEntry;
 import com.cmpl.web.core.news.entry.NewsEntryDTO;
 import com.cmpl.web.core.news.image.NewsImageDTO;
 import com.cmpl.web.core.news.image.NewsImageService;

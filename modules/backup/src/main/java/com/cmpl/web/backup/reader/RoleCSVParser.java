@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.role.Role;
+import com.cmpl.web.core.models.Role;
 
 public class RoleCSVParser extends CommonParser<Role> {
 

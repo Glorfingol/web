@@ -1,10 +1,8 @@
-package com.cmpl.web.core.style;
+package com.cmpl.web.core.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import com.cmpl.web.core.common.dao.BaseEntity;
 
 @Entity(name = "style")
 @Table(name = "style")

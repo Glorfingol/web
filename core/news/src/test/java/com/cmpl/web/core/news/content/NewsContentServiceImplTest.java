@@ -15,6 +15,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.CollectionUtils;
 
+import com.cmpl.web.core.models.NewsContent;
+
 @RunWith(MockitoJUnitRunner.class)
 public class NewsContentServiceImplTest {
 

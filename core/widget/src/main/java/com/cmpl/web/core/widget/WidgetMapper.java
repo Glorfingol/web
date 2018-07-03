@@ -1,6 +1,7 @@
 package com.cmpl.web.core.widget;
 
 import com.cmpl.web.core.common.mapper.BaseMapper;
+import com.cmpl.web.core.models.Widget;
 
 public class WidgetMapper extends BaseMapper<WidgetDTO, Widget> {
 

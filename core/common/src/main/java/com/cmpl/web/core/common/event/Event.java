@@ -2,7 +2,7 @@ package com.cmpl.web.core.common.event;
 
 import org.springframework.context.ApplicationEvent;
 
-import com.cmpl.web.core.common.dao.BaseEntity;
+import com.cmpl.web.core.models.BaseEntity;
 
 public class Event<ENTITY extends BaseEntity> extends ApplicationEvent {
 

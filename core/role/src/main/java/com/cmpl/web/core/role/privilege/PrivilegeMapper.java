@@ -1,6 +1,7 @@
 package com.cmpl.web.core.role.privilege;
 
 import com.cmpl.web.core.common.mapper.BaseMapper;
+import com.cmpl.web.core.models.Privilege;
 
 public class PrivilegeMapper extends BaseMapper<PrivilegeDTO, Privilege> {
 

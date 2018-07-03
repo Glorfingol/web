@@ -1,11 +1,9 @@
-package com.cmpl.web.core.widget.page;
+package com.cmpl.web.core.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
-
-import com.cmpl.web.core.common.dao.BaseEntity;
 
 @Entity(name = "widget_page")
 @Table(name = "widget_page", indexes = {

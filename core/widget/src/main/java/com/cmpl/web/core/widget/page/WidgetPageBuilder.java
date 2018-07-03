@@ -1,6 +1,7 @@
 package com.cmpl.web.core.widget.page;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.WidgetPage;
 
 public class WidgetPageBuilder extends BaseBuilder<WidgetPage> {
 

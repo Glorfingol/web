@@ -13,6 +13,7 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.util.CollectionUtils;
 
+import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.news.content.NewsContentDTO;
 import com.cmpl.web.core.news.content.NewsContentDTOBuilder;
 import com.cmpl.web.core.news.content.NewsContentService;

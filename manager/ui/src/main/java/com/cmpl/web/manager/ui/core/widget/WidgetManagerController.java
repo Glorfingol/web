@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -161,14 +160,9 @@ public class WidgetManagerController {
   @DeleteMapping(value = "/{widgetId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:widgets:delete')")
-  public ResponseEntity<WidgetResponse> deleteWidget(@Valid @NotBlank @PathVariable(value = "widgetId") String widgetId,
-      BindingResult bindingResult, Locale locale) {
+  public ResponseEntity<WidgetResponse> deleteWidget(@PathVariable(value = "widgetId") String widgetId, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
-    if (bindingResult.hasErrors()) {
-      notificationCenter.sendNotification("delete.error", bindingResult, locale);
-      LOGGER.error("Echec de la suppression de l'entrée");
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+
     try {
       WidgetResponse response = widgetDispatcher.deleteEntity(widgetId, locale);
 

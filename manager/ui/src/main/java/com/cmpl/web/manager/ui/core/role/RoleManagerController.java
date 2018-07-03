@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -182,14 +181,9 @@ public class RoleManagerController {
   @DeleteMapping(value = "/{roleId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:roles:delete')")
-  public ResponseEntity<BaseResponse> deleteRole(@Valid @NotBlank @PathVariable(value = "roleId") String roleId,
-      BindingResult bindingResult, Locale locale) {
+  public ResponseEntity<BaseResponse> deleteRole(@PathVariable(value = "roleId") String roleId, Locale locale) {
     LOGGER.info("Tentative de suppression d'un role");
-    if (bindingResult.hasErrors()) {
-      notificationCenter.sendNotification("delete.error", bindingResult, locale);
-      LOGGER.error("Echec de la suppression de l'entrée");
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+
     try {
       BaseResponse response = roleDispatcher.deleteEntity(roleId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

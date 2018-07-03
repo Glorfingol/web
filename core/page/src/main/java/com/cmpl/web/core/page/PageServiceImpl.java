@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.models.Page;
 
 /**
  * Service des pages

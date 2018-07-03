@@ -6,6 +6,8 @@ import org.mockito.BDDMockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.cmpl.web.core.models.Menu;
+
 @RunWith(MockitoJUnitRunner.class)
 public class MenuMapperTest {
 

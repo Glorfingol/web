@@ -1,8 +1,9 @@
 package com.cmpl.web.core.group;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.BOGroup;
 
-public class GroupBuilder extends BaseBuilder<Group> {
+public class GroupBuilder extends BaseBuilder<BOGroup> {
 
   private String name;
 
@@ -23,16 +24,16 @@ public class GroupBuilder extends BaseBuilder<Group> {
   }
 
   @Override
-  public Group build() {
-    Group group = new Group();
-    group.setDescription(description);
-    group.setName(name);
-    group.setId(id);
-    group.setCreationDate(creationDate);
-    group.setModificationDate(modificationDate);
-    group.setCreationUser(creationUser);
-    group.setModificationUser(modificationUser);
-    return group;
+  public BOGroup build() {
+    BOGroup BOGroup = new BOGroup();
+    BOGroup.setDescription(description);
+    BOGroup.setName(name);
+    BOGroup.setId(id);
+    BOGroup.setCreationDate(creationDate);
+    BOGroup.setModificationDate(modificationDate);
+    BOGroup.setCreationUser(creationUser);
+    BOGroup.setModificationUser(modificationUser);
+    return BOGroup;
   }
 
   public static GroupBuilder create() {

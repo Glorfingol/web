@@ -11,6 +11,7 @@ import com.cmpl.web.core.common.mapper.BaseMapper;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.models.Style;
 
 public class StyleMapper extends BaseMapper<StyleDTO, Style> {
 

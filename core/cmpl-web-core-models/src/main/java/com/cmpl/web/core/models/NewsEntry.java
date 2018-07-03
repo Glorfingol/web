@@ -1,10 +1,8 @@
-package com.cmpl.web.core.news.entry;
+package com.cmpl.web.core.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import com.cmpl.web.core.common.dao.BaseEntity;
 
 /**
  * DAO NewsEntry

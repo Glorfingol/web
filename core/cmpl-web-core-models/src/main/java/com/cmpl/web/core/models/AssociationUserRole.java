@@ -1,11 +1,9 @@
-package com.cmpl.web.core.association_user_role;
+package com.cmpl.web.core.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
-
-import com.cmpl.web.core.common.dao.BaseEntity;
 
 @Entity(name = "associationUserRole")
 @Table(name = "association_user_role", indexes = {@Index(name = "IDX_USER", columnList = "user_id"),

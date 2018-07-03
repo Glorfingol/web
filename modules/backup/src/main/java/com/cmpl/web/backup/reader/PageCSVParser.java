@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.page.Page;
+import com.cmpl.web.core.models.Page;
 
 public class PageCSVParser extends CommonParser<Page> {
 

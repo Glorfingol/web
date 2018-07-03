@@ -16,7 +16,6 @@ import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
-import com.cmpl.web.core.carousel.Carousel;
 import com.cmpl.web.core.carousel.CarouselDAO;
 import com.cmpl.web.core.carousel.CarouselDAOImpl;
 import com.cmpl.web.core.carousel.CarouselDispatcher;
@@ -27,7 +26,6 @@ import com.cmpl.web.core.carousel.CarouselService;
 import com.cmpl.web.core.carousel.CarouselServiceImpl;
 import com.cmpl.web.core.carousel.CarouselTranslator;
 import com.cmpl.web.core.carousel.CarouselTranslatorImpl;
-import com.cmpl.web.core.carousel.item.CarouselItem;
 import com.cmpl.web.core.carousel.item.CarouselItemDAO;
 import com.cmpl.web.core.carousel.item.CarouselItemDAOImpl;
 import com.cmpl.web.core.carousel.item.CarouselItemMapper;
@@ -44,6 +42,8 @@ import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
+import com.cmpl.web.core.models.Carousel;
+import com.cmpl.web.core.models.CarouselItem;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 @Configuration

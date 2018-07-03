@@ -1,6 +1,7 @@
 package com.cmpl.web.core.role.privilege;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.Privilege;
 
 public class PrivilegeBuilder extends BaseBuilder<Privilege> {
 

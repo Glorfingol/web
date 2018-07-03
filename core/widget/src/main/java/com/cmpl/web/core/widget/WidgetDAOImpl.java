@@ -3,6 +3,7 @@ package com.cmpl.web.core.widget;
 import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
+import com.cmpl.web.core.models.Widget;
 
 public class WidgetDAOImpl extends BaseDAOImpl<Widget> implements WidgetDAO {
 

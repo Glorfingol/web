@@ -7,11 +7,12 @@ import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.style.Style;
+import com.cmpl.web.core.models.Style;
 
 public class StyleCSVParser extends CommonParser<Style> {
 
-  public StyleCSVParser(DateTimeFormatter dateFormatter, DataManipulator<Style> dataManipulator, String backupFilePath) {
+  public StyleCSVParser(DateTimeFormatter dateFormatter, DataManipulator<Style> dataManipulator,
+      String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }
 

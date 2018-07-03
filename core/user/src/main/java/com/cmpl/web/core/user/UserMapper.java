@@ -1,6 +1,7 @@
 package com.cmpl.web.core.user;
 
 import com.cmpl.web.core.common.mapper.BaseMapper;
+import com.cmpl.web.core.models.User;
 
 public class UserMapper extends BaseMapper<UserDTO, User> {
 

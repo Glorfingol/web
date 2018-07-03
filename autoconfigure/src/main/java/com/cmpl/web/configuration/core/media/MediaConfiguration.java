@@ -26,7 +26,6 @@ import com.cmpl.web.core.factory.media.MediaManagerDisplayFactoryImpl;
 import com.cmpl.web.core.factory.media.VideoWidgetProvider;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.media.Media;
 import com.cmpl.web.core.media.MediaDAO;
 import com.cmpl.web.core.media.MediaDAOImpl;
 import com.cmpl.web.core.media.MediaMapper;
@@ -35,6 +34,7 @@ import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.media.MediaServiceImpl;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
+import com.cmpl.web.core.models.Media;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 @Configuration

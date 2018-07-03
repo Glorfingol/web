@@ -1,5 +1,6 @@
 package com.cmpl.web.core.style;
 
+import com.cmpl.web.core.models.Style;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

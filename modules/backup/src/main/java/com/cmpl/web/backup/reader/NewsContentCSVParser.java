@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.news.content.NewsContent;
+import com.cmpl.web.core.models.NewsContent;
 
 public class NewsContentCSVParser extends CommonParser<NewsContent> {
 

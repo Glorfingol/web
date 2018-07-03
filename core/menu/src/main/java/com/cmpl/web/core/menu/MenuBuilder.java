@@ -1,6 +1,7 @@
 package com.cmpl.web.core.menu;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.Menu;
 
 public class MenuBuilder extends BaseBuilder<Menu> {
 

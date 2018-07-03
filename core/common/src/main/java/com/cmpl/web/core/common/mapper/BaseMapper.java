@@ -7,9 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.dto.BaseDTO;
 import com.cmpl.web.core.common.filler.ObjectReflexiveFillerImpl;
+import com.cmpl.web.core.models.BaseEntity;
 
 public abstract class BaseMapper<DTO extends BaseDTO, ENTITY extends BaseEntity> {
 

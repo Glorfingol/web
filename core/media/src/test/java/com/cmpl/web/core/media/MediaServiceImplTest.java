@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.models.Media;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MediaServiceImplTest {

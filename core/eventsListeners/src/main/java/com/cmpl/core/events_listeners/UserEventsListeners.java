@@ -3,9 +3,9 @@ package com.cmpl.core.events_listeners;
 import org.springframework.context.event.EventListener;
 
 import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
-import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.event.DeletedEvent;
-import com.cmpl.web.core.user.User;
+import com.cmpl.web.core.models.BaseEntity;
+import com.cmpl.web.core.models.User;
 import com.cmpl.web.core.user.UserDTO;
 
 public class UserEventsListeners {

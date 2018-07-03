@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.role.privilege.Privilege;
+import com.cmpl.web.core.models.Privilege;
 
 public class PrivilegeCSVParser extends CommonParser<Privilege> {
 

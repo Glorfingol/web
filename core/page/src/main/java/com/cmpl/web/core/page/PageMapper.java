@@ -1,6 +1,7 @@
 package com.cmpl.web.core.page;
 
 import com.cmpl.web.core.common.mapper.BaseMapper;
+import com.cmpl.web.core.models.Page;
 
 public class PageMapper extends BaseMapper<PageDTO, Page> {
 

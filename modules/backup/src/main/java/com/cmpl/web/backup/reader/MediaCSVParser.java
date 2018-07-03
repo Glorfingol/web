@@ -7,14 +7,13 @@ import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.media.Media;
 import com.cmpl.web.core.media.MediaBuilder;
-
-
+import com.cmpl.web.core.models.Media;
 
 public class MediaCSVParser extends CommonParser<Media> {
 
-  public MediaCSVParser(DateTimeFormatter dateFormatter, DataManipulator<Media> dataManipulator, String backupFilePath) {
+  public MediaCSVParser(DateTimeFormatter dateFormatter, DataManipulator<Media> dataManipulator,
+      String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }
 

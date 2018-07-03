@@ -18,8 +18,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.common.dao.BaseEntity;
-import com.cmpl.web.core.page.Page;
+import com.cmpl.web.core.models.BaseEntity;
+import com.cmpl.web.core.models.Page;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CommonParserTest {

@@ -1,6 +1,7 @@
 package com.cmpl.web.core.news.content;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.NewsContent;
 
 public class NewsContentBuilder extends BaseBuilder<NewsContent> {
 

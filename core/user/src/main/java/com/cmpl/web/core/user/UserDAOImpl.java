@@ -3,6 +3,7 @@ package com.cmpl.web.core.user;
 import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
+import com.cmpl.web.core.models.User;
 
 public class UserDAOImpl extends BaseDAOImpl<User> implements UserDAO {
 

@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -150,14 +149,9 @@ public class GroupManagerController {
   @DeleteMapping(value = "/{groupId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:groups:delete')")
-  public ResponseEntity<BaseResponse> deleteGroup(@Valid @NotBlank @PathVariable(value = "groupId") String groupId,
-      BindingResult bindingResult, Locale locale) {
+  public ResponseEntity<BaseResponse> deleteGroup(@PathVariable(value = "groupId") String groupId, Locale locale) {
     LOGGER.info("Tentative de suppression d'un groupe");
-    if (bindingResult.hasErrors()) {
-      notificationCenter.sendNotification("delete.error", bindingResult, locale);
-      LOGGER.error("Echec de la suppression de l'entrée");
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+
     try {
       BaseResponse response = groupDispatcher.deleteEntity(groupId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

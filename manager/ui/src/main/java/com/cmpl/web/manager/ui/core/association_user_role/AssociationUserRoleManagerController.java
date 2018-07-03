@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,14 +73,9 @@ public class AssociationUserRoleManagerController {
   @DeleteMapping(value = "/manager/responsibilities/{userId}/{roleId}", produces = "application/json")
   @PreAuthorize("hasAuthority('administration:responsibilities:delete')")
   public ResponseEntity<AssociationUserRoleResponse> deleteAssociationUserRole(
-      @Valid @NotBlank @PathVariable(name = "userId") String userId,
-      @Valid @NotBlank @PathVariable(name = "roleId") String roleId, BindingResult bindingResult, Locale locale) {
+      @PathVariable(name = "userId") String userId, @PathVariable(name = "roleId") String roleId, Locale locale) {
     LOGGER.info("Tentative de suppression d'une association user role");
-    if (bindingResult.hasErrors()) {
-      notificationCenter.sendNotification("delete.error", bindingResult, locale);
-      LOGGER.error("Echec de la suppression de l'entrée");
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+
     try {
       dispatcher.deleteEntity(userId, roleId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

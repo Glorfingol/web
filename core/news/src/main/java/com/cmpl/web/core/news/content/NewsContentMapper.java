@@ -1,6 +1,7 @@
 package com.cmpl.web.core.news.content;
 
 import com.cmpl.web.core.common.mapper.BaseMapper;
+import com.cmpl.web.core.models.NewsContent;
 
 public class NewsContentMapper extends BaseMapper<NewsContentDTO, NewsContent> {
 

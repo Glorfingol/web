@@ -9,6 +9,7 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.models.NewsImage;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsImageMapperTest {

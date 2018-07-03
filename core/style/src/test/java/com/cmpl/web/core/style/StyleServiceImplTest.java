@@ -1,5 +1,6 @@
 package com.cmpl.web.core.style;
 
+import com.cmpl.web.core.models.Style;
 import java.util.ArrayList;
 import java.util.List;
 

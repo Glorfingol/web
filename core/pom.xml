@@ -31,6 +31,7 @@
     <module>eventsListeners</module>
     <module>cmpl-web-core-group</module>
     <module>cmpl-web-core-association-entity-group</module>
+    <module>cmpl-web-core-models</module>
   </modules>
 
 

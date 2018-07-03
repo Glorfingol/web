@@ -3,11 +3,14 @@ package com.cmpl.web.manager.ui.modules.facebook;
 import java.util.Locale;
 import java.util.Objects;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -84,16 +87,19 @@ public class FacebookController {
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:facebook:import')")
   public ResponseEntity<FacebookImportResponse> createNewsEntry(
-      @RequestBody FacebookImportRequest facebookImportRequest, Locale locale) {
+      @Valid @RequestBody FacebookImportRequest facebookImportRequest, BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de création d'entrées de blog venant de facebook");
+    if (bindingResult.hasErrors()) {
+      notificationCenter.sendNotification("create.error", bindingResult, locale);
+      LOGGER.error("Echec de la creation de l'entrée");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     try {
       FacebookImportResponse response = facebookDispatcher.createEntity(facebookImportRequest, locale);
-      if (response.getError() == null) {
-        notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
-      } else {
-        notificationCenter.sendNotification(response.getError());
-      }
+
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+
       LOGGER.info("Entrées crées");
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (BaseException e) {

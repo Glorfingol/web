@@ -1,6 +1,7 @@
 package com.cmpl.web.core.media;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.Media;
 
 public class MediaBuilder extends BaseBuilder<Media> {
 

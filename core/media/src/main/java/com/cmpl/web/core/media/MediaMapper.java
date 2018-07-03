@@ -1,6 +1,7 @@
 package com.cmpl.web.core.media;
 
 import com.cmpl.web.core.common.mapper.BaseMapper;
+import com.cmpl.web.core.models.Media;
 
 public class MediaMapper extends BaseMapper<MediaDTO, Media> {
 

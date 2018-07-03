@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.models.Widget;
 
 @CacheConfig(cacheNames = "widgets")
 public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implements WidgetService {

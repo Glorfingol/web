@@ -5,10 +5,10 @@ import java.util.Set;
 
 import org.springframework.context.event.EventListener;
 
-import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.widget.Widget;
+import com.cmpl.web.core.models.BaseEntity;
+import com.cmpl.web.core.models.Widget;
 import com.cmpl.web.core.widget.WidgetDTO;
 import com.cmpl.web.core.widget.page.WidgetPageService;
 

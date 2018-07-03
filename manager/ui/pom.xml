@@ -51,6 +51,12 @@
       <artifactId>caffeine</artifactId>
       <version>${caffeine.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-association-entity-group</artifactId>
+      <version>${cmpl.web.version}</version>
+      <scope>compile</scope>
+    </dependency>
 
 
   </dependencies>

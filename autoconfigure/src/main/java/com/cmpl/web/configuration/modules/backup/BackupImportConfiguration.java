@@ -36,21 +36,21 @@ import com.cmpl.web.backup.reader.UserCSVParser;
 import com.cmpl.web.backup.reader.WidgetCSVParser;
 import com.cmpl.web.backup.reader.WidgetPageCSVParser;
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.association_user_role.AssociationUserRole;
-import com.cmpl.web.core.carousel.Carousel;
-import com.cmpl.web.core.carousel.item.CarouselItem;
-import com.cmpl.web.core.media.Media;
-import com.cmpl.web.core.menu.Menu;
-import com.cmpl.web.core.news.content.NewsContent;
-import com.cmpl.web.core.news.entry.NewsEntry;
-import com.cmpl.web.core.news.image.NewsImage;
-import com.cmpl.web.core.page.Page;
-import com.cmpl.web.core.role.Role;
-import com.cmpl.web.core.role.privilege.Privilege;
-import com.cmpl.web.core.style.Style;
-import com.cmpl.web.core.user.User;
-import com.cmpl.web.core.widget.Widget;
-import com.cmpl.web.core.widget.page.WidgetPage;
+import com.cmpl.web.core.models.AssociationUserRole;
+import com.cmpl.web.core.models.Carousel;
+import com.cmpl.web.core.models.CarouselItem;
+import com.cmpl.web.core.models.Media;
+import com.cmpl.web.core.models.Menu;
+import com.cmpl.web.core.models.NewsContent;
+import com.cmpl.web.core.models.NewsEntry;
+import com.cmpl.web.core.models.NewsImage;
+import com.cmpl.web.core.models.Page;
+import com.cmpl.web.core.models.Privilege;
+import com.cmpl.web.core.models.Role;
+import com.cmpl.web.core.models.Style;
+import com.cmpl.web.core.models.User;
+import com.cmpl.web.core.models.Widget;
+import com.cmpl.web.core.models.WidgetPage;
 
 @Configuration
 @PropertySource("classpath:/backup/backup.properties")

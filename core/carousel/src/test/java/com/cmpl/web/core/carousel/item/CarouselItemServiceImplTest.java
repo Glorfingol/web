@@ -14,6 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaDTOBuilder;
 import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.models.CarouselItem;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarouselItemServiceImplTest {

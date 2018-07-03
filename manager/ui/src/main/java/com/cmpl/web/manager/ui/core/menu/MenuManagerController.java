@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -143,15 +142,10 @@ public class MenuManagerController {
   @DeleteMapping(value = "/{menuId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:menu:delete')")
-  public ResponseEntity<MenuResponse> deleteMenu(@Valid @NotBlank @PathVariable(value = "menuId") String menuId,
-      BindingResult bindingResult, Locale locale) {
+  public ResponseEntity<MenuResponse> deleteMenu(@PathVariable(value = "menuId") String menuId, Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un menu");
-    if (bindingResult.hasErrors()) {
-      notificationCenter.sendNotification("create.error", bindingResult, locale);
-      LOGGER.error("Echec de la suppression de l'entrée");
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+
     try {
       MenuResponse response = dispatcher.deleteEntity(menuId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

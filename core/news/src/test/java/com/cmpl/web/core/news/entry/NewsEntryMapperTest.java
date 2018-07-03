@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.news.content.NewsContentService;
 import com.cmpl.web.core.news.image.NewsImageService;
 

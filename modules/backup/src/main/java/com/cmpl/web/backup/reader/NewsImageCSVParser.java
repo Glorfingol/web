@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.news.image.NewsImage;
+import com.cmpl.web.core.models.NewsImage;
 
 public class NewsImageCSVParser extends CommonParser<NewsImage> {
 

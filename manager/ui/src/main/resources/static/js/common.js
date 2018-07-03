@@ -146,7 +146,8 @@ function updateThenUpload(formToToggle, loader, cardLoader, url, urlFallBack,
     var urlMedia = "/manager/news/media/" + result.createdEntityId;
     upload(formToToggle, loader, cardLoader, urlMedia, urlFallBack,
         mediaToSend).done(function (data) {
-      handleSuccessPostResult(data, cardLoader, loader, formToToggle, url);
+      handleSuccessPostResult(data, cardLoader, loader, formToToggle,
+          urlFallBack);
     }).fail(function (error) {
       handleErrorPostResult(loader, cardLoader,
           formToToggle);
@@ -159,13 +160,7 @@ function updateThenUpload(formToToggle, loader, cardLoader, url, urlFallBack,
 
 function handleSuccessPostResult(data, cardLoader, loader, formToToggle, url) {
   cardLoader.hide();
-  if (data.error) {
-    loader.hide();
-    formToToggle.show();
-    displayError(data.error);
-  } else {
-    window.location.href = url;
-  }
+  window.location.href = url;
 }
 
 function handleErrorPostResult(loader, cardLoader, form) {
@@ -177,20 +172,16 @@ function handleErrorPostResult(loader, cardLoader, form) {
 function handleSuccessPutResult(data, cardLoader, loader, formToToggle,
     urlFallBack, stay) {
   cardLoader.hide();
-  if (data.error) {
-    loader.hide();
-    formToToggle.show();
-    displayError(data.error);
-  } else {
-    if (!stay) {
-      setTimeout(function () {
-        window.location.href = urlFallBack;
-      }, 600);
 
-    }
-    loader.hide();
-    formToToggle.show();
+  if (!stay) {
+    setTimeout(function () {
+      window.location.href = urlFallBack;
+    }, 600);
+
   }
+  loader.hide();
+  formToToggle.show();
+
 }
 
 function handleErrorPutResult(loader, cardLoader, form) {

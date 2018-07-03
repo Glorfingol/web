@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Sort;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
+import com.cmpl.web.core.models.Menu;
 
 public class MenuDAOImpl extends BaseDAOImpl<Menu> implements MenuDAO {
 

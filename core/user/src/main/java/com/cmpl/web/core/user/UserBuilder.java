@@ -3,6 +3,7 @@ package com.cmpl.web.core.user;
 import java.time.LocalDateTime;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.User;
 
 public class UserBuilder extends BaseBuilder<User> {
 

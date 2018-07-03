@@ -3,6 +3,7 @@ package com.cmpl.web.core.association_user_role;
 import java.util.List;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.models.AssociationUserRole;
 
 public class AssociationUserRoleServiceImpl extends BaseServiceImpl<AssociationUserRoleDTO, AssociationUserRole>
     implements AssociationUserRoleService {

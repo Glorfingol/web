@@ -1,14 +1,12 @@
-package com.cmpl.web.core.group;
+package com.cmpl.web.core.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.cmpl.web.core.common.dao.BaseEntity;
-
-@Entity(name = "groups")
-@Table(name = "groups")
-public class Group extends BaseEntity {
+@Entity(name = "role")
+@Table(name = "role")
+public class Role extends BaseEntity {
 
   @Column(name = "name")
   private String name;
@@ -31,5 +29,4 @@ public class Group extends BaseEntity {
   public void setDescription(String description) {
     this.description = description;
   }
-
 }

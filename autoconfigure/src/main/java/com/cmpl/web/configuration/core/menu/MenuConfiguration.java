@@ -31,7 +31,6 @@ import com.cmpl.web.core.menu.BackMenu;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.menu.BackMenuItemPlugin;
-import com.cmpl.web.core.menu.Menu;
 import com.cmpl.web.core.menu.MenuDAO;
 import com.cmpl.web.core.menu.MenuDAOImpl;
 import com.cmpl.web.core.menu.MenuDispatcher;
@@ -42,6 +41,7 @@ import com.cmpl.web.core.menu.MenuService;
 import com.cmpl.web.core.menu.MenuServiceImpl;
 import com.cmpl.web.core.menu.MenuTranslator;
 import com.cmpl.web.core.menu.MenuTranslatorImpl;
+import com.cmpl.web.core.models.Menu;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.page.PageService;
 

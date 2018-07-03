@@ -2,7 +2,7 @@ package com.cmpl.web.backup.writer;
 
 import java.time.format.DateTimeFormatter;
 
-import com.cmpl.web.core.carousel.item.CarouselItem;
+import com.cmpl.web.core.models.CarouselItem;
 
 public class CarouselItemCSVWriter extends CommonWriter<CarouselItem> {
 

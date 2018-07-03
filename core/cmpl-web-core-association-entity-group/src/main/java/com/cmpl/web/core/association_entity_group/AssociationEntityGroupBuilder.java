@@ -1,18 +1,19 @@
 package com.cmpl.web.core.association_entity_group;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.AssociationEntityGroup;
 
 public class AssociationEntityGroupBuilder extends BaseBuilder<AssociationEntityGroup> {
 
-  private String groupId;
-  private String entityId;
+  private Long groupId;
+  private Long entityId;
 
-  public AssociationEntityGroupBuilder groupId(String groupId) {
+  public AssociationEntityGroupBuilder groupId(Long groupId) {
     this.groupId = groupId;
     return this;
   }
 
-  public AssociationEntityGroupBuilder entityId(String entityId) {
+  public AssociationEntityGroupBuilder entityId(Long entityId) {
     this.entityId = entityId;
     return this;
   }

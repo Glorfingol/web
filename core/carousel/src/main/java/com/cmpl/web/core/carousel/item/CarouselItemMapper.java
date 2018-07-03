@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import com.cmpl.web.core.common.mapper.BaseMapper;
 import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.models.CarouselItem;
 
 public class CarouselItemMapper extends BaseMapper<CarouselItemDTO, CarouselItem> {
 

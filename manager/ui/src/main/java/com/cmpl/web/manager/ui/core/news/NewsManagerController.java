@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -167,15 +166,9 @@ public class NewsManagerController {
   @DeleteMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:news:delete')")
-  public ResponseEntity<NewsEntryResponse> deleteNewsEntry(
-      @Valid @NotBlank() @PathVariable(value = "newsEntryId") String newsEntryId, BindingResult bindingResult,
+  public ResponseEntity<NewsEntryResponse> deleteNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId,
       Locale locale) {
     LOGGER.info("Tentative de suppression d'une entrée d'id " + newsEntryId);
-    if (bindingResult.hasErrors()) {
-      notificationCenter.sendNotification("delete.error", bindingResult, locale);
-      LOGGER.error("Echec de la suppression de l'entrée");
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
     NewsEntryResponse response = dispatcher.deleteEntity(newsEntryId, locale);
     notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
     LOGGER.info("NewsEntry " + newsEntryId + " supprimée");
@@ -215,7 +208,7 @@ public class NewsManagerController {
     }
     try {
       dispatcher.saveNewsMedia(newsEntryId, uploadedMedia);
-      notificationCenter.sendNotification("success", messageSource.getMessage("create.error", locale));
+      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
     } catch (Exception e) {
       notificationCenter.sendNotification("danger", messageSource.getMessage("update.error", locale));
       LOGGER.error("Cannot save multipart file !", e);

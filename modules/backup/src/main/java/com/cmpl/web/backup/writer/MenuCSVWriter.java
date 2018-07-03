@@ -2,7 +2,7 @@ package com.cmpl.web.backup.writer;
 
 import java.time.format.DateTimeFormatter;
 
-import com.cmpl.web.core.menu.Menu;
+import com.cmpl.web.core.models.Menu;
 
 public class MenuCSVWriter extends CommonWriter<Menu> {
 

@@ -41,7 +41,6 @@ public class WidgetTranslatorImplTest {
     WidgetResponse result = translator.fromDTOToResponse(dto);
 
     Assert.assertEquals(dto, result.getWidget());
-    Assert.assertNull(result.getError());
 
   }
 
@@ -63,7 +62,6 @@ public class WidgetTranslatorImplTest {
     WidgetPageResponse result = translator.fromDTOToResponse(dto);
 
     Assert.assertEquals(dto, result.getWidgetPage());
-    Assert.assertNull(result.getError());
 
   }
 

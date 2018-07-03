@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,15 +72,10 @@ public class WidgetPageManagerController {
 
   @DeleteMapping(value = "/manager/pages/{pageId}/widgets/{widgetId}", produces = "application/json")
   @PreAuthorize("hasAuthority('webmastering:widgets:delete')")
-  public ResponseEntity<WidgetPageResponse> deleteWidgetAssociation(
-      @Valid @NotBlank @PathVariable(name = "pageId") String pageId,
-      @Valid @NotBlank @PathVariable(name = "widgetId") String widgetId, BindingResult bindingResult, Locale locale) {
+  public ResponseEntity<WidgetPageResponse> deleteWidgetAssociation(@PathVariable(name = "pageId") String pageId,
+      @PathVariable(name = "widgetId") String widgetId, Locale locale) {
     LOGGER.info("Tentative de suppression d'un widgetPage");
-    if (bindingResult.hasErrors()) {
-      notificationCenter.sendNotification("delete.error", bindingResult, locale);
-      LOGGER.error("Echec de la suppression de l'entrée");
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+
     try {
       dispatcher.deleteEntity(pageId, widgetId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

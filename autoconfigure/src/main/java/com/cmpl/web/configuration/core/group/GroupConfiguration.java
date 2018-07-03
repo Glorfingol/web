@@ -1,5 +1,6 @@
 package com.cmpl.web.configuration.core.group;
 
+import com.cmpl.web.core.models.BOGroup;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -23,7 +24,6 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.group.GroupManagerDisplayFactory;
 import com.cmpl.web.core.factory.group.GroupManagerDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.group.Group;
 import com.cmpl.web.core.group.GroupDAO;
 import com.cmpl.web.core.group.GroupDAOImpl;
 import com.cmpl.web.core.group.GroupDispatcher;
@@ -39,7 +39,7 @@ import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 @Configuration
-@EntityScan(basePackageClasses = {Group.class})
+@EntityScan(basePackageClasses = {BOGroup.class})
 @EnableJpaRepositories(basePackageClasses = {GroupRepository.class})
 public class GroupConfiguration {
 

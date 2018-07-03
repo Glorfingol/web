@@ -10,6 +10,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
+import com.cmpl.web.manager.ui.core.user.StompHandshakeHandler;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -23,7 +24,8 @@ public class NotificationConfiguration implements WebSocketMessageBrokerConfigur
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/manager-websocket").setAllowedOrigins("*").withSockJS();
+    registry.addEndpoint("/manager-websocket").setHandshakeHandler(new StompHandshakeHandler()).setAllowedOrigins("*")
+        .withSockJS();
   }
 
   @Bean

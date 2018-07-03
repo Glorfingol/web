@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
+import com.cmpl.web.core.models.Privilege;
 
 public class PrivilegeDAOImpl extends BaseDAOImpl<Privilege> implements PrivilegeDAO {
 

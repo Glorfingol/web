@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.cmpl.web.core.association_user_role.AssociationUserRole;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleDAO;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleDAOImpl;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleDispatcher;
@@ -17,6 +16,7 @@ import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleServiceImpl;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleTranslator;
 import com.cmpl.web.core.association_user_role.AssociationUserRoleTranslatorImpl;
+import com.cmpl.web.core.models.AssociationUserRole;
 
 @Configuration
 @EntityScan(basePackageClasses = AssociationUserRole.class)

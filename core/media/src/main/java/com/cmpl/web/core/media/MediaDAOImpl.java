@@ -3,6 +3,7 @@ package com.cmpl.web.core.media;
 import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
+import com.cmpl.web.core.models.Media;
 
 public class MediaDAOImpl extends BaseDAOImpl<Media> implements MediaDAO {
 

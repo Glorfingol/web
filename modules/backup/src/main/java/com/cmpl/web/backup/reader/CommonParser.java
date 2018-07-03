@@ -24,8 +24,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.reflexion.CommonReflexion;
+import com.cmpl.web.core.models.BaseEntity;
 
 public abstract class CommonParser<T extends BaseEntity> extends CommonReflexion {
 

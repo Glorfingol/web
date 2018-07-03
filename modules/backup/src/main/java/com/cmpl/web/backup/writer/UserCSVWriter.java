@@ -2,7 +2,7 @@ package com.cmpl.web.backup.writer;
 
 import java.time.format.DateTimeFormatter;
 
-import com.cmpl.web.core.user.User;
+import com.cmpl.web.core.models.User;
 
 public class UserCSVWriter extends CommonWriter<User> {
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
+import com.cmpl.web.core.models.CarouselItem;
 
 public class CarouselItemDAOImpl extends BaseDAOImpl<CarouselItem> implements CarouselItemDAO {
 

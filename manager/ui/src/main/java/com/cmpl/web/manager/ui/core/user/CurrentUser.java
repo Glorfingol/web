@@ -1,7 +1,9 @@
 package com.cmpl.web.manager.ui.core.user;
 
+import java.util.List;
 import java.util.Set;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 
 import com.cmpl.web.core.user.UserDTO;
@@ -21,8 +23,13 @@ public class CurrentUser extends org.springframework.security.core.userdetails.U
   }
 
   public CurrentUser(UserDTO user, Set<String> privileges) {
-    super(user.getLogin(), user.getPassword(), AuthorityUtils.createAuthorityList(privileges
-        .toArray(new String[privileges.size()])));
+    super(user.getLogin(), user.getPassword(),
+        AuthorityUtils.createAuthorityList(privileges.toArray(new String[privileges.size()])));
+    this.user = user;
+  }
+
+  public CurrentUser(UserDTO user, List<GrantedAuthority> grantedAuthorities) {
+    super(user.getLogin(), user.getPassword(), grantedAuthorities);
     this.user = user;
   }
 

@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import com.cmpl.web.core.common.error.Error;
 import com.cmpl.web.core.common.message.WebMessageSource;
 
 public class NotificationCenter {
@@ -28,12 +27,6 @@ public class NotificationCenter {
     this.template = Objects.requireNonNull(template);
     this.messageSource = Objects.requireNonNull(messageSource);
 
-  }
-
-  public void sendNotification(Error error) {
-    String messageToSend = error.getCauses().stream().map(cause -> cause.getMessage() + "<br>")
-        .collect(Collectors.joining());
-    sendNotification(null, messageToSend);
   }
 
   public void sendNotification(String messageKey, BindingResult bindingResult, Locale locale) {

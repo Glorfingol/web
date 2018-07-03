@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.news.content.NewsContentDTO;
 import com.cmpl.web.core.news.content.NewsContentService;
 import com.cmpl.web.core.news.image.NewsImageDTO;

@@ -1,6 +1,7 @@
 package com.cmpl.web.core.role;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.Role;
 
 public class RoleBuilder extends BaseBuilder<Role> {
 

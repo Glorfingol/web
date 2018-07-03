@@ -1,6 +1,7 @@
 package com.cmpl.web.core.page;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.Page;
 
 public class PageBuilder extends BaseBuilder<Page> {
 

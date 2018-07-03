@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.cmpl.web.core.common.repository.BaseRepository;
+import com.cmpl.web.core.models.AssociationUserRole;
 
 @Repository
 public interface AssociationUserRoleRepository extends BaseRepository<AssociationUserRole> {

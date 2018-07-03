@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
+import com.cmpl.web.core.models.NewsEntry;
 
 public class NewsEntryDAOImpl extends BaseDAOImpl<NewsEntry> implements NewsEntryDAO {
 

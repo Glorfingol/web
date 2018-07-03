@@ -12,6 +12,7 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.models.Widget;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WidgetServiceImplTest {

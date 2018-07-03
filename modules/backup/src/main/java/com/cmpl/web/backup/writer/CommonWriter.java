@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import com.cmpl.web.core.common.dao.BaseEntity;
+import com.cmpl.web.core.models.BaseEntity;
 
 public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
 

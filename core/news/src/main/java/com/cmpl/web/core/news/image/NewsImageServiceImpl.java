@@ -3,6 +3,7 @@ package com.cmpl.web.core.news.image;
 import org.springframework.cache.annotation.CacheConfig;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.models.NewsImage;
 
 /**
  * Implementation de l'interface de gestion des NewsImage

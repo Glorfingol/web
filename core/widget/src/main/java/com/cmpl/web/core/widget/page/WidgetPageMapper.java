@@ -1,6 +1,7 @@
 package com.cmpl.web.core.widget.page;
 
 import com.cmpl.web.core.common.mapper.BaseMapper;
+import com.cmpl.web.core.models.WidgetPage;
 
 public class WidgetPageMapper extends BaseMapper<WidgetPageDTO, WidgetPage> {
 

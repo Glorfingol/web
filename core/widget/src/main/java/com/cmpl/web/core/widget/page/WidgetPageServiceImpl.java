@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.models.WidgetPage;
 
 @CacheConfig(cacheNames = "widgetPages")
 public class WidgetPageServiceImpl extends BaseServiceImpl<WidgetPageDTO, WidgetPage> implements WidgetPageService {

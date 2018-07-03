@@ -1,6 +1,7 @@
 package com.cmpl.web.core.carousel.item;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.CarouselItem;
 
 public class CarouselItemBuilder extends BaseBuilder<CarouselItem> {
 

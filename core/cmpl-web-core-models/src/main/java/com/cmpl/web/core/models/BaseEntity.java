@@ -1,4 +1,4 @@
-package com.cmpl.web.core.common.dao;
+package com.cmpl.web.core.models;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

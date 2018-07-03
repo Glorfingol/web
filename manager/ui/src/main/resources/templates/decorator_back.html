@@ -16,8 +16,9 @@
   </div>
 </div>
 </body>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
   var stompClient = null;
+  var currentUser = [['' + ${currentUser.user.login} +'']];
   $(document).ready(function () {
     toggleActiveMenu();
     connect();
@@ -36,7 +37,7 @@
     var socket = new SockJS('/manager-websocket');
     stompClient = Stomp.over(socket);
     stompClient.debug = null;
-    stompClient.connect({}, function (frame) {
+    stompClient.connect({login: currentUser}, function (frame) {
       stompClient.subscribe('/notifications', function (data) {
         showNotification('top', 'right', JSON.parse(data.body));
       });

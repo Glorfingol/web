@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.models.Media;
 
 @CacheConfig(cacheNames = "medias")
 public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implements MediaService {

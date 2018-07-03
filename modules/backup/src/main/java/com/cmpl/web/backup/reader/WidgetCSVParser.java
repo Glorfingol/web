@@ -7,11 +7,12 @@ import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.widget.Widget;
+import com.cmpl.web.core.models.Widget;
 
 public class WidgetCSVParser extends CommonParser<Widget> {
 
-  public WidgetCSVParser(DateTimeFormatter dateFormatter, DataManipulator<Widget> dataManipulator, String backupFilePath) {
+  public WidgetCSVParser(DateTimeFormatter dateFormatter, DataManipulator<Widget> dataManipulator,
+      String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }
 

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.util.CollectionUtils;
 
 import com.cmpl.web.core.common.mapper.BaseMapper;
+import com.cmpl.web.core.models.Role;
 import com.cmpl.web.core.role.privilege.PrivilegeDTO;
 import com.cmpl.web.core.role.privilege.PrivilegeService;
 

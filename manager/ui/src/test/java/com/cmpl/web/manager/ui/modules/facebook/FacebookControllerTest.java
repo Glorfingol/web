@@ -12,6 +12,7 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.common.exception.BaseException;
@@ -38,6 +39,9 @@ public class FacebookControllerTest {
 
   @Mock
   private WebMessageSource messageSource;
+
+  @Mock
+  private BindingResult bindingResult;
 
   @InjectMocks
   @Spy
@@ -77,7 +81,7 @@ public class FacebookControllerTest {
     BDDMockito.doReturn(response).when(dispatcher).createEntity(BDDMockito.any(FacebookImportRequest.class),
         BDDMockito.any(Locale.class));
 
-    ResponseEntity<FacebookImportResponse> result = controller.createNewsEntry(request, Locale.FRANCE);
+    ResponseEntity<FacebookImportResponse> result = controller.createNewsEntry(request, bindingResult, Locale.FRANCE);
 
     Assert.assertEquals(response, result.getBody());
 
@@ -91,7 +95,7 @@ public class FacebookControllerTest {
     BDDMockito.doThrow(new BaseException()).when(dispatcher).createEntity(BDDMockito.any(FacebookImportRequest.class),
         BDDMockito.any(Locale.class));
 
-    ResponseEntity<FacebookImportResponse> result = controller.createNewsEntry(request, Locale.FRANCE);
+    ResponseEntity<FacebookImportResponse> result = controller.createNewsEntry(request, bindingResult, Locale.FRANCE);
 
     Assert.assertNull(result.getBody());
     Assert.assertEquals(HttpStatus.CONFLICT, result.getStatusCode());

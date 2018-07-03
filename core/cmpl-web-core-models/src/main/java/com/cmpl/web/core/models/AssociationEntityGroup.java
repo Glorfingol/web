@@ -1,11 +1,9 @@
-package com.cmpl.web.core.association_entity_group;
+package com.cmpl.web.core.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
-
-import com.cmpl.web.core.common.dao.BaseEntity;
 
 @Entity(name = "associationEntityGroup")
 @Table(name = "association_entity_group", indexes = {@Index(name = "IDX_ENTITY", columnList = "entity_id"),
@@ -13,23 +11,23 @@ import com.cmpl.web.core.common.dao.BaseEntity;
 public class AssociationEntityGroup extends BaseEntity {
 
   @Column(name = "entity_id")
-  private String entityId;
+  private Long entityId;
   @Column(name = "group_id")
-  private String groupId;
+  private Long groupId;
 
-  public String getEntityId() {
+  public Long getEntityId() {
     return entityId;
   }
 
-  public void setEntityId(String entityId) {
+  public void setEntityId(Long entityId) {
     this.entityId = entityId;
   }
 
-  public String getGroupId() {
+  public Long getGroupId() {
     return groupId;
   }
 
-  public void setGroupId(String groupId) {
+  public void setGroupId(Long groupId) {
     this.groupId = groupId;
   }
 }

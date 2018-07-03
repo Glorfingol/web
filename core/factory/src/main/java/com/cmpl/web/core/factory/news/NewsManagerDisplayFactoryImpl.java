@@ -1,7 +1,6 @@
 package com.cmpl.web.core.factory.news;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
@@ -79,12 +78,11 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   @Override
   protected Page<NewsEntryDTO> computeEntries(Locale locale, int pageNumber) {
-    List<NewsEntryDTO> newsEntries = new ArrayList<>();
 
-    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
-    Page<NewsEntryDTO> pagedNewsEntries = newsEntryService.getPagedEntities(pageRequest);
+    Page<NewsEntryDTO> pagedNewsEntries = newsEntryService
+        .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
     if (CollectionUtils.isEmpty(pagedNewsEntries.getContent())) {
-      return new PageImpl<>(newsEntries);
+      return new PageImpl<>(new ArrayList<>());
     }
 
     return pagedNewsEntries;

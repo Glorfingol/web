@@ -66,7 +66,7 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
     newsEntryDTO.setNewsContent(translator.fromRequestToDTO(newsContentRequest));
     NewsEntryDTO updatedNewsEntry = newsEntryService.updateEntity(newsEntryDTO);
 
-    return NewsEntryResponseBuilder.create().newsEntry(updatedNewsEntry).build();
+    return translator.fromDTOToResponse(updatedNewsEntry);
   }
 
   @Override
@@ -75,7 +75,7 @@ public class NewsEntryDispatcherImpl implements NewsEntryDispatcher {
     newsEntryDTO.setNewsImage(translator.fromRequestToDTO(newsImageRequest));
     NewsEntryDTO updatedNewsEntry = newsEntryService.updateEntity(newsEntryDTO);
 
-    return NewsEntryResponseBuilder.create().newsEntry(updatedNewsEntry).build();
+    return translator.fromDTOToResponse(updatedNewsEntry);
   }
 
   @Override

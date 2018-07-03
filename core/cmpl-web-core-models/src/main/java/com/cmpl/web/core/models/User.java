@@ -1,12 +1,10 @@
-package com.cmpl.web.core.user;
+package com.cmpl.web.core.models;
 
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import com.cmpl.web.core.common.dao.BaseEntity;
 
 @Entity(name = "user")
 @Table(name = "user")

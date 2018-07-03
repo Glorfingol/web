@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -211,15 +210,10 @@ public class PageManagerController {
   @DeleteMapping(value = "/{pageId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:pages:delete')")
-  public ResponseEntity<PageResponse> deletePage(@Valid @NotBlank @PathVariable(value = "pageId") String pageId,
-      BindingResult bindingResult, Locale locale) {
+  public ResponseEntity<PageResponse> deletePage(@PathVariable(value = "pageId") String pageId, Locale locale) {
 
     LOGGER.info("Tentative de suppression d'une page");
-    if (bindingResult.hasErrors()) {
-      notificationCenter.sendNotification("delete.error", bindingResult, locale);
-      LOGGER.error("Echec de la suppression de l'entrée");
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+
     try {
       PageResponse response = pageDispatcher.deleteEntity(pageId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

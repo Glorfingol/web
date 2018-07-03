@@ -7,9 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import com.cmpl.web.core.common.dao.BaseDAO;
-import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.dto.BaseDTO;
 import com.cmpl.web.core.common.mapper.BaseMapper;
+import com.cmpl.web.core.models.BaseEntity;
 
 /**
  * Implementation abstraire du service lie aux DAO

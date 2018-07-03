@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.common.user.ActionToken;
 import com.cmpl.web.core.common.user.ActionTokenService;
+import com.cmpl.web.core.models.User;
 
 @CacheConfig(cacheNames = "users")
 public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements UserService {

@@ -3,6 +3,7 @@ package com.cmpl.web.core.association_user_role;
 import java.util.List;
 
 import com.cmpl.web.core.common.dao.BaseDAO;
+import com.cmpl.web.core.models.AssociationUserRole;
 
 public interface AssociationUserRoleDAO extends BaseDAO<AssociationUserRole> {
 

@@ -2,7 +2,7 @@ package com.cmpl.web.backup.writer;
 
 import java.time.format.DateTimeFormatter;
 
-import com.cmpl.web.core.association_user_role.AssociationUserRole;
+import com.cmpl.web.core.models.AssociationUserRole;
 
 public class AssociationUserRoleCSVWriter extends CommonWriter<AssociationUserRole> {
 

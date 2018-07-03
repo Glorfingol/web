@@ -16,6 +16,7 @@ import com.cmpl.web.core.carousel.item.CarouselItemDTOBuilder;
 import com.cmpl.web.core.carousel.item.CarouselItemService;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaDTOBuilder;
+import com.cmpl.web.core.models.Carousel;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarouselMapperTest {

@@ -3,9 +3,9 @@ package com.cmpl.web.launcher;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cmpl.web.core.news.content.NewsContent;
+import com.cmpl.web.core.models.NewsContent;
+import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.news.content.NewsContentRepository;
-import com.cmpl.web.core.news.entry.NewsEntry;
 import com.cmpl.web.core.news.entry.NewsEntryRepository;
 
 public class NewsFactory {

@@ -2,11 +2,11 @@ package com.cmpl.core.events_listeners;
 
 import org.springframework.context.event.EventListener;
 
-import com.cmpl.web.core.common.dao.BaseEntity;
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.media.Media;
 import com.cmpl.web.core.media.MediaDTO;
+import com.cmpl.web.core.models.BaseEntity;
+import com.cmpl.web.core.models.Media;
 
 public class MediaEventsListeners {
 

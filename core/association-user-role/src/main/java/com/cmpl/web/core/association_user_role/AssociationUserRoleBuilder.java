@@ -1,6 +1,7 @@
 package com.cmpl.web.core.association_user_role;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.AssociationUserRole;
 
 public class AssociationUserRoleBuilder extends BaseBuilder<AssociationUserRole> {
 

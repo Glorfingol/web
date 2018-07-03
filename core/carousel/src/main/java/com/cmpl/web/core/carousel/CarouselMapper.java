@@ -2,6 +2,7 @@ package com.cmpl.web.core.carousel;
 
 import com.cmpl.web.core.carousel.item.CarouselItemService;
 import com.cmpl.web.core.common.mapper.BaseMapper;
+import com.cmpl.web.core.models.Carousel;
 
 public class CarouselMapper extends BaseMapper<CarouselDTO, Carousel> {
 

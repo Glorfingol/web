@@ -13,6 +13,12 @@
   <artifactId>cmpl-web-core-common</artifactId>
   <dependencies>
     <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-models</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.springframework.plugin</groupId>
       <artifactId>spring-plugin-core</artifactId>
     </dependency>
@@ -132,6 +138,7 @@
       <artifactId>querydsl-jpa</artifactId>
       <version>${querydsl.version}</version>
     </dependency>
+
   </dependencies>
 
 

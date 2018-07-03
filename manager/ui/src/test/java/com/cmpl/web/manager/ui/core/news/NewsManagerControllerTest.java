@@ -48,7 +48,7 @@ public class NewsManagerControllerTest {
   public void testDeleteNewsEntry() throws Exception {
     BindingResult bindingResult = BDDMockito.mock(BindingResult.class);
     BDDMockito.given(bindingResult.hasErrors()).willReturn(false);
-    ResponseEntity<NewsEntryResponse> result = controller.deleteNewsEntry("666", bindingResult, Locale.FRANCE);
+    ResponseEntity<NewsEntryResponse> result = controller.deleteNewsEntry("666", Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
   }

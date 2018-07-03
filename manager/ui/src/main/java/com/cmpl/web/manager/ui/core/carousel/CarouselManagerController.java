@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -190,17 +189,10 @@ public class CarouselManagerController {
   @DeleteMapping(value = "/{carouselId}/items/{carouselItemId}")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:carousels:delete')")
-  public ResponseEntity<CarouselItemResponse> deleteCarouselItem(
-      @Valid @NotBlank @PathVariable(value = "carouselId") String carouselId,
-      @Valid @NotBlank @PathVariable(value = "carouselItemId") String carouselItemId, BindingResult bindingResult,
-      Locale locale) {
+  public ResponseEntity<CarouselItemResponse> deleteCarouselItem(@PathVariable(value = "carouselId") String carouselId,
+      @PathVariable(value = "carouselItemId") String carouselItemId, Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un élément de carousel");
-    if (bindingResult.hasErrors()) {
-      notificationCenter.sendNotification("delete.error", bindingResult, locale);
-      LOGGER.error("Echec de la suppression de l'entrée");
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
     try {
       carouselDispatcher.deleteCarouselItemEntity(carouselId, carouselItemId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
@@ -216,16 +208,11 @@ public class CarouselManagerController {
   @DeleteMapping(value = "/{carouselId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:carousels:delete')")
-  public ResponseEntity<CarouselResponse> deleteCarousel(
-      @Valid @NotBlank @PathVariable(value = "carouselId") String carouselId, BindingResult bindingResult,
+  public ResponseEntity<CarouselResponse> deleteCarousel(@PathVariable(value = "carouselId") String carouselId,
       Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un Carousel");
-    if (bindingResult.hasErrors()) {
-      notificationCenter.sendNotification("delete.error", bindingResult, locale);
-      LOGGER.error("Echec de la suppression de l'entrée");
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+
     try {
       CarouselResponse response = carouselDispatcher.deleteEntity(carouselId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));

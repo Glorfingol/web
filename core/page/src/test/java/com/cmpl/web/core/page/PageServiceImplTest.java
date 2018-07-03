@@ -14,6 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Sort;
 
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.models.Page;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PageServiceImplTest {

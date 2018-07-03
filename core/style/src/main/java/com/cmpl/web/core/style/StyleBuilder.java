@@ -1,6 +1,7 @@
 package com.cmpl.web.core.style;
 
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import com.cmpl.web.core.models.Style;
 
 public class StyleBuilder extends BaseBuilder<Style> {
 

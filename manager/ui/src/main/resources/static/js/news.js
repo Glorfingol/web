@@ -260,7 +260,7 @@ function postUpdateNewsImageForm() {
     if (droppedFiles && droppedFiles[0]) {
       formData.append("media", droppedFiles[0]);
     } else {
-      formData.append("media", $("#newsEntryEditForm")[0][4].files[0]);
+      formData.append("media", $("#imageMedia")[0].files[0]);
     }
 
     updateThenUpload($("#newsEntryEditForm"), $(".loader"), $(".card-loader"),
@@ -281,10 +281,9 @@ function postUpdateNewsImageForm() {
 
 function hasMediaToUpload() {
   return (droppedFiles && droppedFiles[0]) || ($(
-      "#newsEntryEditForm")[0] && $(
-      "#newsEntryEditForm")[0][4] && $(
-      "#newsEntryEditForm")[0][4].files && $(
-      "#newsEntryEditForm")[0][4].files[0]);
+      "#imageMedia")[0] && $(
+      "#imageMedia")[0].files && $(
+      "#imageMedia")[0].files[0]);
 }
 
 

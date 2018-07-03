@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.cmpl.web.core.common.dao.BaseEntity;
+import com.cmpl.web.core.models.BaseEntity;
 
 public class EntityTest extends BaseEntity {
 
