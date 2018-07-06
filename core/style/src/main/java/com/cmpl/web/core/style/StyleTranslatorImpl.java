@@ -12,6 +12,11 @@ public class StyleTranslatorImpl implements StyleTranslator {
   }
 
   @Override
+  public StyleDTO fromCreateFormToDTO(StyleCreateForm form) {
+    return StyleDTOBuilder.create().content(form.getContent()).build();
+  }
+
+  @Override
   public StyleResponse fromDTOToResponse(StyleDTO dto) {
     return StyleResponseBuilder.create().style(dto).build();
   }

@@ -1,13 +1,9 @@
 package com.cmpl.web.core.style;
 
-import com.cmpl.web.core.common.dto.BaseDTO;
-import com.cmpl.web.core.media.MediaDTO;
+public class StyleCreateForm {
 
-public class StyleDTO extends BaseDTO {
-
-  private String name;
   private String content;
-  private MediaDTO media;
+  private String name;
 
   public String getContent() {
     return content;
@@ -15,14 +11,6 @@ public class StyleDTO extends BaseDTO {
 
   public void setContent(String content) {
     this.content = content;
-  }
-
-  public MediaDTO getMedia() {
-    return media;
-  }
-
-  public void setMedia(MediaDTO media) {
-    this.media = media;
   }
 
   public String getName() {

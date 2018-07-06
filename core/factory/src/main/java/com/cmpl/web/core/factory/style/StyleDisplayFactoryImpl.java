@@ -1,29 +1,34 @@
 package com.cmpl.web.core.factory.style;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.media.MediaDTO;
-import com.cmpl.web.core.media.MediaDTOBuilder;
-import com.cmpl.web.core.models.Style;
 import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.style.StyleCreateFormBuilder;
 import com.cmpl.web.core.style.StyleDTO;
-import com.cmpl.web.core.style.StyleDTOBuilder;
 import com.cmpl.web.core.style.StyleForm;
 import com.cmpl.web.core.style.StyleService;
+import com.cmpl.web.core.style.StyleUpdateFormBuilder;
 
-public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Style> implements StyleDisplayFactory {
+public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<StyleDTO> implements StyleDisplayFactory {
 
   private final StyleService styleService;
   private final ContextHolder contextHolder;
@@ -39,57 +44,84 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
   }
 
   @Override
-  public ModelAndView computeModelAndViewForViewStyles(Locale locale) {
+  public ModelAndView computeModelAndViewForViewAllStyles(Locale locale, int pageNumber) {
 
     ModelAndView stylesManager = super.computeModelAndViewForBackPage(BACK_PAGE.STYLES_VIEW, locale);
-    StyleDTO style = styleService.getStyle();
+    LOGGER.info("Construction des styles pour la page {} ", BACK_PAGE.STYLES_VIEW.name());
 
-    if (style == null) {
-      style = initStyle();
-    }
+    PageWrapper<StyleDTO> pagedStyleDTOWrapped = computePageWrapper(locale, pageNumber);
 
-    stylesManager.addObject("style", style);
+    stylesManager.addObject("wrappedStyles", pagedStyleDTOWrapped);
 
     return stylesManager;
-  }
 
-  StyleDTO initStyle() {
-    StyleDTO style = StyleDTOBuilder.create().content("").media(initMedia())
-        .id(Math.abs(UUID.randomUUID().getLeastSignificantBits())).build();
-    return styleService.createEntity(style);
-  }
-
-  MediaDTO initMedia() {
-    return MediaDTOBuilder.create().name("styles.css").extension(".css").size(0l).contentType("text/css")
-        .src("/public/media/" + "styles.css").id(Math.abs(UUID.randomUUID().getLeastSignificantBits())).build();
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdateStyles(Locale locale) {
-    ModelAndView stylesManager = super.computeModelAndViewForBackPage(BACK_PAGE.STYLES_UPDATE, locale);
-    StyleDTO style = styleService.getStyle();
-    if (style == null) {
-      style = initStyle();
-    }
-    StyleForm form = new StyleForm(style);
-    stylesManager.addObject("styleForm", form);
+  public ModelAndView computeModelAndViewForCreateStyle(Locale locale) {
+    ModelAndView stylesManager = super.computeModelAndViewForBackPage(BACK_PAGE.STYLES_CREATE, locale);
+    LOGGER.info("Construction du formulaire de creation des styles");
+
+    stylesManager.addObject("createForm", StyleCreateFormBuilder.create().content("").build());
 
     return stylesManager;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForUpdateStyle(Locale locale, String styleId) {
+    return computeUpdateView(styleId, locale);
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForUpdateStyleMain(Locale locale, String styleId) {
+
+    return computeUpdateView(styleId, locale);
+  }
+
+  private ModelAndView computeUpdateView(String styleId, Locale locale) {
+    ModelAndView stylesManager = super.computeModelAndViewForBackPage(BACK_PAGE.STYLES_UPDATE, locale);
+    LOGGER.info("Construction du style pour la page {} ", BACK_PAGE.STYLES_UPDATE.name());
+    StyleDTO style = styleService.getEntity(Long.parseLong(styleId));
+
+    StyleForm updateForm = StyleUpdateFormBuilder.create().content(style.getContent())
+        .creationDate(style.getCreationDate()).creationUser(style.getCreationUser()).id(style.getId())
+        .modificationDate(style.getModificationDate()).modificationUser(style.getModificationUser())
+        .mediaId(style.getMedia().getId()).mediaName(style.getMedia().getName()).build();
+
+    stylesManager.addObject("updateForm", updateForm);
+
+    return stylesManager;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForUpdateStyleGroup(Locale locale, String styleId) {
+    return null;
   }
 
   @Override
   protected String getBaseUrl() {
-    return null;
+    return "/manager/styles";
   }
 
   @Override
   protected String getItemLink() {
-    return null;
+    return "/manager/styles/";
   }
 
   @Override
-  protected Page<Style> computeEntries(Locale locale, int pageNumber) {
-    return null;
+  protected Page<StyleDTO> computeEntries(Locale locale, int pageNumber) {
+    List<StyleDTO> pageEntries = new ArrayList<>();
+
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
+        new Sort(Direction.ASC, "name"));
+    Page<StyleDTO> pagedStyleDTOEntries = styleService.getPagedEntities(pageRequest);
+    if (CollectionUtils.isEmpty(pagedStyleDTOEntries.getContent())) {
+      return new PageImpl<>(pageEntries);
+    }
+
+    pageEntries.addAll(pagedStyleDTOEntries.getContent());
+
+    return new PageImpl<>(pageEntries, pageRequest, pagedStyleDTOEntries.getTotalElements());
   }
 
   @Override

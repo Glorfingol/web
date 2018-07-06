@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 public class StyleForm {
 
   private String content;
+  private String name;
   private Long id;
   @DateTimeFormat(iso = ISO.DATE)
   private LocalDateTime creationDate;
@@ -31,6 +32,7 @@ public class StyleForm {
     this.mediaName = style.getMedia().getName();
     this.creationUser = style.getCreationUser();
     this.modificationUser = style.getModificationUser();
+    this.name = style.getName();
   }
 
   public String getContent() {
@@ -95,5 +97,13 @@ public class StyleForm {
 
   public void setModificationUser(String modificationUser) {
     this.modificationUser = modificationUser;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }
