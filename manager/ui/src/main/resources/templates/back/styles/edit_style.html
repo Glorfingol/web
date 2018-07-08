@@ -1,15 +1,15 @@
 <div class="card mb-4">
     <div role="tabpanel" class="card-header">
-        <ul class="nav nav-tabs card-header-tabs" id="roleTabs" role="tablist">
+        <ul class="nav nav-tabs card-header-tabs" id="styleTabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="main-tab" data-toggle="tab" href="#" role="tab"
-                   onclick="goToRoleMainTab()">
-                    <span th:text="#{roles.tab.main}"/>
+                   onclick="goToStyleMainTab()">
+                    <span th:text="#{styles.tab.main}"/>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="body-tab" data-toggle="tab" href="#" role="tab"
-                   onclick="goToPrivilegesTab()">
+                <a class="nav-link" id="group-tab" data-toggle="tab" href="#" role="tab"
+                   onclick="goToGroupsTab()">
                     <span th:text="#{roles.tab.privileges}"/>
                 </a>
             </li>
@@ -20,7 +20,7 @@
             </li>
         </ul>
     </div>
-    <div class="tab-content card-body" id="roleTabContent">
+    <div class="tab-content card-body" id="styleTabContent">
         <div role="tabpanel" class="tab-pane fade active show" id="ajaxTab">
         </div>
     </div>
@@ -29,19 +29,19 @@
 
     var currentTab = "";
 
-    var goToPrivilegesTab = function () {
-        if (currentTab !== "privileges") {
-            var url = "/manager/roles/" + [['' + ${updateForm.id} +'']] + "/_privileges";
+    var goToGroupsTab = function () {
+        if (currentTab !== "groups") {
+            var url = "/manager/styles/" + [['' + ${updateForm.id} +'']] + "/_groups";
             $.get(url, function (data) {
                 $("#ajaxTab").html(data);
-                currentTab = "privileges";
+                currentTab = "groups";
             });
         }
     };
 
-    var goToRoleMainTab = function () {
+    var goToStyleMainTab = function () {
         if (currentTab !== "main") {
-            var url = "/manager/roles/" + [['' + ${updateForm.id} +'']] + "/_main";
+            var url = "/manager/styles/" + [['' + ${updateForm.id} +'']] + "/_main";
             $.get(url, function (data) {
                 $("#ajaxTab").html(data);
                 currentTab = "main";
@@ -53,9 +53,9 @@
         goToRoleMainTab();
 
         $("#confirmDelete").click(function () {
-            var url = "/manager/roles/" + [['' + ${updateForm.id} +'']];
-            var urlFallBack = "/manager/roles";
-            var form = $("#roleTabContent");
+            var url = "/manager/styles/" + [['' + ${updateForm.id} +'']];
+            var urlFallBack = "/manager/styles";
+            var form = $("#styleTabContent");
             var loader = $(".loader");
             var cardLoader = $(".card-loader");
             deleteAndHandleResult(form, loader, cardLoader, url, urlFallBack);
@@ -63,6 +63,3 @@
     });
 
 </script>
-
-
-
