@@ -21,11 +21,13 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.style.StyleCreateFormBuilder;
 import com.cmpl.web.core.style.StyleDTO;
-import com.cmpl.web.core.style.StyleForm;
 import com.cmpl.web.core.style.StyleService;
+import com.cmpl.web.core.style.StyleUpdateForm;
 import com.cmpl.web.core.style.StyleUpdateFormBuilder;
 
 public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<StyleDTO> implements StyleDisplayFactory {
@@ -35,8 +37,8 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
 
   public StyleDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource, StyleService styleService,
       ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
-      Set<Locale> availableLocales) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
     this.styleService = Objects.requireNonNull(styleService);
 
     this.contextHolder = Objects.requireNonNull(contextHolder);
@@ -69,21 +71,11 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
 
   @Override
   public ModelAndView computeModelAndViewForUpdateStyle(Locale locale, String styleId) {
-    return computeUpdateView(styleId, locale);
-  }
-
-  @Override
-  public ModelAndView computeModelAndViewForUpdateStyleMain(Locale locale, String styleId) {
-
-    return computeUpdateView(styleId, locale);
-  }
-
-  private ModelAndView computeUpdateView(String styleId, Locale locale) {
     ModelAndView stylesManager = super.computeModelAndViewForBackPage(BACK_PAGE.STYLES_UPDATE, locale);
     LOGGER.info("Construction du style pour la page {} ", BACK_PAGE.STYLES_UPDATE.name());
     StyleDTO style = styleService.getEntity(Long.parseLong(styleId));
 
-    StyleForm updateForm = StyleUpdateFormBuilder.create().content(style.getContent())
+    StyleUpdateForm updateForm = StyleUpdateFormBuilder.create().content(style.getContent())
         .creationDate(style.getCreationDate()).creationUser(style.getCreationUser()).id(style.getId())
         .modificationDate(style.getModificationDate()).modificationUser(style.getModificationUser())
         .mediaId(style.getMedia().getId()).mediaName(style.getMedia().getName()).build();
@@ -94,8 +86,19 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdateStyleGroup(Locale locale, String styleId) {
-    return null;
+  public ModelAndView computeModelAndViewForUpdateStyleMain(Locale locale, String styleId) {
+    ModelAndView stylesManager = new ModelAndView("back/styles/edit/tab_main");
+
+    LOGGER.info("Construction du style pour la page {} ", BACK_PAGE.STYLES_UPDATE.name());
+    StyleDTO style = styleService.getEntity(Long.parseLong(styleId));
+
+    StyleUpdateForm updateForm = StyleUpdateFormBuilder.create().content(style.getContent())
+        .creationDate(style.getCreationDate()).creationUser(style.getCreationUser()).id(style.getId())
+        .modificationDate(style.getModificationDate()).modificationUser(style.getModificationUser())
+        .mediaId(style.getMedia().getId()).mediaName(style.getMedia().getName()).build();
+
+    stylesManager.addObject("updateForm", updateForm);
+    return stylesManager;
   }
 
   @Override

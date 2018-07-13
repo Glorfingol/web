@@ -37,8 +37,8 @@ public class ActionTokenServiceImpl implements ActionTokenService {
 
   protected ActionToken decryptTokenFromString(String anExtendedInformationsToken) {
 
-    List<String> result = Arrays.asList(anExtendedInformationsToken.split("\\|")).stream()
-        .map(data -> data = data.trim()).collect(Collectors.toList());
+    List<String> result = Arrays.asList(anExtendedInformationsToken.split("\\|")).stream().map(String::trim)
+        .collect(Collectors.toList());
 
     ActionToken actionToken = new ActionToken();
     actionToken.setUserId(Long.parseLong(result.get(0)));

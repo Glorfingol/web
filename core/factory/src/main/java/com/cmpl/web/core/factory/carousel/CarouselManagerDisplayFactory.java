@@ -4,7 +4,9 @@ import java.util.Locale;
 
 import org.springframework.web.servlet.ModelAndView;
 
-public interface CarouselManagerDisplayFactory {
+import com.cmpl.web.core.factory.BackDisplayFactory;
+
+public interface CarouselManagerDisplayFactory extends BackDisplayFactory {
 
   ModelAndView computeModelAndViewForViewAllCarousels(Locale locale, int pageNumber);
 

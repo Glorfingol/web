@@ -6,6 +6,7 @@ import com.cmpl.web.core.models.Style;
 public class StyleBuilder extends BaseBuilder<Style> {
 
   private String mediaId;
+  private String name;
 
   private StyleBuilder() {
 
@@ -16,13 +17,23 @@ public class StyleBuilder extends BaseBuilder<Style> {
     return this;
   }
 
+  public StyleBuilder name(String name) {
+    this.name = name;
+    return this;
+  }
+
   @Override
   public Style build() {
     Style style = new Style();
-    style.setCreationDate(creationDate);
-    style.setId(id);
+
     style.setMediaId(mediaId);
+    style.setName(name);
+    style.setCreationDate(creationDate);
+    style.setCreationUser(creationUser);
+    style.setModificationUser(modificationUser);
+    style.setId(id);
     style.setModificationDate(modificationDate);
+
     return style;
   }
 

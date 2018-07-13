@@ -1,5 +1,6 @@
 package com.cmpl.web.backup.reader;
 
+import com.cmpl.web.core.models.Responsibility;
 import java.lang.reflect.Field;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -7,18 +8,17 @@ import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.models.AssociationUserRole;
 
-public class AssociationUserRoleCSVParser extends CommonParser<AssociationUserRole> {
+public class AssociationUserRoleCSVParser extends CommonParser<Responsibility> {
 
   public AssociationUserRoleCSVParser(DateTimeFormatter dateFormatter,
-      DataManipulator<AssociationUserRole> dataManipulator, String backupFilePath) {
+      DataManipulator<Responsibility> dataManipulator, String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }
 
   @Override
-  protected AssociationUserRole parseEntity(CSVRecord record) {
-    AssociationUserRole associationParsed = new AssociationUserRole();
+  protected Responsibility parseEntity(CSVRecord record) {
+    Responsibility associationParsed = new Responsibility();
 
     List<Field> fieldsToParse = getFields(associationParsed.getClass());
 

@@ -170,4 +170,11 @@ public class UserManagerController {
     return userManagerDisplayFactory.computeModelAndViewForUpdateUserRoles(locale, userId);
   }
 
+  @GetMapping(value = "/{userId}/_memberships")
+  @PreAuthorize("hasAuthority('administration:users:read')")
+  public ModelAndView printViewUpdateUserMemberships(@PathVariable(value = "userId") String userId, Locale locale) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.USER_UPDATE.name() + " pour " + userId + " pour la partie groupes");
+    return userManagerDisplayFactory.computeModelAndViewForMembership(userId);
+  }
+
 }

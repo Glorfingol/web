@@ -6,16 +6,6 @@ function cancelCreateCarousel() {
   window.location.href = "/manager/carousels";
 }
 
-function validateAndUpdateCarousel() {
-  var carousel = computeCarouselToUpdate();
-  return carousel;
-}
-
-function validateAndCreateCarousel() {
-  var carousel = computeCarouselToCreate();
-  return carousel;
-}
-
 function computeCarouselToUpdate() {
   var carousel = {};
 
@@ -50,7 +40,7 @@ function computeCarouselToCreate() {
 }
 
 function postUpdateCarouselForm() {
-  var carouselToUpdate = validateAndUpdateCarousel();
+  var carouselToUpdate = computeCarouselToUpdate();
   var url = "/manager/carousels/" + carouselToUpdate.id;
   var urlFallback = "/manager/carousels/" + carouselToUpdate.id;
   update($("#carouselEditForm"), $(".loader"), $(".card-loader"), url,
@@ -58,7 +48,7 @@ function postUpdateCarouselForm() {
 }
 
 function postCreateCarouselForm() {
-  var carouselToCreate = validateAndCreateCarousel();
+  var carouselToCreate = computeCarouselToCreate();
   var url = "/manager/carousels/";
   var urlFallback = "/manager/carousels/";
   create($("#carouselCreateForm"), $(".loader"), $(".card-loader"), url,

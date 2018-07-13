@@ -6,16 +6,6 @@ function cancelCreateMenu() {
   window.location.href = "/manager/menus";
 }
 
-function validateAndUpdateMenu() {
-  var menu = computeMenuToUpdate();
-  return menu;
-}
-
-function validateAndCreateMenu() {
-  var menu = computeMenuToCreate();
-  return menu;
-}
-
 function computeMenuToUpdate() {
   var menu = {};
 
@@ -69,7 +59,7 @@ function computeMenuToCreate() {
 }
 
 function postUpdateMenuForm() {
-  var menuToUpdate = validateAndUpdateMenu();
+  var menuToUpdate = computeMenuToUpdate();
   var url = "/manager/menus/" + menuToUpdate.id;
   var urlFallback = "/manager/menus/" + menuToUpdate.id;
   update($("#menuEditForm"), $(".loader"), $(".card-loader"), url, urlFallback,
@@ -83,7 +73,7 @@ function postUpdateMenuForm() {
 }
 
 function postCreateMenuForm() {
-  var menuToCreate = validateAndCreateMenu();
+  var menuToCreate = computeMenuToCreate();
   var url = "/manager/menus/";
   var urlFallback = "/manager/menus/";
   create($("#menuCreateForm"), $(".loader"), $(".card-loader"), url,

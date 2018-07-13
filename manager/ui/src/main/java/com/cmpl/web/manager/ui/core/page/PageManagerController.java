@@ -207,6 +207,13 @@ public class PageManagerController {
     return pageManagerDisplayFactory.computeModelAndViewForUpdatePageAMP(locale, pageId, languageCode);
   }
 
+  @GetMapping(value = "/{pageId}/_memberships")
+  @PreAuthorize("hasAuthority('webmastering:pages:read')")
+  public ModelAndView printViewUpdatePageMemberships(@PathVariable(value = "pageId") String pageId) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie memberships");
+    return pageManagerDisplayFactory.computeModelAndViewForMembership(pageId);
+  }
+
   @DeleteMapping(value = "/{pageId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:pages:delete')")

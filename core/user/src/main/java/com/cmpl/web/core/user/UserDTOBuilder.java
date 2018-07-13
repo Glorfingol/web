@@ -56,6 +56,11 @@ public class UserDTOBuilder extends BaseBuilder<UserDTO> {
     user.setLogin(login);
     user.setPassword(password);
     user.setLastPasswordModification(lastPasswordModification);
+    user.setCreationDate(creationDate);
+    user.setCreationUser(creationUser);
+    user.setModificationUser(modificationUser);
+    user.setId(id);
+    user.setModificationDate(modificationDate);
     return user;
   }
 

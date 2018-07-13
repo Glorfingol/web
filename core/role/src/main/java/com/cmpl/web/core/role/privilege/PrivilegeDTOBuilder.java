@@ -27,6 +27,11 @@ public class PrivilegeDTOBuilder extends BaseBuilder<PrivilegeDTO> {
     PrivilegeDTO privilegeDTO = new PrivilegeDTO();
     privilegeDTO.setContent(content);
     privilegeDTO.setRoleId(roleId);
+    privilegeDTO.setCreationDate(creationDate);
+    privilegeDTO.setCreationUser(creationUser);
+    privilegeDTO.setModificationUser(modificationUser);
+    privilegeDTO.setId(id);
+    privilegeDTO.setModificationDate(modificationDate);
     return privilegeDTO;
   }
 

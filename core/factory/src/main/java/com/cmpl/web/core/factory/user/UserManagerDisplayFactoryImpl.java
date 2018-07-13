@@ -16,9 +16,6 @@ import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.association_user_role.AssociationUserRoleCreateFormBuilder;
-import com.cmpl.web.core.association_user_role.AssociationUserRoleDTO;
-import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
@@ -27,7 +24,12 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.responsibility.ResponsibilityCreateFormBuilder;
+import com.cmpl.web.core.responsibility.ResponsibilityDTO;
+import com.cmpl.web.core.responsibility.ResponsibilityService;
 import com.cmpl.web.core.role.RoleDTO;
 import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.user.UserCreateForm;
@@ -40,14 +42,14 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   private final UserService userService;
   private final RoleService roleService;
-  private final AssociationUserRoleService assocationUserRoleService;
+  private final ResponsibilityService assocationUserRoleService;
   private final ContextHolder contextHolder;
 
   public UserManagerDisplayFactoryImpl(UserService userService, RoleService roleService,
-      AssociationUserRoleService assocationUserRoleService, ContextHolder contextHolder, MenuFactory menuFactory,
+      ResponsibilityService assocationUserRoleService, ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
-      Set<Locale> availableLocales) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
     this.userService = Objects.requireNonNull(userService);
 
     this.roleService = Objects.requireNonNull(roleService);
@@ -117,7 +119,7 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     LOGGER.info("Construction des roles pour la page {} ", BACK_PAGE.USER_UPDATE.name());
 
     List<RoleDTO> associatedRoles = new ArrayList<>();
-    List<AssociationUserRoleDTO> associationUserRoles = assocationUserRoleService.findByUserId(userId);
+    List<ResponsibilityDTO> associationUserRoles = assocationUserRoleService.findByUserId(userId);
     associationUserRoles
         .forEach(association -> associatedRoles.add(roleService.getEntity(Long.parseLong(association.getRoleId()))));
 
@@ -128,7 +130,7 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
     userManager.addObject("linkedRoles", associatedRoles);
     userManager.addObject("linkableRoles", linkableRoles);
-    userManager.addObject("createForm", AssociationUserRoleCreateFormBuilder.create().userId(userId).build());
+    userManager.addObject("createForm", ResponsibilityCreateFormBuilder.create().userId(userId).build());
     return userManager;
   }
 

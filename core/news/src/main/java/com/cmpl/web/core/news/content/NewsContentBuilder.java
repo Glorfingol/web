@@ -31,8 +31,10 @@ public class NewsContentBuilder extends BaseBuilder<NewsContent> {
   @Override
   public NewsContent build() {
     NewsContent newsContent = new NewsContent();
-    newsContent.setId(id);
     newsContent.setCreationDate(creationDate);
+    newsContent.setCreationUser(creationUser);
+    newsContent.setModificationUser(modificationUser);
+    newsContent.setId(id);
     newsContent.setModificationDate(modificationDate);
     newsContent.setContent(content);
     newsContent.setLinkUrl(linkUrl);

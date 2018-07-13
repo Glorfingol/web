@@ -131,4 +131,11 @@ public class MediaManagerController {
 
   }
 
+  @GetMapping(value = "/{mediaId}/_memberships")
+  @PreAuthorize("hasAuthority('webmastering:news:read')")
+  public ModelAndView printUpdateMediaMembership(@PathVariable(value = "mediaId") String mediaId) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.MEDIA_VIEW.name());
+    return mediaManagerDisplayFactory.computeModelAndViewForMembership(mediaId);
+  }
+
 }

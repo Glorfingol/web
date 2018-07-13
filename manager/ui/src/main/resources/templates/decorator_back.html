@@ -2,16 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="common/back_header"/>
 <body class="main">
-<div class="container-fluid full-size bg-faded">
-  <div class="row h-100">
-    <div class="col-sm-3 col-xl-2 back-menu">
-      <div th:include="common/back_menu"/>
-    </div>
-    <div class="col-sm-9 col-xl-10" id="page-wrapper">
-      <div th:include="common/back_navigation"/>
-      <div th:include="common/back_breadcrumb"/>
+
+<div class="container-fluid bg-faded">
+  <div th:replace="common/back_navigation"/>
+  <div class="d-flex flex-nowrap">
+
+    <div th:replace="common/back_menu"/>
+
+    <div class="col-auto flex-grow-1" id="page-wrapper">
+      <div th:replace="common/back_breadcrumb"/>
       <div th:replace="${content}"/>
-      <div th:include="common/back_modals"/>
+      <div th:replace="common/back_modals"/>
     </div>
   </div>
 </div>

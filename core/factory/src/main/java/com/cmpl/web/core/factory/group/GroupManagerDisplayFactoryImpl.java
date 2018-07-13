@@ -28,6 +28,7 @@ import com.cmpl.web.core.group.GroupCreateForm;
 import com.cmpl.web.core.group.GroupDTO;
 import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.group.GroupUpdateForm;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 public class GroupManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<GroupDTO>
@@ -38,8 +39,8 @@ public class GroupManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
 
   public GroupManagerDisplayFactoryImpl(GroupService groupService, ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
-      PluginRegistry<Privilege, String> privileges, Set<Locale> availableLocales) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+      PluginRegistry<Privilege, String> privileges, Set<Locale> availableLocales, MembershipService membershipService) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
     this.groupService = Objects.requireNonNull(groupService);
     this.contextHolder = Objects.requireNonNull(contextHolder);
   }

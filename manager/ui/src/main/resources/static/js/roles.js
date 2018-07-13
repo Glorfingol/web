@@ -10,16 +10,6 @@ function cancelRolePrivileges() {
   window.location.href = "/manager/roles";
 }
 
-function validateAndUpdateRole() {
-  var role = computeRoleToUpdate();
-  return role;
-}
-
-function validateAndCreateRole() {
-  var role = computeRoleToCreate();
-  return role;
-}
-
 function computeRoleToUpdate() {
   var role = {};
 
@@ -79,7 +69,7 @@ function computePrivilegesForm() {
 }
 
 function postUpdateRoleForm() {
-  var roleToUpdate = validateAndUpdateRole();
+  var roleToUpdate = computeRoleToUpdate();
   var url = "/manager/roles/" + roleToUpdate.id;
   var urlFallback = "/manager/roles/" + roleToUpdate.id;
   update($("#roleUpdateForm"), $(".loader"), $(".card-loader"), url,
@@ -96,7 +86,7 @@ function postUpdateRoleForm() {
 }
 
 function postCreateRoleForm() {
-  var roleToCreate = validateAndCreateRole();
+  var roleToCreate = computeRoleToCreate();
   var url = "/manager/roles/";
   var urlFallback = "/manager/roles/";
   create($("#roleCreateForm"), $(".loader"), $(".card-loader"), url,

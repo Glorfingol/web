@@ -6,16 +6,6 @@ function cancelCreateUser() {
   window.location.href = "/manager/users";
 }
 
-function validateAndUpdateUser() {
-  var user = computeUserToUpdate();
-  return user;
-}
-
-function validateAndCreateUser() {
-  var user = computeUserToCreate();
-  return user;
-}
-
 function computeUserToUpdate() {
   var user = {};
 
@@ -63,7 +53,7 @@ function computeUserDescription() {
 }
 
 function postUpdateUserForm() {
-  var userToUpdate = validateAndUpdateUser();
+  var userToUpdate = computeUserToUpdate();
   var url = "/manager/users/" + userToUpdate.id;
   var urlFallback = "/manager/users/" + userToUpdate.id;
   update($("#userUpdateForm"), $(".loader"), $(".card-loader"), url,
@@ -79,7 +69,7 @@ function postUpdateUserForm() {
 }
 
 function postCreateUserForm() {
-  var userToCreate = validateAndCreateUser();
+  var userToCreate = computeUserToCreate();
   var url = "/manager/users/";
   var urlFallback = "/manager/users/";
   create($("#userCreateForm"), $(".loader"), $(".card-loader"), url,

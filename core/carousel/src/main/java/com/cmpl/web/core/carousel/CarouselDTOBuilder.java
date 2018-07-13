@@ -29,6 +29,8 @@ public class CarouselDTOBuilder extends BaseBuilder<CarouselDTO> {
     CarouselDTO dto = new CarouselDTO();
     dto.setCarouselItems(carouselItems);
     dto.setCreationDate(creationDate);
+    dto.setCreationUser(creationUser);
+    dto.setModificationUser(modificationUser);
     dto.setId(id);
     dto.setModificationDate(modificationDate);
     dto.setName(name);

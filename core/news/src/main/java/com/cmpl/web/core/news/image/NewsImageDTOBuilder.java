@@ -31,8 +31,10 @@ public class NewsImageDTOBuilder extends BaseBuilder<NewsImageDTO> {
   @Override
   public NewsImageDTO build() {
     NewsImageDTO newsImageDTO = new NewsImageDTO();
-    newsImageDTO.setId(id);
     newsImageDTO.setCreationDate(creationDate);
+    newsImageDTO.setCreationUser(creationUser);
+    newsImageDTO.setModificationUser(modificationUser);
+    newsImageDTO.setId(id);
     newsImageDTO.setModificationDate(modificationDate);
     newsImageDTO.setAlt(alt);
     newsImageDTO.setLegend(legend);

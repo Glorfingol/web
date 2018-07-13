@@ -27,6 +27,8 @@ import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.role.RoleCreateForm;
 import com.cmpl.web.core.role.RoleDTO;
@@ -46,8 +48,8 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   public RoleManagerDisplayFactoryImpl(RoleService roleService, PrivilegeService privilegeService,
       ContextHolder contextHolder, MenuFactory menuFactory, WebMessageSource messageSource,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, PluginRegistry<Privilege, String> privileges,
-      Set<Locale> availableLocales) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
     this.roleService = Objects.requireNonNull(roleService);
 
     this.privilegeService = Objects.requireNonNull(privilegeService);

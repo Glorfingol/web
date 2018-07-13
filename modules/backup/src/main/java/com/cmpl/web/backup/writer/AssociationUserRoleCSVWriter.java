@@ -1,13 +1,12 @@
 package com.cmpl.web.backup.writer;
 
+import com.cmpl.web.core.models.Responsibility;
 import java.time.format.DateTimeFormatter;
 
-import com.cmpl.web.core.models.AssociationUserRole;
-
-public class AssociationUserRoleCSVWriter extends CommonWriter<AssociationUserRole> {
+public class AssociationUserRoleCSVWriter extends CommonWriter<Responsibility> {
 
   public AssociationUserRoleCSVWriter(DateTimeFormatter dateFormatter,
-      DataManipulator<AssociationUserRole> dataManipulator, String backupFilePath) {
+      DataManipulator<Responsibility> dataManipulator, String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }
 

@@ -6,12 +6,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.association_user_role.AssociationUserRoleRepository;
 import com.cmpl.web.core.carousel.CarouselRepository;
 import com.cmpl.web.core.carousel.item.CarouselItemRepository;
 import com.cmpl.web.core.media.MediaRepository;
 import com.cmpl.web.core.menu.MenuRepository;
-import com.cmpl.web.core.models.AssociationUserRole;
 import com.cmpl.web.core.models.Carousel;
 import com.cmpl.web.core.models.CarouselItem;
 import com.cmpl.web.core.models.Media;
@@ -21,6 +19,7 @@ import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.models.NewsImage;
 import com.cmpl.web.core.models.Page;
 import com.cmpl.web.core.models.Privilege;
+import com.cmpl.web.core.models.Responsibility;
 import com.cmpl.web.core.models.Role;
 import com.cmpl.web.core.models.Style;
 import com.cmpl.web.core.models.User;
@@ -30,6 +29,7 @@ import com.cmpl.web.core.news.content.NewsContentRepository;
 import com.cmpl.web.core.news.entry.NewsEntryRepository;
 import com.cmpl.web.core.news.image.NewsImageRepository;
 import com.cmpl.web.core.page.PageRepository;
+import com.cmpl.web.core.responsibility.ResponsibilityRepository;
 import com.cmpl.web.core.role.RoleRepository;
 import com.cmpl.web.core.role.privilege.PrivilegeRepository;
 import com.cmpl.web.core.style.StyleRepository;
@@ -42,7 +42,7 @@ import com.cmpl.web.core.widget.page.WidgetPageRepository;
 @EnableJpaRepositories(basePackageClasses = {MenuRepository.class, StyleRepository.class, PageRepository.class,
     MediaRepository.class, CarouselRepository.class, CarouselItemRepository.class, NewsEntryRepository.class,
     NewsContentRepository.class, NewsImageRepository.class, WidgetRepository.class, WidgetPageRepository.class,
-    UserRepository.class, RoleRepository.class, AssociationUserRoleRepository.class, PrivilegeRepository.class})
+    UserRepository.class, RoleRepository.class, ResponsibilityRepository.class, PrivilegeRepository.class})
 public class BackupConfiguration {
 
   @Bean
@@ -111,9 +111,9 @@ public class BackupConfiguration {
   }
 
   @Bean
-  public DataManipulator<AssociationUserRole> associationUserRoleDataManipulator(
-      AssociationUserRoleRepository associationUserRoleRepository) {
-    return new DataManipulator<>(associationUserRoleRepository);
+  public DataManipulator<Responsibility> associationUserRoleDataManipulator(
+      ResponsibilityRepository responsibilityRepository) {
+    return new DataManipulator<>(responsibilityRepository);
   }
 
   @Bean

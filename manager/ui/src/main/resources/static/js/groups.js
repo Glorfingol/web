@@ -6,16 +6,6 @@ function cancelCreateGroup() {
   window.location.href = "/manager/groups";
 }
 
-function validateAndUpdateGroup() {
-  var group = computeGroupToUpdate();
-  return group;
-}
-
-function validateAndCreateGroup() {
-  var group = computeGroupToCreate();
-  return group;
-}
-
 function computeGroupToUpdate() {
   var group = {};
 
@@ -58,7 +48,7 @@ function computeGroupDescription() {
 }
 
 function postUpdateGroupForm() {
-  var groupToUpdate = validateAndUpdateGroup();
+  var groupToUpdate = computeGroupToUpdate();
   var url = "/manager/groups/" + groupToUpdate.id;
   var urlFallback = "/manager/groups/" + groupToUpdate.id;
   update($("#groupUpdateForm"), $(".loader"), $(".card-loader"), url,
@@ -75,7 +65,7 @@ function postUpdateGroupForm() {
 }
 
 function postCreateGroupForm() {
-  var groupToCreate = validateAndCreateGroup();
+  var groupToCreate = computeGroupToCreate();
   var url = "/manager/groups/";
   var urlFallback = "/manager/groups/";
   create($("#groupCreateForm"), $(".loader"), $(".card-loader"), url,

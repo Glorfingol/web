@@ -1,6 +1,5 @@
 package com.cmpl.web.core.common.dao;
 
-import com.cmpl.web.core.models.BOGroup;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +21,8 @@ import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.common.repository.BaseRepository;
 import com.cmpl.web.core.common.user.GroupGrantedAuthority;
 import com.cmpl.web.core.models.BaseEntity;
-import com.cmpl.web.core.models.QAssociationEntityGroup;
 import com.cmpl.web.core.models.QBaseEntity;
+import com.cmpl.web.core.models.QMembership;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
@@ -99,7 +98,7 @@ public class BaseDAOImpl<ENTITY extends BaseEntity> extends QuerydslRepositorySu
     List<Long> groupIds = new ArrayList<>();
     if (authorities != null) {
       for (GrantedAuthority grantedAuthority : authorities) {
-        if (grantedAuthority instanceof BOGroup) {
+        if (grantedAuthority instanceof GroupGrantedAuthority) {
           GroupGrantedAuthority groupGrantedAuthority = (GroupGrantedAuthority) grantedAuthority;
           groupIds.add(groupGrantedAuthority.getGroupId());
         }
@@ -109,7 +108,7 @@ public class BaseDAOImpl<ENTITY extends BaseEntity> extends QuerydslRepositorySu
   }
 
   private Predicate getDefaultAllPredicate(Class entityClass, Authentication auth, List<Long> groupIds) {
-    QAssociationEntityGroup subQ = QAssociationEntityGroup.associationEntityGroup;
+    QMembership subQ = QMembership.membership;
 
     String entityPathName = entityClass.getSimpleName().substring(0, 1).toLowerCase()
         + entityClass.getSimpleName().substring(1);

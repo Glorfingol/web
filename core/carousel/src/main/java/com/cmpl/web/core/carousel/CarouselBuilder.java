@@ -20,6 +20,8 @@ public class CarouselBuilder extends BaseBuilder<Carousel> {
   public Carousel build() {
     Carousel carousel = new Carousel();
     carousel.setCreationDate(creationDate);
+    carousel.setCreationUser(creationUser);
+    carousel.setModificationUser(modificationUser);
     carousel.setId(id);
     carousel.setModificationDate(modificationDate);
     carousel.setName(name);

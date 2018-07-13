@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -41,6 +42,7 @@ import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
  *
  */
 @ManagerController
+@RequestMapping(value = "/manager/news")
 public class NewsManagerController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(NewsManagerController.class);
@@ -66,7 +68,7 @@ public class NewsManagerController {
    * 
    * @return
    */
-  @GetMapping(value = "/manager/news")
+  @GetMapping
   @PreAuthorize("hasAuthority('webmastering:news:read')")
   public ModelAndView printViewNews(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
@@ -80,7 +82,7 @@ public class NewsManagerController {
    * 
    * @return
    */
-  @GetMapping(value = "/manager/news/_create")
+  @GetMapping(value = "/_create")
   @PreAuthorize("hasAuthority('webmastering:news:create')")
   public ModelAndView printCreateNews(Locale locale) {
 
@@ -94,7 +96,7 @@ public class NewsManagerController {
    * @param newsEntryRequest
    * @return
    */
-  @PostMapping(value = "/manager/news", produces = "application/json")
+  @PostMapping(produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:news:create')")
   public ResponseEntity<NewsEntryResponse> createNewsEntry(@Valid @RequestBody NewsEntryRequest newsEntryRequest,
@@ -129,7 +131,7 @@ public class NewsManagerController {
    * @param newsEntryRequest
    * @return
    */
-  @PutMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
+  @PutMapping(value = "/{newsEntryId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:news:write')")
   public ResponseEntity<NewsEntryResponse> updateNewsEntry(
@@ -163,7 +165,7 @@ public class NewsManagerController {
    * @param newsEntryId
    * @return
    */
-  @DeleteMapping(value = "/manager/news/{newsEntryId}", produces = "application/json")
+  @DeleteMapping(value = "/{newsEntryId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:news:delete')")
   public ResponseEntity<NewsEntryResponse> deleteNewsEntry(@PathVariable(value = "newsEntryId") String newsEntryId,
@@ -181,7 +183,7 @@ public class NewsManagerController {
    * @param newsEntryId
    * @return
    */
-  @GetMapping(value = "/manager/news/{newsEntryId}")
+  @GetMapping(value = "/{newsEntryId}")
   @PreAuthorize("hasAuthority('webmastering:news:read')")
   public ModelAndView getNewsEntity(@PathVariable(value = "newsEntryId") String newsEntryId, Locale locale) {
 
@@ -197,7 +199,7 @@ public class NewsManagerController {
 
   }
 
-  @PostMapping(value = "/manager/news/media/{newsEntryId}", consumes = "multipart/form-data")
+  @PostMapping(value = "/{newsEntryId}/media", consumes = "multipart/form-data")
   @ResponseStatus(HttpStatus.CREATED)
   @PreAuthorize("hasAuthority('webmastering:media:create')")
   public void uploadNewsImage(@RequestParam("media") MultipartFile uploadedMedia,
@@ -215,7 +217,7 @@ public class NewsManagerController {
     }
   }
 
-  @GetMapping(value = "/manager/news/{newsEntryId}/_main")
+  @GetMapping(value = "/{newsEntryId}/_main")
   @PreAuthorize("hasAuthority('webmastering:news:read')")
   public ModelAndView printUpdateNewsMain(@PathVariable(value = "newsEntryId") String newsEntryId, Locale locale) {
 
@@ -223,7 +225,7 @@ public class NewsManagerController {
     return newsManagerDisplayFactory.computeModelAndViewForUpdateNewsMain(newsEntryId, locale);
   }
 
-  @GetMapping(value = "/manager/news/{newsEntryId}/_content")
+  @GetMapping(value = "/{newsEntryId}/_content")
   @PreAuthorize("hasAuthority('webmastering:news:read')")
   public ModelAndView printUpdateNewsContent(@PathVariable(value = "newsEntryId") String newsEntryId, Locale locale) {
 
@@ -231,7 +233,7 @@ public class NewsManagerController {
     return newsManagerDisplayFactory.computeModelAndViewForUpdateNewsContent(newsEntryId, locale);
   }
 
-  @PutMapping(value = "/manager/news/{newsEntryId}/content")
+  @PutMapping(value = "/{newsEntryId}/content")
   @PreAuthorize("hasAuthority('webmastering:news:write')")
   public ResponseEntity<NewsEntryResponse> handleUpdateContent(@PathVariable(value = "newsEntryId") String newsEntryId,
       @Valid @RequestBody NewsContentRequest request, BindingResult bindingResult, Locale locale) {
@@ -256,14 +258,14 @@ public class NewsManagerController {
 
   }
 
-  @GetMapping(value = "/manager/news/{newsEntryId}/_image")
+  @GetMapping(value = "/{newsEntryId}/_image")
   @PreAuthorize("hasAuthority('webmastering:news:read')")
   public ModelAndView printUpdateNewsImage(@PathVariable(value = "newsEntryId") String newsEntryId, Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_UPDATE.name());
     return newsManagerDisplayFactory.computeModelAndViewForUpdateNewsImage(newsEntryId, locale);
   }
 
-  @PutMapping(value = "/manager/news/{newsEntryId}/image")
+  @PutMapping(value = "/{newsEntryId}/_image")
   @PreAuthorize("hasAuthority('webmastering:news:write')")
   public ResponseEntity<NewsEntryResponse> handleUpdateImage(@PathVariable(value = "newsEntryId") String newsEntryId,
       @Valid @RequestBody NewsImageRequest request, BindingResult bindingResult, Locale locale) {
@@ -286,6 +288,13 @@ public class NewsManagerController {
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
+  }
+
+  @GetMapping(value = "/{newsEntryId}/_memberships")
+  @PreAuthorize("hasAuthority('webmastering:news:read')")
+  public ModelAndView printUpdateNewsMembership(@PathVariable(value = "newsEntryId") String newsEntryId) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_UPDATE.name());
+    return newsManagerDisplayFactory.computeModelAndViewForMembership(newsEntryId);
   }
 
 }

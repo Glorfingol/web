@@ -12,13 +12,16 @@ import com.cmpl.web.core.common.builder.PageWrapperBuilder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 public abstract class AbstractBackDisplayFactoryImpl<T> extends BackDisplayFactoryImpl {
 
   public AbstractBackDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales, GroupService groupService,
+      MembershipService membershipService) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
   }
 
   public PageWrapper<T> computePageWrapper(Locale locale, int pageNumber) {

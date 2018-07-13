@@ -1,12 +1,20 @@
 <div class="card card-body mb-4">
-  <form id="styleViewForm" th:object="${style}">
+  <form id="styleViewForm" th:object="${updateForm}">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{name}"/>
+    <input type="hidden" th:field="*{creationDate}"/>
+    <input type="hidden" th:field="*{creationUser}"/>
+    <input type="hidden" th:field="*{modificationDate}"/>
+    <input type="hidden" th:field="*{modificationUser}"/>
+    <input type="hidden" th:field="*{mediaName}"/>
+    <input type="hidden" th:field="*{mediaId}"/>
     <div class="form-check form-group mb-3" id="formInputContent">
       <label th:text="#{style.content.label}"/>
       <textarea rows="3" id="styleContent" class="form-control" th:field="*{content}"/>
       <small class="form-text text-muted" th:text="#{style.content.help}"/>
     </div>
     <div class="float-right">
-      <a class="btn btn-md btn-success fa fa-edit fa-white" onclick="goToUpdateStyle()"></a>
+      <a class="btn btn-md btn-success fa fa-check fa-white" onclick="postUpdateStyleForm()"></a>
     </div>
   </form>
 </div>

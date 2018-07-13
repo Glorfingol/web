@@ -20,6 +20,8 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.menu.MenuCreateForm;
 import com.cmpl.web.core.menu.MenuCreateFormBuilder;
 import com.cmpl.web.core.menu.MenuDTO;
@@ -44,8 +46,8 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   public MenuManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource, MenuService menuService,
       PageService pageService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
-      Set<Locale> availableLocales) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
 
     this.menuService = Objects.requireNonNull(menuService);
 

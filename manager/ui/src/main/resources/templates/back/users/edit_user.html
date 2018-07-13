@@ -8,16 +8,18 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="body-tab" data-toggle="tab" href="#" role="tab"
+        <a class="nav-link" id="roles-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToRolesTab()">
           <span th:text="#{users.tab.roles}"/>
         </a>
       </li>
-      <li class="ml-auto nav-item">
-        <a class="btn btn-md btn-danger collapsed fa fa-trash fa-white"
-           data-toggle="modal" data-target="#deleteModal">
+      <li class="nav-item">
+        <a class="nav-link" id="membership-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToMembershipTab()">
+          <span th:text="#{tab.membership}"/>
         </a>
       </li>
+      <div th:replace="common/back_delete_link :: deleteTab(${'administration:users:delete'})"/>
     </ul>
   </div>
   <div class="tab-content card-body" id="userTabContent">
@@ -45,6 +47,16 @@
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         currentTab = "main";
+      });
+    }
+  };
+
+  var goToMembershipTab = function () {
+    if (currentTab !== "membership") {
+      var url = "/manager/users/" + [['' + ${updateForm.id} +'']] + "/_memberships";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "membership";
       });
     }
   };

@@ -7,18 +7,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.plugin.core.config.EnablePluginRegistries;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.cmpl.web.core.association_entity_group.AssociationEntityGroupConfiguration;
-import com.cmpl.web.core.association_entity_group.AssociationEntityGroupService;
-import com.cmpl.web.core.association_user_role.AssociationUserRoleService;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.user.Privilege;
+import com.cmpl.web.core.membership.MembershipService;
+import com.cmpl.web.core.responsibility.ResponsibilityService;
 import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.user.UserService;
 import com.cmpl.web.manager.ui.core.security.CurrentUserDetailsServiceImpl;
@@ -33,7 +31,6 @@ import com.cmpl.web.manager.ui.core.user.LastConnectionUpdateAuthenticationSucce
 @Configuration
 @PropertySource("classpath:/core/core.properties")
 @EnablePluginRegistries({Privilege.class})
-@Import(AssociationEntityGroupConfiguration.class)
 public class ContextConfiguration {
 
   @Value("${templateBasePath}")
@@ -74,10 +71,8 @@ public class ContextConfiguration {
   @Bean
   @Primary
   public UserDetailsService dbUserDetailsService(UserService userService, RoleService roleService,
-      AssociationUserRoleService associationUserRoleService,
-      AssociationEntityGroupService associationEntityGroupService) {
-    return new CurrentUserDetailsServiceImpl(userService, roleService, associationUserRoleService,
-        associationEntityGroupService);
+      ResponsibilityService responsibilityService, MembershipService membershipService) {
+    return new CurrentUserDetailsServiceImpl(userService, roleService, responsibilityService, membershipService);
   }
 
 }

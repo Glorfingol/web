@@ -27,6 +27,8 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.widget.WidgetCreateForm;
@@ -54,8 +56,9 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
   public WidgetManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       ContextHolder contextHolder, WidgetService widgetService,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
-      PluginRegistry<WidgetProviderPlugin, String> widgetProviders, Set<Locale> availableLocales) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+      PluginRegistry<WidgetProviderPlugin, String> widgetProviders, Set<Locale> availableLocales,
+      GroupService groupService, MembershipService membershipService) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
     this.widgetService = Objects.requireNonNull(widgetService);
 
     this.contextHolder = Objects.requireNonNull(contextHolder);

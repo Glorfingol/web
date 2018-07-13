@@ -1,7 +1,7 @@
 <form id="roleAssociationForm" th:object="${createForm}" class="row">
   <div class="mb-3 col-12">
     <input type="hidden" th:field="*{userId}"/>
-    <div class="form-group mb-3" id="formInputRole">
+    <div class="form-check form-group mb-3" id="formInputRole">
       <label th:text="#{role.name.label}"/>
       <select th:field="*{roleId}" class="form-control">
         <option value=""></option>
@@ -44,8 +44,8 @@
 <script th:inline="javascript">
   var deleteAssociatedRole = function (idAssociatedRole) {
 
-   var inputUserId = $("#userId");
-   var userId = inputUserId.val();
+    var inputUserId = $("#userId");
+    var userId = inputUserId.val();
 
     $("#roleAssociationForm").hide();
     $("#associatedRoles").hide();

@@ -3,13 +3,12 @@ package com.cmpl.web.configuration.manager.ui;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.cmpl.web.core.association_user_role.AssociationUserRoleDispatcher;
 import com.cmpl.web.core.carousel.CarouselDispatcher;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
-import com.cmpl.web.core.factory.BackDisplayFactory;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
 import com.cmpl.web.core.factory.group.GroupManagerDisplayFactory;
+import com.cmpl.web.core.factory.index.IndexDisplayFactory;
 import com.cmpl.web.core.factory.login.LoginDisplayFactory;
 import com.cmpl.web.core.factory.media.MediaManagerDisplayFactory;
 import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactory;
@@ -21,23 +20,26 @@ import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
 import com.cmpl.web.core.group.GroupDispatcher;
 import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.membership.MembershipDispatcher;
 import com.cmpl.web.core.menu.MenuDispatcher;
 import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
 import com.cmpl.web.core.page.PageDispatcher;
+import com.cmpl.web.core.responsibility.ResponsibilityDispatcher;
 import com.cmpl.web.core.role.RoleDispatcher;
 import com.cmpl.web.core.style.StyleDispatcher;
 import com.cmpl.web.core.user.UserDispatcher;
 import com.cmpl.web.core.widget.WidgetDispatcher;
 import com.cmpl.web.facebook.FacebookDispatcher;
-import com.cmpl.web.manager.ui.core.association_user_role.AssociationUserRoleManagerController;
 import com.cmpl.web.manager.ui.core.carousel.CarouselManagerController;
 import com.cmpl.web.manager.ui.core.group.GroupManagerController;
 import com.cmpl.web.manager.ui.core.index.IndexManagerController;
 import com.cmpl.web.manager.ui.core.login.LoginController;
 import com.cmpl.web.manager.ui.core.media.MediaManagerController;
+import com.cmpl.web.manager.ui.core.memberships.MembershipManagerController;
 import com.cmpl.web.manager.ui.core.menu.MenuManagerController;
 import com.cmpl.web.manager.ui.core.news.NewsManagerController;
 import com.cmpl.web.manager.ui.core.page.PageManagerController;
+import com.cmpl.web.manager.ui.core.responsibilities.ResponsibilityManagerController;
 import com.cmpl.web.manager.ui.core.role.RoleManagerController;
 import com.cmpl.web.manager.ui.core.style.StyleManagerController;
 import com.cmpl.web.manager.ui.core.user.CurrentUserControllerAdvice;
@@ -64,8 +66,8 @@ public class BackControllerConfiguration {
   }
 
   @Bean
-  public IndexManagerController indexManagerController(BackDisplayFactory loginDisplayFactory) {
-    return new IndexManagerController(loginDisplayFactory);
+  public IndexManagerController indexManagerController(IndexDisplayFactory indexDisplayFactory) {
+    return new IndexManagerController(indexDisplayFactory);
   }
 
   @Bean
@@ -135,10 +137,10 @@ public class BackControllerConfiguration {
   }
 
   @Bean
-  public AssociationUserRoleManagerController associationUserRoleManagerController(
-      AssociationUserRoleDispatcher associationUserRoleDispatcher, NotificationCenter notificationCenter,
+  public ResponsibilityManagerController responsibilityManagerController(
+      ResponsibilityDispatcher responsibilityDispatcher, NotificationCenter notificationCenter,
       WebMessageSource messageSource) {
-    return new AssociationUserRoleManagerController(associationUserRoleDispatcher, notificationCenter, messageSource);
+    return new ResponsibilityManagerController(responsibilityDispatcher, notificationCenter, messageSource);
   }
 
   @Bean
@@ -147,4 +149,9 @@ public class BackControllerConfiguration {
     return new GroupManagerController(groupDispatcher, groupManagerDisplayFactory, notificationCenter, messageSource);
   }
 
+  @Bean
+  public MembershipManagerController membershipManagerController(MembershipDispatcher membershipDispatcher,
+      NotificationCenter notificationCenter, WebMessageSource webMessageSource) {
+    return new MembershipManagerController(membershipDispatcher, notificationCenter, webMessageSource);
+  }
 }

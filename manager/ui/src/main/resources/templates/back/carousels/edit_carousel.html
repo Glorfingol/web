@@ -13,11 +13,19 @@
           <span th:text="#{carousel.tab.items}"/>
         </a>
       </li>
-      <li class="ml-auto nav-item">
-        <a class="btn btn-md btn-danger collapsed fa fa-trash fa-white"
-           data-toggle="modal" data-target="#deleteModal">
+      <li class="nav-item">
+        <a class="nav-link" id="membership-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToMembershipTab()">
+          <span th:text="#{tab.membership}"/>
         </a>
       </li>
+      <li class="ml-auto nav-item">
+        <a class="btn btn-md btn-danger collapsed fa fa-trash fa-white"
+           data-toggle="modal" data-target="#deleteModal"
+           th:if="${currentUser.hasPrivilege('webmastering:carousel:delete')}">
+        </a>
+      </li>
+      <div th:replace="common/back_delete_link :: deleteTab(${'webmastering:carousel:delete'})"/>
     </ul>
   </div>
   <div class="tab-content card-body" id="carouselTabContent">
@@ -46,6 +54,16 @@
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         currentTab = "main";
+      });
+    }
+  };
+
+  var goToMembershipTab = function () {
+    if (currentTab !== "membership") {
+      var url = "/manager/carousels/" + [['' + ${updateForm.id} +'']] + "/_memberships";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "membership";
       });
     }
   };

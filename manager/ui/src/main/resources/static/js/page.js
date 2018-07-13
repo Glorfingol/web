@@ -1,15 +1,5 @@
-function validateAndCreatePage() {
-  var page = computePage();
-  return page;
-}
-
 function cancelUpdatePage() {
   window.location.href = "/manager/pages";
-}
-
-function validateAndUpdatePage() {
-  var page = computeUpdatePage();
-  return page;
 }
 
 function computePage() {
@@ -53,7 +43,7 @@ function computeUpdatePage() {
   page.creationDate = inputCreationDate.val();
   page.modificationDate = inputModificationDate.val();
   page.creationUser = inputCreationUser.val();
-  page.modificationUser = inputCreationUser.val();
+  page.modificationUser = inputModificationUser.val();
   page.localeCode = inputLocaleCode.val();
   return page;
 }
@@ -89,7 +79,7 @@ function computePageFooter() {
 function postCreatePageForm() {
   var url = "/manager/pages";
   create($("#pageCreateForm"), $(".loader"), $(".card-loader"), url, url,
-      validateAndCreatePage()).done(function (data) {
+      computePage()).done(function (data) {
     handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
         $("#pageCreateForm"), url)
   }).fail(function (error) {
@@ -99,7 +89,7 @@ function postCreatePageForm() {
 }
 
 function postUpdatePageForm(successFunction) {
-  var pageToUpdate = validateAndUpdatePage();
+  var pageToUpdate = computeUpdatePage();
   var url = "/manager/pages/" + pageToUpdate.id;
   var urlFallback = "/manager/pages/" + pageToUpdate.id;
   update($("#pageUpdateForm"), $(".loader"), $(".card-loader"), url,

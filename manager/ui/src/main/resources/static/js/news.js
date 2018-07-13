@@ -1,8 +1,3 @@
-function validateAndCreateNewsEntry() {
-  var newsEntry = computeNewsEntry();
-  return newsEntry;
-}
-
 function computeNewsEntry() {
   var newsEntry = {};
 
@@ -50,11 +45,6 @@ function computeNewsImage() {
   image.legend = inputLegend.val();
 
   return image;
-}
-
-function validateAndUpdateNewsEntry() {
-  var newsEntry = computeNewsEntryUpdate();
-  return newsEntry;
 }
 
 function cancelUpdateNews() {
@@ -189,10 +179,10 @@ function postCreateNewsForm() {
 
     createThenUpload($("#newsEntryCreateForm"), $(".loader"), $(".card-loader"),
         url, url,
-        validateAndCreateNewsEntry(), formData);
+        computeNewsEntry(), formData);
   } else {
     create($("#newsEntryCreateForm"), $(".loader"), $(".card-loader"), url, url,
-        validateAndCreateNewsEntry()).done(function (data) {
+        computeNewsEntry()).done(function (data) {
       handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
           $("#newsEntryCreateForm"), url)
     }).fail(function (error) {
@@ -204,7 +194,7 @@ function postCreateNewsForm() {
 }
 
 function postUpdateNewsEntryForm() {
-  var newsEntryToUpdate = validateAndUpdateNewsEntry();
+  var newsEntryToUpdate = computeNewsEntryUpdate();
   var url = "/manager/news/" + newsEntryToUpdate.id;
   var urlFallback = "/manager/news/" + newsEntryToUpdate.id;
 

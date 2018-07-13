@@ -43,6 +43,11 @@ public class WidgetDTOBuilder extends BaseBuilder<WidgetDTO> {
     widgetDTO.setName(name);
     widgetDTO.setType(type);
     widgetDTO.setPersonalization(personalization);
+    widgetDTO.setCreationDate(creationDate);
+    widgetDTO.setCreationUser(creationUser);
+    widgetDTO.setModificationUser(modificationUser);
+    widgetDTO.setId(id);
+    widgetDTO.setModificationDate(modificationDate);
     return widgetDTO;
   }
 

@@ -6,6 +6,7 @@ import com.cmpl.web.core.media.MediaDTO;
 public class StyleDTOBuilder extends BaseBuilder<StyleDTO> {
 
   private String content;
+  private String name;
   private MediaDTO media;
 
   private StyleDTOBuilder() {
@@ -14,6 +15,11 @@ public class StyleDTOBuilder extends BaseBuilder<StyleDTO> {
 
   public StyleDTOBuilder content(String content) {
     this.content = content;
+    return this;
+  }
+
+  public StyleDTOBuilder name(String name) {
+    this.name = name;
     return this;
   }
 
@@ -26,9 +32,12 @@ public class StyleDTOBuilder extends BaseBuilder<StyleDTO> {
   public StyleDTO build() {
     StyleDTO style = new StyleDTO();
     style.setContent(content);
-    style.setCreationDate(creationDate);
-    style.setId(id);
+    style.setName(name);
     style.setMedia(media);
+    style.setCreationDate(creationDate);
+    style.setCreationUser(creationUser);
+    style.setModificationUser(modificationUser);
+    style.setId(id);
     style.setModificationDate(modificationDate);
     return style;
   }

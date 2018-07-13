@@ -28,7 +28,7 @@ public class StyleDispatcherImplTest {
   @Test
   public void testUpdateEntity() throws Exception {
     StyleDTO translated = new StyleDTO();
-    BDDMockito.given(translator.fromUpdateFormToDTO(BDDMockito.any(StyleForm.class))).willReturn(translated);
+    BDDMockito.given(translator.fromUpdateFormToDTO(BDDMockito.any(StyleUpdateForm.class))).willReturn(translated);
 
     StyleDTO updatedDTO = new StyleDTO();
     BDDMockito.given(styleService.updateEntity(BDDMockito.any(StyleDTO.class))).willReturn(updatedDTO);
@@ -39,7 +39,7 @@ public class StyleDispatcherImplTest {
 
     StyleDTO dtoOfForm = StyleDTOBuilder.create().content("someContent")
         .media(MediaDTOBuilder.create().name("someName").id(123456789l).build()).build();
-    Assert.assertEquals(response, dispatcher.updateEntity(new StyleForm(dtoOfForm), Locale.FRANCE));
+    Assert.assertEquals(response, dispatcher.updateEntity(new StyleUpdateForm(dtoOfForm), Locale.FRANCE));
   }
 
 }

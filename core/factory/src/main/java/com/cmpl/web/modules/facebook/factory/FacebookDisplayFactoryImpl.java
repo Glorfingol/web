@@ -11,6 +11,8 @@ import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.BackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.facebook.FacebookAdapter;
 import com.cmpl.web.facebook.ImportablePost;
@@ -27,8 +29,8 @@ public class FacebookDisplayFactoryImpl extends BackDisplayFactoryImpl implement
 
   public FacebookDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       FacebookAdapter facebookAdapter, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
-      Set<Locale> availableLocales) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
     this.facebookAdapter = facebookAdapter;
   }
 

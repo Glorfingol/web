@@ -4,7 +4,9 @@ import java.util.Locale;
 
 import org.springframework.web.servlet.ModelAndView;
 
-public interface PageManagerDisplayFactory {
+import com.cmpl.web.core.factory.BackDisplayFactory;
+
+public interface PageManagerDisplayFactory extends BackDisplayFactory {
 
   ModelAndView computeModelAndViewForViewAllPages(Locale locale, int pageNumber);
 

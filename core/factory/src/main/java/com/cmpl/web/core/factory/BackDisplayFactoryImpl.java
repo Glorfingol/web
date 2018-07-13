@@ -1,9 +1,11 @@
 package com.cmpl.web.core.factory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,11 @@ import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupDTO;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipCreateFormBuilder;
+import com.cmpl.web.core.membership.MembershipDTO;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.menu.MenuItem;
 import com.cmpl.web.core.page.BACK_PAGE;
 
@@ -30,9 +37,12 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
   private final MenuFactory menuFactory;
   private final PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
   protected final Set<Locale> availableLocales;
+  private final MembershipService membershipService;
+  private final GroupService groupService;
 
   public BackDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales) {
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales, GroupService groupService,
+      MembershipService membershipService) {
     super(messageSource);
 
     this.menuFactory = Objects.requireNonNull(menuFactory);
@@ -40,6 +50,8 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     this.breadCrumbRegistry = Objects.requireNonNull(breadCrumbRegistry);
 
     this.availableLocales = Objects.requireNonNull(availableLocales);
+    this.membershipService = Objects.requireNonNull(membershipService);
+    this.groupService = Objects.requireNonNull(groupService);
 
   }
 
@@ -64,6 +76,24 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     return model;
   }
 
+  @Override
+  public ModelAndView computeModelAndViewForMembership(String entityId) {
+
+    ModelAndView model = new ModelAndView("common/back_membership");
+
+    List<MembershipDTO> memberships = membershipService.findByEntityId(Long.parseLong(entityId));
+    List<GroupDTO> associatedGroups = new ArrayList<>();
+    memberships.forEach(membership -> associatedGroups.add(groupService.getEntity(membership.getGroupId())));
+    model.addObject("linkedGroups", associatedGroups);
+
+    List<GroupDTO> linkableGroups = groupService.getEntities().stream()
+        .filter(groupDTO -> !associatedGroups.contains(groupDTO)).collect(Collectors.toList());
+    model.addObject("linkableGroups", linkableGroups);
+    model.addObject("createForm", MembershipCreateFormBuilder.create().entityId(entityId).build());
+
+    return model;
+  }
+
   public BreadCrumb computeBreadCrumb(BACK_PAGE backPage) {
     BreadCrumb breadCrumbFromRegistry = breadCrumbRegistry.getPluginFor(backPage);
     if (breadCrumbFromRegistry == null) {
@@ -73,7 +103,7 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
         .build();
   }
 
-  ModelAndView computeModelAndViewBaseTile(BACK_PAGE backPage, Locale locale) {
+  public ModelAndView computeModelAndViewBaseTile(BACK_PAGE backPage, Locale locale) {
 
     if (BACK_PAGE.LOGIN.equals(backPage) || BACK_PAGE.FORGOTTEN_PASSWORD.equals(backPage)
         || BACK_PAGE.CHANGE_PASSWORD.equals(backPage)) {

@@ -45,16 +45,18 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" id="membership-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToMembershipTab()">
+          <span th:text="#{tab.membership}"/>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" id="preview-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToPreviewTab()">
           <span th:text="#{page.preview}"/>
         </a>
       </li>
-      <li class="ml-auto nav-item">
-        <a class="btn btn-md btn-danger collapsed fa fa-trash fa-white"
-           data-toggle="modal" data-target="#deleteModal">
-        </a>
-      </li>
+      <div th:replace="common/back_delete_link :: deleteTab(${'webmastering:pages:delete'})"/>
     </ul>
   </div>
   <div class="tab-content card-body" id="pageTabContent">
@@ -153,6 +155,16 @@
         codeMirrorHeader = setUpCodeMirror("pageAmp");
         prepareDragAndDrop();
         currentTab = "amp";
+      });
+    }
+  };
+
+  var goToMembershipTab = function () {
+    if (currentTab !== "membership") {
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_memberships";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "membership";
       });
     }
   };

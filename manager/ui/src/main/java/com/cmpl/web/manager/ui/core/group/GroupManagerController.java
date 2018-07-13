@@ -164,4 +164,12 @@ public class GroupManagerController {
     }
   }
 
+  @GetMapping(value = "/{groupId}/_memberships")
+  @PreAuthorize("hasAuthority('administration:groups:read')")
+  public ModelAndView printViewUpdateGroupMemberships(@PathVariable(value = "groupId") String groupId) {
+    LOGGER
+        .info("Accès à la page " + BACK_PAGE.GROUP_UPDATE.name() + " pour " + groupId + " pour la partie memberships");
+    return groupManagerDisplayFactory.computeModelAndViewForMembership(groupId);
+  }
+
 }

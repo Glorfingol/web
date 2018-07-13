@@ -19,8 +19,10 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<MediaDTO>
@@ -31,8 +33,8 @@ public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
 
   public MediaManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
       MediaService mediaService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
-      Set<Locale> availableLocales) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
     this.mediaService = Objects.requireNonNull(mediaService);
     this.contextHolder = Objects.requireNonNull(contextHolder);
   }

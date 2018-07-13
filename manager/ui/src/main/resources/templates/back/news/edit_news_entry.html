@@ -19,11 +19,13 @@
           <span th:text="#{news.tab.image}"/>
         </a>
       </li>
-      <li class="ml-auto nav-item">
-        <a class="btn btn-md btn-danger collapsed fa fa-trash fa-white"
-           data-toggle="modal" data-target="#deleteModal">
+      <li class="nav-item">
+        <a class="nav-link" id="membership-tab" data-toggle="tab" href="#" role="tab"
+           onclick="goToMembershipTab()">
+          <span th:text="#{tab.membership}"/>
         </a>
       </li>
+      <div th:replace="common/back_delete_link :: deleteTab(${'webmastering:news:delete'})"/>
     </ul>
   </div>
   <div class="tab-content card-body" id="newsTabContent">
@@ -64,6 +66,16 @@
         $("#ajaxTab").html(data);
         currentTab = "image";
         setUpDragAndDrop("#imageMedia");
+      });
+    }
+  };
+
+  var goToMembershipTab = function () {
+    if (currentTab !== "membership") {
+      var url = "/manager/news/" + [['' + ${updateForm.id} +'']] + "/_memberships";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "membership";
       });
     }
   };

@@ -38,7 +38,7 @@
     </dependency>
     <dependency>
       <groupId>com.cmpl</groupId>
-      <artifactId>cmpl-web-core-association-user-role</artifactId>
+      <artifactId>cmpl-web-core-responsibility</artifactId>
       <version>${cmpl.web.version}</version>
     </dependency>
     <dependency>
@@ -53,7 +53,7 @@
     </dependency>
     <dependency>
       <groupId>com.cmpl</groupId>
-      <artifactId>cmpl-web-core-association-entity-group</artifactId>
+      <artifactId>cmpl-web-core-membership</artifactId>
       <version>${cmpl.web.version}</version>
       <scope>compile</scope>
     </dependency>

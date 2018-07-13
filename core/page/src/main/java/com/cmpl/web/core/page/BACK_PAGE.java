@@ -30,7 +30,7 @@ public enum BACK_PAGE {
   CAROUSELS_UPDATE("back/carousels/edit_carousel", "back.carousels.title"),
   CAROUSELS_CREATE("back/carousels/create_carousel", "back.carousels.title"),
   STYLES_VIEW("back/styles/view_styles", "back.style.title"),
-  STYLES_CREATE("back/styles/create_styles", "back.style.title"),
+  STYLES_CREATE("back/styles/create_style", "back.style.title"),
   STYLES_UPDATE("back/styles/edit_style", "back.style.title"),
   WIDGET_VIEW("back/widgets/view_widgets", "back.widgets.title"),
   WIDGET_CREATE("back/widgets/create_widget", "back.widgets.title"),

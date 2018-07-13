@@ -63,7 +63,7 @@ function computePersonalization() {
 function postCreateWidgetForm() {
   var url = "/manager/widgets";
   create($("#widgetCreateForm"), $(".loader"), $(".card-loader"), url, url,
-      validateAndCreateWidget()).done(function (data) {
+      computeWidget()).done(function (data) {
     handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
         $("#widgetCreateForm"), url)
   }).fail(function (error) {
@@ -73,7 +73,7 @@ function postCreateWidgetForm() {
 }
 
 function postUpdateWidgetForm() {
-  var widgetToUpdate = validateAndUpdateWidget();
+  var widgetToUpdate = computeUpdateWidget();
   var url = "/manager/widgets/" + widgetToUpdate.id;
   var urlFallback = "/manager/widgets/" + widgetToUpdate.id;
   update($("#widgetUpdateForm"), $(".loader"), $(".card-loader"), url,

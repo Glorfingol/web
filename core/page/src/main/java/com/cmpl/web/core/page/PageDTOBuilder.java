@@ -55,15 +55,21 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
   public PageDTO build() {
     PageDTO pageDTO = new PageDTO();
     pageDTO.setBody(body);
-    pageDTO.setCreationDate(creationDate);
+
     pageDTO.setFooter(footer);
     pageDTO.setMeta(meta);
     pageDTO.setHeader(header);
-    pageDTO.setId(id);
+
     pageDTO.setMenuTitle(menuTitle);
-    pageDTO.setModificationDate(modificationDate);
+
     pageDTO.setName(name);
     pageDTO.setAmp(amp);
+
+    pageDTO.setCreationDate(creationDate);
+    pageDTO.setCreationUser(creationUser);
+    pageDTO.setModificationUser(modificationUser);
+    pageDTO.setId(id);
+    pageDTO.setModificationDate(modificationDate);
 
     return pageDTO;
   }

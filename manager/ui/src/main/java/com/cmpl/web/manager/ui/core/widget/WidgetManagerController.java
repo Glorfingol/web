@@ -129,6 +129,14 @@ public class WidgetManagerController {
         languageCode);
   }
 
+  @GetMapping(value = "/{widgetId}/_memberships")
+  @PreAuthorize("hasAuthority('webmastering:widgets:read')")
+  public ModelAndView printViewUpdateWidgetMemberships(@PathVariable(value = "widgetId") String widgetId) {
+    LOGGER
+        .info("Accès à la page " + BACK_PAGE.WIDGET_UPDATE.name() + " pour " + widgetId + " pour la partie membership");
+    return widgetManagerDisplayFactory.computeModelAndViewForMembership(widgetId);
+  }
+
   @PutMapping(value = "/{widgetId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:widgets:write')")

@@ -13,7 +13,6 @@ public class NewsEntryBuilder extends BaseBuilder<NewsEntry> {
   private String author;
   private String tags;
   private String title;
-  private String name;
 
   private NewsEntryBuilder() {
 
@@ -39,11 +38,6 @@ public class NewsEntryBuilder extends BaseBuilder<NewsEntry> {
     return this;
   }
 
-  public NewsEntryBuilder name(String name) {
-    this.name = name;
-    return this;
-  }
-
   public NewsEntryBuilder tags(String tags) {
     this.tags = tags;
     return this;
@@ -57,8 +51,10 @@ public class NewsEntryBuilder extends BaseBuilder<NewsEntry> {
   @Override
   public NewsEntry build() {
     NewsEntry newsEntry = new NewsEntry();
-    newsEntry.setId(id);
     newsEntry.setCreationDate(creationDate);
+    newsEntry.setCreationUser(creationUser);
+    newsEntry.setModificationUser(modificationUser);
+    newsEntry.setId(id);
     newsEntry.setModificationDate(modificationDate);
     newsEntry.setAuthor(author);
     newsEntry.setTags(tags);

@@ -122,7 +122,7 @@ function createThenUpload(formToToggle, loader, cardLoader, url, urlFallBack,
   cardLoader.show();
   create(formToToggle, loader, cardLoader, url, urlFallBack,
       dataToSend).done(function (result) {
-    var urlMedia = "/manager/news/media/" + result.createdEntityId;
+    var urlMedia = "/manager/news/" + result.createdEntityId + "/media";
     upload(formToToggle, loader, cardLoader, urlMedia, urlFallBack,
         mediaToSend).done(function (data) {
       handleSuccessPostResult(data, cardLoader, loader, formToToggle, url);
@@ -143,7 +143,7 @@ function updateThenUpload(formToToggle, loader, cardLoader, url, urlFallBack,
   cardLoader.show();
   update(formToToggle, loader, cardLoader, url, urlFallBack,
       dataToSend).done(function (result) {
-    var urlMedia = "/manager/news/media/" + result.createdEntityId;
+    var urlMedia = "/manager/news/" + result.createdEntityId + "/media";
     upload(formToToggle, loader, cardLoader, urlMedia, urlFallBack,
         mediaToSend).done(function (data) {
       handleSuccessPostResult(data, cardLoader, loader, formToToggle,

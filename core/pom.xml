@@ -27,11 +27,11 @@
     <module>widget</module>
     <module>user</module>
     <module>role</module>
-    <module>association-user-role</module>
+    <module>responsibility</module>
     <module>eventsListeners</module>
-    <module>cmpl-web-core-group</module>
-    <module>cmpl-web-core-association-entity-group</module>
-    <module>cmpl-web-core-models</module>
+    <module>group</module>
+    <module>membership</module>
+    <module>models</module>
   </modules>
 
 

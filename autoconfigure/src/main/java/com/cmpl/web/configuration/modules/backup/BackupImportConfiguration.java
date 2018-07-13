@@ -36,7 +36,6 @@ import com.cmpl.web.backup.reader.UserCSVParser;
 import com.cmpl.web.backup.reader.WidgetCSVParser;
 import com.cmpl.web.backup.reader.WidgetPageCSVParser;
 import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.models.AssociationUserRole;
 import com.cmpl.web.core.models.Carousel;
 import com.cmpl.web.core.models.CarouselItem;
 import com.cmpl.web.core.models.Media;
@@ -46,6 +45,7 @@ import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.models.NewsImage;
 import com.cmpl.web.core.models.Page;
 import com.cmpl.web.core.models.Privilege;
+import com.cmpl.web.core.models.Responsibility;
 import com.cmpl.web.core.models.Role;
 import com.cmpl.web.core.models.Style;
 import com.cmpl.web.core.models.User;
@@ -147,7 +147,7 @@ public class BackupImportConfiguration {
 
   @Bean
   public AssociationUserRoleCSVParser associationUserRoleCSVParser(
-      DataManipulator<AssociationUserRole> associationUserRoleDataManipulator) {
+      DataManipulator<Responsibility> associationUserRoleDataManipulator) {
     return new AssociationUserRoleCSVParser(dateFormatter, associationUserRoleDataManipulator, backupFilePath);
   }
 

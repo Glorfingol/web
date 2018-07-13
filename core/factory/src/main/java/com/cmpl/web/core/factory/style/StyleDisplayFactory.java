@@ -4,7 +4,9 @@ import java.util.Locale;
 
 import org.springframework.web.servlet.ModelAndView;
 
-public interface StyleDisplayFactory {
+import com.cmpl.web.core.factory.BackDisplayFactory;
+
+public interface StyleDisplayFactory extends BackDisplayFactory {
 
   ModelAndView computeModelAndViewForViewAllStyles(Locale locale, int pageNumber);
 
@@ -14,5 +16,4 @@ public interface StyleDisplayFactory {
 
   ModelAndView computeModelAndViewForUpdateStyleMain(Locale locale, String styleId);
 
-  ModelAndView computeModelAndViewForUpdateStyleGroup(Locale locale, String styleId);
 }

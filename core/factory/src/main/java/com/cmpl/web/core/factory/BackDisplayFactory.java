@@ -19,8 +19,10 @@ public interface BackDisplayFactory {
    * 
    * @param backPage
    * @param locale
-   * @return 
+   * @return
    */
   ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale);
+
+  ModelAndView computeModelAndViewForMembership(String entityId);
 
 }

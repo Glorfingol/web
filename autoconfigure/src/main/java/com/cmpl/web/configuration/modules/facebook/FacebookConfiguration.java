@@ -42,7 +42,9 @@ import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.common.user.SimplePrivilege;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.menu.BackMenuItem;
 import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.news.entry.NewsEntryService;
@@ -140,9 +142,10 @@ public class FacebookConfiguration {
 
   @Bean
   public FacebookDisplayFactory facebookDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      FacebookAdapter facebookAdapter, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs,
-      Set<Locale> availableLocales) {
-    return new FacebookDisplayFactoryImpl(menuFactory, messageSource, facebookAdapter, breadCrumbs, availableLocales);
+      FacebookAdapter facebookAdapter, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs, Set<Locale> availableLocales,
+      GroupService groupService, MembershipService membershipService) {
+    return new FacebookDisplayFactoryImpl(menuFactory, messageSource, facebookAdapter, breadCrumbs, availableLocales,
+        groupService, membershipService);
   }
 
   @Bean

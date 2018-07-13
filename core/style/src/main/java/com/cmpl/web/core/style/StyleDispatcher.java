@@ -4,7 +4,7 @@ import java.util.Locale;
 
 public interface StyleDispatcher {
 
-  StyleResponse updateEntity(StyleForm form, Locale locale);
+  StyleResponse updateEntity(StyleUpdateForm form, Locale locale);
 
   StyleResponse createEntity(StyleCreateForm form, Locale locale);
 

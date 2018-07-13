@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import com.cmpl.web.core.common.builder.Builder;
 
-public class StyleUpdateFormBuilder extends Builder<StyleForm> {
+public class StyleUpdateFormBuilder extends Builder<StyleUpdateForm> {
 
   private String content;
   private String name;
@@ -62,8 +62,8 @@ public class StyleUpdateFormBuilder extends Builder<StyleForm> {
   }
 
   @Override
-  public StyleForm build() {
-    StyleForm form = new StyleForm();
+  public StyleUpdateForm build() {
+    StyleUpdateForm form = new StyleUpdateForm();
     form.setContent(content);
     form.setCreationDate(creationDate);
     form.setCreationUser(creationUser);

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.page.BACK_PAGE;
@@ -102,7 +101,7 @@ public class FacebookController {
 
       LOGGER.info("Entrées crées");
       return new ResponseEntity<>(response, HttpStatus.CREATED);
-    } catch (BaseException e) {
+    } catch (Exception e) {
       LOGGER.info("Echec de l'import des posts facebook", e);
       notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);

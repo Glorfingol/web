@@ -18,7 +18,9 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSourceImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.facebook.FacebookAdapter;
@@ -74,6 +76,11 @@ public class FacebookConfigurationTest {
   @Mock
   private Set<Locale> availableLocales;
 
+  @Mock
+  private GroupService groupService;
+  @Mock
+  private MembershipService membershipService;
+
   @Spy
   private FacebookConfiguration configuration;
 
@@ -97,7 +104,7 @@ public class FacebookConfigurationTest {
   @Test
   public void testFacebookDisplayFactory() throws Exception {
     FacebookDisplayFactory result = configuration.facebookDisplayFactory(menuFactory, messageSource, facebookAdapter,
-        breadCrumbRegistry, availableLocales);
+        breadCrumbRegistry, availableLocales, groupService, membershipService);
 
     Assert.assertEquals(FacebookDisplayFactoryImpl.class, result.getClass());
   }

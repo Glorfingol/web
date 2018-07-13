@@ -43,13 +43,15 @@ public class MediaDTOBuilder extends BaseBuilder<MediaDTO> {
   public MediaDTO build() {
     MediaDTO mediaDTO = new MediaDTO();
     mediaDTO.setContentType(contentType);
-    mediaDTO.setCreationDate(creationDate);
     mediaDTO.setExtension(extension);
-    mediaDTO.setId(id);
-    mediaDTO.setModificationDate(modificationDate);
     mediaDTO.setName(name);
     mediaDTO.setSize(size);
     mediaDTO.setSrc(src);
+    mediaDTO.setCreationDate(creationDate);
+    mediaDTO.setCreationUser(creationUser);
+    mediaDTO.setModificationUser(modificationUser);
+    mediaDTO.setId(id);
+    mediaDTO.setModificationDate(modificationDate);
     return mediaDTO;
   }
 

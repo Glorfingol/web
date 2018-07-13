@@ -7,10 +7,23 @@ function validateAndUpdateStyle() {
   return style;
 }
 
+function computeStyleToCreate() {
+  var style = {};
+
+  var inputName = $("#name");
+
+  style.name = inputName.val();
+  style.content = computeStyleContent();
+
+  return style;
+
+}
+
 function computeUpdateStyle() {
   var style = {};
 
   var inputId = $("#id");
+  var inputName = $("#name");
   var inputCreationDate = $("#creationDate");
   var inputModificationDate = $("#modificationDate");
   var inputMediaName = $("#mediaName");
@@ -19,9 +32,8 @@ function computeUpdateStyle() {
   var inputModificationUser = $("#modificationUser");
 
   style.id = inputId.val();
-  style.menuTitle = inputCreationDate.val();
-  style.withNews = inputModificationDate.val();
   style.content = computeStyleContent();
+  style.name = inputName.val();
   style.mediaName = inputMediaName.val();
   style.mediaId = inputMediaId.val();
   style.creationUser = inputCreationUser.val();
@@ -50,5 +62,19 @@ function postUpdateStyleForm() {
   }).fail(function (error) {
     handleErrorPutResult($(".loader"), $(".card-loader"),
         $("#styleUpdateForm"));
+  });
+}
+
+function postCreateStyleForm() {
+  var styleToCreate = computeStyleToCreate();
+  var url = "/manager/styles/";
+  var urlFallback = "/manager/styles/";
+  create($("#styleCreateForm"), $(".loader"), $(".card-loader"), url,
+      urlFallback, styleToCreate).done(function (data) {
+    handleSuccessPostResult(data, $(".card-loader"), $(".loader"),
+        $("#styleCreateForm"), url);
+  }).fail(function (error) {
+    handleErrorPostResult($(".loader"), $(".card-loader"),
+        $("#styleCreateForm"));
   });
 }

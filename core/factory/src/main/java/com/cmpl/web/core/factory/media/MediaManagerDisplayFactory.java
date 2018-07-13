@@ -4,7 +4,9 @@ import java.util.Locale;
 
 import org.springframework.web.servlet.ModelAndView;
 
-public interface MediaManagerDisplayFactory {
+import com.cmpl.web.core.factory.BackDisplayFactory;
+
+public interface MediaManagerDisplayFactory extends BackDisplayFactory {
 
   ModelAndView computeModelAndViewForViewAllMedias(Locale locale, int pageNumber);
 

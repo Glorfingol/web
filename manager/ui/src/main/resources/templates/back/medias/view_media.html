@@ -1,10 +1,6 @@
 <div class="card mb-3">
   <div class="card-header">
-    <div class="pull-right">
-      <a class="btn btn-md btn-danger collapsed fa fa-trash fa-white"
-         data-toggle="modal" data-target="#deleteModal">
-      </a>
-    </div>
+    <div th:replace="common/back_delete_link :: deleteSimple(${'webmastering:media:delete'})"/>
   </div>
   <div class="card-body">
     <div class="row">

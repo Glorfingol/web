@@ -39,6 +39,11 @@ public class RoleDTOBuilder extends BaseBuilder<RoleDTO> {
     roleDTO.setDescription(description);
     roleDTO.setName(name);
     roleDTO.setPrivileges(privileges);
+    roleDTO.setCreationDate(creationDate);
+    roleDTO.setCreationUser(creationUser);
+    roleDTO.setModificationUser(modificationUser);
+    roleDTO.setId(id);
+    roleDTO.setModificationDate(modificationDate);
     return roleDTO;
   }
 

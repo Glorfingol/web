@@ -2,7 +2,7 @@ package com.cmpl.web.core.style;
 
 public interface StyleTranslator {
 
-  StyleDTO fromUpdateFormToDTO(StyleForm form);
+  StyleDTO fromUpdateFormToDTO(StyleUpdateForm form);
 
   StyleDTO fromCreateFormToDTO(StyleCreateForm form);
 

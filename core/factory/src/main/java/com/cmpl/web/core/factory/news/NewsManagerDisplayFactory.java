@@ -4,13 +4,15 @@ import java.util.Locale;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.factory.BackDisplayFactory;
+
 /**
  * Interface pour la factory des pages d'actualite sur le back
  * 
  * @author Louis
  *
  */
-public interface NewsManagerDisplayFactory {
+public interface NewsManagerDisplayFactory extends BackDisplayFactory {
 
   /**
    * Creer le model and view pour l'edition d'une NewsEntry

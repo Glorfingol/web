@@ -27,6 +27,11 @@ public class WidgetPageDTOBuilder extends BaseBuilder<WidgetPageDTO> {
     WidgetPageDTO widgetPageDTO = new WidgetPageDTO();
     widgetPageDTO.setPageId(pageId);
     widgetPageDTO.setWidgetId(widgetId);
+    widgetPageDTO.setCreationDate(creationDate);
+    widgetPageDTO.setCreationUser(creationUser);
+    widgetPageDTO.setModificationUser(modificationUser);
+    widgetPageDTO.setId(id);
+    widgetPageDTO.setModificationDate(modificationDate);
     return widgetPageDTO;
   }
 

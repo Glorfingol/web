@@ -45,13 +45,15 @@ public class MediaBuilder extends BaseBuilder<Media> {
 
     Media media = new Media();
     media.setContentType(contentType);
-    media.setCreationDate(creationDate);
     media.setExtension(extension);
-    media.setId(id);
-    media.setModificationDate(modificationDate);
     media.setName(name);
     media.setSize(size);
     media.setSrc(src);
+    media.setCreationDate(creationDate);
+    media.setCreationUser(creationUser);
+    media.setModificationUser(modificationUser);
+    media.setId(id);
+    media.setModificationDate(modificationDate);
     return media;
   }
 

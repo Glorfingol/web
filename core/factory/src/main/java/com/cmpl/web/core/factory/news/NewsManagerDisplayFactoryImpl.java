@@ -18,6 +18,8 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.news.content.NewsContentDTO;
 import com.cmpl.web.core.news.content.NewsContentDTOBuilder;
 import com.cmpl.web.core.news.content.NewsContentRequest;
@@ -46,8 +48,9 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   public NewsManagerDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, NewsEntryService newsEntryService,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales);
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales, GroupService groupService,
+      MembershipService membershipService) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
 
     this.newsEntryService = Objects.requireNonNull(newsEntryService);
 

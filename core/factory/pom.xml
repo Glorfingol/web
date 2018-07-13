@@ -79,12 +79,17 @@
     </dependency>
     <dependency>
       <groupId>com.cmpl</groupId>
-      <artifactId>cmpl-web-core-association-user-role</artifactId>
+      <artifactId>cmpl-web-core-responsibility</artifactId>
       <version>${cmpl.web.version}</version>
     </dependency>
     <dependency>
       <groupId>com.cmpl</groupId>
       <artifactId>cmpl-web-core-group</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-membership</artifactId>
       <version>${cmpl.web.version}</version>
     </dependency>
 

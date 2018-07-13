@@ -19,7 +19,7 @@ public class StyleDispatcherImpl implements StyleDispatcher {
   }
 
   @Override
-  public StyleResponse updateEntity(StyleForm form, Locale locale) {
+  public StyleResponse updateEntity(StyleUpdateForm form, Locale locale) {
     StyleDTO dto = translator.fromUpdateFormToDTO(form);
     StyleDTO updatedDTO = styleService.updateEntity(dto);
     return translator.fromDTOToResponse(updatedDTO);

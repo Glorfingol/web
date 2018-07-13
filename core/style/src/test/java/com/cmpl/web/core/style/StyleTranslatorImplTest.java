@@ -18,7 +18,7 @@ public class StyleTranslatorImplTest {
   public void testFromUpdateFormToDTO() throws Exception {
     StyleDTO dtoOfForm = StyleDTOBuilder.create().content("someContent")
         .media(MediaDTOBuilder.create().name("someName").id(123456789l).build()).build();
-    StyleForm form = new StyleForm(dtoOfForm);
+    StyleUpdateForm form = new StyleUpdateForm(dtoOfForm);
 
     StyleDTO result = translator.fromUpdateFormToDTO(form);
     Assert.assertEquals(form.getId(), result.getId());

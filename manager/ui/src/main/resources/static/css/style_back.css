@@ -2,12 +2,6 @@
 COMMON
 */
 
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 .homeMenu {
   color: rgba(0, 0, 0, .5);
   text-decoration: none;
@@ -23,11 +17,16 @@ html, body {
 body {
   text-overflow: ellipsis;
   position: relative;
-  min-height: 100%;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 .login-body {
   height: 100%;
+}
+
+.wrapper {
+  height: 100vh;
 }
 
 .loader {
@@ -53,10 +52,6 @@ body {
 
 #buttonAdd, .newsElement {
   margin-bottom: 5px;
-}
-
-.full-size {
-  min-height: 100%;
 }
 
 .full-width {
@@ -97,15 +92,62 @@ a, button {
   border: 2px dashed #025aa5 !important;
 }
 
+.top-nav {
+  border-bottom: solid 1px #e9ecef;
+}
+
+.flex-grow-0 {
+  flex-grow: 0 !important;
+}
+
+.flex-grow-1 {
+  flex: 1 1 auto;
+}
+
+.top-navigation {
+  z-index: 1020;
+  height: 4rem;
+  padding: 0;
+  border-bottom: solid 1px #e9ecef;
+  background: #fff !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.menu-toggler {
+  border-radius: 0;
+  border-width: 0 1px 0 0;
+  border-color: #e9ecef;
+  padding: 1rem;
+  line-height: 2rem;
+  vertical-align: middle;
+  width: 4rem;
+  text-align: center;
+  color: #212529;
+}
+
+.menu-toggler:hover {
+  background: #f8f9fa;
+}
+
+.menu-toggler:focus {
+  outline: none !important;
+  box-shadow: none;
+}
+
+#menuCollapse {
+  overflow-y: auto;
+  margin-left: -14rem;
+  transition: all 0.2s ease-in-out;
+}
+
+#menuCollapse.show {
+  margin-left: 0;
+  transition: all 0.2s ease-in-out;
+}
+
 /**
 MENU
 */
-
-@media (min-width: 768px) {
-  .menu-label, .navigation-label {
-    display: none;
-  }
-}
 
 ul.dropdown-menu {
   max-width: 400px;
@@ -113,6 +155,14 @@ ul.dropdown-menu {
 
 .back-menu {
   box-shadow: inset -2px 0 0 #e5e5e5;
+  top: 4rem;
+  height: calc(100vh - 4rem) !important;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  color: #fff;
+  text-decoration: none;
+  background-color: #222222;
 }
 
 /**
@@ -195,6 +245,6 @@ a.collapsed .fa-angle-up:before {
   content: "\f107";
 }
 
-.collapsing {
-  transition: none !important;
-}
+
+
+

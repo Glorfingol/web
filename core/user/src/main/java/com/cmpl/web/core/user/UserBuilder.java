@@ -57,6 +57,11 @@ public class UserBuilder extends BaseBuilder<User> {
     user.setLastPasswordModification(lastPasswordModification);
     user.setLogin(login);
     user.setPassword(password);
+    user.setCreationDate(creationDate);
+    user.setCreationUser(creationUser);
+    user.setModificationUser(modificationUser);
+    user.setId(id);
+    user.setModificationDate(modificationDate);
     return user;
   }
 

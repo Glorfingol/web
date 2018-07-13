@@ -37,7 +37,6 @@ import com.cmpl.web.backup.writer.StyleCSVWriter;
 import com.cmpl.web.backup.writer.UserCSVWriter;
 import com.cmpl.web.backup.writer.WidgetCSVWriter;
 import com.cmpl.web.backup.writer.WidgetPageCSVWriter;
-import com.cmpl.web.core.models.AssociationUserRole;
 import com.cmpl.web.core.models.Carousel;
 import com.cmpl.web.core.models.CarouselItem;
 import com.cmpl.web.core.models.Media;
@@ -47,6 +46,7 @@ import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.models.NewsImage;
 import com.cmpl.web.core.models.Page;
 import com.cmpl.web.core.models.Privilege;
+import com.cmpl.web.core.models.Responsibility;
 import com.cmpl.web.core.models.Role;
 import com.cmpl.web.core.models.Style;
 import com.cmpl.web.core.models.User;
@@ -149,7 +149,7 @@ public class BackupExportConfiguration {
 
   @Bean
   public AssociationUserRoleCSVWriter associationUserRoleCSVWriter(
-      DataManipulator<AssociationUserRole> associationUserRoleDataManipulator) {
+      DataManipulator<Responsibility> associationUserRoleDataManipulator) {
     return new AssociationUserRoleCSVWriter(dateFormatter, associationUserRoleDataManipulator, backupFilePath);
   }
 

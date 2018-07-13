@@ -36,6 +36,11 @@ public class WidgetBuilder extends BaseBuilder<Widget> {
     widget.setEntityId(entityId);
     widget.setName(name);
     widget.setType(type);
+    widget.setCreationDate(creationDate);
+    widget.setCreationUser(creationUser);
+    widget.setModificationUser(modificationUser);
+    widget.setId(id);
+    widget.setModificationDate(modificationDate);
     return widget;
   }
 

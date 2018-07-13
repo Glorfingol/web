@@ -158,4 +158,11 @@ public class MenuManagerController {
     }
 
   }
+
+  @GetMapping(value = "/{menuId}/_memberships")
+  @PreAuthorize("hasAuthority('webmastering:news:read')")
+  public ModelAndView printUpdateNewsMembership(@PathVariable(value = "menuId") String menuId) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.MENUS_UPDATE.name());
+    return displayFactory.computeModelAndViewForMembership(menuId);
+  }
 }

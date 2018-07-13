@@ -25,11 +25,13 @@ public class PageBuilder extends BaseBuilder<Page> {
   @Override
   public Page build() {
     Page page = new Page();
-    page.setCreationDate(creationDate);
-    page.setId(id);
     page.setMenuTitle(menuTitle);
-    page.setModificationDate(modificationDate);
     page.setName(name);
+    page.setCreationDate(creationDate);
+    page.setCreationUser(creationUser);
+    page.setModificationUser(modificationUser);
+    page.setId(id);
+    page.setModificationDate(modificationDate);
     return page;
   }
 

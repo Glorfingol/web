@@ -28,6 +28,11 @@ public class WidgetPageBuilder extends BaseBuilder<WidgetPage> {
     WidgetPage widgetPage = new WidgetPage();
     widgetPage.setPageId(pageId);
     widgetPage.setWidgetId(widgetId);
+    widgetPage.setCreationDate(creationDate);
+    widgetPage.setCreationUser(creationUser);
+    widgetPage.setModificationUser(modificationUser);
+    widgetPage.setId(id);
+    widgetPage.setModificationDate(modificationDate);
     return widgetPage;
 
   }

@@ -17,7 +17,7 @@ public class NewsImageMapper extends BaseMapper<NewsImageDTO, NewsImage> {
 
   @Override
   public NewsImageDTO toDTO(NewsImage entity) {
-    NewsImageDTO dto = new NewsImageDTO();
+    NewsImageDTO dto = NewsImageDTOBuilder.create().build();
     fillObject(entity, dto);
 
     if (StringUtils.hasText(entity.getMediaId())) {
@@ -30,7 +30,7 @@ public class NewsImageMapper extends BaseMapper<NewsImageDTO, NewsImage> {
 
   @Override
   public NewsImage toEntity(NewsImageDTO dto) {
-    NewsImage entity = new NewsImage();
+    NewsImage entity = NewsImageBuilder.create().build();
     fillObject(dto, entity);
     if (dto.getMedia() != null) {
       entity.setMediaId(String.valueOf(dto.getMedia().getId()));

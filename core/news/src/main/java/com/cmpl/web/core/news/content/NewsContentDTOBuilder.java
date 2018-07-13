@@ -30,8 +30,10 @@ public class NewsContentDTOBuilder extends BaseBuilder<NewsContentDTO> {
   @Override
   public NewsContentDTO build() {
     NewsContentDTO newsContentDTO = new NewsContentDTO();
-    newsContentDTO.setId(id);
     newsContentDTO.setCreationDate(creationDate);
+    newsContentDTO.setCreationUser(creationUser);
+    newsContentDTO.setModificationUser(modificationUser);
+    newsContentDTO.setId(id);
     newsContentDTO.setModificationDate(modificationDate);
     newsContentDTO.setContent(content);
     newsContentDTO.setLinkUrl(linkUrl);

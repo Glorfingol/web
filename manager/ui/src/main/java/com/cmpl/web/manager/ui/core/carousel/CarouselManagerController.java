@@ -28,7 +28,6 @@ import com.cmpl.web.core.carousel.CarouselResponse;
 import com.cmpl.web.core.carousel.CarouselUpdateForm;
 import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
 import com.cmpl.web.core.carousel.item.CarouselItemResponse;
-import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
@@ -197,7 +196,7 @@ public class CarouselManagerController {
       carouselDispatcher.deleteCarouselItemEntity(carouselId, carouselItemId, locale);
       notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
       LOGGER.info("Element de carousel " + carouselItemId + " supprimé");
-    } catch (BaseException e) {
+    } catch (Exception e) {
       LOGGER.error("Echec de la suppression de l'élément de carousel " + carouselItemId, e);
       notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -224,5 +223,13 @@ public class CarouselManagerController {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+  }
+
+  @GetMapping(value = "/{carouselId}/_memberships")
+  @PreAuthorize("hasAuthority('webmastering:carousels:read')")
+  public ModelAndView printViewUpdateCarouselMemberships(@PathVariable(value = "carouselId") String carouselId) {
+    LOGGER.info(
+        "Accès à la page " + BACK_PAGE.CAROUSELS_UPDATE.name() + " pour " + carouselId + " pour la partie memberships");
+    return carouselDisplayFactory.computeModelAndViewForMembership(carouselId);
   }
 }

@@ -154,6 +154,13 @@ public class RoleManagerController {
     return roleManagerDisplayFactory.computeModelAndViewForUpdateRolePrivileges(locale, roleId);
   }
 
+  @GetMapping(value = "/{roleId}/_memberships")
+  @PreAuthorize("hasAuthority('administration:roles:read')")
+  public ModelAndView printViewUpdateRoleMemberships(@PathVariable(value = "roleId") String roleId) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.ROLE_UPDATE.name() + " pour " + roleId + " pour la partie memberships");
+    return roleManagerDisplayFactory.computeModelAndViewForMembership(roleId);
+  }
+
   @PutMapping(value = "/{roleId}/privileges", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:roles:write')")
