@@ -31,3 +31,4 @@ core/widget/target/classes/com/cmpl/web/core/widget/WidgetDispatcher.class
 core/cmpl-web-core-group/target/
 core/cmpl-web-core-models/target/
 core/cmpl-web-core-association-entity-group/target/
+*.lst
