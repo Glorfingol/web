@@ -43,7 +43,7 @@ public class CarouselConfiguration {
 
   @Bean
   public BackMenuItem carouselsBackMenuItem(BackMenuItem webmastering, Privilege carouselsReadPrivilege) {
-    return BackMenuItemBuilder.create().href("back.carousels.href").label("back.carousels.label")
+    return BackMenuItemBuilder.create().href("/manager/carousels").label("back.carousels.label")
         .title("back.carousels.title").iconClass("fa fa-files-o").parent(webmastering).order(2)
         .privilege(carouselsReadPrivilege.privilege()).build();
   }

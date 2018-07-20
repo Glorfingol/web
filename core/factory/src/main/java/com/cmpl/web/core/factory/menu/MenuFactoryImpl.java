@@ -52,18 +52,18 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
   }
 
   MenuItem computeMenuItem(BACK_PAGE backPage, BackMenuItem item, Locale locale) {
-    return MenuItemBuilder.create().href(getI18nValue(item.getHref(), locale))
-        .label(getI18nValue(item.getLabel(), locale)).title(getI18nValue(item.getTitle(), locale))
-        .subMenuItems(new ArrayList<>()).customCssClass(computeCustomCssClass(backPage, item))
-        .iconClass(item.getIconClass()).privilege(item.getPrivilege()).build();
+    return MenuItemBuilder.create().href(item.getHref()).label(getI18nValue(item.getLabel(), locale))
+        .title(getI18nValue(item.getTitle(), locale)).subMenuItems(new ArrayList<>())
+        .customCssClass(computeCustomCssClass(backPage, item)).iconClass(item.getIconClass())
+        .privilege(item.getPrivilege()).build();
   }
 
   MenuItem computeMenuItem(BACK_PAGE backPage, BackMenuItem item, Locale locale, List<MenuItem> children,
       List<BackMenuItem> untransformedChildren) {
-    return MenuItemBuilder.create().href(getI18nValue(item.getHref(), locale))
-        .label(getI18nValue(item.getLabel(), locale)).title(getI18nValue(item.getTitle(), locale))
-        .subMenuItems(children).customCssClass(computeCustomCssClass(backPage, item, untransformedChildren))
-        .iconClass(item.getIconClass()).privilege(item.getPrivilege()).build();
+    return MenuItemBuilder.create().href(item.getHref()).label(getI18nValue(item.getLabel(), locale))
+        .title(getI18nValue(item.getTitle(), locale)).subMenuItems(children)
+        .customCssClass(computeCustomCssClass(backPage, item, untransformedChildren)).iconClass(item.getIconClass())
+        .privilege(item.getPrivilege()).build();
   }
 
   String computeCustomCssClass(BACK_PAGE backPage, BackMenuItem item) {

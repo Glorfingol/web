@@ -78,7 +78,7 @@ public class FacebookConfiguration {
   @Bean
   @ConditionalOnProperty(prefix = "import.", name = "enabled")
   public BackMenuItem facebookBackMenuItem(BackMenuItem webmastering, Privilege facebookImportPrivilege) {
-    return BackMenuItemBuilder.create().href("facebook.access.href").label("facebook.access.label")
+    return BackMenuItemBuilder.create().href("/manager/facebook").label("facebook.access.label")
         .title("facebook.access.title").iconClass("fa fa-facebook").parent(webmastering).order(7)
         .privilege(facebookImportPrivilege.privilege()).build();
   }
@@ -96,8 +96,8 @@ public class FacebookConfiguration {
 
   List<BreadCrumbItem> facebookImportBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("back.index.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("facebook.access.title").href("facebook.access.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("facebook.access.title").href("/manager/facebook").build());
     return items;
   }
 
@@ -109,8 +109,8 @@ public class FacebookConfiguration {
 
   List<BreadCrumbItem> facebookAccessBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("back.index.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("facebook.access.label").href("facebook.access.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("facebook.access.label").href("/manager/facebook").build());
     return items;
   }
 

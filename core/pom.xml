@@ -32,6 +32,7 @@
     <module>group</module>
     <module>membership</module>
     <module>models</module>
+    <module>website</module>
   </modules>
 
 

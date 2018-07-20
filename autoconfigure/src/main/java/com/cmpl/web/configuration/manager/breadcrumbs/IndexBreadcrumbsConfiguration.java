@@ -22,7 +22,7 @@ public class IndexBreadcrumbsConfiguration {
 
   List<BreadCrumbItem> indexBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("/manager/").build());
     return items;
   }
 

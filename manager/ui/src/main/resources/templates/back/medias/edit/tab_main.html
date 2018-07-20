@@ -1,44 +1,38 @@
-<form id="uploadMediaForm">
-  <div class="card mb-4">
-    <div class="card-body">
-      <div class="form-check form-group mb-3" id="formInputImage">
-        <div class="dragndrop">
-          <div class="drop_zone">
-            <span th:text="#{image.drop.label}"/>
-            <br/>
-            <label class="btn btn-primary mt-3" id="clickHere">
-              <span th:text="#{image.label}"/>
-              <i class="fa fa-upload"></i>
-              <input type="file" id="media" name="media" class="form-control-file"
-                     onchange="previewFile()"/>
-            </label>
-          </div>
-        </div>
-        <small class="form-text text-muted" th:text="#{image.help}"/>
-      </div>
-      <div class="mb-3" id="formPreviewImage">
-        <img class="img-fluid mx-auto d-block" src="" id="imagePreview"/>
-      </div>
-    </div>
-    <div class="card-footer">
-      <div class="float-right">
-        <a class="btn btn-md btn-danger collapsed fa fa-times fa-white"
-           href="/manager/medias"
-        ></a>
-        <button type="submit" class="btn btn-md btn-success fa fa-check fa-white"
-                th:if="${currentUser.hasPrivilege('webmastering:carousels:create')}"/>
+<div class="row">
+  <div class="col-6">
+    <div class="form-inline">
+      <div>
+        <span th:text="${mediaBean.name}"/>
       </div>
     </div>
   </div>
-</form>
-</form>
-<div class="card card-loader">
-  <div class="loader">
+  <div class="col-12">
+    <div class="preview">
+      <img class="img-fluid mx-auto d-block" th:src="@{${mediaBean.src}}"></img>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="form-inline">
+      <a th:href="@{${mediaBean.src}}"> <span th:text="${mediaBean.src}"/></a>
+    </div>
+    <div class="pull-right">
+      <a class="btn btn-md btn-primary fa fa-download" th:href="@{${mediaBean.src}}"
+         th:attr="download='' + ${mediaBean.name} +''"></a>
+    </div>
   </div>
 </div>
-<script type="text/javascript">
+
+<script th:inline="javascript">
+
+
   $(document).ready(function () {
-    setUpDragAndDropForMedia("#media");
+    $("#confirmDelete").click(function () {
+      var url = "/manager/medias/" + [['' + ${mediaBean.id} +'']];
+      var urlFallBack = "/manager/medias";
+      var form = $("#mediaContent");
+      var loader = $(".loader");
+      var cardLoader = $(".card-loader");
+      deleteAndHandleResult(form, loader, cardLoader, url, urlFallBack);
+    });
   });
 </script>
-

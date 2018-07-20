@@ -32,8 +32,8 @@ public class WidgetBreadcrumbsConfiguration {
 
   List<BreadCrumbItem> widgetBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("back.index.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("back.widgets.title").href("back.widgets.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.widgets.title").href("/manager/widgets").build());
     return items;
   }
 

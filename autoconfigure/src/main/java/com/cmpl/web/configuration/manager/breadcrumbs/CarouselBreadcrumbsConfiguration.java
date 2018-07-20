@@ -32,8 +32,8 @@ public class CarouselBreadcrumbsConfiguration {
 
   List<BreadCrumbItem> carouselBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("back.index.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("back.carousels.title").href("back.carousels.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.carousels.title").href("/manager/carousels").build());
     return items;
   }
 }

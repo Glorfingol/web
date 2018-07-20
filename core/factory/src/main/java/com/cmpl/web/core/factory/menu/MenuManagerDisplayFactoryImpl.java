@@ -87,8 +87,8 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
-  public ModelAndView computeModelAndViewForUpdateMenu(Locale locale, String menuId) {
-    ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_UPDATE, locale);
+  public ModelAndView computeModelAndViewForUpdateMenuMain(String menuId) {
+    ModelAndView menusManager = new ModelAndView("/back/menus/edit/tab_main");
     LOGGER.info("Construction d'un menu pour la page {}", BACK_PAGE.MENUS_UPDATE.name());
 
     List<MenuDTO> menus = menuService.getMenus();
@@ -102,6 +102,20 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
     List<PageDTO> pagesThatCanBeLinkedTo = pageService.getPages();
     menusManager.addObject(PAGES_LINKABLE, pagesThatCanBeLinkedTo);
+
+    MenuDTO menuToUpdate = menuService.getEntity(Long.valueOf(menuId));
+
+    MenuUpdateForm updateForm = new MenuUpdateForm(menuToUpdate);
+
+    menusManager.addObject(UPDATE_FORM, updateForm);
+
+    return menusManager;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForUpdateMenu(Locale locale, String menuId) {
+    ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_UPDATE, locale);
+    LOGGER.info("Construction d'un menu pour la page {}", BACK_PAGE.MENUS_UPDATE.name());
 
     MenuDTO menuToUpdate = menuService.getEntity(Long.valueOf(menuId));
 

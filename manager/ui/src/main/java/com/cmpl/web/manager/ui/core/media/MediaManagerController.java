@@ -90,14 +90,14 @@ public class MediaManagerController {
     return mediaManagerDisplayFactory.computeModelAndViewForUploadMedia(locale);
   }
 
-  @GetMapping(value = "/_view/{mediaId}")
+  @GetMapping(value = "/{mediaId}")
   @PreAuthorize("hasAuthority('webmastering:media:read')")
   public ModelAndView printViewMedia(@PathVariable("mediaId") String mediaId, Locale locale) {
     LOGGER.info("Accès à la page " + BACK_PAGE.MEDIA_VISUALIZE.name());
     return mediaManagerDisplayFactory.computeModelAndViewForViewMedia(mediaId, locale);
   }
 
-  @GetMapping("/{mediaId}")
+  @GetMapping("/download/{mediaId}")
   @PreAuthorize("hasAuthority('webmastering:media:read')")
   public void serve(@PathVariable("mediaId") String mediaId, HttpServletResponse res) throws Exception {
     MediaDTO fileDTO = mediaService.getEntity(Long.valueOf(mediaId));
@@ -129,6 +129,13 @@ public class MediaManagerController {
 
     }
 
+  }
+
+  @GetMapping(value = "/{mediaId}/_main")
+  @PreAuthorize("hasAuthority('webmastering:news:read')")
+  public ModelAndView printViewMediaMain(@PathVariable(value = "mediaId") String mediaId) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.MEDIA_VIEW.name());
+    return mediaManagerDisplayFactory.computeModelAndViewForViewMediaMain(mediaId);
   }
 
   @GetMapping(value = "/{mediaId}/_memberships")

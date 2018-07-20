@@ -60,7 +60,7 @@ function postUpdateUserForm() {
       urlFallback,
       userToUpdate).done(function (data) {
     handleSuccessPutResult(data, $(".card-loader"), $(".loader"),
-        $("#userUpdateForm"), url)
+        $("#userUpdateForm"), url, true)
   }).fail(function (error) {
     $(".loader").hide();
     $(".card-loader").hide();

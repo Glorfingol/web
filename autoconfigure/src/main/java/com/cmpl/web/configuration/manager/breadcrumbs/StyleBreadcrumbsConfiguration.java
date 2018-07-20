@@ -32,8 +32,8 @@ public class StyleBreadcrumbsConfiguration {
 
   List<BreadCrumbItem> styleBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("back.style.title").href("back.style.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.style.title").href("/manager/styles").build());
     return items;
   }
 }

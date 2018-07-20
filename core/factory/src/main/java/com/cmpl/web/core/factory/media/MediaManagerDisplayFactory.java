@@ -12,6 +12,8 @@ public interface MediaManagerDisplayFactory extends BackDisplayFactory {
 
   ModelAndView computeModelAndViewForViewMedia(String mediaId, Locale locale);
 
+  ModelAndView computeModelAndViewForViewMediaMain(String mediaId);
+
   ModelAndView computeModelAndViewForUploadMedia(Locale locale);
 
 }

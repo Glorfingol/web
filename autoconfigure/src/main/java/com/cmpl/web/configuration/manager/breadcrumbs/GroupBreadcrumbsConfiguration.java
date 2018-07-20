@@ -32,8 +32,8 @@ public class GroupBreadcrumbsConfiguration {
 
   List<BreadCrumbItem> groupBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("back.index.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("back.groups.title").href("back.groups.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.groups.title").href("/manager/groups").build());
     return items;
   }
 }

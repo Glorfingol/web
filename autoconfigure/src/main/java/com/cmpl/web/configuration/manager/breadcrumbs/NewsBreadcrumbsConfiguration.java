@@ -32,15 +32,15 @@ public class NewsBreadcrumbsConfiguration {
 
   List<BreadCrumbItem> newsBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("back.news.title").href("back.news.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.news.title").href("/manager/news").build());
     return items;
   }
 
   List<BreadCrumbItem> newsUpdateBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("back.news.title").href("back.news.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.news.title").href("/manager/news").build());
     items.add(BreadCrumbItemBuilder.create().text("news.update.title").href("#").build());
     return items;
   }
@@ -48,7 +48,7 @@ public class NewsBreadcrumbsConfiguration {
   List<BreadCrumbItem> newsCreateBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
     items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("/manager/").build());
-    items.add(BreadCrumbItemBuilder.create().text("back.news.title").href("back.news.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.news.title").href("/manager/news").build());
     items.add(BreadCrumbItemBuilder.create().text("news.create.title").href("#").build());
     return items;
   }

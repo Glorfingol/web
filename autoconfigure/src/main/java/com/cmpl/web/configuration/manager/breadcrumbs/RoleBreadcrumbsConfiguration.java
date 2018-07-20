@@ -32,8 +32,8 @@ public class RoleBreadcrumbsConfiguration {
 
   List<BreadCrumbItem> roleBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("back.index.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("back.roles.title").href("back.roles.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.roles.title").href("/manager/roles").build());
     return items;
   }
 }

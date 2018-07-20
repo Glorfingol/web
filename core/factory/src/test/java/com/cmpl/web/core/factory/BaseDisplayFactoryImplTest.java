@@ -26,7 +26,7 @@ public class BaseDisplayFactoryImplTest {
   @Test
   public void testComputeHiddenLink() throws Exception {
     String href = "/";
-    BDDMockito.doReturn(href).when(displayFactory).getI18nValue(BDDMockito.eq("back.index.href"),
+    BDDMockito.doReturn(href).when(displayFactory).getI18nValue(BDDMockito.eq("/manager/"),
         BDDMockito.eq(Locale.FRANCE));
 
     String result = displayFactory.computeHiddenLink(Locale.FRANCE);

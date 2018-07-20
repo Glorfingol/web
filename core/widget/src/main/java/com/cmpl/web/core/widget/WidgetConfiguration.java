@@ -36,9 +36,8 @@ public class WidgetConfiguration {
 
   @Bean
   public BackMenuItem widgetBackMenuItem(BackMenuItem webmastering, Privilege widgetsReadPrivilege) {
-    return BackMenuItemBuilder.create().href("back.widgets.href").label("back.widgets.label")
-        .title("back.widgets.title").iconClass("fa fa-cube").parent(webmastering).order(8)
-        .privilege(widgetsReadPrivilege.privilege()).build();
+    return BackMenuItemBuilder.create().href("/manager/widgets").label("back.widgets.label").title("back.widgets.title")
+        .iconClass("fa fa-cube").parent(webmastering).order(8).privilege(widgetsReadPrivilege.privilege()).build();
   }
 
   @Bean

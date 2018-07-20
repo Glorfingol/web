@@ -32,8 +32,8 @@ public class PageBreadcrumbsConfiguration {
 
   List<BreadCrumbItem> pageBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("back.pages.title").href("back.pages.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.pages.title").href("/manager/pages").build());
     return items;
   }
 }

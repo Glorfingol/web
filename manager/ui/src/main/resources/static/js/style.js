@@ -58,7 +58,7 @@ function postUpdateStyleForm() {
   update($("#styleUpdateForm"), $(".loader"), $(".card-loader"), url,
       urlFallback, styleToUpdate).done(function (data) {
     handleSuccessPutResult(data, $(".card-loader"), $(".loader"),
-        $("#styleUpdateForm"), url)
+        $("#styleUpdateForm"), url, true)
   }).fail(function (error) {
     handleErrorPutResult($(".loader"), $(".card-loader"),
         $("#styleUpdateForm"));

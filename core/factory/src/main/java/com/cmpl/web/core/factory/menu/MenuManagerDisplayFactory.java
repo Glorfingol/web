@@ -12,6 +12,8 @@ public interface MenuManagerDisplayFactory extends BackDisplayFactory {
 
   ModelAndView computeModelAndViewForCreateMenu(Locale locale);
 
+  ModelAndView computeModelAndViewForUpdateMenuMain(String menuId);
+
   ModelAndView computeModelAndViewForUpdateMenu(Locale locale, String menuId);
 
 }

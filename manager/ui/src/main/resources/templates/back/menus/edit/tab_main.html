@@ -77,6 +77,8 @@
   }
 
   $(document).ready(function () {
+    $(".card-loader").hide();
+    $(".loader").hide();
     var parentSelect = $("#parentId");
     toggleFields(parentSelect.val());
     parentSelect.on('change', function () {

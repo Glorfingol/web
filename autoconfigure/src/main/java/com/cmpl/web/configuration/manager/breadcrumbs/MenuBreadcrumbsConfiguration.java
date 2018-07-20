@@ -32,8 +32,8 @@ public class MenuBreadcrumbsConfiguration {
 
   List<BreadCrumbItem> menuBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("back.index.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("back.menus.title").href("back.menus.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.menus.title").href("/manager/menus").build());
     return items;
   }
 }

@@ -65,7 +65,7 @@ function postUpdateMenuForm() {
   update($("#menuEditForm"), $(".loader"), $(".card-loader"), url, urlFallback,
       menuToUpdate).done(function (data) {
     handleSuccessPutResult(data, $(".card-loader"), $(".loader"),
-        $("#menuEditForm"), url)
+        $("#menuEditForm"), url, true)
   }).fail(function (error) {
     handleErrorPutResult($(".loader"), $(".card-loader"),
         $("#menuEditForm"));

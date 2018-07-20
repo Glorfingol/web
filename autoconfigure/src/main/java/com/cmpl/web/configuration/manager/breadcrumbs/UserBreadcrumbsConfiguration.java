@@ -32,8 +32,8 @@ public class UserBreadcrumbsConfiguration {
 
   List<BreadCrumbItem> userBreadCrumbItems() {
     List<BreadCrumbItem> items = new ArrayList<>();
-    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("back.index.href").build());
-    items.add(BreadCrumbItemBuilder.create().text("back.users.title").href("back.users.href").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.index.label").href("/manager/").build());
+    items.add(BreadCrumbItemBuilder.create().text("back.users.title").href("/manager/users").build());
     return items;
   }
 }

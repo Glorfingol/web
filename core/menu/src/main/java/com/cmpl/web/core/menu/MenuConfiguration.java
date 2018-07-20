@@ -22,7 +22,7 @@ public class MenuConfiguration {
 
   @Bean
   public BackMenuItem menuBackMenuItem(BackMenuItem webmastering, Privilege menuReadPrivilege) {
-    return BackMenuItemBuilder.create().href("back.menus.href").label("back.menus.label").title("back.menus.title")
+    return BackMenuItemBuilder.create().href("/manager/menus").label("back.menus.label").title("back.menus.title")
         .order(3).iconClass("fa fa-list-alt").parent(webmastering).privilege(menuReadPrivilege.privilege()).build();
   }
 
