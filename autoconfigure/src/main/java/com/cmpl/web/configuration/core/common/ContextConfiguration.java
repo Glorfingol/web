@@ -19,8 +19,8 @@ import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.responsibility.ResponsibilityService;
 import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.user.UserService;
-import com.cmpl.web.manager.ui.core.security.CurrentUserDetailsServiceImpl;
-import com.cmpl.web.manager.ui.core.user.LastConnectionUpdateAuthenticationSuccessHandlerImpl;
+import com.cmpl.web.manager.ui.core.administration.user.LastConnectionUpdateAuthenticationSuccessHandlerImpl;
+import com.cmpl.web.manager.ui.core.common.security.CurrentUserDetailsServiceImpl;
 
 /**
  * COnfiguration du contextHolder a partir de donnes du fichier yaml

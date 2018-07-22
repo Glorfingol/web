@@ -10,7 +10,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
-import com.cmpl.web.manager.ui.core.user.StompHandshakeHandler;
+import com.cmpl.web.manager.ui.core.administration.user.StompHandshakeHandler;
 
 @Configuration
 @EnableWebSocketMessageBroker

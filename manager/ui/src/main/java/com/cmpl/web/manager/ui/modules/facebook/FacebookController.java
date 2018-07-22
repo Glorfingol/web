@@ -23,7 +23,7 @@ import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.facebook.FacebookDispatcher;
 import com.cmpl.web.facebook.FacebookImportRequest;
 import com.cmpl.web.facebook.FacebookImportResponse;
-import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
+import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
 import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactory;
 
 /**

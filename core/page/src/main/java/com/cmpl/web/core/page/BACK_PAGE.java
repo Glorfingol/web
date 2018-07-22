@@ -43,7 +43,10 @@ public enum BACK_PAGE {
   ROLE_UPDATE("back/roles/edit_role", "back.roles.title"),
   GROUP_VIEW("back/groups/view_groups", "back.groups.title"),
   GROUP_CREATE("back/groups/create_group", "back.groups.title"),
-  GROUP_UPDATE("back/groups/edit_group", "back.groups.title");
+  GROUP_UPDATE("back/groups/edit_group", "back.groups.title"),
+  WEBSITE_VIEW("back/websites/view_websites", "back.websites.title"),
+  WEBSITE_CREATE("back/websites/create_website", "back.websites.title"),
+  WEBSITE_UPDATE("back/websites/edit_website", "back.websites.title");
 
   private String tile;
   private String title;

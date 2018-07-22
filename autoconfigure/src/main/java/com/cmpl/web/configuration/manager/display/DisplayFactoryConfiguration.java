@@ -37,6 +37,8 @@ import com.cmpl.web.core.factory.style.StyleDisplayFactory;
 import com.cmpl.web.core.factory.style.StyleDisplayFactoryImpl;
 import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
 import com.cmpl.web.core.factory.user.UserManagerDisplayFactoryImpl;
+import com.cmpl.web.core.factory.website.WebsiteManagerDisplayFactory;
+import com.cmpl.web.core.factory.website.WebsiteManagerDisplayFactoryImpl;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactoryImpl;
 import com.cmpl.web.core.group.GroupService;
@@ -53,6 +55,7 @@ import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.role.privilege.PrivilegeService;
 import com.cmpl.web.core.style.StyleService;
 import com.cmpl.web.core.user.UserService;
+import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
 
@@ -168,6 +171,15 @@ public class DisplayFactoryConfiguration {
       MembershipService membershipService) {
     return new IndexDisplayFactoryImpl(menuFactory, messageSource, breadCrumbs, availableLocales, groupService,
         membershipService);
+  }
+
+  @Bean
+  public WebsiteManagerDisplayFactory websiteManagerDisplayFactory(WebsiteService websiteService,
+      ContextHolder contextHolder, MenuFactory menuFactory, WebMessageSource messageSource,
+      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs, Set<Locale> availableLocales, GroupService groupService,
+      MembershipService membershipService) {
+    return new WebsiteManagerDisplayFactoryImpl(menuFactory, messageSource, breadCrumbs, availableLocales, groupService,
+        membershipService, contextHolder, websiteService);
   }
 
 }

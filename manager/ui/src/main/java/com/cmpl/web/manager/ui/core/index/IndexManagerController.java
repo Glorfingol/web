@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.factory.index.IndexDisplayFactory;
 import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.manager.ui.core.stereotype.ManagerController;
+import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
 
 @ManagerController
 @RequestMapping(value = "/manager")

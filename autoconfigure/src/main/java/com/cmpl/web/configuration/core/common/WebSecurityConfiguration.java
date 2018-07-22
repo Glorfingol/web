@@ -27,13 +27,8 @@ import com.cmpl.web.core.common.user.ActionTokenService;
 import com.cmpl.web.core.common.user.ActionTokenServiceImpl;
 import com.cmpl.web.core.common.user.StatelessSecretTokenService;
 import com.cmpl.web.core.user.UserService;
-import com.cmpl.web.manager.ui.core.security.AuthenticationFailureListener;
-import com.cmpl.web.manager.ui.core.security.AuthenticationSuccessListener;
-import com.cmpl.web.manager.ui.core.security.LoginAttemptsService;
-import com.cmpl.web.manager.ui.core.security.LoginAttemptsServiceImpl;
-import com.cmpl.web.manager.ui.core.security.LoginAuthenticationProvider;
-import com.cmpl.web.manager.ui.core.security.PasswordTooOldInterceptor;
-import com.cmpl.web.manager.ui.core.user.LastConnectionUpdateAuthenticationSuccessHandlerImpl;
+import com.cmpl.web.manager.ui.core.administration.user.LastConnectionUpdateAuthenticationSuccessHandlerImpl;
+import com.cmpl.web.manager.ui.core.common.security.*;
 
 /**
  * Configuration de la securite

@@ -9,11 +9,12 @@ import com.cmpl.web.core.menu.MenuConfiguration;
 import com.cmpl.web.core.news.NewsConfiguration;
 import com.cmpl.web.core.page.PageConfiguration;
 import com.cmpl.web.core.style.StyleConfiguration;
+import com.cmpl.web.core.website.WebsiteConfiguration;
 import com.cmpl.web.core.widget.WidgetConfiguration;
 
 @Configuration
 @Import({StyleConfiguration.class, MenuConfiguration.class, PageConfiguration.class, WidgetConfiguration.class,
-    CarouselConfiguration.class, NewsConfiguration.class, MediaConfiguration.class})
+    CarouselConfiguration.class, NewsConfiguration.class, MediaConfiguration.class, WebsiteConfiguration.class})
 public class WebmasteringConfiguration {
 
 }

@@ -1,10 +1,6 @@
 package com.cmpl.web.core.factory.user;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -42,11 +38,11 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   private final UserService userService;
   private final RoleService roleService;
-  private final ResponsibilityService assocationUserRoleService;
+  private final ResponsibilityService responsibilityService;
   private final ContextHolder contextHolder;
 
   public UserManagerDisplayFactoryImpl(UserService userService, RoleService roleService,
-      ResponsibilityService assocationUserRoleService, ContextHolder contextHolder, MenuFactory menuFactory,
+      ResponsibilityService responsibilityService, ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
       Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
@@ -54,7 +50,7 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
     this.roleService = Objects.requireNonNull(roleService);
 
-    this.assocationUserRoleService = Objects.requireNonNull(assocationUserRoleService);
+    this.responsibilityService = Objects.requireNonNull(responsibilityService);
 
     this.contextHolder = Objects.requireNonNull(contextHolder);
 
@@ -119,7 +115,7 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     LOGGER.info("Construction des roles pour la page {} ", BACK_PAGE.USER_UPDATE.name());
 
     List<RoleDTO> associatedRoles = new ArrayList<>();
-    List<ResponsibilityDTO> associationUserRoles = assocationUserRoleService.findByUserId(userId);
+    List<ResponsibilityDTO> associationUserRoles = responsibilityService.findByUserId(userId);
     associationUserRoles
         .forEach(association -> associatedRoles.add(roleService.getEntity(Long.parseLong(association.getRoleId()))));
 
