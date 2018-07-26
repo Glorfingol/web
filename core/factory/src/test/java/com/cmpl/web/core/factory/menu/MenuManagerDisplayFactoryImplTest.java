@@ -29,6 +29,8 @@ import com.cmpl.web.core.common.builder.PageWrapperBuilder;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.menu.MenuDTO;
 import com.cmpl.web.core.menu.MenuDTOBuilder;
 import com.cmpl.web.core.menu.MenuService;
@@ -54,6 +56,10 @@ public class MenuManagerDisplayFactoryImplTest {
   private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
   @Mock
   private Set<Locale> availableLocales;
+  @Mock
+  private MembershipService membershipService;
+  @Mock
+  private GroupService groupService;
 
   @Spy
   @InjectMocks
@@ -147,13 +153,8 @@ public class MenuManagerDisplayFactoryImplTest {
 
   @Test
   public void testComputeModelAndViewForUpdateMenu() throws Exception {
-    MenuDTO possibleParent = MenuDTOBuilder.create().id(123456789l).build();
+
     MenuDTO notPossibleParent = MenuDTOBuilder.create().id(12345678l).build();
-
-    BDDMockito.given(menuService.getMenus()).willReturn(Arrays.asList(notPossibleParent, possibleParent));
-
-    PageDTO page = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getPages()).willReturn(Arrays.asList(page));
 
     BDDMockito.given(menuService.getEntity(BDDMockito.anyLong())).willReturn(notPossibleParent);
 
@@ -162,8 +163,7 @@ public class MenuManagerDisplayFactoryImplTest {
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
 
     ModelAndView result = displayFactory.computeModelAndViewForUpdateMenu(Locale.FRANCE, "123456789");
-    Assert.assertNotNull(result.getModel().get("menusThatCanBeParents"));
-    Assert.assertNotNull(result.getModel().get("pagesThatCanBeLinkedTo"));
+
     Assert.assertNotNull(result.getModel().get("updateForm"));
 
   }

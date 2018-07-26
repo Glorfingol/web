@@ -19,7 +19,12 @@ import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactory;
-import com.cmpl.web.core.news.entry.*;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
+import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
+import com.cmpl.web.core.news.entry.NewsEntryRequest;
+import com.cmpl.web.core.news.entry.NewsEntryRequestBuilder;
+import com.cmpl.web.core.news.entry.NewsEntryResponse;
 import com.cmpl.web.manager.ui.core.webmastering.news.NewsManagerController;
 
 ;
@@ -43,7 +48,6 @@ public class NewsManagerControllerTest {
   @Test
   public void testDeleteNewsEntry() throws Exception {
     BindingResult bindingResult = BDDMockito.mock(BindingResult.class);
-    BDDMockito.given(bindingResult.hasErrors()).willReturn(false);
     ResponseEntity<NewsEntryResponse> result = controller.deleteNewsEntry("666", Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());

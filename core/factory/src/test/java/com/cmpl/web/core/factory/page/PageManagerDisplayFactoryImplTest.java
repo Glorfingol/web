@@ -30,6 +30,8 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.page.PageCreateForm;
 import com.cmpl.web.core.page.PageCreateFormBuilder;
@@ -60,6 +62,10 @@ public class PageManagerDisplayFactoryImplTest {
   private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
   @Mock
   private Set<Locale> availableLocales;
+  @Mock
+  private MembershipService membershipService;
+  @Mock
+  private GroupService groupService;
 
   @Spy
   @InjectMocks

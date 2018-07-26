@@ -26,9 +26,11 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaDTOBuilder;
 import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.page.BACK_PAGE;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -46,6 +48,10 @@ public class MediaManagerDisplayFactoryImplTest {
   private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
   @Mock
   private Set<Locale> availableLocales;
+  @Mock
+  private MembershipService membershipService;
+  @Mock
+  private GroupService groupService;
 
   @Spy
   @InjectMocks

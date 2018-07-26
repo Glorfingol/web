@@ -25,6 +25,8 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSourceImpl;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.menu.MenuItem;
 import com.cmpl.web.core.menu.MenuItemBuilder;
 import com.cmpl.web.core.news.content.NewsContentDTO;
@@ -57,6 +59,10 @@ public class NewsManagerDisplayFactoryImplTest {
   private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
   @Mock
   private Set<Locale> availableLocales;
+  @Mock
+  private MembershipService membershipService;
+  @Mock
+  private GroupService groupService;
 
   @InjectMocks
   @Spy

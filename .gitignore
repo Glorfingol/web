@@ -34,3 +34,6 @@ core/cmpl-web-core-association-entity-group/target/
 *.lst
 core/models/target/
 core/responsibility/target/maven-archiver/pom.properties
+core/group/target/
+core/membership/target/
+core/website/target/

@@ -13,6 +13,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.plugin.version>3.7.0</maven.plugin.version>
+    <coveralls.plugin.version>4.3.0</coveralls.plugin.version>
+    <jacoco.plugin.version>0.7.6.201602180812</jacoco.plugin.version>
   </properties>
 
   <modules>
@@ -32,17 +35,17 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
+        <version>${maven.plugin.version}</version>
       </plugin>
       <plugin>
         <groupId>org.eluder.coveralls</groupId>
         <artifactId>coveralls-maven-plugin</artifactId>
-        <version>4.3.0</version>
+        <version>${coveralls.plugin.version}</version>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.6.201602180812</version>
+        <version>${jacoco.plugin.version}</version>
         <executions>
           <execution>
             <id>prepare-agent</id>
@@ -57,9 +60,12 @@
 
   <repositories>
     <repository>
-      <id>repository.spring.milestone</id>
-      <name>Spring Milestone Repository</name>
-      <url>http://repo.spring.io/milestone</url>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <url>https://repo.spring.io/libs-milestone</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
   </repositories>
 

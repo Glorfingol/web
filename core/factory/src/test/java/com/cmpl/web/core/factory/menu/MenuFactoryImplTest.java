@@ -58,11 +58,8 @@ public class MenuFactoryImplTest {
     BackMenuItem item = BackMenuItemBuilder.create().href(href).label(label).title(title).build();
 
     BDDMockito.given(backMenu.getItems()).willReturn(Arrays.asList(item));
-    BDDMockito
-        .doReturn(index)
-        .when(menuFactory)
-        .computeMenuItem(BDDMockito.any(BACK_PAGE.class), BDDMockito.any(BackMenuItem.class),
-            BDDMockito.eq(Locale.FRANCE), BDDMockito.anyList(), BDDMockito.anyList());
+    BDDMockito.doReturn(index).when(menuFactory).computeMenuItem(BDDMockito.any(BACK_PAGE.class),
+        BDDMockito.any(BackMenuItem.class), BDDMockito.eq(Locale.FRANCE), BDDMockito.anyList(), BDDMockito.anyList());
 
     List<MenuItem> result = menuFactory.computeBackMenuItems(BACK_PAGE.NEWS_CREATE, Locale.FRANCE);
     Assert.assertTrue(index == result.get(0));
@@ -79,12 +76,10 @@ public class MenuFactoryImplTest {
     BackMenuItem item = BackMenuItemBuilder.create().href(href).label(label).title(BACK_PAGE.NEWS_CREATE.getTitle())
         .build();
 
-    BDDMockito.doReturn(href).when(menuFactory)
-        .getI18nValue(BDDMockito.eq(item.getHref()), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(label).when(menuFactory)
-        .getI18nValue(BDDMockito.eq(item.getLabel()), BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(title).when(menuFactory)
-        .getI18nValue(BDDMockito.eq(item.getTitle()), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(label).when(menuFactory).getI18nValue(BDDMockito.eq(item.getLabel()),
+        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(title).when(menuFactory).getI18nValue(BDDMockito.eq(item.getTitle()),
+        BDDMockito.eq(Locale.FRANCE));
 
     MenuItem result = menuFactory.computeMenuItem(BACK_PAGE.NEWS_CREATE, item, Locale.FRANCE);
 
@@ -147,10 +142,10 @@ public class MenuFactoryImplTest {
     MenuDTO menu = MenuDTOBuilder.create().pageId("12345678").href("someHref").label("someLabel").title("someTitle")
         .build();
 
-    BDDMockito.doReturn(new ArrayList<>()).when(menuFactory)
-        .computeSubMenuItems(BDDMockito.any(PageDTO.class), BDDMockito.any(MenuDTO.class));
-    BDDMockito.doReturn("active").when(menuFactory)
-        .computeCustomCssClass(BDDMockito.any(PageDTO.class), BDDMockito.any(MenuDTO.class));
+    BDDMockito.doReturn(new ArrayList<>()).when(menuFactory).computeSubMenuItems(BDDMockito.any(PageDTO.class),
+        BDDMockito.any(MenuDTO.class));
+    BDDMockito.doReturn("active").when(menuFactory).computeCustomCssClass(BDDMockito.any(PageDTO.class),
+        BDDMockito.any(MenuDTO.class));
 
     MenuItem result = menuFactory.computeMenuItem(page, menu);
 
@@ -175,8 +170,8 @@ public class MenuFactoryImplTest {
     MenuItem menuItem = MenuItemBuilder.create().href("someChildHref").label("someChildLabel").title("someChildTitle")
         .customCssClass("").build();
 
-    BDDMockito.doReturn(menuItem).when(menuFactory)
-        .computeMenuItem(BDDMockito.any(PageDTO.class), BDDMockito.any(MenuDTO.class));
+    BDDMockito.doReturn(menuItem).when(menuFactory).computeMenuItem(BDDMockito.any(PageDTO.class),
+        BDDMockito.any(MenuDTO.class));
 
     List<MenuItem> result = menuFactory.computeSubMenuItems(page, menu);
 
@@ -204,8 +199,8 @@ public class MenuFactoryImplTest {
     MenuItem menuItem = MenuItemBuilder.create().href("someChildHref").label("someChildLabel").title("someChildTitle")
         .customCssClass("").build();
 
-    BDDMockito.doReturn(menuItem).when(menuFactory)
-        .computeMenuItem(BDDMockito.any(PageDTO.class), BDDMockito.any(MenuDTO.class));
+    BDDMockito.doReturn(menuItem).when(menuFactory).computeMenuItem(BDDMockito.any(PageDTO.class),
+        BDDMockito.any(MenuDTO.class));
 
     List<MenuItem> menuItems = menuFactory.computeMenuItems(page, Locale.FRANCE);
     Assert.assertEquals(menuItem, menuItems.get(0));

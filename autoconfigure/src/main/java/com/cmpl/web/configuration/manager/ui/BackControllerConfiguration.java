@@ -17,6 +17,7 @@ import com.cmpl.web.core.factory.page.PageManagerDisplayFactory;
 import com.cmpl.web.core.factory.role.RoleManagerDisplayFactory;
 import com.cmpl.web.core.factory.style.StyleDisplayFactory;
 import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
+import com.cmpl.web.core.factory.website.WebsiteManagerDisplayFactory;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
 import com.cmpl.web.core.group.GroupDispatcher;
 import com.cmpl.web.core.media.MediaService;
@@ -28,6 +29,7 @@ import com.cmpl.web.core.responsibility.ResponsibilityDispatcher;
 import com.cmpl.web.core.role.RoleDispatcher;
 import com.cmpl.web.core.style.StyleDispatcher;
 import com.cmpl.web.core.user.UserDispatcher;
+import com.cmpl.web.core.website.WebsiteDispatcher;
 import com.cmpl.web.core.widget.WidgetDispatcher;
 import com.cmpl.web.facebook.FacebookDispatcher;
 import com.cmpl.web.manager.ui.core.administration.group.GroupManagerController;
@@ -44,6 +46,7 @@ import com.cmpl.web.manager.ui.core.webmastering.menu.MenuManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.news.NewsManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.page.PageManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.style.StyleManagerController;
+import com.cmpl.web.manager.ui.core.webmastering.website.WebsiteManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.widget.WidgetManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.widget.WidgetPageManagerController;
 import com.cmpl.web.manager.ui.modules.facebook.FacebookController;
@@ -153,5 +156,13 @@ public class BackControllerConfiguration {
   public MembershipManagerController membershipManagerController(MembershipDispatcher membershipDispatcher,
       NotificationCenter notificationCenter, WebMessageSource webMessageSource) {
     return new MembershipManagerController(membershipDispatcher, notificationCenter, webMessageSource);
+  }
+
+  @Bean
+  public WebsiteManagerController websiteManagerController(WebsiteDispatcher websiteDispatcher,
+      NotificationCenter notificationCenter, WebMessageSource messageSource,
+      WebsiteManagerDisplayFactory websiteManagerDisplayFactory) {
+    return new WebsiteManagerController(websiteDispatcher, websiteManagerDisplayFactory, notificationCenter,
+        messageSource);
   }
 }

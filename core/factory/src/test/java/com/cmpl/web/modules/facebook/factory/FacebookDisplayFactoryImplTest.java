@@ -22,6 +22,8 @@ import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.menu.MenuItem;
 import com.cmpl.web.core.menu.MenuItemBuilder;
 import com.cmpl.web.core.page.BACK_PAGE;
@@ -42,6 +44,10 @@ public class FacebookDisplayFactoryImplTest {
   private WebMessageSource messageSource;
   @Mock
   private MenuFactory menuFactory;
+  @Mock
+  private MembershipService membershipService;
+  @Mock
+  private GroupService groupService;
 
   @InjectMocks
   @Spy
