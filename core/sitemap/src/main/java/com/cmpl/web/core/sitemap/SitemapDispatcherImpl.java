@@ -31,7 +31,7 @@ public class SitemapDispatcherImpl implements SitemapDispatcher {
   @Override
   public void deleteEntity(Long websiteId, Long pageId) throws BaseException {
 
-    SitemapDTO sitemapDTO = service.findByWebsiteIdAndStyleId(websiteId, pageId);
+    SitemapDTO sitemapDTO = service.findByWebsiteIdAndPageId(websiteId, pageId);
     service.deleteEntity(sitemapDTO.getId());
   }
 }
