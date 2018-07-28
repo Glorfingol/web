@@ -1,4 +1,4 @@
-package com.cmpl.web.core.sitemap;
+package com.cmpl.web.core.sitemap.rendering;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +32,7 @@ import com.redfin.sitemapgenerator.ChangeFreq;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SitemapServiceImplTest {
+public class RenderingSitemapServiceImplTest {
 
   @Rule
   public ExpectedException exception = ExpectedException.none();
@@ -48,7 +48,7 @@ public class SitemapServiceImplTest {
 
   @InjectMocks
   @Spy
-  private SitemapServiceImpl service;
+  private RenderingSitemapServiceImpl service;
 
   @Before
   public void setUp() {
