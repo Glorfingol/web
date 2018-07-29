@@ -1,5 +1,7 @@
 package com.cmpl.web.core.models;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -12,6 +14,7 @@ import javax.persistence.Table;
  */
 @Entity(name = "newsEntry")
 @Table(name = "news_entry")
+@Audited
 public class NewsEntry extends BaseEntity {
 
   @Column(name = "author")

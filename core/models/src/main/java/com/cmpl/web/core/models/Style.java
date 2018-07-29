@@ -1,10 +1,13 @@
 package com.cmpl.web.core.models;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity(name = "style")
+@Audited
 @Table(name = "style")
 public class Style extends BaseEntity {
 
