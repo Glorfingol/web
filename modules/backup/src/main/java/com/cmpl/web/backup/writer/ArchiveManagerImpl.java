@@ -216,7 +216,7 @@ public class ArchiveManagerImpl implements ArchiveManager {
   }
 
   private void deleteCSVFiles(List<File> filesToDelete) {
-    filesToDelete.stream().forEach(file -> file.delete());
+    filesToDelete.stream().forEach(File::delete);
   }
 
   private void deleteOlderThanTenDaysFiles() {
@@ -225,7 +225,7 @@ public class ArchiveManagerImpl implements ArchiveManager {
       return;
     }
     List<File> filesInBackup = Arrays.asList(directory.listFiles());
-    filesInBackup.stream().forEach(file -> deleteFileIfOlderThanTenDays(file));
+    filesInBackup.stream().forEach(this::deleteFileIfOlderThanTenDays);
 
   }
 

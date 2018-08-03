@@ -10,7 +10,8 @@ public class WidgetTranslatorImpl implements WidgetTranslator {
 
   @Override
   public WidgetDTO fromCreateFormToDTO(WidgetCreateForm form) {
-    return WidgetDTOBuilder.create().name(form.getName()).type(form.getType()).personalization("").build();
+    return WidgetDTOBuilder.create().name(form.getName()).asynchronous(form.getAsynchronous()).type(form.getType())
+        .personalization("").build();
   }
 
   @Override

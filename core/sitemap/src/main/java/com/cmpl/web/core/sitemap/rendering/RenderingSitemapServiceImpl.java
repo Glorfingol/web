@@ -8,23 +8,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.util.StringUtils;
 
-import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.menu.MenuDTO;
 import com.cmpl.web.core.menu.MenuService;
 import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.sitemap.SitemapDTO;
+import com.cmpl.web.core.sitemap.SitemapService;
+import com.cmpl.web.core.website.WebsiteDTO;
+import com.cmpl.web.core.website.WebsiteService;
 import com.redfin.sitemapgenerator.ChangeFreq;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
@@ -35,7 +35,7 @@ import com.redfin.sitemapgenerator.WebSitemapUrl;
  * @author Louis
  *
  */
-@CacheConfig(cacheNames = {"sitemap"})
+
 public class RenderingSitemapServiceImpl implements RenderingSitemapService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RenderingSitemapServiceImpl.class);
@@ -44,25 +44,33 @@ public class RenderingSitemapServiceImpl implements RenderingSitemapService {
 
   private final MenuService menuService;
 
-  private final ContextHolder contextHolder;
+  private final WebsiteService websiteService;
+  private final SitemapService sitemapService;
 
   public RenderingSitemapServiceImpl(WebMessageSource messageSource, MenuService menuService,
-      ContextHolder contextHolder) {
+      WebsiteService websiteService, SitemapService sitemapService) {
     this.messageSource = Objects.requireNonNull(messageSource);
 
     this.menuService = Objects.requireNonNull(menuService);
 
-    this.contextHolder = Objects.requireNonNull(contextHolder);
+    this.websiteService = Objects.requireNonNull(websiteService);
+
+    this.sitemapService = Objects.requireNonNull(sitemapService);
 
   }
 
   @Override
-  @Cacheable(sync = true)
-  public String createSiteMap(Locale locale) throws BaseException {
+  public String createSiteMap(String websiteName, Locale locale) throws BaseException {
+
+    WebsiteDTO website = websiteService.getWebsiteByName(websiteName);
+    if (website == null) {
+      return "";
+    }
+    List<SitemapDTO> sitemapDTOS = sitemapService.findByWebsiteId(website.getId());
 
     try {
       Path temporarySitemapFile = Files.createTempDirectory("sitemap");
-      writeSitemap(temporarySitemapFile, locale);
+      writeSitemap(temporarySitemapFile, website, sitemapDTOS, locale);
       Path sitemapPath = Paths.get(temporarySitemapFile.toString(), "sitemap.xml");
       return readSitemap(sitemapPath);
     } catch (IOException e) {
@@ -72,11 +80,13 @@ public class RenderingSitemapServiceImpl implements RenderingSitemapService {
 
   }
 
-  void writeSitemap(Path temporarySitemapFile, Locale locale) throws IOException {
-    WebSitemapGenerator sitemap = WebSitemapGenerator
-        .builder(contextHolder.getWebsiteUrl(), temporarySitemapFile.toFile()).build();
+  void writeSitemap(Path temporarySitemapFile, WebsiteDTO website, List<SitemapDTO> sitemapDTOS, Locale locale)
+      throws IOException {
+    String scheme = website.isSecure() ? "https://" : "http://";
+    WebSitemapGenerator sitemap = WebSitemapGenerator.builder(scheme + website.getName(), temporarySitemapFile.toFile())
+        .build();
 
-    List<WebSitemapUrl> menuUrls = computeMenuUrls(locale);
+    List<WebSitemapUrl> menuUrls = computeMenuUrls(website, sitemapDTOS, locale);
     sitemap.addUrls(menuUrls);
     sitemap.write();
 
@@ -99,21 +109,22 @@ public class RenderingSitemapServiceImpl implements RenderingSitemapService {
     return messageSource.getI18n(key, locale);
   }
 
-  List<WebSitemapUrl> computeMenuUrls(Locale locale) throws MalformedURLException {
-    List<WebSitemapUrl> menuUrls = new ArrayList<>();
-
-    for (MenuDTO menu : menuService.getEntities()) {
-      if (!StringUtils.hasText(menu.getParentId())) {
-        menuUrls.add(computeUrlForMenu(menu, locale));
-      }
-    }
-
-    return menuUrls;
+  List<WebSitemapUrl> computeMenuUrls(WebsiteDTO website, List<SitemapDTO> sitemapDTOS, Locale locale) {
+    List<Long> pagesId = sitemapDTOS.stream().map(sitemap -> sitemap.getPageId()).collect(Collectors.toList());
+    return menuService.getEntities().stream().filter(menu -> pagesId.contains(Long.parseLong(menu.getPageId())))
+        .collect(Collectors.toList()).stream().map(menu -> computeUrlForMenu(website, menu))
+        .collect(Collectors.toList());
   }
 
-  WebSitemapUrl computeUrlForMenu(MenuDTO menu, Locale locale) throws MalformedURLException {
-    return new WebSitemapUrl.Options(contextHolder.getWebsiteUrl() + getI18nValue(menu.getHref(), locale))
-        .changeFreq(ChangeFreq.YEARLY).priority(1d).build();
+  WebSitemapUrl computeUrlForMenu(WebsiteDTO website, MenuDTO menu) {
+    try {
+      String scheme = website.isSecure() ? "https://" : "http://";
+      return new WebSitemapUrl.Options(scheme + website.getName() + menu.getHref()).changeFreq(ChangeFreq.YEARLY)
+          .priority(1d).build();
+    } catch (MalformedURLException e) {
+      LOGGER.error("URL malformée", e);
+      return null;
+    }
   }
 
   LocalDateTime computeLastModified(List<NewsEntryDTO> entries) {

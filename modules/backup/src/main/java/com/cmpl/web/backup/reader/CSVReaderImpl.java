@@ -19,7 +19,7 @@ public class CSVReaderImpl implements CSVReader {
 
   @Override
   public void extractAllDataFromCSVFiles() {
-    this.parsers.stream().forEach(parser -> executeParser(parser));
+    this.parsers.stream().forEach(this::executeParser);
   }
 
   private void executeParser(CommonParser<?> parser) {

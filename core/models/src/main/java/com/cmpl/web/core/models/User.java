@@ -1,16 +1,15 @@
 package com.cmpl.web.core.models;
 
-import org.hibernate.envers.Audited;
-
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+
 @Entity(name = "user")
 @Table(name = "user")
-@Audited
 public class User extends BaseEntity {
 
   @Column(name = "login", nullable = false, unique = true)

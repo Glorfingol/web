@@ -8,6 +8,7 @@ public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
 
   private String name;
   private String description;
+  private boolean secure;
   private Long id;
   private LocalDateTime creationDate;
   private LocalDateTime modificationDate;
@@ -20,6 +21,11 @@ public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
 
   public WebsiteUpdateFormBuilder name(String name) {
     this.name = name;
+    return this;
+  }
+
+  public WebsiteUpdateFormBuilder secure(boolean secure) {
+    this.secure = secure;
     return this;
   }
 
@@ -58,6 +64,7 @@ public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
     WebsiteUpdateForm form = new WebsiteUpdateForm();
     form.setDescription(description);
     form.setName(name);
+    form.setSecure(secure);
     form.setId(id);
     form.setCreationDate(creationDate);
     form.setModificationDate(modificationDate);

@@ -3,9 +3,9 @@ package com.cmpl.web.facebook;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
@@ -61,14 +61,8 @@ public class FacebookServiceImpl implements FacebookService {
   }
 
   List<ImportablePost> computeImportablePosts(PagedList<Post> recentPosts) {
-    List<ImportablePost> importablePosts = new ArrayList<>();
-    recentPosts.forEach(recentPost -> {
-      ImportablePost post = computeImportablePost(recentPost, contextHolder.getDateFormat());
-      if (canImportPost(post)) {
-        importablePosts.add(post);
-      }
-    });
-    return importablePosts;
+    return recentPosts.stream().map(recentPost -> computeImportablePost(recentPost, contextHolder.getDateFormat()))
+        .filter(this::canImportPost).collect(Collectors.toList());
   }
 
   boolean canImportPost(ImportablePost post) {

@@ -39,9 +39,6 @@ public class ContextConfiguration {
   @Value("${mediaBasePath}")
   String mediaBasePath;
 
-  @Value("${websiteUrl}")
-  String websiteUrl;
-
   @Bean
   public ContextHolder contextHolder() {
 
@@ -53,7 +50,7 @@ public class ContextConfiguration {
     contextHolder.setElementsPerPage(10);
     contextHolder.setTemplateBasePath(templateBasePath);
     contextHolder.setMediaBasePath(mediaBasePath);
-    contextHolder.setWebsiteUrl(websiteUrl);
+
     return contextHolder;
 
   }

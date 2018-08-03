@@ -11,6 +11,17 @@
         <textarea rows="3" id="description" class="form-control" th:field="*{description}"/>
         <small class="form-text text-muted" th:text="#{website.description.help}"/>
       </div>
+      <div class="form-check">
+        <label th:text="#{website.secure.label}"/>
+      </div>
+      <div class="form-check">
+        <label class="switch">
+          <input type="checkbox" class="form-check-input"
+                 th:name="secure" th:id="secure">
+          <span class="slider"></span>
+        </label>
+        <small class="form-text text-muted" th:text="#{website.secure.help}"/>
+      </div>
     </div>
     <div class="card-footer">
       <div class="float-right">

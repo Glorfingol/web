@@ -1,10 +1,10 @@
 package com.cmpl.web.core.models;
 
-import org.hibernate.envers.Audited;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import org.hibernate.envers.Audited;
 
 /**
  * DAO NewsImage
@@ -14,7 +14,6 @@ import javax.persistence.Table;
  */
 @Entity(name = "newsImage")
 @Table(name = "news_image")
-@Audited
 public class NewsImage extends BaseEntity {
 
   @Column(name = "mediaId")

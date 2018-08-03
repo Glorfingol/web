@@ -28,7 +28,12 @@ import com.cmpl.web.core.common.user.ActionTokenServiceImpl;
 import com.cmpl.web.core.common.user.StatelessSecretTokenService;
 import com.cmpl.web.core.user.UserService;
 import com.cmpl.web.manager.ui.core.administration.user.LastConnectionUpdateAuthenticationSuccessHandlerImpl;
-import com.cmpl.web.manager.ui.core.common.security.*;
+import com.cmpl.web.manager.ui.core.common.security.AuthenticationFailureListener;
+import com.cmpl.web.manager.ui.core.common.security.AuthenticationSuccessListener;
+import com.cmpl.web.manager.ui.core.common.security.LoginAttemptsService;
+import com.cmpl.web.manager.ui.core.common.security.LoginAttemptsServiceImpl;
+import com.cmpl.web.manager.ui.core.common.security.LoginAuthenticationProvider;
+import com.cmpl.web.manager.ui.core.common.security.PasswordTooOldInterceptor;
 
 /**
  * Configuration de la securite
@@ -128,9 +133,9 @@ public class WebSecurityConfiguration {
     }
 
     String[] prepareAuthorizedUrls() {
-      return new String[]{"/", "/pages/**", "/manager-websocket/**", "/robots", "/robot", "/robot.txt", "/robots.txt",
-          "/webjars/**", "/js/**", "/img/**", "/css/**", "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**",
-          "/widgets/**", "/forgotten_password", "/change_password"};
+      return new String[]{"/", "/websites/**", "/sites/**", "/pages/**", "/manager-websocket/**", "/robots", "/robot",
+          "/robot.txt", "/robots.txt", "/webjars/**", "/js/**", "/img/**", "/css/**", "/**/favicon.ico", "/sitemap.xml",
+          "/public/**", "/blog/**", "/widgets/**", "/forgotten_password", "/change_password"};
     }
 
     @Bean

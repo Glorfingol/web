@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -47,9 +48,7 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
     PageWrapper<NewsEntryDTO> pagedNewsWrapped = computePageWrapperOfNews(widget, locale, pageNumber);
 
     List<NewsEntryDTO> entries = computeNewsEntriesForPage(pageNumber);
-    List<String> entriesIds = new ArrayList<>();
-    entries.forEach(entry -> entriesIds.add(String.valueOf(entry.getId())));
-
+    List<String> entriesIds = entries.stream().map(entry -> String.valueOf(entry.getId())).collect(Collectors.toList());
     widgetModel.put("wrappedNews", pagedNewsWrapped);
     widgetModel.put("news", entriesIds);
     widgetModel.put("widgetId", String.valueOf(widget.getId()));

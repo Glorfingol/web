@@ -33,7 +33,8 @@ public class FileServiceImpl implements FileService {
   @Override
   public void saveFileOnSystem(String fileName, String content) {
     try {
-      Files.write(Paths.get(contextHolder.getTemplateBasePath() + fileName), content.getBytes());
+      Files.write(Paths.get(contextHolder.getTemplateBasePath() + fileName),
+          content == null ? "".getBytes() : content.getBytes());
     } catch (IOException e) {
       LOGGER.error("Impossible d'enregistrer le fichier " + fileName, e);
     }

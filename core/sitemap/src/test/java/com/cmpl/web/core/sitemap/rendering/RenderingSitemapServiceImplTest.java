@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,13 +22,12 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cmpl.web.core.common.context.ContextHolder;
-import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.menu.MenuService;
 import com.cmpl.web.core.news.entry.NewsEntryDTO;
 import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
-import com.redfin.sitemapgenerator.ChangeFreq;
-import com.redfin.sitemapgenerator.WebSitemapUrl;
+import com.cmpl.web.core.sitemap.SitemapService;
+import com.cmpl.web.core.website.WebsiteService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RenderingSitemapServiceImplTest {
@@ -45,6 +43,12 @@ public class RenderingSitemapServiceImplTest {
 
   @Mock
   private MenuService menuService;
+
+  @Mock
+  private SitemapService sitemapService;
+
+  @Mock
+  private WebsiteService websiteService;
 
   @InjectMocks
   @Spy
@@ -106,52 +110,6 @@ public class RenderingSitemapServiceImplTest {
     Assert.assertTrue(result.contains("soins_medicaux"));
     Assert.assertTrue(result.contains("gynecologue"));
     Assert.assertTrue(result.contains("centre-medical"));
-
-  }
-
-  @Test
-  public void testWriteSitemap() throws IOException {
-
-    Path path = Paths.get("src/test/resources");
-    String host = "http://www.cmpl.com/";
-
-    WebSitemapUrl urlMenu = new WebSitemapUrl.Options(host + "techniques").priority(1d).changeFreq(ChangeFreq.NEVER)
-        .build();
-
-    BDDMockito.given(contextHolder.getWebsiteUrl()).willReturn(host);
-    BDDMockito.doReturn(Arrays.asList(urlMenu)).when(service).computeMenuUrls(BDDMockito.eq(Locale.FRANCE));
-
-    service.writeSitemap(path, Locale.FRANCE);
-
-    BDDMockito.verify(service, BDDMockito.times(1)).computeMenuUrls(BDDMockito.eq(Locale.FRANCE));
-
-    File sitemap = new File("src/test/resources/sitemap.xml");
-    if (sitemap.exists()) {
-      sitemap.delete();
-    }
-
-  }
-
-  @Test
-  public void testCreateSiteMap() throws IOException, BaseException {
-    String sitemap = "<?xml version='1.0' encoding='UTF-8'?><urlset><url><loc>http://cmpl.com/</loc><changefreq>never</changefreq><priority>1.0</priority></url></urlset>";
-
-    BDDMockito.doReturn(sitemap).when(service).readSitemap(BDDMockito.any(Path.class));
-    BDDMockito.doNothing().when(service).writeSitemap(BDDMockito.any(Path.class), BDDMockito.eq(Locale.FRANCE));
-
-    String result = service.createSiteMap(Locale.FRANCE);
-
-    Assert.assertEquals(sitemap, result);
-  }
-
-  @Test
-  public void testCreateSiteMap_Exception() throws Exception {
-
-    exception.expect(BaseException.class);
-    BDDMockito.doThrow(new IOException("")).when(service).writeSitemap(BDDMockito.any(Path.class),
-        BDDMockito.eq(Locale.FRANCE));
-
-    service.createSiteMap(Locale.FRANCE);
 
   }
 

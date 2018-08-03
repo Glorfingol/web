@@ -11,7 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
@@ -39,7 +43,7 @@ public class DesignManagerController {
 
   @PostMapping(value = "/manager/designs", produces = "application/json")
   @ResponseBody
-  @PreAuthorize("hasAuthority('webmastering:design:create')")
+  @PreAuthorize("hasAuthority('webmastering:designs:create')")
   public ResponseEntity<DesignResponse> createDesign(@Valid @RequestBody DesignCreateForm createForm,
       BindingResult bindingResult, Locale locale) {
 
@@ -66,7 +70,7 @@ public class DesignManagerController {
   }
 
   @DeleteMapping(value = "/manager/designs/{websiteId}/{styleId}", produces = "application/json")
-  @PreAuthorize("hasAuthority('webmastering:design:delete')")
+  @PreAuthorize("hasAuthority('webmastering:designs:delete')")
   public ResponseEntity<DesignResponse> deleteDesign(@PathVariable(name = "websiteId") String websiteId,
       @PathVariable(name = "styleId") String styleId, Locale locale) {
     LOGGER.info("Tentative de suppression d'une association website style");

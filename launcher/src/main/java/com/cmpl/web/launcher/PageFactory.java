@@ -93,7 +93,7 @@ public class PageFactory {
     carouselItemRepository.save(secondImage);
 
     Widget widgetCarouselHome = WidgetBuilder.create().type("CAROUSEL").name("carousel_home").entityId(carouselId)
-        .build();
+        .asynchronous(true).build();
     widgetCarouselHome = widgetRepository.save(widgetCarouselHome);
     WidgetPage widgetPage = WidgetPageBuilder.create().widgetId(String.valueOf(widgetCarouselHome.getId()))
         .pageId(pageId).build();
@@ -126,7 +126,7 @@ public class PageFactory {
     WidgetPage widgetPage = WidgetPageBuilder.create().pageId(pageId).widgetId(String.valueOf(blog.getId())).build();
     widgetPageRepository.save(widgetPage);
 
-    Widget widgetMenu = WidgetBuilder.create().type("MENU").name("menu").build();
+    Widget widgetMenu = WidgetBuilder.create().type("MENU").name("menu").asynchronous(false).build();
     widgetMenu = widgetRepository.save(widgetMenu);
     WidgetPage widgetPageMenu = WidgetPageBuilder.create().widgetId(String.valueOf(widgetMenu.getId())).pageId(pageId)
         .build();

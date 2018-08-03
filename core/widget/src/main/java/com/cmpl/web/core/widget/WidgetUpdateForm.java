@@ -1,6 +1,7 @@
 package com.cmpl.web.core.widget;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.cmpl.web.core.common.form.BaseUpdateForm;
 
@@ -14,6 +15,8 @@ public class WidgetUpdateForm extends BaseUpdateForm<WidgetDTO> {
   private String personalization;
   private String localeCode;
   private String toolTipKey;
+  @NotNull
+  private Boolean asynchronous;
 
   public WidgetUpdateForm() {
 
@@ -21,12 +24,13 @@ public class WidgetUpdateForm extends BaseUpdateForm<WidgetDTO> {
 
   public WidgetUpdateForm(WidgetDTO dto, String localeCode, String toolTipKey) {
     super(dto);
-    this.setType(dto.getType());
-    this.setEntityId(dto.getEntityId());
-    this.setName(dto.getName());
-    this.setPersonalization(dto.getPersonalization());
-    this.setLocaleCode(localeCode);
-    this.setToolTipKey(toolTipKey);
+    this.type = dto.getType();
+    this.entityId = dto.getEntityId();
+    this.name = dto.getName();
+    this.personalization = dto.getPersonalization();
+    this.localeCode = localeCode;
+    this.toolTipKey = toolTipKey;
+    this.asynchronous = dto.isAsynchronous();
   }
 
   public String getType() {
@@ -75,5 +79,13 @@ public class WidgetUpdateForm extends BaseUpdateForm<WidgetDTO> {
 
   public void setToolTipKey(String toolTipKey) {
     this.toolTipKey = toolTipKey;
+  }
+
+  public Boolean getAsynchronous() {
+    return asynchronous;
+  }
+
+  public void setAsynchronous(Boolean asynchronous) {
+    this.asynchronous = asynchronous;
   }
 }

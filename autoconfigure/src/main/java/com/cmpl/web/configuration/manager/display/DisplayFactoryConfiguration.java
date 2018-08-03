@@ -13,6 +13,7 @@ import com.cmpl.web.core.carousel.CarouselService;
 import com.cmpl.web.core.carousel.item.CarouselItemService;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactoryImpl;
 import com.cmpl.web.core.factory.group.GroupManagerDisplayFactory;
@@ -53,6 +54,7 @@ import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.responsibility.ResponsibilityService;
 import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.role.privilege.PrivilegeService;
+import com.cmpl.web.core.sitemap.SitemapService;
 import com.cmpl.web.core.style.StyleService;
 import com.cmpl.web.core.user.UserService;
 import com.cmpl.web.core.website.WebsiteService;
@@ -177,9 +179,10 @@ public class DisplayFactoryConfiguration {
   public WebsiteManagerDisplayFactory websiteManagerDisplayFactory(WebsiteService websiteService,
       ContextHolder contextHolder, MenuFactory menuFactory, WebMessageSource messageSource,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs, Set<Locale> availableLocales, GroupService groupService,
-      MembershipService membershipService) {
+      MembershipService membershipService, DesignService designService, SitemapService sitemapService,
+      PageService pageService, StyleService styleService) {
     return new WebsiteManagerDisplayFactoryImpl(menuFactory, messageSource, breadCrumbs, availableLocales, groupService,
-        membershipService, contextHolder, websiteService);
+        membershipService, contextHolder, websiteService, designService, sitemapService, pageService, styleService);
   }
 
 }

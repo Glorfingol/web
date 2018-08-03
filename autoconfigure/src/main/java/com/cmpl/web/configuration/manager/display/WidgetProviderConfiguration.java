@@ -10,6 +10,7 @@ import org.springframework.plugin.core.config.EnablePluginRegistries;
 import com.cmpl.web.core.carousel.CarouselService;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.factory.DisplayFactory;
 import com.cmpl.web.core.factory.DisplayFactoryImpl;
 import com.cmpl.web.core.factory.HtmlWidgetProvider;
@@ -24,6 +25,9 @@ import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
+import com.cmpl.web.core.sitemap.SitemapService;
+import com.cmpl.web.core.style.StyleService;
+import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
 
@@ -69,9 +73,11 @@ public class WidgetProviderConfiguration {
 
   @Bean
   public DisplayFactory displayFactory(WebMessageSource messageSource, PageService pageService,
-      NewsEntryService newsEntryService, WidgetPageService widgetPageService, WidgetService widgetService) {
+      NewsEntryService newsEntryService, WidgetPageService widgetPageService, WidgetService widgetService,
+      WebsiteService websiteService, SitemapService sitemapService, DesignService designService,
+      StyleService styleService) {
     return new DisplayFactoryImpl(messageSource, pageService, newsEntryService, widgetPageService, widgetService,
-        widgetProviders);
+        widgetProviders, websiteService, sitemapService, designService, styleService);
   }
 
   @Bean

@@ -1,15 +1,14 @@
 package com.cmpl.web.core.models;
 
-import org.hibernate.envers.Audited;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+
 @Entity(name = "design")
-@Audited
-@Table(name = "design", indexes = {@Index(name = "IDX_WEBSITE", columnList = "website_id"),
+@Table(name = "design", indexes = {@Index(name = "IDX_DESIGN", columnList = "website_id"),
     @Index(name = "IDX_STYLE", columnList = "style_id"),
     @Index(name = "IDX_WEBSITE_STYLE", columnList = "style_id,website_id")})
 public class Design extends BaseEntity {

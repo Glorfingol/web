@@ -11,6 +11,8 @@ public class WebsiteUpdateForm extends BaseUpdateForm<WebsiteDTO> {
   @NotBlank(message = "empty.role.description")
   private String description;
 
+  private Boolean secure;
+
   public WebsiteUpdateForm() {
 
   }
@@ -18,6 +20,7 @@ public class WebsiteUpdateForm extends BaseUpdateForm<WebsiteDTO> {
   public WebsiteUpdateForm(WebsiteDTO websiteDTO) {
     super(websiteDTO);
     this.name = websiteDTO.getName();
+    this.secure = websiteDTO.isSecure();
     this.description = websiteDTO.getDescription();
   }
 
@@ -35,5 +38,13 @@ public class WebsiteUpdateForm extends BaseUpdateForm<WebsiteDTO> {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public Boolean getSecure() {
+    return secure;
+  }
+
+  public void setSecure(Boolean secure) {
+    this.secure = secure;
   }
 }

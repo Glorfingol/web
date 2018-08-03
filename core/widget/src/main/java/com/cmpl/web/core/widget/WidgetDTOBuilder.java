@@ -12,6 +12,8 @@ public class WidgetDTOBuilder extends BaseBuilder<WidgetDTO> {
 
   private String personalization;
 
+  private boolean asynchronous;
+
   private WidgetDTOBuilder() {
 
   }
@@ -36,12 +38,18 @@ public class WidgetDTOBuilder extends BaseBuilder<WidgetDTO> {
     return this;
   }
 
+  public WidgetDTOBuilder asynchronous(boolean asynchronous) {
+    this.asynchronous = asynchronous;
+    return this;
+  }
+
   @Override
   public WidgetDTO build() {
     WidgetDTO widgetDTO = new WidgetDTO();
     widgetDTO.setEntityId(entityId);
     widgetDTO.setName(name);
     widgetDTO.setType(type);
+    widgetDTO.setAsynchronous(asynchronous);
     widgetDTO.setPersonalization(personalization);
     widgetDTO.setCreationDate(creationDate);
     widgetDTO.setCreationUser(creationUser);

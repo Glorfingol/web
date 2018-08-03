@@ -14,27 +14,27 @@ import com.cmpl.web.core.models.Design;
 public class SitemapConfiguration {
 
   @Bean
-  public SitemapDAO designDAO(SitemapRepository sitemapRepository, ApplicationEventPublisher publisher) {
+  public SitemapDAO sitemapDAO(SitemapRepository sitemapRepository, ApplicationEventPublisher publisher) {
     return new SitemapDAOImpl(sitemapRepository, publisher);
   }
 
   @Bean
-  public SitemapMapper designMapper() {
+  public SitemapMapper sitemapMapper() {
     return new SitemapMapper();
   }
 
   @Bean
-  public SitemapService designService(SitemapDAO sitemapDAO, SitemapMapper sitemapMapper) {
+  public SitemapService sitemapService(SitemapDAO sitemapDAO, SitemapMapper sitemapMapper) {
     return new SitemapServiceImpl(sitemapDAO, sitemapMapper);
   }
 
   @Bean
-  public SitemapTranslator designTranslator() {
+  public SitemapTranslator sitemapTranslator() {
     return new SitemapTranslatorImpl();
   }
 
   @Bean
-  public SitemapDispatcher designDispatcher(SitemapService sitemapService, SitemapTranslator sitemapTranslator) {
+  public SitemapDispatcher sitemapDispatcher(SitemapService sitemapService, SitemapTranslator sitemapTranslator) {
     return new SitemapDispatcherImpl(sitemapService, sitemapTranslator);
   }
 

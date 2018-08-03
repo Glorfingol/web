@@ -150,7 +150,7 @@ public class BackupImporter {
 
   void deleteUnzippedFiles() {
     List<File> filesToDelete = getCSVFiles();
-    filesToDelete.stream().forEach(file -> file.delete());
+    filesToDelete.stream().forEach(File::delete);
   }
 
   void deleteOlderThanTenDaysFiles() {
@@ -159,7 +159,7 @@ public class BackupImporter {
       return;
     }
     List<File> filesInBackup = Arrays.asList(directory.listFiles());
-    filesInBackup.stream().forEach(file -> deleteFileIfOlderThanTenDays(file));
+    filesInBackup.stream().forEach(this::deleteFileIfOlderThanTenDays);
 
   }
 

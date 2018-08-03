@@ -1,14 +1,13 @@
 package com.cmpl.web.core.models;
 
-import org.hibernate.envers.Audited;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+
 @Entity(name = "memberships")
-@Audited
 @Table(name = "memberships", indexes = {@Index(name = "IDX_ENTITY", columnList = "entity_id"),
     @Index(name = "IDX_GROUP", columnList = "group_id")})
 public class Membership extends BaseEntity {

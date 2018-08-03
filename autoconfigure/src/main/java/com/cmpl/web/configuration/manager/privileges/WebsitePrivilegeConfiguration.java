@@ -10,22 +10,22 @@ import com.cmpl.web.core.common.user.SimplePrivilege;
 public class WebsitePrivilegeConfiguration {
 
   @Bean
-  public Privilege rolesReadPrivilege() {
+  public Privilege websitesReadPrivilege() {
     return new SimplePrivilege("webmastering", "websites", "read");
   }
 
   @Bean
-  public Privilege rolesWritePrivilege() {
+  public Privilege websitesWritePrivilege() {
     return new SimplePrivilege("webmastering", "websites", "write");
   }
 
   @Bean
-  public Privilege rolesCreatePrivilege() {
+  public Privilege websitesCreatePrivilege() {
     return new SimplePrivilege("webmastering", "websites", "create");
   }
 
   @Bean
-  public Privilege rolesDeletePrivilege() {
+  public Privilege websitesDeletePrivilege() {
     return new SimplePrivilege("webmastering", "websites", "delete");
   }
 }

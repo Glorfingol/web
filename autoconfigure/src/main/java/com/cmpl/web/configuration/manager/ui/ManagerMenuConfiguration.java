@@ -73,4 +73,11 @@ public class ManagerMenuConfiguration {
         .iconClass("fa fa-sitemap").order(2).privilege(webmasteringReadPrivilege.privilege()).build();
   }
 
+  @Bean
+  public BackMenuItem websitesBackMenuItem(BackMenuItem webmastering, Privilege websitesReadPrivilege) {
+    return BackMenuItemBuilder.create().href("/manager/websites").label("back.websites.label")
+        .title("back.websites.title").order(6).iconClass("fa fa-sitemap").parent(webmastering)
+        .privilege(websitesReadPrivilege.privilege()).build();
+  }
+
 }

@@ -1,6 +1,10 @@
 package com.cmpl.web.manager.ui.core.common.security;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -45,6 +49,7 @@ public class CurrentUserDetailsServiceImpl implements UserDetailsService {
 
     List<ResponsibilityDTO> associationsUserRoles = responsibilityService.findByUserId(String.valueOf(user.getId()));
     Set<String> mergedPrivileges = new HashSet<>();
+
     associationsUserRoles.forEach(associationUserRoleDTO -> {
       mergedPrivileges
           .addAll(roleService.getEntity(Long.parseLong(associationUserRoleDTO.getRoleId())).getPrivileges());

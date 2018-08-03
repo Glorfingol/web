@@ -7,6 +7,9 @@ public class WidgetPageMapper extends BaseMapper<WidgetPageDTO, WidgetPage> {
 
   @Override
   public WidgetPageDTO toDTO(WidgetPage entity) {
+    if (entity == null) {
+      return null;
+    }
     WidgetPageDTO dto = WidgetPageDTOBuilder.create().build();
     fillObject(entity, dto);
     return dto;

@@ -31,6 +31,7 @@ public class PageDispatcherImpl implements PageDispatcher {
     pageToUpdate.setMenuTitle(form.getMenuTitle());
     pageToUpdate.setName(form.getName());
     pageToUpdate.setMeta(form.getMeta());
+    pageToUpdate.setAmp(form.getAmp());
 
     PageDTO updatedPage = pageService.updateEntity(pageToUpdate, form.getLocaleCode());
 

@@ -1,14 +1,13 @@
 package com.cmpl.web.core.models;
 
-import org.hibernate.envers.Audited;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+
 @Entity
 @Table(name = "media")
-@Audited
 public class Media extends BaseEntity {
 
   @Column(name = "src", nullable = false)

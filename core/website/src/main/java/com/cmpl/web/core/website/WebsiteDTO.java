@@ -8,6 +8,8 @@ public class WebsiteDTO extends BaseDTO {
 
   private String description;
 
+  private boolean secure;
+
   public String getName() {
     return name;
   }
@@ -22,5 +24,13 @@ public class WebsiteDTO extends BaseDTO {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public boolean isSecure() {
+    return secure;
+  }
+
+  public void setSecure(boolean secure) {
+    this.secure = secure;
   }
 }

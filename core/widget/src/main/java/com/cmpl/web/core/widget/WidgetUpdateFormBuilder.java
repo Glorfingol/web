@@ -17,6 +17,7 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
   private String personalization;
   private String localeCode;
   private String toolTipKey;
+  private Boolean asynchronous;
 
   public WidgetUpdateFormBuilder type(String type) {
     this.type = type;
@@ -73,6 +74,11 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
     return this;
   }
 
+  public WidgetUpdateFormBuilder asynchronous(Boolean asynchronous) {
+    this.asynchronous = asynchronous;
+    return this;
+  }
+
   private WidgetUpdateFormBuilder() {
 
   }
@@ -86,6 +92,7 @@ public class WidgetUpdateFormBuilder extends Builder<WidgetUpdateForm> {
     form.setModificationDate(modificationDate);
     form.setName(name);
     form.setType(type);
+    form.setAsynchronous(asynchronous);
     form.setPersonalization(personalization);
     form.setLocaleCode(localeCode);
     form.setToolTipKey(toolTipKey);

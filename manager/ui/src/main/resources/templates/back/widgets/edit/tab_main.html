@@ -12,6 +12,17 @@
     </select>
     <small class="form-text text-muted" th:text="#{widget.type.help}"/>
   </div>
+  <div class="form-check">
+    <label th:text="#{widget.asynchronous.label}"/>
+  </div>
+  <div class="form-check">
+    <label class="switch">
+      <input type="checkbox" class="form-check-input"
+             th:name="asynchronous" th:id="asynchronous" th:checked="${updateForm.asynchronous} == true">
+      <span class="slider"></span>
+    </label>
+    <small class="form-text text-muted" th:text="#{widget.asynchronous.help}"/>
+  </div>
   <input type="hidden" th:field="*{id}"/>
   <input type="hidden" th:field="*{creationDate}"/>
   <input type="hidden" th:field="*{creationUser}"/>

@@ -17,11 +17,13 @@ function computeWidget() {
 
   var inputName = $("#name");
   var inputType = $("#type");
+  var inputAsynchronous = $("#asynchronous");
   var inputLocaleCode = $("#localeCode");
 
   widget.name = inputName.val();
   widget.type = inputType.val();
   widget.localeCode = inputLocaleCode.val();
+  widget.asynchronous = inputAsynchronous.is(':checked');
 
   return widget;
 
@@ -39,8 +41,10 @@ function computeUpdateWidget() {
   var inputLocaleCode = $("#localeCode");
   var inputCreationUser = $("#creationUser");
   var inputModificationUser = $("#modificationUser");
+  var inputAsynchronous = $("#asynchronous");
 
   widget.name = inputName.val();
+  widget.asynchronous = inputAsynchronous.is(':checked');
   widget.type = inputType.val();
   widget.entityId = inputEntityId.val();
   widget.personalization = computePersonalization();

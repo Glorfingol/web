@@ -9,6 +9,8 @@ public class WebsiteCreateForm {
   @NotBlank(message = "empty.website.description")
   private String description;
 
+  private Boolean secure;
+
   public String getName() {
     return name;
   }
@@ -25,4 +27,11 @@ public class WebsiteCreateForm {
     this.description = description;
   }
 
+  public Boolean getSecure() {
+    return secure;
+  }
+
+  public void setSecure(Boolean secure) {
+    this.secure = secure;
+  }
 }

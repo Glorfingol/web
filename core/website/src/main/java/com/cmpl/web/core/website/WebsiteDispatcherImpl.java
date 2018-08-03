@@ -26,6 +26,7 @@ public class WebsiteDispatcherImpl implements WebsiteDispatcher {
   @Override
   public WebsiteResponse updateEntity(WebsiteUpdateForm form, Locale locale) {
     WebsiteDTO websiteToUpdate = service.getEntity(form.getId());
+    websiteToUpdate.setSecure(form.getSecure());
     websiteToUpdate.setDescription(form.getDescription());
     websiteToUpdate.setName(form.getName());
 

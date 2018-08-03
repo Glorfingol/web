@@ -22,7 +22,7 @@ public class CSVGeneratorImpl implements CSVGenerator {
 
   @Override
   public void extractAllDataToCSVFiles() {
-    this.writers.stream().forEach(writer -> executeWriter(writer));
+    this.writers.stream().forEach(this::executeWriter);
   }
 
   private void executeWriter(CommonWriter<?> writer) {

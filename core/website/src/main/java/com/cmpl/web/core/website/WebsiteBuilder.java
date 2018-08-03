@@ -9,6 +9,8 @@ public class WebsiteBuilder extends BaseBuilder<Website> {
 
   private String description;
 
+  private boolean secure;
+
   private WebsiteBuilder() {
 
   }
@@ -23,11 +25,17 @@ public class WebsiteBuilder extends BaseBuilder<Website> {
     return this;
   }
 
+  public WebsiteBuilder secure(boolean secure) {
+    this.secure = secure;
+    return this;
+  }
+
   @Override
   public Website build() {
     Website website = new Website();
     website.setDescription(description);
     website.setName(name);
+    website.setSecure(secure);
     return website;
   }
 

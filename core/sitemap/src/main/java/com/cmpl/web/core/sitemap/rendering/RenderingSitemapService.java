@@ -19,6 +19,6 @@ public interface RenderingSitemapService {
    * @return
    * @throws BaseException
    */
-  String createSiteMap(Locale locale) throws BaseException;
+  String createSiteMap(String websiteName, Locale locale) throws BaseException;
 
 }

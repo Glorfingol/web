@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
@@ -67,10 +68,8 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
   }
 
   protected List<String> parseEntityToListString(T entityToWrite) {
-
-    List<String> records = new ArrayList<>();
-    getFields(entityToWrite.getClass()).forEach(field -> records.add(parseObjectValueToString(field, entityToWrite)));
-    return records;
+    return getFields(entityToWrite.getClass()).stream().map(field -> parseObjectValueToString(field, entityToWrite))
+        .collect(Collectors.toList());
 
   }
 

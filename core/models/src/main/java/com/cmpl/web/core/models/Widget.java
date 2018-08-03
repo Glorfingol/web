@@ -1,14 +1,11 @@
 package com.cmpl.web.core.models;
 
-import org.hibernate.envers.Audited;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity(name = "widget")
 @Table(name = "widget")
-@Audited
 public class Widget extends BaseEntity {
 
   @Column(name = "type", nullable = false)
@@ -19,6 +16,9 @@ public class Widget extends BaseEntity {
 
   @Column(name = "name", nullable = false, unique = true)
   private String name;
+
+  @Column(name = "is_asynchronous")
+  private boolean asynchronous;
 
   public String getType() {
     return type;
@@ -42,5 +42,13 @@ public class Widget extends BaseEntity {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public boolean isAsynchronous() {
+    return asynchronous;
+  }
+
+  public void setAsynchronous(boolean asynchronous) {
+    this.asynchronous = asynchronous;
   }
 }

@@ -8,7 +8,6 @@ import org.hibernate.envers.Audited;
 
 @Entity(name = "groups")
 @Table(name = "groups")
-@Audited
 public class BOGroup extends BaseEntity {
 
   @Column(name = "name")

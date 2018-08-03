@@ -1,6 +1,5 @@
 package com.cmpl.web.core.factory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -82,8 +81,8 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     ModelAndView model = new ModelAndView("common/back_membership");
 
     List<MembershipDTO> memberships = membershipService.findByEntityId(Long.parseLong(entityId));
-    List<GroupDTO> associatedGroups = new ArrayList<>();
-    memberships.forEach(membership -> associatedGroups.add(groupService.getEntity(membership.getGroupId())));
+    List<GroupDTO> associatedGroups = memberships.stream()
+        .map(membershipDTO -> groupService.getEntity(membershipDTO.getGroupId())).collect(Collectors.toList());
     model.addObject("linkedGroups", associatedGroups);
 
     List<GroupDTO> linkableGroups = groupService.getEntities().stream()

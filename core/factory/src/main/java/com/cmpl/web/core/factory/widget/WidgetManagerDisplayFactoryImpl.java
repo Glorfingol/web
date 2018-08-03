@@ -136,8 +136,9 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
 
   WidgetUpdateForm computeUpdateForm(WidgetDTO widget, String personalizationLanguageCode) {
     return WidgetUpdateFormBuilder.create().creationDate(widget.getCreationDate()).entityId(widget.getEntityId())
-        .id(widget.getId()).personalization(widget.getPersonalization()).modificationDate(widget.getModificationDate())
-        .name(widget.getName()).type(widget.getType()).localeCode(personalizationLanguageCode).build();
+        .id(widget.getId()).asynchronous(widget.isAsynchronous()).personalization(widget.getPersonalization())
+        .modificationDate(widget.getModificationDate()).name(widget.getName()).type(widget.getType())
+        .localeCode(personalizationLanguageCode).build();
   }
 
   @Override
@@ -163,7 +164,7 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
 
   @Override
   protected String getBaseUrl() {
-    return "manager/widgets";
+    return "/manager/widgets";
   }
 
   @Override

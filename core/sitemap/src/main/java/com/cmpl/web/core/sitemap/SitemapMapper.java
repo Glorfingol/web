@@ -7,6 +7,9 @@ public class SitemapMapper extends BaseMapper<SitemapDTO, Sitemap> {
 
   @Override
   public SitemapDTO toDTO(Sitemap entity) {
+    if (entity == null) {
+      return null;
+    }
     SitemapDTO dto = SitemapDTOBuilder.create().build();
     fillObject(entity, dto);
     return dto;

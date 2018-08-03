@@ -2,19 +2,13 @@ package com.cmpl.web.core.widget;
 
 import java.util.Objects;
 
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.models.Widget;
 
-@CacheConfig(cacheNames = "widgets")
 public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implements WidgetService {
 
   private final FileService fileService;
@@ -31,8 +25,6 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   }
 
   @Override
-  @Transactional
-  @CacheEvict(value = "pagedWidgets", allEntries = true)
   public WidgetDTO createEntity(WidgetDTO dto, String localeCode) {
     WidgetDTO updatedWidget = super.createEntity(dto);
 
@@ -43,9 +35,6 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   }
 
   @Override
-  @Transactional
-  @CachePut(key = "#a0.id+'_'+#a1")
-  @CacheEvict(value = {"pagedWidgets"}, allEntries = true)
   public WidgetDTO updateEntity(WidgetDTO dto, String localeCode) {
     WidgetDTO updatedWidget = super.updateEntity(dto);
 
@@ -58,7 +47,6 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   }
 
   @Override
-  @Cacheable(key = "#a0+'_'+#a1")
   public WidgetDTO getEntity(Long widgetId, String localeCode) {
     WidgetDTO fetchedWidget = super.getEntity(widgetId);
     fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(
@@ -67,7 +55,6 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   }
 
   @Override
-  @Cacheable(key = "#a0+'_'+#a1")
   public WidgetDTO findByName(String widgetName, String localeCode) {
     Widget entity = widgetDAO.findByName(widgetName);
     if (entity == null) {
@@ -80,7 +67,6 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   }
 
   @Override
-  @Cacheable(value = "pagedWidgets")
   public Page<WidgetDTO> getPagedEntities(PageRequest pageRequest) {
     return super.getPagedEntities(pageRequest);
   }

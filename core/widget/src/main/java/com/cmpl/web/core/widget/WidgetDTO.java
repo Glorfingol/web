@@ -12,6 +12,8 @@ public class WidgetDTO extends BaseDTO {
 
   private String personalization;
 
+  private boolean asynchronous;
+
   public String getType() {
     return type;
   }
@@ -42,5 +44,13 @@ public class WidgetDTO extends BaseDTO {
 
   public void setPersonalization(String personalization) {
     this.personalization = personalization;
+  }
+
+  public boolean isAsynchronous() {
+    return asynchronous;
+  }
+
+  public void setAsynchronous(boolean asynchronous) {
+    this.asynchronous = asynchronous;
   }
 }

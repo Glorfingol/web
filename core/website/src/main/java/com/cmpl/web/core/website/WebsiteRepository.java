@@ -8,4 +8,6 @@ import com.cmpl.web.core.models.Website;
 @Repository
 public interface WebsiteRepository extends BaseRepository<Website> {
 
+  Website findByName(String websiteName);
+
 }

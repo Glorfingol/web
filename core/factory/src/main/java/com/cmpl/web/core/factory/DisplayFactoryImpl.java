@@ -1,10 +1,10 @@
 package com.cmpl.web.core.factory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +13,19 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.design.DesignDTO;
+import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.news.entry.NewsEntryDTO;
 import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
+import com.cmpl.web.core.sitemap.SitemapDTO;
+import com.cmpl.web.core.sitemap.SitemapService;
+import com.cmpl.web.core.style.StyleDTO;
+import com.cmpl.web.core.style.StyleService;
+import com.cmpl.web.core.website.WebsiteDTO;
+import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.widget.WidgetDTO;
 import com.cmpl.web.core.widget.WidgetDTOBuilder;
 import com.cmpl.web.core.widget.WidgetService;
@@ -26,7 +34,7 @@ import com.cmpl.web.core.widget.page.WidgetPageService;
 
 /**
  * Implementation de l'interface de factory pur generer des model and view pour les pages du site
- * 
+ *
  * @author Louis
  *
  */
@@ -38,21 +46,26 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   private final WidgetPageService widgetPageService;
   private final WidgetService widgetService;
   private final PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
+  private final WebsiteService websiteService;
+  private final SitemapService sitemapService;
+  private final DesignService designService;
+  private final StyleService styleService;
 
   public DisplayFactoryImpl(WebMessageSource messageSource, PageService pageService, NewsEntryService newsEntryService,
       WidgetPageService widgetPageService, WidgetService widgetService,
-      PluginRegistry<WidgetProviderPlugin, String> widgetProviders) {
+      PluginRegistry<WidgetProviderPlugin, String> widgetProviders, WebsiteService websiteService,
+      SitemapService sitemapService, DesignService designService, StyleService styleService) {
     super(messageSource);
 
     this.pageService = Objects.requireNonNull(pageService);
-
     this.newsEntryService = Objects.requireNonNull(newsEntryService);
-
     this.widgetPageService = Objects.requireNonNull(widgetPageService);
-
     this.widgetService = Objects.requireNonNull(widgetService);
-
     this.widgetProviders = Objects.requireNonNull(widgetProviders);
+    this.websiteService = Objects.requireNonNull(websiteService);
+    this.designService = Objects.requireNonNull(designService);
+    this.sitemapService = Objects.requireNonNull(sitemapService);
+    this.styleService = Objects.requireNonNull(styleService);
 
   }
 
@@ -61,6 +74,9 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     LOGGER.debug("Construction de la page  {}", pageName);
 
     PageDTO page = pageService.getPageByName(pageName, locale.getLanguage());
+    if (page.getId() == null) {
+      return new ModelAndView("404");
+    }
 
     ModelAndView model = new ModelAndView("decorator");
     model.addObject("content", computePageContent(page, locale));
@@ -75,16 +91,34 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     LOGGER.debug("Construction des widgets pour la page {}", pageName);
     List<WidgetPageDTO> widgetPageDTOS = widgetPageService.findByPageId(String.valueOf(page.getId()));
-    List<String> widgetIds = new ArrayList<>();
-    widgetPageDTOS.forEach(widgetPageDTO -> widgetIds.add(widgetPageDTO.getWidgetId()));
-    List<String> widgetNames = new ArrayList<>();
-    widgetIds.forEach(widgetId -> widgetNames.add(widgetService.getEntity(Long.parseLong(widgetId)).getName()));
+    List<String> widgetIds = widgetPageDTOS.stream().map(widgetPageDTO -> widgetPageDTO.getWidgetId())
+        .collect(Collectors.toList());
+    List<String> widgetAsynchronousNames = widgetIds.stream()
+        .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId))).filter(widget -> widget.isAsynchronous())
+        .map(widget -> widget.getName()).collect(Collectors.toList());
 
-    model.addObject("widgetNames", widgetNames);
+    List<WidgetDTO> synchronousWidgets = widgetIds.stream()
+        .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId), locale.getLanguage()))
+        .filter(widget -> !widget.isAsynchronous()).collect(Collectors.toList());
+
+    synchronousWidgets.forEach(widget -> {
+
+      Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale, pageName);
+      if (!CollectionUtils.isEmpty(widgetModel)) {
+        widgetModel.forEach((key, value) -> model.addObject(key, value));
+      }
+
+      model.addObject("widget_" + widget.getName(), computeWidgetTemplate(widget, locale));
+
+    });
+
+    model.addObject("pageNumber", pageNumber);
+    model.addObject("widgetNames", widgetAsynchronousNames);
 
     LOGGER.debug("Page {} prête", pageName);
 
     return model;
+
   }
 
   @Override
@@ -134,6 +168,81 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     model.addObject("widgetName", widget.getName());
 
     LOGGER.debug("Widget {} prêt", widgetName);
+
+    return model;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForWebsitePage(String websiteName, String pageName, Locale locale,
+      int pageNumber) {
+
+    LOGGER.debug("Construction de la page  {0} pour le site {1}", pageName, websiteName);
+    WebsiteDTO websiteDTO = websiteService.getWebsiteByName(websiteName);
+    if (websiteDTO == null) {
+      return new ModelAndView("404");
+    }
+
+    List<SitemapDTO> sitemaps = sitemapService.findByWebsiteId(websiteDTO.getId());
+    List<PageDTO> pages = sitemaps.stream()
+        .map(sitemap -> pageService.getEntity(sitemap.getPageId(), locale.getLanguage())).collect(Collectors.toList());
+    if (CollectionUtils.isEmpty(pages)) {
+      return new ModelAndView("404");
+    }
+
+    List<DesignDTO> designs = designService.findByWebsiteId(websiteDTO.getId());
+    List<StyleDTO> styles = designs.stream().map(design -> styleService.getEntity(design.getStyleId()))
+        .collect(Collectors.toList());
+
+    PageDTO page = pages.get(0);
+    ModelAndView model = new ModelAndView("decorator");
+    model.addObject("styles", styles);
+    model.addObject("content", computePageContent(page, locale));
+    LOGGER.debug("Construction du footer pour la page  {}", pageName);
+    model.addObject("footerTemplate", computePageFooter(page, locale));
+    LOGGER.debug("Construction du header pour la page  {}", pageName);
+    model.addObject("header", computePageHeader(page, locale));
+    LOGGER.debug("Construction de la meta pour la page  {}", pageName);
+    model.addObject("meta", computePageMeta(page, locale));
+    LOGGER.debug("Construction du lien du back pour la page {}", pageName);
+    model.addObject("hiddenLink", computeHiddenLink(locale));
+
+    LOGGER.debug("Construction des widgets pour la page {}", pageName);
+    List<WidgetPageDTO> widgetPageDTOS = widgetPageService.findByPageId(String.valueOf(page.getId()));
+    List<String> widgetNames = widgetPageDTOS.stream()
+        .map(widgetPage -> widgetService.getEntity(Long.parseLong(widgetPage.getWidgetId())).getName())
+        .collect(Collectors.toList());
+
+    model.addObject("widgetNames", widgetNames);
+
+    LOGGER.debug("Page {} prête", pageName);
+
+    return model;
+
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForWebsiteAMP(String websiteName, String pageName, Locale locale,
+      int pageNumber) {
+    LOGGER.debug("Construction de la page amp {0} pour le site {1}", pageName, websiteName);
+
+    WebsiteDTO websiteDTO = websiteService.getWebsiteByName(websiteName);
+    if (websiteDTO == null) {
+      return new ModelAndView("404");
+    }
+
+    List<SitemapDTO> sitemaps = sitemapService.findByWebsiteId(websiteDTO.getId());
+    List<PageDTO> pages = sitemaps.stream()
+        .map(sitemap -> pageService.getEntity(sitemap.getPageId(), locale.getLanguage())).collect(Collectors.toList());
+    if (CollectionUtils.isEmpty(pages)) {
+      return new ModelAndView("404");
+    }
+
+    PageDTO page = pages.get(0);
+
+    ModelAndView model = new ModelAndView("decorator_amp");
+    model.addObject("amp_content", computePageAMPContent(page, locale));
+
+    LOGGER.debug("Page {} prête", pageName);
 
     return model;
   }

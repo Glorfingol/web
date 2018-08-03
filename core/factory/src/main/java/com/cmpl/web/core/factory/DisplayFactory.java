@@ -28,4 +28,8 @@ public interface DisplayFactory {
 
   ModelAndView computeModelAndViewForWidget(String widgetName, Locale locale, int pageNumber, String pageId);
 
+  ModelAndView computeModelAndViewForWebsitePage(String websiteName, String pageName, Locale locale, int pageNumber);
+
+  ModelAndView computeModelAndViewForWebsiteAMP(String websiteName, String pageName, Locale locale, int pageNumber);
+
 }

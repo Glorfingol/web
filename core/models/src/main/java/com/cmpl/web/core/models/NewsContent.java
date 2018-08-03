@@ -1,10 +1,10 @@
 package com.cmpl.web.core.models;
 
-import org.hibernate.envers.Audited;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import org.hibernate.envers.Audited;
 
 /**
  * DAO NewsContent
@@ -14,7 +14,6 @@ import javax.persistence.Table;
  */
 @Entity(name = "newsContent")
 @Table(name = "news_content")
-@Audited
 public class NewsContent extends BaseEntity {
 
   @Column(name = "content", length = 21844)

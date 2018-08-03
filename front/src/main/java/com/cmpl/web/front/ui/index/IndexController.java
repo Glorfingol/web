@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.factory.DisplayFactory;
@@ -33,11 +34,11 @@ public class IndexController {
    * 
    * @return
    */
-  @GetMapping(value = "/")
-  public ModelAndView printIndex(Locale locale) {
+  @GetMapping(value = "/{websiteName}")
+  public ModelAndView printIndex(@PathVariable(value = "websiteName") String websiteName, Locale locale) {
 
     LOGGER.info("Accès à la page d'index");
-    return displayFactory.computeModelAndViewForPage("accueil", locale, 0);
+    return displayFactory.computeModelAndViewForWebsitePage(websiteName, "accueil", locale, 0);
   }
 
 }

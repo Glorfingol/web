@@ -7,6 +7,7 @@ public class WidgetCreateFormBuilder extends Builder<WidgetCreateForm> {
   private String type;
   private String name;
   private String localeCode;
+  private Boolean asynchronous;
 
   private WidgetCreateFormBuilder() {
 
@@ -27,12 +28,18 @@ public class WidgetCreateFormBuilder extends Builder<WidgetCreateForm> {
     return this;
   }
 
+  public WidgetCreateFormBuilder asynchronous(Boolean asynchronous) {
+    this.asynchronous = asynchronous;
+    return this;
+  }
+
   @Override
   public WidgetCreateForm build() {
     WidgetCreateForm form = new WidgetCreateForm();
     form.setName(name);
     form.setType(type);
     form.setLocaleCode(localeCode);
+    form.setAsynchronous(asynchronous);
     return form;
   }
 
