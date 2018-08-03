@@ -1,11 +1,14 @@
 package com.cmpl.web.core.models;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
 @Entity(name = "privilege")
+@Audited
 @Table(name = "privilege", indexes = {@Index(name = "IDX_PRIVILEGE", columnList = "role_id")})
 public class Privilege extends BaseEntity {
 

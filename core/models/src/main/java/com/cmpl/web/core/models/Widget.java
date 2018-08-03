@@ -1,11 +1,14 @@
 package com.cmpl.web.core.models;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity(name = "widget")
 @Table(name = "widget")
+@Audited
 public class Widget extends BaseEntity {
 
   @Column(name = "type", nullable = false)

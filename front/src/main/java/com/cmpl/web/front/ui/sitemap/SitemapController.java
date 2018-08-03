@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cmpl.web.core.common.exception.BaseException;
-import com.cmpl.web.core.sitemap.SitemapService;
+import com.cmpl.web.core.sitemap.rendering.RenderingSitemapService;
 
 /**
  * Controller du sitemap
@@ -23,11 +23,11 @@ public class SitemapController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SitemapController.class);
 
-  private final SitemapService sitemapService;
+  private final RenderingSitemapService renderingSitemapService;
 
-  public SitemapController(SitemapService sitemapService) {
+  public SitemapController(RenderingSitemapService renderingSitemapService) {
 
-    this.sitemapService = Objects.requireNonNull(sitemapService);
+    this.renderingSitemapService = Objects.requireNonNull(renderingSitemapService);
 
   }
 
@@ -43,7 +43,7 @@ public class SitemapController {
     LOGGER.info("Accès au sitemap");
 
     try {
-      return sitemapService.createSiteMap(locale);
+      return renderingSitemapService.createSiteMap(locale);
     } catch (BaseException e1) {
       LOGGER.error("Impossible de générer le fichier des sitemap", e1);
     }

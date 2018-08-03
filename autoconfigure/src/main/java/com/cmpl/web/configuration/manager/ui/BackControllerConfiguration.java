@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.cmpl.web.core.carousel.CarouselDispatcher;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
+import com.cmpl.web.core.design.DesignDispatcher;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
 import com.cmpl.web.core.factory.group.GroupManagerDisplayFactory;
 import com.cmpl.web.core.factory.index.IndexDisplayFactory;
@@ -27,6 +28,7 @@ import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
 import com.cmpl.web.core.page.PageDispatcher;
 import com.cmpl.web.core.responsibility.ResponsibilityDispatcher;
 import com.cmpl.web.core.role.RoleDispatcher;
+import com.cmpl.web.core.sitemap.SitemapDispatcher;
 import com.cmpl.web.core.style.StyleDispatcher;
 import com.cmpl.web.core.user.UserDispatcher;
 import com.cmpl.web.core.website.WebsiteDispatcher;
@@ -41,10 +43,12 @@ import com.cmpl.web.manager.ui.core.administration.user.UserManagerController;
 import com.cmpl.web.manager.ui.core.index.IndexManagerController;
 import com.cmpl.web.manager.ui.core.login.LoginController;
 import com.cmpl.web.manager.ui.core.webmastering.carousel.CarouselManagerController;
+import com.cmpl.web.manager.ui.core.webmastering.design.DesignManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.media.MediaManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.menu.MenuManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.news.NewsManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.page.PageManagerController;
+import com.cmpl.web.manager.ui.core.webmastering.sitemap.SitemapManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.style.StyleManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.website.WebsiteManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.widget.WidgetManagerController;
@@ -164,5 +168,17 @@ public class BackControllerConfiguration {
       WebsiteManagerDisplayFactory websiteManagerDisplayFactory) {
     return new WebsiteManagerController(websiteDispatcher, websiteManagerDisplayFactory, notificationCenter,
         messageSource);
+  }
+
+  @Bean
+  public DesignManagerController designManagerController(DesignDispatcher designDispatcher,
+      NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    return new DesignManagerController(designDispatcher, notificationCenter, messageSource);
+  }
+
+  @Bean
+  public SitemapManagerController sitemapManagerController(SitemapDispatcher sitemapDispatcher,
+      NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    return new SitemapManagerController(sitemapDispatcher, notificationCenter, messageSource);
   }
 }
