@@ -1,7 +1,7 @@
 package com.cmpl.web.core.common.mapper;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,19 +18,12 @@ public abstract class BaseMapper<DTO extends BaseDTO, ENTITY extends BaseEntity>
   public abstract ENTITY toEntity(DTO dto);
 
   public List<DTO> toListDTO(List<ENTITY> entities) {
-    List<DTO> dtos = new ArrayList<>();
-
-    entities.forEach(entity -> dtos.add(toDTO(entity)));
-
-    return dtos;
+    return entities.stream().map(this::toDTO).collect(Collectors.toList());
   }
 
   public Page<DTO> toPageDTO(Page<ENTITY> pagedEntities, PageRequest pageRequest) {
-    List<DTO> dtos = new ArrayList<>();
-
-    pagedEntities.getContent().forEach(entity -> dtos.add(toDTO(entity)));
-
-    return new PageImpl<>(dtos, pageRequest, pagedEntities.getTotalElements());
+    return new PageImpl<>(pagedEntities.getContent().stream().map(this::toDTO).collect(Collectors.toList()),
+        pageRequest, pagedEntities.getTotalElements());
   }
 
   public void fillObject(Object origin, Object destination) {

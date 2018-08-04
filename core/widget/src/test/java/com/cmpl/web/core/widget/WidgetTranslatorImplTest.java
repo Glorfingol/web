@@ -9,11 +9,7 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.util.StringUtils;
 
-import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
-import com.cmpl.web.core.widget.page.WidgetPageCreateFormBuilder;
-import com.cmpl.web.core.widget.page.WidgetPageDTO;
-import com.cmpl.web.core.widget.page.WidgetPageDTOBuilder;
-import com.cmpl.web.core.widget.page.WidgetPageResponse;
+import com.cmpl.web.core.widget.page.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WidgetTranslatorImplTest {
@@ -23,14 +19,15 @@ public class WidgetTranslatorImplTest {
 
   @Test
   public void testFromCreateFormToDTOWidget() {
-    WidgetCreateForm form = WidgetCreateFormBuilder.create().localeCode(Locale.FRANCE.getLanguage()).name("someName")
-        .type("HTML").build();
+    WidgetCreateForm form = WidgetCreateFormBuilder.create().asynchronous(true).localeCode(Locale.FRANCE.getLanguage())
+        .name("someName").type("HTML").build();
 
     WidgetDTO result = translator.fromCreateFormToDTO(form);
 
     Assert.assertTrue(!StringUtils.hasText(result.getPersonalization()));
     Assert.assertEquals(form.getName(), result.getName());
     Assert.assertEquals(form.getType(), result.getType());
+    Assert.assertEquals(form.getAsynchronous().booleanValue(), result.isAsynchronous());
 
   }
 

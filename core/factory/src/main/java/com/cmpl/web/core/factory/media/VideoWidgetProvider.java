@@ -1,12 +1,7 @@
 package com.cmpl.web.core.factory.media;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.util.StringUtils;
 
@@ -42,15 +37,8 @@ public class VideoWidgetProvider implements WidgetProviderPlugin {
 
   @Override
   public List<MediaDTO> getLinkableEntities() {
-    List<MediaDTO> linkableVideos = new ArrayList<>();
-    List<MediaDTO> mediaEntities = mediaService.getEntities();
-    mediaEntities.forEach(mediaEntity -> {
-      if (movieExtensions.contains(mediaEntity.getExtension())) {
-        linkableVideos.add(mediaEntity);
-      }
-    });
-
-    return linkableVideos;
+    return mediaService.getEntities().stream().filter(mediaDTO -> movieExtensions.contains(mediaDTO.getExtension()))
+        .collect(Collectors.toList());
   }
 
   @Override

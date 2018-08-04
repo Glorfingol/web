@@ -24,7 +24,6 @@ import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.responsibility.ResponsibilityCreateFormBuilder;
-import com.cmpl.web.core.responsibility.ResponsibilityDTO;
 import com.cmpl.web.core.responsibility.ResponsibilityService;
 import com.cmpl.web.core.role.RoleDTO;
 import com.cmpl.web.core.role.RoleService;
@@ -114,10 +113,9 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     ModelAndView userManager = new ModelAndView("back/users/edit/tab_roles");
     LOGGER.info("Construction des roles pour la page {} ", BACK_PAGE.USER_UPDATE.name());
 
-    List<RoleDTO> associatedRoles = new ArrayList<>();
-    List<ResponsibilityDTO> associationUserRoles = responsibilityService.findByUserId(userId);
-    associationUserRoles
-        .forEach(association -> associatedRoles.add(roleService.getEntity(Long.parseLong(association.getRoleId()))));
+    List<RoleDTO> associatedRoles = responsibilityService.findByUserId(userId).stream()
+        .map(associtation -> roleService.getEntity(Long.parseLong(associtation.getRoleId())))
+        .collect(Collectors.toList());
 
     List<RoleDTO> linkableRoles = roleService.getEntities().stream()
         .filter(role -> !associatedRoles.stream().filter(associatedRole -> associatedRole.getId().equals(role.getId()))

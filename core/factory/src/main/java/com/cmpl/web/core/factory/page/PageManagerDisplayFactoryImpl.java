@@ -1,10 +1,6 @@
 package com.cmpl.web.core.factory.page;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -27,11 +23,7 @@ import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.membership.MembershipService;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.page.PageCreateForm;
-import com.cmpl.web.core.page.PageDTO;
-import com.cmpl.web.core.page.PageService;
-import com.cmpl.web.core.page.PageUpdateForm;
+import com.cmpl.web.core.page.*;
 import com.cmpl.web.core.widget.WidgetDTO;
 import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
@@ -248,21 +240,18 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     } else {
       List<String> associatedWidgetsIds = associatedWidgets.stream()
           .map(associatedWidget -> associatedWidget.getWidgetId()).collect(Collectors.toList());
-      widgets.forEach(widget -> {
-        if (!associatedWidgetsIds.contains(String.valueOf(widget.getId()))) {
-          linkableWidgets.add(widget);
-        }
-      });
+      linkableWidgets
+          .addAll(widgets.stream().filter(widget -> !associatedWidgetsIds.contains(String.valueOf(widget.getId())))
+              .collect(Collectors.toList()));
     }
 
     return linkableWidgets;
   }
 
   private List<WidgetDTO> computeLinkedWidgets(List<WidgetPageDTO> associatedWidgets) {
-    List<WidgetDTO> linkedWidgets = new ArrayList<>();
-    associatedWidgets.forEach(
-        associatedWidget -> linkedWidgets.add(widgetService.getEntity(Long.parseLong(associatedWidget.getWidgetId()))));
-    return linkedWidgets;
+    return associatedWidgets.stream()
+        .map(associatedWidget -> widgetService.getEntity(Long.parseLong(associatedWidget.getWidgetId())))
+        .collect(Collectors.toList());
   }
 
   WidgetPageCreateForm computeWidgetPageCreateForm(PageDTO page) {

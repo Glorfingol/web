@@ -5,13 +5,7 @@ import com.cmpl.web.core.carousel.item.CarouselItemRepository;
 import com.cmpl.web.core.media.MediaBuilder;
 import com.cmpl.web.core.media.MediaRepository;
 import com.cmpl.web.core.menu.MenuRepository;
-import com.cmpl.web.core.models.Carousel;
-import com.cmpl.web.core.models.CarouselItem;
-import com.cmpl.web.core.models.Media;
-import com.cmpl.web.core.models.Menu;
-import com.cmpl.web.core.models.Page;
-import com.cmpl.web.core.models.Widget;
-import com.cmpl.web.core.models.WidgetPage;
+import com.cmpl.web.core.models.*;
 import com.cmpl.web.core.page.PageRepository;
 import com.cmpl.web.core.widget.WidgetBuilder;
 import com.cmpl.web.core.widget.WidgetRepository;
@@ -121,7 +115,7 @@ public class PageFactory {
 
     menuRepository.save(menu);
 
-    Widget blog = WidgetBuilder.create().name("blog").type("BLOG").build();
+    Widget blog = WidgetBuilder.create().name("blog").asynchronous(true).type("BLOG").build();
     blog = widgetRepository.save(blog);
     WidgetPage widgetPage = WidgetPageBuilder.create().pageId(pageId).widgetId(String.valueOf(blog.getId())).build();
     widgetPageRepository.save(widgetPage);
