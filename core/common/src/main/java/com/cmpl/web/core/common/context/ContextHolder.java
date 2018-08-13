@@ -14,7 +14,6 @@ public class ContextHolder {
   private String templateBasePath;
   private int elementsPerPage;
   private String mediaBasePath;
-  private String websiteUrl;
 
   public DateTimeFormatter getDateFormat() {
     return dateFormat;
@@ -48,11 +47,4 @@ public class ContextHolder {
     this.mediaBasePath = mediaBasePath;
   }
 
-  public String getWebsiteUrl() {
-    return websiteUrl;
-  }
-
-  public void setWebsiteUrl(String websiteUrl) {
-    this.websiteUrl = websiteUrl;
-  }
 }

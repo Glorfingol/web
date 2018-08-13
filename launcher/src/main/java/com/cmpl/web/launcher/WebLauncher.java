@@ -75,8 +75,6 @@ public class WebLauncher {
       PageFactory.createPages(pageRepository, menuRepository, carouselRepository, carouselItemRepository,
           mediaRepository, widgetRepository, widgetPageRepository);
 
-      StyleFactory.createStyles(styleRepository);
-
       WebsiteFactory.createWebsite(websiteRepository, pageRepository, sitemapRepository, styleRepository,
           designRepository);
 

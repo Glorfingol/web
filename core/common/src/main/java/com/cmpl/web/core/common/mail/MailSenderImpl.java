@@ -53,7 +53,7 @@ public class MailSenderImpl implements MailSender {
   public void sendMail(String htmlTemplate, Context context, String mailSubject, Locale locale, String... mailTo)
       throws Exception {
 
-    enrichContext(context, locale);
+    enrichContext(context);
 
     final String htmlContent = emailTemplateEngine.process(htmlTemplate, context);
     final String subject = messageSource.getMessage(mailSubject, locale, new Object[]{});
@@ -90,7 +90,7 @@ public class MailSenderImpl implements MailSender {
     });
   }
 
-  private void enrichContext(Context context, Locale locale) {
+  private void enrichContext(Context context) {
     context.setVariable("basePath", basePath);
   }
 
