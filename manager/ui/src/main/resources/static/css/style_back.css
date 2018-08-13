@@ -2,16 +2,16 @@
 COMMON
 */
 
-.homeMenu {
-  color: rgba(0, 0, 0, .5);
-  text-decoration: none;
-  cursor: pointer;
+.homeMenu, .previewMenu {
+  color: rgba(0, 0, 0, .5) !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
 }
 
-.homeMenu:hover {
-  color: rgba(0, 0, 0, .7);
-  text-decoration: none;
-  cursor: pointer;
+.homeMenu:hover, .previewMenu:hover {
+  color: rgba(0, 0, 0, .7) !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
 }
 
 body {

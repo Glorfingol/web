@@ -34,7 +34,7 @@ public class StyleDispatcherImpl implements StyleDispatcher {
 
   private MediaDTO initMedia(String styleName) {
     return MediaDTOBuilder.create().name(styleName + ".css").extension(".css").size(0l).contentType("text/css")
-        .src("/public/media/" + styleName + ".css").id(Math.abs(UUID.randomUUID().getLeastSignificantBits())).build();
+        .src("/public/medias/" + styleName + ".css").id(Math.abs(UUID.randomUUID().getLeastSignificantBits())).build();
   }
 
   @Override

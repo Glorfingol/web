@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.util.StringUtils;
 
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.file.FileService;
@@ -28,8 +29,10 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   public WidgetDTO createEntity(WidgetDTO dto, String localeCode) {
     WidgetDTO updatedWidget = super.createEntity(dto);
 
-    fileService.saveFileOnSystem(WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-        dto.getPersonalization());
+    if (StringUtils.hasText(dto.getPersonalization())) {
+      fileService.saveFileOnSystem(WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+          dto.getPersonalization());
+    }
 
     return updatedWidget;
   }
@@ -38,8 +41,10 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
   public WidgetDTO updateEntity(WidgetDTO dto, String localeCode) {
     WidgetDTO updatedWidget = super.updateEntity(dto);
 
-    fileService.saveFileOnSystem(WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-        dto.getPersonalization());
+    if (StringUtils.hasText(dto.getPersonalization())) {
+      fileService.saveFileOnSystem(WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+          dto.getPersonalization());
+    }
 
     updatedWidget.setPersonalization(dto.getPersonalization());
 

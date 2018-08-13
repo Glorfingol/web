@@ -40,6 +40,8 @@ import com.cmpl.web.core.page.PageDTOBuilder;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.page.PageUpdateForm;
 import com.cmpl.web.core.page.PageUpdateFormBuilder;
+import com.cmpl.web.core.sitemap.SitemapService;
+import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
 
@@ -66,6 +68,10 @@ public class PageManagerDisplayFactoryImplTest {
   private MembershipService membershipService;
   @Mock
   private GroupService groupService;
+  @Mock
+  private WebsiteService websiteService;
+  @Mock
+  private SitemapService sitemapService;
 
   @Spy
   @InjectMocks

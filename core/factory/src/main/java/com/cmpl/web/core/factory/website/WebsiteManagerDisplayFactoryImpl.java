@@ -155,7 +155,7 @@ public class WebsiteManagerDisplayFactoryImpl extends AbstractBackDisplayFactory
 
     List<StyleDTO> linkableStyles = styleService.getEntities().stream().filter(style -> !styles.contains(style))
         .collect(Collectors.toList());
-    websiteManager.addObject("linkableStyle", linkableStyles);
+    websiteManager.addObject("linkableStyles", linkableStyles);
 
     DesignCreateForm createForm = DesignCreateFormBuilder.create().websiteId(websiteId).build();
     websiteManager.addObject("createForm", createForm);
