@@ -171,10 +171,11 @@
 
   var goToPreviewTab = function () {
     if (currentTab !== "preview") {
-      var url = "/pages/" + [['' + ${updateForm.name} +'']];
-      var iframe = $('<iframe src="' + url + '" frameborder="0" id="previewIframe"></iframe>');
-      $("#ajaxTab").html(iframe)
-      currentTab = "preview";
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_preview";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "preview";
+      });
     }
   };
 

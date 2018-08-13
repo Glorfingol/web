@@ -3,8 +3,10 @@
 <head th:include="header"/>
 <body class="main">
 <div class="container-fluid">
-  <div th:replace="${header}"/>
-  <div th:replace="${content}"/>
+  <div th:replace="${header}">
+  </div>
+  <div th:replace="${content}">
+  </div>
 </div>
 <footer th:include="${footerTemplate}" class="mt-3"></footer>
 </body>
@@ -30,6 +32,7 @@
       });
     }
   }
+
 
 </script>
 </html>

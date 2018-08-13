@@ -1,7 +1,7 @@
 # Spring properties
 spring:
   application:
-     name: cmplWeb
+    name: cmplWeb
   logging:
     level:
       root: INFO
@@ -10,7 +10,12 @@ spring:
     pattern:
       console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 
-      
+
 # HTTP Server
 server:
   port: 3232  # HTTP (Tomcat) port
+
+basePath: C:/volume1/cmpl/web
+baseUrl: http://localhost:3232
+mailFrom: contact@somewebsite.com
+websiteUrl: http://localhost:3232

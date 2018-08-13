@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.cmpl.web.configuration.EnableCMPLWeb;
 import com.cmpl.web.core.carousel.CarouselRepository;
 import com.cmpl.web.core.carousel.item.CarouselItemRepository;
+import com.cmpl.web.core.design.DesignRepository;
 import com.cmpl.web.core.media.MediaRepository;
 import com.cmpl.web.core.menu.MenuRepository;
 import com.cmpl.web.core.models.Privilege;
@@ -28,8 +29,11 @@ import com.cmpl.web.core.role.RoleBuilder;
 import com.cmpl.web.core.role.RoleRepository;
 import com.cmpl.web.core.role.privilege.PrivilegeBuilder;
 import com.cmpl.web.core.role.privilege.PrivilegeRepository;
+import com.cmpl.web.core.sitemap.SitemapRepository;
+import com.cmpl.web.core.style.StyleRepository;
 import com.cmpl.web.core.user.UserBuilder;
 import com.cmpl.web.core.user.UserRepository;
+import com.cmpl.web.core.website.WebsiteRepository;
 import com.cmpl.web.core.widget.WidgetRepository;
 import com.cmpl.web.core.widget.page.WidgetPageRepository;
 
@@ -61,13 +65,20 @@ public class WebLauncher {
       final UserRepository userRepository, final RoleRepository roleRepository,
       final PrivilegeRepository privilegeRepository, final ResponsibilityRepository responsibilityRepository,
       final PasswordEncoder passwordEncoder,
-      final PluginRegistry<com.cmpl.web.core.common.user.Privilege, String> privileges) {
+      final PluginRegistry<com.cmpl.web.core.common.user.Privilege, String> privileges,
+      final WebsiteRepository websiteRepository, SitemapRepository sitemapRepository, StyleRepository styleRepository,
+      DesignRepository designRepository) {
     return (args) -> {
 
       NewsFactory.createNewsEntries(newsEntryRepository, newsContentRepository);
 
       PageFactory.createPages(pageRepository, menuRepository, carouselRepository, carouselItemRepository,
           mediaRepository, widgetRepository, widgetPageRepository);
+
+      StyleFactory.createStyles(styleRepository);
+
+      WebsiteFactory.createWebsite(websiteRepository, pageRepository, sitemapRepository, styleRepository,
+          designRepository);
 
       User system = UserBuilder.create().login("system").email("lperrod@cardiweb.com").description("system")
           .lastConnection(LocalDateTime.now()).lastPasswordModification(LocalDateTime.now().minusMonths(1))

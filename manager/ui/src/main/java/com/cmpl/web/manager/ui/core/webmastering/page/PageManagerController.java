@@ -214,6 +214,14 @@ public class PageManagerController {
     return pageManagerDisplayFactory.computeModelAndViewForMembership(pageId);
   }
 
+  @GetMapping(value = "/{pageId}/_preview")
+  @PreAuthorize("hasAuthority('webmastering:pages:read')")
+  public ModelAndView printViewUpdatePagePreview(@PathVariable(value = "pageId") String pageId, Locale locale,
+      @RequestParam(name = "languageCode", required = false) String languageCode) {
+    LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_UPDATE.name() + " pour " + pageId + " pour la partie preview");
+    return pageManagerDisplayFactory.computeModelAndViewForUpdatePagePreview(locale, pageId, languageCode);
+  }
+
   @DeleteMapping(value = "/{pageId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:pages:delete')")

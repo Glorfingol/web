@@ -5,8 +5,13 @@
   <nav>
     <ul class="pagination justify-content-center">
       <li class="page-item" th:classappend="${wrapper.firstPage}  ? disabled : ''">
-        <div class="page-link"
+        <div class="page-link" th:if="${widgetName != null}"
              th:onclick="${'reloadWidget(''' + widgetName + ''',' + (wrapper.currentPageNumber - 1) + ')'}"
+        >
+          <i class="fa fa-arrow-left"></i>
+        </div>
+        <div class="page-link" th:if="${widgetName == null}"
+             th:onclick="${'goToPage(' + (wrapper.currentPageNumber - 1) + ')'}"
         >
           <i class="fa fa-arrow-left"></i>
         </div>
@@ -14,15 +19,25 @@
       <li class="page-item"
           th:each="pageNumber : ${#numbers.sequence(1,wrapper.totalPages)}"
           th:classappend="${wrapper.currentPageNumber == pageNumber - 1} ? disabled : ''">
-        <div class="page-link"
+        <div th:if="${widgetName != null}" class="page-link"
              th:onclick="${'reloadWidget(''' + widgetName + ''',' + (pageNumber - 1) + ')' }"
+        >
+          <span th:text="${pageNumber}"/>
+        </div>
+        <div class="page-link" th:if="${widgetName == null}"
+             th:onclick="${'goToPage(' + (pageNumber - 1) + ')'}"
         >
           <span th:text="${pageNumber}"/>
         </div>
       </li>
       <li class="page-item" th:classappend="${wrapper.lastPage} ? disabled : ''">
-        <div class="page-link"
+        <div class="page-link" th:if="${widgetName != null}"
              th:onclick="${'reloadWidget(''' + widgetName + ''',' + (wrapper.currentPageNumber + 1) + ')' }"
+        >
+          <i class="fa fa-arrow-right"></i>
+        </div>
+        <div class="page-link" th:if="${widgetName == null}"
+             th:onclick="${'goToPage(' + (wrapper.currentPageNumber + 1) + ')'}"
         >
           <i class="fa fa-arrow-right"></i>
         </div>

@@ -1,0 +1,24 @@
+<div class="card card-body mb-4">
+  <div class="row d-flex flex-nowrap">
+    <div class="col-auto flex-grow-1 mb-3 mt-3" th:each="website : ${linkedWebsites}">
+      <a th:onclick="${'loadPreview(''' + website.name + ''')'}" th:title=" ${website.name}">
+        <div class="card">
+          <div class="card-body">
+            <span th:text="${website.name}"></span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="row" id="previewContent">
+
+  </div>
+</div>
+
+<script th:inline="javascript">
+  var loadPreview = function (websiteName) {
+    var url = "/sites/" + websiteName + "/pages/" + [['' + ${updateForm.name} +'']];
+    var iframe = $('<iframe src="' + url + '" frameborder="0" id="previewIframe"></iframe>');
+    $("#previewContent").html(iframe)
+  }
+</script>

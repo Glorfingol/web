@@ -118,9 +118,11 @@ public class DisplayFactoryConfiguration {
   public PageManagerDisplayFactory pageManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, PageService pageService, WidgetService widgetService,
       WidgetPageService widgetPageService, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbs,
-      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService) {
+      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService,
+      WebsiteService websiteService, SitemapService sitemapService) {
     return new PageManagerDisplayFactoryImpl(menuFactory, messageSource, pageService, contextHolder, widgetService,
-        widgetPageService, breadCrumbs, availableLocales, groupService, membershipService);
+        widgetPageService, breadCrumbs, availableLocales, groupService, membershipService, websiteService,
+        sitemapService);
   }
 
   @Bean

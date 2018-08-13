@@ -166,6 +166,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
       widgetModel.forEach((key, value) -> model.addObject(key, value));
     }
     model.addObject("widgetName", widget.getName());
+    model.addObject("asynchronous", widget.isAsynchronous());
 
     LOGGER.debug("Widget {} prêt", widgetName);
 
@@ -184,7 +185,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     List<SitemapDTO> sitemaps = sitemapService.findByWebsiteId(websiteDTO.getId());
     List<PageDTO> pages = sitemaps.stream()
-        .map(sitemap -> pageService.getEntity(sitemap.getPageId(), locale.getLanguage())).collect(Collectors.toList());
+        .map(sitemap -> pageService.getEntity(sitemap.getPageId(), locale.getLanguage()))
+        .filter(page -> page.getName().equals(pageName)).collect(Collectors.toList());
     if (CollectionUtils.isEmpty(pages)) {
       return new ModelAndView("404");
     }
@@ -232,7 +234,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     List<SitemapDTO> sitemaps = sitemapService.findByWebsiteId(websiteDTO.getId());
     List<PageDTO> pages = sitemaps.stream()
-        .map(sitemap -> pageService.getEntity(sitemap.getPageId(), locale.getLanguage())).collect(Collectors.toList());
+        .map(sitemap -> pageService.getEntity(sitemap.getPageId(), locale.getLanguage()))
+        .filter(page -> page.getName().equals(pageName)).collect(Collectors.toList());
     if (CollectionUtils.isEmpty(pages)) {
       return new ModelAndView("404");
     }

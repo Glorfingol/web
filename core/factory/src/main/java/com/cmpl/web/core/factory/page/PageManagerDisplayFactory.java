@@ -24,6 +24,9 @@ public interface PageManagerDisplayFactory extends BackDisplayFactory {
 
   ModelAndView computeModelAndViewForUpdatePageAMP(Locale locale, String pageId, String personalizationLanguageCode);
 
+  ModelAndView computeModelAndViewForUpdatePagePreview(Locale locale, String pageId,
+      String personalizationLanguageCode);
+
   ModelAndView computeModelAndViewForCreatePage(Locale locale);
 
   ModelAndView computeModelAndViewForUpdatePageWidgets(Locale locale, String pageId,

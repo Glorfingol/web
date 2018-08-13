@@ -32,6 +32,8 @@ import com.cmpl.web.core.page.PageCreateForm;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.page.PageUpdateForm;
+import com.cmpl.web.core.sitemap.SitemapService;
+import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.widget.WidgetDTO;
 import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
@@ -45,6 +47,8 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   private final PageService pageService;
   private final WidgetService widgetService;
   private final WidgetPageService widgetPageService;
+  private final WebsiteService websiteService;
+  private final SitemapService sitemapService;
   private final ContextHolder contextHolder;
 
   private static final String CREATE_FORM = "createForm";
@@ -56,16 +60,15 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   public PageManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource, PageService pageService,
       ContextHolder contextHolder, WidgetService widgetService, WidgetPageService widgetPageService,
       PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales, GroupService groupService,
-      MembershipService membershipService) {
+      MembershipService membershipService, WebsiteService websiteService, SitemapService sitemapService) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
 
     this.pageService = Objects.requireNonNull(pageService);
-
     this.contextHolder = Objects.requireNonNull(contextHolder);
-
     this.widgetService = Objects.requireNonNull(widgetService);
-
     this.widgetPageService = Objects.requireNonNull(widgetPageService);
+    this.websiteService = Objects.requireNonNull(websiteService);
+    this.sitemapService = Objects.requireNonNull(sitemapService);
 
   }
 
@@ -186,6 +189,22 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     pageManager.addObject(LOCALES, availableLocales);
     PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
     pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
+
+    return pageManager;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForUpdatePagePreview(Locale locale, String pageId,
+      String personalizationLanguageCode) {
+    if (!StringUtils.hasText(personalizationLanguageCode)) {
+      personalizationLanguageCode = locale.getLanguage();
+    }
+    ModelAndView pageManager = new ModelAndView("back/pages/edit/tab_preview");
+
+    PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
+    pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
+    pageManager.addObject("linkedWebsites", sitemapService.findByPageId(page.getId()).stream()
+        .map(sitemap -> websiteService.getEntity(sitemap.getWebsiteId())).collect(Collectors.toList()));
 
     return pageManager;
   }
