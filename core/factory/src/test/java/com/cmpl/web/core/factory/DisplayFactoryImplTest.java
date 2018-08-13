@@ -15,12 +15,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageDTOBuilder;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
+import com.cmpl.web.core.sitemap.SitemapService;
+import com.cmpl.web.core.style.StyleService;
+import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
 
@@ -43,6 +47,14 @@ public class DisplayFactoryImplTest {
   private WidgetService widgetService;
   @Mock
   private PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
+  @Mock
+  private WebsiteService websiteService;
+  @Mock
+  private SitemapService sitemapService;
+  @Mock
+  private DesignService designService;
+  @Mock
+  private StyleService styleService;
 
   @Spy
   @InjectMocks

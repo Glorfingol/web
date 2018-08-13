@@ -1,10 +1,10 @@
 package com.cmpl.web.manager.ui.core.common.security;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -56,9 +56,9 @@ public class CurrentUserDetailsServiceImpl implements UserDetailsService {
     });
 
     List<MembershipDTO> associationEntityGroups = membershipService.findByEntityId(user.getId());
-    List<GroupGrantedAuthority> groupsGranted = new ArrayList<>();
-    associationEntityGroups.forEach(associationEntityGroupDTO -> groupsGranted
-        .add(new GroupGrantedAuthority(associationEntityGroupDTO.getGroupId())));
+    List<GroupGrantedAuthority> groupsGranted = associationEntityGroups.stream()
+        .map(associationEntityGroup -> new GroupGrantedAuthority(associationEntityGroup.getGroupId()))
+        .collect(Collectors.toList());
 
     List<GrantedAuthority> authorities = AuthorityUtils
         .createAuthorityList(mergedPrivileges.toArray(new String[mergedPrivileges.size()]));

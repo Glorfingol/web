@@ -1,10 +1,7 @@
 package com.cmpl.web.core.factory.menu;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,11 +19,7 @@ import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.membership.MembershipService;
-import com.cmpl.web.core.menu.MenuCreateForm;
-import com.cmpl.web.core.menu.MenuCreateFormBuilder;
-import com.cmpl.web.core.menu.MenuDTO;
-import com.cmpl.web.core.menu.MenuService;
-import com.cmpl.web.core.menu.MenuUpdateForm;
+import com.cmpl.web.core.menu.*;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
@@ -91,13 +84,9 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     ModelAndView menusManager = new ModelAndView("/back/menus/edit/tab_main");
     LOGGER.info("Construction d'un menu pour la page {}", BACK_PAGE.MENUS_UPDATE.name());
 
-    List<MenuDTO> menus = menuService.getMenus();
-    List<MenuDTO> menusThatCanBeParents = new ArrayList<>();
-    menus.forEach(menu -> {
-      if (!menuId.equals(String.valueOf(menu.getId()))) {
-        menusThatCanBeParents.add(menu);
-      }
-    });
+    List<MenuDTO> menusThatCanBeParents = menuService.getMenus().stream()
+        .filter(menuDTO -> !menuId.equals(String.valueOf(menuDTO.getId()))).collect(Collectors.toList());
+
     menusManager.addObject(MENUS_PARENTS, menusThatCanBeParents);
 
     List<PageDTO> pagesThatCanBeLinkedTo = pageService.getPages();

@@ -8,12 +8,7 @@ import java.util.stream.Collectors;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.BaseFactoryImpl;
-import com.cmpl.web.core.menu.BackMenu;
-import com.cmpl.web.core.menu.BackMenuItem;
-import com.cmpl.web.core.menu.MenuDTO;
-import com.cmpl.web.core.menu.MenuItem;
-import com.cmpl.web.core.menu.MenuItemBuilder;
-import com.cmpl.web.core.menu.MenuService;
+import com.cmpl.web.core.menu.*;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.page.PageDTO;
 
@@ -86,9 +81,8 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
 
   @Override
   public List<MenuItem> computeMenuItems(PageDTO page, Locale locale) {
-    List<MenuItem> menuItems = new ArrayList<>();
-    menuService.getMenus().forEach(menuItem -> menuItems.add(computeMenuItem(page, menuItem)));
-    return menuItems;
+    return menuService.getMenus().stream().map(menuItem -> computeMenuItem(page, menuItem))
+        .collect(Collectors.toList());
   }
 
   MenuItem computeMenuItem(PageDTO page, MenuDTO menu) {
@@ -101,9 +95,8 @@ public class MenuFactoryImpl extends BaseFactoryImpl implements MenuFactory {
   }
 
   List<MenuItem> computeSubMenuItems(PageDTO page, MenuDTO menu) {
-    List<MenuItem> subMenuItems = new ArrayList<>();
-    menu.getChildren().forEach(subMenu -> subMenuItems.add(computeMenuItem(page, subMenu)));
-    return subMenuItems;
+    return menu.getChildren().stream().map(subMenuItem -> computeMenuItem(page, subMenuItem))
+        .collect(Collectors.toList());
   }
 
 }

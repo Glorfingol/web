@@ -210,11 +210,29 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     LOGGER.debug("Construction des widgets pour la page {}", pageName);
     List<WidgetPageDTO> widgetPageDTOS = widgetPageService.findByPageId(String.valueOf(page.getId()));
-    List<String> widgetNames = widgetPageDTOS.stream()
-        .map(widgetPage -> widgetService.getEntity(Long.parseLong(widgetPage.getWidgetId())).getName())
+    List<String> widgetIds = widgetPageDTOS.stream().map(widgetPageDTO -> widgetPageDTO.getWidgetId())
         .collect(Collectors.toList());
+    List<String> widgetAsynchronousNames = widgetIds.stream()
+        .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId))).filter(widget -> widget.isAsynchronous())
+        .map(widget -> widget.getName()).collect(Collectors.toList());
 
-    model.addObject("widgetNames", widgetNames);
+    List<WidgetDTO> synchronousWidgets = widgetIds.stream()
+        .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId), locale.getLanguage()))
+        .filter(widget -> !widget.isAsynchronous()).collect(Collectors.toList());
+
+    synchronousWidgets.forEach(widget -> {
+
+      Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale, pageName);
+      if (!CollectionUtils.isEmpty(widgetModel)) {
+        widgetModel.forEach((key, value) -> model.addObject(key, value));
+      }
+
+      model.addObject("widget_" + widget.getName(), computeWidgetTemplate(widget, locale));
+
+    });
+
+    model.addObject("pageNumber", pageNumber);
+    model.addObject("widgetNames", widgetAsynchronousNames);
 
     LOGGER.debug("Page {} prête", pageName);
 
