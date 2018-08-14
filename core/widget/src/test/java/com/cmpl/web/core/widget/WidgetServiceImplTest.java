@@ -121,7 +121,7 @@ public class WidgetServiceImplTest {
 
     Assert.assertEquals(toCreate, result);
 
-    BDDMockito.verify(fileService, BDDMockito.times(1)).saveFileOnSystem(BDDMockito.anyString(),
+    BDDMockito.verify(fileService, BDDMockito.times(0)).saveFileOnSystem(BDDMockito.anyString(),
         BDDMockito.nullable(String.class));
   }
 

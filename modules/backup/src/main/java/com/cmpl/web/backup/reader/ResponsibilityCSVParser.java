@@ -9,9 +9,9 @@ import org.apache.commons.csv.CSVRecord;
 import com.cmpl.web.backup.writer.DataManipulator;
 import com.cmpl.web.core.models.Responsibility;
 
-public class AssociationUserRoleCSVParser extends CommonParser<Responsibility> {
+public class ResponsibilityCSVParser extends CommonParser<Responsibility> {
 
-  public AssociationUserRoleCSVParser(DateTimeFormatter dateFormatter, DataManipulator<Responsibility> dataManipulator,
+  public ResponsibilityCSVParser(DateTimeFormatter dateFormatter, DataManipulator<Responsibility> dataManipulator,
       String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }
@@ -29,6 +29,6 @@ public class AssociationUserRoleCSVParser extends CommonParser<Responsibility> {
 
   @Override
   public String getParserName() {
-    return "associations_user_role";
+    return "responsibilities";
   }
 }
