@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.Responsibility;
+import com.querydsl.core.types.Predicate;
 
 public class ResponsibilityDAOImpl extends BaseDAOImpl<Responsibility> implements ResponsibilityDAO {
 
@@ -29,5 +30,10 @@ public class ResponsibilityDAOImpl extends BaseDAOImpl<Responsibility> implement
   @Override
   public Responsibility findByUserIdAndRoleId(String userId, String roleId) {
     return responsibilityRepository.findByUserIdAndRoleId(userId, roleId);
+  }
+
+  @Override
+  protected Predicate computeSearchPredicate(String query) {
+    throw new UnsupportedOperationException();
   }
 }

@@ -61,6 +61,16 @@ public class UserManagerController {
     return userManagerDisplayFactory.computeModelAndViewForViewAllUsers(locale, pageNumberToUse);
   }
 
+  @GetMapping(value = "/search")
+  @PreAuthorize("hasAuthority('administration:users:read')")
+  public ModelAndView printSearchUsers(@RequestParam(name = "p", required = false) Integer pageNumber,
+      @RequestParam(name = "q") String query, Locale locale) {
+
+    int pageNumberToUse = computePageNumberFromRequest(pageNumber);
+    LOGGER.info("Accès à la page " + BACK_PAGE.USER_VIEW.name());
+    return userManagerDisplayFactory.computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+  }
+
   int computePageNumberFromRequest(Integer pageNumber) {
     if (pageNumber == null) {
       return 0;

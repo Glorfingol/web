@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -72,9 +73,9 @@ public class WebsiteManagerDisplayFactoryImpl extends AbstractBackDisplayFactory
     ModelAndView websitesManager = super.computeModelAndViewForBackPage(BACK_PAGE.WEBSITE_VIEW, locale);
     LOGGER.info("Construction des websites pour la page {} ", BACK_PAGE.WEBSITE_VIEW.name());
 
-    PageWrapper<WebsiteDTO> pagedWebsiteDTOWrapped = computePageWrapper(locale, pageNumber);
+    PageWrapper<WebsiteDTO> pagedWebsiteDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
-    websitesManager.addObject("wrappedWebsites", pagedWebsiteDTOWrapped);
+    websitesManager.addObject("wrappedEntities", pagedWebsiteDTOWrapped);
 
     return websitesManager;
   }
@@ -163,12 +164,19 @@ public class WebsiteManagerDisplayFactoryImpl extends AbstractBackDisplayFactory
   }
 
   @Override
-  protected Page<WebsiteDTO> computeEntries(Locale locale, int pageNumber) {
+  protected Page<WebsiteDTO> computeEntries(Locale locale, int pageNumber, String query) {
     List<WebsiteDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
         new Sort(Sort.Direction.ASC, "name"));
-    Page<WebsiteDTO> pagedWebsiteDTOEntries = websiteService.getPagedEntities(pageRequest);
+    Page<WebsiteDTO> pagedWebsiteDTOEntries;
+    if (StringUtils.hasText(query)) {
+      pagedWebsiteDTOEntries = websiteService
+          .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()), query);
+    } else {
+      pagedWebsiteDTOEntries = websiteService
+          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+    }
     if (CollectionUtils.isEmpty(pagedWebsiteDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
     }
@@ -186,6 +194,11 @@ public class WebsiteManagerDisplayFactoryImpl extends AbstractBackDisplayFactory
   @Override
   protected String getItemLink() {
     return "/manager/websites/";
+  }
+
+  @Override
+  protected String getSearchUrl() {
+    return "/manager/websites/search";
   }
 
   @Override

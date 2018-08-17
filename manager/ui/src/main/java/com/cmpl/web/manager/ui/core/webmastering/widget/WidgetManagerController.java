@@ -61,6 +61,16 @@ public class WidgetManagerController {
     return widgetManagerDisplayFactory.computeModelAndViewForViewAllWidgets(locale, pageNumberToUse);
   }
 
+  @GetMapping(value = "/search")
+  @PreAuthorize("hasAuthority('webmastering:widgets:read')")
+  public ModelAndView printSearchWidgets(@RequestParam(name = "p", required = false) Integer pageNumber,
+      @RequestParam(name = "q") String query, Locale locale) {
+
+    int pageNumberToUse = computePageNumberFromRequest(pageNumber);
+    LOGGER.info("Accès à la page " + BACK_PAGE.WIDGET_VIEW.name());
+    return widgetManagerDisplayFactory.computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+  }
+
   int computePageNumberFromRequest(Integer pageNumber) {
     if (pageNumber == null) {
       return 0;

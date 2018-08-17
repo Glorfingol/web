@@ -72,6 +72,16 @@ public class PageManagerController {
     return pageManagerDisplayFactory.computeModelAndViewForViewAllPages(locale, pageNumberToUse);
   }
 
+  @GetMapping(value = "/search")
+  @PreAuthorize("hasAuthority('webmastering:pages:read')")
+  public ModelAndView printSearchPages(@RequestParam(name = "p", required = false) Integer pageNumber,
+      @RequestParam(name = "q") String query, Locale locale) {
+
+    int pageNumberToUse = computePageNumberFromRequest(pageNumber);
+    LOGGER.info("Accès à la page " + BACK_PAGE.PAGES_VIEW.name());
+    return pageManagerDisplayFactory.computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+  }
+
   int computePageNumberFromRequest(Integer pageNumber) {
     if (pageNumber == null) {
       return 0;

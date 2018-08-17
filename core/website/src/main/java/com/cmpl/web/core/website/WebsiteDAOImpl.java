@@ -3,7 +3,9 @@ package com.cmpl.web.core.website;
 import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
+import com.cmpl.web.core.models.QWebsite;
 import com.cmpl.web.core.models.Website;
+import com.querydsl.core.types.Predicate;
 
 public class WebsiteDAOImpl extends BaseDAOImpl<Website> implements WebsiteDAO {
 
@@ -17,5 +19,11 @@ public class WebsiteDAOImpl extends BaseDAOImpl<Website> implements WebsiteDAO {
   @Override
   public Website getWebsiteByName(String websiteName) {
     return websiteRepository.findByName(websiteName);
+  }
+
+  @Override
+  protected Predicate computeSearchPredicate(String query) {
+    QWebsite website = QWebsite.website;
+    return website.name.containsIgnoreCase(query);
   }
 }

@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.CarouselItem;
+import com.querydsl.core.types.Predicate;
 
 public class CarouselItemDAOImpl extends BaseDAOImpl<CarouselItem> implements CarouselItemDAO {
 
@@ -19,5 +20,10 @@ public class CarouselItemDAOImpl extends BaseDAOImpl<CarouselItem> implements Ca
   @Override
   public List<CarouselItem> getByCarouselId(String carouselId) {
     return carouselItemRepository.findByCarouselIdOrderByOrderInCarousel(carouselId);
+  }
+
+  @Override
+  protected Predicate computeSearchPredicate(String query) {
+    throw new UnsupportedOperationException();
   }
 }

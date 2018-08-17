@@ -62,6 +62,16 @@ public class GroupManagerController {
     return groupManagerDisplayFactory.computeModelAndViewForViewAllGroups(locale, pageNumberToUse);
   }
 
+  @GetMapping(value = "/search")
+  @PreAuthorize("hasAuthority('administration:groups:read')")
+  public ModelAndView printSearchGroups(@RequestParam(name = "p", required = false) Integer pageNumber,
+      @RequestParam(name = "q") String query, Locale locale) {
+
+    int pageNumberToUse = computePageNumberFromRequest(pageNumber);
+    LOGGER.info("Accès à la page " + BACK_PAGE.GROUP_VIEW.name());
+    return groupManagerDisplayFactory.computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+  }
+
   int computePageNumberFromRequest(Integer pageNumber) {
     if (pageNumber == null) {
       return 0;

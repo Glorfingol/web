@@ -59,7 +59,7 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
 
     String backPageName = backPage.name();
     LOGGER.debug("Construction de la page du back {}", backPageName);
-    ModelAndView model = computeModelAndViewBaseTile(backPage, locale);
+    ModelAndView model = computeModelAndViewBaseTile(backPage);
 
     LOGGER.debug("Construction du menu pour la page {}", backPageName);
     model.addObject("menuItems", computeBackMenuItems(backPage, locale));
@@ -93,6 +93,11 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     return model;
   }
 
+  @Override
+  public ModelAndView computeModelAndViewForAllEntitiesTab(Locale locale, int pageNumber, String query) {
+    return null;
+  }
+
   public BreadCrumb computeBreadCrumb(BACK_PAGE backPage) {
     BreadCrumb breadCrumbFromRegistry = breadCrumbRegistry.getPluginFor(backPage);
     if (breadCrumbFromRegistry == null) {
@@ -102,7 +107,7 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
         .build();
   }
 
-  public ModelAndView computeModelAndViewBaseTile(BACK_PAGE backPage, Locale locale) {
+  public ModelAndView computeModelAndViewBaseTile(BACK_PAGE backPage) {
 
     if (BACK_PAGE.LOGIN.equals(backPage) || BACK_PAGE.FORGOTTEN_PASSWORD.equals(backPage)
         || BACK_PAGE.CHANGE_PASSWORD.equals(backPage)) {

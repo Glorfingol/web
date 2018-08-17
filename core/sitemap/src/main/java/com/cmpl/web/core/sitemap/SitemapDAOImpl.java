@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.Sitemap;
+import com.querydsl.core.types.Predicate;
 
 public class SitemapDAOImpl extends BaseDAOImpl<Sitemap> implements SitemapDAO {
 
@@ -29,5 +30,10 @@ public class SitemapDAOImpl extends BaseDAOImpl<Sitemap> implements SitemapDAO {
   @Override
   public Sitemap findByWebsiteIdAndPageId(Long websiteId, Long pageId) {
     return sitemapRepository.findByWebsiteIdAndPageId(websiteId, pageId);
+  }
+
+  @Override
+  protected Predicate computeSearchPredicate(String query) {
+    throw new UnsupportedOperationException();
   }
 }

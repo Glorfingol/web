@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -69,20 +70,27 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
     ModelAndView carouselsManager = super.computeModelAndViewForBackPage(BACK_PAGE.CAROUSELS_VIEW, locale);
     LOGGER.info("Construction des carousels pour la page {}", BACK_PAGE.CAROUSELS_VIEW.name());
 
-    PageWrapper<CarouselDTO> pagedCarouselDTOWrapped = computePageWrapper(locale, pageNumber);
+    PageWrapper<CarouselDTO> pagedCarouselDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
-    carouselsManager.addObject("wrappedCarousels", pagedCarouselDTOWrapped);
+    carouselsManager.addObject("wrappedEntities", pagedCarouselDTOWrapped);
 
     return carouselsManager;
   }
 
   @Override
-  protected Page<CarouselDTO> computeEntries(Locale locale, int pageNumber) {
+  protected Page<CarouselDTO> computeEntries(Locale locale, int pageNumber, String query) {
     List<CarouselDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
         new Sort(Direction.ASC, "name"));
-    Page<CarouselDTO> pagedCarouselDTOEntries = carouselService.getPagedEntities(pageRequest);
+    Page<CarouselDTO> pagedCarouselDTOEntries;
+    if (StringUtils.hasText(query)) {
+      pagedCarouselDTOEntries = carouselService
+          .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()), query);
+    } else {
+      pagedCarouselDTOEntries = carouselService
+          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+    }
     if (CollectionUtils.isEmpty(pagedCarouselDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
     }
@@ -157,6 +165,11 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
   @Override
   protected String getItemLink() {
     return "/manager/carousels/";
+  }
+
+  @Override
+  protected String getSearchUrl() {
+    return "/manager/carousels/search";
   }
 
   @Override

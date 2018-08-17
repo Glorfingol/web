@@ -7,6 +7,8 @@ import org.springframework.data.domain.Sort;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.Page;
+import com.cmpl.web.core.models.QPage;
+import com.querydsl.core.types.Predicate;
 
 public class PageDAOImpl extends BaseDAOImpl<Page> implements PageDAO {
 
@@ -25,5 +27,11 @@ public class PageDAOImpl extends BaseDAOImpl<Page> implements PageDAO {
   @Override
   public List<Page> getPages(Sort sort) {
     return pageRepository.findAll(sort);
+  }
+
+  @Override
+  protected Predicate computeSearchPredicate(String query) {
+    QPage qPage = QPage.page;
+    return qPage.name.containsIgnoreCase(query).or(qPage.menuTitle.containsIgnoreCase(query));
   }
 }

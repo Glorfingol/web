@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -51,9 +52,9 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
     ModelAndView stylesManager = super.computeModelAndViewForBackPage(BACK_PAGE.STYLES_VIEW, locale);
     LOGGER.info("Construction des styles pour la page {} ", BACK_PAGE.STYLES_VIEW.name());
 
-    PageWrapper<StyleDTO> pagedStyleDTOWrapped = computePageWrapper(locale, pageNumber);
+    PageWrapper<StyleDTO> pagedStyleDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
-    stylesManager.addObject("wrappedStyles", pagedStyleDTOWrapped);
+    stylesManager.addObject("wrappedEntities", pagedStyleDTOWrapped);
 
     return stylesManager;
 
@@ -112,12 +113,24 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
   }
 
   @Override
-  protected Page<StyleDTO> computeEntries(Locale locale, int pageNumber) {
+  protected String getSearchUrl() {
+    return "/manager/styles/search";
+  }
+
+  @Override
+  protected Page<StyleDTO> computeEntries(Locale locale, int pageNumber, String query) {
     List<StyleDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
         new Sort(Direction.ASC, "name"));
-    Page<StyleDTO> pagedStyleDTOEntries = styleService.getPagedEntities(pageRequest);
+    Page<StyleDTO> pagedStyleDTOEntries;
+    if (StringUtils.hasText(query)) {
+      pagedStyleDTOEntries = styleService.searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
+          query);
+    } else {
+      pagedStyleDTOEntries = styleService
+          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+    }
     if (CollectionUtils.isEmpty(pagedStyleDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
     }

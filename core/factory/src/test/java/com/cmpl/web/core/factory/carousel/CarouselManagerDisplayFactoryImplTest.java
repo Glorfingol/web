@@ -159,7 +159,7 @@ public class CarouselManagerDisplayFactoryImplTest {
     PageImpl<CarouselDTO> page = new PageImpl<>(carousels);
     BDDMockito.given(carouselService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(page);
 
-    Page<CarouselDTO> result = displayFactory.computeEntries(Locale.FRANCE, 1);
+    Page<CarouselDTO> result = displayFactory.computeEntries(Locale.FRANCE, 1, "");
     Assert.assertEquals(6, result.getTotalElements());
   }
 
@@ -170,7 +170,7 @@ public class CarouselManagerDisplayFactoryImplTest {
     PageImpl<CarouselDTO> page = new PageImpl<>(carousels);
     BDDMockito.given(carouselService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(page);
 
-    Page<CarouselDTO> result = displayFactory.computeEntries(Locale.FRANCE, 1);
+    Page<CarouselDTO> result = displayFactory.computeEntries(Locale.FRANCE, 1, "");
     Assert.assertTrue(CollectionUtils.isEmpty(result.getContent()));
   }
 
@@ -183,10 +183,11 @@ public class CarouselManagerDisplayFactoryImplTest {
 
     String pageLabel = "Page 1";
 
-    BDDMockito.doReturn(page).when(displayFactory).computeEntries(BDDMockito.any(Locale.class), BDDMockito.anyInt());
+    BDDMockito.doReturn(page).when(displayFactory).computeEntries(BDDMockito.any(Locale.class), BDDMockito.anyInt(),
+        BDDMockito.anyString());
     BDDMockito.doReturn(pageLabel).when(displayFactory).getI18nValue(BDDMockito.anyString(),
         BDDMockito.any(Locale.class), BDDMockito.anyInt(), BDDMockito.anyInt());
-    PageWrapper<CarouselDTO> wrapper = displayFactory.computePageWrapper(Locale.FRANCE, 1);
+    PageWrapper<CarouselDTO> wrapper = displayFactory.computePageWrapper(Locale.FRANCE, 1, "");
 
     Assert.assertEquals(0, wrapper.getCurrentPageNumber());
     Assert.assertTrue(wrapper.isFirstPage());
@@ -202,7 +203,7 @@ public class CarouselManagerDisplayFactoryImplTest {
 
     PageWrapper<CarouselDTO> pagedCarouselDTOWrapped = new PageWrapperBuilder<CarouselDTO>().build();
     BDDMockito.doReturn(pagedCarouselDTOWrapped).when(displayFactory).computePageWrapper(BDDMockito.any(Locale.class),
-        BDDMockito.anyInt());
+        BDDMockito.anyInt(), BDDMockito.anyString());
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));

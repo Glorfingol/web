@@ -25,4 +25,6 @@ public interface BackDisplayFactory {
 
   ModelAndView computeModelAndViewForMembership(String entityId);
 
+  ModelAndView computeModelAndViewForAllEntitiesTab(Locale locale, int pageNumber, String query);
+
 }

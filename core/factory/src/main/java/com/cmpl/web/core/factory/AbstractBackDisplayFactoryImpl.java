@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
@@ -24,8 +25,8 @@ public abstract class AbstractBackDisplayFactoryImpl<T> extends BackDisplayFacto
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
   }
 
-  public PageWrapper<T> computePageWrapper(Locale locale, int pageNumber) {
-    Page<T> pagedDTOEntries = computeEntries(locale, pageNumber);
+  public PageWrapper<T> computePageWrapper(Locale locale, int pageNumber, String query) {
+    Page<T> pagedDTOEntries = computeEntries(locale, pageNumber, query);
 
     boolean isFirstPage = pagedDTOEntries.isFirst();
     boolean isLastPage = pagedDTOEntries.isLast();
@@ -38,6 +39,24 @@ public abstract class AbstractBackDisplayFactoryImpl<T> extends BackDisplayFacto
         .pageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages)).build();
   }
 
+  @Override
+  public ModelAndView computeModelAndViewForAllEntitiesTab(Locale locale, int pageNumber, String query) {
+    ModelAndView model = new ModelAndView(getViewAllTemplate());
+
+    model.addObject("wrappedEntities", computePageWrapper(locale, pageNumber, query));
+    model.addObject("searchUrl", getSearchUrl());
+    return model;
+  }
+
+  @Override
+  public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
+
+    ModelAndView model = super.computeModelAndViewForBackPage(backPage, locale);
+    model.addObject("searchUrl", getSearchUrl());
+
+    return model;
+  }
+
   protected abstract String getBaseUrl();
 
   protected abstract String getItemLink();
@@ -46,9 +65,15 @@ public abstract class AbstractBackDisplayFactoryImpl<T> extends BackDisplayFacto
     return getBaseUrl() + "/_create";
   }
 
+  protected String getViewAllTemplate() {
+    return "common/back_items_table";
+  }
+
+  protected abstract String getSearchUrl();
+
   protected abstract String getCreateItemPrivilege();
 
-  protected abstract Page<T> computeEntries(Locale locale, int pageNumber);
+  protected abstract Page<T> computeEntries(Locale locale, int pageNumber, String query);
 
   protected boolean canAddBreadCrumbItem(BreadCrumb breadCrumb, BreadCrumbItem item) {
     for (BreadCrumbItem itemFromModel : breadCrumb.getItems()) {

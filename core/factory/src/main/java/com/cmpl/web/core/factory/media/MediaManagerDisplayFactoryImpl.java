@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -44,9 +45,9 @@ public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
     ModelAndView pagesManager = super.computeModelAndViewForBackPage(BACK_PAGE.MEDIA_VIEW, locale);
     LOGGER.info("Construction des medias pour la page {}", BACK_PAGE.MEDIA_VIEW.name());
 
-    PageWrapper<MediaDTO> pagedMediaDTOWrapped = computePageWrapper(locale, pageNumber);
+    PageWrapper<MediaDTO> pagedMediaDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
-    pagesManager.addObject("wrappedMedias", pagedMediaDTOWrapped);
+    pagesManager.addObject("wrappedEntities", pagedMediaDTOWrapped);
 
     return pagesManager;
   }
@@ -70,11 +71,16 @@ public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
   }
 
   @Override
-  protected Page<MediaDTO> computeEntries(Locale locale, int pageNumber) {
+  protected Page<MediaDTO> computeEntries(Locale locale, int pageNumber, String query) {
     List<MediaDTO> mediaEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
-    Page<MediaDTO> pagedMediaDTOEntries = mediaService.getPagedEntities(pageRequest);
+    Page<MediaDTO> pagedMediaDTOEntries;
+    if (StringUtils.hasText(query)) {
+      pagedMediaDTOEntries = mediaService.searchEntities(pageRequest, query);
+    } else {
+      pagedMediaDTOEntries = mediaService.getPagedEntities(pageRequest);
+    }
     if (CollectionUtils.isEmpty(pagedMediaDTOEntries.getContent())) {
       return new PageImpl<>(mediaEntries);
     }
@@ -109,5 +115,10 @@ public class MediaManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
   @Override
   protected String getCreateItemLink() {
     return getBaseUrl() + "/_upload";
+  }
+
+  @Override
+  protected String getSearchUrl() {
+    return "/manager/medias/search";
   }
 }

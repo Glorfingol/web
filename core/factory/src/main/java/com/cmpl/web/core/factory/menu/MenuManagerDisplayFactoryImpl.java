@@ -1,6 +1,10 @@
 package com.cmpl.web.core.factory.menu;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -8,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -19,7 +24,11 @@ import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.membership.MembershipService;
-import com.cmpl.web.core.menu.*;
+import com.cmpl.web.core.menu.MenuCreateForm;
+import com.cmpl.web.core.menu.MenuCreateFormBuilder;
+import com.cmpl.web.core.menu.MenuDTO;
+import com.cmpl.web.core.menu.MenuService;
+import com.cmpl.web.core.menu.MenuUpdateForm;
 import com.cmpl.web.core.page.BACK_PAGE;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
@@ -33,7 +42,6 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   private static final String CREATE_FORM = "createForm";
   private static final String UPDATE_FORM = "updateForm";
-  private static final String WRAPPED_MENUS = "wrappedMenus";
   private static final String MENUS_PARENTS = "menusThatCanBeParents";
   private static final String PAGES_LINKABLE = "pagesThatCanBeLinkedTo";
 
@@ -55,9 +63,9 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_VIEW, locale);
     LOGGER.info("Construction des menus pour la page {}", BACK_PAGE.MENUS_VIEW.name());
 
-    PageWrapper<MenuDTO> pagedPageDTOWrapped = computePageWrapper(locale, pageNumber);
+    PageWrapper<MenuDTO> pagedPageDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
-    menusManager.addObject(WRAPPED_MENUS, pagedPageDTOWrapped);
+    menusManager.addObject("wrappedEntities", pagedPageDTOWrapped);
 
     return menusManager;
   }
@@ -123,11 +131,18 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
-  protected Page<MenuDTO> computeEntries(Locale locale, int pageNumber) {
+  protected Page<MenuDTO> computeEntries(Locale locale, int pageNumber, String query) {
     List<MenuDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
-    Page<MenuDTO> pagedMenuDTOEntries = menuService.getPagedEntities(pageRequest);
+    Page<MenuDTO> pagedMenuDTOEntries;
+    if (StringUtils.hasText(query)) {
+      pagedMenuDTOEntries = menuService.searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
+          query);
+    } else {
+      pagedMenuDTOEntries = menuService
+          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+    }
     if (CollectionUtils.isEmpty(pagedMenuDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
     }
@@ -145,6 +160,11 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   protected String getItemLink() {
     return "/manager/menus/";
+  }
+
+  @Override
+  protected String getSearchUrl() {
+    return "/manager/menus/search";
   }
 
   @Override

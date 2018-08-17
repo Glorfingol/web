@@ -26,10 +26,12 @@ import com.cmpl.web.core.models.QMembership;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 
-public class BaseDAOImpl<ENTITY extends BaseEntity> extends QuerydslRepositorySupport implements BaseDAO<ENTITY> {
+public abstract class BaseDAOImpl<ENTITY extends BaseEntity> extends QuerydslRepositorySupport
+    implements BaseDAO<ENTITY> {
 
   private final BaseRepository<ENTITY> entityRepository;
   private final ApplicationEventPublisher publisher;
@@ -68,7 +70,7 @@ public class BaseDAOImpl<ENTITY extends BaseEntity> extends QuerydslRepositorySu
   @Override
   public void deleteEntity(Long id) {
     ENTITY deletedEntity = entityRepository.getOne(id);
-    publisher.publishEvent(new DeletedEvent<ENTITY>(this, deletedEntity));
+    publisher.publishEvent(new DeletedEvent<>(this, deletedEntity));
     entityRepository.delete(deletedEntity);
   }
 
@@ -82,7 +84,7 @@ public class BaseDAOImpl<ENTITY extends BaseEntity> extends QuerydslRepositorySu
     return entityRepository.findAll(getSecuredPredicate(), pageRequest);
   }
 
-  private Predicate getSecuredPredicate() {
+  protected Predicate getSecuredPredicate() {
     return getAllPredicate(entityClass);
   }
 
@@ -124,6 +126,13 @@ public class BaseDAOImpl<ENTITY extends BaseEntity> extends QuerydslRepositorySu
 
   @Override
   public Page<ENTITY> searchEntities(PageRequest pageRequest, String query) {
-    return null;
+
+    BooleanExpression securedPredicate = (BooleanExpression) getSecuredPredicate();
+    Predicate searchPredicate = securedPredicate == null ? computeSearchPredicate(query)
+        : securedPredicate.and(computeSearchPredicate(query));
+
+    return entityRepository.findAll(searchPredicate, pageRequest);
   }
+
+  protected abstract Predicate computeSearchPredicate(String query);
 }

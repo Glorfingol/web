@@ -61,6 +61,16 @@ public class StyleManagerController {
     return displayFactory.computeModelAndViewForViewAllStyles(locale, computePageNumberFromRequest(pageNumber));
   }
 
+  @GetMapping(value = "/search")
+  @PreAuthorize("hasAuthority('webmastering:styles:read')")
+  public ModelAndView printSearchStyles(@RequestParam(name = "p", required = false) Integer pageNumber,
+      @RequestParam(name = "q") String query, Locale locale) {
+
+    int pageNumberToUse = computePageNumberFromRequest(pageNumber);
+    LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_VIEW.name());
+    return displayFactory.computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+  }
+
   @GetMapping(value = "/_create")
   @PreAuthorize("hasAuthority('administration:groups:create')")
   public ModelAndView printCreateStyle(Locale locale) {

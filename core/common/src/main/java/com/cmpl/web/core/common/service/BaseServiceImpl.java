@@ -2,6 +2,7 @@ package com.cmpl.web.core.common.service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -53,17 +54,17 @@ public class BaseServiceImpl<DTO extends BaseDTO, ENTITY extends BaseEntity> imp
 
   @Override
   public List<DTO> getEntities() {
-    return mapper.toListDTO(dao.getEntities());
+    return dao.getEntities().stream().map(mapper::toDTO).collect(Collectors.toList());
   }
 
   @Override
   public Page<DTO> getPagedEntities(PageRequest pageRequest) {
-    return mapper.toPageDTO(dao.getPagedEntities(pageRequest), pageRequest);
+    return dao.getPagedEntities(pageRequest).map(mapper::toDTO);
   }
 
   @Override
   public Page<DTO> searchEntities(PageRequest pageRequest, String query) {
-    return mapper.toPageDTO(dao.searchEntities(pageRequest, query), pageRequest);
+    return dao.searchEntities(pageRequest, query).map(mapper::toDTO);
   }
 
 }

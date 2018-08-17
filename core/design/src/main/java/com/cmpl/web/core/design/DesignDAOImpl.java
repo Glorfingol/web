@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.Design;
+import com.querydsl.core.types.Predicate;
 
 public class DesignDAOImpl extends BaseDAOImpl<Design> implements DesignDAO {
 
@@ -29,5 +30,10 @@ public class DesignDAOImpl extends BaseDAOImpl<Design> implements DesignDAO {
   @Override
   public Design findByWebsiteIdAndStyleId(Long websiteId, Long styleId) {
     return designRepository.findByWebsiteIdAndStyleId(websiteId, styleId);
+  }
+
+  @Override
+  protected Predicate computeSearchPredicate(String query) {
+    throw new UnsupportedOperationException();
   }
 }

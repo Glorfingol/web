@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.Membership;
+import com.querydsl.core.types.Predicate;
 
 public class MembershipDAOImpl extends BaseDAOImpl<Membership> implements MembershipDAO {
 
@@ -24,5 +25,10 @@ public class MembershipDAOImpl extends BaseDAOImpl<Membership> implements Member
   @Override
   public Membership findByEntityIdAndGroupId(Long entityId, Long groupId) {
     return entityRepository.findByEntityIdAndGroupId(entityId, groupId);
+  }
+
+  @Override
+  protected Predicate computeSearchPredicate(String query) {
+    throw new UnsupportedOperationException();
   }
 }

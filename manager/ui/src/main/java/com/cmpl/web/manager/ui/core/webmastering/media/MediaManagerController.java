@@ -75,6 +75,16 @@ public class MediaManagerController {
     return mediaManagerDisplayFactory.computeModelAndViewForViewAllMedias(locale, pageNumberToUse);
   }
 
+  @GetMapping(value = "/search")
+  @PreAuthorize("hasAuthority('webmastering:media:read')")
+  public ModelAndView printSearchMedias(@RequestParam(name = "p", required = false) Integer pageNumber,
+      @RequestParam(name = "q") String query, Locale locale) {
+
+    int pageNumberToUse = computePageNumberFromRequest(pageNumber);
+    LOGGER.info("Accès à la page " + BACK_PAGE.MEDIA_VIEW.name());
+    return mediaManagerDisplayFactory.computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+  }
+
   int computePageNumberFromRequest(Integer pageNumber) {
     if (pageNumber == null) {
       return 0;

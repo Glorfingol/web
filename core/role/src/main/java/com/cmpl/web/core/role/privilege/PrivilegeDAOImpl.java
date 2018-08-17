@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.Privilege;
+import com.querydsl.core.types.Predicate;
 
 public class PrivilegeDAOImpl extends BaseDAOImpl<Privilege> implements PrivilegeDAO {
 
@@ -19,5 +20,10 @@ public class PrivilegeDAOImpl extends BaseDAOImpl<Privilege> implements Privileg
   @Override
   public List<Privilege> findByRoleId(String roleId) {
     return privilegeRepository.findByRoleId(roleId);
+  }
+
+  @Override
+  protected Predicate computeSearchPredicate(String query) {
+    throw new UnsupportedOperationException();
   }
 }

@@ -77,20 +77,27 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     ModelAndView pagesManager = super.computeModelAndViewForBackPage(BACK_PAGE.PAGES_VIEW, locale);
     LOGGER.info("Construction des pages pour la page {}", BACK_PAGE.PAGES_VIEW.name());
 
-    PageWrapper<PageDTO> pagedPageDTOWrapped = computePageWrapper(locale, pageNumber);
+    PageWrapper<PageDTO> pagedPageDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
-    pagesManager.addObject("wrappedPages", pagedPageDTOWrapped);
+    pagesManager.addObject("wrappedEntities", pagedPageDTOWrapped);
 
     return pagesManager;
   }
 
   @Override
-  protected Page<PageDTO> computeEntries(Locale locale, int pageNumber) {
+  protected Page<PageDTO> computeEntries(Locale locale, int pageNumber, String query) {
     List<PageDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
         new Sort(Direction.ASC, "name"));
     Page<PageDTO> pagedPageDTOEntries = pageService.getPagedEntities(pageRequest);
+    if (StringUtils.hasText(query)) {
+      pagedPageDTOEntries = pageService.searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
+          query);
+    } else {
+      pagedPageDTOEntries = pageService
+          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+    }
     if (CollectionUtils.isEmpty(pagedPageDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
     }
@@ -296,6 +303,11 @@ public class PageManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   protected String getItemLink() {
     return "/manager/pages/";
+  }
+
+  @Override
+  protected String getSearchUrl() {
+    return "/manager/pages/search";
   }
 
   @Override

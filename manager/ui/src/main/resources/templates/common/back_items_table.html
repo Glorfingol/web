@@ -1,21 +1,21 @@
-<div class="card mb-4" th:fragment="itemsTable(wrappedBeans)">
+<div class="card mb-4">
   <div class="card-body">
     <div class="row">
       <div class="col">
         <div class="pull-right ">
           <a class="btn btn-md btn-primary fa fa-plus fa-white"
-             th:href="@{ ${wrappedBeans.createItemLink}}"
+             th:href="@{ ${wrappedEntities.createItemLink}}"
              id="buttonAdd"
-             th:if="${currentUser.hasPrivilege(wrappedBeans.createItemPrivilege)}"></a>
+             th:if="${currentUser.hasPrivilege(wrappedEntities.createItemPrivilege)}"></a>
         </div>
       </div>
     </div>
     <div class="row mt-2">
       <table class="table table-bordered table-hover">
         <tbody>
-        <tr th:each="bean : ${wrappedBeans.page.content}">
+        <tr th:each="bean : ${wrappedEntities.page.content}">
           <td>
-            <a th:href="${wrappedBeans.itemLink + bean.id}" class="table-link"
+            <a th:href="${wrappedEntities.itemLink + bean.id}" class="table-link"
                th:switch="${bean.class.name}">
 
               <div class="full-width" th:case="${'com.cmpl.web.core.user.UserDTO'}"
@@ -42,6 +42,6 @@
         </tbody>
       </table>
     </div>
-    <div th:replace="common/back_pagination :: pagination(${wrappedBeans})"/>
+    <div th:replace="common/back_pagination :: pagination(${wrappedEntities})"/>
   </div>
 </div>

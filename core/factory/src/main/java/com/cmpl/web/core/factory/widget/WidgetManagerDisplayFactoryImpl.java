@@ -72,9 +72,9 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
     ModelAndView widgetsManager = super.computeModelAndViewForBackPage(BACK_PAGE.WIDGET_VIEW, locale);
     LOGGER.info("Construction des widgets pour la page {} ", BACK_PAGE.WIDGET_VIEW.name());
 
-    PageWrapper<WidgetDTO> pagedWidgetDTOWrapped = computePageWrapper(locale, pageNumber);
+    PageWrapper<WidgetDTO> pagedWidgetDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
-    widgetsManager.addObject("wrappedWidgets", pagedWidgetDTOWrapped);
+    widgetsManager.addObject("wrappedEntities", pagedWidgetDTOWrapped);
 
     return widgetsManager;
   }
@@ -173,12 +173,25 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
   }
 
   @Override
-  protected Page<WidgetDTO> computeEntries(Locale locale, int pageNumber) {
+  protected String getSearchUrl() {
+    return "/manager/widgets/search";
+  }
+
+  @Override
+  protected Page<WidgetDTO> computeEntries(Locale locale, int pageNumber, String query) {
     List<WidgetDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
         new Sort(Direction.ASC, "name"));
-    Page<WidgetDTO> pagedWidgetDTOEntries = widgetService.getPagedEntities(pageRequest);
+    Page<WidgetDTO> pagedWidgetDTOEntries;
+    if (StringUtils.hasText(query)) {
+      pagedWidgetDTOEntries = widgetService
+          .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()), query);
+    } else {
+      pagedWidgetDTOEntries = widgetService
+          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+    }
+
     if (CollectionUtils.isEmpty(pagedWidgetDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
     }

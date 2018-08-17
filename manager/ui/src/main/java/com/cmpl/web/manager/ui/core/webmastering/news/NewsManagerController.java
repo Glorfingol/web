@@ -77,6 +77,16 @@ public class NewsManagerController {
     return newsManagerDisplayFactory.computeModelAndViewForBackPage(locale, pageNumberToUse);
   }
 
+  @GetMapping(value = "/search")
+  @PreAuthorize("hasAuthority('webmastering:news:read')")
+  public ModelAndView printSearchNews(@RequestParam(name = "p", required = false) Integer pageNumber,
+      @RequestParam(name = "q") String query, Locale locale) {
+
+    int pageNumberToUse = computePageNumberFromRequest(pageNumber);
+    LOGGER.info("Accès à la page " + BACK_PAGE.NEWS_VIEW.name());
+    return newsManagerDisplayFactory.computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+  }
+
   /**
    * Mapping pour la creation d'une NewsEntry
    * 

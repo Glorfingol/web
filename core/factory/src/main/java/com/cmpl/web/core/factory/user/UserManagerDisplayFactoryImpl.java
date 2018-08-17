@@ -1,6 +1,10 @@
 package com.cmpl.web.core.factory.user;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -10,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -60,9 +65,9 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     ModelAndView usersManager = super.computeModelAndViewForBackPage(BACK_PAGE.USER_VIEW, locale);
     LOGGER.info("Construction des users pour la page {} ", BACK_PAGE.USER_VIEW.name());
 
-    PageWrapper<UserDTO> pagedUserDTOWrapped = computePageWrapper(locale, pageNumber);
+    PageWrapper<UserDTO> pagedUserDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
-    usersManager.addObject("wrappedUsers", pagedUserDTOWrapped);
+    usersManager.addObject("wrappedEntities", pagedUserDTOWrapped);
 
     return usersManager;
   }
@@ -129,12 +134,19 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
-  protected Page<UserDTO> computeEntries(Locale locale, int pageNumber) {
+  protected Page<UserDTO> computeEntries(Locale locale, int pageNumber, String query) {
     List<UserDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
         new Sort(Direction.ASC, "login"));
-    Page<UserDTO> pagedUserDTOEntries = userService.getPagedEntities(pageRequest);
+    Page<UserDTO> pagedUserDTOEntries;
+    if (StringUtils.hasText(query)) {
+      pagedUserDTOEntries = userService.searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
+          query);
+    } else {
+      pagedUserDTOEntries = userService
+          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+    }
     if (CollectionUtils.isEmpty(pagedUserDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
     }
@@ -152,6 +164,11 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   protected String getItemLink() {
     return "/manager/users/";
+  }
+
+  @Override
+  protected String getSearchUrl() {
+    return "/manager/users/search";
   }
 
   @Override

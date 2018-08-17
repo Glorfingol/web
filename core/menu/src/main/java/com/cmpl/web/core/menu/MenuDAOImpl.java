@@ -7,6 +7,8 @@ import org.springframework.data.domain.Sort;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.Menu;
+import com.cmpl.web.core.models.QMenu;
+import com.querydsl.core.types.Predicate;
 
 public class MenuDAOImpl extends BaseDAOImpl<Menu> implements MenuDAO {
 
@@ -27,4 +29,9 @@ public class MenuDAOImpl extends BaseDAOImpl<Menu> implements MenuDAO {
     return menuRepository.findByParentId(parentId);
   }
 
+  @Override
+  protected Predicate computeSearchPredicate(String query) {
+    QMenu qMenu = QMenu.menu;
+    return qMenu.label.containsIgnoreCase(query).or(qMenu.title.containsIgnoreCase(query));
+  }
 }

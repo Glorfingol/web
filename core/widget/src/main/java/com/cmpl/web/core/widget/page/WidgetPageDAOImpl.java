@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.WidgetPage;
+import com.querydsl.core.types.Predicate;
 
 public class WidgetPageDAOImpl extends BaseDAOImpl<WidgetPage> implements WidgetPageDAO {
 
@@ -29,5 +30,10 @@ public class WidgetPageDAOImpl extends BaseDAOImpl<WidgetPage> implements Widget
   @Override
   public WidgetPage findByPageIdAndWidgetId(String pageId, String widgetId) {
     return widgetPageRepository.findByPageIdAndWidgetId(pageId, widgetId);
+  }
+
+  @Override
+  protected Predicate computeSearchPredicate(String query) {
+    throw new UnsupportedOperationException();
   }
 }

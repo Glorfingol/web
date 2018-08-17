@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -50,9 +51,9 @@ public class GroupManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
     ModelAndView groupsManager = super.computeModelAndViewForBackPage(BACK_PAGE.GROUP_VIEW, locale);
     LOGGER.info("Construction des groupes pour la page {} ", BACK_PAGE.GROUP_VIEW.name());
 
-    PageWrapper<GroupDTO> pagedGroupDTOWrapped = computePageWrapper(locale, pageNumber);
+    PageWrapper<GroupDTO> pagedGroupDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
-    groupsManager.addObject("wrappedGroups", pagedGroupDTOWrapped);
+    groupsManager.addObject("wrappedEntities", pagedGroupDTOWrapped);
 
     return groupsManager;
   }
@@ -110,12 +111,19 @@ public class GroupManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
   }
 
   @Override
-  protected Page<GroupDTO> computeEntries(Locale locale, int pageNumber) {
+  protected Page<GroupDTO> computeEntries(Locale locale, int pageNumber, String query) {
     List<GroupDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
         new Sort(Direction.ASC, "name"));
-    Page<GroupDTO> pagedGroupDTOEntries = groupService.getPagedEntities(pageRequest);
+    Page<GroupDTO> pagedGroupDTOEntries;
+    if (StringUtils.hasText(query)) {
+      pagedGroupDTOEntries = groupService.searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
+          query);
+    } else {
+      pagedGroupDTOEntries = groupService
+          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+    }
     if (CollectionUtils.isEmpty(pagedGroupDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
     }
@@ -133,5 +141,10 @@ public class GroupManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
   @Override
   protected String getCreateItemLink() {
     return getBaseUrl() + "/_create";
+  }
+
+  @Override
+  protected String getSearchUrl() {
+    return "/manager/groups/search";
   }
 }

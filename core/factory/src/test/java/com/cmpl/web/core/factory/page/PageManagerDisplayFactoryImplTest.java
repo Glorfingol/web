@@ -195,7 +195,7 @@ public class PageManagerDisplayFactoryImplTest {
         .pageLabel("someLabel").build();
 
     BDDMockito.doReturn(wrapper).when(displayFactory).computePageWrapper(BDDMockito.any(Locale.class),
-        BDDMockito.anyInt());
+        BDDMockito.anyInt(), BDDMockito.anyString());
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
     BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
@@ -215,7 +215,7 @@ public class PageManagerDisplayFactoryImplTest {
     PageImpl<PageDTO> page = new PageImpl<>(pages);
     BDDMockito.given(pageService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(page);
 
-    Page<PageDTO> result = displayFactory.computeEntries(Locale.FRANCE, 1);
+    Page<PageDTO> result = displayFactory.computeEntries(Locale.FRANCE, 1, "");
     Assert.assertEquals(6, result.getTotalElements());
   }
 
@@ -227,7 +227,7 @@ public class PageManagerDisplayFactoryImplTest {
     PageImpl<PageDTO> page = new PageImpl<>(pages);
     BDDMockito.given(pageService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(page);
 
-    Page<PageDTO> result = displayFactory.computeEntries(Locale.FRANCE, 1);
+    Page<PageDTO> result = displayFactory.computeEntries(Locale.FRANCE, 1, "");
     Assert.assertTrue(CollectionUtils.isEmpty(result.getContent()));
   }
 
@@ -241,10 +241,11 @@ public class PageManagerDisplayFactoryImplTest {
 
     String pageLabel = "Page 1";
 
-    BDDMockito.doReturn(page).when(displayFactory).computeEntries(BDDMockito.any(Locale.class), BDDMockito.anyInt());
+    BDDMockito.doReturn(page).when(displayFactory).computeEntries(BDDMockito.any(Locale.class), BDDMockito.anyInt(),
+        BDDMockito.anyString());
     BDDMockito.doReturn(pageLabel).when(displayFactory).getI18nValue(BDDMockito.anyString(),
         BDDMockito.any(Locale.class), BDDMockito.anyInt(), BDDMockito.anyInt());
-    PageWrapper<PageDTO> wrapper = displayFactory.computePageWrapper(Locale.FRANCE, 1);
+    PageWrapper<PageDTO> wrapper = displayFactory.computePageWrapper(Locale.FRANCE, 1, "");
 
     Assert.assertEquals(0, wrapper.getCurrentPageNumber());
     Assert.assertTrue(wrapper.isFirstPage());

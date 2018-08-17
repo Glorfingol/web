@@ -157,7 +157,7 @@ public class NewsManagerDisplayFactoryImplTest {
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(href).when(displayFactory).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(pageWrapper).when(displayFactory).computePageWrapper(BDDMockito.eq(Locale.FRANCE),
-        BDDMockito.anyInt());
+        BDDMockito.anyInt(), BDDMockito.anyString());
 
     ModelAndView result = displayFactory.computeModelAndViewForBackPage(Locale.FRANCE, 0);
 
@@ -167,7 +167,7 @@ public class NewsManagerDisplayFactoryImplTest {
         BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(displayFactory, BDDMockito.times(1)).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(displayFactory, BDDMockito.times(1)).computePageWrapper(BDDMockito.eq(Locale.FRANCE),
-        BDDMockito.anyInt());
+        BDDMockito.anyInt(), BDDMockito.anyString());
   }
 
   @Test

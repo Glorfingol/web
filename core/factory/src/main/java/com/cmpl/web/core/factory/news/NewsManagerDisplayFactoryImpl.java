@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -63,9 +64,9 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     ModelAndView newsManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, locale);
     LOGGER.info("Construction des entrées de blog pour la page {}", BACK_PAGE.NEWS_VIEW.name());
 
-    PageWrapper<NewsEntryDTO> pagedNewsWrapped = computePageWrapper(locale, pageNumber);
+    PageWrapper<NewsEntryDTO> pagedNewsWrapped = computePageWrapper(locale, pageNumber, null);
 
-    newsManager.addObject("wrappedNews", pagedNewsWrapped);
+    newsManager.addObject("wrappedEntities", pagedNewsWrapped);
 
     return newsManager;
   }
@@ -80,10 +81,16 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
-  protected Page<NewsEntryDTO> computeEntries(Locale locale, int pageNumber) {
+  protected Page<NewsEntryDTO> computeEntries(Locale locale, int pageNumber, String query) {
 
-    Page<NewsEntryDTO> pagedNewsEntries = newsEntryService
-        .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+    Page<NewsEntryDTO> pagedNewsEntries;
+    if (StringUtils.hasText(query)) {
+      pagedNewsEntries = newsEntryService.searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
+          query);
+    } else {
+      pagedNewsEntries = newsEntryService
+          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+    }
     if (CollectionUtils.isEmpty(pagedNewsEntries.getContent())) {
       return new PageImpl<>(new ArrayList<>());
     }
@@ -181,6 +188,11 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   protected String getItemLink() {
     return "/manager/news/";
+  }
+
+  @Override
+  protected String getSearchUrl() {
+    return "/manager/news/search";
   }
 
   @Override

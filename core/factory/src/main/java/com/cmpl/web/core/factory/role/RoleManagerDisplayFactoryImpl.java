@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
@@ -65,9 +66,9 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     ModelAndView rolesManager = super.computeModelAndViewForBackPage(BACK_PAGE.ROLE_VIEW, locale);
     LOGGER.info("Construction des roles pour la page {} ", BACK_PAGE.ROLE_VIEW.name());
 
-    PageWrapper<RoleDTO> pagedRoleDTOWrapped = computePageWrapper(locale, pageNumber);
+    PageWrapper<RoleDTO> pagedRoleDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
-    rolesManager.addObject("wrappedRoles", pagedRoleDTOWrapped);
+    rolesManager.addObject("wrappedEntities", pagedRoleDTOWrapped);
 
     return rolesManager;
   }
@@ -174,12 +175,22 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   @Override
-  protected Page<RoleDTO> computeEntries(Locale locale, int pageNumber) {
+  protected String getSearchUrl() {
+    return "/manager/roles/search";
+  }
+
+  @Override
+  protected Page<RoleDTO> computeEntries(Locale locale, int pageNumber, String query) {
     List<RoleDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
         new Sort(Direction.ASC, "name"));
-    Page<RoleDTO> pagedRoleDTOEntries = roleService.getPagedEntities(pageRequest);
+    Page<RoleDTO> pagedRoleDTOEntries;
+    if (StringUtils.hasText(query)) {
+      pagedRoleDTOEntries = roleService.searchEntities(pageRequest, query);
+    } else {
+      pagedRoleDTOEntries = roleService.getPagedEntities(pageRequest);
+    }
     if (CollectionUtils.isEmpty(pagedRoleDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
     }
