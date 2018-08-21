@@ -23,10 +23,11 @@
     }
   });
 
-  function reloadWidget(widgetName, pageNumber) {
+  function reloadWidget(widgetName, pageNumber, query) {
     var widgetDiv = $("#widget_" + widgetName);
     if (widgetDiv) {
-      var url = "/widgets/" + widgetName + "?pageName=" + pageName + "&p=" + pageNumber;
+      var url = "/widgets/" + widgetName + "?pageName=" + pageName + "&p=" + pageNumber + "&q="
+          + query;
       $.get(url, function (data) {
         widgetDiv.html(data);
       });

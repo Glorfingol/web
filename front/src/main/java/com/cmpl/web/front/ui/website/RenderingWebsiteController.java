@@ -26,11 +26,25 @@ public class RenderingWebsiteController {
   public ModelAndView printWebsitePage(@PathVariable(value = "websiteName") String websiteName,
       @PathVariable(value = "pageName") String pageName,
       @RequestParam(name = "p", required = false) Integer pageNumber,
+      @RequestParam(name = "q", required = false) String query,
       Locale locale) {
 
     LOGGER.info("Accès à la page {0} du site {1}", pageName, websiteName);
     return displayFactory.computeModelAndViewForWebsitePage(websiteName, pageName, locale,
-        computePageNumberFromRequest(pageNumber));
+        computePageNumberFromRequest(pageNumber), query);
+
+  }
+
+  @GetMapping(value = "/sites/{websiteName}/amp/{pageName}")
+  public ModelAndView printWebsiteAMPPage(@PathVariable(value = "websiteName") String websiteName,
+      @PathVariable(value = "pageName") String pageName,
+      @RequestParam(name = "p", required = false) Integer pageNumber,
+      @RequestParam(name = "q", required = false) String query,
+      Locale locale) {
+
+    LOGGER.info("Accès à la page {0} du site {1}", pageName, websiteName);
+    return displayFactory.computeModelAndViewForWebsiteAMP(websiteName, pageName, locale,
+        computePageNumberFromRequest(pageNumber), query);
 
   }
 

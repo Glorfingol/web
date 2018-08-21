@@ -119,15 +119,15 @@ public class GroupManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryIm
     List<GroupDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        new Sort(Direction.ASC, "name"));
+        Sort.by(Direction.ASC, "name"));
     Page<GroupDTO> pagedGroupDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedGroupDTOEntries = groupService
-          .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
+          .searchEntities(pageRequest,
               query);
     } else {
       pagedGroupDTOEntries = groupService
-          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+          .getPagedEntities(pageRequest);
     }
     if (CollectionUtils.isEmpty(pagedGroupDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);

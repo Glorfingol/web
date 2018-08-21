@@ -138,7 +138,7 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
 
   @Override
   public List<PageDTO> getPages() {
-    return mapper.toListDTO(pageDAO.getPages(new Sort(Direction.ASC, "name")));
+    return mapper.toListDTO(pageDAO.getPages(Sort.by(Direction.ASC, "name")));
   }
 
   @Override

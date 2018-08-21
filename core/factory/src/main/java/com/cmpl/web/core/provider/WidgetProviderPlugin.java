@@ -12,7 +12,7 @@ import org.springframework.plugin.core.Plugin;
 public interface WidgetProviderPlugin extends Plugin<String> {
 
   Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName,
-      int pageNumber);
+      int pageNumber, String query);
 
   List<? extends BaseDTO> getLinkableEntities();
 

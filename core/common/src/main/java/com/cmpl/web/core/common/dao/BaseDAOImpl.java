@@ -77,7 +77,7 @@ public abstract class BaseDAOImpl<ENTITY extends BaseEntity> extends QuerydslRep
   @Override
   public List<ENTITY> getEntities() {
     return Lists.newArrayList(
-        entityRepository.findAll(getSecuredPredicate(), new Sort(Direction.ASC, "creationDate")));
+        entityRepository.findAll(getSecuredPredicate(), Sort.by(Direction.ASC, "creationDate")));
   }
 
   @Override

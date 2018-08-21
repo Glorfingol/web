@@ -18,13 +18,11 @@ import java.util.Locale;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.web.servlet.ModelAndView;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DisplayFactoryImplTest {
@@ -96,28 +94,5 @@ public class DisplayFactoryImplTest {
     Assert.assertEquals("test_fr", displayFactory.computePageContent(page, Locale.FRANCE));
   }
 
-  @Test
-  public void testComputeModelAndViewForPage_Without_News() throws Exception {
-    PageDTO page = PageDTOBuilder.create().id(123456789l).build();
-
-    BDDMockito.given(pageService.getPageByName(BDDMockito.anyString(), BDDMockito.anyString()))
-        .willReturn(page);
-
-    BDDMockito.doReturn("test_footer_fr").when(displayFactory)
-        .computePageFooter(BDDMockito.any(PageDTO.class),
-            BDDMockito.any(Locale.class));
-    BDDMockito.doReturn("test_header_fr").when(displayFactory)
-        .computePageHeader(BDDMockito.any(PageDTO.class),
-            BDDMockito.any(Locale.class));
-
-    ModelAndView result = displayFactory.computeModelAndViewForPage("somePage", Locale.FRANCE, 0);
-
-    Assert.assertEquals("test_footer_fr", result.getModel().get("footerTemplate"));
-    Assert.assertEquals("test_header_fr", result.getModel().get("header"));
-
-    Assert.assertNull(result.getModel().get("wrappedNews"));
-    Assert.assertNull(result.getModel().get("emptyMessage"));
-
-  }
 
 }

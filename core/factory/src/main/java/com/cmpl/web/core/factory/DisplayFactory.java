@@ -10,22 +10,16 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public interface DisplayFactory {
 
-  /**
-   * Creer le model and view correspondant a la page front du site
-   */
-  ModelAndView computeModelAndViewForPage(String pageName, Locale locale, int pageNumber);
-
-  ModelAndView computeModelAndViewForAMP(String pageName, Locale locale, int pageNumber);
 
   ModelAndView computeModelAndViewForBlogEntry(String blogEntryId, String widgetId, Locale locale);
 
   ModelAndView computeModelAndViewForWidget(String widgetName, Locale locale, int pageNumber,
-      String pageId);
+      String pageId, String query);
 
   ModelAndView computeModelAndViewForWebsitePage(String websiteName, String pageName, Locale locale,
-      int pageNumber);
+      int pageNumber, String query);
 
   ModelAndView computeModelAndViewForWebsiteAMP(String websiteName, String pageName, Locale locale,
-      int pageNumber);
+      int pageNumber, String query);
 
 }

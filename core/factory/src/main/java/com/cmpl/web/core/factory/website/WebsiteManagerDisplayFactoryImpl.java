@@ -182,14 +182,14 @@ public class WebsiteManagerDisplayFactoryImpl extends AbstractBackDisplayFactory
     List<WebsiteDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        new Sort(Sort.Direction.ASC, "name"));
+        Sort.by(Sort.Direction.ASC, "name"));
     Page<WebsiteDTO> pagedWebsiteDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedWebsiteDTOEntries = websiteService
-          .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()), query);
+          .searchEntities(pageRequest, query);
     } else {
       pagedWebsiteDTOEntries = websiteService
-          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+          .getPagedEntities(pageRequest);
     }
     if (CollectionUtils.isEmpty(pagedWebsiteDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);

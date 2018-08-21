@@ -23,7 +23,7 @@ public class BlogEntryWidgetProvider implements WidgetProviderPlugin {
 
   @Override
   public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName,
-      int pageNumber) {
+      int pageNumber, String query) {
     Map<String, Object> widgetModel = new HashMap<>();
 
     String newsEntryId = widget.getEntityId();

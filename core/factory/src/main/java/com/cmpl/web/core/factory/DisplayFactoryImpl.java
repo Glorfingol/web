@@ -76,72 +76,6 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
   }
 
-  @Override
-  public ModelAndView computeModelAndViewForPage(String pageName, Locale locale, int pageNumber) {
-    LOGGER.debug("Construction de la page  {}", pageName);
-
-    PageDTO page = pageService.getPageByName(pageName, locale.getLanguage());
-    if (page.getId() == null) {
-      return new ModelAndView("404");
-    }
-
-    ModelAndView model = new ModelAndView("decorator");
-    model.addObject("content", computePageContent(page, locale));
-    LOGGER.debug("Construction du footer pour la page  {}", pageName);
-    model.addObject("footerTemplate", computePageFooter(page, locale));
-    LOGGER.debug("Construction du header pour la page  {}", pageName);
-    model.addObject("header", computePageHeader(page, locale));
-    LOGGER.debug("Construction de la meta pour la page  {}", pageName);
-    model.addObject("meta", computePageMeta(page, locale));
-
-    LOGGER.debug("Construction des widgets pour la page {}", pageName);
-    List<WidgetPageDTO> widgetPageDTOS = widgetPageService
-        .findByPageId(String.valueOf(page.getId()));
-    List<String> widgetIds = widgetPageDTOS.stream()
-        .map(widgetPageDTO -> widgetPageDTO.getWidgetId())
-        .collect(Collectors.toList());
-    List<String> widgetAsynchronousNames = widgetIds.stream()
-        .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId)))
-        .filter(widget -> widget.isAsynchronous())
-        .map(widget -> widget.getName()).collect(Collectors.toList());
-
-    List<WidgetDTO> synchronousWidgets = widgetIds.stream()
-        .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId), locale.getLanguage()))
-        .filter(widget -> !widget.isAsynchronous()).collect(Collectors.toList());
-
-    synchronousWidgets.forEach(widget -> {
-
-      Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale, pageName);
-      if (!CollectionUtils.isEmpty(widgetModel)) {
-        widgetModel.forEach((key, value) -> model.addObject(key, value));
-      }
-
-      model.addObject("widget_" + widget.getName(), computeWidgetTemplate(widget, locale));
-
-    });
-
-    model.addObject("pageNumber", pageNumber);
-    model.addObject("widgetNames", widgetAsynchronousNames);
-
-    LOGGER.debug("Page {} prête", pageName);
-
-    return model;
-
-  }
-
-  @Override
-  public ModelAndView computeModelAndViewForAMP(String pageName, Locale locale, int pageNumber) {
-    LOGGER.debug("Construction de la page amp {}", pageName);
-
-    PageDTO page = pageService.getPageByName(pageName, locale.getLanguage());
-
-    ModelAndView model = new ModelAndView("decorator_amp");
-    model.addObject("amp_content", computePageAMPContent(page, locale));
-
-    LOGGER.debug("Page {} prête", pageName);
-
-    return model;
-  }
 
   @Override
   public ModelAndView computeModelAndViewForBlogEntry(String newsEntryId, String widgetId,
@@ -162,7 +96,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
   @Override
   public ModelAndView computeModelAndViewForWidget(String widgetName, Locale locale, int pageNumber,
-      String pageName) {
+      String pageName, String query) {
 
     LOGGER.debug("Construction du wiget {}", widgetName);
 
@@ -171,7 +105,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     model.addObject("pageNumber", pageNumber);
 
-    Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale, pageName);
+    Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale, pageName,
+        query);
     if (!CollectionUtils.isEmpty(widgetModel)) {
       widgetModel.forEach((key, value) -> model.addObject(key, value));
     }
@@ -185,8 +120,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
   @Override
   public ModelAndView computeModelAndViewForWebsitePage(String websiteName, String pageName,
-      Locale locale,
-      int pageNumber) {
+      Locale locale, int pageNumber, String query) {
 
     LOGGER.debug("Construction de la page  {0} pour le site {1}", pageName, websiteName);
     WebsiteDTO websiteDTO = websiteService.getWebsiteByName(websiteName);
@@ -235,7 +169,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
     synchronousWidgets.forEach(widget -> {
 
-      Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale, pageName);
+      Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale, pageName,
+          query);
       if (!CollectionUtils.isEmpty(widgetModel)) {
         widgetModel.forEach((key, value) -> model.addObject(key, value));
       }
@@ -255,8 +190,7 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
 
   @Override
   public ModelAndView computeModelAndViewForWebsiteAMP(String websiteName, String pageName,
-      Locale locale,
-      int pageNumber) {
+      Locale locale, int pageNumber, String query) {
     LOGGER.debug("Construction de la page amp {0} pour le site {1}", pageName, websiteName);
 
     WebsiteDTO websiteDTO = websiteService.getWebsiteByName(websiteName);
@@ -308,10 +242,10 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   }
 
   Map<String, Object> computeWidgetModel(WidgetDTO widget, int pageNumber, Locale locale,
-      String pageName) {
+      String pageName, String query) {
 
     WidgetProviderPlugin widgetProvider = widgetProviders.getPluginFor(widget.getType());
-    return widgetProvider.computeWidgetModel(widget, locale, pageName, pageNumber);
+    return widgetProvider.computeWidgetModel(widget, locale, pageName, pageNumber, query);
 
   }
 

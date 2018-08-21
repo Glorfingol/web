@@ -90,14 +90,14 @@ public class CarouselManagerDisplayFactoryImpl extends AbstractBackDisplayFactor
     List<CarouselDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        new Sort(Direction.ASC, "name"));
+        Sort.by(Direction.ASC, "name"));
     Page<CarouselDTO> pagedCarouselDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedCarouselDTOEntries = carouselService
-          .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()), query);
+          .searchEntities(pageRequest, query);
     } else {
       pagedCarouselDTOEntries = carouselService
-          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+          .getPagedEntities(pageRequest);
     }
     if (CollectionUtils.isEmpty(pagedCarouselDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);

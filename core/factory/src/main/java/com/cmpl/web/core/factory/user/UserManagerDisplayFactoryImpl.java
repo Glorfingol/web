@@ -149,15 +149,15 @@ public class UserManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     List<UserDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        new Sort(Direction.ASC, "login"));
+        Sort.by(Direction.ASC, "login"));
     Page<UserDTO> pagedUserDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedUserDTOEntries = userService
-          .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
+          .searchEntities(pageRequest,
               query);
     } else {
       pagedUserDTOEntries = userService
-          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+          .getPagedEntities(pageRequest);
     }
     if (CollectionUtils.isEmpty(pagedUserDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);

@@ -198,7 +198,7 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     List<RoleDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        new Sort(Direction.ASC, "name"));
+        Sort.by(Direction.ASC, "name"));
     Page<RoleDTO> pagedRoleDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedRoleDTOEntries = roleService.searchEntities(pageRequest, query);

@@ -1,4 +1,13 @@
 <div class="newsEntries" id="newsEntries">
+  <div class="input-group mt-3 mb-3">
+    <input type="text" id="queryInput" class="form-control"
+           aria-describedby="addon">
+    <div class="input-group-append">
+      <btn class="btn input-group-text" id="addon" onclick="search()">
+        <i class="fa fa-search"></i>
+      </btn>
+    </div>
+  </div>
   <div th:each="newsBeanId : ${news}" th:id="${'ajaxNewsEntry_' + newsBeanId}" class="mt-3 mb-3">
     <div class="card card-loader" th:id="${'ajaxLoader_' + newsBeanId}">
       <div class="loader"></div>
@@ -19,7 +28,7 @@
     }
   });
 
-  function getNewsEntryData(id, widgetId) {
+  var getNewsEntryData = function (id, widgetId) {
     var loader = $("#ajaxLoader_" + id);
     var url = "/blog/entries/" + id + "?widgetId=" + widgetId;
     $.get(url, function (data) {
@@ -28,13 +37,13 @@
     });
   }
 
-  function goToPage(pageNumber) {
+  var goToPage = function (pageNumber) {
     var currentUrl = window.location.href;
     var newUrl = updateQueryStringParameter(currentUrl, "p", pageNumber);
     window.location.href = newUrl;
   }
 
-  function updateQueryStringParameter(uri, key, value) {
+  var updateQueryStringParameter = function (uri, key, value) {
     var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
     var separator = uri.indexOf('?') !== -1 ? "&" : "?";
     if (uri.match(re)) {
@@ -45,4 +54,11 @@
     }
   }
 
+  var search = function () {
+    var queryInput = $("#queryInput");
+    var queryValue = queryInput.val();
+    var widgetName = [[${widgetName}]];
+    var currentPage = [[${wrappedNews.currentPageNumber}]];
+    reloadWidget(widgetName, currentPage, queryValue);
+  }
 </script>

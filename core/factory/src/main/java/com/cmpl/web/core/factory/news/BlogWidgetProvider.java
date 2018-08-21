@@ -43,13 +43,13 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
 
   @Override
   public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName,
-      int pageNumber) {
+      int pageNumber, String query) {
     Map<String, Object> widgetModel = new HashMap<>();
 
     PageWrapper<NewsEntryDTO> pagedNewsWrapped = computePageWrapperOfNews(widget, locale,
         pageNumber);
 
-    List<NewsEntryDTO> entries = computeNewsEntriesForPage(pageNumber);
+    List<NewsEntryDTO> entries = computeNewsEntriesForPage(pageNumber, query);
     List<String> entriesIds = entries.stream().map(entry -> String.valueOf(entry.getId()))
         .collect(Collectors.toList());
     widgetModel.put("wrappedNews", pagedNewsWrapped);
@@ -97,10 +97,15 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
     return pagedNewsEntries;
   }
 
-  List<NewsEntryDTO> computeNewsEntriesForPage(int pageNumber) {
+  List<NewsEntryDTO> computeNewsEntriesForPage(int pageNumber, String query) {
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
-    Page<NewsEntryDTO> pagedNewsEntries = newsEntryService.getPagedEntities(pageRequest);
+    Page<NewsEntryDTO> pagedNewsEntries;
+    if (StringUtils.hasText(query)) {
+      pagedNewsEntries = newsEntryService.searchEntities(pageRequest, query);
+    } else {
+      pagedNewsEntries = newsEntryService.getPagedEntities(pageRequest);
+    }
 
     return pagedNewsEntries.getContent();
 

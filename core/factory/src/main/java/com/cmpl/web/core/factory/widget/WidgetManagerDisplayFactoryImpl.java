@@ -210,14 +210,14 @@ public class WidgetManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryI
     List<WidgetDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        new Sort(Direction.ASC, "name"));
+        Sort.by(Direction.ASC, "name"));
     Page<WidgetDTO> pagedWidgetDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedWidgetDTOEntries = widgetService
-          .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()), query);
+          .searchEntities(pageRequest, query);
     } else {
       pagedWidgetDTOEntries = widgetService
-          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+          .getPagedEntities(pageRequest);
     }
 
     if (CollectionUtils.isEmpty(pagedWidgetDTOEntries.getContent())) {

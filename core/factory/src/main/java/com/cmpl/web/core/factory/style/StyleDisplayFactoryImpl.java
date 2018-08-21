@@ -137,15 +137,15 @@ public class StyleDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<Styl
     List<StyleDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        new Sort(Direction.ASC, "name"));
+        Sort.by(Direction.ASC, "name"));
     Page<StyleDTO> pagedStyleDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedStyleDTOEntries = styleService
-          .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
+          .searchEntities(pageRequest,
               query);
     } else {
       pagedStyleDTOEntries = styleService
-          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+          .getPagedEntities(pageRequest);
     }
     if (CollectionUtils.isEmpty(pagedStyleDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);

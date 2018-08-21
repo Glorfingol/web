@@ -7,8 +7,6 @@ import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.front.ui.blog.BlogController;
 import com.cmpl.web.front.ui.index.IndexController;
 import com.cmpl.web.front.ui.media.MediaController;
-import com.cmpl.web.front.ui.page.AMPController;
-import com.cmpl.web.front.ui.page.PageController;
 import com.cmpl.web.front.ui.robot.RobotsController;
 import com.cmpl.web.front.ui.sitemap.RenderingSitemapController;
 import com.cmpl.web.front.ui.website.RenderingWebsiteController;
@@ -27,16 +25,6 @@ public class FrontControllerConfiguration {
   @Bean
   public MediaController frontMediaController(MediaService mediaService) {
     return new MediaController(mediaService);
-  }
-
-  @Bean
-  public PageController frontPageController(DisplayFactory displayFactory) {
-    return new PageController(displayFactory);
-  }
-
-  @Bean
-  public AMPController frontAMPController(DisplayFactory displayFactory) {
-    return new AMPController(displayFactory);
   }
 
   @Bean

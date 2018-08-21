@@ -55,7 +55,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDTO, Menu> implements M
   @Override
   @Cacheable(value = "listedMenus")
   public List<MenuDTO> getMenus() {
-    return computeMenus(menuDAO.getMenus(new Sort(Direction.ASC, "orderInMenu")));
+    return computeMenus(menuDAO.getMenus(Sort.by(Direction.ASC, "orderInMenu")));
   }
 
   MenuDTO computeMenuDTOToReturn(Menu menu) {

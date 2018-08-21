@@ -35,7 +35,7 @@ public class IndexController {
       Locale locale) {
 
     LOGGER.info("Accès à la page d'index");
-    return displayFactory.computeModelAndViewForWebsitePage(websiteName, "accueil", locale, 0);
+    return displayFactory.computeModelAndViewForWebsitePage(websiteName, "accueil", locale, 0, "");
   }
 
 }

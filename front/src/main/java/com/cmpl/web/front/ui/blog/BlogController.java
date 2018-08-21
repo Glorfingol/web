@@ -1,7 +1,6 @@
 package com.cmpl.web.front.ui.blog;
 
 import com.cmpl.web.core.factory.DisplayFactory;
-import com.cmpl.web.front.ui.page.PageController;
 import java.util.Locale;
 import java.util.Objects;
 import org.slf4j.Logger;
@@ -17,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/blog")
 public class BlogController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(PageController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(BlogController.class);
 
   private final DisplayFactory displayFactory;
 
