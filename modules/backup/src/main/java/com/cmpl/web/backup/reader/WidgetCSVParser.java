@@ -1,13 +1,11 @@
 package com.cmpl.web.backup.reader;
 
+import com.cmpl.web.backup.writer.DataManipulator;
+import com.cmpl.web.core.models.Widget;
 import java.lang.reflect.Field;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 import org.apache.commons.csv.CSVRecord;
-
-import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.models.Widget;
 
 public class WidgetCSVParser extends CommonParser<Widget> {
 

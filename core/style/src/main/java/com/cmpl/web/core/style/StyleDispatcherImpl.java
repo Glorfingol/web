@@ -1,15 +1,15 @@
 package com.cmpl.web.core.style;
 
+import com.cmpl.web.core.media.MediaDTO;
+import com.cmpl.web.core.media.MediaDTOBuilder;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.cmpl.web.core.media.MediaDTO;
-import com.cmpl.web.core.media.MediaDTOBuilder;
-
 public class StyleDispatcherImpl implements StyleDispatcher {
 
   private final StyleService styleService;
+
   private final StyleTranslator translator;
 
   public StyleDispatcherImpl(StyleService styleService, StyleTranslator translator) {
@@ -33,8 +33,10 @@ public class StyleDispatcherImpl implements StyleDispatcher {
   }
 
   private MediaDTO initMedia(String styleName) {
-    return MediaDTOBuilder.create().name(styleName + ".css").extension(".css").size(0l).contentType("text/css")
-        .src("/public/medias/" + styleName + ".css").id(Math.abs(UUID.randomUUID().getLeastSignificantBits())).build();
+    return MediaDTOBuilder.create().name(styleName + ".css").extension(".css").size(0l)
+        .contentType("text/css")
+        .src("/public/medias/" + styleName + ".css")
+        .id(Math.abs(UUID.randomUUID().getLeastSignificantBits())).build();
   }
 
   @Override

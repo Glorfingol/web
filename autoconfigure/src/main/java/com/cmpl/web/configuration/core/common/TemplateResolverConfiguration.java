@@ -1,13 +1,11 @@
 package com.cmpl.web.configuration.core.common;
 
+import com.cmpl.web.core.common.context.ContextHolder;
 import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
-
-import com.cmpl.web.core.common.context.ContextHolder;
 
 @Configuration
 public class TemplateResolverConfiguration {

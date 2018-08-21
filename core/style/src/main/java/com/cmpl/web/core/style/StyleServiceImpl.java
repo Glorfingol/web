@@ -1,16 +1,17 @@
 package com.cmpl.web.core.style;
 
-import java.util.Objects;
-
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.models.Style;
+import java.util.Objects;
 
 public class StyleServiceImpl extends BaseServiceImpl<StyleDTO, Style> implements StyleService {
 
   private final StyleDAO styleDAO;
+
   private final MediaService mediaService;
+
   private final FileService fileService;
 
   public StyleServiceImpl(StyleDAO styleDAO, StyleMapper styleMapper, MediaService mediaService,

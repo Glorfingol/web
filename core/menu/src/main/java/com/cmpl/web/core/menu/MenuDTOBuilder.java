@@ -1,17 +1,22 @@
 package com.cmpl.web.core.menu;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import java.util.List;
 
 public class MenuDTOBuilder extends BaseBuilder<MenuDTO> {
 
   private String title;
+
   private String label;
+
   private String href;
+
   private int orderInMenu;
+
   private String parentId;
+
   private String pageId;
+
   private List<MenuDTO> children;
 
   private MenuDTOBuilder() {

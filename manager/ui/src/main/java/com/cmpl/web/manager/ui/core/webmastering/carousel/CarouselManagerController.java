@@ -1,10 +1,18 @@
 package com.cmpl.web.manager.ui.core.webmastering.carousel;
 
+import com.cmpl.web.core.carousel.CarouselCreateForm;
+import com.cmpl.web.core.carousel.CarouselDispatcher;
+import com.cmpl.web.core.carousel.CarouselResponse;
+import com.cmpl.web.core.carousel.CarouselUpdateForm;
+import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
+import com.cmpl.web.core.carousel.item.CarouselItemResponse;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
+import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
+import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
 import java.util.Locale;
 import java.util.Objects;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,18 +30,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.carousel.CarouselCreateForm;
-import com.cmpl.web.core.carousel.CarouselDispatcher;
-import com.cmpl.web.core.carousel.CarouselResponse;
-import com.cmpl.web.core.carousel.CarouselUpdateForm;
-import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
-import com.cmpl.web.core.carousel.item.CarouselItemResponse;
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.common.notification.NotificationCenter;
-import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
-
 @ManagerController
 @RequestMapping(value = "/manager/carousels")
 public class CarouselManagerController {
@@ -41,8 +37,11 @@ public class CarouselManagerController {
   private static final Logger LOGGER = LoggerFactory.getLogger(CarouselManagerController.class);
 
   private final CarouselDispatcher carouselDispatcher;
+
   private final CarouselManagerDisplayFactory carouselDisplayFactory;
+
   private final NotificationCenter notificationCenter;
+
   private final WebMessageSource messageSource;
 
   public CarouselManagerController(CarouselDispatcher carouselDispatcher,
@@ -56,22 +55,23 @@ public class CarouselManagerController {
 
   @GetMapping
   @PreAuthorize("hasAuthority('webmastering:carousels:read')")
-  public ModelAndView printViewCarousels(@RequestParam(name = "p", required = false) Integer pageNumber,
+  public ModelAndView printViewCarousels(
+      @RequestParam(name = "p", required = false) Integer pageNumber,
       Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
-    LOGGER.info("Accès à la page " + BACK_PAGE.CAROUSELS_VIEW.name());
     return carouselDisplayFactory.computeModelAndViewForViewAllCarousels(locale, pageNumberToUse);
   }
 
   @GetMapping(value = "/search")
   @PreAuthorize("hasAuthority('webmastering:carousels:read')")
-  public ModelAndView printSearchCarousel(@RequestParam(name = "p", required = false) Integer pageNumber,
+  public ModelAndView printSearchCarousel(
+      @RequestParam(name = "p", required = false) Integer pageNumber,
       @RequestParam(name = "q") String query, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
-    LOGGER.info("Accès à la page " + BACK_PAGE.CAROUSELS_VIEW.name());
-    return carouselDisplayFactory.computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+    return carouselDisplayFactory
+        .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -92,7 +92,8 @@ public class CarouselManagerController {
   @PostMapping
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:carousels:create')")
-  public ResponseEntity<CarouselResponse> createCarousel(@Valid @RequestBody CarouselCreateForm createForm,
+  public ResponseEntity<CarouselResponse> createCarousel(
+      @Valid @RequestBody CarouselCreateForm createForm,
       BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de création d'un carousel");
@@ -106,7 +107,8 @@ public class CarouselManagerController {
 
       LOGGER.info("Entrée crée, id " + response.getCarousel().getId());
 
-      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("create.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
@@ -119,7 +121,8 @@ public class CarouselManagerController {
   @PutMapping(value = "/{carouselId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:carousels:write')")
-  public ResponseEntity<CarouselResponse> updateCarousel(@Valid @RequestBody CarouselUpdateForm updateForm,
+  public ResponseEntity<CarouselResponse> updateCarousel(
+      @Valid @RequestBody CarouselUpdateForm updateForm,
       BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un carousel");
@@ -133,12 +136,14 @@ public class CarouselManagerController {
 
       LOGGER.info("Entrée modifiée, id " + response.getCarousel().getId());
 
-      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("update.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("update.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -146,31 +151,30 @@ public class CarouselManagerController {
 
   @GetMapping(value = "/{carouselId}")
   @PreAuthorize("hasAuthority('webmastering:carousels:read')")
-  public ModelAndView printViewUpdateCarousel(@PathVariable(value = "carouselId") String carouselId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.CAROUSELS_VIEW.name() + " pour " + carouselId);
+  public ModelAndView printViewUpdateCarousel(@PathVariable(value = "carouselId") String carouselId,
+      Locale locale) {
     return carouselDisplayFactory.computeModelAndViewForUpdateCarousel(locale, carouselId);
   }
 
   @GetMapping(value = "/{carouselId}/_main")
   @PreAuthorize("hasAuthority('webmastering:carousels:read')")
-  public ModelAndView printViewUpdateCarouselMain(@PathVariable(value = "carouselId") String carouselId) {
-    LOGGER
-        .info("Accès à la page " + BACK_PAGE.CAROUSELS_UPDATE.name() + " pour " + carouselId + " pour la partie main");
+  public ModelAndView printViewUpdateCarouselMain(
+      @PathVariable(value = "carouselId") String carouselId) {
     return carouselDisplayFactory.computeModelAndViewForUpdateCarouselMain(carouselId);
   }
 
   @GetMapping(value = "/{carouselId}/_items")
   @PreAuthorize("hasAuthority('webmastering:carousels:read')")
-  public ModelAndView printViewUpdateCarouselItems(@PathVariable(value = "carouselId") String carouselId) {
-    LOGGER
-        .info("Accès à la page " + BACK_PAGE.CAROUSELS_UPDATE.name() + " pour " + carouselId + " pour la partie items");
+  public ModelAndView printViewUpdateCarouselItems(
+      @PathVariable(value = "carouselId") String carouselId) {
     return carouselDisplayFactory.computeModelAndViewForUpdateCarouselItems(carouselId);
   }
 
   @PostMapping(value = "/{carouselId}/items")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:carousels:write')")
-  public ResponseEntity<CarouselItemResponse> createCarouselItem(@Valid @RequestBody CarouselItemCreateForm createForm,
+  public ResponseEntity<CarouselItemResponse> createCarouselItem(
+      @Valid @RequestBody CarouselItemCreateForm createForm,
       BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de création d'un élément de carousel");
@@ -184,12 +188,14 @@ public class CarouselManagerController {
 
       LOGGER.info("Entrée crée, id " + response.getItem().getId());
 
-      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("create.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -198,17 +204,20 @@ public class CarouselManagerController {
   @DeleteMapping(value = "/{carouselId}/items/{carouselItemId}")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:carousels:delete')")
-  public ResponseEntity<CarouselItemResponse> deleteCarouselItem(@PathVariable(value = "carouselId") String carouselId,
+  public ResponseEntity<CarouselItemResponse> deleteCarouselItem(
+      @PathVariable(value = "carouselId") String carouselId,
       @PathVariable(value = "carouselItemId") String carouselItemId, Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un élément de carousel");
     try {
       carouselDispatcher.deleteCarouselItemEntity(carouselId, carouselItemId, locale);
-      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("delete.success", locale));
       LOGGER.info("Element de carousel " + carouselItemId + " supprimé");
     } catch (Exception e) {
       LOGGER.error("Echec de la suppression de l'élément de carousel " + carouselItemId, e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return new ResponseEntity<>(HttpStatus.OK);
@@ -217,19 +226,22 @@ public class CarouselManagerController {
   @DeleteMapping(value = "/{carouselId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:carousels:delete')")
-  public ResponseEntity<CarouselResponse> deleteCarousel(@PathVariable(value = "carouselId") String carouselId,
+  public ResponseEntity<CarouselResponse> deleteCarousel(
+      @PathVariable(value = "carouselId") String carouselId,
       Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un Carousel");
 
     try {
       CarouselResponse response = carouselDispatcher.deleteEntity(carouselId, locale);
-      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("delete.success", locale));
       LOGGER.info("Carousel " + carouselId + " supprimée");
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       LOGGER.error("Erreur lors de la suppression du Carousel " + carouselId, e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -237,9 +249,8 @@ public class CarouselManagerController {
 
   @GetMapping(value = "/{carouselId}/_memberships")
   @PreAuthorize("hasAuthority('webmastering:carousels:read')")
-  public ModelAndView printViewUpdateCarouselMemberships(@PathVariable(value = "carouselId") String carouselId) {
-    LOGGER.info(
-        "Accès à la page " + BACK_PAGE.CAROUSELS_UPDATE.name() + " pour " + carouselId + " pour la partie memberships");
+  public ModelAndView printViewUpdateCarouselMemberships(
+      @PathVariable(value = "carouselId") String carouselId) {
     return carouselDisplayFactory.computeModelAndViewForMembership(carouselId);
   }
 }

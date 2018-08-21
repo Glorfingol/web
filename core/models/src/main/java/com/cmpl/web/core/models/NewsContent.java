@@ -4,13 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.hibernate.envers.Audited;
-
 /**
  * DAO NewsContent
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Entity(name = "newsContent")
 @Table(name = "news_content")

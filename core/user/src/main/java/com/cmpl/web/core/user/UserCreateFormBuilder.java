@@ -5,7 +5,9 @@ import com.cmpl.web.core.common.builder.Builder;
 public class UserCreateFormBuilder extends Builder<UserCreateForm> {
 
   private String login;
+
   private String email;
+
   private String description;
 
   private UserCreateFormBuilder() {

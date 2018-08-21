@@ -4,21 +4,29 @@ import org.springframework.social.facebook.api.Post.PostType;
 
 /**
  * Objet pour importer un post facebook via un WS REST
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class FacebookImportPost {
 
   private String author;
+
   private String title;
+
   private PostType type;
+
   private String description;
+
   private String photoUrl;
+
   private String videoUrl;
+
   private String linkUrl;
+
   private String facebookId;
+
   private String creationDate;
+
   private String objectId;
 
   public String getAuthor() {

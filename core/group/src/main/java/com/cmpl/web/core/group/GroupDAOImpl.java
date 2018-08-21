@@ -1,11 +1,10 @@
 package com.cmpl.web.core.group;
 
-import org.springframework.context.ApplicationEventPublisher;
-
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.BOGroup;
 import com.cmpl.web.core.models.QBOGroup;
 import com.querydsl.core.types.Predicate;
+import org.springframework.context.ApplicationEventPublisher;
 
 public class GroupDAOImpl extends BaseDAOImpl<BOGroup> implements GroupDAO {
 

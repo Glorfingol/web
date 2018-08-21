@@ -1,5 +1,16 @@
 package com.cmpl.web.facebook;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.media.MediaService;
+import com.cmpl.web.core.news.content.NewsContentDTO;
+import com.cmpl.web.core.news.content.NewsContentDTOBuilder;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
+import com.cmpl.web.core.news.entry.NewsEntryService;
+import com.cmpl.web.core.news.image.NewsImageDTO;
+import com.cmpl.web.core.news.image.NewsImageDTOBuilder;
+import com.google.api.client.util.IOUtils;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.file.Files;
@@ -7,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,18 +30,6 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.MediaOperations;
-
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.media.MediaService;
-import com.cmpl.web.core.news.content.NewsContentDTO;
-import com.cmpl.web.core.news.content.NewsContentDTOBuilder;
-import com.cmpl.web.core.news.entry.NewsEntryDTO;
-import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
-import com.cmpl.web.core.news.entry.NewsEntryService;
-import com.cmpl.web.core.news.image.NewsImageDTO;
-import com.cmpl.web.core.news.image.NewsImageDTOBuilder;
-import com.google.api.client.util.IOUtils;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FacebookImportServiceImplTest {
@@ -123,7 +121,8 @@ public class FacebookImportServiceImplTest {
 
     FacebookImportPost post = FacebookImportPostBuilder.create().objectId("123456789").build();
 
-    BDDMockito.doReturn(data).when(operations).getAlbumImage(BDDMockito.anyString(), BDDMockito.any(ImageType.class));
+    BDDMockito.doReturn(data).when(operations)
+        .getAlbumImage(BDDMockito.anyString(), BDDMockito.any(ImageType.class));
     BDDMockito.doReturn(operations).when(facebookAdapter).getMediaOperations();
 
     byte[] result = facebookImport.recoverImageBytes(post);
@@ -197,7 +196,8 @@ public class FacebookImportServiceImplTest {
 
   @Test
   public void testHasContent_True() throws Exception {
-    FacebookImportPost post = FacebookImportPostBuilder.create().description("someDescription").build();
+    FacebookImportPost post = FacebookImportPostBuilder.create().description("someDescription")
+        .build();
 
     boolean result = facebookImport.hasContent(post);
 
@@ -261,7 +261,8 @@ public class FacebookImportServiceImplTest {
     String content = "someContent";
     String linkUrl = "linkUrl";
     String videoUrl = "videoUrl";
-    FacebookImportPost post = FacebookImportPostBuilder.create().description(content).videoUrl(videoUrl)
+    FacebookImportPost post = FacebookImportPostBuilder.create().description(content)
+        .videoUrl(videoUrl)
         .linkUrl(linkUrl).build();
 
     NewsContentDTO result = facebookImport.computeNewsContentFromPost(post);
@@ -277,7 +278,8 @@ public class FacebookImportServiceImplTest {
     String legend = "someLegend";
     FacebookImportPost post = FacebookImportPostBuilder.create().build();
 
-    BDDMockito.doReturn(alt).when(facebookImport).computeAlt(BDDMockito.eq(post), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(alt).when(facebookImport)
+        .computeAlt(BDDMockito.eq(post), BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(legend).when(facebookImport).computeLegend(BDDMockito.eq(Locale.FRANCE));
     NewsImageDTO result = facebookImport.computeNewsImageFromPost(post, Locale.FRANCE);
 
@@ -292,14 +294,16 @@ public class FacebookImportServiceImplTest {
     String tags = "someTags";
     String title = "someTitle";
 
-    FacebookImportPost post = FacebookImportPostBuilder.create().facebookId(facebookId).author(author).build();
+    FacebookImportPost post = FacebookImportPostBuilder.create().facebookId(facebookId)
+        .author(author).build();
     NewsContentDTO content = NewsContentDTOBuilder.create().build();
     NewsImageDTO image = NewsImageDTOBuilder.create().build();
 
     BDDMockito.doReturn(tags).when(facebookImport).computeTags(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(title).when(facebookImport).computeTitle(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(true).when(facebookImport).hasContent(BDDMockito.eq(post));
-    BDDMockito.doReturn(content).when(facebookImport).computeNewsContentFromPost(BDDMockito.eq(post));
+    BDDMockito.doReturn(content).when(facebookImport)
+        .computeNewsContentFromPost(BDDMockito.eq(post));
     BDDMockito.doReturn(true).when(facebookImport).hasImage(BDDMockito.eq(post));
     BDDMockito.doReturn(image).when(facebookImport).computeNewsImageFromPost(BDDMockito.eq(post),
         BDDMockito.eq(Locale.FRANCE));
@@ -314,11 +318,15 @@ public class FacebookImportServiceImplTest {
     Assert.assertEquals(content, result.getNewsContent());
     Assert.assertEquals(image, result.getNewsImage());
 
-    BDDMockito.verify(facebookImport, BDDMockito.times(1)).computeTags(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.verify(facebookImport, BDDMockito.times(1)).computeTitle(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.verify(facebookImport, BDDMockito.times(1)).computeNewsContentFromPost(BDDMockito.eq(post));
-    BDDMockito.verify(facebookImport, BDDMockito.times(1)).computeNewsImageFromPost(BDDMockito.eq(post),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookImport, BDDMockito.times(1))
+        .computeTags(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookImport, BDDMockito.times(1))
+        .computeTitle(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookImport, BDDMockito.times(1))
+        .computeNewsContentFromPost(BDDMockito.eq(post));
+    BDDMockito.verify(facebookImport, BDDMockito.times(1))
+        .computeNewsImageFromPost(BDDMockito.eq(post),
+            BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(facebookImport, BDDMockito.times(1)).hasImage(BDDMockito.eq(post));
     BDDMockito.verify(facebookImport, BDDMockito.times(1)).hasContent(BDDMockito.eq(post));
 
@@ -332,13 +340,15 @@ public class FacebookImportServiceImplTest {
     String tags = "someTags";
     String title = "someTitle";
 
-    FacebookImportPost post = FacebookImportPostBuilder.create().facebookId(facebookId).author(author).build();
+    FacebookImportPost post = FacebookImportPostBuilder.create().facebookId(facebookId)
+        .author(author).build();
     NewsContentDTO content = NewsContentDTOBuilder.create().build();
 
     BDDMockito.doReturn(tags).when(facebookImport).computeTags(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(title).when(facebookImport).computeTitle(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(true).when(facebookImport).hasContent(BDDMockito.eq(post));
-    BDDMockito.doReturn(content).when(facebookImport).computeNewsContentFromPost(BDDMockito.eq(post));
+    BDDMockito.doReturn(content).when(facebookImport)
+        .computeNewsContentFromPost(BDDMockito.eq(post));
     BDDMockito.doReturn(false).when(facebookImport).hasImage(BDDMockito.eq(post));
 
     NewsEntryDTO result = facebookImport.convertPostToNewsEntry(post, Locale.FRANCE);
@@ -351,11 +361,15 @@ public class FacebookImportServiceImplTest {
     Assert.assertEquals(content, result.getNewsContent());
     Assert.assertNull(result.getNewsImage());
 
-    BDDMockito.verify(facebookImport, BDDMockito.times(1)).computeTags(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.verify(facebookImport, BDDMockito.times(1)).computeTitle(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.verify(facebookImport, BDDMockito.times(1)).computeNewsContentFromPost(BDDMockito.eq(post));
-    BDDMockito.verify(facebookImport, BDDMockito.times(0)).computeNewsImageFromPost(BDDMockito.eq(post),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookImport, BDDMockito.times(1))
+        .computeTags(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookImport, BDDMockito.times(1))
+        .computeTitle(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookImport, BDDMockito.times(1))
+        .computeNewsContentFromPost(BDDMockito.eq(post));
+    BDDMockito.verify(facebookImport, BDDMockito.times(0))
+        .computeNewsImageFromPost(BDDMockito.eq(post),
+            BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(facebookImport, BDDMockito.times(1)).hasImage(BDDMockito.eq(post));
     BDDMockito.verify(facebookImport, BDDMockito.times(1)).hasContent(BDDMockito.eq(post));
   }
@@ -368,7 +382,8 @@ public class FacebookImportServiceImplTest {
     String tags = "someTags";
     String title = "someTitle";
 
-    FacebookImportPost post = FacebookImportPostBuilder.create().facebookId(facebookId).author(author).build();
+    FacebookImportPost post = FacebookImportPostBuilder.create().facebookId(facebookId)
+        .author(author).build();
     NewsImageDTO image = NewsImageDTOBuilder.create().build();
 
     BDDMockito.doReturn(tags).when(facebookImport).computeTags(BDDMockito.eq(Locale.FRANCE));
@@ -388,11 +403,15 @@ public class FacebookImportServiceImplTest {
     Assert.assertEquals(image, result.getNewsImage());
     Assert.assertNull(result.getNewsContent());
 
-    BDDMockito.verify(facebookImport, BDDMockito.times(1)).computeTags(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.verify(facebookImport, BDDMockito.times(1)).computeTitle(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.verify(facebookImport, BDDMockito.times(0)).computeNewsContentFromPost(BDDMockito.eq(post));
-    BDDMockito.verify(facebookImport, BDDMockito.times(1)).computeNewsImageFromPost(BDDMockito.eq(post),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookImport, BDDMockito.times(1))
+        .computeTags(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookImport, BDDMockito.times(1))
+        .computeTitle(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookImport, BDDMockito.times(0))
+        .computeNewsContentFromPost(BDDMockito.eq(post));
+    BDDMockito.verify(facebookImport, BDDMockito.times(1))
+        .computeNewsImageFromPost(BDDMockito.eq(post),
+            BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(facebookImport, BDDMockito.times(1)).hasImage(BDDMockito.eq(post));
     BDDMockito.verify(facebookImport, BDDMockito.times(1)).hasContent(BDDMockito.eq(post));
   }
@@ -405,7 +424,8 @@ public class FacebookImportServiceImplTest {
     String tags = "someTags";
     String title = "someTitle";
 
-    FacebookImportPost post = FacebookImportPostBuilder.create().facebookId(facebookId).author(author).build();
+    FacebookImportPost post = FacebookImportPostBuilder.create().facebookId(facebookId)
+        .author(author).build();
 
     BDDMockito.doReturn(tags).when(facebookImport).computeTags(BDDMockito.eq(Locale.FRANCE));
     BDDMockito.doReturn(title).when(facebookImport).computeTitle(BDDMockito.eq(Locale.FRANCE));
@@ -422,11 +442,15 @@ public class FacebookImportServiceImplTest {
     Assert.assertNull(result.getNewsContent());
     Assert.assertNull(result.getNewsImage());
 
-    BDDMockito.verify(facebookImport, BDDMockito.times(1)).computeTags(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.verify(facebookImport, BDDMockito.times(1)).computeTitle(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.verify(facebookImport, BDDMockito.times(0)).computeNewsContentFromPost(BDDMockito.eq(post));
-    BDDMockito.verify(facebookImport, BDDMockito.times(0)).computeNewsImageFromPost(BDDMockito.eq(post),
-        BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookImport, BDDMockito.times(1))
+        .computeTags(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookImport, BDDMockito.times(1))
+        .computeTitle(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.verify(facebookImport, BDDMockito.times(0))
+        .computeNewsContentFromPost(BDDMockito.eq(post));
+    BDDMockito.verify(facebookImport, BDDMockito.times(0))
+        .computeNewsImageFromPost(BDDMockito.eq(post),
+            BDDMockito.eq(Locale.FRANCE));
     BDDMockito.verify(facebookImport, BDDMockito.times(1)).hasImage(BDDMockito.eq(post));
     BDDMockito.verify(facebookImport, BDDMockito.times(1)).hasContent(BDDMockito.eq(post));
   }
@@ -437,14 +461,17 @@ public class FacebookImportServiceImplTest {
     String facebookId = "123456789";
     String author = "someAuthor";
 
-    FacebookImportPost post = FacebookImportPostBuilder.create().facebookId(facebookId).author(author).build();
+    FacebookImportPost post = FacebookImportPostBuilder.create().facebookId(facebookId)
+        .author(author).build();
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().build();
 
-    BDDMockito.doReturn(newsEntry).when(newsEntryService).createEntity(BDDMockito.any(NewsEntryDTO.class));
+    BDDMockito.doReturn(newsEntry).when(newsEntryService)
+        .createEntity(BDDMockito.any(NewsEntryDTO.class));
     BDDMockito.doReturn(newsEntry).when(facebookImport).convertPostToNewsEntry(BDDMockito.eq(post),
         BDDMockito.eq(Locale.FRANCE));
 
-    List<NewsEntryDTO> result = facebookImport.importFacebookPost(Arrays.asList(post), Locale.FRANCE);
+    List<NewsEntryDTO> result = facebookImport
+        .importFacebookPost(Arrays.asList(post), Locale.FRANCE);
 
     Assert.assertTrue(result.size() == 1);
     Assert.assertEquals(newsEntry, result.get(0));

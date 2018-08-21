@@ -1,27 +1,25 @@
 package com.cmpl.web.core.common.filler;
 
+import com.cmpl.web.core.common.reflexion.CommonReflexion;
+import com.cmpl.web.core.common.reflexion.METHOD;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
-import com.cmpl.web.core.common.reflexion.CommonReflexion;
-import com.cmpl.web.core.common.reflexion.METHOD;
-
 /**
  * Implementation de l'interface permettant de remplir un objet destination avec un objet d'origine
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class ObjectReflexiveFillerImpl extends CommonReflexion implements ObjectReflexiveFiller {
 
   private Object origin;
+
   private Object destination;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ObjectReflexiveFillerImpl.class);
@@ -33,12 +31,9 @@ public class ObjectReflexiveFillerImpl extends CommonReflexion implements Object
 
   /**
    * Construteur definissant l'ogirine et la destination du transfert de valeurs
-   * 
-   * @param origin
-   * @param destination
-   * @return
    */
-  public static ObjectReflexiveFillerImpl fromOriginAndDestination(Object origin, Object destination) {
+  public static ObjectReflexiveFillerImpl fromOriginAndDestination(Object origin,
+      Object destination) {
     return new ObjectReflexiveFillerImpl(origin, destination);
   }
 
@@ -53,31 +48,40 @@ public class ObjectReflexiveFillerImpl extends CommonReflexion implements Object
       List<Field> originFields = getFields(origin.getClass());
       try {
         Method setterDestination = computeSetterDestination(destination, destinationField);
-        invokeDestinationSetterIfPossible(origin, destination, originFields, destinationField, setterDestination);
+        invokeDestinationSetterIfPossible(origin, destination, originFields, destinationField,
+            setterDestination);
       } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-        LOGGER.error("Impossible de remplir l'objet " + destination + " avec l'origine " + origin, e);
+        LOGGER
+            .error("Impossible de remplir l'objet " + destination + " avec l'origine " + origin, e);
       }
     });
   }
 
-  private Method computeSetterDestination(Object destination, Field destinationField) throws NoSuchMethodException {
-    return destination.getClass().getMethod(getSetterName(destinationField), destinationField.getType());
+  private Method computeSetterDestination(Object destination, Field destinationField)
+      throws NoSuchMethodException {
+    return destination.getClass()
+        .getMethod(getSetterName(destinationField), destinationField.getType());
   }
 
-  private void invokeDestinationSetterIfPossible(Object origin, Object destination, List<Field> originFields,
-      Field destinationField, Method setterDestination) throws NoSuchMethodException, IllegalAccessException,
+  private void invokeDestinationSetterIfPossible(Object origin, Object destination,
+      List<Field> originFields,
+      Field destinationField, Method setterDestination)
+      throws NoSuchMethodException, IllegalAccessException,
       InvocationTargetException {
 
-    Field originField = getCorrespondingOriginFieldForDestinationField(originFields, destinationField);
+    Field originField = getCorrespondingOriginFieldForDestinationField(originFields,
+        destinationField);
     if (canInvokeSetter(originField)) {
       Method getterOrigin = computeGetterOrigin(origin, originField);
       setterDestination.invoke(destination, getterOrigin.invoke(origin));
     }
   }
 
-  private Field getCorrespondingOriginFieldForDestinationField(List<Field> originFields, Field destinationField) {
+  private Field getCorrespondingOriginFieldForDestinationField(List<Field> originFields,
+      Field destinationField) {
     List<Field> correspondingFields = originFields.stream()
-        .filter(originField -> originField.getName().equals(destinationField.getName())).collect(Collectors.toList());
+        .filter(originField -> originField.getName().equals(destinationField.getName()))
+        .collect(Collectors.toList());
     if (CollectionUtils.isEmpty(correspondingFields)) {
       return null;
     }
@@ -88,7 +92,8 @@ public class ObjectReflexiveFillerImpl extends CommonReflexion implements Object
     return field != null;
   }
 
-  private Method computeGetterOrigin(Object origin, Field originField) throws NoSuchMethodException {
+  private Method computeGetterOrigin(Object origin, Field originField)
+      throws NoSuchMethodException {
     return origin.getClass().getMethod(getGetterName(originField));
   }
 
@@ -96,7 +101,7 @@ public class ObjectReflexiveFillerImpl extends CommonReflexion implements Object
     return getMethodName(METHOD.SETTER, field);
   }
 
-  private String getGetterName(Field field) { 
+  private String getGetterName(Field field) {
     if (boolean.class.equals(field.getType())) {
       return getMethodName(METHOD.BOOLEAN_GETTER, field);
     } else {
@@ -111,7 +116,8 @@ public class ObjectReflexiveFillerImpl extends CommonReflexion implements Object
 
     if (!field.isSynthetic()) {
       String fieldName = field.getName();
-      sb.append(fieldName.replaceFirst(fieldName.substring(0, 1), fieldName.substring(0, 1).toUpperCase()));
+      sb.append(fieldName
+          .replaceFirst(fieldName.substring(0, 1), fieldName.substring(0, 1).toUpperCase()));
     }
 
     return sb.toString();

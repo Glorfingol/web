@@ -1,11 +1,10 @@
 package com.cmpl.web.core.user;
 
-import org.springframework.context.ApplicationEventPublisher;
-
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.QUser;
 import com.cmpl.web.core.models.User;
 import com.querydsl.core.types.Predicate;
+import org.springframework.context.ApplicationEventPublisher;
 
 public class UserDAOImpl extends BaseDAOImpl<User> implements UserDAO {
 

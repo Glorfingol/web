@@ -3,9 +3,7 @@ package com.cmpl.web.core.common.error;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
@@ -15,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class BackErrorViewResolver implements ErrorViewResolver, Ordered {
 
   private int order = Ordered.LOWEST_PRECEDENCE;
+
   private final Map<Series, String> seriesView;
 
   public BackErrorViewResolver() {
@@ -30,7 +29,8 @@ public class BackErrorViewResolver implements ErrorViewResolver, Ordered {
   }
 
   @Override
-  public ModelAndView resolveErrorView(HttpServletRequest request, HttpStatus status, Map<String, Object> model) {
+  public ModelAndView resolveErrorView(HttpServletRequest request, HttpStatus status,
+      Map<String, Object> model) {
     ModelAndView modelAndView = resolve(String.valueOf(status), model);
     if (modelAndView == null && seriesView.containsKey(status.series())) {
       modelAndView = resolve(seriesView.get(status.series()), model);

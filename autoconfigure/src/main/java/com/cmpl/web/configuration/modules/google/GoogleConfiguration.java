@@ -1,21 +1,5 @@
 package com.cmpl.web.configuration.modules.google;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-
 import com.cmpl.web.google.DoNothingDriveAdapter;
 import com.cmpl.web.google.DriveAdapter;
 import com.cmpl.web.google.DriveAdapterImpl;
@@ -31,6 +15,20 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @PropertySource("classpath:/google/google.properties")
@@ -67,8 +65,10 @@ public class GoogleConfiguration {
 
   @Bean
   @ConditionalOnProperty(prefix = "drive.", name = "enabled")
-  public Drive driveService(HttpTransport httpTransport, JsonFactory jsonFactory, Credential credential) {
-    return new Drive.Builder(httpTransport, jsonFactory, credential).setApplicationName(applicationName).build();
+  public Drive driveService(HttpTransport httpTransport, JsonFactory jsonFactory,
+      Credential credential) {
+    return new Drive.Builder(httpTransport, jsonFactory, credential)
+        .setApplicationName(applicationName).build();
   }
 
   @Bean
@@ -81,13 +81,16 @@ public class GoogleConfiguration {
     List<String> scopes = new ArrayList<>();
     scopes.add(DriveScopes.DRIVE);
 
-    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, jsonFactory,
-        clientSecrets, scopes).setDataStoreFactory(fileDataStoreFactory).setAccessType("offline").build();
+    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport,
+        jsonFactory,
+        clientSecrets, scopes).setDataStoreFactory(fileDataStoreFactory).setAccessType("offline")
+        .build();
     return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
 
   }
 
-  GoogleClientSecrets googleClientSecrets(JsonFactory jsonFactory, InputStream in) throws IOException {
+  GoogleClientSecrets googleClientSecrets(JsonFactory jsonFactory, InputStream in)
+      throws IOException {
     return GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
   }
 

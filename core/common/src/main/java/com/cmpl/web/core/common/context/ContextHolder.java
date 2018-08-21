@@ -4,15 +4,17 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Holder des donnees de configuration globales de l'application
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class ContextHolder {
 
   private DateTimeFormatter dateFormat;
+
   private String templateBasePath;
+
   private int elementsPerPage;
+
   private String mediaBasePath;
 
   public DateTimeFormatter getDateFormat() {

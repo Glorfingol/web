@@ -1,23 +1,23 @@
 package com.cmpl.core.events_listeners;
 
-import java.util.Objects;
-
-import org.springframework.context.event.EventListener;
-import org.springframework.util.StringUtils;
-
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.models.BaseEntity;
 import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.news.content.NewsContentService;
 import com.cmpl.web.core.news.image.NewsImageDTO;
 import com.cmpl.web.core.news.image.NewsImageService;
+import java.util.Objects;
+import org.springframework.context.event.EventListener;
+import org.springframework.util.StringUtils;
 
 public class NewsEventsListeners {
 
   private final NewsContentService newsContentService;
+
   private final NewsImageService newsImageService;
 
-  public NewsEventsListeners(NewsContentService newsContentService, NewsImageService newsImageService) {
+  public NewsEventsListeners(NewsContentService newsContentService,
+      NewsImageService newsImageService) {
     this.newsContentService = Objects.requireNonNull(newsContentService);
     this.newsImageService = Objects.requireNonNull(newsImageService);
   }

@@ -2,20 +2,17 @@ package com.cmpl.web.core.models;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
-
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
 /**
  * Objet DAO commun
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @MappedSuperclass
 public abstract class BaseEntity {
@@ -39,7 +36,8 @@ public abstract class BaseEntity {
   private String modificationUser;
 
   /**
-   * S'assure que les elements not nullable commun sont renseignes (id, creationDate, modificationDate)
+   * S'assure que les elements not nullable commun sont renseignes (id, creationDate,
+   * modificationDate)
    */
   @PrePersist
   public void ensureFields() {

@@ -1,22 +1,22 @@
 package com.cmpl.web.core.user.validation;
 
-import java.util.Objects;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import com.cmpl.web.core.common.user.ActionToken;
 import com.cmpl.web.core.common.user.ActionTokenService;
 import com.cmpl.web.core.user.ChangePasswordForm;
 import com.cmpl.web.core.user.UserDTO;
 import com.cmpl.web.core.user.UserService;
+import java.util.Objects;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class PasswordDifferentValidator implements ConstraintValidator<PasswordDifferent, ChangePasswordForm> {
+public class PasswordDifferentValidator implements
+    ConstraintValidator<PasswordDifferent, ChangePasswordForm> {
 
   private final ActionTokenService tokenService;
+
   private final UserService userService;
+
   private final PasswordEncoder passwordEncoder;
 
   public PasswordDifferentValidator(UserService userService, ActionTokenService tokenService,

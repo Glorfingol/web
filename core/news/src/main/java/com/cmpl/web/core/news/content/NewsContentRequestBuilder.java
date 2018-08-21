@@ -1,16 +1,20 @@
 package com.cmpl.web.core.news.content;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.time.LocalDateTime;
 
 public class NewsContentRequestBuilder extends Builder<NewsContentRequest> {
 
   private String content;
+
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
 
   private NewsContentRequestBuilder() {

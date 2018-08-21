@@ -1,11 +1,11 @@
 package com.cmpl.web.core.role.privilege;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.models.Privilege;
+import java.util.List;
 
-public class PrivilegeServiceImpl extends BaseServiceImpl<PrivilegeDTO, Privilege> implements PrivilegeService {
+public class PrivilegeServiceImpl extends BaseServiceImpl<PrivilegeDTO, Privilege> implements
+    PrivilegeService {
 
   private final PrivilegeDAO privilegeDAO;
 

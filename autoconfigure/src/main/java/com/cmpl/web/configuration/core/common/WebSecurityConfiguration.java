@@ -1,8 +1,18 @@
 package com.cmpl.web.configuration.core.common;
 
+import com.cmpl.web.core.common.user.ActionTokenService;
+import com.cmpl.web.core.common.user.ActionTokenServiceImpl;
+import com.cmpl.web.core.common.user.StatelessSecretTokenService;
+import com.cmpl.web.core.user.UserService;
+import com.cmpl.web.manager.ui.core.administration.user.LastConnectionUpdateAuthenticationSuccessHandlerImpl;
+import com.cmpl.web.manager.ui.core.common.security.AuthenticationFailureListener;
+import com.cmpl.web.manager.ui.core.common.security.AuthenticationSuccessListener;
+import com.cmpl.web.manager.ui.core.common.security.LoginAttemptsService;
+import com.cmpl.web.manager.ui.core.common.security.LoginAttemptsServiceImpl;
+import com.cmpl.web.manager.ui.core.common.security.LoginAuthenticationProvider;
+import com.cmpl.web.manager.ui.core.common.security.PasswordTooOldInterceptor;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -23,23 +33,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.cmpl.web.core.common.user.ActionTokenService;
-import com.cmpl.web.core.common.user.ActionTokenServiceImpl;
-import com.cmpl.web.core.common.user.StatelessSecretTokenService;
-import com.cmpl.web.core.user.UserService;
-import com.cmpl.web.manager.ui.core.administration.user.LastConnectionUpdateAuthenticationSuccessHandlerImpl;
-import com.cmpl.web.manager.ui.core.common.security.AuthenticationFailureListener;
-import com.cmpl.web.manager.ui.core.common.security.AuthenticationSuccessListener;
-import com.cmpl.web.manager.ui.core.common.security.LoginAttemptsService;
-import com.cmpl.web.manager.ui.core.common.security.LoginAttemptsServiceImpl;
-import com.cmpl.web.manager.ui.core.common.security.LoginAuthenticationProvider;
-import com.cmpl.web.manager.ui.core.common.security.PasswordTooOldInterceptor;
-
 /**
  * Configuration de la securite
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Configuration
 @EnableWebSecurity
@@ -70,7 +67,8 @@ public class WebSecurityConfiguration {
   }
 
   @Bean
-  public AuthenticationFailureListener authenticationFailureListener(LoginAttemptsService loginAttemptService) {
+  public AuthenticationFailureListener authenticationFailureListener(
+      LoginAttemptsService loginAttemptService) {
     return new AuthenticationFailureListener(loginAttemptService);
   }
 
@@ -80,12 +78,14 @@ public class WebSecurityConfiguration {
   }
 
   @Bean
-  public AuthenticationSuccessListener authenticationSuccessListener(LoginAttemptsService loginAttemptService) {
+  public AuthenticationSuccessListener authenticationSuccessListener(
+      LoginAttemptsService loginAttemptService) {
     return new AuthenticationSuccessListener(loginAttemptService);
   }
 
   @Bean
-  public LoginAuthenticationProvider loginAuthenticationProvider(UserDetailsService dbUserDetailsService,
+  public LoginAuthenticationProvider loginAuthenticationProvider(
+      UserDetailsService dbUserDetailsService,
       PasswordEncoder passwordEncoder, LoginAttemptsService userLoginAttemptsService) {
 
     LoginAuthenticationProvider provider = new LoginAuthenticationProvider(dbUserDetailsService,
@@ -106,16 +106,20 @@ public class WebSecurityConfiguration {
     try {
       return SecureRandom.getInstance("SHA1PRNG");
     } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Can't find the SHA1PRNG algorithm for generating random numbers", e);
+      throw new RuntimeException("Can't find the SHA1PRNG algorithm for generating random numbers",
+          e);
     }
   }
 
   @Configuration
   public static class LoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+
     public final LoginAuthenticationProvider loginAuthenticationProvider;
+
     private final LastConnectionUpdateAuthenticationSuccessHandlerImpl lastConnectionUpdateAuthenticationSuccessHandler;
 
-    public LoginWebSecurityConfigurerAdapter(LoginAuthenticationProvider loginAuthenticationProvider,
+    public LoginWebSecurityConfigurerAdapter(
+        LoginAuthenticationProvider loginAuthenticationProvider,
         LastConnectionUpdateAuthenticationSuccessHandlerImpl lastConnectionUpdateAuthenticationSuccessHandler) {
       this.loginAuthenticationProvider = loginAuthenticationProvider;
       this.lastConnectionUpdateAuthenticationSuccessHandler = lastConnectionUpdateAuthenticationSuccessHandler;
@@ -125,17 +129,22 @@ public class WebSecurityConfiguration {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
       String[] authorizedUrls = prepareAuthorizedUrls();
-      http.headers().frameOptions().sameOrigin().and().authorizeRequests().antMatchers(authorizedUrls).permitAll()
+      http.headers().frameOptions().sameOrigin().and().authorizeRequests()
+          .antMatchers(authorizedUrls).permitAll()
           .anyRequest().authenticated().and().formLogin().loginPage("/login")
-          .successHandler(lastConnectionUpdateAuthenticationSuccessHandler).permitAll().and().logout()
+          .successHandler(lastConnectionUpdateAuthenticationSuccessHandler).permitAll().and()
+          .logout()
           .logoutRequestMatcher(new AntPathRequestMatcher("/manager/logout")).permitAll();
 
     }
 
     String[] prepareAuthorizedUrls() {
-      return new String[]{"/", "/actuator/**", "/websites/**", "/sites/**", "/pages/**", "/manager-websocket/**",
-          "/robots", "/robot", "/robot.txt", "/robots.txt", "/webjars/**", "/js/**", "/img/**", "/css/**",
-          "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**", "/widgets/**", "/forgotten_password",
+      return new String[]{"/", "/actuator/**", "/websites/**", "/sites/**", "/pages/**",
+          "/manager-websocket/**",
+          "/robots", "/robot", "/robot.txt", "/robots.txt", "/webjars/**", "/js/**", "/img/**",
+          "/css/**",
+          "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**", "/widgets/**",
+          "/forgotten_password",
           "/change_password"};
     }
 

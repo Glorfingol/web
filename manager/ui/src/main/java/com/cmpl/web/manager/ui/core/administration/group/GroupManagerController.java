@@ -1,10 +1,17 @@
 package com.cmpl.web.manager.ui.core.administration.group;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
+import com.cmpl.web.core.common.resource.BaseResponse;
+import com.cmpl.web.core.factory.group.GroupManagerDisplayFactory;
+import com.cmpl.web.core.group.GroupCreateForm;
+import com.cmpl.web.core.group.GroupDispatcher;
+import com.cmpl.web.core.group.GroupResponse;
+import com.cmpl.web.core.group.GroupUpdateForm;
+import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
 import java.util.Locale;
 import java.util.Objects;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,17 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.common.notification.NotificationCenter;
-import com.cmpl.web.core.common.resource.BaseResponse;
-import com.cmpl.web.core.factory.group.GroupManagerDisplayFactory;
-import com.cmpl.web.core.group.GroupCreateForm;
-import com.cmpl.web.core.group.GroupDispatcher;
-import com.cmpl.web.core.group.GroupResponse;
-import com.cmpl.web.core.group.GroupUpdateForm;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
-
 @ManagerController
 @RequestMapping(value = "/manager/groups")
 public class GroupManagerController {
@@ -40,11 +36,15 @@ public class GroupManagerController {
   private static final Logger LOGGER = LoggerFactory.getLogger(GroupManagerController.class);
 
   private final GroupDispatcher groupDispatcher;
+
   private final GroupManagerDisplayFactory groupManagerDisplayFactory;
+
   private final NotificationCenter notificationCenter;
+
   private final WebMessageSource messageSource;
 
-  public GroupManagerController(GroupDispatcher groupDispatcher, GroupManagerDisplayFactory groupManagerDisplayFactory,
+  public GroupManagerController(GroupDispatcher groupDispatcher,
+      GroupManagerDisplayFactory groupManagerDisplayFactory,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
 
     this.groupDispatcher = Objects.requireNonNull(groupDispatcher);
@@ -55,21 +55,22 @@ public class GroupManagerController {
 
   @GetMapping
   @PreAuthorize("hasAuthority('administration:groups:read')")
-  public ModelAndView printViewGroups(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
+  public ModelAndView printViewGroups(
+      @RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
-    LOGGER.info("Accès à la page " + BACK_PAGE.GROUP_VIEW.name());
     return groupManagerDisplayFactory.computeModelAndViewForViewAllGroups(locale, pageNumberToUse);
   }
 
   @GetMapping(value = "/search")
   @PreAuthorize("hasAuthority('administration:groups:read')")
-  public ModelAndView printSearchGroups(@RequestParam(name = "p", required = false) Integer pageNumber,
+  public ModelAndView printSearchGroups(
+      @RequestParam(name = "p", required = false) Integer pageNumber,
       @RequestParam(name = "q") String query, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
-    LOGGER.info("Accès à la page " + BACK_PAGE.GROUP_VIEW.name());
-    return groupManagerDisplayFactory.computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+    return groupManagerDisplayFactory
+        .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -83,7 +84,6 @@ public class GroupManagerController {
   @GetMapping(value = "/_create")
   @PreAuthorize("hasAuthority('administration:groups:create')")
   public ModelAndView printCreateGroup(Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.GROUP_CREATE.name());
     return groupManagerDisplayFactory.computeModelAndViewForCreateGroup(locale);
   }
 
@@ -104,12 +104,14 @@ public class GroupManagerController {
 
       LOGGER.info("Entrée crée, id " + response.getGroup().getId());
 
-      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("create.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
   }
@@ -131,12 +133,14 @@ public class GroupManagerController {
 
       LOGGER.info("Entrée modifiée, id " + response.getGroup().getId());
 
-      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("update.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("update.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -144,41 +148,43 @@ public class GroupManagerController {
 
   @GetMapping(value = "/{groupId}")
   @PreAuthorize("hasAuthority('administration:groups:read')")
-  public ModelAndView printViewUpdateGroup(@PathVariable(value = "groupId") String groupId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.GROUP_UPDATE.name() + " pour " + groupId);
+  public ModelAndView printViewUpdateGroup(@PathVariable(value = "groupId") String groupId,
+      Locale locale) {
     return groupManagerDisplayFactory.computeModelAndViewForUpdateGroup(locale, groupId);
   }
 
   @GetMapping(value = "/{groupId}/_main")
   @PreAuthorize("hasAuthority('administration:groups:read')")
-  public ModelAndView printViewUpdateGroupMain(@PathVariable(value = "groupId") String groupId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.GROUP_UPDATE.name() + " pour " + groupId + " pour la partie main");
+  public ModelAndView printViewUpdateGroupMain(@PathVariable(value = "groupId") String groupId,
+      Locale locale) {
     return groupManagerDisplayFactory.computeModelAndViewForUpdateGroupMain(locale, groupId);
   }
 
   @DeleteMapping(value = "/{groupId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:groups:delete')")
-  public ResponseEntity<BaseResponse> deleteGroup(@PathVariable(value = "groupId") String groupId, Locale locale) {
+  public ResponseEntity<BaseResponse> deleteGroup(@PathVariable(value = "groupId") String groupId,
+      Locale locale) {
     LOGGER.info("Tentative de suppression d'un groupe");
 
     try {
       BaseResponse response = groupDispatcher.deleteEntity(groupId, locale);
-      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("delete.success", locale));
       LOGGER.info("Groupe " + groupId + " supprimé");
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       LOGGER.error("Erreur lors de la suppression du group " + groupId, e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @GetMapping(value = "/{groupId}/_memberships")
   @PreAuthorize("hasAuthority('administration:groups:read')")
-  public ModelAndView printViewUpdateGroupMemberships(@PathVariable(value = "groupId") String groupId) {
-    LOGGER
-        .info("Accès à la page " + BACK_PAGE.GROUP_UPDATE.name() + " pour " + groupId + " pour la partie memberships");
+  public ModelAndView printViewUpdateGroupMemberships(
+      @PathVariable(value = "groupId") String groupId) {
     return groupManagerDisplayFactory.computeModelAndViewForMembership(groupId);
   }
 

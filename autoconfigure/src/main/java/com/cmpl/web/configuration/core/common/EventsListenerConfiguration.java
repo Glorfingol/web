@@ -1,11 +1,5 @@
 package com.cmpl.web.configuration.core.common;
 
-import java.util.Locale;
-import java.util.Set;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import com.cmpl.core.events_listeners.GroupEventsListener;
 import com.cmpl.core.events_listeners.MediaEventsListeners;
 import com.cmpl.core.events_listeners.NewsEventsListeners;
@@ -23,6 +17,10 @@ import com.cmpl.web.core.responsibility.ResponsibilityService;
 import com.cmpl.web.core.role.privilege.PrivilegeService;
 import com.cmpl.web.core.sitemap.SitemapService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
+import java.util.Locale;
+import java.util.Set;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class EventsListenerConfiguration {
@@ -44,9 +42,11 @@ public class EventsListenerConfiguration {
   }
 
   @Bean
-  public PageEventsListeners pageEventsListener(WidgetPageService widgetPageService, FileService fileService,
+  public PageEventsListeners pageEventsListener(WidgetPageService widgetPageService,
+      FileService fileService,
       Set<Locale> availableLocales, SitemapService sitemapService) {
-    return new PageEventsListeners(widgetPageService, fileService, availableLocales, sitemapService);
+    return new PageEventsListeners(widgetPageService, fileService, availableLocales,
+        sitemapService);
   }
 
   @Bean
@@ -61,13 +61,15 @@ public class EventsListenerConfiguration {
   }
 
   @Bean
-  public WidgetEventsListeners widgetEventsListener(WidgetPageService widgetPageService, FileService fileService,
+  public WidgetEventsListeners widgetEventsListener(WidgetPageService widgetPageService,
+      FileService fileService,
       Set<Locale> availableLocales) {
     return new WidgetEventsListeners(widgetPageService, fileService, availableLocales);
   }
 
   @Bean
-  public WebsiteEventsListeners websiteEventsListeners(DesignService designService, SitemapService sitemapService) {
+  public WebsiteEventsListeners websiteEventsListeners(DesignService designService,
+      SitemapService sitemapService) {
     return new WebsiteEventsListeners(designService, sitemapService);
   }
 

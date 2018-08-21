@@ -1,10 +1,12 @@
 package com.cmpl.web.core.media;
 
+import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.models.Media;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Objects;
-
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -13,15 +15,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cmpl.web.core.common.service.BaseServiceImpl;
-import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.models.Media;
-
 @CacheConfig(cacheNames = "medias")
 public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implements MediaService {
 
   private final FileService fileService;
+
   private final MediaDAO mediaDAO;
+
   private static final String MEDIA_CONTROLLER_PATH = "/public/medias/";
 
   public MediaServiceImpl(MediaDAO mediaDAO, MediaMapper mediaMapper, FileService fileService) {
@@ -41,8 +41,10 @@ public class MediaServiceImpl extends BaseServiceImpl<MediaDTO, Media> implement
       extension = extension.toLowerCase();
     }
 
-    MediaDTO mediaToCreate = MediaDTOBuilder.create().name(fileName).contentType(multipartFile.getContentType())
-        .extension(extension).size(multipartFile.getSize()).src(MEDIA_CONTROLLER_PATH + fileName).build();
+    MediaDTO mediaToCreate = MediaDTOBuilder.create().name(fileName)
+        .contentType(multipartFile.getContentType())
+        .extension(extension).size(multipartFile.getSize()).src(MEDIA_CONTROLLER_PATH + fileName)
+        .build();
 
     fileService.saveMediaOnSystem(fileName, multipartFile.getBytes());
 

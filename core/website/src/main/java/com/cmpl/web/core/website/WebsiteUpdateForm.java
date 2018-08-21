@@ -1,13 +1,13 @@
 package com.cmpl.web.core.website;
 
-import javax.validation.constraints.NotBlank;
-
 import com.cmpl.web.core.common.form.BaseUpdateForm;
+import javax.validation.constraints.NotBlank;
 
 public class WebsiteUpdateForm extends BaseUpdateForm<WebsiteDTO> {
 
   @NotBlank(message = "empty.role.name")
   private String name;
+
   @NotBlank(message = "empty.role.description")
   private String description;
 

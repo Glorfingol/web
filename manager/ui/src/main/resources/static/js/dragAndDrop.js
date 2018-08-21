@@ -96,7 +96,8 @@ function previewFileMedia(index) {
   if (index == 0) {
     preview = document.querySelector('#imagePreview');
   } else {
-    $("#formPreviewImage").append("<img class='img-fluid mx-auto d-block' src='' id='imagePreview_"
+    $("#formPreviewImage").append(
+        "<img class='img-fluid mx-auto d-block' src='' id='imagePreview_"
         + index + "'/>")
     preview = document.querySelector('#imagePreview_' + index);
   }

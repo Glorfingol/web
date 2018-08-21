@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.Builder;
 public class DesignCreateFormBuilder extends Builder<DesignCreateForm> {
 
   private String websiteId;
+
   private String styleId;
 
   public DesignCreateFormBuilder websiteId(String websiteId) {

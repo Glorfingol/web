@@ -1,13 +1,13 @@
 package com.cmpl.web.core.website;
 
+import com.cmpl.web.core.common.resource.BaseResponse;
 import java.util.Locale;
 import java.util.Objects;
-
-import com.cmpl.web.core.common.resource.BaseResponse;
 
 public class WebsiteDispatcherImpl implements WebsiteDispatcher {
 
   private final WebsiteService service;
+
   private final WebsiteTranslator translator;
 
   public WebsiteDispatcherImpl(WebsiteService websiteService, WebsiteTranslator websiteTranslator) {

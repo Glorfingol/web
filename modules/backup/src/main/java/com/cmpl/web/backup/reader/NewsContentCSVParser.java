@@ -1,17 +1,16 @@
 package com.cmpl.web.backup.reader;
 
+import com.cmpl.web.backup.writer.DataManipulator;
+import com.cmpl.web.core.models.NewsContent;
 import java.lang.reflect.Field;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 import org.apache.commons.csv.CSVRecord;
-
-import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.models.NewsContent;
 
 public class NewsContentCSVParser extends CommonParser<NewsContent> {
 
-  public NewsContentCSVParser(DateTimeFormatter dateFormatter, DataManipulator<NewsContent> dataManipulator,
+  public NewsContentCSVParser(DateTimeFormatter dateFormatter,
+      DataManipulator<NewsContent> dataManipulator,
       String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }

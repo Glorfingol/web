@@ -1,5 +1,8 @@
 package com.cmpl.web.core.menu;
 
+import com.cmpl.web.core.common.user.Privilege;
+import com.cmpl.web.core.models.Menu;
+import com.cmpl.web.core.page.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -10,10 +13,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.plugin.core.config.EnablePluginRegistries;
 
-import com.cmpl.web.core.common.user.Privilege;
-import com.cmpl.web.core.models.Menu;
-import com.cmpl.web.core.page.PageService;
-
 @Configuration
 @EntityScan(basePackageClasses = Menu.class)
 @EnableJpaRepositories(basePackageClasses = MenuRepository.class)
@@ -22,8 +21,10 @@ public class MenuConfiguration {
 
   @Bean
   public BackMenuItem menuBackMenuItem(BackMenuItem webmastering, Privilege menuReadPrivilege) {
-    return BackMenuItemBuilder.create().href("/manager/menus").label("back.menus.label").title("back.menus.title")
-        .order(3).iconClass("fa fa-list-alt").parent(webmastering).privilege(menuReadPrivilege.privilege()).build();
+    return BackMenuItemBuilder.create().href("/manager/menus").label("back.menus.label")
+        .title("back.menus.title")
+        .order(3).iconClass("fa fa-list-alt").parent(webmastering)
+        .privilege(menuReadPrivilege.privilege()).build();
   }
 
   @Bean
@@ -47,7 +48,8 @@ public class MenuConfiguration {
   }
 
   @Bean
-  public MenuDispatcher menuDispatcher(MenuTranslator translator, MenuService menuService, PageService pageService) {
+  public MenuDispatcher menuDispatcher(MenuTranslator translator, MenuService menuService,
+      PageService pageService) {
     return new MenuDispatcherImpl(translator, menuService, pageService);
   }
 

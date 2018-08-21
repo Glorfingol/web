@@ -1,11 +1,23 @@
 package com.cmpl.web.modules.facebook.factory;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
+import com.cmpl.web.core.menu.MenuItem;
+import com.cmpl.web.core.menu.MenuItemBuilder;
+import com.cmpl.web.core.page.BackPage;
+import com.cmpl.web.core.page.BackPageBuilder;
+import com.cmpl.web.facebook.FacebookAdapter;
+import com.cmpl.web.facebook.ImportablePost;
+import com.cmpl.web.facebook.ImportablePostBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,34 +30,30 @@ import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.breadcrumb.BreadCrumb;
-import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.group.GroupService;
-import com.cmpl.web.core.membership.MembershipService;
-import com.cmpl.web.core.menu.MenuItem;
-import com.cmpl.web.core.menu.MenuItemBuilder;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.facebook.FacebookAdapter;
-import com.cmpl.web.facebook.ImportablePost;
-import com.cmpl.web.facebook.ImportablePostBuilder;
-
 @RunWith(MockitoJUnitRunner.class)
 public class FacebookDisplayFactoryImplTest {
 
   @Mock
   private FacebookAdapter facebookAdapter;
+
   @Mock
-  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  private PluginRegistry<BreadCrumb, String> breadCrumbRegistry;
+
+  @Mock
+  private PluginRegistry<BackPage, String> backPages;
+
   @Mock
   private Set<Locale> availableLocales;
+
   @Mock
   private WebMessageSource messageSource;
+
   @Mock
   private MenuFactory menuFactory;
+
   @Mock
   private MembershipService membershipService;
+
   @Mock
   private GroupService groupService;
 
@@ -102,21 +110,30 @@ public class FacebookDisplayFactoryImplTest {
     String label = "label";
     String title = "title";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
-    MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title)
+        .subMenuItems(subMenuItems).build();
+    MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title)
+        .subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Arrays.asList(index, news);
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
-    BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
+    BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl)
+        .computeBreadCrumb(BDDMockito.any(BackPage.class));
 
-    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
-        BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
+        .computeBackMenuItems(BDDMockito.any(BackPage.class),
+            BDDMockito.eq(Locale.FRANCE));
+
     BDDMockito.doReturn(false).when(facebookDisplayFactoryImpl).isAlreadyConnected();
+    BackPage backPage = BackPageBuilder.create().pageName("test").templatePath("somePath")
+        .titleKey("some.key").decorated(true).build();
+    BDDMockito.doReturn(backPage).when(facebookDisplayFactoryImpl)
+        .computeBackPage(BDDMockito.anyString());
 
-    ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookAccessPage(Locale.FRANCE);
-    Assert.assertEquals(BACK_PAGE.FACEBOOK_ACCESS.getTile(), result.getModel().get("content"));
+    ModelAndView result = facebookDisplayFactoryImpl
+        .computeModelAndViewForFacebookAccessPage(Locale.FRANCE);
+    Assert.assertEquals(backPage.getTemplatePath(), result.getModel().get("content"));
 
     BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(0))
         .computeModelAndViewForFacebookImportPage(BDDMockito.eq(Locale.FRANCE));
@@ -131,8 +148,10 @@ public class FacebookDisplayFactoryImplTest {
     String label = "label";
     String title = "title";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
-    MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title)
+        .subMenuItems(subMenuItems).build();
+    MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title)
+        .subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Arrays.asList(index, news);
 
@@ -140,15 +159,22 @@ public class FacebookDisplayFactoryImplTest {
     List<ImportablePost> postsToReturn = Arrays.asList(post);
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
-    BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
+    BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl)
+        .computeBreadCrumb(BDDMockito.any(BackPage.class));
     BDDMockito.doReturn(postsToReturn).when(facebookDisplayFactoryImpl).computeRecentFeeds();
 
-    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
-        BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(true).when(facebookDisplayFactoryImpl).isAlreadyConnected();
+    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
+        .computeBackMenuItems(BDDMockito.any(BackPage.class),
+            BDDMockito.eq(Locale.FRANCE));
 
-    ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookAccessPage(Locale.FRANCE);
+    BDDMockito.doReturn(true).when(facebookDisplayFactoryImpl).isAlreadyConnected();
+    BackPage backPage = BackPageBuilder.create().pageName("test").templatePath("somePath")
+        .titleKey("some.key").decorated(true).build();
+    BDDMockito.doReturn(backPage).when(facebookDisplayFactoryImpl)
+        .computeBackPage(BDDMockito.anyString());
+
+    ModelAndView result = facebookDisplayFactoryImpl
+        .computeModelAndViewForFacebookAccessPage(Locale.FRANCE);
 
     Assert.assertEquals(postsToReturn, result.getModel().get("feeds"));
 
@@ -164,21 +190,31 @@ public class FacebookDisplayFactoryImplTest {
     String label = "label";
     String title = "title";
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
-    MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title)
+        .subMenuItems(subMenuItems).build();
+    MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title)
+        .subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Arrays.asList(index, news);
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
-    BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
+    BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl)
+        .computeBreadCrumb(BDDMockito.any(BackPage.class));
 
-    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
-        BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
+        .computeBackMenuItems(BDDMockito.any(BackPage.class),
+            BDDMockito.eq(Locale.FRANCE));
+
     BDDMockito.doReturn(false).when(facebookDisplayFactoryImpl).isAlreadyConnected();
+    BackPage backPage = BackPageBuilder.create().pageName("test").templatePath("somePath")
+        .titleKey("some.key").decorated(true).build();
+    BDDMockito.doReturn(backPage).when(facebookDisplayFactoryImpl)
+        .computeBackPage(BDDMockito.anyString());
 
-    ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookImportPage(Locale.FRANCE);
-    Assert.assertEquals(BACK_PAGE.FACEBOOK_ACCESS.getTile(), result.getModel().get("content"));
+    ModelAndView result = facebookDisplayFactoryImpl
+        .computeModelAndViewForFacebookImportPage(Locale.FRANCE);
+
+    Assert.assertEquals(backPage.getTemplatePath(), result.getModel().get("content"));
 
     BDDMockito.verify(facebookDisplayFactoryImpl, BDDMockito.times(1))
         .computeModelAndViewForFacebookAccessPage(BDDMockito.eq(Locale.FRANCE));
@@ -193,8 +229,10 @@ public class FacebookDisplayFactoryImplTest {
     String title = "title";
 
     List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
-    MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
-    MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title).subMenuItems(subMenuItems).build();
+    MenuItem index = MenuItemBuilder.create().href(href).label(label).title(title)
+        .subMenuItems(subMenuItems).build();
+    MenuItem news = MenuItemBuilder.create().href(href).label(label).title(title)
+        .subMenuItems(subMenuItems).build();
 
     List<MenuItem> backMenu = Arrays.asList(index, news);
 
@@ -202,15 +240,23 @@ public class FacebookDisplayFactoryImplTest {
     List<ImportablePost> postsToReturn = Arrays.asList(post);
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
-    BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
+    BDDMockito.doReturn(breadcrumb).when(facebookDisplayFactoryImpl)
+        .computeBreadCrumb(BDDMockito.any(BackPage.class));
     BDDMockito.doReturn(postsToReturn).when(facebookDisplayFactoryImpl).computeRecentFeeds();
 
-    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl).computeBackMenuItems(BDDMockito.any(BACK_PAGE.class),
-        BDDMockito.eq(Locale.FRANCE));
-    BDDMockito.doReturn(href).when(facebookDisplayFactoryImpl).computeHiddenLink(BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(backMenu).when(facebookDisplayFactoryImpl)
+        .computeBackMenuItems(BDDMockito.any(BackPage.class),
+            BDDMockito.eq(Locale.FRANCE));
+
+    BackPage backPage = BackPageBuilder.create().pageName("test").templatePath("somePath")
+        .titleKey("some.key").decorated(true).build();
+    BDDMockito.doReturn(backPage).when(facebookDisplayFactoryImpl)
+        .computeBackPage(BDDMockito.anyString());
+
     BDDMockito.doReturn(true).when(facebookDisplayFactoryImpl).isAlreadyConnected();
 
-    ModelAndView result = facebookDisplayFactoryImpl.computeModelAndViewForFacebookImportPage(Locale.FRANCE);
+    ModelAndView result = facebookDisplayFactoryImpl
+        .computeModelAndViewForFacebookImportPage(Locale.FRANCE);
 
     Assert.assertEquals(postsToReturn, result.getModel().get("feeds"));
 

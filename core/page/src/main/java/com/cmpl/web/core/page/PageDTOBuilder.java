@@ -5,11 +5,17 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 public class PageDTOBuilder extends BaseBuilder<PageDTO> {
 
   private String name;
+
   private String menuTitle;
+
   private String body;
+
   private String header;
+
   private String footer;
+
   private String meta;
+
   private String amp;
 
   private PageDTOBuilder() {

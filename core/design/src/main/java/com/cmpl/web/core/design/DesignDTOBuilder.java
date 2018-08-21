@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 public class DesignDTOBuilder extends BaseBuilder<DesignDTO> {
 
   private Long websiteId;
+
   private Long styleId;
 
   public DesignDTOBuilder websiteId(Long websiteId) {

@@ -1,7 +1,6 @@
 package com.cmpl.web.modules.social.configuration;
 
 import java.util.List;
-
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -56,7 +55,8 @@ public class SocialWebAutoConfiguration {
 
     private final List<ProviderSignInInterceptor<?>> signInInterceptors;
 
-    public SocialAutoConfigurationAdapter(ObjectProvider<List<ConnectInterceptor<?>>> connectInterceptorsProvider,
+    public SocialAutoConfigurationAdapter(
+        ObjectProvider<List<ConnectInterceptor<?>>> connectInterceptorsProvider,
         ObjectProvider<List<DisconnectInterceptor<?>>> disconnectInterceptorsProvider,
         ObjectProvider<List<ProviderSignInInterceptor<?>>> signInInterceptorsProvider) {
       this.connectInterceptors = connectInterceptorsProvider.getIfAvailable();
@@ -66,7 +66,8 @@ public class SocialWebAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(ConnectController.class)
-    public ConnectController connectController(ConnectionFactoryLocator factoryLocator, ConnectionRepository repository) {
+    public ConnectController connectController(ConnectionFactoryLocator factoryLocator,
+        ConnectionRepository repository) {
       ConnectController controller = new ConnectController(factoryLocator, repository);
       if (!CollectionUtils.isEmpty(this.connectInterceptors)) {
         controller.setConnectInterceptors(this.connectInterceptors);
@@ -91,7 +92,8 @@ public class SocialWebAutoConfiguration {
     @ConditionalOnMissingBean
     public ProviderSignInController signInController(ConnectionFactoryLocator factoryLocator,
         UsersConnectionRepository usersRepository, SignInAdapter signInAdapter) {
-      ProviderSignInController controller = new ProviderSignInController(factoryLocator, usersRepository, signInAdapter);
+      ProviderSignInController controller = new ProviderSignInController(factoryLocator,
+          usersRepository, signInAdapter);
       if (!CollectionUtils.isEmpty(this.signInInterceptors)) {
         controller.setSignInInterceptors(this.signInInterceptors);
       }
@@ -144,7 +146,8 @@ public class SocialWebAutoConfiguration {
     public String getUserId() {
       SecurityContext context = SecurityContextHolder.getContext();
       Authentication authentication = context.getAuthentication();
-      Assert.state(authentication != null, "Unable to get a ConnectionRepository: no user signed in");
+      Assert
+          .state(authentication != null, "Unable to get a ConnectionRepository: no user signed in");
       return authentication.getName();
     }
 

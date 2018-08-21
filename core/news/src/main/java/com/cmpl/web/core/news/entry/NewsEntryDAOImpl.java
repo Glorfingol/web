@@ -1,19 +1,18 @@
 package com.cmpl.web.core.news.entry;
 
-import java.util.List;
-
-import org.springframework.context.ApplicationEventPublisher;
-
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.models.QNewsEntry;
 import com.querydsl.core.types.Predicate;
+import java.util.List;
+import org.springframework.context.ApplicationEventPublisher;
 
 public class NewsEntryDAOImpl extends BaseDAOImpl<NewsEntry> implements NewsEntryDAO {
 
   private final NewsEntryRepository newsEntryRepository;
 
-  public NewsEntryDAOImpl(NewsEntryRepository entityRepository, ApplicationEventPublisher publisher) {
+  public NewsEntryDAOImpl(NewsEntryRepository entityRepository,
+      ApplicationEventPublisher publisher) {
     super(NewsEntry.class, entityRepository, publisher);
     this.newsEntryRepository = entityRepository;
   }

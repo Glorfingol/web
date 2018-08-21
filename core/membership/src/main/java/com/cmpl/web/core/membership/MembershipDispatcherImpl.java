@@ -16,7 +16,8 @@ public class MembershipDispatcherImpl implements MembershipDispatcher {
 
   @Override
   public MembershipResponse createEntity(MembershipCreateForm createForm, Locale locale) {
-    MembershipDTO membershipToCreate = MembershipDTOBuilder.create().groupId(Long.parseLong(createForm.getGroupId()))
+    MembershipDTO membershipToCreate = MembershipDTOBuilder.create()
+        .groupId(Long.parseLong(createForm.getGroupId()))
         .entityId(Long.parseLong(createForm.getEntityId())).build();
     return translator.fromDTOToResponse(service.createEntity(membershipToCreate));
   }

@@ -6,7 +6,9 @@ import com.cmpl.web.core.models.NewsContent;
 public class NewsContentBuilder extends BaseBuilder<NewsContent> {
 
   private String content;
+
   private String linkUrl;
+
   private String videoUrl;
 
   private NewsContentBuilder() {

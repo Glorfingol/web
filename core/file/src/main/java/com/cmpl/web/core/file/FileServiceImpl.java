@@ -1,22 +1,19 @@
 package com.cmpl.web.core.file;
 
+import com.cmpl.web.core.common.context.ContextHolder;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cmpl.web.core.common.context.ContextHolder;
-
 /**
  * Implementation de l'enregistrement de fichiers dans le classpath
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class FileServiceImpl implements FileService {
 
@@ -43,7 +40,8 @@ public class FileServiceImpl implements FileService {
   @Override
   public String readFileContentFromSystem(String fileName) {
     try {
-      return new String(Files.readAllBytes(Paths.get(contextHolder.getTemplateBasePath() + fileName)));
+      return new String(
+          Files.readAllBytes(Paths.get(contextHolder.getTemplateBasePath() + fileName)));
     } catch (IOException e) {
       LOGGER.warn("Impossible de lire le contenu du fichier " + fileName);
     }
@@ -62,7 +60,8 @@ public class FileServiceImpl implements FileService {
   @Override
   public InputStream read(String fileName) {
     try {
-      return new ByteArrayInputStream(Files.readAllBytes(Paths.get(contextHolder.getMediaBasePath() + fileName)));
+      return new ByteArrayInputStream(
+          Files.readAllBytes(Paths.get(contextHolder.getMediaBasePath() + fileName)));
     } catch (Exception e) {
       return new ByteArrayInputStream(new byte[]{});
     }

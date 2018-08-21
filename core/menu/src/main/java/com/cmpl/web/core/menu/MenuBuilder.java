@@ -6,10 +6,15 @@ import com.cmpl.web.core.models.Menu;
 public class MenuBuilder extends BaseBuilder<Menu> {
 
   private String title;
+
   private String label;
+
   private String href;
+
   private int orderInMenu;
+
   private String parentId;
+
   private String pageId;
 
   private MenuBuilder() {

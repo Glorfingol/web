@@ -6,8 +6,11 @@ import java.util.Map;
 public class ActionToken {
 
   private Long userId;
+
   private String action;
+
   private Instant expirationDate;
+
   private Map<String, String> additionalParameters;
 
   public Long getUserId() {

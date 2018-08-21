@@ -1,21 +1,30 @@
 package com.cmpl.web.core.menu;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.time.LocalDateTime;
 
 public class MenuUpdateFormBuilder extends Builder<MenuUpdateForm> {
 
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
+
   private String title;
+
   private String label;
+
   private String href;
+
   private int orderInMenu;
+
   private String parentId;
+
   private String pageId;
 
   private MenuUpdateFormBuilder() {

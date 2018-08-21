@@ -1,28 +1,40 @@
 package com.cmpl.web.core.factory;
 
-import java.util.Locale;
-import java.util.Set;
-
-import org.springframework.data.domain.Page;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.common.builder.PageWrapperBuilder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupDTO;
 import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipCreateFormBuilder;
+import com.cmpl.web.core.membership.MembershipDTO;
 import com.cmpl.web.core.membership.MembershipService;
-import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.page.BackPage;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.web.servlet.ModelAndView;
 
-public abstract class AbstractBackDisplayFactoryImpl<T> extends BackDisplayFactoryImpl {
+public abstract class AbstractBackDisplayFactoryImpl<T> extends BackDisplayFactoryImpl implements
+    CRUDBackDisplayFactory {
+
+  private final MembershipService membershipService;
+
+  private final GroupService groupService;
 
   public AbstractBackDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales, GroupService groupService,
-      MembershipService membershipService) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
+      PluginRegistry<BreadCrumb, String> breadCrumbRegistry, Set<Locale> availableLocales,
+      GroupService groupService,
+      MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, backPagesRegistry);
+    this.membershipService = Objects.requireNonNull(membershipService);
+    this.groupService = Objects.requireNonNull(groupService);
   }
 
   public PageWrapper<T> computePageWrapper(Locale locale, int pageNumber, String query) {
@@ -33,29 +45,56 @@ public abstract class AbstractBackDisplayFactoryImpl<T> extends BackDisplayFacto
     int totalPages = pagedDTOEntries.getTotalPages();
     int currentPageNumber = pagedDTOEntries.getNumber();
 
-    return new PageWrapperBuilder<T>().currentPageNumber(currentPageNumber).firstPage(isFirstPage).lastPage(isLastPage)
-        .page(pagedDTOEntries).totalPages(totalPages).pageBaseUrl(getBaseUrl()).createItemLink(getCreateItemLink())
+    return new PageWrapperBuilder<T>().currentPageNumber(currentPageNumber).firstPage(isFirstPage)
+        .lastPage(isLastPage)
+        .page(pagedDTOEntries).totalPages(totalPages).pageBaseUrl(getBaseUrl())
+        .createItemLink(getCreateItemLink())
         .createItemPrivilege(getCreateItemPrivilege()).itemLink(getItemLink())
-        .pageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages)).build();
+        .pageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages))
+        .build();
   }
 
   @Override
-  public ModelAndView computeModelAndViewForAllEntitiesTab(Locale locale, int pageNumber, String query) {
+  public ModelAndView computeModelAndViewForAllEntitiesTab(Locale locale, int pageNumber,
+      String query) {
     ModelAndView model = new ModelAndView(getViewAllTemplate());
 
     model.addObject("wrappedEntities", computePageWrapper(locale, pageNumber, query));
     model.addObject("searchUrl", getSearchUrl());
+    model.addObject("searchPlaceHolder", getI18nValue(getSearchPlaceHolder(), locale));
     return model;
   }
 
   @Override
-  public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
+  public ModelAndView computeModelAndViewForBackPage(BackPage backPage,
+      Locale locale) {
 
     ModelAndView model = super.computeModelAndViewForBackPage(backPage, locale);
     model.addObject("searchUrl", getSearchUrl());
+    model.addObject("searchPlaceHolder", getI18nValue(getSearchPlaceHolder(), locale));
 
     return model;
   }
+
+  @Override
+  public ModelAndView computeModelAndViewForMembership(String entityId) {
+
+    ModelAndView model = new ModelAndView("common/back_membership");
+
+    List<MembershipDTO> memberships = membershipService.findByEntityId(Long.parseLong(entityId));
+    List<GroupDTO> associatedGroups = memberships.stream()
+        .map(membershipDTO -> groupService.getEntity(membershipDTO.getGroupId()))
+        .collect(Collectors.toList());
+    model.addObject("linkedGroups", associatedGroups);
+
+    List<GroupDTO> linkableGroups = groupService.getEntities().stream()
+        .filter(groupDTO -> !associatedGroups.contains(groupDTO)).collect(Collectors.toList());
+    model.addObject("linkableGroups", linkableGroups);
+    model.addObject("createForm", MembershipCreateFormBuilder.create().entityId(entityId).build());
+
+    return model;
+  }
+
 
   protected abstract String getBaseUrl();
 
@@ -70,6 +109,9 @@ public abstract class AbstractBackDisplayFactoryImpl<T> extends BackDisplayFacto
   }
 
   protected abstract String getSearchUrl();
+
+
+  protected abstract String getSearchPlaceHolder();
 
   protected abstract String getCreateItemPrivilege();
 

@@ -3,7 +3,8 @@ package com.cmpl.web.core.website;
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.models.Website;
 
-public class WebsiteServiceImpl extends BaseServiceImpl<WebsiteDTO, Website> implements WebsiteService {
+public class WebsiteServiceImpl extends BaseServiceImpl<WebsiteDTO, Website> implements
+    WebsiteService {
 
   private final WebsiteDAO websiteDAO;
 

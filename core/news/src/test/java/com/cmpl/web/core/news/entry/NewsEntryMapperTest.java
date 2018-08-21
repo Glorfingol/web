@@ -1,5 +1,8 @@
 package com.cmpl.web.core.news.entry;
 
+import com.cmpl.web.core.models.NewsEntry;
+import com.cmpl.web.core.news.content.NewsContentService;
+import com.cmpl.web.core.news.image.NewsImageService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
@@ -8,15 +11,12 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.cmpl.web.core.models.NewsEntry;
-import com.cmpl.web.core.news.content.NewsContentService;
-import com.cmpl.web.core.news.image.NewsImageService;
-
 @RunWith(MockitoJUnitRunner.class)
 public class NewsEntryMapperTest {
 
   @Mock
   private NewsContentService newsContentService;
+
   @Mock
   private NewsImageService newsImageService;
 
@@ -32,7 +32,8 @@ public class NewsEntryMapperTest {
 
     NewsEntry result = mapper.toEntity(dto);
 
-    BDDMockito.verify(mapper, BDDMockito.times(1)).fillObject(BDDMockito.eq(dto), BDDMockito.eq(result));
+    BDDMockito.verify(mapper, BDDMockito.times(1))
+        .fillObject(BDDMockito.eq(dto), BDDMockito.eq(result));
   }
 
   @Test
@@ -43,6 +44,7 @@ public class NewsEntryMapperTest {
 
     NewsEntryDTO result = mapper.toDTO(entity);
 
-    BDDMockito.verify(mapper, BDDMockito.times(1)).fillObject(BDDMockito.eq(entity), BDDMockito.eq(result));
+    BDDMockito.verify(mapper, BDDMockito.times(1))
+        .fillObject(BDDMockito.eq(entity), BDDMockito.eq(result));
   }
 }

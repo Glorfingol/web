@@ -1,18 +1,24 @@
 package com.cmpl.web.core.website;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.time.LocalDateTime;
 
 public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
 
   private String name;
+
   private String description;
+
   private boolean secure;
+
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
 
   private WebsiteUpdateFormBuilder() {

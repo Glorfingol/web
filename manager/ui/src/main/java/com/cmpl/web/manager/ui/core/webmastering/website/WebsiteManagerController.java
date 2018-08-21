@@ -1,10 +1,17 @@
 package com.cmpl.web.manager.ui.core.webmastering.website;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
+import com.cmpl.web.core.common.resource.BaseResponse;
+import com.cmpl.web.core.factory.website.WebsiteManagerDisplayFactory;
+import com.cmpl.web.core.website.WebsiteCreateForm;
+import com.cmpl.web.core.website.WebsiteDispatcher;
+import com.cmpl.web.core.website.WebsiteResponse;
+import com.cmpl.web.core.website.WebsiteUpdateForm;
+import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
 import java.util.Locale;
 import java.util.Objects;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,17 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.common.notification.NotificationCenter;
-import com.cmpl.web.core.common.resource.BaseResponse;
-import com.cmpl.web.core.factory.website.WebsiteManagerDisplayFactory;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.website.WebsiteCreateForm;
-import com.cmpl.web.core.website.WebsiteDispatcher;
-import com.cmpl.web.core.website.WebsiteResponse;
-import com.cmpl.web.core.website.WebsiteUpdateForm;
-import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
-
 @ManagerController
 @RequestMapping(value = "/manager/websites")
 public class WebsiteManagerController {
@@ -40,12 +36,16 @@ public class WebsiteManagerController {
   private static final Logger LOGGER = LoggerFactory.getLogger(WebsiteManagerController.class);
 
   private final WebsiteDispatcher websiteDispatcher;
+
   private final WebsiteManagerDisplayFactory websiteManagerDisplayFactory;
+
   private final NotificationCenter notificationCenter;
+
   private final WebMessageSource messageSource;
 
   public WebsiteManagerController(WebsiteDispatcher websiteDispatcher,
-      WebsiteManagerDisplayFactory websiteManagerDisplayFactory, NotificationCenter notificationCenter,
+      WebsiteManagerDisplayFactory websiteManagerDisplayFactory,
+      NotificationCenter notificationCenter,
       WebMessageSource messageSource) {
 
     this.websiteDispatcher = Objects.requireNonNull(websiteDispatcher);
@@ -56,21 +56,23 @@ public class WebsiteManagerController {
 
   @GetMapping
   @PreAuthorize("hasAuthority('webmastering:websites:read')")
-  public ModelAndView printViewWebsites(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
+  public ModelAndView printViewWebsites(
+      @RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
-    LOGGER.info("Accès à la page " + BACK_PAGE.WEBSITE_VIEW.name());
-    return websiteManagerDisplayFactory.computeModelAndViewForViewAllWebsites(locale, pageNumberToUse);
+    return websiteManagerDisplayFactory
+        .computeModelAndViewForViewAllWebsites(locale, pageNumberToUse);
   }
 
   @GetMapping(value = "/search")
   @PreAuthorize("hasAuthority('webmastering:websites:read')")
-  public ModelAndView printSearchWebsites(@RequestParam(name = "p", required = false) Integer pageNumber,
+  public ModelAndView printSearchWebsites(
+      @RequestParam(name = "p", required = false) Integer pageNumber,
       @RequestParam(name = "q") String query, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
-    LOGGER.info("Accès à la page " + BACK_PAGE.WEBSITE_VIEW.name());
-    return websiteManagerDisplayFactory.computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+    return websiteManagerDisplayFactory
+        .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -84,14 +86,14 @@ public class WebsiteManagerController {
   @GetMapping(value = "/_create")
   @PreAuthorize("hasAuthority('webmastering:websites:create')")
   public ModelAndView printCreateWebsite(Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.WEBSITE_CREATE.name());
     return websiteManagerDisplayFactory.computeModelAndViewForCreateWebsite(locale);
   }
 
   @PostMapping(produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:websites:create')")
-  public ResponseEntity<WebsiteResponse> createWebsite(@Valid @RequestBody WebsiteCreateForm createForm,
+  public ResponseEntity<WebsiteResponse> createWebsite(
+      @Valid @RequestBody WebsiteCreateForm createForm,
       BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de création d'un website");
 
@@ -105,12 +107,14 @@ public class WebsiteManagerController {
 
       LOGGER.info("Entrée crée, id " + response.getWebsite().getId());
 
-      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("create.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
   }
@@ -118,7 +122,8 @@ public class WebsiteManagerController {
   @PutMapping(value = "/{websiteId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:websites:write')")
-  public ResponseEntity<WebsiteResponse> updateWebsite(@Valid @RequestBody WebsiteUpdateForm updateForm,
+  public ResponseEntity<WebsiteResponse> updateWebsite(
+      @Valid @RequestBody WebsiteUpdateForm updateForm,
       BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un website");
@@ -132,12 +137,14 @@ public class WebsiteManagerController {
 
       LOGGER.info("Entrée modifiée, id " + response.getWebsite().getId());
 
-      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("update.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("update.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -145,59 +152,62 @@ public class WebsiteManagerController {
 
   @GetMapping(value = "/{websiteId}")
   @PreAuthorize("hasAuthority('webmastering:websites:read')")
-  public ModelAndView printViewUpdateWebsite(@PathVariable(value = "websiteId") String websiteId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.WEBSITE_UPDATE.name() + " pour " + websiteId);
+  public ModelAndView printViewUpdateWebsite(@PathVariable(value = "websiteId") String websiteId,
+      Locale locale) {
     return websiteManagerDisplayFactory.computeModelAndViewForUpdateWebsite(locale, websiteId);
   }
 
   @GetMapping(value = "/{websiteId}/_main")
   @PreAuthorize("hasAuthority('webmastering:websites:read')")
-  public ModelAndView printViewUpdateWebsiteMain(@PathVariable(value = "websiteId") String websiteId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.WEBSITE_UPDATE.name() + " pour " + websiteId + " pour la partie main");
+  public ModelAndView printViewUpdateWebsiteMain(
+      @PathVariable(value = "websiteId") String websiteId, Locale locale) {
     return websiteManagerDisplayFactory.computeModelAndViewForUpdateWebsiteMain(locale, websiteId);
   }
 
   @DeleteMapping(value = "/{websiteId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:websites:delete')")
-  public ResponseEntity<BaseResponse> deleteWebsite(@PathVariable(value = "websiteId") String websiteId,
+  public ResponseEntity<BaseResponse> deleteWebsite(
+      @PathVariable(value = "websiteId") String websiteId,
       Locale locale) {
     LOGGER.info("Tentative de suppression d'un websitee");
 
     try {
       BaseResponse response = websiteDispatcher.deleteEntity(websiteId, locale);
-      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("delete.success", locale));
       LOGGER.info("Websitee " + websiteId + " supprimé");
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       LOGGER.error("Erreur lors de la suppression du website " + websiteId, e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @GetMapping(value = "/{websiteId}/_memberships")
   @PreAuthorize("hasAuthority('webmastering:websites:read')")
-  public ModelAndView printViewUpdateWebsiteMemberships(@PathVariable(value = "websiteId") String websiteId) {
-    LOGGER.info(
-        "Accès à la page " + BACK_PAGE.WEBSITE_UPDATE.name() + " pour " + websiteId + " pour la partie memberships");
+  public ModelAndView printViewUpdateWebsiteMemberships(
+      @PathVariable(value = "websiteId") String websiteId) {
     return websiteManagerDisplayFactory.computeModelAndViewForMembership(websiteId);
   }
 
   @GetMapping(value = "/{websiteId}/_sitemap")
   @PreAuthorize("hasAuthority('webmastering:websites:read')")
-  public ModelAndView printViewUpdateWebsiteSitemap(@PathVariable(value = "websiteId") String websiteId,
+  public ModelAndView printViewUpdateWebsiteSitemap(
+      @PathVariable(value = "websiteId") String websiteId,
       Locale locale) {
-    LOGGER
-        .info("Accès à la page " + BACK_PAGE.WEBSITE_UPDATE.name() + " pour " + websiteId + " pour la partie sitemap");
-    return websiteManagerDisplayFactory.computeModelAndViewForUpdateWebsiteSitemap(locale, websiteId);
+    return websiteManagerDisplayFactory
+        .computeModelAndViewForUpdateWebsiteSitemap(locale, websiteId);
   }
 
   @GetMapping(value = "/{websiteId}/_design")
   @PreAuthorize("hasAuthority('webmastering:websites:read')")
-  public ModelAndView printViewUpdateWebsiteDesign(@PathVariable(value = "websiteId") String websiteId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.WEBSITE_UPDATE.name() + " pour " + websiteId + " pour la partie design");
-    return websiteManagerDisplayFactory.computeModelAndViewForUpdateWebsiteDesign(locale, websiteId);
+  public ModelAndView printViewUpdateWebsiteDesign(
+      @PathVariable(value = "websiteId") String websiteId, Locale locale) {
+    return websiteManagerDisplayFactory
+        .computeModelAndViewForUpdateWebsiteDesign(locale, websiteId);
   }
 
 }

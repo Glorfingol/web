@@ -1,13 +1,11 @@
 package com.cmpl.core.events_listeners;
 
-import java.util.Objects;
-
-import org.springframework.context.event.EventListener;
-
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.models.BaseEntity;
 import com.cmpl.web.core.models.User;
 import com.cmpl.web.core.responsibility.ResponsibilityService;
+import java.util.Objects;
+import org.springframework.context.event.EventListener;
 
 public class UserEventsListeners {
 
@@ -25,7 +23,8 @@ public class UserEventsListeners {
       User deletedUser = (User) deletedEvent.getEntity();
       if (deletedUser != null) {
         responsibilityService.findByUserId(String.valueOf(deletedUser.getId()))
-            .forEach(associationUserRoleDTO -> responsibilityService.deleteEntity(associationUserRoleDTO.getId()));
+            .forEach(associationUserRoleDTO -> responsibilityService
+                .deleteEntity(associationUserRoleDTO.getId()));
       }
 
     }

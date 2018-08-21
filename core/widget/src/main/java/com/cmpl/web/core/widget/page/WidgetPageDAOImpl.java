@@ -1,18 +1,17 @@
 package com.cmpl.web.core.widget.page;
 
-import java.util.List;
-
-import org.springframework.context.ApplicationEventPublisher;
-
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.WidgetPage;
 import com.querydsl.core.types.Predicate;
+import java.util.List;
+import org.springframework.context.ApplicationEventPublisher;
 
 public class WidgetPageDAOImpl extends BaseDAOImpl<WidgetPage> implements WidgetPageDAO {
 
   private final WidgetPageRepository widgetPageRepository;
 
-  public WidgetPageDAOImpl(WidgetPageRepository entityRepository, ApplicationEventPublisher publisher) {
+  public WidgetPageDAOImpl(WidgetPageRepository entityRepository,
+      ApplicationEventPublisher publisher) {
     super(WidgetPage.class, entityRepository, publisher);
     this.widgetPageRepository = entityRepository;
   }

@@ -1,22 +1,23 @@
 package com.cmpl.web.manager.ui.core.common.security;
 
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.google.common.collect.Maps;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class LoginAttemptsServiceImpl implements LoginAttemptsService {
 
   private final Integer maxAttempts;
+
   private LoadingCache<String, Map<String, Integer>> attemptsCache;
 
   public LoginAttemptsServiceImpl(int maxAttempts) {
     this.maxAttempts = maxAttempts;
 
-    attemptsCache = Caffeine.<String, Map<String, Integer>> newBuilder().expireAfterWrite(1, TimeUnit.DAYS)
-        .build(key -> Maps.<String, Integer> newConcurrentMap());
+    attemptsCache = Caffeine.<String, Map<String, Integer>>newBuilder()
+        .expireAfterWrite(1, TimeUnit.DAYS)
+        .build(key -> Maps.<String, Integer>newConcurrentMap());
   }
 
   @Override

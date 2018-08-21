@@ -1,9 +1,8 @@
 package com.cmpl.web.core.role;
 
+import com.cmpl.web.core.common.builder.BaseBuilder;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.cmpl.web.core.common.builder.BaseBuilder;
 
 public class RoleDTOBuilder extends BaseBuilder<RoleDTO> {
 

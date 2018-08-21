@@ -1,47 +1,41 @@
 package com.cmpl.web.core.factory;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.menu.MenuItem;
+import com.cmpl.web.core.page.BackPage;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.breadcrumb.BreadCrumb;
-import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.group.GroupDTO;
-import com.cmpl.web.core.group.GroupService;
-import com.cmpl.web.core.membership.MembershipCreateFormBuilder;
-import com.cmpl.web.core.membership.MembershipDTO;
-import com.cmpl.web.core.membership.MembershipService;
-import com.cmpl.web.core.menu.MenuItem;
-import com.cmpl.web.core.page.BACK_PAGE;
-
 /**
  * Implementation de l'interface commune de factory pour le back
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements BackDisplayFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(BackDisplayFactoryImpl.class);
 
   private final MenuFactory menuFactory;
-  private final PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+
+  private final PluginRegistry<BreadCrumb, String> breadCrumbRegistry;
+
+  protected final PluginRegistry<BackPage, String> backPagesRegistry;
+
   protected final Set<Locale> availableLocales;
-  private final MembershipService membershipService;
-  private final GroupService groupService;
+
 
   public BackDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales, GroupService groupService,
-      MembershipService membershipService) {
+      PluginRegistry<BreadCrumb, String> breadCrumbRegistry, Set<Locale> availableLocales,
+      PluginRegistry<BackPage, String> backPagesRegistry) {
     super(messageSource);
 
     this.menuFactory = Objects.requireNonNull(menuFactory);
@@ -49,15 +43,17 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     this.breadCrumbRegistry = Objects.requireNonNull(breadCrumbRegistry);
 
     this.availableLocales = Objects.requireNonNull(availableLocales);
-    this.membershipService = Objects.requireNonNull(membershipService);
-    this.groupService = Objects.requireNonNull(groupService);
+
+    this.backPagesRegistry = Objects.requireNonNull(backPagesRegistry);
+
 
   }
 
   @Override
-  public ModelAndView computeModelAndViewForBackPage(BACK_PAGE backPage, Locale locale) {
+  public ModelAndView computeModelAndViewForBackPage(BackPage backPage,
+      Locale locale) {
 
-    String backPageName = backPage.name();
+    String backPageName = backPage.getPageName();
     LOGGER.debug("Construction de la page du back {}", backPageName);
     ModelAndView model = computeModelAndViewBaseTile(backPage);
 
@@ -67,61 +63,41 @@ public class BackDisplayFactoryImpl extends BaseDisplayFactoryImpl implements Ba
     model.addObject("locales", availableLocales);
     LOGGER.debug("Construction du fil d'ariane pour la page {}", backPageName);
     model.addObject("breadcrumb", computeBreadCrumb(backPage));
-    LOGGER.debug("Construction du lien du back pour la page {}", backPageName);
-    model.addObject("hiddenLink", computeHiddenLink(locale));
 
     LOGGER.debug("Page du back {} prête", backPageName);
 
     return model;
   }
 
-  @Override
-  public ModelAndView computeModelAndViewForMembership(String entityId) {
 
-    ModelAndView model = new ModelAndView("common/back_membership");
-
-    List<MembershipDTO> memberships = membershipService.findByEntityId(Long.parseLong(entityId));
-    List<GroupDTO> associatedGroups = memberships.stream()
-        .map(membershipDTO -> groupService.getEntity(membershipDTO.getGroupId())).collect(Collectors.toList());
-    model.addObject("linkedGroups", associatedGroups);
-
-    List<GroupDTO> linkableGroups = groupService.getEntities().stream()
-        .filter(groupDTO -> !associatedGroups.contains(groupDTO)).collect(Collectors.toList());
-    model.addObject("linkableGroups", linkableGroups);
-    model.addObject("createForm", MembershipCreateFormBuilder.create().entityId(entityId).build());
-
-    return model;
-  }
-
-  @Override
-  public ModelAndView computeModelAndViewForAllEntitiesTab(Locale locale, int pageNumber, String query) {
-    return null;
-  }
-
-  public BreadCrumb computeBreadCrumb(BACK_PAGE backPage) {
-    BreadCrumb breadCrumbFromRegistry = breadCrumbRegistry.getPluginFor(backPage);
+  public BreadCrumb computeBreadCrumb(BackPage backPage) {
+    BreadCrumb breadCrumbFromRegistry = breadCrumbRegistry.getPluginFor(backPage.getPageName());
     if (breadCrumbFromRegistry == null) {
       return null;
     }
-    return BreadCrumbBuilder.create().items(breadCrumbFromRegistry.getItems()).page(breadCrumbFromRegistry.getPage())
+    return BreadCrumbBuilder.create().items(breadCrumbFromRegistry.getItems())
+        .pageName(breadCrumbFromRegistry.getPageName())
         .build();
   }
 
-  public ModelAndView computeModelAndViewBaseTile(BACK_PAGE backPage) {
+  public ModelAndView computeModelAndViewBaseTile(BackPage backPage) {
 
-    if (BACK_PAGE.LOGIN.equals(backPage) || BACK_PAGE.FORGOTTEN_PASSWORD.equals(backPage)
-        || BACK_PAGE.CHANGE_PASSWORD.equals(backPage)) {
-      return new ModelAndView(backPage.getTile());
+    if (!backPage.isDecorated()) {
+      return new ModelAndView(backPage.getTemplatePath());
     }
 
     ModelAndView model = new ModelAndView("decorator_back");
-    model.addObject("content", backPage.getTile());
+    model.addObject("content", backPage.getTemplatePath());
     return model;
 
   }
 
-  public List<MenuItem> computeBackMenuItems(BACK_PAGE backPage, Locale locale) {
+  public List<MenuItem> computeBackMenuItems(BackPage backPage, Locale locale) {
     return menuFactory.computeBackMenuItems(backPage, locale);
+  }
+
+  public BackPage computeBackPage(String pageName) {
+    return backPagesRegistry.getPluginFor(pageName);
   }
 
 }

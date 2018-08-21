@@ -7,9 +7,12 @@ public class WidgetCreateForm {
 
   @NotBlank(message = "empty.widget.type")
   private String type;
+
   @NotBlank(message = "empty.widget.name")
   private String name;
+
   private String localeCode;
+
   @NotNull
   private Boolean asynchronous;
 

@@ -1,13 +1,13 @@
 package com.cmpl.web.core.group;
 
+import com.cmpl.web.core.common.resource.BaseResponse;
 import java.util.Locale;
 import java.util.Objects;
-
-import com.cmpl.web.core.common.resource.BaseResponse;
 
 public class GroupDispatcherImpl implements GroupDispatcher {
 
   private final GroupTranslator translator;
+
   private final GroupService service;
 
   public GroupDispatcherImpl(GroupTranslator translator, GroupService service) {

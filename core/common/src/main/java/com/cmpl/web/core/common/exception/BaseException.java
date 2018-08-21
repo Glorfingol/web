@@ -2,9 +2,8 @@ package com.cmpl.web.core.common.exception;
 
 /**
  * Exception specifique au site
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class BaseException extends Exception {
 
@@ -16,8 +15,6 @@ public class BaseException extends Exception {
 
   /**
    * Constructeur appelant le super de l'Exception
-   * 
-   * @param message
    */
   public BaseException(String message) {
     super(message);

@@ -1,33 +1,36 @@
 package com.cmpl.web.core.page;
 
+import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.models.Page;
 import java.util.List;
 import java.util.Objects;
-
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.cmpl.web.core.common.service.BaseServiceImpl;
-import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.models.Page;
-
 /**
  * Service des pages
- * 
- * @author Louis
  *
+ * @author Louis
  */
 
 public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements PageService {
 
   private static final String HTML_SUFFIX = ".html";
+
   private static final String FOOTER_SUFFIX = "_footer";
+
   private static final String META_SUFFIX = "_meta";
+
   private static final String AMP_SUFFIX = "_amp";
+
   private static final String HEADER_SUFFIX = "_header";
+
   private static final String LOCALE_CODE_PREFIX = "_";
 
   private final PageDAO pageDAO;
+
   private final FileService fileService;
 
   public PageServiceImpl(PageDAO pageDAO, PageMapper pageMapper, FileService fileService) {
@@ -42,14 +45,19 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   public PageDTO createEntity(PageDTO dto, String localeCode) {
     PageDTO createdPage = super.createEntity(dto);
 
-    fileService.saveFileOnSystem(dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX, dto.getBody());
-    fileService.saveFileOnSystem(dto.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+    fileService.saveFileOnSystem(dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+        dto.getBody());
+    fileService.saveFileOnSystem(
+        dto.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
         dto.getFooter());
-    fileService.saveFileOnSystem(dto.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+    fileService.saveFileOnSystem(
+        dto.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
         dto.getHeader());
-    fileService.saveFileOnSystem(dto.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+    fileService.saveFileOnSystem(
+        dto.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
         dto.getMeta());
-    fileService.saveFileOnSystem(dto.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+    fileService.saveFileOnSystem(
+        dto.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
         dto.getAmp());
     return createdPage;
 
@@ -59,14 +67,19 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   public PageDTO updateEntity(PageDTO dto, String localeCode) {
     PageDTO updatedPage = super.updateEntity(dto);
 
-    fileService.saveFileOnSystem(dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX, dto.getBody());
-    fileService.saveFileOnSystem(dto.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+    fileService.saveFileOnSystem(dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+        dto.getBody());
+    fileService.saveFileOnSystem(
+        dto.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
         dto.getFooter());
-    fileService.saveFileOnSystem(dto.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+    fileService.saveFileOnSystem(
+        dto.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
         dto.getHeader());
-    fileService.saveFileOnSystem(dto.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+    fileService.saveFileOnSystem(
+        dto.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
         dto.getMeta());
-    fileService.saveFileOnSystem(dto.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+    fileService.saveFileOnSystem(
+        dto.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
         dto.getAmp());
 
     updatedPage.setHeader(dto.getHeader());
@@ -82,7 +95,8 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
   public PageDTO getEntity(Long pageId, String localeCode) {
     PageDTO fetchedPage = super.getEntity(pageId);
     fetchedPage.setBody(
-        fileService.readFileContentFromSystem(fetchedPage.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+        fileService.readFileContentFromSystem(
+            fetchedPage.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setFooter(fileService.readFileContentFromSystem(
         fetchedPage.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setHeader(fileService.readFileContentFromSystem(
@@ -90,7 +104,8 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
     fetchedPage.setMeta(fileService.readFileContentFromSystem(
         fetchedPage.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setAmp(fileService
-        .readFileContentFromSystem(fetchedPage.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+        .readFileContentFromSystem(
+            fetchedPage.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     return fetchedPage;
   }
 
@@ -107,7 +122,8 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
     }
     PageDTO fetchedPage = mapper.toDTO(page);
     fetchedPage.setBody(
-        fileService.readFileContentFromSystem(fetchedPage.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+        fileService.readFileContentFromSystem(
+            fetchedPage.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setFooter(fileService.readFileContentFromSystem(
         fetchedPage.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setHeader(fileService.readFileContentFromSystem(
@@ -115,7 +131,8 @@ public class PageServiceImpl extends BaseServiceImpl<PageDTO, Page> implements P
     fetchedPage.setMeta(fileService.readFileContentFromSystem(
         fetchedPage.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setAmp(fileService
-        .readFileContentFromSystem(fetchedPage.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+        .readFileContentFromSystem(
+            fetchedPage.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     return fetchedPage;
   }
 

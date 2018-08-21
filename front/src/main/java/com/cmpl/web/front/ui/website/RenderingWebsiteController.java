@@ -1,8 +1,8 @@
 package com.cmpl.web.front.ui.website;
 
+import com.cmpl.web.core.factory.DisplayFactory;
 import java.util.Locale;
 import java.util.Objects;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.cmpl.web.core.factory.DisplayFactory;
 
 @Controller
 public class RenderingWebsiteController {
@@ -26,7 +24,8 @@ public class RenderingWebsiteController {
 
   @GetMapping(value = "/sites/{websiteName}/pages/{pageName}")
   public ModelAndView printWebsitePage(@PathVariable(value = "websiteName") String websiteName,
-      @PathVariable(value = "pageName") String pageName, @RequestParam(name = "p", required = false) Integer pageNumber,
+      @PathVariable(value = "pageName") String pageName,
+      @RequestParam(name = "p", required = false) Integer pageNumber,
       Locale locale) {
 
     LOGGER.info("Accès à la page {0} du site {1}", pageName, websiteName);

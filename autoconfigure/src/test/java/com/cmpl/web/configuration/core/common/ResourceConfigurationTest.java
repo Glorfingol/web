@@ -1,12 +1,11 @@
 package com.cmpl.web.configuration.core.common;
 
+import com.cmpl.web.core.common.message.WebMessageSourceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.cmpl.web.core.common.message.WebMessageSourceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ResourceConfigurationTest {

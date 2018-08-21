@@ -4,13 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.hibernate.envers.Audited;
-
 /**
  * DAO Menu
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Entity(name = "menu")
 @Table(name = "menu")
@@ -18,14 +15,19 @@ public class Menu extends BaseEntity {
 
   @Column(name = "title")
   private String title;
+
   @Column(name = "label")
   private String label;
+
   @Column(name = "href")
   private String href;
+
   @Column(name = "order_in_menu")
   private int orderInMenu;
+
   @Column(name = "parent_id")
   private String parentId;
+
   @Column(name = "page_id")
   private String pageId;
 

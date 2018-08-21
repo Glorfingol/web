@@ -1,17 +1,15 @@
 package com.cmpl.web.facebook;
 
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.cmpl.web.core.news.entry.NewsEntryDTO;
-import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FacebookImportTranslatorImplTest {

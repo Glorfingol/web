@@ -1,12 +1,11 @@
 package com.cmpl.web.core.website;
 
+import com.cmpl.web.core.models.Website;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-import com.cmpl.web.core.models.Website;
 
 @Configuration
 @EntityScan(basePackageClasses = {Website.class})
@@ -19,7 +18,8 @@ public class WebsiteConfiguration {
   }
 
   @Bean
-  public WebsiteDAO websiteDAO(ApplicationEventPublisher publisher, WebsiteRepository websiteRepository) {
+  public WebsiteDAO websiteDAO(ApplicationEventPublisher publisher,
+      WebsiteRepository websiteRepository) {
     return new WebsiteDAOImpl(websiteRepository, publisher);
   }
 
@@ -34,7 +34,8 @@ public class WebsiteConfiguration {
   }
 
   @Bean
-  public WebsiteDispatcher websiteDispatcher(WebsiteService websiteService, WebsiteTranslator websiteTranslator) {
+  public WebsiteDispatcher websiteDispatcher(WebsiteService websiteService,
+      WebsiteTranslator websiteTranslator) {
     return new WebsiteDispatcherImpl(websiteService, websiteTranslator);
   }
 }

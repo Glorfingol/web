@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.dto.BaseDTO;
 public class ResponsibilityDTO extends BaseDTO {
 
   private String userId;
+
   private String roleId;
 
   public String getUserId() {

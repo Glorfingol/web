@@ -1,9 +1,8 @@
 package com.cmpl.web.core.responsibility;
 
+import com.cmpl.web.core.common.exception.BaseException;
 import java.util.Locale;
 import java.util.Objects;
-
-import com.cmpl.web.core.common.exception.BaseException;
 
 public class ResponsibilityDispatcherImpl implements ResponsibilityDispatcher {
 

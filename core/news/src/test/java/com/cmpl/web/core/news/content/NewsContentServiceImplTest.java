@@ -1,9 +1,9 @@
 package com.cmpl.web.core.news.content;
 
+import com.cmpl.web.core.models.NewsContent;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +14,6 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.CollectionUtils;
-
-import com.cmpl.web.core.models.NewsContent;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsContentServiceImplTest {
@@ -67,15 +65,16 @@ public class NewsContentServiceImplTest {
 
     List<NewsContent> contents = Arrays.asList(content1, content2);
 
-    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
+    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L)
+        .creationDate(date)
         .modificationDate(date).build();
-    NewsContentDTO contentDTO2 = NewsContentDTOBuilder.create().content("content2").id(1L).creationDate(date)
+    NewsContentDTO contentDTO2 = NewsContentDTOBuilder.create().content("content2").id(1L)
+        .creationDate(date)
         .modificationDate(date).build();
-
-    List<NewsContentDTO> contentsDTO = Arrays.asList(contentDTO1, contentDTO2);
 
     BDDMockito.doReturn(contents).when(newsContentDAO).getEntities();
-    BDDMockito.doReturn(contentsDTO).when(mapper).toListDTO(BDDMockito.eq(contents));
+    BDDMockito.doReturn(contentDTO1).when(mapper).toDTO(BDDMockito.eq(content1));
+    BDDMockito.doReturn(contentDTO2).when(mapper).toDTO(BDDMockito.eq(content2));
 
     List<NewsContentDTO> result = service.getEntities();
 
@@ -92,12 +91,14 @@ public class NewsContentServiceImplTest {
 
     LocalDateTime date = LocalDateTime.now();
     date = date.minusDays(1);
-    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
+    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L)
+        .creationDate(date)
         .modificationDate(date).build();
 
     BDDMockito.given(mapper.toDTO(BDDMockito.any(NewsContent.class))).willReturn(contentDTO1);
     BDDMockito.given(mapper.toEntity(BDDMockito.any(NewsContentDTO.class))).willReturn(content1);
-    BDDMockito.given(newsContentDAO.updateEntity(BDDMockito.any(NewsContent.class))).willReturn(content1);
+    BDDMockito.given(newsContentDAO.updateEntity(BDDMockito.any(NewsContent.class)))
+        .willReturn(content1);
 
     NewsContentDTO result = service.updateEntity(contentDTO1);
 
@@ -124,7 +125,8 @@ public class NewsContentServiceImplTest {
 
     LocalDateTime date = LocalDateTime.now();
     date = date.minusDays(1);
-    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
+    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L)
+        .creationDate(date)
         .modificationDate(date).build();
 
     BDDMockito.doReturn(optional).when(newsContentDAO).getEntity(BDDMockito.anyLong());
@@ -142,12 +144,14 @@ public class NewsContentServiceImplTest {
     content1.setContent("content1");
     LocalDateTime date = LocalDateTime.now();
     date = date.minusDays(1);
-    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
+    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L)
+        .creationDate(date)
         .modificationDate(date).build();
 
     BDDMockito.given(mapper.toEntity(BDDMockito.any(NewsContentDTO.class))).willReturn(content1);
     BDDMockito.given(mapper.toDTO(BDDMockito.any(NewsContent.class))).willReturn(contentDTO1);
-    BDDMockito.given(newsContentDAO.createEntity(BDDMockito.any(NewsContent.class))).willReturn(content1);
+    BDDMockito.given(newsContentDAO.createEntity(BDDMockito.any(NewsContent.class)))
+        .willReturn(content1);
 
     NewsContentDTO result = service.createEntity(contentDTO1);
 

@@ -1,21 +1,5 @@
 package com.cmpl.web.configuration.modules.backup;
 
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.quartz.JobDetail;
-import org.quartz.SimpleTrigger;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.scheduling.quartz.JobDetailFactoryBean;
-import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
-
 import com.cmpl.web.backup.BackupExporterJob;
 import com.cmpl.web.backup.CSVGeneratorImpl;
 import com.cmpl.web.backup.writer.ArchiveManager;
@@ -64,6 +48,20 @@ import com.cmpl.web.core.models.Website;
 import com.cmpl.web.core.models.Widget;
 import com.cmpl.web.core.models.WidgetPage;
 import com.cmpl.web.google.DriveAdapter;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.quartz.JobDetail;
+import org.quartz.SimpleTrigger;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.quartz.JobDetailFactoryBean;
+import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
 @Configuration
 @PropertySource("classpath:/backup/backup.properties")
@@ -81,11 +79,15 @@ public class BackupExportConfiguration {
   @Value("${mediaFilePath}")
   String mediaFilePath;
 
-  DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withZone(ZoneId.systemDefault());;
+  DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+      .withZone(ZoneId.systemDefault());
+
+  ;
 
   @Bean
   public ArchiveManager archiveManager(DriveAdapter driveAdapter) {
-    return new ArchiveManagerImpl(backupFilePath, mediaFilePath, pagesFilePath, actualitesFilePath, driveAdapter);
+    return new ArchiveManagerImpl(backupFilePath, mediaFilePath, pagesFilePath, actualitesFilePath,
+        driveAdapter);
   }
 
   @Bean
@@ -114,22 +116,26 @@ public class BackupExportConfiguration {
   }
 
   @Bean
-  public CarouselItemCSVWriter carouselItemCSVWriter(DataManipulator<CarouselItem> carouselItemDataManipulator) {
+  public CarouselItemCSVWriter carouselItemCSVWriter(
+      DataManipulator<CarouselItem> carouselItemDataManipulator) {
     return new CarouselItemCSVWriter(dateFormatter, carouselItemDataManipulator, backupFilePath);
   }
 
   @Bean
-  public NewsEntryCSVWriter newsEntryCSVWriter(DataManipulator<NewsEntry> newsEntryDataManipulator) {
+  public NewsEntryCSVWriter newsEntryCSVWriter(
+      DataManipulator<NewsEntry> newsEntryDataManipulator) {
     return new NewsEntryCSVWriter(dateFormatter, newsEntryDataManipulator, backupFilePath);
   }
 
   @Bean
-  public NewsImageCSVWriter newsImageCSVWriter(DataManipulator<NewsImage> newsImageDataManipulator) {
+  public NewsImageCSVWriter newsImageCSVWriter(
+      DataManipulator<NewsImage> newsImageDataManipulator) {
     return new NewsImageCSVWriter(dateFormatter, newsImageDataManipulator, backupFilePath);
   }
 
   @Bean
-  public NewsContentCSVWriter newsContentCSVWriter(DataManipulator<NewsContent> newsContentDataManipulator) {
+  public NewsContentCSVWriter newsContentCSVWriter(
+      DataManipulator<NewsContent> newsContentDataManipulator) {
     return new NewsContentCSVWriter(dateFormatter, newsContentDataManipulator, backupFilePath);
   }
 
@@ -139,7 +145,8 @@ public class BackupExportConfiguration {
   }
 
   @Bean
-  public WidgetPageCSVWriter widgetPageCSVWriter(DataManipulator<WidgetPage> widgetPageDataManipulator) {
+  public WidgetPageCSVWriter widgetPageCSVWriter(
+      DataManipulator<WidgetPage> widgetPageDataManipulator) {
     return new WidgetPageCSVWriter(dateFormatter, widgetPageDataManipulator, backupFilePath);
   }
 
@@ -154,14 +161,16 @@ public class BackupExportConfiguration {
   }
 
   @Bean
-  public PrivilegeCSVWriter privilegeCSVWriter(DataManipulator<Privilege> privilegeDataManipulator) {
+  public PrivilegeCSVWriter privilegeCSVWriter(
+      DataManipulator<Privilege> privilegeDataManipulator) {
     return new PrivilegeCSVWriter(dateFormatter, privilegeDataManipulator, backupFilePath);
   }
 
   @Bean
   public ResponsibilityCSVWriter associationUserRoleCSVWriter(
       DataManipulator<Responsibility> associationUserRoleDataManipulator) {
-    return new ResponsibilityCSVWriter(dateFormatter, associationUserRoleDataManipulator, backupFilePath);
+    return new ResponsibilityCSVWriter(dateFormatter, associationUserRoleDataManipulator,
+        backupFilePath);
   }
 
   @Bean
@@ -175,7 +184,8 @@ public class BackupExportConfiguration {
   }
 
   @Bean
-  public MembershipCSVWriter membershipCSVWriter(DataManipulator<Membership> membershipDataManipulator) {
+  public MembershipCSVWriter membershipCSVWriter(
+      DataManipulator<Membership> membershipDataManipulator) {
     return new MembershipCSVWriter(dateFormatter, membershipDataManipulator, backupFilePath);
   }
 
@@ -193,17 +203,24 @@ public class BackupExportConfiguration {
   public CSVGenerator csvGenerator(UserCSVWriter userCSVWriter, RoleCSVWriter roleCSVWriter,
       PrivilegeCSVWriter privilegeCSVWriter, ResponsibilityCSVWriter associationUserRoleCSVWriter,
       MenuCSVWriter menuCSVWriter, StyleCSVWriter styleCSVWriter, PageCSVWriter pageCSVWriter,
-      MediaCSVWriter mediaCSVWriter, CarouselCSVWriter carouselCSVWriter, CarouselItemCSVWriter carouselItemCSVWriter,
+      MediaCSVWriter mediaCSVWriter, CarouselCSVWriter carouselCSVWriter,
+      CarouselItemCSVWriter carouselItemCSVWriter,
       NewsEntryCSVWriter newsEntryCSVWriter, NewsImageCSVWriter newsImageCSVWriter,
       NewsContentCSVWriter newsContentCSVWriter, WidgetCSVWriter widgetCSVWriter,
-      WidgetPageCSVWriter widgetPageCSVWriter, WebsiteCSVWriter websiteCSVWriter, GroupCSVWriter groupCSVWriter,
-      MembershipCSVWriter membershipCSVWriter, DesignCSVWriter designCSVWriter, SitemapCSVWriter sitemapCSVWriter) {
+      WidgetPageCSVWriter widgetPageCSVWriter, WebsiteCSVWriter websiteCSVWriter,
+      GroupCSVWriter groupCSVWriter,
+      MembershipCSVWriter membershipCSVWriter, DesignCSVWriter designCSVWriter,
+      SitemapCSVWriter sitemapCSVWriter) {
 
     List<CommonWriter<?>> writers = new ArrayList<>();
-    writers.addAll(Arrays.asList(userCSVWriter, roleCSVWriter, privilegeCSVWriter, associationUserRoleCSVWriter,
-        menuCSVWriter, styleCSVWriter, pageCSVWriter, mediaCSVWriter, carouselCSVWriter, carouselItemCSVWriter,
-        newsEntryCSVWriter, newsContentCSVWriter, newsImageCSVWriter, widgetCSVWriter, widgetPageCSVWriter,
-        websiteCSVWriter, groupCSVWriter, membershipCSVWriter, designCSVWriter, sitemapCSVWriter));
+    writers.addAll(Arrays
+        .asList(userCSVWriter, roleCSVWriter, privilegeCSVWriter, associationUserRoleCSVWriter,
+            menuCSVWriter, styleCSVWriter, pageCSVWriter, mediaCSVWriter, carouselCSVWriter,
+            carouselItemCSVWriter,
+            newsEntryCSVWriter, newsContentCSVWriter, newsImageCSVWriter, widgetCSVWriter,
+            widgetPageCSVWriter,
+            websiteCSVWriter, groupCSVWriter, membershipCSVWriter, designCSVWriter,
+            sitemapCSVWriter));
 
     return new CSVGeneratorImpl(writers);
   }
@@ -230,7 +247,8 @@ public class BackupExportConfiguration {
     factoryBean.setStartDelay(120 * 1000l);
     factoryBean.setRepeatInterval(24 * 60 * 60 * 1000l);
     factoryBean.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
-    factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
+    factoryBean.setMisfireInstruction(
+        SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
     return factoryBean;
   }
 

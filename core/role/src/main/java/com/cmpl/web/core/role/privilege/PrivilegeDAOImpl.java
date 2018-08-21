@@ -1,18 +1,17 @@
 package com.cmpl.web.core.role.privilege;
 
-import java.util.List;
-
-import org.springframework.context.ApplicationEventPublisher;
-
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.Privilege;
 import com.querydsl.core.types.Predicate;
+import java.util.List;
+import org.springframework.context.ApplicationEventPublisher;
 
 public class PrivilegeDAOImpl extends BaseDAOImpl<Privilege> implements PrivilegeDAO {
 
   private final PrivilegeRepository privilegeRepository;
 
-  public PrivilegeDAOImpl(PrivilegeRepository privilegeRepository, ApplicationEventPublisher publisher) {
+  public PrivilegeDAOImpl(PrivilegeRepository privilegeRepository,
+      ApplicationEventPublisher publisher) {
     super(Privilege.class, privilegeRepository, publisher);
     this.privilegeRepository = privilegeRepository;
   }

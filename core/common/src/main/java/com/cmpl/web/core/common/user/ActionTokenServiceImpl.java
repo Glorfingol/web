@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 import org.springframework.security.core.token.Token;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.util.CollectionUtils;
@@ -37,7 +36,8 @@ public class ActionTokenServiceImpl implements ActionTokenService {
 
   protected ActionToken decryptTokenFromString(String anExtendedInformationsToken) {
 
-    List<String> result = Arrays.asList(anExtendedInformationsToken.split("\\|")).stream().map(String::trim)
+    List<String> result = Arrays.asList(anExtendedInformationsToken.split("\\|")).stream()
+        .map(String::trim)
         .collect(Collectors.toList());
 
     ActionToken actionToken = new ActionToken();

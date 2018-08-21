@@ -1,11 +1,10 @@
 package com.cmpl.web.core.user;
 
-import javax.validation.constraints.NotEmpty;
-
 import com.cmpl.web.core.user.validation.PasswordConfirmation;
 import com.cmpl.web.core.user.validation.PasswordDifferent;
 import com.cmpl.web.core.user.validation.PasswordStrength;
 import com.cmpl.web.core.user.validation.ValidToken;
+import javax.validation.constraints.NotEmpty;
 
 @PasswordConfirmation
 @PasswordDifferent
@@ -14,8 +13,10 @@ public class ChangePasswordForm {
   @NotEmpty(message = "empty.user.password")
   @PasswordStrength
   private String password;
+
   @NotEmpty(message = "empty.user.confirmation")
   private String confirmation;
+
   @NotEmpty(message = "token.invalid")
   @ValidToken
   private String token;
@@ -46,7 +47,8 @@ public class ChangePasswordForm {
 
   @Override
   public String toString() {
-    return "ChangePasswordForm{" + "password='" + password + '\'' + ", confirmation='" + confirmation + '\''
+    return "ChangePasswordForm{" + "password='" + password + '\'' + ", confirmation='"
+        + confirmation + '\''
         + ", token='" + token + '\'' + '}';
   }
 }

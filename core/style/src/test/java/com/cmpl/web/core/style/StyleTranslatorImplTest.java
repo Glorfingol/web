@@ -1,12 +1,11 @@
 package com.cmpl.web.core.style;
 
+import com.cmpl.web.core.media.MediaDTOBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.cmpl.web.core.media.MediaDTOBuilder;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StyleTranslatorImplTest {

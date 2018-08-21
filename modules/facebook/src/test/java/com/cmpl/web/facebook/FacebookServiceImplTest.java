@@ -1,5 +1,8 @@
 package com.cmpl.web.facebook;
 
+import com.cmpl.web.core.common.context.ContextHolder;
+import com.cmpl.web.core.common.exception.BaseException;
+import com.cmpl.web.core.news.entry.NewsEntryService;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -8,7 +11,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,10 +32,6 @@ import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
-import com.cmpl.web.core.common.context.ContextHolder;
-import com.cmpl.web.core.common.exception.BaseException;
-import com.cmpl.web.core.news.entry.NewsEntryService;
 
 ;
 
@@ -122,7 +120,8 @@ public class FacebookServiceImplTest {
   public void testComputeCreatedTime() throws Exception {
     ZoneId defaultZoneId = ZoneId.systemDefault();
     LocalDate createdTime = LocalDate.now();
-    Post post = PostBuilder.create().createdTime(Date.from(createdTime.atStartOfDay(defaultZoneId).toInstant()))
+    Post post = PostBuilder.create()
+        .createdTime(Date.from(createdTime.atStartOfDay(defaultZoneId).toInstant()))
         .build();
 
     LocalDate result = facebookService.computeCreatedTime(post);
@@ -188,7 +187,8 @@ public class FacebookServiceImplTest {
     String sourceAutoplay = "someVideoUrl?autoplay=1";
     Post post = PostBuilder.create().source(sourceAutoplay).build();
 
-    BDDMockito.doReturn(sourceNotAutoplay).when(facebookService).makeVideoNotAutoplay(BDDMockito.eq(sourceAutoplay));
+    BDDMockito.doReturn(sourceNotAutoplay).when(facebookService)
+        .makeVideoNotAutoplay(BDDMockito.eq(sourceAutoplay));
     String result = facebookService.computeVideoUrl(post);
 
     Assert.assertEquals(sourceNotAutoplay, result);
@@ -275,7 +275,8 @@ public class FacebookServiceImplTest {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
     ZoneId defaultZoneId = ZoneId.systemDefault();
 
-    Post post = PostBuilder.create().id(id).objectId(objectId).name(name).caption(caption).description(description)
+    Post post = PostBuilder.create().id(id).objectId(objectId).name(name).caption(caption)
+        .description(description)
         .source(source).message(message).picture(picture).link(link).type(type)
         .createdTime(Date.from(createdTime.atStartOfDay(defaultZoneId).toInstant())).build();
 
@@ -290,8 +291,9 @@ public class FacebookServiceImplTest {
     BDDMockito.doReturn(onclick).when(facebookService).computeOnclick(BDDMockito.eq(post));
     BDDMockito.doReturn(createdTime).when(facebookService).computeCreatedTime(BDDMockito.eq(post));
     BDDMockito.doReturn(objectId).when(facebookService).computeObjectId(BDDMockito.eq(post));
-    BDDMockito.doReturn(formattedDate).when(facebookService).computeFormattedDate(BDDMockito.eq(post),
-        BDDMockito.eq(formatter));
+    BDDMockito.doReturn(formattedDate).when(facebookService)
+        .computeFormattedDate(BDDMockito.eq(post),
+            BDDMockito.eq(formatter));
 
     ImportablePost result = facebookService.computeImportablePost(post, formatter);
 
@@ -343,10 +345,12 @@ public class FacebookServiceImplTest {
   @Test
   public void testCanImportPost_Ok() throws Exception {
 
-    ImportablePost post = new ImportablePostBuilder().type(PostType.STATUS).description("someDescription")
+    ImportablePost post = new ImportablePostBuilder().type(PostType.STATUS)
+        .description("someDescription")
         .facebookId("someId").build();
 
-    BDDMockito.doReturn(false).when(newsEntryService).isAlreadyImportedFromFacebook(BDDMockito.anyString());
+    BDDMockito.doReturn(false).when(newsEntryService)
+        .isAlreadyImportedFromFacebook(BDDMockito.anyString());
 
     boolean result = facebookService.canImportPost(post);
 
@@ -356,7 +360,8 @@ public class FacebookServiceImplTest {
   @Test
   public void testCanImportPost_Ko_Status_And_Empty_Description() throws Exception {
 
-    ImportablePost post = new ImportablePostBuilder().type(PostType.STATUS).facebookId("someId").build();
+    ImportablePost post = new ImportablePostBuilder().type(PostType.STATUS).facebookId("someId")
+        .build();
 
     boolean result = facebookService.canImportPost(post);
 
@@ -366,10 +371,12 @@ public class FacebookServiceImplTest {
   @Test
   public void testCanImportPost_Ko_Already_Imported() throws Exception {
 
-    ImportablePost post = new ImportablePostBuilder().type(PostType.VIDEO).description("someDescription")
+    ImportablePost post = new ImportablePostBuilder().type(PostType.VIDEO)
+        .description("someDescription")
         .facebookId("someId").build();
 
-    BDDMockito.doReturn(true).when(newsEntryService).isAlreadyImportedFromFacebook(BDDMockito.anyString());
+    BDDMockito.doReturn(true).when(newsEntryService)
+        .isAlreadyImportedFromFacebook(BDDMockito.anyString());
 
     boolean result = facebookService.canImportPost(post);
 
@@ -400,8 +407,9 @@ public class FacebookServiceImplTest {
     ImportablePost importable = new ImportablePostBuilder().build();
 
     BDDMockito.doReturn(formatter).when(contextHolder).getDateFormat();
-    BDDMockito.doReturn(importable).when(facebookService).computeImportablePost(BDDMockito.eq(postToImport),
-        BDDMockito.any(DateTimeFormatter.class));
+    BDDMockito.doReturn(importable).when(facebookService)
+        .computeImportablePost(BDDMockito.eq(postToImport),
+            BDDMockito.any(DateTimeFormatter.class));
     BDDMockito.doReturn(true).when(facebookService).canImportPost(BDDMockito.eq(importable));
 
     List<ImportablePost> postsImportable = facebookService.computeImportablePosts(postsToImport);
@@ -423,8 +431,9 @@ public class FacebookServiceImplTest {
     ImportablePost importable = new ImportablePostBuilder().build();
 
     BDDMockito.doReturn(formatter).when(contextHolder).getDateFormat();
-    BDDMockito.doReturn(importable).when(facebookService).computeImportablePost(BDDMockito.eq(postToImport),
-        BDDMockito.any(DateTimeFormatter.class));
+    BDDMockito.doReturn(importable).when(facebookService)
+        .computeImportablePost(BDDMockito.eq(postToImport),
+            BDDMockito.any(DateTimeFormatter.class));
     BDDMockito.doReturn(false).when(facebookService).canImportPost(BDDMockito.eq(importable));
 
     List<ImportablePost> postsImportable = facebookService.computeImportablePosts(postsToImport);
@@ -448,10 +457,12 @@ public class FacebookServiceImplTest {
     ImportablePost importable = new ImportablePostBuilder().build();
     List<ImportablePost> importables = Arrays.asList(importable);
 
-    BDDMockito.doReturn(connection).when(connectionRepository).findPrimaryConnection(Facebook.class);
+    BDDMockito.doReturn(connection).when(connectionRepository)
+        .findPrimaryConnection(Facebook.class);
     BDDMockito.doReturn(operations).when(facebookConnector).feedOperations();
     BDDMockito.doReturn(postsToImport).when(operations).getPosts();
-    BDDMockito.doReturn(importables).when(facebookService).computeImportablePosts(BDDMockito.eq(postsToImport));
+    BDDMockito.doReturn(importables).when(facebookService)
+        .computeImportablePosts(BDDMockito.eq(postsToImport));
 
     List<ImportablePost> result = facebookService.getRecentFeed();
 

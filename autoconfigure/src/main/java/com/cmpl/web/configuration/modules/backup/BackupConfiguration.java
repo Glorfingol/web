@@ -1,10 +1,5 @@
 package com.cmpl.web.configuration.modules.backup;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
 import com.cmpl.web.backup.writer.DataManipulator;
 import com.cmpl.web.core.carousel.CarouselRepository;
 import com.cmpl.web.core.carousel.item.CarouselItemRepository;
@@ -46,13 +41,21 @@ import com.cmpl.web.core.user.UserRepository;
 import com.cmpl.web.core.website.WebsiteRepository;
 import com.cmpl.web.core.widget.WidgetRepository;
 import com.cmpl.web.core.widget.page.WidgetPageRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @PropertySource("classpath:/backup/backup.properties")
-@EnableJpaRepositories(basePackageClasses = {MenuRepository.class, StyleRepository.class, PageRepository.class,
-    MediaRepository.class, CarouselRepository.class, CarouselItemRepository.class, NewsEntryRepository.class,
-    NewsContentRepository.class, NewsImageRepository.class, WidgetRepository.class, WidgetPageRepository.class,
-    UserRepository.class, RoleRepository.class, ResponsibilityRepository.class, PrivilegeRepository.class,
+@EnableJpaRepositories(basePackageClasses = {MenuRepository.class, StyleRepository.class,
+    PageRepository.class,
+    MediaRepository.class, CarouselRepository.class, CarouselItemRepository.class,
+    NewsEntryRepository.class,
+    NewsContentRepository.class, NewsImageRepository.class, WidgetRepository.class,
+    WidgetPageRepository.class,
+    UserRepository.class, RoleRepository.class, ResponsibilityRepository.class,
+    PrivilegeRepository.class,
     WebsiteRepository.class, DesignRepository.class, SitemapRepository.class, GroupRepository.class,
     MembershipRepository.class})
 public class BackupConfiguration {
@@ -83,22 +86,26 @@ public class BackupConfiguration {
   }
 
   @Bean
-  public DataManipulator<CarouselItem> carouselItemDataManipulator(CarouselItemRepository carouselItemRepository) {
+  public DataManipulator<CarouselItem> carouselItemDataManipulator(
+      CarouselItemRepository carouselItemRepository) {
     return new DataManipulator<>(carouselItemRepository);
   }
 
   @Bean
-  public DataManipulator<NewsEntry> newsEntryDataManipulator(NewsEntryRepository newsEntryRepository) {
+  public DataManipulator<NewsEntry> newsEntryDataManipulator(
+      NewsEntryRepository newsEntryRepository) {
     return new DataManipulator<>(newsEntryRepository);
   }
 
   @Bean
-  public DataManipulator<NewsImage> newsImageDataManipulator(NewsImageRepository newsImageRepository) {
+  public DataManipulator<NewsImage> newsImageDataManipulator(
+      NewsImageRepository newsImageRepository) {
     return new DataManipulator<>(newsImageRepository);
   }
 
   @Bean
-  public DataManipulator<NewsContent> newsContentDataManipulator(NewsContentRepository newsContentRepository) {
+  public DataManipulator<NewsContent> newsContentDataManipulator(
+      NewsContentRepository newsContentRepository) {
     return new DataManipulator<>(newsContentRepository);
   }
 
@@ -108,7 +115,8 @@ public class BackupConfiguration {
   }
 
   @Bean
-  public DataManipulator<WidgetPage> widgetPageDataManipulator(WidgetPageRepository widgetPageRepository) {
+  public DataManipulator<WidgetPage> widgetPageDataManipulator(
+      WidgetPageRepository widgetPageRepository) {
     return new DataManipulator<>(widgetPageRepository);
   }
 
@@ -129,7 +137,8 @@ public class BackupConfiguration {
   }
 
   @Bean
-  public DataManipulator<Privilege> privilegeDataManipulator(PrivilegeRepository privilegeRepository) {
+  public DataManipulator<Privilege> privilegeDataManipulator(
+      PrivilegeRepository privilegeRepository) {
     return new DataManipulator<>(privilegeRepository);
   }
 
@@ -149,7 +158,8 @@ public class BackupConfiguration {
   }
 
   @Bean
-  public DataManipulator<Membership> membershipDataManipulator(MembershipRepository membershipRepository) {
+  public DataManipulator<Membership> membershipDataManipulator(
+      MembershipRepository membershipRepository) {
     return new DataManipulator<>(membershipRepository);
   }
 

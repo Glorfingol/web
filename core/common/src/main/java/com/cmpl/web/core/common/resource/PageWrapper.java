@@ -5,14 +5,23 @@ import org.springframework.data.domain.Page;
 public class PageWrapper<T> {
 
   private Page<T> page;
+
   private boolean isFirstPage;
+
   private boolean isLastPage;
+
   private int totalPages;
+
   private int currentPageNumber;
+
   private String pageBaseUrl;
+
   private String pageLabel;
+
   private String itemLink;
+
   private String createItemLink;
+
   private String createItemPrivilege;
 
   public Page<T> getPage() {

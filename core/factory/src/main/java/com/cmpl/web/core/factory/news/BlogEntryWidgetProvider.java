@@ -1,17 +1,15 @@
 package com.cmpl.web.core.factory.news;
 
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryService;
+import com.cmpl.web.core.provider.WidgetProviderPlugin;
+import com.cmpl.web.core.widget.WidgetDTO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-
 import org.springframework.util.StringUtils;
-
-import com.cmpl.web.core.news.entry.NewsEntryDTO;
-import com.cmpl.web.core.news.entry.NewsEntryService;
-import com.cmpl.web.core.provider.WidgetProviderPlugin;
-import com.cmpl.web.core.widget.WidgetDTO;
 
 public class BlogEntryWidgetProvider implements WidgetProviderPlugin {
 
@@ -24,7 +22,8 @@ public class BlogEntryWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
-  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName, int pageNumber) {
+  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName,
+      int pageNumber) {
     Map<String, Object> widgetModel = new HashMap<>();
 
     String newsEntryId = widget.getEntityId();

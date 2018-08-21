@@ -1,7 +1,6 @@
 package com.cmpl.web.manager.ui.core.common.security;
 
 import java.util.Objects;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,16 +30,20 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
     if (detailsObject instanceof WebAuthenticationDetails) {
       final WebAuthenticationDetails details = (WebAuthenticationDetails) detailsObject;
 
-      if (userLoginAttemptsService.isBlocked(authentication.getName(), details.getRemoteAddress())) {
-        LOGGER.error("L'utilisateur de login " + authentication.getName() + " pour l'ip " + details.getRemoteAddress()
+      if (userLoginAttemptsService
+          .isBlocked(authentication.getName(), details.getRemoteAddress())) {
+        LOGGER.error("L'utilisateur de login " + authentication.getName() + " pour l'ip " + details
+            .getRemoteAddress()
             + " est bloqué");
         throw new LockedException(
-            messages.getMessage("AbstractUserDetailsAuthenticationProvider.locked", "User account is locked"));
+            messages.getMessage("AbstractUserDetailsAuthenticationProvider.locked",
+                "User account is locked"));
       }
 
       try {
         Authentication auth = super.authenticate(authentication);
-        userLoginAttemptsService.successfulAttempt(authentication.getName(), details.getRemoteAddress());
+        userLoginAttemptsService
+            .successfulAttempt(authentication.getName(), details.getRemoteAddress());
         return auth;
       } catch (BadCredentialsException e) {
         userLoginAttemptsService.failAttempt(authentication.getName(), details.getRemoteAddress());

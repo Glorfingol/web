@@ -2,9 +2,8 @@ package com.cmpl.web.core.common.filler;
 
 /**
  * Classe permettant de copier le contenu d'un objet dans un autre pour les proprietes similaires
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public interface ObjectReflexiveFiller {
 

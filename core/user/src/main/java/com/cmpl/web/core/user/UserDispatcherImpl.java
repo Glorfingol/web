@@ -1,27 +1,29 @@
 package com.cmpl.web.core.user;
 
+import com.cmpl.web.core.common.user.ActionToken;
+import com.cmpl.web.core.common.user.ActionTokenService;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.cmpl.web.core.common.user.ActionToken;
-import com.cmpl.web.core.common.user.ActionTokenService;
 
 public class UserDispatcherImpl implements UserDispatcher {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(UserDispatcherImpl.class);
 
   private final UserTranslator translator;
+
   private final UserService service;
+
   private final PasswordEncoder passwordEncoder;
+
   private final ActionTokenService tokenService;
 
-  public UserDispatcherImpl(UserTranslator translator, UserService userService, PasswordEncoder passwordEncoder,
+  public UserDispatcherImpl(UserTranslator translator, UserService userService,
+      PasswordEncoder passwordEncoder,
       ActionTokenService tokenService) {
 
     this.translator = Objects.requireNonNull(translator);

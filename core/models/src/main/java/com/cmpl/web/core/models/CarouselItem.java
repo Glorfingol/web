@@ -4,13 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.hibernate.envers.Audited;
-
 /**
  * Object pour les carousel d'image
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Entity(name = "carouselItem")
 @Table(name = "carouse_item")
@@ -18,8 +15,10 @@ public class CarouselItem extends BaseEntity {
 
   @Column(name = "media_id")
   private String mediaId;
+
   @Column(name = "carousel_id")
   private String carouselId;
+
   @Column(name = "order_in_carousel")
   private int orderInCarousel;
 

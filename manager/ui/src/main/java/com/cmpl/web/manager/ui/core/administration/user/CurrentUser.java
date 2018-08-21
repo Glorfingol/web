@@ -1,12 +1,10 @@
 package com.cmpl.web.manager.ui.core.administration.user;
 
+import com.cmpl.web.core.user.UserDTO;
 import java.util.List;
 import java.util.Set;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-
-import com.cmpl.web.core.user.UserDTO;
 
 public class CurrentUser extends org.springframework.security.core.userdetails.User {
 

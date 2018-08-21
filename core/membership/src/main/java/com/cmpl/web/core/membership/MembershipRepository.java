@@ -1,11 +1,9 @@
 package com.cmpl.web.core.membership;
 
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import com.cmpl.web.core.common.repository.BaseRepository;
 import com.cmpl.web.core.models.Membership;
+import java.util.List;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MembershipRepository extends BaseRepository<Membership> {

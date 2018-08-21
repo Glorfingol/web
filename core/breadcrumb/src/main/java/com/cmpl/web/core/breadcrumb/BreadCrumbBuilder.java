@@ -1,16 +1,15 @@
 package com.cmpl.web.core.breadcrumb;
 
+import com.cmpl.web.core.common.builder.Builder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.cmpl.web.core.common.builder.Builder;
-import com.cmpl.web.core.page.BACK_PAGE;
-
 public class BreadCrumbBuilder extends Builder<BreadCrumb> {
 
   private List<BreadCrumbItem> items;
-  private BACK_PAGE page;
+
+  private String pageName;
 
   private BreadCrumbBuilder() {
     items = new ArrayList<>();
@@ -21,8 +20,8 @@ public class BreadCrumbBuilder extends Builder<BreadCrumb> {
     return this;
   }
 
-  public BreadCrumbBuilder page(BACK_PAGE page) {
-    this.page = page;
+  public BreadCrumbBuilder pageName(String pageName) {
+    this.pageName = pageName;
     return this;
   }
 
@@ -30,7 +29,7 @@ public class BreadCrumbBuilder extends Builder<BreadCrumb> {
   public BreadCrumb build() {
     BreadCrumb breadCrumb = new BreadCrumb();
     breadCrumb.setItems(items.stream().collect(Collectors.toList()));
-    breadCrumb.setPage(page);
+    breadCrumb.setPageName(pageName);
     return breadCrumb;
   }
 

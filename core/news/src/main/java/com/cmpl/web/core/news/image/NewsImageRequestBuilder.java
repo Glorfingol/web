@@ -1,19 +1,25 @@
 package com.cmpl.web.core.news.image;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.Builder;
 import com.cmpl.web.core.media.MediaDTO;
+import java.time.LocalDateTime;
 
 public class NewsImageRequestBuilder extends Builder<NewsImageRequest> {
 
   private String legend;
+
   private String alt;
+
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
+
   private MediaDTO media;
 
   private NewsImageRequestBuilder() {

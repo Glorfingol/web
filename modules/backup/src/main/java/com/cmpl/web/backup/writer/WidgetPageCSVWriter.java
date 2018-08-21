@@ -1,12 +1,12 @@
 package com.cmpl.web.backup.writer;
 
-import java.time.format.DateTimeFormatter;
-
 import com.cmpl.web.core.models.WidgetPage;
+import java.time.format.DateTimeFormatter;
 
 public class WidgetPageCSVWriter extends CommonWriter<WidgetPage> {
 
-  public WidgetPageCSVWriter(DateTimeFormatter dateFormatter, DataManipulator<WidgetPage> dataManipulator,
+  public WidgetPageCSVWriter(DateTimeFormatter dateFormatter,
+      DataManipulator<WidgetPage> dataManipulator,
       String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }

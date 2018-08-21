@@ -1,9 +1,12 @@
 package com.cmpl.web.core.style;
 
+import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.media.MediaDTO;
+import com.cmpl.web.core.media.MediaDTOBuilder;
+import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.models.Style;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,11 +16,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.media.MediaDTO;
-import com.cmpl.web.core.media.MediaDTOBuilder;
-import com.cmpl.web.core.media.MediaService;
-
 @RunWith(MockitoJUnitRunner.class)
 public class StyleServiceImplTest {
 
@@ -26,8 +24,10 @@ public class StyleServiceImplTest {
 
   @Mock
   private StyleDAO styleDAO;
+
   @Mock
   private MediaService mediaService;
+
   @Mock
   private FileService fileService;
 
@@ -51,7 +51,8 @@ public class StyleServiceImplTest {
 
     Assert.assertEquals(dto, result);
 
-    BDDMockito.verify(mediaService, BDDMockito.times(1)).createEntity(BDDMockito.any(MediaDTO.class));
+    BDDMockito.verify(mediaService, BDDMockito.times(1))
+        .createEntity(BDDMockito.any(MediaDTO.class));
     BDDMockito.verify(fileService, BDDMockito.times(1)).saveMediaOnSystem(BDDMockito.anyString(),
         BDDMockito.any(byte[].class));
 

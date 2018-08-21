@@ -1,21 +1,20 @@
 package com.cmpl.web.core.style;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.springframework.util.StringUtils;
-
 import com.cmpl.web.core.common.mapper.BaseMapper;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.models.Style;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import org.springframework.util.StringUtils;
 
 public class StyleMapper extends BaseMapper<StyleDTO, Style> {
 
   private final MediaService mediaService;
+
   private final FileService fileService;
 
   public StyleMapper(MediaService mediaService, FileService fileService) {

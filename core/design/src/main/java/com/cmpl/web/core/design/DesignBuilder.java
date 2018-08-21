@@ -6,6 +6,7 @@ import com.cmpl.web.core.models.Design;
 public class DesignBuilder extends BaseBuilder<Design> {
 
   private Long websiteId;
+
   private Long styleId;
 
   public DesignBuilder websiteId(Long websiteId) {

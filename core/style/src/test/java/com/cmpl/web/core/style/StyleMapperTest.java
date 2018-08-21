@@ -1,5 +1,9 @@
 package com.cmpl.web.core.style;
 
+import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.media.MediaDTO;
+import com.cmpl.web.core.media.MediaDTOBuilder;
+import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.models.Style;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,16 +14,12 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.media.MediaDTO;
-import com.cmpl.web.core.media.MediaDTOBuilder;
-import com.cmpl.web.core.media.MediaService;
-
 @RunWith(MockitoJUnitRunner.class)
 public class StyleMapperTest {
 
   @Mock
   private MediaService mediaService;
+
   @Mock
   private FileService fileService;
 
@@ -33,7 +33,8 @@ public class StyleMapperTest {
     MediaDTO media = MediaDTOBuilder.create().id(123456789l).build();
     StyleDTO dto = StyleDTOBuilder.create().media(media).content("someContent").build();
 
-    BDDMockito.doNothing().when(mapper).fillObject(BDDMockito.any(StyleDTO.class), BDDMockito.any(Style.class));
+    BDDMockito.doNothing().when(mapper)
+        .fillObject(BDDMockito.any(StyleDTO.class), BDDMockito.any(Style.class));
     Style result = mapper.toEntity(dto);
 
     Assert.assertTrue(media.getId() == Long.parseLong(result.getMediaId()));
@@ -45,12 +46,14 @@ public class StyleMapperTest {
   @Test
   public void testToDTO_Media_Not_Null() throws Exception {
     Style style = StyleBuilder.create().mediaId("123456789").build();
-    BDDMockito.doNothing().when(mapper).fillObject(BDDMockito.any(Style.class), BDDMockito.any(StyleDTO.class));
+    BDDMockito.doNothing().when(mapper)
+        .fillObject(BDDMockito.any(Style.class), BDDMockito.any(StyleDTO.class));
 
     MediaDTO media = new MediaDTO();
     BDDMockito.given(mediaService.getEntity(BDDMockito.anyLong())).willReturn(media);
 
-    BDDMockito.doReturn("someContent").when(mapper).readMediaContent(BDDMockito.any(MediaDTO.class));
+    BDDMockito.doReturn("someContent").when(mapper)
+        .readMediaContent(BDDMockito.any(MediaDTO.class));
 
     StyleDTO result = mapper.toDTO(style);
     Assert.assertEquals("someContent", result.getContent());
@@ -60,7 +63,8 @@ public class StyleMapperTest {
   @Test
   public void testToDTO_Media_Null() throws Exception {
     Style style = StyleBuilder.create().build();
-    BDDMockito.doNothing().when(mapper).fillObject(BDDMockito.any(Style.class), BDDMockito.any(StyleDTO.class));
+    BDDMockito.doNothing().when(mapper)
+        .fillObject(BDDMockito.any(Style.class), BDDMockito.any(StyleDTO.class));
 
     StyleDTO result = mapper.toDTO(style);
     Assert.assertNull(result.getContent());

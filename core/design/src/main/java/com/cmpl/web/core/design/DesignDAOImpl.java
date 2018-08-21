@@ -1,12 +1,10 @@
 package com.cmpl.web.core.design;
 
-import java.util.List;
-
-import org.springframework.context.ApplicationEventPublisher;
-
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.Design;
 import com.querydsl.core.types.Predicate;
+import java.util.List;
+import org.springframework.context.ApplicationEventPublisher;
 
 public class DesignDAOImpl extends BaseDAOImpl<Design> implements DesignDAO {
 

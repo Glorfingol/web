@@ -6,7 +6,9 @@ import com.cmpl.web.core.models.CarouselItem;
 public class CarouselItemBuilder extends BaseBuilder<CarouselItem> {
 
   private String mediaId;
+
   private String carouselId;
+
   private int orderInCarousel;
 
   private CarouselItemBuilder() {

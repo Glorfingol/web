@@ -4,13 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.hibernate.envers.Audited;
-
 /**
  * DAO Page
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Entity(name = "page")
 @Table(name = "page")
@@ -18,6 +15,7 @@ public class Page extends BaseEntity {
 
   @Column(name = "name", unique = true)
   private String name;
+
   @Column(name = "menu_title")
   private String menuTitle;
 

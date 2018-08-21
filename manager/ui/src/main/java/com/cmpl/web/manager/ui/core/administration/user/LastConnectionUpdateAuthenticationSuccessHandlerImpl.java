@@ -1,17 +1,14 @@
 package com.cmpl.web.manager.ui.core.administration.user;
 
+import com.cmpl.web.core.user.UserService;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-
-import com.cmpl.web.core.user.UserService;
 
 public class LastConnectionUpdateAuthenticationSuccessHandlerImpl
     extends SavedRequestAwareAuthenticationSuccessHandler {

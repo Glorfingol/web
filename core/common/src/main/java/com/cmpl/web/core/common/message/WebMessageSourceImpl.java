@@ -1,14 +1,12 @@
 package com.cmpl.web.core.common.message;
 
 import java.util.Locale;
-
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 /**
  * Implementation de l'interface de i18n
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class WebMessageSourceImpl extends ResourceBundleMessageSource implements WebMessageSource {
 

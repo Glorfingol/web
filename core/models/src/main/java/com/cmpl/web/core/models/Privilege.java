@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-import org.hibernate.envers.Audited;
-
 @Entity(name = "privilege")
 @Table(name = "privilege", indexes = {@Index(name = "IDX_PRIVILEGE", columnList = "role_id")})
 public class Privilege extends BaseEntity {

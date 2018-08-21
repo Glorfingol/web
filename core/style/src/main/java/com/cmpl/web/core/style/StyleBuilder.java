@@ -6,6 +6,7 @@ import com.cmpl.web.core.models.Style;
 public class StyleBuilder extends BaseBuilder<Style> {
 
   private String mediaId;
+
   private String name;
 
   private StyleBuilder() {

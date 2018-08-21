@@ -4,9 +4,8 @@ import com.cmpl.web.core.common.dto.BaseDTO;
 
 /**
  * DTO NewsContent
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class NewsContentDTO extends BaseDTO {
 

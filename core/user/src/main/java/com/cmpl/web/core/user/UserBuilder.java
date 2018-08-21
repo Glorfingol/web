@@ -1,17 +1,21 @@
 package com.cmpl.web.core.user;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.BaseBuilder;
 import com.cmpl.web.core.models.User;
+import java.time.LocalDateTime;
 
 public class UserBuilder extends BaseBuilder<User> {
 
   private String login;
+
   private String password;
+
   private LocalDateTime lastConnection;
+
   private String email;
+
   private String description;
+
   private LocalDateTime lastPasswordModification;
 
   private UserBuilder() {

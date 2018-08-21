@@ -1,5 +1,6 @@
 package com.cmpl.web.backup.writer;
 
+import com.cmpl.web.core.common.repository.BaseRepository;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -9,7 +10,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,13 +19,13 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.cmpl.web.core.common.repository.BaseRepository;
-
 @RunWith(MockitoJUnitRunner.class)
 public class CommonWriterTest {
 
   private DateTimeFormatter dateFormatter;
+
   private DataManipulator<EntityTest> dataManipulator;
+
   private String backupFilePath;
 
   @Mock
@@ -50,9 +50,11 @@ public class CommonWriterTest {
 
   @Test
   public void testGetFileHeader() throws Exception {
-    List<String> headerToCreate = Arrays.asList("date", "bytes", "locale", "localDate", "strings", "string",
-        "booleanValue", "integerValue", "someLong", "id", "creationDate", "creationUser", "modificationDate",
-        "modificationUser");
+    List<String> headerToCreate = Arrays
+        .asList("date", "bytes", "locale", "localDate", "strings", "string",
+            "booleanValue", "integerValue", "someLong", "id", "creationDate", "creationUser",
+            "modificationDate",
+            "modificationUser");
     Assert.assertEquals(headerToCreate, writer.getFileHeader(new EntityTestBuilder().build()));
   }
 
@@ -81,7 +83,8 @@ public class CommonWriterTest {
     EntityTest entity = new EntityTestBuilder().bytes(bytes).build();
 
     Field field = getFieldAccessible(entity, "bytes");
-    Assert.assertEquals(new String(bytes, StandardCharsets.UTF_8), writer.parseByteArray(field, entity));
+    Assert.assertEquals(new String(bytes, StandardCharsets.UTF_8),
+        writer.parseByteArray(field, entity));
   }
 
   @Test

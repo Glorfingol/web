@@ -1,12 +1,12 @@
 package com.cmpl.web.backup.writer;
 
-import java.time.format.DateTimeFormatter;
-
 import com.cmpl.web.core.models.Menu;
+import java.time.format.DateTimeFormatter;
 
 public class MenuCSVWriter extends CommonWriter<Menu> {
 
-  public MenuCSVWriter(DateTimeFormatter dateFormatter, DataManipulator<Menu> dataManipulator, String backupFilePath) {
+  public MenuCSVWriter(DateTimeFormatter dateFormatter, DataManipulator<Menu> dataManipulator,
+      String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }
 

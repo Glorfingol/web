@@ -1,9 +1,7 @@
 package com.cmpl.web.configuration.core.common;
 
 import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +22,8 @@ public class LocaleConfigurationTest {
     LocaleResolver result = configuration.localeResolver();
 
     Assert.assertEquals(SessionLocaleResolver.class, result.getClass());
-    Assert.assertEquals(Locale.FRANCE, result.resolveLocale(BDDMockito.mock(HttpServletRequest.class)));
+    Assert.assertEquals(Locale.FRANCE,
+        result.resolveLocale(BDDMockito.mock(HttpServletRequest.class)));
   }
 
 }

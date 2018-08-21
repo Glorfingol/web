@@ -1,22 +1,29 @@
 package com.cmpl.web.core.style;
 
 import java.time.LocalDateTime;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 public class StyleUpdateForm {
 
   private String content;
+
   private String name;
+
   private Long id;
+
   @DateTimeFormat(iso = ISO.DATE)
   private LocalDateTime creationDate;
+
   @DateTimeFormat(iso = ISO.DATE)
   private LocalDateTime modificationDate;
+
   private String mediaName;
+
   private Long mediaId;
+
   private String creationUser;
+
   private String modificationUser;
 
   public StyleUpdateForm() {

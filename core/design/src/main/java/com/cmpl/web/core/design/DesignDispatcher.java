@@ -1,8 +1,7 @@
 package com.cmpl.web.core.design;
 
-import java.util.Locale;
-
 import com.cmpl.web.core.common.exception.BaseException;
+import java.util.Locale;
 
 public interface DesignDispatcher {
 

@@ -1,15 +1,13 @@
 package com.cmpl.web.configuration.core.common;
 
+import com.cmpl.web.core.common.context.ContextHolder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.cmpl.web.core.common.context.ContextHolder;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ContextConfigurationTest {
@@ -25,7 +23,8 @@ public class ContextConfigurationTest {
     ContextHolder holder = configuration.contextHolder();
 
     LocalDate dateToFormat = LocalDate.now();
-    Assert.assertEquals(dateFormat.format(dateToFormat), holder.getDateFormat().format(dateToFormat));
+    Assert
+        .assertEquals(dateFormat.format(dateToFormat), holder.getDateFormat().format(dateToFormat));
 
   }
 }

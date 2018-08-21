@@ -1,18 +1,17 @@
 package com.cmpl.core.events_listeners;
 
-import java.util.Objects;
-
-import org.springframework.context.event.EventListener;
-
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.models.BaseEntity;
 import com.cmpl.web.core.models.Website;
 import com.cmpl.web.core.sitemap.SitemapService;
+import java.util.Objects;
+import org.springframework.context.event.EventListener;
 
 public class WebsiteEventsListeners {
 
   private final DesignService designService;
+
   private final SitemapService sitemapService;
 
   public WebsiteEventsListeners(DesignService designService, SitemapService sitemapService) {

@@ -6,9 +6,6 @@ public interface WebsiteService extends BaseService<WebsiteDTO> {
 
   /**
    * Trouver un site via son nom
-   *
-   * @param websiteName
-   * @return
    */
   WebsiteDTO getWebsiteByName(String websiteName);
 }

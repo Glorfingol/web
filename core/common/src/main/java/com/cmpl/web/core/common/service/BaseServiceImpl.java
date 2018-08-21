@@ -1,28 +1,25 @@
 package com.cmpl.web.core.common.service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-
 import com.cmpl.web.core.common.dao.BaseDAO;
 import com.cmpl.web.core.common.dto.BaseDTO;
 import com.cmpl.web.core.common.mapper.BaseMapper;
 import com.cmpl.web.core.models.BaseEntity;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * Implementation abstraire du service lie aux DAO
- * 
- * @author Louis
  *
- * @param <DTO>
- * @param <ENTITY>
+ * @author Louis
  */
-public class BaseServiceImpl<DTO extends BaseDTO, ENTITY extends BaseEntity> implements BaseService<DTO> {
+public class BaseServiceImpl<DTO extends BaseDTO, ENTITY extends BaseEntity> implements
+    BaseService<DTO> {
 
   private final BaseDAO<ENTITY> dao;
+
   protected final BaseMapper<DTO, ENTITY> mapper;
 
   public BaseServiceImpl(BaseDAO<ENTITY> dao, BaseMapper<DTO, ENTITY> mapper) {

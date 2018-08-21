@@ -1,8 +1,7 @@
 package com.cmpl.web.backup.writer;
 
-import java.time.format.DateTimeFormatter;
-
 import com.cmpl.web.core.models.Carousel;
+import java.time.format.DateTimeFormatter;
 
 public class CarouselCSVWriter extends CommonWriter<Carousel> {
 
@@ -10,7 +9,8 @@ public class CarouselCSVWriter extends CommonWriter<Carousel> {
 
   }
 
-  public CarouselCSVWriter(DateTimeFormatter dateFormatter, DataManipulator<Carousel> dataManipulator,
+  public CarouselCSVWriter(DateTimeFormatter dateFormatter,
+      DataManipulator<Carousel> dataManipulator,
       String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }

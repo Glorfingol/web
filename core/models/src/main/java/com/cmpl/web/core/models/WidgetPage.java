@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-import org.hibernate.envers.Audited;
-
 @Entity(name = "widget_page")
 @Table(name = "widget_page", indexes = {
     @Index(name = "IDX_WIDGET_PAGE", columnList = "page_id,widget_id", unique = true)})

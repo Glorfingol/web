@@ -6,12 +6,18 @@ public class PageCreateForm {
 
   @NotBlank(message = "empty.name")
   private String name = "";
+
   @NotBlank(message = "empty.menuTitle")
   private String menuTitle = "";
+
   private String body = "";
+
   private String header = "";
+
   private String footer = "";
+
   private String meta = "";
+
   private String localeCode;
 
   public String getName() {

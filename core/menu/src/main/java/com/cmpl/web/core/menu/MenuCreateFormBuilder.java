@@ -5,10 +5,15 @@ import com.cmpl.web.core.common.builder.Builder;
 public class MenuCreateFormBuilder extends Builder<MenuCreateForm> {
 
   private String title;
+
   private String label;
+
   private String href;
+
   private int orderInMenu;
+
   private String parentId;
+
   private String pageId;
 
   private MenuCreateFormBuilder() {

@@ -1,18 +1,18 @@
 package com.cmpl.web.core.responsibility;
 
-import java.util.List;
-
-import org.springframework.context.ApplicationEventPublisher;
-
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.Responsibility;
 import com.querydsl.core.types.Predicate;
+import java.util.List;
+import org.springframework.context.ApplicationEventPublisher;
 
-public class ResponsibilityDAOImpl extends BaseDAOImpl<Responsibility> implements ResponsibilityDAO {
+public class ResponsibilityDAOImpl extends BaseDAOImpl<Responsibility> implements
+    ResponsibilityDAO {
 
   private final ResponsibilityRepository responsibilityRepository;
 
-  public ResponsibilityDAOImpl(ResponsibilityRepository entityRepository, ApplicationEventPublisher publisher) {
+  public ResponsibilityDAOImpl(ResponsibilityRepository entityRepository,
+      ApplicationEventPublisher publisher) {
     super(Responsibility.class, entityRepository, publisher);
     this.responsibilityRepository = entityRepository;
   }

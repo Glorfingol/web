@@ -5,7 +5,9 @@ import com.cmpl.web.core.common.builder.Builder;
 public class CarouselItemCreateFormBuilder extends Builder<CarouselItemCreateForm> {
 
   private String carouselId;
+
   private int orderInCarousel;
+
   private String mediaId;
 
   private CarouselItemCreateFormBuilder() {

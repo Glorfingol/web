@@ -1,12 +1,14 @@
 package com.cmpl.web.facebook;
 
+import com.cmpl.web.core.common.context.ContextHolder;
+import com.cmpl.web.core.common.exception.BaseException;
+import com.cmpl.web.core.news.entry.NewsEntryService;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FeedOperations;
@@ -15,21 +17,19 @@ import org.springframework.social.facebook.api.Post;
 import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.util.StringUtils;
 
-import com.cmpl.web.core.common.context.ContextHolder;
-import com.cmpl.web.core.common.exception.BaseException;
-import com.cmpl.web.core.news.entry.NewsEntryService;
-
 /**
  * Implementation de l'interface qui va recuperer les posts facebook d'unutilisateur
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class FacebookServiceImpl implements FacebookService {
 
   private final Facebook facebookConnector;
+
   private final ConnectionRepository connectionRepository;
+
   private final ContextHolder contextHolder;
+
   private final NewsEntryService newsEntryService;
 
   public FacebookServiceImpl(ContextHolder contextHolder, Facebook facebookConnector,
@@ -61,7 +61,8 @@ public class FacebookServiceImpl implements FacebookService {
   }
 
   List<ImportablePost> computeImportablePosts(PagedList<Post> recentPosts) {
-    return recentPosts.stream().map(recentPost -> computeImportablePost(recentPost, contextHolder.getDateFormat()))
+    return recentPosts.stream()
+        .map(recentPost -> computeImportablePost(recentPost, contextHolder.getDateFormat()))
         .filter(this::canImportPost).collect(Collectors.toList());
   }
 
@@ -77,9 +78,11 @@ public class FacebookServiceImpl implements FacebookService {
 
   ImportablePost computeImportablePost(Post feed, DateTimeFormatter formatter) {
 
-    return new ImportablePostBuilder().author(computeAuthor(feed)).description(computeDescription(feed))
+    return new ImportablePostBuilder().author(computeAuthor(feed))
+        .description(computeDescription(feed))
         .photoUrl(computePhotoUrl(feed)).linkUrl(computeLink(feed)).videoUrl(computeVideoUrl(feed))
-        .title(computeTitle(feed)).type(computeType(feed)).facebookId(computeId(feed)).onclick(computeOnclick(feed))
+        .title(computeTitle(feed)).type(computeType(feed)).facebookId(computeId(feed))
+        .onclick(computeOnclick(feed))
         .creationDate(computeCreatedTime(feed)).objectId(computeObjectId(feed))
         .formattedDate(computeFormattedDate(feed, formatter)).build();
   }

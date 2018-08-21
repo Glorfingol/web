@@ -1,21 +1,5 @@
 package com.cmpl.web.configuration.modules.backup;
 
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.quartz.JobDetail;
-import org.quartz.SimpleTrigger;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.scheduling.quartz.JobDetailFactoryBean;
-import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
-
 import com.cmpl.web.backup.BackupImporterJob;
 import com.cmpl.web.backup.reader.BackupImporter;
 import com.cmpl.web.backup.reader.CSVReader;
@@ -62,6 +46,20 @@ import com.cmpl.web.core.models.User;
 import com.cmpl.web.core.models.Website;
 import com.cmpl.web.core.models.Widget;
 import com.cmpl.web.core.models.WidgetPage;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.quartz.JobDetail;
+import org.quartz.SimpleTrigger;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.quartz.JobDetailFactoryBean;
+import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
 @Configuration
 @PropertySource("classpath:/backup/backup.properties")
@@ -79,11 +77,13 @@ public class BackupImportConfiguration {
   @Value("${mediaFilePath}")
   String mediaFilePath;
 
-  DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withZone(ZoneId.systemDefault());
+  DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+      .withZone(ZoneId.systemDefault());
 
   @Bean
   public BackupImporter backupImporter(CSVReader csvReader) {
-    return new BackupImporter(csvReader, backupFilePath, mediaFilePath, pagesFilePath, actualitesFilePath);
+    return new BackupImporter(csvReader, backupFilePath, mediaFilePath, pagesFilePath,
+        actualitesFilePath);
   }
 
   @Bean
@@ -112,22 +112,26 @@ public class BackupImportConfiguration {
   }
 
   @Bean
-  public CarouselItemCSVParser carouselItemCSVParser(DataManipulator<CarouselItem> carouselItemDataManipulator) {
+  public CarouselItemCSVParser carouselItemCSVParser(
+      DataManipulator<CarouselItem> carouselItemDataManipulator) {
     return new CarouselItemCSVParser(dateFormatter, carouselItemDataManipulator, backupFilePath);
   }
 
   @Bean
-  public NewsEntryCSVParser newsEntryCSVParser(DataManipulator<NewsEntry> newsEntryDataManipulator) {
+  public NewsEntryCSVParser newsEntryCSVParser(
+      DataManipulator<NewsEntry> newsEntryDataManipulator) {
     return new NewsEntryCSVParser(dateFormatter, newsEntryDataManipulator, backupFilePath);
   }
 
   @Bean
-  public NewsImageCSVParser newsImageCSVParser(DataManipulator<NewsImage> newsImageDataManipulator) {
+  public NewsImageCSVParser newsImageCSVParser(
+      DataManipulator<NewsImage> newsImageDataManipulator) {
     return new NewsImageCSVParser(dateFormatter, newsImageDataManipulator, backupFilePath);
   }
 
   @Bean
-  public NewsContentCSVParser newsContentCSVParser(DataManipulator<NewsContent> newsContentDataManipulator) {
+  public NewsContentCSVParser newsContentCSVParser(
+      DataManipulator<NewsContent> newsContentDataManipulator) {
     return new NewsContentCSVParser(dateFormatter, newsContentDataManipulator, backupFilePath);
   }
 
@@ -137,7 +141,8 @@ public class BackupImportConfiguration {
   }
 
   @Bean
-  public WidgetPageCSVParser widgetPageCSVParser(DataManipulator<WidgetPage> widgetPageDataManipulator) {
+  public WidgetPageCSVParser widgetPageCSVParser(
+      DataManipulator<WidgetPage> widgetPageDataManipulator) {
     return new WidgetPageCSVParser(dateFormatter, widgetPageDataManipulator, backupFilePath);
   }
 
@@ -152,14 +157,16 @@ public class BackupImportConfiguration {
   }
 
   @Bean
-  public PrivilegeCSVParser privilegeCSVParser(DataManipulator<Privilege> privilegeDataManipulator) {
+  public PrivilegeCSVParser privilegeCSVParser(
+      DataManipulator<Privilege> privilegeDataManipulator) {
     return new PrivilegeCSVParser(dateFormatter, privilegeDataManipulator, backupFilePath);
   }
 
   @Bean
   public ResponsibilityCSVParser associationUserRoleCSVParser(
       DataManipulator<Responsibility> associationUserRoleDataManipulator) {
-    return new ResponsibilityCSVParser(dateFormatter, associationUserRoleDataManipulator, backupFilePath);
+    return new ResponsibilityCSVParser(dateFormatter, associationUserRoleDataManipulator,
+        backupFilePath);
   }
 
   @Bean
@@ -173,7 +180,8 @@ public class BackupImportConfiguration {
   }
 
   @Bean
-  public MembershipCSVParser membershipCSVParser(DataManipulator<Membership> membershipDataManipulator) {
+  public MembershipCSVParser membershipCSVParser(
+      DataManipulator<Membership> membershipDataManipulator) {
     return new MembershipCSVParser(dateFormatter, membershipDataManipulator, backupFilePath);
   }
 
@@ -191,16 +199,23 @@ public class BackupImportConfiguration {
   public CSVReader csvReader(UserCSVParser userCSVParser, RoleCSVParser roleCSVParser,
       PrivilegeCSVParser privilegeCSVParser, ResponsibilityCSVParser responsibilityCSVParser,
       MenuCSVParser menuCSVParser, StyleCSVParser styleCSVParser, PageCSVParser pageCSVParser,
-      MediaCSVParser mediaCSVParser, CarouselCSVParser carouselCSVParser, CarouselItemCSVParser carouselItemCSVParser,
+      MediaCSVParser mediaCSVParser, CarouselCSVParser carouselCSVParser,
+      CarouselItemCSVParser carouselItemCSVParser,
       NewsEntryCSVParser newsEntryCSVParser, NewsImageCSVParser newsImageCSVParser,
       NewsContentCSVParser newsContentCSVParser, WidgetCSVParser widgetCSVParser,
-      WidgetPageCSVParser widgetPageCSVParser, WebsiteCSVParser websiteCSVParser, GroupCSVParser groupCSVParser,
-      MembershipCSVParser membershipCSVParser, DesignCSVParser designCSVParser, SitemapCSVParser sitemapCSVParser) {
+      WidgetPageCSVParser widgetPageCSVParser, WebsiteCSVParser websiteCSVParser,
+      GroupCSVParser groupCSVParser,
+      MembershipCSVParser membershipCSVParser, DesignCSVParser designCSVParser,
+      SitemapCSVParser sitemapCSVParser) {
     List<CommonParser<?>> parsers = new ArrayList<>();
-    parsers.addAll(Arrays.asList(userCSVParser, roleCSVParser, responsibilityCSVParser, groupCSVParser,
-        privilegeCSVParser, menuCSVParser, styleCSVParser, pageCSVParser, mediaCSVParser, carouselCSVParser,
-        carouselItemCSVParser, newsEntryCSVParser, newsContentCSVParser, newsImageCSVParser, widgetCSVParser,
-        widgetPageCSVParser, websiteCSVParser, designCSVParser, sitemapCSVParser, membershipCSVParser));
+    parsers
+        .addAll(Arrays.asList(userCSVParser, roleCSVParser, responsibilityCSVParser, groupCSVParser,
+            privilegeCSVParser, menuCSVParser, styleCSVParser, pageCSVParser, mediaCSVParser,
+            carouselCSVParser,
+            carouselItemCSVParser, newsEntryCSVParser, newsContentCSVParser, newsImageCSVParser,
+            widgetCSVParser,
+            widgetPageCSVParser, websiteCSVParser, designCSVParser, sitemapCSVParser,
+            membershipCSVParser));
     return new CSVReaderImpl(parsers);
   }
 
@@ -225,7 +240,8 @@ public class BackupImportConfiguration {
     factoryBean.setJobDetail(backupImportJob);
     factoryBean.setStartDelay(10 * 1000l);
     factoryBean.setRepeatCount(0);
-    factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
+    factoryBean.setMisfireInstruction(
+        SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
     return factoryBean;
   }
 

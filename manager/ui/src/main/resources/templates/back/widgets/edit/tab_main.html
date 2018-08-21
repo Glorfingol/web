@@ -18,7 +18,8 @@
   <div class="form-check">
     <label class="switch">
       <input type="checkbox" class="form-check-input"
-             th:name="asynchronous" th:id="asynchronous" th:checked="${updateForm.asynchronous} == true">
+             th:name="asynchronous" th:id="asynchronous"
+             th:checked="${updateForm.asynchronous} == true">
       <span class="slider"></span>
     </label>
     <small class="form-text text-muted" th:text="#{widget.asynchronous.help}"/>

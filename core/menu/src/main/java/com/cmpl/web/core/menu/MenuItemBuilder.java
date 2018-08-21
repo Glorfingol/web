@@ -1,17 +1,22 @@
 package com.cmpl.web.core.menu;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.util.List;
 
 public class MenuItemBuilder extends Builder<MenuItem> {
 
   private String href;
+
   private String label;
+
   private String title;
+
   private List<MenuItem> subMenuItems;
+
   private String customCssClass;
+
   private String iconClass;
+
   private String privilege;
 
   private MenuItemBuilder() {

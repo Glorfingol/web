@@ -7,11 +7,16 @@ public class MenuCreateForm {
 
   @NotBlank(message = "empty.menu.title")
   private String title;
+
   private String label;
+
   private String href;
+
   @Positive(message = "bad.menu.order")
   private int orderInMenu;
+
   private String parentId;
+
   @NotBlank(message = "empty.menu.page")
   private String pageId;
 

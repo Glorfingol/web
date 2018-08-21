@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.Builder;
 public class WebsiteCreateFormBuilder extends Builder<WebsiteCreateForm> {
 
   private String name;
+
   private String description;
 
   private WebsiteCreateFormBuilder() {

@@ -1,14 +1,11 @@
 package com.cmpl.web.core.factory;
 
-import java.util.Locale;
-
 import com.cmpl.web.core.common.message.WebMessageSource;
 
 /**
  * Implementation de l'nterface commune de factory pour les pages
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class BaseDisplayFactoryImpl extends BaseFactoryImpl implements BaseDisplayFactory {
 
@@ -16,9 +13,5 @@ public class BaseDisplayFactoryImpl extends BaseFactoryImpl implements BaseDispl
     super(messageSource);
   }
 
-  @Override
-  public String computeHiddenLink(Locale locale) {
-    return "/manager/";
-  }
 
 }

@@ -1,8 +1,5 @@
 package com.cmpl.web.configuration.manager.ui;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import com.cmpl.web.core.carousel.CarouselDispatcher;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
@@ -25,6 +22,7 @@ import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.membership.MembershipDispatcher;
 import com.cmpl.web.core.menu.MenuDispatcher;
 import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
+import com.cmpl.web.core.page.BackPage;
 import com.cmpl.web.core.page.PageDispatcher;
 import com.cmpl.web.core.responsibility.ResponsibilityDispatcher;
 import com.cmpl.web.core.role.RoleDispatcher;
@@ -55,68 +53,89 @@ import com.cmpl.web.manager.ui.core.webmastering.widget.WidgetManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.widget.WidgetPageManagerController;
 import com.cmpl.web.manager.ui.modules.facebook.FacebookController;
 import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.plugin.core.PluginRegistry;
 
 @Configuration
 public class BackControllerConfiguration {
 
   @Bean
   public FacebookController facebookController(FacebookDisplayFactory facebookDisplayFactory,
-      FacebookDispatcher facebookDispatcher, NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    return new FacebookController(facebookDisplayFactory, facebookDispatcher, notificationCenter, messageSource);
+      FacebookDispatcher facebookDispatcher, NotificationCenter notificationCenter,
+      WebMessageSource messageSource) {
+    return new FacebookController(facebookDisplayFactory, facebookDispatcher, notificationCenter,
+        messageSource);
   }
 
   @Bean
   public CarouselManagerController carouselManagerController(CarouselDispatcher carouselDispatcher,
       CarouselManagerDisplayFactory carouselDisplayFactory, NotificationCenter notificationCenter,
       WebMessageSource messageSource) {
-    return new CarouselManagerController(carouselDispatcher, carouselDisplayFactory, notificationCenter, messageSource);
+    return new CarouselManagerController(carouselDispatcher, carouselDisplayFactory,
+        notificationCenter, messageSource);
   }
 
   @Bean
-  public IndexManagerController indexManagerController(IndexDisplayFactory indexDisplayFactory) {
-    return new IndexManagerController(indexDisplayFactory);
+  public IndexManagerController indexManagerController(IndexDisplayFactory indexDisplayFactory,
+      PluginRegistry<BackPage, String> backPages) {
+    return new IndexManagerController(indexDisplayFactory, backPages);
   }
 
   @Bean
-  public LoginController loginController(LoginDisplayFactory loginDisplayFactory, UserDispatcher userDispatcher) {
-    return new LoginController(loginDisplayFactory, userDispatcher);
+  public LoginController loginController(LoginDisplayFactory loginDisplayFactory,
+      UserDispatcher userDispatcher, PluginRegistry<BackPage, String> backPages) {
+    return new LoginController(loginDisplayFactory, userDispatcher, backPages);
   }
 
   @Bean
   public MediaManagerController mediaManagerController(MediaService mediaService,
       MediaManagerDisplayFactory mediaManagerDisplayFactory, NotificationCenter notificationCenter,
       WebMessageSource messageSource) {
-    return new MediaManagerController(mediaService, mediaManagerDisplayFactory, notificationCenter, messageSource);
+    return new MediaManagerController(mediaService, mediaManagerDisplayFactory, notificationCenter,
+        messageSource);
   }
 
   @Bean
   public MenuManagerController menuManagerController(MenuDispatcher dispatcher,
-      MenuManagerDisplayFactory displayFactory, NotificationCenter notificationCenter, WebMessageSource messageSource) {
+      MenuManagerDisplayFactory displayFactory, NotificationCenter notificationCenter,
+      WebMessageSource messageSource) {
     return new MenuManagerController(dispatcher, displayFactory, notificationCenter, messageSource);
   }
 
   @Bean
-  public NewsManagerController newsManagerController(NewsManagerDisplayFactory newsManagerDisplayFactory,
-      NewsEntryDispatcher dispatcher, NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    return new NewsManagerController(newsManagerDisplayFactory, dispatcher, notificationCenter, messageSource);
+  public NewsManagerController newsManagerController(
+      NewsManagerDisplayFactory newsManagerDisplayFactory,
+      NewsEntryDispatcher dispatcher, NotificationCenter notificationCenter,
+      WebMessageSource messageSource) {
+    return new NewsManagerController(newsManagerDisplayFactory, dispatcher, notificationCenter,
+        messageSource);
   }
 
   @Bean
-  public PageManagerController pageManagerController(PageManagerDisplayFactory pageManagerDisplayFactory,
-      PageDispatcher pageDispatcher, NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    return new PageManagerController(pageManagerDisplayFactory, pageDispatcher, notificationCenter, messageSource);
+  public PageManagerController pageManagerController(
+      PageManagerDisplayFactory pageManagerDisplayFactory,
+      PageDispatcher pageDispatcher, NotificationCenter notificationCenter,
+      WebMessageSource messageSource) {
+    return new PageManagerController(pageManagerDisplayFactory, pageDispatcher, notificationCenter,
+        messageSource);
   }
 
   @Bean
-  public StyleManagerController styleManagerController(StyleDisplayFactory displayFactory, StyleDispatcher dispatcher,
+  public StyleManagerController styleManagerController(StyleDisplayFactory displayFactory,
+      StyleDispatcher dispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    return new StyleManagerController(displayFactory, dispatcher, notificationCenter, messageSource);
+    return new StyleManagerController(displayFactory, dispatcher, notificationCenter,
+        messageSource);
   }
 
   @Bean
-  public WidgetManagerController widgetManagerController(WidgetManagerDisplayFactory widgetManagerDisplayFactory,
-      WidgetDispatcher widgetDispatcher, NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    return new WidgetManagerController(widgetManagerDisplayFactory, widgetDispatcher, notificationCenter,
+  public WidgetManagerController widgetManagerController(
+      WidgetManagerDisplayFactory widgetManagerDisplayFactory,
+      WidgetDispatcher widgetDispatcher, NotificationCenter notificationCenter,
+      WebMessageSource messageSource) {
+    return new WidgetManagerController(widgetManagerDisplayFactory, widgetDispatcher,
+        notificationCenter,
         messageSource);
   }
 
@@ -132,41 +151,54 @@ public class BackControllerConfiguration {
   }
 
   @Bean
-  public UserManagerController userManagerController(UserManagerDisplayFactory userManagerDisplayFactory,
-      UserDispatcher userDispatcher, NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    return new UserManagerController(userManagerDisplayFactory, userDispatcher, notificationCenter, messageSource);
+  public UserManagerController userManagerController(
+      UserManagerDisplayFactory userManagerDisplayFactory,
+      UserDispatcher userDispatcher, NotificationCenter notificationCenter,
+      WebMessageSource messageSource) {
+    return new UserManagerController(userManagerDisplayFactory, userDispatcher, notificationCenter,
+        messageSource);
   }
 
   @Bean
-  public RoleManagerController roleManagerController(RoleManagerDisplayFactory roleManagerDisplayFactory,
-      RoleDispatcher roleDispatcher, NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    return new RoleManagerController(roleDispatcher, roleManagerDisplayFactory, notificationCenter, messageSource);
+  public RoleManagerController roleManagerController(
+      RoleManagerDisplayFactory roleManagerDisplayFactory,
+      RoleDispatcher roleDispatcher, NotificationCenter notificationCenter,
+      WebMessageSource messageSource) {
+    return new RoleManagerController(roleDispatcher, roleManagerDisplayFactory, notificationCenter,
+        messageSource);
   }
 
   @Bean
   public ResponsibilityManagerController responsibilityManagerController(
       ResponsibilityDispatcher responsibilityDispatcher, NotificationCenter notificationCenter,
       WebMessageSource messageSource) {
-    return new ResponsibilityManagerController(responsibilityDispatcher, notificationCenter, messageSource);
+    return new ResponsibilityManagerController(responsibilityDispatcher, notificationCenter,
+        messageSource);
   }
 
   @Bean
-  public GroupManagerController groupManagerController(GroupManagerDisplayFactory groupManagerDisplayFactory,
-      GroupDispatcher groupDispatcher, NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    return new GroupManagerController(groupDispatcher, groupManagerDisplayFactory, notificationCenter, messageSource);
+  public GroupManagerController groupManagerController(
+      GroupManagerDisplayFactory groupManagerDisplayFactory,
+      GroupDispatcher groupDispatcher, NotificationCenter notificationCenter,
+      WebMessageSource messageSource) {
+    return new GroupManagerController(groupDispatcher, groupManagerDisplayFactory,
+        notificationCenter, messageSource);
   }
 
   @Bean
-  public MembershipManagerController membershipManagerController(MembershipDispatcher membershipDispatcher,
+  public MembershipManagerController membershipManagerController(
+      MembershipDispatcher membershipDispatcher,
       NotificationCenter notificationCenter, WebMessageSource webMessageSource) {
-    return new MembershipManagerController(membershipDispatcher, notificationCenter, webMessageSource);
+    return new MembershipManagerController(membershipDispatcher, notificationCenter,
+        webMessageSource);
   }
 
   @Bean
   public WebsiteManagerController websiteManagerController(WebsiteDispatcher websiteDispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource,
       WebsiteManagerDisplayFactory websiteManagerDisplayFactory) {
-    return new WebsiteManagerController(websiteDispatcher, websiteManagerDisplayFactory, notificationCenter,
+    return new WebsiteManagerController(websiteDispatcher, websiteManagerDisplayFactory,
+        notificationCenter,
         messageSource);
   }
 

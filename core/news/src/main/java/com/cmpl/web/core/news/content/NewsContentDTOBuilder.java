@@ -5,7 +5,9 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 public class NewsContentDTOBuilder extends BaseBuilder<NewsContentDTO> {
 
   private String content;
+
   private String linkUrl;
+
   private String videoUrl;
 
   private NewsContentDTOBuilder() {

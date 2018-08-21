@@ -1,10 +1,16 @@
 package com.cmpl.web.manager.ui.core.webmastering.menu;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
+import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactory;
+import com.cmpl.web.core.menu.MenuCreateForm;
+import com.cmpl.web.core.menu.MenuDispatcher;
+import com.cmpl.web.core.menu.MenuResponse;
+import com.cmpl.web.core.menu.MenuUpdateForm;
+import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
 import java.util.Locale;
 import java.util.Objects;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,16 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.common.notification.NotificationCenter;
-import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactory;
-import com.cmpl.web.core.menu.MenuCreateForm;
-import com.cmpl.web.core.menu.MenuDispatcher;
-import com.cmpl.web.core.menu.MenuResponse;
-import com.cmpl.web.core.menu.MenuUpdateForm;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
-
 @ManagerController
 @RequestMapping(value = "/manager/menus")
 public class MenuManagerController {
@@ -39,8 +35,11 @@ public class MenuManagerController {
   private static final Logger LOGGER = LoggerFactory.getLogger(MenuManagerController.class);
 
   private final MenuDispatcher dispatcher;
+
   private final MenuManagerDisplayFactory displayFactory;
+
   private final NotificationCenter notificationCenter;
+
   private final WebMessageSource messageSource;
 
   public MenuManagerController(MenuDispatcher dispatcher, MenuManagerDisplayFactory displayFactory,
@@ -54,20 +53,20 @@ public class MenuManagerController {
 
   @GetMapping
   @PreAuthorize("hasAuthority('webmastering:menu:read')")
-  public ModelAndView printViewMenus(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
+  public ModelAndView printViewMenus(@RequestParam(name = "p", required = false) Integer pageNumber,
+      Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
-    LOGGER.info("Accès à la page " + BACK_PAGE.MENUS_VIEW.name());
     return displayFactory.computeModelAndViewForViewAllMenus(locale, pageNumberToUse);
   }
 
   @GetMapping(value = "/search")
   @PreAuthorize("hasAuthority('webmastering:menu:read')")
-  public ModelAndView printSearchMenu(@RequestParam(name = "p", required = false) Integer pageNumber,
+  public ModelAndView printSearchMenu(
+      @RequestParam(name = "p", required = false) Integer pageNumber,
       @RequestParam(name = "q") String query, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
-    LOGGER.info("Accès à la page " + BACK_PAGE.MENUS_VIEW.name());
     return displayFactory.computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
   }
 
@@ -88,8 +87,8 @@ public class MenuManagerController {
 
   @GetMapping(value = "/{menuId}")
   @PreAuthorize("hasAuthority('webmastering:menu:read')")
-  public ModelAndView printViewUpdateMenu(@PathVariable(value = "menuId") String menuId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.MENUS_UPDATE.name() + " pour " + menuId);
+  public ModelAndView printViewUpdateMenu(@PathVariable(value = "menuId") String menuId,
+      Locale locale) {
     return displayFactory.computeModelAndViewForUpdateMenu(locale, menuId);
   }
 
@@ -110,12 +109,14 @@ public class MenuManagerController {
 
       LOGGER.info("Entrée modifiée, id " + response.getMenu().getId());
 
-      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("update.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("update.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -138,12 +139,14 @@ public class MenuManagerController {
 
       LOGGER.info("Entrée créee, id " + response.getMenu().getId());
 
-      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("create.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la création de l'entrée", e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -152,18 +155,21 @@ public class MenuManagerController {
   @DeleteMapping(value = "/{menuId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:menu:delete')")
-  public ResponseEntity<MenuResponse> deleteMenu(@PathVariable(value = "menuId") String menuId, Locale locale) {
+  public ResponseEntity<MenuResponse> deleteMenu(@PathVariable(value = "menuId") String menuId,
+      Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un menu");
 
     try {
       MenuResponse response = dispatcher.deleteEntity(menuId, locale);
-      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("delete.success", locale));
       LOGGER.info("Menu " + menuId + " supprimée");
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       LOGGER.error("Erreur lors de la suppression du menu " + menuId, e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -172,14 +178,12 @@ public class MenuManagerController {
   @GetMapping(value = "/{menuId}/_main")
   @PreAuthorize("hasAuthority('webmastering:news:read')")
   public ModelAndView printUpdateMenuMain(@PathVariable(value = "menuId") String menuId) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.MENUS_UPDATE.name());
     return displayFactory.computeModelAndViewForUpdateMenuMain(menuId);
   }
 
   @GetMapping(value = "/{menuId}/_memberships")
   @PreAuthorize("hasAuthority('webmastering:news:read')")
   public ModelAndView printUpdateMenuMembership(@PathVariable(value = "menuId") String menuId) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.MENUS_UPDATE.name());
     return displayFactory.computeModelAndViewForMembership(menuId);
   }
 }

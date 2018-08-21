@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.Builder;
 public class SitemapCreateFormBuilder extends Builder<SitemapCreateForm> {
 
   private String websiteId;
+
   private String pageId;
 
   public SitemapCreateFormBuilder websiteId(String websiteId) {

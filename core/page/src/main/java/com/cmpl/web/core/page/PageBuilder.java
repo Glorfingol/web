@@ -6,6 +6,7 @@ import com.cmpl.web.core.models.Page;
 public class PageBuilder extends BaseBuilder<Page> {
 
   private String name;
+
   private String menuTitle;
 
   private PageBuilder() {

@@ -1,16 +1,20 @@
 package com.cmpl.web.core.user;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import java.time.LocalDateTime;
 
 public class UserDTOBuilder extends BaseBuilder<UserDTO> {
 
   private String login;
+
   private String password;
+
   private LocalDateTime lastConnection;
+
   private String email;
+
   private String description;
+
   private LocalDateTime lastPasswordModification;
 
   private UserDTOBuilder() {

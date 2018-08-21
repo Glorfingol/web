@@ -1,11 +1,11 @@
 package com.cmpl.web.core.widget.page;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.models.WidgetPage;
+import java.util.List;
 
-public class WidgetPageServiceImpl extends BaseServiceImpl<WidgetPageDTO, WidgetPage> implements WidgetPageService {
+public class WidgetPageServiceImpl extends BaseServiceImpl<WidgetPageDTO, WidgetPage> implements
+    WidgetPageService {
 
   private final WidgetPageDAO widgetPageDAO;
 

@@ -1,11 +1,34 @@
 package com.cmpl.web.core.factory.page;
 
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
+import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
+import com.cmpl.web.core.common.builder.PageWrapperBuilder;
+import com.cmpl.web.core.common.context.ContextHolder;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.resource.PageWrapper;
+import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
+import com.cmpl.web.core.page.BackPage;
+import com.cmpl.web.core.page.BackPageBuilder;
+import com.cmpl.web.core.page.PageCreateForm;
+import com.cmpl.web.core.page.PageCreateFormBuilder;
+import com.cmpl.web.core.page.PageDTO;
+import com.cmpl.web.core.page.PageDTOBuilder;
+import com.cmpl.web.core.page.PageService;
+import com.cmpl.web.core.page.PageUpdateForm;
+import com.cmpl.web.core.page.PageUpdateFormBuilder;
+import com.cmpl.web.core.sitemap.SitemapService;
+import com.cmpl.web.core.website.WebsiteService;
+import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.page.WidgetPageService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,55 +44,45 @@ import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.breadcrumb.BreadCrumb;
-import com.cmpl.web.core.breadcrumb.BreadCrumbBuilder;
-import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
-import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
-import com.cmpl.web.core.common.builder.PageWrapperBuilder;
-import com.cmpl.web.core.common.context.ContextHolder;
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.common.resource.PageWrapper;
-import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.group.GroupService;
-import com.cmpl.web.core.membership.MembershipService;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.page.PageCreateForm;
-import com.cmpl.web.core.page.PageCreateFormBuilder;
-import com.cmpl.web.core.page.PageDTO;
-import com.cmpl.web.core.page.PageDTOBuilder;
-import com.cmpl.web.core.page.PageService;
-import com.cmpl.web.core.page.PageUpdateForm;
-import com.cmpl.web.core.page.PageUpdateFormBuilder;
-import com.cmpl.web.core.sitemap.SitemapService;
-import com.cmpl.web.core.website.WebsiteService;
-import com.cmpl.web.core.widget.WidgetService;
-import com.cmpl.web.core.widget.page.WidgetPageService;
-
 @RunWith(MockitoJUnitRunner.class)
 public class PageManagerDisplayFactoryImplTest {
 
   @Mock
   private PageService pageService;
+
   @Mock
   private ContextHolder contextHolder;
+
   @Mock
   private MenuFactory menuFactory;
+
   @Mock
   private WebMessageSource messageSource;
+
   @Mock
   private WidgetPageService widgetPageService;
+
   @Mock
   private WidgetService widgetService;
+
   @Mock
-  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  private PluginRegistry<BreadCrumb, String> breadCrumbRegistry;
+
+  @Mock
+  private PluginRegistry<BackPage, String> backPages;
+
   @Mock
   private Set<Locale> availableLocales;
+
   @Mock
   private MembershipService membershipService;
+
   @Mock
   private GroupService groupService;
+
   @Mock
   private WebsiteService websiteService;
+
   @Mock
   private SitemapService sitemapService;
 
@@ -81,14 +94,16 @@ public class PageManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForUpdatePageFooter() throws Exception {
 
     PageDTO dto = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
+    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString()))
+        .willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class),
         BDDMockito.anyString());
 
-    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageFooter(Locale.FRANCE, "123456789",
-        Locale.FRANCE.getLanguage());
+    ModelAndView result = displayFactory
+        .computeModelAndViewForUpdatePageFooter(Locale.FRANCE, "123456789",
+            Locale.FRANCE.getLanguage());
 
     Assert.assertNotNull(result.getModel().get("updateForm"));
   }
@@ -97,14 +112,16 @@ public class PageManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForUpdatePageHeader() throws Exception {
 
     PageDTO dto = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
+    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString()))
+        .willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class),
         BDDMockito.anyString());
 
-    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageHeader(Locale.FRANCE, "123456789",
-        Locale.FRANCE.getLanguage());
+    ModelAndView result = displayFactory
+        .computeModelAndViewForUpdatePageHeader(Locale.FRANCE, "123456789",
+            Locale.FRANCE.getLanguage());
     Assert.assertNotNull(result.getModel().get("updateForm"));
   }
 
@@ -112,14 +129,16 @@ public class PageManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForUpdatePageBody() throws Exception {
 
     PageDTO dto = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
+    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString()))
+        .willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class),
         BDDMockito.anyString());
 
-    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageBody(Locale.FRANCE, "123456789",
-        Locale.FRANCE.getLanguage());
+    ModelAndView result = displayFactory
+        .computeModelAndViewForUpdatePageBody(Locale.FRANCE, "123456789",
+            Locale.FRANCE.getLanguage());
     Assert.assertNotNull(result.getModel().get("updateForm"));
   }
 
@@ -127,14 +146,16 @@ public class PageManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForUpdatePageMain() throws Exception {
 
     PageDTO dto = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
+    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString()))
+        .willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class),
         BDDMockito.anyString());
 
-    ModelAndView result = displayFactory.computeModelAndViewForUpdatePageMain(Locale.FRANCE, "123456789",
-        Locale.FRANCE.getLanguage());
+    ModelAndView result = displayFactory
+        .computeModelAndViewForUpdatePageMain(Locale.FRANCE, "123456789",
+            Locale.FRANCE.getLanguage());
     Assert.assertNotNull(result.getModel().get("updateForm"));
   }
 
@@ -142,18 +163,25 @@ public class PageManagerDisplayFactoryImplTest {
   public void testComputeModelAndViewForUpdatePage() throws Exception {
 
     PageDTO dto = PageDTOBuilder.create().build();
-    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString())).willReturn(dto);
+    BDDMockito.given(pageService.getEntity(BDDMockito.anyLong(), BDDMockito.anyString()))
+        .willReturn(dto);
 
     PageUpdateForm form = PageUpdateFormBuilder.create().build();
 
     BreadCrumbItem item = BreadCrumbItemBuilder.create().text("someText").build();
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().items(Arrays.asList(item)).build();
-    BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
+    BDDMockito.doReturn(breadcrumb).when(displayFactory)
+        .computeBreadCrumb(BDDMockito.any(BackPage.class));
     BDDMockito.doReturn(form).when(displayFactory).createUpdateForm(BDDMockito.any(PageDTO.class),
         BDDMockito.anyString());
 
-    ModelAndView result = displayFactory.computeModelAndViewForUpdatePage(Locale.FRANCE, "123456789",
-        Locale.FRANCE.getLanguage());
+    BackPage backPage = BackPageBuilder.create().pageName("test").templatePath("somePath")
+        .titleKey("some.key").decorated(true).build();
+    BDDMockito.doReturn(backPage).when(displayFactory).computeBackPage(BDDMockito.anyString());
+
+    ModelAndView result = displayFactory
+        .computeModelAndViewForUpdatePage(Locale.FRANCE, "123456789",
+            Locale.FRANCE.getLanguage());
     Assert.assertNotNull(result.getModel().get("updateForm"));
   }
 
@@ -162,16 +190,21 @@ public class PageManagerDisplayFactoryImplTest {
 
     PageCreateForm form = PageCreateFormBuilder.create().build();
     BDDMockito.doReturn(form).when(displayFactory).computeCreateForm();
+    BackPage backPage = BackPageBuilder.create().pageName("test").templatePath("somePath")
+        .titleKey("some.key").decorated(true).build();
+    BDDMockito.doReturn(backPage).when(displayFactory).computeBackPage(BDDMockito.anyString());
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
-    BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
+    BDDMockito.doReturn(breadcrumb).when(displayFactory)
+        .computeBreadCrumb(BDDMockito.any(BackPage.class));
     ModelAndView result = displayFactory.computeModelAndViewForCreatePage(Locale.FRANCE);
     Assert.assertNotNull(result.getModel().get("createForm"));
   }
 
   @Test
   public void testCreateUpdateForm() throws Exception {
-    PageDTO dto = PageDTOBuilder.create().body("someBody").footer("someFooter").header("someHeader").build();
+    PageDTO dto = PageDTOBuilder.create().body("someBody").footer("someFooter").header("someHeader")
+        .build();
 
     PageUpdateForm result = displayFactory.createUpdateForm(dto, "fr");
     Assert.assertEquals(dto.getBody(), result.getBody());
@@ -190,18 +223,25 @@ public class PageManagerDisplayFactoryImplTest {
     boolean isLastPage = true;
     int totalPages = 1;
     int currentPageNumber = 1;
-    PageWrapper<PageDTO> wrapper = new PageWrapperBuilder<PageDTO>().currentPageNumber(currentPageNumber)
-        .firstPage(isFirstPage).lastPage(isLastPage).page(page).totalPages(totalPages).pageBaseUrl("/manager/pages")
+    PageWrapper<PageDTO> wrapper = new PageWrapperBuilder<PageDTO>()
+        .currentPageNumber(currentPageNumber)
+        .firstPage(isFirstPage).lastPage(isLastPage).page(page).totalPages(totalPages)
+        .pageBaseUrl("/manager/pages")
         .pageLabel("someLabel").build();
 
-    BDDMockito.doReturn(wrapper).when(displayFactory).computePageWrapper(BDDMockito.any(Locale.class),
-        BDDMockito.anyInt(), BDDMockito.anyString());
+    BDDMockito.doReturn(wrapper).when(displayFactory)
+        .computePageWrapper(BDDMockito.any(Locale.class),
+            BDDMockito.anyInt(), BDDMockito.anyString());
 
     BreadCrumb breadcrumb = BreadCrumbBuilder.create().build();
-    BDDMockito.doReturn(breadcrumb).when(displayFactory).computeBreadCrumb(BDDMockito.any(BACK_PAGE.class));
+    BDDMockito.doReturn(breadcrumb).when(displayFactory)
+        .computeBreadCrumb(BDDMockito.any(BackPage.class));
+    BackPage backPage = BackPageBuilder.create().pageName("test").templatePath("somePath")
+        .titleKey("some.key").decorated(true).build();
+    BDDMockito.doReturn(backPage).when(displayFactory).computeBackPage(BDDMockito.anyString());
 
     ModelAndView result = displayFactory.computeModelAndViewForViewAllPages(Locale.FRANCE, 0);
-    Assert.assertNotNull(result.getModel().get("wrappedPages"));
+    Assert.assertNotNull(result.getModel().get("wrappedEntities"));
 
   }
 
@@ -213,7 +253,8 @@ public class PageManagerDisplayFactoryImplTest {
     PageDTO pageDTO = PageDTOBuilder.create().build();
     pages.add(pageDTO);
     PageImpl<PageDTO> page = new PageImpl<>(pages);
-    BDDMockito.given(pageService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(page);
+    BDDMockito.given(pageService.getPagedEntities(BDDMockito.any(PageRequest.class)))
+        .willReturn(page);
 
     Page<PageDTO> result = displayFactory.computeEntries(Locale.FRANCE, 1, "");
     Assert.assertEquals(6, result.getTotalElements());
@@ -225,7 +266,8 @@ public class PageManagerDisplayFactoryImplTest {
     BDDMockito.given(contextHolder.getElementsPerPage()).willReturn(5);
     List<PageDTO> pages = new ArrayList<>();
     PageImpl<PageDTO> page = new PageImpl<>(pages);
-    BDDMockito.given(pageService.getPagedEntities(BDDMockito.any(PageRequest.class))).willReturn(page);
+    BDDMockito.given(pageService.getPagedEntities(BDDMockito.any(PageRequest.class)))
+        .willReturn(page);
 
     Page<PageDTO> result = displayFactory.computeEntries(Locale.FRANCE, 1, "");
     Assert.assertTrue(CollectionUtils.isEmpty(result.getContent()));
@@ -241,8 +283,9 @@ public class PageManagerDisplayFactoryImplTest {
 
     String pageLabel = "Page 1";
 
-    BDDMockito.doReturn(page).when(displayFactory).computeEntries(BDDMockito.any(Locale.class), BDDMockito.anyInt(),
-        BDDMockito.anyString());
+    BDDMockito.doReturn(page).when(displayFactory)
+        .computeEntries(BDDMockito.any(Locale.class), BDDMockito.anyInt(),
+            BDDMockito.anyString());
     BDDMockito.doReturn(pageLabel).when(displayFactory).getI18nValue(BDDMockito.anyString(),
         BDDMockito.any(Locale.class), BDDMockito.anyInt(), BDDMockito.anyInt());
     PageWrapper<PageDTO> wrapper = displayFactory.computePageWrapper(Locale.FRANCE, 1, "");

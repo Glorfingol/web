@@ -1,16 +1,16 @@
 package com.cmpl.web.core.common.notification;
 
+import com.cmpl.web.core.common.builder.Builder;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.validation.FieldError;
-
-import com.cmpl.web.core.common.builder.Builder;
 
 public class NotificationBuilder extends Builder<Notification> {
 
   private String type;
+
   private String content;
+
   private List<FieldError> errors;
 
   private NotificationBuilder() {

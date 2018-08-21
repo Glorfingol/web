@@ -1,8 +1,7 @@
 package com.cmpl.web.backup.writer;
 
-import java.time.format.DateTimeFormatter;
-
 import com.cmpl.web.core.models.Sitemap;
+import java.time.format.DateTimeFormatter;
 
 public class SitemapCSVWriter extends CommonWriter<Sitemap> {
 

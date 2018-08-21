@@ -1,7 +1,8 @@
 package com.cmpl.web.core.widget;
 
+import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.models.Widget;
 import java.util.Locale;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.models.Widget;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WidgetServiceImplTest {
@@ -38,7 +36,8 @@ public class WidgetServiceImplTest {
 
     BDDMockito.doReturn(result).when(mapper).toDTO(BDDMockito.any(Widget.class));
     BDDMockito.given(widgetDAO.findByName(BDDMockito.anyString())).willReturn(widget);
-    BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString())).willReturn("someContent");
+    BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString()))
+        .willReturn("someContent");
 
     WidgetDTO widgetDTO = widgetService.findByName("someName", Locale.FRANCE.getLanguage());
 
@@ -65,7 +64,8 @@ public class WidgetServiceImplTest {
 
     BDDMockito.given(widgetDAO.getEntity(BDDMockito.anyLong())).willReturn(optional);
     BDDMockito.doReturn(result).when(mapper).toDTO(BDDMockito.any(Widget.class));
-    BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString())).willReturn(null);
+    BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString()))
+        .willReturn(null);
 
     WidgetDTO resultDTO = widgetService.getEntity(123456789L, Locale.FRANCE.getLanguage());
 
@@ -82,7 +82,8 @@ public class WidgetServiceImplTest {
 
     BDDMockito.given(widgetDAO.getEntity(BDDMockito.anyLong())).willReturn(optional);
     BDDMockito.doReturn(result).when(mapper).toDTO(BDDMockito.any(Widget.class));
-    BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString())).willReturn("someContent");
+    BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString()))
+        .willReturn("someContent");
 
     WidgetDTO resultDTO = widgetService.getEntity(123456789L, Locale.FRANCE.getLanguage());
 

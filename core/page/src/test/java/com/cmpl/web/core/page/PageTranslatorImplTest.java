@@ -16,7 +16,8 @@ public class PageTranslatorImplTest {
 
   @Test
   public void testFromCreateFormToDTO() throws Exception {
-    PageCreateForm form = PageCreateFormBuilder.create().body("someBody").menuTitle("someMenuTitle").name("name")
+    PageCreateForm form = PageCreateFormBuilder.create().body("someBody").menuTitle("someMenuTitle")
+        .name("name")
         .build();
 
     PageDTO result = translator.fromCreateFormToDTO(form);

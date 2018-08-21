@@ -1,12 +1,15 @@
 package com.cmpl.web.core.user;
 
+import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.common.user.ActionToken;
+import com.cmpl.web.core.common.user.ActionTokenService;
+import com.cmpl.web.core.models.User;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheConfig;
@@ -17,22 +20,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cmpl.web.core.common.service.BaseServiceImpl;
-import com.cmpl.web.core.common.user.ActionToken;
-import com.cmpl.web.core.common.user.ActionTokenService;
-import com.cmpl.web.core.models.User;
-
 @CacheConfig(cacheNames = "users")
 public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements UserService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+
   private static final String CREATION_DATE_PARAMETER = "creationDate";
 
   private final UserDAO userDAO;
+
   private final ActionTokenService tokenService;
+
   private final UserMailService userMailService;
 
-  public UserServiceImpl(ActionTokenService tokenService, UserMailService userMailService, UserDAO userDAO,
+  public UserServiceImpl(ActionTokenService tokenService, UserMailService userMailService,
+      UserDAO userDAO,
       UserMapper userMapper) {
     super(userDAO, userMapper);
     this.tokenService = tokenService;
@@ -82,7 +84,8 @@ public class UserServiceImpl extends BaseServiceImpl<UserDTO, User> implements U
   public UserDTO createUser(UserDTO dto, Locale locale) {
     UserDTO createdUser = createEntity(dto);
     try {
-      userMailService.sendAccountCreationEmail(createdUser, generateActivationToken(createdUser), locale);
+      userMailService
+          .sendAccountCreationEmail(createdUser, generateActivationToken(createdUser), locale);
     } catch (Exception e) {
       LOGGER.error("Impossible d'envoyer le mail d'activation de compte", e);
     }

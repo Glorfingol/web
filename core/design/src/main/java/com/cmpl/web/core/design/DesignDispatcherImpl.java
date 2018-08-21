@@ -1,9 +1,8 @@
 package com.cmpl.web.core.design;
 
+import com.cmpl.web.core.common.exception.BaseException;
 import java.util.Locale;
 import java.util.Objects;
-
-import com.cmpl.web.core.common.exception.BaseException;
 
 public class DesignDispatcherImpl implements DesignDispatcher {
 
@@ -20,7 +19,8 @@ public class DesignDispatcherImpl implements DesignDispatcher {
   }
 
   @Override
-  public DesignResponse createEntity(DesignCreateForm createForm, Locale locale) throws BaseException {
+  public DesignResponse createEntity(DesignCreateForm createForm, Locale locale)
+      throws BaseException {
 
     DesignDTO designDTOToCreate = translator.fromCreateFormToDTO(createForm);
     DesignDTO createdDesignDTO = service.createEntity(designDTOToCreate);

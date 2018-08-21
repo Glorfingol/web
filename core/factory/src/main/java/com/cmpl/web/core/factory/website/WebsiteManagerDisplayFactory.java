@@ -1,12 +1,10 @@
 package com.cmpl.web.core.factory.website;
 
+import com.cmpl.web.core.factory.CRUDBackDisplayFactory;
 import java.util.Locale;
-
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.factory.BackDisplayFactory;
-
-public interface WebsiteManagerDisplayFactory extends BackDisplayFactory {
+public interface WebsiteManagerDisplayFactory extends CRUDBackDisplayFactory {
 
   ModelAndView computeModelAndViewForViewAllWebsites(Locale locale, int pageNumber);
 

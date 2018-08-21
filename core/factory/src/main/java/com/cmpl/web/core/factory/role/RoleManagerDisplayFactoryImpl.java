@@ -1,24 +1,5 @@
 package com.cmpl.web.core.factory.role;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
@@ -30,27 +11,50 @@ import com.cmpl.web.core.factory.AbstractBackDisplayFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.membership.MembershipService;
-import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.page.BackPage;
 import com.cmpl.web.core.role.RoleCreateForm;
 import com.cmpl.web.core.role.RoleDTO;
 import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.role.RoleUpdateForm;
 import com.cmpl.web.core.role.privilege.PrivilegeDTO;
 import com.cmpl.web.core.role.privilege.PrivilegeService;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<RoleDTO>
     implements RoleManagerDisplayFactory {
 
   private final RoleService roleService;
+
   private final PrivilegeService privilegeService;
+
   private final ContextHolder contextHolder;
+
   private final PluginRegistry<Privilege, String> privileges;
 
   public RoleManagerDisplayFactoryImpl(RoleService roleService, PrivilegeService privilegeService,
       ContextHolder contextHolder, MenuFactory menuFactory, WebMessageSource messageSource,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, PluginRegistry<Privilege, String> privileges,
-      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
+      PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
+      PluginRegistry<Privilege, String> privileges,
+      Set<Locale> availableLocales, GroupService groupService,
+      MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
+        membershipService, backPagesRegistry);
     this.roleService = Objects.requireNonNull(roleService);
 
     this.privilegeService = Objects.requireNonNull(privilegeService);
@@ -63,8 +67,10 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   @Override
   public ModelAndView computeModelAndViewForViewAllRoles(Locale locale, int pageNumber) {
-    ModelAndView rolesManager = super.computeModelAndViewForBackPage(BACK_PAGE.ROLE_VIEW, locale);
-    LOGGER.info("Construction des roles pour la page {} ", BACK_PAGE.ROLE_VIEW.name());
+    BackPage backPage = computeBackPage("ROLE_VIEW");
+    ModelAndView rolesManager = super
+        .computeModelAndViewForBackPage(backPage, locale);
+    LOGGER.info("Construction des roles pour la page {} ", backPage.getPageName());
 
     PageWrapper<RoleDTO> pagedRoleDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
@@ -75,7 +81,9 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   @Override
   public ModelAndView computeModelAndViewForCreateRole(Locale locale) {
-    ModelAndView roleManager = super.computeModelAndViewForBackPage(BACK_PAGE.ROLE_CREATE, locale);
+    BackPage backPage = computeBackPage("ROLE_CREATE");
+    ModelAndView roleManager = super
+        .computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du formulaire de creation des roles");
 
     RoleCreateForm form = new RoleCreateForm();
@@ -87,8 +95,10 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   @Override
   public ModelAndView computeModelAndViewForUpdateRole(Locale locale, String roleId) {
-    ModelAndView roleManager = super.computeModelAndViewForBackPage(BACK_PAGE.ROLE_UPDATE, locale);
-    LOGGER.info("Construction du role pour la page {} ", BACK_PAGE.ROLE_UPDATE.name());
+    BackPage backPage = computeBackPage("ROLE_UPDATE");
+    ModelAndView roleManager = super
+        .computeModelAndViewForBackPage(backPage, locale);
+    LOGGER.info("Construction du role pour la page {} ", backPage.getPageName());
     RoleDTO role = roleService.getEntity(Long.parseLong(roleId));
     RoleUpdateForm form = new RoleUpdateForm(role);
 
@@ -106,7 +116,6 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   public ModelAndView computeModelAndViewForUpdateRoleMain(Locale locale, String roleId) {
     ModelAndView roleManager = new ModelAndView("back/roles/edit/tab_main");
-    LOGGER.info("Construction du role pour la page {} ", BACK_PAGE.ROLE_UPDATE.name());
     RoleDTO role = roleService.getEntity(Long.parseLong(roleId));
     RoleUpdateForm form = new RoleUpdateForm(role);
 
@@ -119,7 +128,6 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   public ModelAndView computeModelAndViewForUpdateRolePrivileges(Locale locale, String roleId) {
     ModelAndView roleManager = new ModelAndView("back/roles/edit/tab_privileges");
 
-    LOGGER.info("Construction des privileges du role pour la page {} ", BACK_PAGE.ROLE_UPDATE.name());
     RoleDTO role = roleService.getEntity(Long.parseLong(roleId));
     RoleUpdateForm form = new RoleUpdateForm(role);
 
@@ -177,6 +185,12 @@ public class RoleManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   protected String getSearchUrl() {
     return "/manager/roles/search";
+  }
+
+
+  @Override
+  protected String getSearchPlaceHolder() {
+    return "search.roles.placeHolder";
   }
 
   @Override

@@ -1,18 +1,17 @@
 package com.cmpl.web.core.membership;
 
-import java.util.List;
-
-import org.springframework.context.ApplicationEventPublisher;
-
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.Membership;
 import com.querydsl.core.types.Predicate;
+import java.util.List;
+import org.springframework.context.ApplicationEventPublisher;
 
 public class MembershipDAOImpl extends BaseDAOImpl<Membership> implements MembershipDAO {
 
   private final MembershipRepository entityRepository;
 
-  public MembershipDAOImpl(MembershipRepository entityRepository, ApplicationEventPublisher publisher) {
+  public MembershipDAOImpl(MembershipRepository entityRepository,
+      ApplicationEventPublisher publisher) {
     super(Membership.class, entityRepository, publisher);
     this.entityRepository = entityRepository;
   }

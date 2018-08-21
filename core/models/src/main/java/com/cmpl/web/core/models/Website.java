@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.hibernate.envers.Audited;
-
 @Entity(name = "website")
 @Table(name = "website")
 public class Website extends BaseEntity {

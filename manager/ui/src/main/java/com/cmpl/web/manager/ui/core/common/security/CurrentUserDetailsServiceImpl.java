@@ -1,16 +1,5 @@
 package com.cmpl.web.manager.ui.core.common.security;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import com.cmpl.web.core.common.user.GroupGrantedAuthority;
 import com.cmpl.web.core.membership.MembershipDTO;
 import com.cmpl.web.core.membership.MembershipService;
@@ -20,12 +9,24 @@ import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.user.UserDTO;
 import com.cmpl.web.core.user.UserService;
 import com.cmpl.web.manager.ui.core.administration.user.CurrentUser;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class CurrentUserDetailsServiceImpl implements UserDetailsService {
 
   private final UserService userService;
+
   private final ResponsibilityService responsibilityService;
+
   private final MembershipService membershipService;
+
   private final RoleService roleService;
 
   public CurrentUserDetailsServiceImpl(UserService userService, RoleService roleService,
@@ -47,17 +48,20 @@ public class CurrentUserDetailsServiceImpl implements UserDetailsService {
       throw new UsernameNotFoundException(String.format("User with email=%s was not found", login));
     }
 
-    List<ResponsibilityDTO> associationsUserRoles = responsibilityService.findByUserId(String.valueOf(user.getId()));
+    List<ResponsibilityDTO> associationsUserRoles = responsibilityService
+        .findByUserId(String.valueOf(user.getId()));
     Set<String> mergedPrivileges = new HashSet<>();
 
     associationsUserRoles.forEach(associationUserRoleDTO -> {
       mergedPrivileges
-          .addAll(roleService.getEntity(Long.parseLong(associationUserRoleDTO.getRoleId())).getPrivileges());
+          .addAll(roleService.getEntity(Long.parseLong(associationUserRoleDTO.getRoleId()))
+              .getPrivileges());
     });
 
     List<MembershipDTO> associationEntityGroups = membershipService.findByEntityId(user.getId());
     List<GroupGrantedAuthority> groupsGranted = associationEntityGroups.stream()
-        .map(associationEntityGroup -> new GroupGrantedAuthority(associationEntityGroup.getGroupId()))
+        .map(associationEntityGroup -> new GroupGrantedAuthority(
+            associationEntityGroup.getGroupId()))
         .collect(Collectors.toList());
 
     List<GrantedAuthority> authorities = AuthorityUtils

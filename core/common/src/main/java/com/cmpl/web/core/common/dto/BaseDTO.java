@@ -4,16 +4,19 @@ import java.time.LocalDateTime;
 
 /**
  * DTO commun
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public abstract class BaseDTO {
 
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
 
   public Long getId() {

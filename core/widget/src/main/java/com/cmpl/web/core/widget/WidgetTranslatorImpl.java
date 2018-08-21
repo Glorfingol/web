@@ -10,7 +10,8 @@ public class WidgetTranslatorImpl implements WidgetTranslator {
 
   @Override
   public WidgetDTO fromCreateFormToDTO(WidgetCreateForm form) {
-    return WidgetDTOBuilder.create().name(form.getName()).asynchronous(form.getAsynchronous()).type(form.getType())
+    return WidgetDTOBuilder.create().name(form.getName()).asynchronous(form.getAsynchronous())
+        .type(form.getType())
         .personalization("").build();
   }
 
@@ -21,7 +22,8 @@ public class WidgetTranslatorImpl implements WidgetTranslator {
 
   @Override
   public WidgetPageDTO fromCreateFormToDTO(WidgetPageCreateForm form) {
-    return WidgetPageDTOBuilder.create().pageId(form.getPageId()).widgetId(form.getWidgetId()).build();
+    return WidgetPageDTOBuilder.create().pageId(form.getPageId()).widgetId(form.getWidgetId())
+        .build();
   }
 
   @Override

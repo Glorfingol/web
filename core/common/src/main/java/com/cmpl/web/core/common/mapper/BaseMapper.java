@@ -1,11 +1,10 @@
 package com.cmpl.web.core.common.mapper;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.cmpl.web.core.common.dto.BaseDTO;
 import com.cmpl.web.core.common.filler.ObjectReflexiveFillerImpl;
 import com.cmpl.web.core.models.BaseEntity;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class BaseMapper<DTO extends BaseDTO, ENTITY extends BaseEntity> {
 
@@ -19,7 +18,8 @@ public abstract class BaseMapper<DTO extends BaseDTO, ENTITY extends BaseEntity>
 
   public void fillObject(Object origin, Object destination) {
 
-    ObjectReflexiveFillerImpl reflexiveFiller = ObjectReflexiveFillerImpl.fromOriginAndDestination(origin, destination);
+    ObjectReflexiveFillerImpl reflexiveFiller = ObjectReflexiveFillerImpl
+        .fromOriginAndDestination(origin, destination);
     reflexiveFiller.fillDestination();
 
   }

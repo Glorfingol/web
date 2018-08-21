@@ -1,17 +1,5 @@
 package com.cmpl.web.core.factory;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.design.DesignDTO;
 import com.cmpl.web.core.design.DesignService;
@@ -31,27 +19,46 @@ import com.cmpl.web.core.widget.WidgetDTOBuilder;
 import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageDTO;
 import com.cmpl.web.core.widget.page.WidgetPageService;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Implementation de l'interface de factory pur generer des model and view pour les pages du site
  *
  * @author Louis
- *
  */
 public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements DisplayFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(DisplayFactoryImpl.class);
+
   private final PageService pageService;
+
   private final NewsEntryService newsEntryService;
+
   private final WidgetPageService widgetPageService;
+
   private final WidgetService widgetService;
+
   private final PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
+
   private final WebsiteService websiteService;
+
   private final SitemapService sitemapService;
+
   private final DesignService designService;
+
   private final StyleService styleService;
 
-  public DisplayFactoryImpl(WebMessageSource messageSource, PageService pageService, NewsEntryService newsEntryService,
+  public DisplayFactoryImpl(WebMessageSource messageSource, PageService pageService,
+      NewsEntryService newsEntryService,
       WidgetPageService widgetPageService, WidgetService widgetService,
       PluginRegistry<WidgetProviderPlugin, String> widgetProviders, WebsiteService websiteService,
       SitemapService sitemapService, DesignService designService, StyleService styleService) {
@@ -86,15 +93,16 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     model.addObject("header", computePageHeader(page, locale));
     LOGGER.debug("Construction de la meta pour la page  {}", pageName);
     model.addObject("meta", computePageMeta(page, locale));
-    LOGGER.debug("Construction du lien du back pour la page {}", pageName);
-    model.addObject("hiddenLink", computeHiddenLink(locale));
 
     LOGGER.debug("Construction des widgets pour la page {}", pageName);
-    List<WidgetPageDTO> widgetPageDTOS = widgetPageService.findByPageId(String.valueOf(page.getId()));
-    List<String> widgetIds = widgetPageDTOS.stream().map(widgetPageDTO -> widgetPageDTO.getWidgetId())
+    List<WidgetPageDTO> widgetPageDTOS = widgetPageService
+        .findByPageId(String.valueOf(page.getId()));
+    List<String> widgetIds = widgetPageDTOS.stream()
+        .map(widgetPageDTO -> widgetPageDTO.getWidgetId())
         .collect(Collectors.toList());
     List<String> widgetAsynchronousNames = widgetIds.stream()
-        .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId))).filter(widget -> widget.isAsynchronous())
+        .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId)))
+        .filter(widget -> widget.isAsynchronous())
         .map(widget -> widget.getName()).collect(Collectors.toList());
 
     List<WidgetDTO> synchronousWidgets = widgetIds.stream()
@@ -136,7 +144,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   }
 
   @Override
-  public ModelAndView computeModelAndViewForBlogEntry(String newsEntryId, String widgetId, Locale locale) {
+  public ModelAndView computeModelAndViewForBlogEntry(String newsEntryId, String widgetId,
+      Locale locale) {
 
     LOGGER.debug("Construction de l'entree de blog d'id {}", newsEntryId);
 
@@ -152,7 +161,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   }
 
   @Override
-  public ModelAndView computeModelAndViewForWidget(String widgetName, Locale locale, int pageNumber, String pageName) {
+  public ModelAndView computeModelAndViewForWidget(String widgetName, Locale locale, int pageNumber,
+      String pageName) {
 
     LOGGER.debug("Construction du wiget {}", widgetName);
 
@@ -174,7 +184,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   }
 
   @Override
-  public ModelAndView computeModelAndViewForWebsitePage(String websiteName, String pageName, Locale locale,
+  public ModelAndView computeModelAndViewForWebsitePage(String websiteName, String pageName,
+      Locale locale,
       int pageNumber) {
 
     LOGGER.debug("Construction de la page  {0} pour le site {1}", pageName, websiteName);
@@ -192,7 +203,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     }
 
     List<DesignDTO> designs = designService.findByWebsiteId(websiteDTO.getId());
-    List<StyleDTO> styles = designs.stream().map(design -> styleService.getEntity(design.getStyleId()))
+    List<StyleDTO> styles = designs.stream()
+        .map(design -> styleService.getEntity(design.getStyleId()))
         .collect(Collectors.toList());
 
     PageDTO page = pages.get(0);
@@ -205,15 +217,16 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     model.addObject("header", computePageHeader(page, locale));
     LOGGER.debug("Construction de la meta pour la page  {}", pageName);
     model.addObject("meta", computePageMeta(page, locale));
-    LOGGER.debug("Construction du lien du back pour la page {}", pageName);
-    model.addObject("hiddenLink", computeHiddenLink(locale));
 
     LOGGER.debug("Construction des widgets pour la page {}", pageName);
-    List<WidgetPageDTO> widgetPageDTOS = widgetPageService.findByPageId(String.valueOf(page.getId()));
-    List<String> widgetIds = widgetPageDTOS.stream().map(widgetPageDTO -> widgetPageDTO.getWidgetId())
+    List<WidgetPageDTO> widgetPageDTOS = widgetPageService
+        .findByPageId(String.valueOf(page.getId()));
+    List<String> widgetIds = widgetPageDTOS.stream()
+        .map(widgetPageDTO -> widgetPageDTO.getWidgetId())
         .collect(Collectors.toList());
     List<String> widgetAsynchronousNames = widgetIds.stream()
-        .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId))).filter(widget -> widget.isAsynchronous())
+        .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId)))
+        .filter(widget -> widget.isAsynchronous())
         .map(widget -> widget.getName()).collect(Collectors.toList());
 
     List<WidgetDTO> synchronousWidgets = widgetIds.stream()
@@ -241,7 +254,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
   }
 
   @Override
-  public ModelAndView computeModelAndViewForWebsiteAMP(String websiteName, String pageName, Locale locale,
+  public ModelAndView computeModelAndViewForWebsiteAMP(String websiteName, String pageName,
+      Locale locale,
       int pageNumber) {
     LOGGER.debug("Construction de la page amp {0} pour le site {1}", pageName, websiteName);
 
@@ -293,7 +307,8 @@ public class DisplayFactoryImpl extends BaseDisplayFactoryImpl implements Displa
     return page.getName() + "_footer_" + locale.getLanguage();
   }
 
-  Map<String, Object> computeWidgetModel(WidgetDTO widget, int pageNumber, Locale locale, String pageName) {
+  Map<String, Object> computeWidgetModel(WidgetDTO widget, int pageNumber, Locale locale,
+      String pageName) {
 
     WidgetProviderPlugin widgetProvider = widgetProviders.getPluginFor(widget.getType());
     return widgetProvider.computeWidgetModel(widget, locale, pageName, pageNumber);

@@ -6,6 +6,7 @@ import java.util.Objects;
 public class PageDispatcherImpl implements PageDispatcher {
 
   private final PageTranslator translator;
+
   private final PageService pageService;
 
   public PageDispatcherImpl(PageTranslator translator, PageService pageService) {

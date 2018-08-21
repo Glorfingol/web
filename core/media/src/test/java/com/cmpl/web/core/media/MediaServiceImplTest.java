@@ -1,8 +1,10 @@
 package com.cmpl.web.core.media;
 
+import com.cmpl.web.core.common.context.ContextHolder;
+import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.models.Media;
 import java.io.File;
 import java.io.FileInputStream;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,10 +14,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.cmpl.web.core.common.context.ContextHolder;
-import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.models.Media;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MediaServiceImplTest {
@@ -29,8 +27,10 @@ public class MediaServiceImplTest {
 
   @Mock
   private ContextHolder contextHolder;
+
   @Mock
   private FileService fileService;
+
   @Mock
   private MediaDAO mediaDAO;
 
@@ -39,7 +39,8 @@ public class MediaServiceImplTest {
     MediaDTO result = MediaDTOBuilder.create().build();
 
     BDDMockito.doReturn(result).when(mapper).toDTO(BDDMockito.any(Media.class));
-    BDDMockito.given(mediaDAO.findByName(BDDMockito.anyString())).willReturn(MediaBuilder.create().build());
+    BDDMockito.given(mediaDAO.findByName(BDDMockito.anyString()))
+        .willReturn(MediaBuilder.create().build());
 
     Assert.assertEquals(result, mediaService.findByName("someName"));
   }
@@ -64,10 +65,12 @@ public class MediaServiceImplTest {
     BDDMockito.given(multiPartFile.getSize()).willReturn(1l);
     BDDMockito.given(multiPartFile.getBytes()).willReturn(new byte[]{});
 
-    BDDMockito.doNothing().when(fileService).saveMediaOnSystem(BDDMockito.anyString(), BDDMockito.any(byte[].class));
+    BDDMockito.doNothing().when(fileService)
+        .saveMediaOnSystem(BDDMockito.anyString(), BDDMockito.any(byte[].class));
 
     MediaDTO mediaToCreate = MediaDTOBuilder.create().build();
-    BDDMockito.doReturn(mediaToCreate).when(mediaService).createEntity(BDDMockito.any(MediaDTO.class));
+    BDDMockito.doReturn(mediaToCreate).when(mediaService)
+        .createEntity(BDDMockito.any(MediaDTO.class));
 
     Assert.assertEquals(mediaToCreate, mediaService.upload(multiPartFile));
   }

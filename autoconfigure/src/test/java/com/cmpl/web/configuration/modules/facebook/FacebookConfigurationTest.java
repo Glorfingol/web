@@ -1,18 +1,5 @@
 package com.cmpl.web.configuration.modules.facebook;
 
-import java.util.Locale;
-import java.util.Set;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.facebook.api.Facebook;
-
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSourceImpl;
@@ -22,7 +9,7 @@ import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.news.entry.NewsEntryService;
-import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.page.BackPage;
 import com.cmpl.web.facebook.FacebookAdapter;
 import com.cmpl.web.facebook.FacebookDispatcher;
 import com.cmpl.web.facebook.FacebookDispatcherImpl;
@@ -34,6 +21,17 @@ import com.cmpl.web.facebook.FacebookService;
 import com.cmpl.web.facebook.FacebookServiceImpl;
 import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactory;
 import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactoryImpl;
+import java.util.Locale;
+import java.util.Set;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.facebook.api.Facebook;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FacebookConfigurationTest {
@@ -72,14 +70,19 @@ public class FacebookConfigurationTest {
   private ConnectionRepository connectionRepository;
 
   @Mock
-  private PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry;
+  private PluginRegistry<BreadCrumb, String> breadCrumbRegistry;
+
   @Mock
   private Set<Locale> availableLocales;
 
   @Mock
   private GroupService groupService;
+
   @Mock
   private MembershipService membershipService;
+
+  @Mock
+  private PluginRegistry<BackPage, String> backPages;
 
   @Spy
   private FacebookConfiguration configuration;
@@ -87,7 +90,8 @@ public class FacebookConfigurationTest {
   @Test
   public void testFacebookDispatcher() throws Exception {
 
-    FacebookDispatcher result = configuration.facebookDispatcher(facebookImportService, facebookImportTranslator);
+    FacebookDispatcher result = configuration
+        .facebookDispatcher(facebookImportService, facebookImportTranslator);
 
     Assert.assertEquals(FacebookDispatcherImpl.class, result.getClass());
 
@@ -103,16 +107,18 @@ public class FacebookConfigurationTest {
 
   @Test
   public void testFacebookDisplayFactory() throws Exception {
-    FacebookDisplayFactory result = configuration.facebookDisplayFactory(menuFactory, messageSource, facebookAdapter,
-        breadCrumbRegistry, availableLocales, groupService, membershipService);
+    FacebookDisplayFactory result = configuration
+        .facebookDisplayFactory(menuFactory, messageSource, facebookAdapter,
+            breadCrumbRegistry, availableLocales, backPages);
 
     Assert.assertEquals(FacebookDisplayFactoryImpl.class, result.getClass());
   }
 
   @Test
   public void testFacebookService() throws Exception {
-    FacebookService result = configuration.facebookService(contextHolder, facebookConnector, connectionRepository,
-        newsEntryService);
+    FacebookService result = configuration
+        .facebookService(contextHolder, facebookConnector, connectionRepository,
+            newsEntryService);
 
     Assert.assertEquals(FacebookServiceImpl.class, result.getClass());
   }
@@ -120,8 +126,9 @@ public class FacebookConfigurationTest {
   @Test
   public void testFacebookImportService() throws Exception {
 
-    FacebookImportService result = configuration.facebookImportService(newsEntryService, facebookAdapter, mediaService,
-        fileService, messageSource);
+    FacebookImportService result = configuration
+        .facebookImportService(newsEntryService, facebookAdapter, mediaService,
+            fileService, messageSource);
 
     Assert.assertEquals(FacebookImportServiceImpl.class, result.getClass());
   }

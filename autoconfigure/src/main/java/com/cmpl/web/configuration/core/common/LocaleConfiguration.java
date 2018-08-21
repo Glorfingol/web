@@ -3,7 +3,6 @@ package com.cmpl.web.configuration.core.common;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
@@ -14,17 +13,14 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 /**
  * Configuration de la locale
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Configuration
 public class LocaleConfiguration implements WebMvcConfigurer {
 
   /**
    * Declaration de la locale du projet et de la locale par defaut
-   * 
-   * @return
    */
   @Bean
   public LocaleResolver localeResolver() {

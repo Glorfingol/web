@@ -1,10 +1,8 @@
 package com.cmpl.web.core.media;
 
-import java.io.InputStream;
-
-import org.springframework.web.multipart.MultipartFile;
-
 import com.cmpl.web.core.common.service.BaseService;
+import java.io.InputStream;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface MediaService extends BaseService<MediaDTO> {
 

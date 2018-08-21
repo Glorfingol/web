@@ -1,16 +1,16 @@
 package com.cmpl.web.core.responsibility;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.models.Responsibility;
+import java.util.List;
 
 public class ResponsibilityServiceImpl extends BaseServiceImpl<ResponsibilityDTO, Responsibility>
     implements ResponsibilityService {
 
   private final ResponsibilityDAO responsibilityDAO;
 
-  public ResponsibilityServiceImpl(ResponsibilityDAO responsibilityDAO, ResponsibilityMapper responsibilityMapper) {
+  public ResponsibilityServiceImpl(ResponsibilityDAO responsibilityDAO,
+      ResponsibilityMapper responsibilityMapper) {
     super(responsibilityDAO, responsibilityMapper);
     this.responsibilityDAO = responsibilityDAO;
   }

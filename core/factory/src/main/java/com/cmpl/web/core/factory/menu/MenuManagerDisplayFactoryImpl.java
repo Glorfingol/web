@@ -1,20 +1,5 @@
 package com.cmpl.web.core.factory.menu;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
@@ -29,26 +14,48 @@ import com.cmpl.web.core.menu.MenuCreateFormBuilder;
 import com.cmpl.web.core.menu.MenuDTO;
 import com.cmpl.web.core.menu.MenuService;
 import com.cmpl.web.core.menu.MenuUpdateForm;
-import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.page.BackPage;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<MenuDTO>
     implements MenuManagerDisplayFactory {
 
   private final MenuService menuService;
+
   private final PageService pageService;
+
   private final ContextHolder contextHolder;
 
   private static final String CREATE_FORM = "createForm";
+
   private static final String UPDATE_FORM = "updateForm";
+
   private static final String MENUS_PARENTS = "menusThatCanBeParents";
+
   private static final String PAGES_LINKABLE = "pagesThatCanBeLinkedTo";
 
-  public MenuManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource, MenuService menuService,
-      PageService pageService, ContextHolder contextHolder, PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry,
-      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
+  public MenuManagerDisplayFactoryImpl(MenuFactory menuFactory, WebMessageSource messageSource,
+      MenuService menuService,
+      PageService pageService, ContextHolder contextHolder,
+      PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
+      Set<Locale> availableLocales, GroupService groupService,
+      MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
+        membershipService, backPagesRegistry);
 
     this.menuService = Objects.requireNonNull(menuService);
 
@@ -60,8 +67,10 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   @Override
   public ModelAndView computeModelAndViewForViewAllMenus(Locale locale, int pageNumber) {
-    ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_VIEW, locale);
-    LOGGER.info("Construction des menus pour la page {}", BACK_PAGE.MENUS_VIEW.name());
+    BackPage backPage = computeBackPage("MENU_VIEW");
+    ModelAndView menusManager = super
+        .computeModelAndViewForBackPage(backPage, locale);
+    LOGGER.info("Construction des menus pour la page {}", backPage.getPageName());
 
     PageWrapper<MenuDTO> pagedPageDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
@@ -72,8 +81,10 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   @Override
   public ModelAndView computeModelAndViewForCreateMenu(Locale locale) {
-    ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_CREATE, locale);
-    LOGGER.info("Construction d'un menu pour la page {}", BACK_PAGE.MENUS_CREATE.name());
+    BackPage backPage = computeBackPage("MENU_CREATE");
+    ModelAndView menusManager = super
+        .computeModelAndViewForBackPage(backPage, locale);
+    LOGGER.info("Construction d'un menu pour la page {}", backPage.getPageName());
 
     List<MenuDTO> menusThatCanBeParents = menuService.getMenus();
     menusManager.addObject(MENUS_PARENTS, menusThatCanBeParents);
@@ -90,10 +101,10 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   public ModelAndView computeModelAndViewForUpdateMenuMain(String menuId) {
     ModelAndView menusManager = new ModelAndView("/back/menus/edit/tab_main");
-    LOGGER.info("Construction d'un menu pour la page {}", BACK_PAGE.MENUS_UPDATE.name());
 
     List<MenuDTO> menusThatCanBeParents = menuService.getMenus().stream()
-        .filter(menuDTO -> !menuId.equals(String.valueOf(menuDTO.getId()))).collect(Collectors.toList());
+        .filter(menuDTO -> !menuId.equals(String.valueOf(menuDTO.getId())))
+        .collect(Collectors.toList());
 
     menusManager.addObject(MENUS_PARENTS, menusThatCanBeParents);
 
@@ -111,12 +122,15 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   @Override
   public ModelAndView computeModelAndViewForUpdateMenu(Locale locale, String menuId) {
-    ModelAndView menusManager = super.computeModelAndViewForBackPage(BACK_PAGE.MENUS_UPDATE, locale);
-    LOGGER.info("Construction d'un menu pour la page {}", BACK_PAGE.MENUS_UPDATE.name());
+    BackPage backPage = computeBackPage("MENU_UPDATE");
+    ModelAndView menusManager = super
+        .computeModelAndViewForBackPage(backPage, locale);
+    LOGGER.info("Construction d'un menu pour la page {}", backPage.getPageName());
 
     MenuDTO menuToUpdate = menuService.getEntity(Long.valueOf(menuId));
 
-    BreadCrumbItem item = BreadCrumbItemBuilder.create().href("#").text(menuToUpdate.getLabel()).build();
+    BreadCrumbItem item = BreadCrumbItemBuilder.create().href("#").text(menuToUpdate.getLabel())
+        .build();
     BreadCrumb breadCrumb = (BreadCrumb) menusManager.getModel().get("breadcrumb");
 
     if (canAddBreadCrumbItem(breadCrumb, item)) {
@@ -137,8 +151,9 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
     Page<MenuDTO> pagedMenuDTOEntries;
     if (StringUtils.hasText(query)) {
-      pagedMenuDTOEntries = menuService.searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
-          query);
+      pagedMenuDTOEntries = menuService
+          .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
+              query);
     } else {
       pagedMenuDTOEntries = menuService
           .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
@@ -165,6 +180,11 @@ public class MenuManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   protected String getSearchUrl() {
     return "/manager/menus/search";
+  }
+
+  @Override
+  protected String getSearchPlaceHolder() {
+    return "search.menus.placeHolder";
   }
 
   @Override

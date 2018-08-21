@@ -1,12 +1,12 @@
 package com.cmpl.web.backup.writer;
 
-import java.time.format.DateTimeFormatter;
-
 import com.cmpl.web.core.models.NewsContent;
+import java.time.format.DateTimeFormatter;
 
 public class NewsContentCSVWriter extends CommonWriter<NewsContent> {
 
-  public NewsContentCSVWriter(DateTimeFormatter dateFormatter, DataManipulator<NewsContent> dataManipulator,
+  public NewsContentCSVWriter(DateTimeFormatter dateFormatter,
+      DataManipulator<NewsContent> dataManipulator,
       String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }

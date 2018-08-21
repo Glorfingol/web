@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.dto.BaseDTO;
 public class DesignDTO extends BaseDTO {
 
   private Long websiteId;
+
   private Long styleId;
 
   public Long getWebsiteId() {

@@ -1,9 +1,10 @@
 package com.cmpl.web.facebook;
 
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,9 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.cmpl.web.core.news.entry.NewsEntryDTO;
-import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FacebookDispatcherImplTest {
@@ -42,19 +40,25 @@ public class FacebookDispatcherImplTest {
 
     NewsEntryDTO newsEntry = NewsEntryDTOBuilder.create().id(123456789L).build();
 
-    BDDMockito.doReturn(posts).when(facebookImportTranslator).fromRequestToPosts(BDDMockito.eq(facebookImportRequest));
-    BDDMockito.doReturn(Arrays.asList(newsEntry)).when(facebookImportService).importFacebookPost(BDDMockito.anyList(),
-        BDDMockito.any(Locale.class));
-    BDDMockito.doReturn(response).when(facebookImportTranslator).fromDTOToResponse(BDDMockito.anyList());
+    BDDMockito.doReturn(posts).when(facebookImportTranslator)
+        .fromRequestToPosts(BDDMockito.eq(facebookImportRequest));
+    BDDMockito.doReturn(Arrays.asList(newsEntry)).when(facebookImportService)
+        .importFacebookPost(BDDMockito.anyList(),
+            BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(response).when(facebookImportTranslator)
+        .fromDTOToResponse(BDDMockito.anyList());
 
-    FacebookImportResponse result = facebookDispatcher.createEntity(facebookImportRequest, Locale.FRANCE);
+    FacebookImportResponse result = facebookDispatcher
+        .createEntity(facebookImportRequest, Locale.FRANCE);
 
     Assert.assertEquals(response, result);
 
     BDDMockito.verify(facebookImportTranslator, BDDMockito.times(1))
         .fromRequestToPosts(BDDMockito.eq(facebookImportRequest));
-    BDDMockito.verify(facebookImportTranslator, BDDMockito.times(1)).fromDTOToResponse(BDDMockito.anyList());
-    BDDMockito.verify(facebookImportService, BDDMockito.times(1)).importFacebookPost(BDDMockito.anyList(),
-        BDDMockito.any(Locale.class));
+    BDDMockito.verify(facebookImportTranslator, BDDMockito.times(1))
+        .fromDTOToResponse(BDDMockito.anyList());
+    BDDMockito.verify(facebookImportService, BDDMockito.times(1))
+        .importFacebookPost(BDDMockito.anyList(),
+            BDDMockito.any(Locale.class));
   }
 }

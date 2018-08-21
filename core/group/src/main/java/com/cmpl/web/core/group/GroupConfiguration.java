@@ -1,12 +1,11 @@
 package com.cmpl.web.core.group;
 
+import com.cmpl.web.core.models.BOGroup;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-import com.cmpl.web.core.models.BOGroup;
 
 @Configuration
 @EntityScan(basePackageClasses = {BOGroup.class})
@@ -34,7 +33,8 @@ public class GroupConfiguration {
   }
 
   @Bean
-  public GroupDispatcher groupDispatcher(GroupService groupService, GroupTranslator groupTranslator) {
+  public GroupDispatcher groupDispatcher(GroupService groupService,
+      GroupTranslator groupTranslator) {
     return new GroupDispatcherImpl(groupTranslator, groupService);
   }
 

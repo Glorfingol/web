@@ -3,6 +3,7 @@ package com.cmpl.web.core.breadcrumb;
 public class BreadCrumbItem {
 
   private String text;
+
   private String href;
 
   public String getText() {

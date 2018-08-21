@@ -1,14 +1,12 @@
 package com.cmpl.web.core.role;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.util.CollectionUtils;
-
 import com.cmpl.web.core.common.mapper.BaseMapper;
 import com.cmpl.web.core.models.Role;
 import com.cmpl.web.core.role.privilege.PrivilegeDTO;
 import com.cmpl.web.core.role.privilege.PrivilegeService;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.util.CollectionUtils;
 
 public class RoleMapper extends BaseMapper<RoleDTO, Role> {
 
@@ -24,7 +22,8 @@ public class RoleMapper extends BaseMapper<RoleDTO, Role> {
     fillObject(entity, dto);
     List<PrivilegeDTO> privileges = privilegeService.findByRoleId(String.valueOf(dto.getId()));
     if (!CollectionUtils.isEmpty(privileges)) {
-      dto.setPrivileges(privileges.stream().map(privilege -> privilege.getContent()).collect(Collectors.toList()));
+      dto.setPrivileges(privileges.stream().map(privilege -> privilege.getContent())
+          .collect(Collectors.toList()));
     }
     return dto;
   }

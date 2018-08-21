@@ -1,8 +1,5 @@
 package com.cmpl.web.configuration.front;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import com.cmpl.web.core.factory.DisplayFactory;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.sitemap.rendering.RenderingSitemapService;
@@ -16,6 +13,8 @@ import com.cmpl.web.front.ui.robot.RobotsController;
 import com.cmpl.web.front.ui.sitemap.RenderingSitemapController;
 import com.cmpl.web.front.ui.website.RenderingWebsiteController;
 import com.cmpl.web.front.ui.widgets.WidgetController;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FrontControllerConfiguration {
@@ -41,7 +40,8 @@ public class FrontControllerConfiguration {
   }
 
   @Bean
-  public RenderingSitemapController sitemapController(RenderingSitemapService renderingSitemapService) {
+  public RenderingSitemapController sitemapController(
+      RenderingSitemapService renderingSitemapService) {
     return new RenderingSitemapController(renderingSitemapService);
   }
 

@@ -1,12 +1,10 @@
 package com.cmpl.web.core.factory.carousel;
 
+import com.cmpl.web.core.factory.CRUDBackDisplayFactory;
 import java.util.Locale;
-
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.factory.BackDisplayFactory;
-
-public interface CarouselManagerDisplayFactory extends BackDisplayFactory {
+public interface CarouselManagerDisplayFactory extends CRUDBackDisplayFactory {
 
   ModelAndView computeModelAndViewForViewAllCarousels(Locale locale, int pageNumber);
 

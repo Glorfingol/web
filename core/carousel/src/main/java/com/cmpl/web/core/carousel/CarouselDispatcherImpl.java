@@ -1,8 +1,5 @@
 package com.cmpl.web.core.carousel;
 
-import java.util.Locale;
-import java.util.Objects;
-
 import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
 import com.cmpl.web.core.carousel.item.CarouselItemDTO;
 import com.cmpl.web.core.carousel.item.CarouselItemResponse;
@@ -10,15 +7,21 @@ import com.cmpl.web.core.carousel.item.CarouselItemService;
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
+import java.util.Locale;
+import java.util.Objects;
 
 public class CarouselDispatcherImpl implements CarouselDispatcher {
 
   private final CarouselService carouselService;
+
   private final CarouselItemService carouselItemService;
+
   private final MediaService mediaService;
+
   private final CarouselTranslator translator;
 
-  public CarouselDispatcherImpl(CarouselService carouselService, CarouselItemService carouselItemService,
+  public CarouselDispatcherImpl(CarouselService carouselService,
+      CarouselItemService carouselItemService,
       MediaService mediaService, CarouselTranslator carouselTransaltor) {
     this.carouselItemService = Objects.requireNonNull(carouselItemService);
     this.carouselService = Objects.requireNonNull(carouselService);
@@ -64,7 +67,8 @@ public class CarouselDispatcherImpl implements CarouselDispatcher {
   }
 
   @Override
-  public void deleteCarouselItemEntity(String carouselId, String carouselItemId, Locale locale) throws BaseException {
+  public void deleteCarouselItemEntity(String carouselId, String carouselItemId, Locale locale)
+      throws BaseException {
 
     carouselItemService.deleteEntityInCarousel(carouselId, Long.valueOf(carouselItemId));
   }

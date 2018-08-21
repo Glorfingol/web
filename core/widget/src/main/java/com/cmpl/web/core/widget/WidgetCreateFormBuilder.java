@@ -5,8 +5,11 @@ import com.cmpl.web.core.common.builder.Builder;
 public class WidgetCreateFormBuilder extends Builder<WidgetCreateForm> {
 
   private String type;
+
   private String name;
+
   private String localeCode;
+
   private Boolean asynchronous;
 
   private WidgetCreateFormBuilder() {

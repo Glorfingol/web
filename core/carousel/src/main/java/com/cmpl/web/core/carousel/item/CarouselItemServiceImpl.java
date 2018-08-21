@@ -1,13 +1,11 @@
 package com.cmpl.web.core.carousel.item;
 
+import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.models.CarouselItem;
 import java.util.List;
-
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-
-import com.cmpl.web.core.common.service.BaseServiceImpl;
-import com.cmpl.web.core.models.CarouselItem;
 
 @CacheConfig(cacheNames = "carouselItems")
 public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, CarouselItem>
@@ -15,7 +13,8 @@ public class CarouselItemServiceImpl extends BaseServiceImpl<CarouselItemDTO, Ca
 
   private final CarouselItemDAO carouselItemDAO;
 
-  public CarouselItemServiceImpl(CarouselItemDAO carouselItemDAO, CarouselItemMapper carouselItemMapper) {
+  public CarouselItemServiceImpl(CarouselItemDAO carouselItemDAO,
+      CarouselItemMapper carouselItemMapper) {
     super(carouselItemDAO, carouselItemMapper);
     this.carouselItemDAO = carouselItemDAO;
   }

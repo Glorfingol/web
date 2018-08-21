@@ -1,24 +1,20 @@
 package com.cmpl.web.configuration.core.common;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.message.WebMessageSourceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.common.message.WebMessageSourceImpl;
-
 /**
  * Configuration des cles i18n
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Configuration
 public class ResourceConfiguration {
 
   /**
    * Declaration des sources de cles i18n
-   * 
-   * @return
    */
   @Bean
   public WebMessageSource messageSource() {

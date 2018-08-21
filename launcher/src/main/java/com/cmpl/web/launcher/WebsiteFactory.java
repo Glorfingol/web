@@ -12,15 +12,19 @@ import com.cmpl.web.core.website.WebsiteRepository;
 
 public class WebsiteFactory {
 
-  public static void createWebsite(WebsiteRepository websiteRepository, PageRepository pageRepository,
-      SitemapRepository sitemapRepository, StyleRepository styleRepository, DesignRepository designRepository) {
+  public static void createWebsite(WebsiteRepository websiteRepository,
+      PageRepository pageRepository,
+      SitemapRepository sitemapRepository, StyleRepository styleRepository,
+      DesignRepository designRepository) {
 
     Website website = WebsiteBuilder.create().name("cmpl").description("a test").build();
     final Website createdWebsite = websiteRepository.save(website);
 
     pageRepository.findAll().forEach(page -> sitemapRepository
-        .save(SitemapBuilder.create().pageId(page.getId()).websiteId(createdWebsite.getId()).build()));
+        .save(SitemapBuilder.create().pageId(page.getId()).websiteId(createdWebsite.getId())
+            .build()));
     styleRepository.findAll().forEach(style -> designRepository
-        .save(DesignBuilder.create().styleId(style.getId()).websiteId(createdWebsite.getId()).build()));
+        .save(DesignBuilder.create().styleId(style.getId()).websiteId(createdWebsite.getId())
+            .build()));
   }
 }

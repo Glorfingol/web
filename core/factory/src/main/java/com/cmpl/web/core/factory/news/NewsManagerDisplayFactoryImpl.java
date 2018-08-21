@@ -1,18 +1,5 @@
 package com.cmpl.web.core.factory.news;
 
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
@@ -33,25 +20,38 @@ import com.cmpl.web.core.news.image.NewsImageDTO;
 import com.cmpl.web.core.news.image.NewsImageDTOBuilder;
 import com.cmpl.web.core.news.image.NewsImageRequest;
 import com.cmpl.web.core.news.image.NewsImageRequestBuilder;
-import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.page.BackPage;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Implementation de l'interface pour la factory des pages d'actualite sur le back
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImpl<NewsEntryDTO>
     implements NewsManagerDisplayFactory {
 
   private final NewsEntryService newsEntryService;
+
   private final ContextHolder contextHolder;
 
   public NewsManagerDisplayFactoryImpl(ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, NewsEntryService newsEntryService,
-      PluginRegistry<BreadCrumb, BACK_PAGE> breadCrumbRegistry, Set<Locale> availableLocales, GroupService groupService,
-      MembershipService membershipService) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService);
+      PluginRegistry<BreadCrumb, String> breadCrumbRegistry, Set<Locale> availableLocales,
+      GroupService groupService,
+      MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
+        membershipService, backPagesRegistry);
 
     this.newsEntryService = Objects.requireNonNull(newsEntryService);
 
@@ -59,10 +59,12 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   }
 
+
   @Override
-  public ModelAndView computeModelAndViewForBackPage(Locale locale, int pageNumber) {
-    ModelAndView newsManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_VIEW, locale);
-    LOGGER.info("Construction des entrées de blog pour la page {}", BACK_PAGE.NEWS_VIEW.name());
+  public ModelAndView computeModelAndViewForViewAllNews(Locale locale, int pageNumber) {
+    BackPage backPage = computeBackPage("NEWS_VIEW");
+    ModelAndView newsManager = computeModelAndViewForBackPage(backPage, locale);
+    LOGGER.info("Construction des entrées de blog pour la page {}", backPage.getPageName());
 
     PageWrapper<NewsEntryDTO> pagedNewsWrapped = computePageWrapper(locale, pageNumber, null);
 
@@ -73,8 +75,11 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   @Override
   public ModelAndView computeModelAndViewForBackPageCreateNews(Locale locale) {
-    ModelAndView newsManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_CREATE, locale);
-    LOGGER.info("Construction du formulaire d'entrées de blog pour la page {}", BACK_PAGE.NEWS_CREATE.name());
+    BackPage backPage = computeBackPage("NEWS_CREATE");
+    ModelAndView newsManager = super
+        .computeModelAndViewForBackPage(backPage, locale);
+    LOGGER.info("Construction du formulaire d'entrées de blog pour la page {}",
+        backPage.getPageName());
     newsManager.addObject("newsFormBean", computeNewsRequestForCreateForm());
 
     return newsManager;
@@ -85,8 +90,9 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
     Page<NewsEntryDTO> pagedNewsEntries;
     if (StringUtils.hasText(query)) {
-      pagedNewsEntries = newsEntryService.searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
-          query);
+      pagedNewsEntries = newsEntryService
+          .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
+              query);
     } else {
       pagedNewsEntries = newsEntryService
           .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
@@ -100,7 +106,9 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
 
   @Override
   public ModelAndView computeModelAndViewForOneNewsEntry(Locale locale, String newsEntryId) {
-    ModelAndView newsManager = super.computeModelAndViewForBackPage(BACK_PAGE.NEWS_UPDATE, locale);
+    BackPage backPage = computeBackPage("NEWS_UPDATE");
+    ModelAndView newsManager = super
+        .computeModelAndViewForBackPage(backPage, locale);
     newsManager.addObject("updateForm", computeNewsRequestForEditForm(newsEntryId));
 
     return newsManager;
@@ -127,15 +135,18 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   }
 
   NewsEntryRequest computeNewsEntryRequest(NewsEntryDTO dto) {
-    return NewsEntryRequestBuilder.create().author(dto.getAuthor()).tags(dto.getTags()).title(dto.getTitle())
+    return NewsEntryRequestBuilder.create().author(dto.getAuthor()).tags(dto.getTags())
+        .title(dto.getTitle())
         .content(computeNewsContentRequest(dto)).image(computeNewsImageRequest(dto)).id(dto.getId())
         .creationDate(dto.getCreationDate()).modificationDate(dto.getModificationDate()).build();
   }
 
   NewsImageRequest computeNewsImageRequest(NewsEntryDTO dto) {
-    return NewsImageRequestBuilder.create().alt(dto.getNewsImage().getAlt()).media(dto.getNewsImage().getMedia())
+    return NewsImageRequestBuilder.create().alt(dto.getNewsImage().getAlt())
+        .media(dto.getNewsImage().getMedia())
         .id(dto.getNewsImage().getId()).creationDate(dto.getNewsImage().getCreationDate())
-        .modificationDate(dto.getNewsImage().getModificationDate()).legend(dto.getNewsImage().getLegend()).build();
+        .modificationDate(dto.getNewsImage().getModificationDate())
+        .legend(dto.getNewsImage().getLegend()).build();
   }
 
   NewsContentRequest computeNewsContentRequest(NewsEntryDTO dto) {
@@ -193,6 +204,12 @@ public class NewsManagerDisplayFactoryImpl extends AbstractBackDisplayFactoryImp
   @Override
   protected String getSearchUrl() {
     return "/manager/news/search";
+  }
+
+
+  @Override
+  protected String getSearchPlaceHolder() {
+    return "search.news.placeHolder";
   }
 
   @Override

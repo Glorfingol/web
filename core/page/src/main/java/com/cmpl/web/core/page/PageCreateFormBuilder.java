@@ -5,11 +5,17 @@ import com.cmpl.web.core.common.builder.Builder;
 public class PageCreateFormBuilder extends Builder<PageCreateForm> {
 
   private String name = "";
+
   private String menuTitle = "";
+
   private String body = "";
+
   private String header = "";
+
   private String footer = "";
+
   private String meta = "";
+
   private String localeCode;
 
   private PageCreateFormBuilder() {

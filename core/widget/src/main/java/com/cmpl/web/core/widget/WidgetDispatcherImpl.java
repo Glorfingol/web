@@ -1,18 +1,19 @@
 package com.cmpl.web.core.widget;
 
-import java.util.Locale;
-import java.util.Objects;
-
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
 import com.cmpl.web.core.widget.page.WidgetPageDTO;
 import com.cmpl.web.core.widget.page.WidgetPageResponse;
 import com.cmpl.web.core.widget.page.WidgetPageService;
+import java.util.Locale;
+import java.util.Objects;
 
 public class WidgetDispatcherImpl implements WidgetDispatcher {
 
   private final WidgetTranslator translator;
+
   private final WidgetService widgetService;
+
   private final WidgetPageService widgetPageService;
 
   public WidgetDispatcherImpl(WidgetTranslator translator, WidgetService widgetService,
@@ -57,7 +58,8 @@ public class WidgetDispatcherImpl implements WidgetDispatcher {
   public WidgetPageResponse createEntity(String pageId, WidgetPageCreateForm form, Locale locale) {
 
     WidgetPageDTO widgetPageToCreateToCreate = translator.fromCreateFormToDTO(form);
-    WidgetPageDTO createdWidgetPageToCreate = widgetPageService.createEntity(widgetPageToCreateToCreate);
+    WidgetPageDTO createdWidgetPageToCreate = widgetPageService
+        .createEntity(widgetPageToCreateToCreate);
     return translator.fromDTOToResponse(createdWidgetPageToCreate);
   }
 

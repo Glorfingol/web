@@ -1,13 +1,11 @@
 package com.cmpl.core.events_listeners;
 
-import java.util.Objects;
-
-import org.springframework.context.event.EventListener;
-
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.models.BaseEntity;
 import com.cmpl.web.core.models.Style;
+import java.util.Objects;
+import org.springframework.context.event.EventListener;
 
 public class StyleEventsListeners {
 
@@ -25,7 +23,8 @@ public class StyleEventsListeners {
       Style deletedStyle = (Style) deletedEvent.getEntity();
       if (deletedStyle != null) {
 
-        designService.findByStyleId(deletedStyle.getId()).forEach(design -> designService.deleteEntity(design.getId()));
+        designService.findByStyleId(deletedStyle.getId())
+            .forEach(design -> designService.deleteEntity(design.getId()));
 
       }
 

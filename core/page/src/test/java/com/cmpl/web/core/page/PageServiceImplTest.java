@@ -1,8 +1,9 @@
 package com.cmpl.web.core.page;
 
+import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.models.Page;
 import java.util.Arrays;
 import java.util.Locale;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,9 +13,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Sort;
-
-import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.models.Page;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PageServiceImplTest {
@@ -34,14 +32,16 @@ public class PageServiceImplTest {
 
   @Test
   public void testCreateEntity() throws Exception {
-    PageDTO dtoToCreate = PageDTOBuilder.create().body("someBody").footer("someFooter").header("someHeader")
+    PageDTO dtoToCreate = PageDTOBuilder.create().body("someBody").footer("someFooter")
+        .header("someHeader")
         .name("someName").build();
     Page entityToCreate = PageBuilder.create().build();
 
     BDDMockito.doReturn(dtoToCreate).when(mapper).toDTO(BDDMockito.any(Page.class));
     BDDMockito.doReturn(entityToCreate).when(mapper).toEntity(BDDMockito.any(PageDTO.class));
     BDDMockito.given(pageDAO.createEntity(BDDMockito.any(Page.class))).willReturn(entityToCreate);
-    BDDMockito.doNothing().when(fileService).saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString());
+    BDDMockito.doNothing().when(fileService)
+        .saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString());
 
     pageService.createEntity(dtoToCreate, Locale.FRANCE.getLanguage());
 
@@ -53,14 +53,16 @@ public class PageServiceImplTest {
   @Test
   public void testUpdateEntity() throws Exception {
 
-    PageDTO dtoToUpdate = PageDTOBuilder.create().body("someBody").footer("someFooter").header("someHeader")
+    PageDTO dtoToUpdate = PageDTOBuilder.create().body("someBody").footer("someFooter")
+        .header("someHeader")
         .name("someName").build();
     Page entityToUpdate = PageBuilder.create().build();
 
     BDDMockito.doReturn(dtoToUpdate).when(mapper).toDTO(BDDMockito.any(Page.class));
     BDDMockito.doReturn(entityToUpdate).when(mapper).toEntity(BDDMockito.any(PageDTO.class));
     BDDMockito.given(pageDAO.updateEntity(BDDMockito.any(Page.class))).willReturn(entityToUpdate);
-    BDDMockito.doNothing().when(fileService).saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString());
+    BDDMockito.doNothing().when(fileService)
+        .saveFileOnSystem(BDDMockito.anyString(), BDDMockito.anyString());
 
     pageService.updateEntity(dtoToUpdate, Locale.FRANCE.getLanguage());
 
@@ -77,14 +79,16 @@ public class PageServiceImplTest {
     BDDMockito.given(pageDAO.getEntity(BDDMockito.anyLong())).willReturn(entityToFind);
 
     String content = "someContent";
-    BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString())).willReturn(content);
+    BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString()))
+        .willReturn(content);
 
     PageDTO result = pageService.getEntity(123456789l, Locale.FRANCE.getLanguage());
     Assert.assertEquals(content, result.getBody());
     Assert.assertEquals(content, result.getHeader());
     Assert.assertEquals(content, result.getFooter());
 
-    BDDMockito.verify(fileService, BDDMockito.times(5)).readFileContentFromSystem(BDDMockito.anyString());
+    BDDMockito.verify(fileService, BDDMockito.times(5))
+        .readFileContentFromSystem(BDDMockito.anyString());
 
   }
 

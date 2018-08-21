@@ -1,8 +1,7 @@
 package com.cmpl.web.backup.writer;
 
-import java.time.format.DateTimeFormatter;
-
 import com.cmpl.web.core.models.Widget;
+import java.time.format.DateTimeFormatter;
 
 public class WidgetCSVWriter extends CommonWriter<Widget> {
 

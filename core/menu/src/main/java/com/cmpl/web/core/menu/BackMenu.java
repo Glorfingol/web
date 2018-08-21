@@ -2,7 +2,6 @@ package com.cmpl.web.core.menu;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.plugin.core.PluginRegistry;
 
 public class BackMenu {
@@ -14,7 +13,8 @@ public class BackMenu {
   }
 
   public List<BackMenuItem> getItems() {
-    return this.registry.getPlugins().stream().sorted((e1, e2) -> Integer.compare(e1.getOrder(), e2.getOrder()))
+    return this.registry.getPlugins().stream()
+        .sorted((e1, e2) -> Integer.compare(e1.getOrder(), e2.getOrder()))
         .collect(Collectors.toList());
   }
 

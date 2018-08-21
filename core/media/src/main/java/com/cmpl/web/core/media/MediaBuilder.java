@@ -6,9 +6,13 @@ import com.cmpl.web.core.models.Media;
 public class MediaBuilder extends BaseBuilder<Media> {
 
   private String src;
+
   private String name;
+
   private String extension;
+
   private String contentType;
+
   private Long size;
 
   private MediaBuilder() {

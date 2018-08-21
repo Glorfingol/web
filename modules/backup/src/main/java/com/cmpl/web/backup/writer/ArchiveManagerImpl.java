@@ -1,5 +1,7 @@
 package com.cmpl.web.backup.writer;
 
+import com.cmpl.web.google.DriveAdapter;
+import com.google.api.client.http.InputStreamContent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,26 +14,30 @@ import java.util.List;
 import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
-import com.cmpl.web.google.DriveAdapter;
-import com.google.api.client.http.InputStreamContent;
-
 public class ArchiveManagerImpl implements ArchiveManager {
 
   private final String backupFilePath;
+
   private final String mediaFilePath;
+
   private final String pagesFilePath;
+
   private final String actualitesFilePath;
+
   private final DateTimeFormatter dateTimeFormatter;
+
   private final DriveAdapter driveAdapter;
 
   private static final String DOT = ".";
+
   private static final String CSV_EXTENSION = "csv";
+
   private static final String ZIP_EXTENSION = "zip";
+
   private static final long TEN_DAYS_MILLISECONDS = 10 * 24 * 60 * 60 * 1000;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveManagerImpl.class);
@@ -76,7 +82,8 @@ public class ArchiveManagerImpl implements ArchiveManager {
     if (!directory.exists()) {
       return csvFiles;
     }
-    csvFiles = Arrays.asList(directory.listFiles((dir, name) -> name.endsWith(DOT + CSV_EXTENSION)));
+    csvFiles = Arrays
+        .asList(directory.listFiles((dir, name) -> name.endsWith(DOT + CSV_EXTENSION)));
     return csvFiles;
   }
 
@@ -110,12 +117,14 @@ public class ArchiveManagerImpl implements ArchiveManager {
     return pagesFiles;
   }
 
-  private File zipFiles(List<File> csvFiles, List<File> pagesFiles, List<File> mediaFiles, List<File> actualitesFiles) {
+  private File zipFiles(List<File> csvFiles, List<File> pagesFiles, List<File> mediaFiles,
+      List<File> actualitesFiles) {
     File directory = new File(backupFilePath);
 
     if (directory.exists()) {
       try {
-        String zipFile = backupFilePath + File.separator + "backup_web_" + LocalDateTime.now().format(dateTimeFormatter)
+        String zipFile = backupFilePath + File.separator + "backup_web_" + LocalDateTime.now()
+            .format(dateTimeFormatter)
             + DOT + ZIP_EXTENSION;
         FileOutputStream fos = new FileOutputStream(zipFile);
         ZipOutputStream zos = new ZipOutputStream(fos);
@@ -200,7 +209,8 @@ public class ArchiveManagerImpl implements ArchiveManager {
   private void zipActualiteFile(ZipOutputStream zos, File fileToZip) {
     try {
       byte[] buffer = new byte[1024];
-      ZipEntry ze = new ZipEntry(File.separator + "actualites" + File.separator + fileToZip.getName());
+      ZipEntry ze = new ZipEntry(
+          File.separator + "actualites" + File.separator + fileToZip.getName());
       zos.putNextEntry(ze);
       FileInputStream in = new FileInputStream(fileToZip);
       int len;

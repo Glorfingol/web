@@ -1,8 +1,7 @@
 package com.cmpl.web.core.carousel.item;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.service.BaseService;
+import java.util.List;
 
 public interface CarouselItemService extends BaseService<CarouselItemDTO> {
 

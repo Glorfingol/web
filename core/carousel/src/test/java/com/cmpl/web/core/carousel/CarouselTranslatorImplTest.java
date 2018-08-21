@@ -1,17 +1,16 @@
 package com.cmpl.web.core.carousel;
 
+import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
+import com.cmpl.web.core.carousel.item.CarouselItemCreateFormBuilder;
+import com.cmpl.web.core.carousel.item.CarouselItemDTO;
+import com.cmpl.web.core.carousel.item.CarouselItemDTOBuilder;
+import com.cmpl.web.core.carousel.item.CarouselItemResponse;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
-import com.cmpl.web.core.carousel.item.CarouselItemCreateFormBuilder;
-import com.cmpl.web.core.carousel.item.CarouselItemDTO;
-import com.cmpl.web.core.carousel.item.CarouselItemDTOBuilder;
-import com.cmpl.web.core.carousel.item.CarouselItemResponse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarouselTranslatorImplTest {
@@ -39,7 +38,8 @@ public class CarouselTranslatorImplTest {
 
   @Test
   public void testFromCreateFormToDTOCarouselItemCreateForm() throws Exception {
-    CarouselItemCreateForm form = CarouselItemCreateFormBuilder.create().carouselId("123456789").build();
+    CarouselItemCreateForm form = CarouselItemCreateFormBuilder.create().carouselId("123456789")
+        .build();
     CarouselItemDTO result = translator.fromCreateFormToDTO(form);
 
     Assert.assertEquals(form.getCarouselId(), result.getCarouselId());

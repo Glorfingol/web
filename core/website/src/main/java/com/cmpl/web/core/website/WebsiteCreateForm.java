@@ -6,6 +6,7 @@ public class WebsiteCreateForm {
 
   @NotBlank(message = "empty.website.name")
   private String name;
+
   @NotBlank(message = "empty.website.description")
   private String description;
 

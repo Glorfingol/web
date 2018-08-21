@@ -4,20 +4,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.hibernate.envers.Audited;
-
 @Entity
 @Table(name = "media")
 public class Media extends BaseEntity {
 
   @Column(name = "src", nullable = false)
   private String src;
+
   @Column(name = "name", nullable = false, unique = true)
   private String name;
+
   @Column(name = "extension", nullable = false)
   private String extension;
+
   @Column(name = "contentType", nullable = false)
   private String contentType;
+
   @Column(name = "size", nullable = false)
   private Long size;
 

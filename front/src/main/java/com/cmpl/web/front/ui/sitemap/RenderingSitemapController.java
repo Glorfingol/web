@@ -1,8 +1,9 @@
 package com.cmpl.web.front.ui.sitemap;
 
+import com.cmpl.web.core.common.exception.BaseException;
+import com.cmpl.web.core.sitemap.rendering.RenderingSitemapService;
 import java.util.Locale;
 import java.util.Objects;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -10,14 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cmpl.web.core.common.exception.BaseException;
-import com.cmpl.web.core.sitemap.rendering.RenderingSitemapService;
-
 /**
  * Controller du sitemap
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Controller
 public class RenderingSitemapController {
@@ -34,12 +31,11 @@ public class RenderingSitemapController {
 
   /**
    * Mapping pour le sitemap
-   * 
-   * @return
    */
   @GetMapping(value = {"/sites/{websiteName}/sitemap.xml"}, produces = "application/xml")
   @ResponseBody
-  public String printSitemap(@PathVariable(value = "websiteName") String websiteName, Locale locale) {
+  public String printSitemap(@PathVariable(value = "websiteName") String websiteName,
+      Locale locale) {
 
     LOGGER.info("Accès au sitemap");
 

@@ -1,5 +1,12 @@
 package com.cmpl.web.core.sitemap.rendering;
 
+import com.cmpl.web.core.common.context.ContextHolder;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.menu.MenuService;
+import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
+import com.cmpl.web.core.sitemap.SitemapService;
+import com.cmpl.web.core.website.WebsiteService;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -8,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -20,14 +26,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.cmpl.web.core.common.context.ContextHolder;
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.menu.MenuService;
-import com.cmpl.web.core.news.entry.NewsEntryDTO;
-import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
-import com.cmpl.web.core.sitemap.SitemapService;
-import com.cmpl.web.core.website.WebsiteService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RenderingSitemapServiceImplTest {
@@ -71,8 +69,10 @@ public class RenderingSitemapServiceImplTest {
     LocalDateTime twoDaysAgo = yesterday.minusDays(1);
 
     NewsEntryDTO newsEntryToday = NewsEntryDTOBuilder.create().modificationDate(today).build();
-    NewsEntryDTO newsEntryYesterday = NewsEntryDTOBuilder.create().modificationDate(yesterday).build();
-    NewsEntryDTO newsEntryTwoDaysAgo = NewsEntryDTOBuilder.create().modificationDate(twoDaysAgo).build();
+    NewsEntryDTO newsEntryYesterday = NewsEntryDTOBuilder.create().modificationDate(yesterday)
+        .build();
+    NewsEntryDTO newsEntryTwoDaysAgo = NewsEntryDTOBuilder.create().modificationDate(twoDaysAgo)
+        .build();
 
     List<NewsEntryDTO> entries = new ArrayList<>();
     entries.add(newsEntryTwoDaysAgo);
@@ -89,7 +89,8 @@ public class RenderingSitemapServiceImplTest {
 
     String value = "someValue";
     String key = "someKey";
-    BDDMockito.doReturn(value).when(messageSource).getI18n(BDDMockito.eq(key), BDDMockito.eq(Locale.FRANCE));
+    BDDMockito.doReturn(value).when(messageSource)
+        .getI18n(BDDMockito.eq(key), BDDMockito.eq(Locale.FRANCE));
     String result = service.getI18nValue(key, Locale.FRANCE);
 
     Assert.assertEquals(value, result);

@@ -1,8 +1,13 @@
 package com.cmpl.web.core.news.entry;
 
+import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.models.NewsEntry;
+import com.cmpl.web.core.news.content.NewsContentDTO;
+import com.cmpl.web.core.news.content.NewsContentService;
+import com.cmpl.web.core.news.image.NewsImageDTO;
+import com.cmpl.web.core.news.image.NewsImageService;
 import java.util.List;
 import java.util.Objects;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheConfig;
@@ -14,26 +19,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.cmpl.web.core.common.service.BaseServiceImpl;
-import com.cmpl.web.core.models.NewsEntry;
-import com.cmpl.web.core.news.content.NewsContentDTO;
-import com.cmpl.web.core.news.content.NewsContentService;
-import com.cmpl.web.core.news.image.NewsImageDTO;
-import com.cmpl.web.core.news.image.NewsImageService;
-
 /**
  * Implementation de l'interface pour la gestion des NewsEntry
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @CacheConfig(cacheNames = "newsEntries")
-public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntry> implements NewsEntryService {
+public class NewsEntryServiceImpl extends BaseServiceImpl<NewsEntryDTO, NewsEntry> implements
+    NewsEntryService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(NewsEntryServiceImpl.class);
 
   private final NewsEntryDAO newsEntryDAO;
+
   private final NewsImageService newsImageService;
+
   private final NewsContentService newsContentService;
 
   public NewsEntryServiceImpl(NewsEntryDAO newsEntryDAO, NewsImageService newsImageService,

@@ -1,11 +1,5 @@
 package com.cmpl.web.core.news;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.models.NewsContent;
@@ -33,6 +27,11 @@ import com.cmpl.web.core.news.image.NewsImageMapper;
 import com.cmpl.web.core.news.image.NewsImageRepository;
 import com.cmpl.web.core.news.image.NewsImageService;
 import com.cmpl.web.core.news.image.NewsImageServiceImpl;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EntityScan(basePackageClasses = {NewsEntry.class, NewsContent.class, NewsImage.class})
@@ -41,7 +40,8 @@ import com.cmpl.web.core.news.image.NewsImageServiceImpl;
 public class NewsConfiguration {
 
   @Bean
-  public NewsEntryDispatcher newsEntryDispatcher(NewsEntryTranslator translator, NewsEntryService newsEntryService,
+  public NewsEntryDispatcher newsEntryDispatcher(NewsEntryTranslator translator,
+      NewsEntryService newsEntryService,
       FileService fileService, MediaService mediaService) {
     return new NewsEntryDispatcherImpl(translator, newsEntryService, fileService, mediaService);
   }
@@ -52,23 +52,28 @@ public class NewsConfiguration {
   }
 
   @Bean
-  public NewsEntryDAO newsEntryDAO(NewsEntryRepository newsEntryRepository, ApplicationEventPublisher publisher) {
+  public NewsEntryDAO newsEntryDAO(NewsEntryRepository newsEntryRepository,
+      ApplicationEventPublisher publisher) {
     return new NewsEntryDAOImpl(newsEntryRepository, publisher);
   }
 
   @Bean
-  public NewsEntryMapper newsEntryMapper(NewsContentService newsContentService, NewsImageService newsImageService) {
+  public NewsEntryMapper newsEntryMapper(NewsContentService newsContentService,
+      NewsImageService newsImageService) {
     return new NewsEntryMapper(newsContentService, newsImageService);
   }
 
   @Bean
-  public NewsEntryService newsEntryService(NewsEntryDAO newsEntryDAO, NewsEntryMapper newsEntryMapper,
+  public NewsEntryService newsEntryService(NewsEntryDAO newsEntryDAO,
+      NewsEntryMapper newsEntryMapper,
       NewsImageService newsImageService, NewsContentService newsContentService) {
-    return new NewsEntryServiceImpl(newsEntryDAO, newsImageService, newsContentService, newsEntryMapper);
+    return new NewsEntryServiceImpl(newsEntryDAO, newsImageService, newsContentService,
+        newsEntryMapper);
   }
 
   @Bean
-  public NewsImageDAO newsImageDAO(ApplicationEventPublisher publisher, NewsImageRepository newsImageRepository) {
+  public NewsImageDAO newsImageDAO(ApplicationEventPublisher publisher,
+      NewsImageRepository newsImageRepository) {
     return new NewsImageDAOImpl(newsImageRepository, publisher);
   }
 
@@ -78,7 +83,8 @@ public class NewsConfiguration {
   }
 
   @Bean
-  public NewsImageService newsImageService(NewsImageDAO newsImageDAO, NewsImageMapper newsImageMapper) {
+  public NewsImageService newsImageService(NewsImageDAO newsImageDAO,
+      NewsImageMapper newsImageMapper) {
     return new NewsImageServiceImpl(newsImageDAO, newsImageMapper);
   }
 
@@ -94,7 +100,8 @@ public class NewsConfiguration {
   }
 
   @Bean
-  public NewsContentService newsContentService(NewsContentDAO newsContentDAO, NewsContentMapper newsContentMapper) {
+  public NewsContentService newsContentService(NewsContentDAO newsContentDAO,
+      NewsContentMapper newsContentMapper) {
     return new NewsContentServiceImpl(newsContentDAO, newsContentMapper);
   }
 

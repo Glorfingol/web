@@ -1,17 +1,22 @@
 package com.cmpl.web.core.group;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.time.LocalDateTime;
 
 public class GroupUpdateFormBuilder extends Builder<GroupUpdateForm> {
 
   private String name;
+
   private String description;
+
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
 
   private GroupUpdateFormBuilder() {

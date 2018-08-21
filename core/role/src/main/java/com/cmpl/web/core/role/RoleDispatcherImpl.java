@@ -1,13 +1,5 @@
 package com.cmpl.web.core.role;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.springframework.plugin.core.PluginRegistry;
-
 import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.role.privilege.PrivilegeDTO;
 import com.cmpl.web.core.role.privilege.PrivilegeDTOBuilder;
@@ -15,15 +7,25 @@ import com.cmpl.web.core.role.privilege.PrivilegeForm;
 import com.cmpl.web.core.role.privilege.PrivilegeResponse;
 import com.cmpl.web.core.role.privilege.PrivilegeResponseBuilder;
 import com.cmpl.web.core.role.privilege.PrivilegeService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import org.springframework.plugin.core.PluginRegistry;
 
 public class RoleDispatcherImpl implements RoleDispatcher {
 
   private final RoleTranslator translator;
+
   private final RoleService service;
+
   private final PrivilegeService privilegeService;
+
   private final PluginRegistry<Privilege, String> privilegesRegistry;
 
-  public RoleDispatcherImpl(RoleService service, PrivilegeService privilegeService, RoleTranslator translator,
+  public RoleDispatcherImpl(RoleService service, PrivilegeService privilegeService,
+      RoleTranslator translator,
       PluginRegistry<Privilege, String> privilegesRegistry) {
     this.service = Objects.requireNonNull(service);
     this.translator = Objects.requireNonNull(translator);
@@ -66,7 +68,8 @@ public class RoleDispatcherImpl implements RoleDispatcher {
 
     List<PrivilegeDTO> privilegesDTOToAdd = computePrivilegesToCreate(form);
 
-    privilegesDTOToAdd.forEach(privilegeDTOToAdd -> privilegeService.createEntity(privilegeDTOToAdd));
+    privilegesDTOToAdd
+        .forEach(privilegeDTOToAdd -> privilegeService.createEntity(privilegeDTOToAdd));
     return PrivilegeResponseBuilder.create().build();
   }
 
@@ -75,17 +78,21 @@ public class RoleDispatcherImpl implements RoleDispatcher {
     if (isAll(form)) {
       privilegesRegistry.getPlugins().forEach(privilege -> {
         privilegesDTOToAdd
-            .add(PrivilegeDTOBuilder.create().content(privilege.privilege()).roleId(form.getRoleId()).build());
+            .add(
+                PrivilegeDTOBuilder.create().content(privilege.privilege()).roleId(form.getRoleId())
+                    .build());
       });
     } else {
       form.getPrivilegesToEnable().forEach(privilegeToEnable -> privilegesDTOToAdd
-          .add(PrivilegeDTOBuilder.create().content(privilegeToEnable).roleId(form.getRoleId()).build()));
+          .add(PrivilegeDTOBuilder.create().content(privilegeToEnable).roleId(form.getRoleId())
+              .build()));
     }
     return privilegesDTOToAdd;
   }
 
   private boolean isAll(PrivilegeForm form) {
-    return form.getPrivilegesToEnable().stream().filter(privilege -> "all:all:all".equals(privilege))
+    return form.getPrivilegesToEnable().stream()
+        .filter(privilege -> "all:all:all".equals(privilege))
         .collect(Collectors.toList()).contains(true);
 
   }

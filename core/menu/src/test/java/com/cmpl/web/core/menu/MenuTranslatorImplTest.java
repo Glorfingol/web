@@ -28,7 +28,8 @@ public class MenuTranslatorImplTest {
   @Test
   public void testFromCreateFormToDTO() throws Exception {
 
-    MenuCreateForm form = MenuCreateFormBuilder.create().href("someHref").label("someLabel").orderInMenu(1)
+    MenuCreateForm form = MenuCreateFormBuilder.create().href("someHref").label("someLabel")
+        .orderInMenu(1)
         .pageId("123456789").title("someTitle").build();
     MenuDTO menu = translator.fromCreateFormToDTO(form);
 

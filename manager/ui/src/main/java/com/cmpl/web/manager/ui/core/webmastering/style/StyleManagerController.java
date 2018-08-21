@@ -1,10 +1,17 @@
 package com.cmpl.web.manager.ui.core.webmastering.style;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
+import com.cmpl.web.core.common.resource.BaseResponse;
+import com.cmpl.web.core.factory.style.StyleDisplayFactory;
+import com.cmpl.web.core.style.StyleCreateForm;
+import com.cmpl.web.core.style.StyleDispatcher;
+import com.cmpl.web.core.style.StyleResponse;
+import com.cmpl.web.core.style.StyleUpdateForm;
+import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
 import java.util.Locale;
 import java.util.Objects;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,17 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.common.notification.NotificationCenter;
-import com.cmpl.web.core.common.resource.BaseResponse;
-import com.cmpl.web.core.factory.style.StyleDisplayFactory;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.style.StyleCreateForm;
-import com.cmpl.web.core.style.StyleDispatcher;
-import com.cmpl.web.core.style.StyleResponse;
-import com.cmpl.web.core.style.StyleUpdateForm;
-import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
-
 @ManagerController
 @RequestMapping(value = "/manager/styles")
 public class StyleManagerController {
@@ -40,8 +36,11 @@ public class StyleManagerController {
   private static final Logger LOGGER = LoggerFactory.getLogger(StyleManagerController.class);
 
   private final StyleDisplayFactory displayFactory;
+
   private final StyleDispatcher dispatcher;
+
   private final NotificationCenter notificationCenter;
+
   private final WebMessageSource messageSource;
 
   public StyleManagerController(StyleDisplayFactory displayFactory, StyleDispatcher dispatcher,
@@ -55,26 +54,26 @@ public class StyleManagerController {
 
   @GetMapping
   @PreAuthorize("hasAuthority('webmastering:style:read')")
-  public ModelAndView printViewStyles(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_VIEW.name());
+  public ModelAndView printViewStyles(
+      @RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
-    return displayFactory.computeModelAndViewForViewAllStyles(locale, computePageNumberFromRequest(pageNumber));
+    return displayFactory
+        .computeModelAndViewForViewAllStyles(locale, computePageNumberFromRequest(pageNumber));
   }
 
   @GetMapping(value = "/search")
-  @PreAuthorize("hasAuthority('webmastering:styles:read')")
-  public ModelAndView printSearchStyles(@RequestParam(name = "p", required = false) Integer pageNumber,
+  @PreAuthorize("hasAuthority('webmastering:style:read')")
+  public ModelAndView printSearchStyles(
+      @RequestParam(name = "p", required = false) Integer pageNumber,
       @RequestParam(name = "q") String query, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
-    LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_VIEW.name());
     return displayFactory.computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
   }
 
   @GetMapping(value = "/_create")
   @PreAuthorize("hasAuthority('administration:groups:create')")
   public ModelAndView printCreateStyle(Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_CREATE.name());
     return displayFactory.computeModelAndViewForCreateStyle(locale);
   }
 
@@ -95,32 +94,36 @@ public class StyleManagerController {
 
       LOGGER.info("Entrée crée, id " + response.getStyle().getId());
 
-      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("create.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
   }
 
   @GetMapping(value = "/{styleId}")
   @PreAuthorize("hasAuthority('webmastering:style:read')")
-  public ModelAndView printEditStyle(@PathVariable(value = "styleId") String styleId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_VIEW.name());
+  public ModelAndView printEditStyle(@PathVariable(value = "styleId") String styleId,
+      Locale locale) {
     return displayFactory.computeModelAndViewForUpdateStyle(locale, styleId);
   }
 
   @PutMapping(value = "/{styleId}", produces = "application/json")
   @PreAuthorize("hasAuthority('webmastering:style:write')")
-  public ResponseEntity<StyleResponse> handleEditStyle(@RequestBody StyleUpdateForm form, Locale locale) {
+  public ResponseEntity<StyleResponse> handleEditStyle(@RequestBody StyleUpdateForm form,
+      Locale locale) {
     LOGGER.info("Tentative de modification du style global");
     try {
       StyleResponse response = dispatcher.updateEntity(form, locale);
 
       LOGGER.info("Style modifié : " + response.getStyle().getName());
-      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("update.success", locale));
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification du style global", e);
@@ -130,32 +133,35 @@ public class StyleManagerController {
 
   @GetMapping(value = "/{styleId}/_main")
   @PreAuthorize("hasAuthority('webmastering:style:read')")
-  public ModelAndView printEditStyleMain(@PathVariable(value = "styleId") String styleId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_UPDATE.name());
+  public ModelAndView printEditStyleMain(@PathVariable(value = "styleId") String styleId,
+      Locale locale) {
     return displayFactory.computeModelAndViewForUpdateStyleMain(locale, styleId);
   }
 
   @GetMapping(value = "/{styleId}/_memberships")
   @PreAuthorize("hasAuthority('webmastering:style:read')")
-  public ModelAndView printEditStyleGroups(@PathVariable(value = "styleId") String styleId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.STYLES_UPDATE.name());
+  public ModelAndView printEditStyleGroups(@PathVariable(value = "styleId") String styleId,
+      Locale locale) {
     return displayFactory.computeModelAndViewForMembership(styleId);
   }
 
   @DeleteMapping(value = "/{styleId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:style:delete')")
-  public ResponseEntity<BaseResponse> deleteStyle(@PathVariable(value = "styleId") String styleId, Locale locale) {
+  public ResponseEntity<BaseResponse> deleteStyle(@PathVariable(value = "styleId") String styleId,
+      Locale locale) {
     LOGGER.info("Tentative de suppression d'un style");
 
     try {
       BaseResponse response = dispatcher.deleteEntity(styleId, locale);
-      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("delete.success", locale));
       LOGGER.info("Style " + styleId + " supprimé");
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       LOGGER.error("Erreur lors de la suppression du style " + styleId, e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

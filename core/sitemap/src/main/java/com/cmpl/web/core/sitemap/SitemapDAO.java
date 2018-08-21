@@ -1,9 +1,8 @@
 package com.cmpl.web.core.sitemap;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.dao.BaseDAO;
 import com.cmpl.web.core.models.Sitemap;
+import java.util.List;
 
 public interface SitemapDAO extends BaseDAO<Sitemap> {
 

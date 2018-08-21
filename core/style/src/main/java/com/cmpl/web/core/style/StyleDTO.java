@@ -6,7 +6,9 @@ import com.cmpl.web.core.media.MediaDTO;
 public class StyleDTO extends BaseDTO {
 
   private String name;
+
   private String content;
+
   private MediaDTO media;
 
   public String getContent() {

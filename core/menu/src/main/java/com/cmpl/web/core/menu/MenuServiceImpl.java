@@ -1,8 +1,9 @@
 package com.cmpl.web.core.menu;
 
+import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.models.Menu;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -12,14 +13,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.cmpl.web.core.common.service.BaseServiceImpl;
-import com.cmpl.web.core.models.Menu;
-
 /**
  * Service du menu
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @CacheConfig(cacheNames = "menus")
 public class MenuServiceImpl extends BaseServiceImpl<MenuDTO, Menu> implements MenuService {

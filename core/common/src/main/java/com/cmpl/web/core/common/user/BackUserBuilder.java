@@ -5,9 +5,10 @@ import com.cmpl.web.core.common.builder.Builder;
 public class BackUserBuilder extends Builder<BackUser> {
 
   private String login;
+
   private String password;
 
-  private BackUserBuilder(){
+  private BackUserBuilder() {
 
   }
 

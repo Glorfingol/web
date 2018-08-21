@@ -1,7 +1,13 @@
 package com.cmpl.web.manager.ui.modules.facebook;
 
+import com.cmpl.web.core.common.exception.BaseException;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
+import com.cmpl.web.facebook.FacebookDispatcher;
+import com.cmpl.web.facebook.FacebookImportRequest;
+import com.cmpl.web.facebook.FacebookImportResponse;
+import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactory;
 import java.util.Locale;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,14 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.cmpl.web.core.common.exception.BaseException;
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.common.notification.NotificationCenter;
-import com.cmpl.web.facebook.FacebookDispatcher;
-import com.cmpl.web.facebook.FacebookImportRequest;
-import com.cmpl.web.facebook.FacebookImportResponse;
-import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactory;
 
 ;
 
@@ -78,10 +76,12 @@ public class FacebookControllerTest {
 
     FacebookImportResponse response = new FacebookImportResponse();
 
-    BDDMockito.doReturn(response).when(dispatcher).createEntity(BDDMockito.any(FacebookImportRequest.class),
-        BDDMockito.any(Locale.class));
+    BDDMockito.doReturn(response).when(dispatcher)
+        .createEntity(BDDMockito.any(FacebookImportRequest.class),
+            BDDMockito.any(Locale.class));
 
-    ResponseEntity<FacebookImportResponse> result = controller.createNewsEntry(request, bindingResult, Locale.FRANCE);
+    ResponseEntity<FacebookImportResponse> result = controller
+        .createNewsEntry(request, bindingResult, Locale.FRANCE);
 
     Assert.assertEquals(response, result.getBody());
 
@@ -92,10 +92,12 @@ public class FacebookControllerTest {
 
     FacebookImportRequest request = new FacebookImportRequest();
 
-    BDDMockito.doThrow(new BaseException()).when(dispatcher).createEntity(BDDMockito.any(FacebookImportRequest.class),
-        BDDMockito.any(Locale.class));
+    BDDMockito.doThrow(new BaseException()).when(dispatcher)
+        .createEntity(BDDMockito.any(FacebookImportRequest.class),
+            BDDMockito.any(Locale.class));
 
-    ResponseEntity<FacebookImportResponse> result = controller.createNewsEntry(request, bindingResult, Locale.FRANCE);
+    ResponseEntity<FacebookImportResponse> result = controller
+        .createNewsEntry(request, bindingResult, Locale.FRANCE);
 
     Assert.assertNull(result.getBody());
     Assert.assertEquals(HttpStatus.CONFLICT, result.getStatusCode());

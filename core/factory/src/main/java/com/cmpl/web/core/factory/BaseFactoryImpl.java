@@ -1,15 +1,13 @@
 package com.cmpl.web.core.factory;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
 import java.util.Locale;
 import java.util.Objects;
 
-import com.cmpl.web.core.common.message.WebMessageSource;
-
 /**
  * Implmentaiton de l'interface commune aux factory utilisant des cles i18n
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class BaseFactoryImpl implements BaseFactory {
 

@@ -4,13 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.hibernate.envers.Audited;
-
 /**
  * DAO NewsImage
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Entity(name = "newsImage")
 @Table(name = "news_image")
@@ -18,8 +15,10 @@ public class NewsImage extends BaseEntity {
 
   @Column(name = "mediaId")
   private String mediaId;
+
   @Column(name = "legend")
   private String legend;
+
   @Column(name = "alt")
   private String alt;
 

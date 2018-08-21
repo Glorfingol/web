@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Objects;
-
 import org.springframework.security.core.token.DefaultToken;
 import org.springframework.security.core.token.Token;
 import org.springframework.security.core.token.TokenService;
@@ -36,7 +35,8 @@ public class StatelessSecretTokenService implements TokenService {
     String[] informationParts = fullInformation.split(":");
 
     Date createdAt = new Date(Long.parseLong(informationParts[0]));
-    String extendedInformation = String.join(":", Arrays.copyOfRange(informationParts, 1, informationParts.length));
+    String extendedInformation = String
+        .join(":", Arrays.copyOfRange(informationParts, 1, informationParts.length));
 
     return new DefaultToken(key, createdAt.getTime(), extendedInformation);
   }

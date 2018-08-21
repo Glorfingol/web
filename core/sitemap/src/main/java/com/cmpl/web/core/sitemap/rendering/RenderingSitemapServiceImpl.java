@@ -1,21 +1,5 @@
 package com.cmpl.web.core.sitemap.rendering;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.menu.MenuDTO;
@@ -28,12 +12,25 @@ import com.cmpl.web.core.website.WebsiteService;
 import com.redfin.sitemapgenerator.ChangeFreq;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation de l'interface gerant le sitemap
- * 
- * @author Louis
  *
+ * @author Louis
  */
 
 public class RenderingSitemapServiceImpl implements RenderingSitemapService {
@@ -45,6 +42,7 @@ public class RenderingSitemapServiceImpl implements RenderingSitemapService {
   private final MenuService menuService;
 
   private final WebsiteService websiteService;
+
   private final SitemapService sitemapService;
 
   public RenderingSitemapServiceImpl(WebMessageSource messageSource, MenuService menuService,
@@ -80,10 +78,12 @@ public class RenderingSitemapServiceImpl implements RenderingSitemapService {
 
   }
 
-  void writeSitemap(Path temporarySitemapFile, WebsiteDTO website, List<SitemapDTO> sitemapDTOS, Locale locale)
+  void writeSitemap(Path temporarySitemapFile, WebsiteDTO website, List<SitemapDTO> sitemapDTOS,
+      Locale locale)
       throws IOException {
     String scheme = website.isSecure() ? "https://" : "http://";
-    WebSitemapGenerator sitemap = WebSitemapGenerator.builder(scheme + website.getName(), temporarySitemapFile.toFile())
+    WebSitemapGenerator sitemap = WebSitemapGenerator
+        .builder(scheme + website.getName(), temporarySitemapFile.toFile())
         .build();
 
     List<WebSitemapUrl> menuUrls = computeMenuUrls(website, sitemapDTOS, locale);
@@ -109,9 +109,12 @@ public class RenderingSitemapServiceImpl implements RenderingSitemapService {
     return messageSource.getI18n(key, locale);
   }
 
-  List<WebSitemapUrl> computeMenuUrls(WebsiteDTO website, List<SitemapDTO> sitemapDTOS, Locale locale) {
-    List<Long> pagesId = sitemapDTOS.stream().map(sitemap -> sitemap.getPageId()).collect(Collectors.toList());
-    return menuService.getEntities().stream().filter(menu -> pagesId.contains(Long.parseLong(menu.getPageId())))
+  List<WebSitemapUrl> computeMenuUrls(WebsiteDTO website, List<SitemapDTO> sitemapDTOS,
+      Locale locale) {
+    List<Long> pagesId = sitemapDTOS.stream().map(sitemap -> sitemap.getPageId())
+        .collect(Collectors.toList());
+    return menuService.getEntities().stream()
+        .filter(menu -> pagesId.contains(Long.parseLong(menu.getPageId())))
         .collect(Collectors.toList()).stream().map(menu -> computeUrlForMenu(website, menu))
         .collect(Collectors.toList());
   }
@@ -119,7 +122,8 @@ public class RenderingSitemapServiceImpl implements RenderingSitemapService {
   WebSitemapUrl computeUrlForMenu(WebsiteDTO website, MenuDTO menu) {
     try {
       String scheme = website.isSecure() ? "https://" : "http://";
-      return new WebSitemapUrl.Options(scheme + website.getName() + menu.getHref()).changeFreq(ChangeFreq.YEARLY)
+      return new WebSitemapUrl.Options(scheme + website.getName() + menu.getHref())
+          .changeFreq(ChangeFreq.YEARLY)
           .priority(1d).build();
     } catch (MalformedURLException e) {
       LOGGER.error("URL malformée", e);

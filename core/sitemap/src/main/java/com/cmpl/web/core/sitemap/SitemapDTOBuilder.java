@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 public class SitemapDTOBuilder extends BaseBuilder<SitemapDTO> {
 
   private Long websiteId;
+
   private Long pageId;
 
   public SitemapDTOBuilder websiteId(Long websiteId) {

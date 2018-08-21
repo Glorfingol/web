@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.Builder;
 public class WidgetPageCreateFormBuilder extends Builder<WidgetPageCreateForm> {
 
   private String pageId;
+
   private String widgetId;
 
   public WidgetPageCreateFormBuilder pageId(String pageId) {

@@ -1,20 +1,25 @@
 package com.cmpl.web.core.widget;
 
+import com.cmpl.web.core.common.form.BaseUpdateForm;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
-import com.cmpl.web.core.common.form.BaseUpdateForm;
 
 public class WidgetUpdateForm extends BaseUpdateForm<WidgetDTO> {
 
   @NotBlank(message = "empty.widget.type")
   private String type;
+
   private String entityId;
+
   @NotBlank(message = "empty.widget.name")
   private String name;
+
   private String personalization;
+
   private String localeCode;
+
   private String toolTipKey;
+
   @NotNull
   private Boolean asynchronous;
 

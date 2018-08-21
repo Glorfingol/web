@@ -1,24 +1,27 @@
 package com.cmpl.web.core.widget;
 
+import com.cmpl.web.core.common.service.BaseServiceImpl;
+import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.models.Widget;
 import java.util.Objects;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.util.StringUtils;
 
-import com.cmpl.web.core.common.service.BaseServiceImpl;
-import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.models.Widget;
-
 public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implements WidgetService {
 
   private final FileService fileService;
+
   private final WidgetDAO widgetDAO;
+
   private static final String WIDGET_PREFIX = "widget_";
+
   private static final String HTML_SUFFIX = ".html";
+
   private static final String LOCALE_CODE_PREFIX = "_";
 
-  public WidgetServiceImpl(WidgetDAO widgetDAO, WidgetMapper widgetMapper, FileService fileService) {
+  public WidgetServiceImpl(WidgetDAO widgetDAO, WidgetMapper widgetMapper,
+      FileService fileService) {
     super(widgetDAO, widgetMapper);
 
     this.fileService = Objects.requireNonNull(fileService);
@@ -30,7 +33,8 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
     WidgetDTO updatedWidget = super.createEntity(dto);
 
     if (StringUtils.hasText(dto.getPersonalization())) {
-      fileService.saveFileOnSystem(WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+      fileService.saveFileOnSystem(
+          WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
           dto.getPersonalization());
     }
 
@@ -42,7 +46,8 @@ public class WidgetServiceImpl extends BaseServiceImpl<WidgetDTO, Widget> implem
     WidgetDTO updatedWidget = super.updateEntity(dto);
 
     if (StringUtils.hasText(dto.getPersonalization())) {
-      fileService.saveFileOnSystem(WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+      fileService.saveFileOnSystem(
+          WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
           dto.getPersonalization());
     }
 

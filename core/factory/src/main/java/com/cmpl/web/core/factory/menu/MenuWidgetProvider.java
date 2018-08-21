@@ -1,24 +1,23 @@
 package com.cmpl.web.core.factory.menu;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-
-import org.springframework.util.StringUtils;
-
 import com.cmpl.web.core.common.dto.BaseDTO;
 import com.cmpl.web.core.menu.MenuItem;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.widget.WidgetDTO;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import org.springframework.util.StringUtils;
 
 public class MenuWidgetProvider implements WidgetProviderPlugin {
 
   private final MenuFactory menuFactory;
+
   private final PageService pageService;
 
   public MenuWidgetProvider(MenuFactory menuFactory, PageService pageService) {
@@ -29,10 +28,12 @@ public class MenuWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
-  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName, int pageNumber) {
+  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName,
+      int pageNumber) {
     Map<String, Object> widgetModel = new HashMap<>();
 
-    widgetModel.put("menuItems", computeMenuItems(pageService.getPageByName(pageName, locale.getLanguage()), locale));
+    widgetModel.put("menuItems",
+        computeMenuItems(pageService.getPageByName(pageName, locale.getLanguage()), locale));
 
     return widgetModel;
   }

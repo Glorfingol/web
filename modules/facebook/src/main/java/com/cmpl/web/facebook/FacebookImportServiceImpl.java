@@ -1,19 +1,5 @@
 package com.cmpl.web.facebook;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.social.facebook.api.ImageType;
-import org.springframework.social.facebook.api.MediaOperations;
-import org.springframework.util.StringUtils;
-
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.media.MediaDTO;
@@ -26,28 +12,46 @@ import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
 import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.news.image.NewsImageDTO;
 import com.cmpl.web.core.news.image.NewsImageDTOBuilder;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.social.facebook.api.ImageType;
+import org.springframework.social.facebook.api.MediaOperations;
+import org.springframework.util.StringUtils;
 
 /**
  * Service qui sert a importer des post facebook en tant que NewsEntry
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class FacebookImportServiceImpl implements FacebookImportService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FacebookImportServiceImpl.class);
 
   private static final String DATA_START = "data:";
+
   private static final String DATA_END = ";base64,";
+
   private static final String MEDIA_CONTROLLER_PATH = "/public/medias/";
 
   private final NewsEntryService newsEntryService;
+
   private final FacebookAdapter facebookAdapter;
+
   private final WebMessageSource messageSource;
+
   private final MediaService mediaService;
+
   private final FileService fileService;
 
-  public FacebookImportServiceImpl(NewsEntryService newsEntryService, FacebookAdapter facebookAdapter,
+  public FacebookImportServiceImpl(NewsEntryService newsEntryService,
+      FacebookAdapter facebookAdapter,
       MediaService mediaService, FileService fileService, WebMessageSource messageSource) {
 
     this.newsEntryService = Objects.requireNonNull(newsEntryService);
@@ -58,13 +62,16 @@ public class FacebookImportServiceImpl implements FacebookImportService {
   }
 
   @Override
-  public List<NewsEntryDTO> importFacebookPost(List<FacebookImportPost> facebookPosts, Locale locale) {
+  public List<NewsEntryDTO> importFacebookPost(List<FacebookImportPost> facebookPosts,
+      Locale locale) {
     List<NewsEntryDTO> createdEntries = new ArrayList<>();
     facebookPosts.forEach(postToImport -> {
-      NewsEntryDTO createdNewsEntry = newsEntryService.createEntity(convertPostToNewsEntry(postToImport, locale));
+      NewsEntryDTO createdNewsEntry = newsEntryService
+          .createEntity(convertPostToNewsEntry(postToImport, locale));
 
       if (createdNewsEntry.getNewsImage() != null) {
-        MediaDTO mediaFromFacebookPost = createMediaFromFacebookPost(createdNewsEntry, postToImport);
+        MediaDTO mediaFromFacebookPost = createMediaFromFacebookPost(createdNewsEntry,
+            postToImport);
         MediaDTO createdMedia = mediaService.createEntity(mediaFromFacebookPost);
         createdNewsEntry.getNewsImage().setMedia(createdMedia);
         createdNewsEntry = newsEntryService.updateEntity(createdNewsEntry);
@@ -76,8 +83,10 @@ public class FacebookImportServiceImpl implements FacebookImportService {
 
   NewsEntryDTO convertPostToNewsEntry(FacebookImportPost facebookPost, Locale locale) {
 
-    NewsEntryDTOBuilder convertedPostBuilder = NewsEntryDTOBuilder.create().author(facebookPost.getAuthor())
-        .facebookId(facebookPost.getFacebookId()).tags(computeTags(locale)).title(computeTitle(locale));
+    NewsEntryDTOBuilder convertedPostBuilder = NewsEntryDTOBuilder.create()
+        .author(facebookPost.getAuthor())
+        .facebookId(facebookPost.getFacebookId()).tags(computeTags(locale))
+        .title(computeTitle(locale));
 
     if (hasContent(facebookPost)) {
       NewsContentDTO content = computeNewsContentFromPost(facebookPost);
@@ -94,11 +103,13 @@ public class FacebookImportServiceImpl implements FacebookImportService {
 
   NewsImageDTO computeNewsImageFromPost(FacebookImportPost facebookPost, Locale locale) {
 
-    return NewsImageDTOBuilder.create().alt(computeAlt(facebookPost, locale)).legend(computeLegend(locale)).build();
+    return NewsImageDTOBuilder.create().alt(computeAlt(facebookPost, locale))
+        .legend(computeLegend(locale)).build();
   }
 
   NewsContentDTO computeNewsContentFromPost(FacebookImportPost facebookPost) {
-    return NewsContentDTOBuilder.create().content(facebookPost.getDescription()).linkUrl(facebookPost.getLinkUrl())
+    return NewsContentDTOBuilder.create().content(facebookPost.getDescription())
+        .linkUrl(facebookPost.getLinkUrl())
         .videoUrl(facebookPost.getVideoUrl()).build();
   }
 
@@ -133,7 +144,8 @@ public class FacebookImportServiceImpl implements FacebookImportService {
     fileService.saveMediaOnSystem(src, data);
 
     MediaDTO mediaToCreate = MediaDTOBuilder.create().contentType(contentType).name(src)
-        .size(Long.parseLong(String.valueOf(data.length))).extension(extension).src(MEDIA_CONTROLLER_PATH + src)
+        .size(Long.parseLong(String.valueOf(data.length))).extension(extension)
+        .src(MEDIA_CONTROLLER_PATH + src)
         .build();
 
     return mediaToCreate;
@@ -160,7 +172,8 @@ public class FacebookImportServiceImpl implements FacebookImportService {
     try {
       contentType = URLConnection.guessContentTypeFromStream(prepareInputStream(data));
     } catch (IOException e) {
-      LOGGER.warn("Impossible de determiner le type de l'image pour l'album ", facebookPost.getObjectId(), e);
+      LOGGER.warn("Impossible de determiner le type de l'image pour l'album ",
+          facebookPost.getObjectId(), e);
     }
     return contentType;
   }

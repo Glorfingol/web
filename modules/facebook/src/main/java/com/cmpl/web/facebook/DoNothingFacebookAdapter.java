@@ -2,7 +2,6 @@ package com.cmpl.web.facebook;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.social.facebook.api.MediaOperations;
 
 public class DoNothingFacebookAdapter implements FacebookAdapter {

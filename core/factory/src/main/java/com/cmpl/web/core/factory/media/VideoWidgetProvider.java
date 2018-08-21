@@ -1,18 +1,22 @@
 package com.cmpl.web.core.factory.media;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import org.springframework.util.StringUtils;
-
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.widget.WidgetDTO;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import org.springframework.util.StringUtils;
 
 public class VideoWidgetProvider implements WidgetProviderPlugin {
 
   private final MediaService mediaService;
+
   private final List<String> movieExtensions;
 
   public VideoWidgetProvider(MediaService mediaService) {
@@ -22,7 +26,8 @@ public class VideoWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
-  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName, int pageNumber) {
+  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName,
+      int pageNumber) {
     if (!StringUtils.hasText(widget.getEntityId())) {
       return new HashMap<>();
     }
@@ -37,7 +42,8 @@ public class VideoWidgetProvider implements WidgetProviderPlugin {
 
   @Override
   public List<MediaDTO> getLinkableEntities() {
-    return mediaService.getEntities().stream().filter(mediaDTO -> movieExtensions.contains(mediaDTO.getExtension()))
+    return mediaService.getEntities().stream()
+        .filter(mediaDTO -> movieExtensions.contains(mediaDTO.getExtension()))
         .collect(Collectors.toList());
   }
 

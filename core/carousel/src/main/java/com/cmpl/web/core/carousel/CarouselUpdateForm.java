@@ -1,8 +1,7 @@
 package com.cmpl.web.core.carousel;
 
-import javax.validation.constraints.NotBlank;
-
 import com.cmpl.web.core.common.form.BaseUpdateForm;
+import javax.validation.constraints.NotBlank;
 
 public class CarouselUpdateForm extends BaseUpdateForm<CarouselDTO> {
 

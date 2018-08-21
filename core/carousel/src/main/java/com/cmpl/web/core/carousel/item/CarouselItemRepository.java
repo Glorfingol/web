@@ -1,11 +1,9 @@
 package com.cmpl.web.core.carousel.item;
 
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import com.cmpl.web.core.common.repository.BaseRepository;
 import com.cmpl.web.core.models.CarouselItem;
+import java.util.List;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CarouselItemRepository extends BaseRepository<CarouselItem> {

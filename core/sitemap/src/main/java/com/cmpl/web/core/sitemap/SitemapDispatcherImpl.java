@@ -1,9 +1,8 @@
 package com.cmpl.web.core.sitemap;
 
+import com.cmpl.web.core.common.exception.BaseException;
 import java.util.Locale;
 import java.util.Objects;
-
-import com.cmpl.web.core.common.exception.BaseException;
 
 public class SitemapDispatcherImpl implements SitemapDispatcher {
 
@@ -20,7 +19,8 @@ public class SitemapDispatcherImpl implements SitemapDispatcher {
   }
 
   @Override
-  public SitemapResponse createEntity(SitemapCreateForm createForm, Locale locale) throws BaseException {
+  public SitemapResponse createEntity(SitemapCreateForm createForm, Locale locale)
+      throws BaseException {
 
     SitemapDTO sitemapDTOToCreate = translator.fromCreateFormToDTO(createForm);
     SitemapDTO createdSitemapDTO = service.createEntity(sitemapDTOToCreate);

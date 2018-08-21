@@ -1,20 +1,20 @@
 package com.cmpl.web.facebook;
 
+import com.cmpl.web.core.common.exception.BaseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.MediaOperations;
 
-import com.cmpl.web.core.common.exception.BaseException;
-
 public class FacebookAdapterImpl implements FacebookAdapter {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FacebookAdapterImpl.class);
+
   private final FacebookService facebookService;
+
   private final Facebook facebookConnector;
 
   public FacebookAdapterImpl(FacebookService facebookService, Facebook facebookConnector) {

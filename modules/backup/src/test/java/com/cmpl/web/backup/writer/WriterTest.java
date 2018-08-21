@@ -8,7 +8,8 @@ public class WriterTest extends CommonWriter<EntityTest> {
 
   }
 
-  public WriterTest(DateTimeFormatter dateFormatter, DataManipulator<EntityTest> dataManipulator, String backupFilePath) {
+  public WriterTest(DateTimeFormatter dateFormatter, DataManipulator<EntityTest> dataManipulator,
+      String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }
 

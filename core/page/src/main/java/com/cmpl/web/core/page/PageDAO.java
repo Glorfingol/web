@@ -1,11 +1,9 @@
 package com.cmpl.web.core.page;
 
-import java.util.List;
-
-import org.springframework.data.domain.Sort;
-
 import com.cmpl.web.core.common.dao.BaseDAO;
 import com.cmpl.web.core.models.Page;
+import java.util.List;
+import org.springframework.data.domain.Sort;
 
 public interface PageDAO extends BaseDAO<Page> {
 

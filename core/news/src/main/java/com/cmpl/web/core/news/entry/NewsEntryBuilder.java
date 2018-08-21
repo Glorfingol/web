@@ -8,10 +8,13 @@ public class NewsEntryBuilder extends BaseBuilder<NewsEntry> {
   private String facebookId;
 
   private String contentId;
+
   private String imageId;
 
   private String author;
+
   private String tags;
+
   private String title;
 
   private NewsEntryBuilder() {

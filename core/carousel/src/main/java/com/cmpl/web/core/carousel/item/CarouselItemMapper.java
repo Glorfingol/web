@@ -1,10 +1,9 @@
 package com.cmpl.web.core.carousel.item;
 
-import java.util.Objects;
-
 import com.cmpl.web.core.common.mapper.BaseMapper;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.models.CarouselItem;
+import java.util.Objects;
 
 public class CarouselItemMapper extends BaseMapper<CarouselItemDTO, CarouselItem> {
 
@@ -27,7 +26,8 @@ public class CarouselItemMapper extends BaseMapper<CarouselItemDTO, CarouselItem
 
   @Override
   public CarouselItem toEntity(CarouselItemDTO dto) {
-    CarouselItem entity = CarouselItemBuilder.create().mediaId(String.valueOf(dto.getMedia().getId())).build();
+    CarouselItem entity = CarouselItemBuilder.create()
+        .mediaId(String.valueOf(dto.getMedia().getId())).build();
 
     fillObject(entity, dto);
 

@@ -1,7 +1,7 @@
 package com.cmpl.web.core.menu;
 
+import com.cmpl.web.core.models.Menu;
 import java.util.Arrays;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +11,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Sort;
-
-import com.cmpl.web.core.models.Menu;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MenuServiceImplTest {
@@ -35,7 +33,8 @@ public class MenuServiceImplTest {
     BDDMockito.doReturn(Arrays.asList(dto)).when(menuService).computeMenus(BDDMockito.anyList());
 
     Menu entity = MenuBuilder.create().build();
-    BDDMockito.given(menuDAO.findByParentId(BDDMockito.anyString())).willReturn(Arrays.asList(entity));
+    BDDMockito.given(menuDAO.findByParentId(BDDMockito.anyString()))
+        .willReturn(Arrays.asList(entity));
 
     Assert.assertEquals(dto.getId(), menuService.computeMenuDTOToReturn(entity).getId());
   }
@@ -45,9 +44,11 @@ public class MenuServiceImplTest {
 
     MenuDTO menuToAdd = MenuDTOBuilder.create().build();
 
-    BDDMockito.doReturn(menuToAdd).when(menuService).computeMenuDTOToReturn(BDDMockito.any(Menu.class));
+    BDDMockito.doReturn(menuToAdd).when(menuService)
+        .computeMenuDTOToReturn(BDDMockito.any(Menu.class));
 
-    Assert.assertEquals(menuToAdd, menuService.computeMenus(Arrays.asList(MenuBuilder.create().build())).get(0));
+    Assert.assertEquals(menuToAdd,
+        menuService.computeMenus(Arrays.asList(MenuBuilder.create().build())).get(0));
   }
 
   @Test
@@ -56,7 +57,8 @@ public class MenuServiceImplTest {
 
     Menu menuToFind = MenuBuilder.create().build();
     BDDMockito.given(mapper.toDTO(BDDMockito.any(Menu.class))).willReturn(menuDTOToFind);
-    BDDMockito.given(menuDAO.getMenus(BDDMockito.any(Sort.class))).willReturn(Arrays.asList(menuToFind));
+    BDDMockito.given(menuDAO.getMenus(BDDMockito.any(Sort.class)))
+        .willReturn(Arrays.asList(menuToFind));
 
     Assert.assertEquals(menuDTOToFind, menuService.getMenus().get(0));
   }

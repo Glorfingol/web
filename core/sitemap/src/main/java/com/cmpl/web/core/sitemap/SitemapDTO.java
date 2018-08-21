@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.dto.BaseDTO;
 public class SitemapDTO extends BaseDTO {
 
   private Long websiteId;
+
   private Long pageId;
 
   public Long getWebsiteId() {

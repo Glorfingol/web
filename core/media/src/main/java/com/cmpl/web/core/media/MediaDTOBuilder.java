@@ -5,9 +5,13 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 public class MediaDTOBuilder extends BaseBuilder<MediaDTO> {
 
   private String src;
+
   private String name;
+
   private String extension;
+
   private String contentType;
+
   private Long size;
 
   private MediaDTOBuilder() {

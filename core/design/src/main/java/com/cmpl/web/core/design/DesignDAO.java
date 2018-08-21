@@ -1,9 +1,8 @@
 package com.cmpl.web.core.design;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.dao.BaseDAO;
 import com.cmpl.web.core.models.Design;
+import java.util.List;
 
 public interface DesignDAO extends BaseDAO<Design> {
 

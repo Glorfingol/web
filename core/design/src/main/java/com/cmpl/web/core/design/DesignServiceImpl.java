@@ -1,9 +1,8 @@
 package com.cmpl.web.core.design;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.models.Design;
+import java.util.List;
 
 public class DesignServiceImpl extends BaseServiceImpl<DesignDTO, Design> implements DesignService {
 

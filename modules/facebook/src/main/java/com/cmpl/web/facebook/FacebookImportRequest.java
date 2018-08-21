@@ -4,9 +4,8 @@ import java.util.List;
 
 /**
  * Requete poru importer des post facebook via WS REST
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class FacebookImportRequest {
 

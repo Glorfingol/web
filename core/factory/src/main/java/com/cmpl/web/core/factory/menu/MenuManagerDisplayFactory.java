@@ -1,12 +1,10 @@
 package com.cmpl.web.core.factory.menu;
 
+import com.cmpl.web.core.factory.CRUDBackDisplayFactory;
 import java.util.Locale;
-
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.factory.BackDisplayFactory;
-
-public interface MenuManagerDisplayFactory extends BackDisplayFactory {
+public interface MenuManagerDisplayFactory extends CRUDBackDisplayFactory {
 
   ModelAndView computeModelAndViewForViewAllMenus(Locale locale, int pageNumber);
 

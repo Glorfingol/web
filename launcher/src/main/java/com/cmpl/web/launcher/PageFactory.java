@@ -5,7 +5,13 @@ import com.cmpl.web.core.carousel.item.CarouselItemRepository;
 import com.cmpl.web.core.media.MediaBuilder;
 import com.cmpl.web.core.media.MediaRepository;
 import com.cmpl.web.core.menu.MenuRepository;
-import com.cmpl.web.core.models.*;
+import com.cmpl.web.core.models.Carousel;
+import com.cmpl.web.core.models.CarouselItem;
+import com.cmpl.web.core.models.Media;
+import com.cmpl.web.core.models.Menu;
+import com.cmpl.web.core.models.Page;
+import com.cmpl.web.core.models.Widget;
+import com.cmpl.web.core.models.WidgetPage;
 import com.cmpl.web.core.page.PageRepository;
 import com.cmpl.web.core.widget.WidgetBuilder;
 import com.cmpl.web.core.widget.WidgetRepository;
@@ -17,8 +23,10 @@ public class PageFactory {
   public static void createPages(PageRepository pageRepository, MenuRepository menuRepository,
 
       CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
-      MediaRepository mediaRepository, WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
-    createIndex(pageRepository, menuRepository, carouselRepository, carouselItemRepository, mediaRepository,
+      MediaRepository mediaRepository, WidgetRepository widgetRepository,
+      WidgetPageRepository widgetPageRepository) {
+    createIndex(pageRepository, menuRepository, carouselRepository, carouselItemRepository,
+        mediaRepository,
         widgetRepository, widgetPageRepository);
     createActualites(pageRepository, menuRepository, widgetRepository, widgetPageRepository);
     createAppointment(pageRepository, menuRepository);
@@ -31,7 +39,8 @@ public class PageFactory {
   public static void createIndex(PageRepository pageRepository, MenuRepository menuRepository,
 
       CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
-      MediaRepository mediaRepository, WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
+      MediaRepository mediaRepository, WidgetRepository widgetRepository,
+      WidgetPageRepository widgetPageRepository) {
 
     Page index = new Page();
     index.setMenuTitle("Accueil");
@@ -86,10 +95,12 @@ public class PageFactory {
 
     carouselItemRepository.save(secondImage);
 
-    Widget widgetCarouselHome = WidgetBuilder.create().type("CAROUSEL").name("carousel_home").entityId(carouselId)
+    Widget widgetCarouselHome = WidgetBuilder.create().type("CAROUSEL").name("carousel_home")
+        .entityId(carouselId)
         .asynchronous(true).build();
     widgetCarouselHome = widgetRepository.save(widgetCarouselHome);
-    WidgetPage widgetPage = WidgetPageBuilder.create().widgetId(String.valueOf(widgetCarouselHome.getId()))
+    WidgetPage widgetPage = WidgetPageBuilder.create()
+        .widgetId(String.valueOf(widgetCarouselHome.getId()))
         .pageId(pageId).build();
     widgetPageRepository.save(widgetPage);
 
@@ -117,18 +128,22 @@ public class PageFactory {
 
     Widget blog = WidgetBuilder.create().name("blog").asynchronous(true).type("BLOG").build();
     blog = widgetRepository.save(blog);
-    WidgetPage widgetPage = WidgetPageBuilder.create().pageId(pageId).widgetId(String.valueOf(blog.getId())).build();
+    WidgetPage widgetPage = WidgetPageBuilder.create().pageId(pageId)
+        .widgetId(String.valueOf(blog.getId())).build();
     widgetPageRepository.save(widgetPage);
 
-    Widget widgetMenu = WidgetBuilder.create().type("MENU").name("menu").asynchronous(false).build();
+    Widget widgetMenu = WidgetBuilder.create().type("MENU").name("menu").asynchronous(false)
+        .build();
     widgetMenu = widgetRepository.save(widgetMenu);
-    WidgetPage widgetPageMenu = WidgetPageBuilder.create().widgetId(String.valueOf(widgetMenu.getId())).pageId(pageId)
+    WidgetPage widgetPageMenu = WidgetPageBuilder.create()
+        .widgetId(String.valueOf(widgetMenu.getId())).pageId(pageId)
         .build();
     widgetPageRepository.save(widgetPageMenu);
 
   }
 
-  public static void createAppointment(PageRepository pageRepository, MenuRepository menuRepository) {
+  public static void createAppointment(PageRepository pageRepository,
+      MenuRepository menuRepository) {
 
     Page appointment = new Page();
     appointment.setMenuTitle("Prendre rendez-vous");
@@ -184,7 +199,8 @@ public class PageFactory {
 
   }
 
-  public static void createMedicalCare(PageRepository pageRepository, MenuRepository menuRepository) {
+  public static void createMedicalCare(PageRepository pageRepository,
+      MenuRepository menuRepository) {
 
     Page medicalCare = new Page();
     medicalCare.setMenuTitle("Soins medicaux");

@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-import org.hibernate.envers.Audited;
-
 @Entity(name = "memberships")
 @Table(name = "memberships", indexes = {@Index(name = "IDX_ENTITY", columnList = "entity_id"),
     @Index(name = "IDX_GROUP", columnList = "group_id")})
@@ -14,6 +12,7 @@ public class Membership extends BaseEntity {
 
   @Column(name = "entity_id")
   private Long entityId;
+
   @Column(name = "group_id")
   private Long groupId;
 

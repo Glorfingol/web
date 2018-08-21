@@ -1,11 +1,11 @@
 package com.cmpl.web.core.sitemap;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.service.BaseServiceImpl;
 import com.cmpl.web.core.models.Sitemap;
+import java.util.List;
 
-public class SitemapServiceImpl extends BaseServiceImpl<SitemapDTO, Sitemap> implements SitemapService {
+public class SitemapServiceImpl extends BaseServiceImpl<SitemapDTO, Sitemap> implements
+    SitemapService {
 
   private final SitemapDAO sitemapDAO;
 

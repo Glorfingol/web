@@ -1,18 +1,5 @@
 package com.cmpl.web.core.factory;
 
-import java.util.Locale;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.design.DesignService;
@@ -27,32 +14,54 @@ import com.cmpl.web.core.style.StyleService;
 import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
+import java.util.Locale;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.web.servlet.ModelAndView;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DisplayFactoryImplTest {
 
   @Mock
   private MenuFactory menuFactory;
+
   @Mock
   private WebMessageSource messageSource;
+
   @Mock
   private PageService pageService;
+
   @Mock
   private NewsEntryService newsEntryService;
+
   @Mock
   private ContextHolder contextHolder;
+
   @Mock
   private WidgetPageService widgetPageService;
+
   @Mock
   private WidgetService widgetService;
+
   @Mock
   private PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
+
   @Mock
   private WebsiteService websiteService;
+
   @Mock
   private SitemapService sitemapService;
+
   @Mock
   private DesignService designService;
+
   @Mock
   private StyleService styleService;
 
@@ -91,19 +100,21 @@ public class DisplayFactoryImplTest {
   public void testComputeModelAndViewForPage_Without_News() throws Exception {
     PageDTO page = PageDTOBuilder.create().id(123456789l).build();
 
-    BDDMockito.given(pageService.getPageByName(BDDMockito.anyString(), BDDMockito.anyString())).willReturn(page);
+    BDDMockito.given(pageService.getPageByName(BDDMockito.anyString(), BDDMockito.anyString()))
+        .willReturn(page);
 
-    BDDMockito.doReturn("test_footer_fr").when(displayFactory).computePageFooter(BDDMockito.any(PageDTO.class),
-        BDDMockito.any(Locale.class));
-    BDDMockito.doReturn("test_header_fr").when(displayFactory).computePageHeader(BDDMockito.any(PageDTO.class),
-        BDDMockito.any(Locale.class));
-    BDDMockito.doReturn("someLink").when(displayFactory).computeHiddenLink(BDDMockito.any(Locale.class));
+    BDDMockito.doReturn("test_footer_fr").when(displayFactory)
+        .computePageFooter(BDDMockito.any(PageDTO.class),
+            BDDMockito.any(Locale.class));
+    BDDMockito.doReturn("test_header_fr").when(displayFactory)
+        .computePageHeader(BDDMockito.any(PageDTO.class),
+            BDDMockito.any(Locale.class));
 
     ModelAndView result = displayFactory.computeModelAndViewForPage("somePage", Locale.FRANCE, 0);
 
     Assert.assertEquals("test_footer_fr", result.getModel().get("footerTemplate"));
     Assert.assertEquals("test_header_fr", result.getModel().get("header"));
-    Assert.assertEquals("someLink", result.getModel().get("hiddenLink"));
+
     Assert.assertNull(result.getModel().get("wrappedNews"));
     Assert.assertNull(result.getModel().get("emptyMessage"));
 

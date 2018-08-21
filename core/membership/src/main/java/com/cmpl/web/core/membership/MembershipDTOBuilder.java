@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 public class MembershipDTOBuilder extends BaseBuilder<MembershipDTO> {
 
   private Long groupId;
+
   private Long entityId;
 
   public MembershipDTOBuilder groupId(Long groupId) {

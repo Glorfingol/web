@@ -4,18 +4,23 @@ import com.cmpl.web.core.common.dto.BaseDTO;
 
 /**
  * DTO Page
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class PageDTO extends BaseDTO {
 
   private String name;
+
   private String menuTitle;
+
   private String body;
+
   private String header;
+
   private String footer;
+
   private String meta;
+
   private String amp;
 
   public String getName() {

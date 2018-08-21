@@ -1,23 +1,24 @@
 package com.cmpl.web.core.user;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.cmpl.web.core.common.form.BaseUpdateForm;
+import java.time.LocalDateTime;
+import javax.validation.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class UserUpdateForm extends BaseUpdateForm<UserDTO> {
 
   @NotEmpty(message = "empty.user.login")
   private String login;
+
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime lastConnection;
+
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime lastPasswordModification;
+
   @NotEmpty(message = "empty.user.email")
   private String email;
+
   private String description;
 
   public UserUpdateForm() {

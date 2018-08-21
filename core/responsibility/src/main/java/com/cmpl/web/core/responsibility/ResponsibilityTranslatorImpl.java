@@ -4,7 +4,8 @@ public class ResponsibilityTranslatorImpl implements ResponsibilityTranslator {
 
   @Override
   public ResponsibilityDTO fromCreateFormToDTO(ResponsibilityCreateForm form) {
-    return ResponsibilityDTOBuilder.create().roleId(form.getRoleId()).userId(form.getUserId()).build();
+    return ResponsibilityDTOBuilder.create().roleId(form.getRoleId()).userId(form.getUserId())
+        .build();
   }
 
   @Override

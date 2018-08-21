@@ -1,14 +1,12 @@
 package com.cmpl.web.core.page;
 
-import java.util.List;
-
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.domain.Sort;
-
 import com.cmpl.web.core.common.dao.BaseDAOImpl;
 import com.cmpl.web.core.models.Page;
 import com.cmpl.web.core.models.QPage;
 import com.querydsl.core.types.Predicate;
+import java.util.List;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Sort;
 
 public class PageDAOImpl extends BaseDAOImpl<Page> implements PageDAO {
 

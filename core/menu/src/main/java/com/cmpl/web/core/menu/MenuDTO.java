@@ -1,23 +1,27 @@
 package com.cmpl.web.core.menu;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.dto.BaseDTO;
+import java.util.List;
 
 /**
  * DTO Menu
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class MenuDTO extends BaseDTO {
 
   private String title;
+
   private String label;
+
   private String href;
+
   private int orderInMenu;
+
   private String parentId;
+
   private String pageId;
+
   private List<MenuDTO> children;
 
   public String getTitle() {

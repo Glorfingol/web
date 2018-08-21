@@ -1,15 +1,14 @@
 package com.cmpl.web.manager.ui.core.common.security;
 
+import com.google.common.base.Preconditions;
 import java.util.Objects;
-
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
-import com.google.common.base.Preconditions;
-
-public class AuthenticationFailureListener implements ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
+public class AuthenticationFailureListener implements
+    ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
 
   private final LoginAttemptsService loginAttemptService;
 

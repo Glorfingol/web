@@ -1,11 +1,10 @@
 package com.cmpl.web.configuration.core;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.file.FileServiceImpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FileConfiguration {

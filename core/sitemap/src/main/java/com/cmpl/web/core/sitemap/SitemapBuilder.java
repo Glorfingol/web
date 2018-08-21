@@ -6,6 +6,7 @@ import com.cmpl.web.core.models.Sitemap;
 public class SitemapBuilder extends BaseBuilder<Sitemap> {
 
   private Long websiteId;
+
   private Long pageId;
 
   public SitemapBuilder websiteId(Long websiteId) {

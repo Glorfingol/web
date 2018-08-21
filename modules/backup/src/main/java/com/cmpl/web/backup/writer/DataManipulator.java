@@ -1,9 +1,8 @@
 package com.cmpl.web.backup.writer;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.repository.BaseRepository;
 import com.cmpl.web.core.models.BaseEntity;
+import java.util.List;
 
 public class DataManipulator<T extends BaseEntity> {
 

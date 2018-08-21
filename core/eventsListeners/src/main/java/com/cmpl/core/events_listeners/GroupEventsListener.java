@@ -1,13 +1,11 @@
 package com.cmpl.core.events_listeners;
 
-import java.util.Objects;
-
-import org.springframework.context.event.EventListener;
-
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.models.BOGroup;
 import com.cmpl.web.core.models.BaseEntity;
 import com.cmpl.web.core.responsibility.ResponsibilityService;
+import java.util.Objects;
+import org.springframework.context.event.EventListener;
 
 public class GroupEventsListener {
 
@@ -26,7 +24,8 @@ public class GroupEventsListener {
       if (deletedGroup != null) {
         String groupId = String.valueOf(deletedGroup.getId());
         responsibilityService.findByRoleId(groupId)
-            .forEach(responsibilityDTO -> responsibilityService.deleteEntity(responsibilityDTO.getId()));
+            .forEach(
+                responsibilityDTO -> responsibilityService.deleteEntity(responsibilityDTO.getId()));
 
       }
 
