@@ -20,22 +20,22 @@ public class WebsiteConfiguration {
   @Bean
   public WebsiteDAO websiteDAO(ApplicationEventPublisher publisher,
       WebsiteRepository websiteRepository) {
-    return new WebsiteDAOImpl(websiteRepository, publisher);
+    return new DefaultWebsiteDAO(websiteRepository, publisher);
   }
 
   @Bean
   public WebsiteService websiteService(WebsiteDAO websiteDAO, WebsiteMapper websiteMapper) {
-    return new WebsiteServiceImpl(websiteDAO, websiteMapper);
+    return new DefaultWebsiteService(websiteDAO, websiteMapper);
   }
 
   @Bean
   public WebsiteTranslator websiteTranslator() {
-    return new WebsiteTranslatorImpl();
+    return new DefaultWebsiteTranslator();
   }
 
   @Bean
   public WebsiteDispatcher websiteDispatcher(WebsiteService websiteService,
       WebsiteTranslator websiteTranslator) {
-    return new WebsiteDispatcherImpl(websiteService, websiteTranslator);
+    return new DefaultWebsiteDispatcher(websiteService, websiteTranslator);
   }
 }

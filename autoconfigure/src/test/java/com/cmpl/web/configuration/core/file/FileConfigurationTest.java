@@ -2,8 +2,8 @@ package com.cmpl.web.configuration.core.file;
 
 import com.cmpl.web.configuration.core.FileConfiguration;
 import com.cmpl.web.core.common.context.ContextHolder;
+import com.cmpl.web.core.file.DefaultFileService;
 import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.file.FileServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ public class FileConfigurationTest {
   public void testFileService() throws Exception {
     FileService result = configuration.fileService(contextHolder);
 
-    Assert.assertEquals(FileServiceImpl.class, result.getClass());
+    Assert.assertEquals(DefaultFileService.class, result.getClass());
   }
 
 }

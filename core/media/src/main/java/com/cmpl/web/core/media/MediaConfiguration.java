@@ -15,7 +15,7 @@ public class MediaConfiguration {
 
   @Bean
   public MediaDAO mediaDAO(MediaRepository mediaRepository, ApplicationEventPublisher publisher) {
-    return new MediaDAOImpl(mediaRepository, publisher);
+    return new DefaultMediaDAO(mediaRepository, publisher);
   }
 
   @Bean
@@ -26,7 +26,7 @@ public class MediaConfiguration {
   @Bean
   public MediaService mediaService(MediaDAO mediaDAO, MediaMapper mediaMapper,
       FileService fileService) {
-    return new MediaServiceImpl(mediaDAO, mediaMapper, fileService);
+    return new DefaultMediaService(mediaDAO, mediaMapper, fileService);
   }
 
 }

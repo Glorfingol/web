@@ -1,6 +1,6 @@
 package com.cmpl.web.configuration.core.common;
 
-import com.cmpl.web.core.common.message.WebMessageSourceImpl;
+import com.cmpl.web.core.common.message.DefaultWebMessageSource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +15,7 @@ public class ResourceConfigurationTest {
 
   @Test
   public void testMessageSource() throws Exception {
-    Assert.assertEquals(WebMessageSourceImpl.class, configuration.messageSource().getClass());
+    Assert.assertEquals(DefaultWebMessageSource.class, configuration.messageSource().getClass());
 
   }
 }

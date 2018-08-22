@@ -2,7 +2,7 @@ package com.cmpl.web.configuration.modules.google;
 
 import com.cmpl.web.google.DoNothingDriveAdapter;
 import com.cmpl.web.google.DriveAdapter;
-import com.cmpl.web.google.DriveAdapterImpl;
+import com.cmpl.web.google.DefaultDriveAdapter;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -102,7 +102,7 @@ public class GoogleConfiguration {
   @Bean
   @ConditionalOnProperty(prefix = "drive.", name = "enabled")
   public DriveAdapter driveAdapter(Drive driveService) {
-    return new DriveAdapterImpl(driveService);
+    return new DefaultDriveAdapter(driveService);
   }
 
   @Bean

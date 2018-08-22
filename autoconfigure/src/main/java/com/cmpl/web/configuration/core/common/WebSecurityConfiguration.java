@@ -1,14 +1,14 @@
 package com.cmpl.web.configuration.core.common;
 
 import com.cmpl.web.core.common.user.ActionTokenService;
-import com.cmpl.web.core.common.user.ActionTokenServiceImpl;
+import com.cmpl.web.core.common.user.DefaultActionTokenService;
 import com.cmpl.web.core.common.user.StatelessSecretTokenService;
 import com.cmpl.web.core.user.UserService;
-import com.cmpl.web.manager.ui.core.administration.user.LastConnectionUpdateAuthenticationSuccessHandlerImpl;
+import com.cmpl.web.manager.ui.core.administration.user.DefaultLastConnectionUpdateAuthenticationSuccessHandler;
 import com.cmpl.web.manager.ui.core.common.security.AuthenticationFailureListener;
 import com.cmpl.web.manager.ui.core.common.security.AuthenticationSuccessListener;
 import com.cmpl.web.manager.ui.core.common.security.LoginAttemptsService;
-import com.cmpl.web.manager.ui.core.common.security.LoginAttemptsServiceImpl;
+import com.cmpl.web.manager.ui.core.common.security.DefaultLoginAttemptsService;
 import com.cmpl.web.manager.ui.core.common.security.LoginAuthenticationProvider;
 import com.cmpl.web.manager.ui.core.common.security.PasswordTooOldInterceptor;
 import java.security.NoSuchAlgorithmException;
@@ -58,12 +58,12 @@ public class WebSecurityConfiguration {
 
   @Bean
   public LoginAttemptsService loginAttemptsService() {
-    return new LoginAttemptsServiceImpl(10);
+    return new DefaultLoginAttemptsService(10);
   }
 
   @Bean
   public ActionTokenService actionTokenService(TokenService tokenService) {
-    return new ActionTokenServiceImpl(tokenService);
+    return new DefaultActionTokenService(tokenService);
   }
 
   @Bean
@@ -116,11 +116,11 @@ public class WebSecurityConfiguration {
 
     public final LoginAuthenticationProvider loginAuthenticationProvider;
 
-    private final LastConnectionUpdateAuthenticationSuccessHandlerImpl lastConnectionUpdateAuthenticationSuccessHandler;
+    private final DefaultLastConnectionUpdateAuthenticationSuccessHandler lastConnectionUpdateAuthenticationSuccessHandler;
 
     public LoginWebSecurityConfigurerAdapter(
         LoginAuthenticationProvider loginAuthenticationProvider,
-        LastConnectionUpdateAuthenticationSuccessHandlerImpl lastConnectionUpdateAuthenticationSuccessHandler) {
+        DefaultLastConnectionUpdateAuthenticationSuccessHandler lastConnectionUpdateAuthenticationSuccessHandler) {
       this.loginAuthenticationProvider = loginAuthenticationProvider;
       this.lastConnectionUpdateAuthenticationSuccessHandler = lastConnectionUpdateAuthenticationSuccessHandler;
 

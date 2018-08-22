@@ -19,23 +19,23 @@ public class GroupConfiguration {
 
   @Bean
   public GroupDAO groupDAO(ApplicationEventPublisher publisher, GroupRepository groupRepository) {
-    return new GroupDAOImpl(groupRepository, publisher);
+    return new DefaultGroupDAO(groupRepository, publisher);
   }
 
   @Bean
   public GroupService groupService(GroupDAO groupDAO, GroupMapper groupMapper) {
-    return new GroupServiceImpl(groupDAO, groupMapper);
+    return new DefaultGroupService(groupDAO, groupMapper);
   }
 
   @Bean
   public GroupTranslator groupTranslator() {
-    return new GroupTranslatorImpl();
+    return new DefaultGroupTranslator();
   }
 
   @Bean
   public GroupDispatcher groupDispatcher(GroupService groupService,
       GroupTranslator groupTranslator) {
-    return new GroupDispatcherImpl(groupTranslator, groupService);
+    return new DefaultGroupDispatcher(groupTranslator, groupService);
   }
 
 }

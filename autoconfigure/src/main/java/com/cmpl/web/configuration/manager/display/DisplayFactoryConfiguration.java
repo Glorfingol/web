@@ -7,33 +7,33 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
-import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactoryImpl;
+import com.cmpl.web.core.factory.carousel.DefaultCarouselManagerDisplayFactory;
+import com.cmpl.web.core.factory.group.DefaultGroupManagerDisplayFactory;
 import com.cmpl.web.core.factory.group.GroupManagerDisplayFactory;
-import com.cmpl.web.core.factory.group.GroupManagerDisplayFactoryImpl;
+import com.cmpl.web.core.factory.index.DefaultIndexDisplayFactory;
 import com.cmpl.web.core.factory.index.IndexDisplayFactory;
-import com.cmpl.web.core.factory.index.IndexDisplayFactoryImpl;
+import com.cmpl.web.core.factory.login.DefaultLoginDisplayFactory;
 import com.cmpl.web.core.factory.login.LoginDisplayFactory;
-import com.cmpl.web.core.factory.login.LoginDisplayFactoryImpl;
+import com.cmpl.web.core.factory.media.DefaultMediaManagerDisplayFactory;
 import com.cmpl.web.core.factory.media.MediaManagerDisplayFactory;
-import com.cmpl.web.core.factory.media.MediaManagerDisplayFactoryImpl;
+import com.cmpl.web.core.factory.menu.DefaultMenuFactory;
+import com.cmpl.web.core.factory.menu.DefaultMenuManagerDisplayFactory;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.factory.menu.MenuFactoryImpl;
 import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactory;
-import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactoryImpl;
+import com.cmpl.web.core.factory.news.DefaultNewsManagerDisplayFactory;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactory;
-import com.cmpl.web.core.factory.news.NewsManagerDisplayFactoryImpl;
+import com.cmpl.web.core.factory.page.DefaultPageManagerDisplayFactory;
 import com.cmpl.web.core.factory.page.PageManagerDisplayFactory;
-import com.cmpl.web.core.factory.page.PageManagerDisplayFactoryImpl;
+import com.cmpl.web.core.factory.role.DefaultRoleManagerDisplayFactory;
 import com.cmpl.web.core.factory.role.RoleManagerDisplayFactory;
-import com.cmpl.web.core.factory.role.RoleManagerDisplayFactoryImpl;
+import com.cmpl.web.core.factory.style.DefaultStyleDisplayFactory;
 import com.cmpl.web.core.factory.style.StyleDisplayFactory;
-import com.cmpl.web.core.factory.style.StyleDisplayFactoryImpl;
 import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
-import com.cmpl.web.core.factory.user.UserManagerDisplayFactoryImpl;
+import com.cmpl.web.core.factory.user.DefaultUserManagerDisplayFactory;
 import com.cmpl.web.core.factory.website.WebsiteManagerDisplayFactory;
-import com.cmpl.web.core.factory.website.WebsiteManagerDisplayFactoryImpl;
+import com.cmpl.web.core.factory.website.DefaultWebsiteManagerDisplayFactory;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
-import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactoryImpl;
+import com.cmpl.web.core.factory.widget.DefaultWidgetManagerDisplayFactory;
 import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.membership.MembershipService;
@@ -71,7 +71,7 @@ public class DisplayFactoryConfiguration {
       Set<Locale> availableLocales, GroupService groupService,
       MembershipService membershipService,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new CarouselManagerDisplayFactoryImpl(menuFactory, messageSource, carouselService,
+    return new DefaultCarouselManagerDisplayFactory(menuFactory, messageSource, carouselService,
         carouselItemService,
         mediaService, contextHolder, breadCrumbs, availableLocales, groupService,
         membershipService, backPages);
@@ -84,7 +84,7 @@ public class DisplayFactoryConfiguration {
       @Qualifier(value = "breadCrumbs") PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
       Set<Locale> availableLocales, MembershipService membershipService,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new GroupManagerDisplayFactoryImpl(groupService, contextHolder, menuFactory,
+    return new DefaultGroupManagerDisplayFactory(groupService, contextHolder, menuFactory,
         messageSource, breadCrumbRegistry, availableLocales, membershipService,
         backPages);
   }
@@ -97,7 +97,7 @@ public class DisplayFactoryConfiguration {
       Set<Locale> availableLocales, GroupService groupService,
       MembershipService membershipService,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new MediaManagerDisplayFactoryImpl(menuFactory, messageSource, mediaService,
+    return new DefaultMediaManagerDisplayFactory(menuFactory, messageSource, mediaService,
         contextHolder, breadCrumbs,
         availableLocales, groupService, membershipService, backPages);
   }
@@ -110,7 +110,8 @@ public class DisplayFactoryConfiguration {
       GroupService groupService,
       MembershipService membershipService,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new MenuManagerDisplayFactoryImpl(menuFactory, messageSource, menuService, pageService,
+    return new DefaultMenuManagerDisplayFactory(menuFactory, messageSource, menuService,
+        pageService,
         contextHolder,
         breadCrumbs, availableLocales, groupService, membershipService, backPages);
   }
@@ -118,7 +119,7 @@ public class DisplayFactoryConfiguration {
   @Bean
   public MenuFactory menuFactory(WebMessageSource messageSource, MenuService menuService,
       BackMenu backMenu) {
-    return new MenuFactoryImpl(messageSource, menuService, backMenu);
+    return new DefaultMenuFactory(messageSource, menuService, backMenu);
   }
 
   @Bean
@@ -129,7 +130,7 @@ public class DisplayFactoryConfiguration {
       GroupService groupService,
       MembershipService membershipService,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new NewsManagerDisplayFactoryImpl(contextHolder, menuFactory, messageSource,
+    return new DefaultNewsManagerDisplayFactory(contextHolder, menuFactory, messageSource,
         newsEntryService, breadCrumbs,
         availableLocales, groupService, membershipService, backPages);
   }
@@ -142,7 +143,8 @@ public class DisplayFactoryConfiguration {
       Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService,
       WebsiteService websiteService, SitemapService sitemapService,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new PageManagerDisplayFactoryImpl(menuFactory, messageSource, pageService, contextHolder,
+    return new DefaultPageManagerDisplayFactory(menuFactory, messageSource, pageService,
+        contextHolder,
         widgetService,
         widgetPageService, breadCrumbs, availableLocales, groupService, membershipService,
         websiteService,
@@ -158,7 +160,7 @@ public class DisplayFactoryConfiguration {
       Set<Locale> availableLocales, GroupService groupService,
       MembershipService membershipService,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new RoleManagerDisplayFactoryImpl(roleService, privilegeService, contextHolder,
+    return new DefaultRoleManagerDisplayFactory(roleService, privilegeService, contextHolder,
         menuFactory, messageSource,
         breadCrumbRegistry, privileges, availableLocales, groupService, membershipService,
         backPages);
@@ -172,7 +174,7 @@ public class DisplayFactoryConfiguration {
       Set<Locale> availableLocales, GroupService groupService,
       MembershipService membershipService,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new StyleDisplayFactoryImpl(menuFactory, messageSource, styleService, contextHolder,
+    return new DefaultStyleDisplayFactory(menuFactory, messageSource, styleService, contextHolder,
         breadCrumbs,
         availableLocales, groupService, membershipService, backPages);
   }
@@ -186,7 +188,7 @@ public class DisplayFactoryConfiguration {
       Set<Locale> availableLocales,
       GroupService groupService, MembershipService membershipService,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new UserManagerDisplayFactoryImpl(userService, roleService, responsibilityService,
+    return new DefaultUserManagerDisplayFactory(userService, roleService, responsibilityService,
         contextHolder,
         menuFactory, messageSource, breadCrumbs, availableLocales, groupService, membershipService,
         backPages);
@@ -200,7 +202,7 @@ public class DisplayFactoryConfiguration {
       Set<Locale> availableLocales, GroupService groupService,
       MembershipService membershipService,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new WidgetManagerDisplayFactoryImpl(menuFactory, messageSource, contextHolder,
+    return new DefaultWidgetManagerDisplayFactory(menuFactory, messageSource, contextHolder,
         widgetService, breadCrumbs,
         widgetProviders, availableLocales, groupService, membershipService, backPages);
   }
@@ -210,7 +212,7 @@ public class DisplayFactoryConfiguration {
       WebMessageSource messageSource,
       PluginRegistry<BreadCrumb, String> breadCrumbs, Set<Locale> availableLocales,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new LoginDisplayFactoryImpl(menuFactory, messageSource, breadCrumbs, availableLocales,
+    return new DefaultLoginDisplayFactory(menuFactory, messageSource, breadCrumbs, availableLocales,
         backPages);
   }
 
@@ -219,7 +221,7 @@ public class DisplayFactoryConfiguration {
       WebMessageSource messageSource,
       PluginRegistry<BreadCrumb, String> breadCrumbs, Set<Locale> availableLocales,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new IndexDisplayFactoryImpl(menuFactory, messageSource, breadCrumbs, availableLocales,
+    return new DefaultIndexDisplayFactory(menuFactory, messageSource, breadCrumbs, availableLocales,
         backPages);
   }
 
@@ -232,7 +234,7 @@ public class DisplayFactoryConfiguration {
       SitemapService sitemapService,
       PageService pageService, StyleService styleService,
       @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new WebsiteManagerDisplayFactoryImpl(menuFactory, messageSource, breadCrumbs,
+    return new DefaultWebsiteManagerDisplayFactory(menuFactory, messageSource, breadCrumbs,
         availableLocales, groupService,
         membershipService, contextHolder, websiteService, designService, sitemapService,
         pageService, styleService, backPages);

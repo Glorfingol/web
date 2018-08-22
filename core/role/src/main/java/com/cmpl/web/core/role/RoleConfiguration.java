@@ -2,12 +2,12 @@ package com.cmpl.web.core.role;
 
 import com.cmpl.web.core.models.Privilege;
 import com.cmpl.web.core.models.Role;
+import com.cmpl.web.core.role.privilege.DefaultPrivilegeDAO;
+import com.cmpl.web.core.role.privilege.DefaultPrivilegeService;
 import com.cmpl.web.core.role.privilege.PrivilegeDAO;
-import com.cmpl.web.core.role.privilege.PrivilegeDAOImpl;
 import com.cmpl.web.core.role.privilege.PrivilegeMapper;
 import com.cmpl.web.core.role.privilege.PrivilegeRepository;
 import com.cmpl.web.core.role.privilege.PrivilegeService;
-import com.cmpl.web.core.role.privilege.PrivilegeServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ApplicationEventPublisher;
@@ -29,13 +29,13 @@ public class RoleConfiguration {
   @Bean
   public PrivilegeDAO privilegeDAO(ApplicationEventPublisher publisher,
       PrivilegeRepository privilegeRepository) {
-    return new PrivilegeDAOImpl(privilegeRepository, publisher);
+    return new DefaultPrivilegeDAO(privilegeRepository, publisher);
   }
 
   @Bean
   public PrivilegeService privilegeService(PrivilegeDAO privilegeDAO,
       PrivilegeMapper privilegeMapper) {
-    return new PrivilegeServiceImpl(privilegeDAO, privilegeMapper);
+    return new DefaultPrivilegeService(privilegeDAO, privilegeMapper);
   }
 
   @Bean
@@ -45,24 +45,24 @@ public class RoleConfiguration {
 
   @Bean
   public RoleDAO roleDAO(ApplicationEventPublisher publisher, RoleRepository roleRepository) {
-    return new RoleDAOImpl(roleRepository, publisher);
+    return new DefaultRoleDAO(roleRepository, publisher);
   }
 
   @Bean
   public RoleService roleService(RoleDAO roleDAO, RoleMapper roleMapper) {
-    return new RoleServiceImpl(roleDAO, roleMapper);
+    return new DefaultRoleService(roleDAO, roleMapper);
   }
 
   @Bean
   public RoleTranslator roleTranslator() {
-    return new RoleTranslatorImpl();
+    return new DefaultRoleTranslator();
   }
 
   @Bean
   public RoleDispatcher roleDispatcher(RoleService roleService, PrivilegeService privilegeService,
       RoleTranslator roleTranslator,
       @Qualifier(value = "privileges") PluginRegistry<com.cmpl.web.core.common.user.Privilege, String> privileges) {
-    return new RoleDispatcherImpl(roleService, privilegeService, roleTranslator, privileges);
+    return new DefaultRoleDispatcher(roleService, privilegeService, roleTranslator, privileges);
   }
 
 }

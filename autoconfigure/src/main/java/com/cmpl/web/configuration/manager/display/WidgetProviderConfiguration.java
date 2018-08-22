@@ -5,7 +5,7 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.factory.DisplayFactory;
-import com.cmpl.web.core.factory.DisplayFactoryImpl;
+import com.cmpl.web.core.factory.DefaultDisplayFactory;
 import com.cmpl.web.core.factory.HtmlWidgetProvider;
 import com.cmpl.web.core.factory.carousel.CarouselWidgetProvider;
 import com.cmpl.web.core.factory.media.ImageWidgetProvider;
@@ -77,7 +77,7 @@ public class WidgetProviderConfiguration {
       WidgetService widgetService,
       WebsiteService websiteService, SitemapService sitemapService, DesignService designService,
       StyleService styleService) {
-    return new DisplayFactoryImpl(messageSource, pageService, newsEntryService, widgetPageService,
+    return new DefaultDisplayFactory(messageSource, pageService, newsEntryService, widgetPageService,
         widgetService,
         widgetProviders, websiteService, sitemapService, designService, styleService);
   }

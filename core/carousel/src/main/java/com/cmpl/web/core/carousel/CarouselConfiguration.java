@@ -1,11 +1,11 @@
 package com.cmpl.web.core.carousel;
 
 import com.cmpl.web.core.carousel.item.CarouselItemDAO;
-import com.cmpl.web.core.carousel.item.CarouselItemDAOImpl;
+import com.cmpl.web.core.carousel.item.DefaultCarouselItemDAODefault;
 import com.cmpl.web.core.carousel.item.CarouselItemMapper;
 import com.cmpl.web.core.carousel.item.CarouselItemRepository;
 import com.cmpl.web.core.carousel.item.CarouselItemService;
-import com.cmpl.web.core.carousel.item.CarouselItemServiceImpl;
+import com.cmpl.web.core.carousel.item.DefaultCarouselItemServiceDefault;
 import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.menu.BackMenuItem;
@@ -27,7 +27,7 @@ public class CarouselConfiguration {
   @Bean
   public CarouselItemDAO carouselItemDAO(CarouselItemRepository carouselItemRepository,
       ApplicationEventPublisher publisher) {
-    return new CarouselItemDAOImpl(carouselItemRepository, publisher);
+    return new DefaultCarouselItemDAODefault(carouselItemRepository, publisher);
   }
 
   @Bean
@@ -38,7 +38,7 @@ public class CarouselConfiguration {
   @Bean
   public CarouselItemService carouselItemService(CarouselItemDAO carouselItemDAO,
       CarouselItemMapper carouselItemMapper) {
-    return new CarouselItemServiceImpl(carouselItemDAO, carouselItemMapper);
+    return new DefaultCarouselItemServiceDefault(carouselItemDAO, carouselItemMapper);
   }
 
   @Bean
@@ -52,7 +52,7 @@ public class CarouselConfiguration {
   @Bean
   public CarouselDAO carouselDAO(CarouselRepository carouselRepository,
       ApplicationEventPublisher publisher) {
-    return new CarouselDAOImpl(carouselRepository, publisher);
+    return new DefaultCarouselDAODefault(carouselRepository, publisher);
   }
 
   @Bean
@@ -62,19 +62,19 @@ public class CarouselConfiguration {
 
   @Bean
   public CarouselService carouselService(CarouselDAO carouselDAO, CarouselMapper carouselMapper) {
-    return new CarouselServiceImpl(carouselDAO, carouselMapper);
+    return new DefaultCarouselServiceDefault(carouselDAO, carouselMapper);
   }
 
   @Bean
   public CarouselTranslator carouselTranslator() {
-    return new CarouselTranslatorImpl();
+    return new DefaultCarouselTranslator();
   }
 
   @Bean
   public CarouselDispatcher carouselDispatcher(CarouselService carouselService,
       CarouselItemService carouselItemService,
       CarouselTranslator carouselTranslator, MediaService mediaService) {
-    return new CarouselDispatcherImpl(carouselService, carouselItemService, mediaService,
+    return new DefaultCarouselDispatcher(carouselService, carouselItemService, mediaService,
         carouselTranslator);
   }
 

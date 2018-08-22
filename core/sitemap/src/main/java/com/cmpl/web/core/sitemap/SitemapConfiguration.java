@@ -15,7 +15,7 @@ public class SitemapConfiguration {
   @Bean
   public SitemapDAO sitemapDAO(SitemapRepository sitemapRepository,
       ApplicationEventPublisher publisher) {
-    return new SitemapDAOImpl(sitemapRepository, publisher);
+    return new DefaultSitemapDAO(sitemapRepository, publisher);
   }
 
   @Bean
@@ -25,18 +25,18 @@ public class SitemapConfiguration {
 
   @Bean
   public SitemapService sitemapService(SitemapDAO sitemapDAO, SitemapMapper sitemapMapper) {
-    return new SitemapServiceImpl(sitemapDAO, sitemapMapper);
+    return new DefaultSitemapService(sitemapDAO, sitemapMapper);
   }
 
   @Bean
   public SitemapTranslator sitemapTranslator() {
-    return new SitemapTranslatorImpl();
+    return new DefaultSitemapTranslator();
   }
 
   @Bean
   public SitemapDispatcher sitemapDispatcher(SitemapService sitemapService,
       SitemapTranslator sitemapTranslator) {
-    return new SitemapDispatcherImpl(sitemapService, sitemapTranslator);
+    return new DefaultSitemapDispatcher(sitemapService, sitemapTranslator);
   }
 
 }

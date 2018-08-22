@@ -1,9 +1,9 @@
 package com.cmpl.web.configuration.modules.backup;
 
 import com.cmpl.web.backup.BackupExporterJob;
-import com.cmpl.web.backup.CSVGeneratorImpl;
+import com.cmpl.web.backup.DefaultCSVGenerator;
 import com.cmpl.web.backup.writer.ArchiveManager;
-import com.cmpl.web.backup.writer.ArchiveManagerImpl;
+import com.cmpl.web.backup.writer.DefaultArchiveManager;
 import com.cmpl.web.backup.writer.CSVGenerator;
 import com.cmpl.web.backup.writer.CarouselCSVWriter;
 import com.cmpl.web.backup.writer.CarouselItemCSVWriter;
@@ -86,7 +86,7 @@ public class BackupExportConfiguration {
 
   @Bean
   public ArchiveManager archiveManager(DriveAdapter driveAdapter) {
-    return new ArchiveManagerImpl(backupFilePath, mediaFilePath, pagesFilePath, actualitesFilePath,
+    return new DefaultArchiveManager(backupFilePath, mediaFilePath, pagesFilePath, actualitesFilePath,
         driveAdapter);
   }
 
@@ -222,7 +222,7 @@ public class BackupExportConfiguration {
             websiteCSVWriter, groupCSVWriter, membershipCSVWriter, designCSVWriter,
             sitemapCSVWriter));
 
-    return new CSVGeneratorImpl(writers);
+    return new DefaultCSVGenerator(writers);
   }
 
   @Bean

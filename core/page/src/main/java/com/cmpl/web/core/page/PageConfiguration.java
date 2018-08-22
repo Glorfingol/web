@@ -15,12 +15,12 @@ public class PageConfiguration {
 
   @Bean
   public PageDispatcher pageDispatcher(PageTranslator translator, PageService pageService) {
-    return new PageDispatcherImpl(translator, pageService);
+    return new DefaultPageDispatcher(translator, pageService);
   }
 
   @Bean
   public PageDAO pageDAO(PageRepository pageRepository, ApplicationEventPublisher publisher) {
-    return new PageDAOImpl(pageRepository, publisher);
+    return new DefaultPageDAO(pageRepository, publisher);
   }
 
   @Bean
@@ -30,12 +30,12 @@ public class PageConfiguration {
 
   @Bean
   public PageService pageService(PageDAO pageDAO, PageMapper pageMapper, FileService fileService) {
-    return new PageServiceImpl(pageDAO, pageMapper, fileService);
+    return new DefaultPageService(pageDAO, pageMapper, fileService);
   }
 
   @Bean
   public PageTranslator pageTranslator() {
-    return new PageTranslatorImpl();
+    return new DefaultPageTranslator();
   }
 
 

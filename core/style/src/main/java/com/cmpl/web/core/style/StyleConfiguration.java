@@ -16,7 +16,7 @@ public class StyleConfiguration {
 
   @Bean
   public StyleDAO styleDAO(StyleRepository styleRepository, ApplicationEventPublisher publisher) {
-    return new StyleDAOImpl(styleRepository, publisher);
+    return new DefaultStyleDAO(styleRepository, publisher);
   }
 
   @Bean
@@ -28,18 +28,18 @@ public class StyleConfiguration {
   public StyleService styleService(StyleDAO styleDAO, StyleMapper styleMapper,
       MediaService mediaService,
       FileService fileService) {
-    return new StyleServiceImpl(styleDAO, styleMapper, mediaService, fileService);
+    return new DefaultStyleService(styleDAO, styleMapper, mediaService, fileService);
   }
 
   @Bean
   public StyleDispatcher styleDispacther(StyleService styleService,
       StyleTranslator styleTranslator) {
-    return new StyleDispatcherImpl(styleService, styleTranslator);
+    return new DefaultStyleDispatcher(styleService, styleTranslator);
   }
 
   @Bean
   public StyleTranslator styleTranslator() {
-    return new StyleTranslatorImpl();
+    return new DefaultStyleTranslator();
   }
 
 }

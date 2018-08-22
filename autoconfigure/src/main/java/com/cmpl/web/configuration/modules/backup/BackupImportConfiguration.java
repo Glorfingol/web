@@ -3,7 +3,7 @@ package com.cmpl.web.configuration.modules.backup;
 import com.cmpl.web.backup.BackupImporterJob;
 import com.cmpl.web.backup.reader.BackupImporter;
 import com.cmpl.web.backup.reader.CSVReader;
-import com.cmpl.web.backup.reader.CSVReaderImpl;
+import com.cmpl.web.backup.reader.DefaultCSVReader;
 import com.cmpl.web.backup.reader.CarouselCSVParser;
 import com.cmpl.web.backup.reader.CarouselItemCSVParser;
 import com.cmpl.web.backup.reader.CommonParser;
@@ -216,7 +216,7 @@ public class BackupImportConfiguration {
             widgetCSVParser,
             widgetPageCSVParser, websiteCSVParser, designCSVParser, sitemapCSVParser,
             membershipCSVParser));
-    return new CSVReaderImpl(parsers);
+    return new DefaultCSVReader(parsers);
   }
 
   @Bean

@@ -15,7 +15,7 @@ public class ResponsibilityConfiguration {
   @Bean
   public ResponsibilityDAO responsibilityDAO(ResponsibilityRepository responsibilityRepository,
       ApplicationEventPublisher publisher) {
-    return new ResponsibilityDAOImpl(responsibilityRepository, publisher);
+    return new DefaultResponsibilityDAO(responsibilityRepository, publisher);
   }
 
   @Bean
@@ -26,19 +26,19 @@ public class ResponsibilityConfiguration {
   @Bean
   public ResponsibilityService responsibilityService(ResponsibilityDAO responsibilityDAO,
       ResponsibilityMapper responsibilityMapper) {
-    return new ResponsibilityServiceImpl(responsibilityDAO, responsibilityMapper);
+    return new DefaultResponsibilityService(responsibilityDAO, responsibilityMapper);
   }
 
   @Bean
   public ResponsibilityTranslator responsibilityTranslator() {
-    return new ResponsibilityTranslatorImpl();
+    return new DefaultResponsibilityTranslator();
   }
 
   @Bean
   public ResponsibilityDispatcher responsibilityDispatcher(
       ResponsibilityService responsibilityService,
       ResponsibilityTranslator responsibilityTranslator) {
-    return new ResponsibilityDispatcherImpl(responsibilityService, responsibilityTranslator);
+    return new DefaultResponsibilityDispatcher(responsibilityService, responsibilityTranslator);
   }
 
 }

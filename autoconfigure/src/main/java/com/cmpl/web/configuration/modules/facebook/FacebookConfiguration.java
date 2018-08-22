@@ -19,18 +19,18 @@ import com.cmpl.web.core.page.BackPageBuilder;
 import com.cmpl.web.core.page.BackPagePlugin;
 import com.cmpl.web.facebook.DoNothingFacebookAdapter;
 import com.cmpl.web.facebook.FacebookAdapter;
-import com.cmpl.web.facebook.FacebookAdapterImpl;
+import com.cmpl.web.facebook.DefaultFacebookAdapter;
 import com.cmpl.web.facebook.FacebookCustomApiVersionConnectionFactory;
 import com.cmpl.web.facebook.FacebookDispatcher;
-import com.cmpl.web.facebook.FacebookDispatcherImpl;
+import com.cmpl.web.facebook.DefaultFacebookDispatcher;
 import com.cmpl.web.facebook.FacebookImportService;
-import com.cmpl.web.facebook.FacebookImportServiceImpl;
+import com.cmpl.web.facebook.DefaultFacebookImportService;
 import com.cmpl.web.facebook.FacebookImportTranslator;
-import com.cmpl.web.facebook.FacebookImportTranslatorImpl;
+import com.cmpl.web.facebook.DefaultFacebookImportTranslator;
 import com.cmpl.web.facebook.FacebookService;
-import com.cmpl.web.facebook.FacebookServiceImpl;
+import com.cmpl.web.facebook.DefaultFacebookService;
 import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactory;
-import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactoryImpl;
+import com.cmpl.web.modules.facebook.factory.DefaultFacebookDisplayFactory;
 import com.cmpl.web.modules.social.configuration.SocialAutoConfigurerAdapter;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -156,7 +156,7 @@ public class FacebookConfiguration {
 
   @Bean
   public FacebookImportTranslator facebookImportTranslator() {
-    return new FacebookImportTranslatorImpl();
+    return new DefaultFacebookImportTranslator();
   }
 
   @Bean
@@ -165,21 +165,21 @@ public class FacebookConfiguration {
       FacebookAdapter facebookAdapter, PluginRegistry<BreadCrumb, String> breadCrumbs,
       Set<Locale> availableLocales, @Qualifier(value = "backPages")
       PluginRegistry<BackPage, String> backPages) {
-    return new FacebookDisplayFactoryImpl(menuFactory, messageSource, facebookAdapter, breadCrumbs,
+    return new DefaultFacebookDisplayFactory(menuFactory, messageSource, facebookAdapter, breadCrumbs,
         availableLocales, backPages);
   }
 
   @Bean
   public FacebookDispatcher facebookDispatcher(FacebookImportService facebookImportService,
       FacebookImportTranslator facebookImportTranslator) {
-    return new FacebookDispatcherImpl(facebookImportService, facebookImportTranslator);
+    return new DefaultFacebookDispatcher(facebookImportService, facebookImportTranslator);
   }
 
   @Bean
   @ConditionalOnProperty(prefix = "import.", name = "enabled")
   public FacebookService facebookService(ContextHolder contextHolder, Facebook facebookConnector,
       ConnectionRepository inMemoryConnectionRepository, NewsEntryService newsEntryService) {
-    return new FacebookServiceImpl(contextHolder, facebookConnector, inMemoryConnectionRepository,
+    return new DefaultFacebookService(contextHolder, facebookConnector, inMemoryConnectionRepository,
         newsEntryService);
   }
 
@@ -187,7 +187,7 @@ public class FacebookConfiguration {
   public FacebookImportService facebookImportService(NewsEntryService newsEntryService,
       FacebookAdapter facebookAdapter,
       MediaService mediaService, FileService fileService, WebMessageSource messageSource) {
-    return new FacebookImportServiceImpl(newsEntryService, facebookAdapter, mediaService,
+    return new DefaultFacebookImportService(newsEntryService, facebookAdapter, mediaService,
         fileService, messageSource);
   }
 
@@ -240,7 +240,7 @@ public class FacebookConfiguration {
   @ConditionalOnProperty(prefix = "import.", name = "enabled")
   public FacebookAdapter facebookAdapter(FacebookService facebookService,
       Facebook facebookConnector) {
-    return new FacebookAdapterImpl(facebookService, facebookConnector);
+    return new DefaultFacebookAdapter(facebookService, facebookConnector);
   }
 
   @Bean

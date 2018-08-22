@@ -2,7 +2,7 @@ package com.cmpl.web.configuration.modules.facebook;
 
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.common.context.ContextHolder;
-import com.cmpl.web.core.common.message.WebMessageSourceImpl;
+import com.cmpl.web.core.common.message.DefaultWebMessageSource;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.group.GroupService;
@@ -12,15 +12,15 @@ import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.BackPage;
 import com.cmpl.web.facebook.FacebookAdapter;
 import com.cmpl.web.facebook.FacebookDispatcher;
-import com.cmpl.web.facebook.FacebookDispatcherImpl;
+import com.cmpl.web.facebook.DefaultFacebookDispatcher;
 import com.cmpl.web.facebook.FacebookImportService;
-import com.cmpl.web.facebook.FacebookImportServiceImpl;
+import com.cmpl.web.facebook.DefaultFacebookImportService;
 import com.cmpl.web.facebook.FacebookImportTranslator;
-import com.cmpl.web.facebook.FacebookImportTranslatorImpl;
+import com.cmpl.web.facebook.DefaultFacebookImportTranslator;
 import com.cmpl.web.facebook.FacebookService;
-import com.cmpl.web.facebook.FacebookServiceImpl;
+import com.cmpl.web.facebook.DefaultFacebookService;
 import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactory;
-import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactoryImpl;
+import com.cmpl.web.modules.facebook.factory.DefaultFacebookDisplayFactory;
 import java.util.Locale;
 import java.util.Set;
 import org.junit.Assert;
@@ -49,7 +49,7 @@ public class FacebookConfigurationTest {
   private MenuFactory menuFactory;
 
   @Mock
-  private WebMessageSourceImpl messageSource;
+  private DefaultWebMessageSource messageSource;
 
   @Mock
   private Facebook facebookConnector;
@@ -93,7 +93,7 @@ public class FacebookConfigurationTest {
     FacebookDispatcher result = configuration
         .facebookDispatcher(facebookImportService, facebookImportTranslator);
 
-    Assert.assertEquals(FacebookDispatcherImpl.class, result.getClass());
+    Assert.assertEquals(DefaultFacebookDispatcher.class, result.getClass());
 
   }
 
@@ -102,7 +102,7 @@ public class FacebookConfigurationTest {
 
     FacebookImportTranslator result = configuration.facebookImportTranslator();
 
-    Assert.assertEquals(FacebookImportTranslatorImpl.class, result.getClass());
+    Assert.assertEquals(DefaultFacebookImportTranslator.class, result.getClass());
   }
 
   @Test
@@ -111,7 +111,7 @@ public class FacebookConfigurationTest {
         .facebookDisplayFactory(menuFactory, messageSource, facebookAdapter,
             breadCrumbRegistry, availableLocales, backPages);
 
-    Assert.assertEquals(FacebookDisplayFactoryImpl.class, result.getClass());
+    Assert.assertEquals(DefaultFacebookDisplayFactory.class, result.getClass());
   }
 
   @Test
@@ -120,7 +120,7 @@ public class FacebookConfigurationTest {
         .facebookService(contextHolder, facebookConnector, connectionRepository,
             newsEntryService);
 
-    Assert.assertEquals(FacebookServiceImpl.class, result.getClass());
+    Assert.assertEquals(DefaultFacebookService.class, result.getClass());
   }
 
   @Test
@@ -130,6 +130,6 @@ public class FacebookConfigurationTest {
         .facebookImportService(newsEntryService, facebookAdapter, mediaService,
             fileService, messageSource);
 
-    Assert.assertEquals(FacebookImportServiceImpl.class, result.getClass());
+    Assert.assertEquals(DefaultFacebookImportService.class, result.getClass());
   }
 }

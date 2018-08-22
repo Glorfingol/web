@@ -15,7 +15,7 @@ public class MembershipConfiguration {
   @Bean
   public MembershipDAO membershipDAO(MembershipRepository membershipRepository,
       ApplicationEventPublisher publisher) {
-    return new MembershipDAOImpl(membershipRepository, publisher);
+    return new DefaultMembershipDAO(membershipRepository, publisher);
   }
 
   @Bean
@@ -26,18 +26,18 @@ public class MembershipConfiguration {
   @Bean
   public MembershipService membershipService(MembershipDAO membershipDAO,
       MembershipMapper associationEntityGroupMapper) {
-    return new MembershipServiceImpl(membershipDAO, associationEntityGroupMapper);
+    return new DefaultMembershipService(membershipDAO, associationEntityGroupMapper);
   }
 
   @Bean
   public MembershipTranslator membershipTranslator() {
-    return new MembershipTranslatorImpl();
+    return new DefaultMembershipTranslator();
   }
 
   @Bean
   public MembershipDispatcher membershipDispatcher(MembershipService membershipService,
       MembershipTranslator membershipTranslator) {
-    return new MembershipDispatcherImpl(membershipService, membershipTranslator);
+    return new DefaultMembershipDispatcher(membershipService, membershipTranslator);
   }
 
 }

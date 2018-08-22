@@ -1,8 +1,8 @@
 package com.cmpl.web.configuration.core.common;
 
-import com.cmpl.web.core.common.mail.DoNothingMailSenderImpl;
+import com.cmpl.web.core.common.mail.DoNothingMailSender;
 import com.cmpl.web.core.common.mail.MailSender;
-import com.cmpl.web.core.common.mail.MailSenderImpl;
+import com.cmpl.web.core.common.mail.DefaultMailSender;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import java.io.FileReader;
 import java.util.Properties;
@@ -43,13 +43,13 @@ public class MailConfiguration {
 
   @Bean
   public MailSender fakeMailSender() {
-    return new DoNothingMailSenderImpl();
+    return new DoNothingMailSender();
   }
 
   @Bean
   public MailSender mailSender(JavaMailSender javaMailSender, TemplateEngine templateEngine,
       WebMessageSource messageSource) {
-    return new MailSenderImpl(javaMailSender, templateEngine, filters, messageSource, from,
+    return new DefaultMailSender(javaMailSender, templateEngine, filters, messageSource, from,
         baseUrl);
   }
 

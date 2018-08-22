@@ -6,8 +6,8 @@ import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.responsibility.ResponsibilityService;
 import com.cmpl.web.core.role.RoleService;
 import com.cmpl.web.core.user.UserService;
-import com.cmpl.web.manager.ui.core.administration.user.LastConnectionUpdateAuthenticationSuccessHandlerImpl;
-import com.cmpl.web.manager.ui.core.common.security.CurrentUserDetailsServiceImpl;
+import com.cmpl.web.manager.ui.core.administration.user.DefaultLastConnectionUpdateAuthenticationSuccessHandler;
+import com.cmpl.web.manager.ui.core.common.security.DefaultCurrentUserDetailsService;
 import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -57,16 +57,16 @@ public class ContextConfiguration {
   private PluginRegistry<Privilege, String> privileges;
 
   @Bean
-  public LastConnectionUpdateAuthenticationSuccessHandlerImpl lastConnectionUpdateAuthenticationSuccessHandler(
+  public DefaultLastConnectionUpdateAuthenticationSuccessHandler lastConnectionUpdateAuthenticationSuccessHandler(
       UserService userService) {
-    return new LastConnectionUpdateAuthenticationSuccessHandlerImpl(userService);
+    return new DefaultLastConnectionUpdateAuthenticationSuccessHandler(userService);
   }
 
   @Bean
   @Primary
   public UserDetailsService dbUserDetailsService(UserService userService, RoleService roleService,
       ResponsibilityService responsibilityService, MembershipService membershipService) {
-    return new CurrentUserDetailsServiceImpl(userService, roleService, responsibilityService,
+    return new DefaultCurrentUserDetailsService(userService, roleService, responsibilityService,
         membershipService);
   }
 

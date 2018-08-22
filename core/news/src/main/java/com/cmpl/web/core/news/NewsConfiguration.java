@@ -5,28 +5,28 @@ import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.models.NewsContent;
 import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.models.NewsImage;
+import com.cmpl.web.core.news.content.DefaultNewsContentDAO;
+import com.cmpl.web.core.news.content.DefaultNewsContentService;
 import com.cmpl.web.core.news.content.NewsContentDAO;
-import com.cmpl.web.core.news.content.NewsContentDAOImpl;
 import com.cmpl.web.core.news.content.NewsContentMapper;
 import com.cmpl.web.core.news.content.NewsContentRepository;
 import com.cmpl.web.core.news.content.NewsContentService;
-import com.cmpl.web.core.news.content.NewsContentServiceImpl;
+import com.cmpl.web.core.news.entry.DefaultNewsEntryDAO;
+import com.cmpl.web.core.news.entry.DefaultNewsEntryDispatcher;
+import com.cmpl.web.core.news.entry.DefaultNewsEntryService;
+import com.cmpl.web.core.news.entry.DefaultNewsEntryTranslator;
 import com.cmpl.web.core.news.entry.NewsEntryDAO;
-import com.cmpl.web.core.news.entry.NewsEntryDAOImpl;
 import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
-import com.cmpl.web.core.news.entry.NewsEntryDispatcherImpl;
 import com.cmpl.web.core.news.entry.NewsEntryMapper;
 import com.cmpl.web.core.news.entry.NewsEntryRepository;
 import com.cmpl.web.core.news.entry.NewsEntryService;
-import com.cmpl.web.core.news.entry.NewsEntryServiceImpl;
 import com.cmpl.web.core.news.entry.NewsEntryTranslator;
-import com.cmpl.web.core.news.entry.NewsEntryTranslatorImpl;
+import com.cmpl.web.core.news.image.DefaultNewsImageDAO;
+import com.cmpl.web.core.news.image.DefaultNewsImageService;
 import com.cmpl.web.core.news.image.NewsImageDAO;
-import com.cmpl.web.core.news.image.NewsImageDAOImpl;
 import com.cmpl.web.core.news.image.NewsImageMapper;
 import com.cmpl.web.core.news.image.NewsImageRepository;
 import com.cmpl.web.core.news.image.NewsImageService;
-import com.cmpl.web.core.news.image.NewsImageServiceImpl;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
@@ -43,18 +43,18 @@ public class NewsConfiguration {
   public NewsEntryDispatcher newsEntryDispatcher(NewsEntryTranslator translator,
       NewsEntryService newsEntryService,
       FileService fileService, MediaService mediaService) {
-    return new NewsEntryDispatcherImpl(translator, newsEntryService, fileService, mediaService);
+    return new DefaultNewsEntryDispatcher(translator, newsEntryService, fileService, mediaService);
   }
 
   @Bean
   public NewsEntryTranslator newsEntryTranslator() {
-    return new NewsEntryTranslatorImpl();
+    return new DefaultNewsEntryTranslator();
   }
 
   @Bean
   public NewsEntryDAO newsEntryDAO(NewsEntryRepository newsEntryRepository,
       ApplicationEventPublisher publisher) {
-    return new NewsEntryDAOImpl(newsEntryRepository, publisher);
+    return new DefaultNewsEntryDAO(newsEntryRepository, publisher);
   }
 
   @Bean
@@ -67,14 +67,14 @@ public class NewsConfiguration {
   public NewsEntryService newsEntryService(NewsEntryDAO newsEntryDAO,
       NewsEntryMapper newsEntryMapper,
       NewsImageService newsImageService, NewsContentService newsContentService) {
-    return new NewsEntryServiceImpl(newsEntryDAO, newsImageService, newsContentService,
+    return new DefaultNewsEntryService(newsEntryDAO, newsImageService, newsContentService,
         newsEntryMapper);
   }
 
   @Bean
   public NewsImageDAO newsImageDAO(ApplicationEventPublisher publisher,
       NewsImageRepository newsImageRepository) {
-    return new NewsImageDAOImpl(newsImageRepository, publisher);
+    return new DefaultNewsImageDAO(newsImageRepository, publisher);
   }
 
   @Bean
@@ -85,13 +85,13 @@ public class NewsConfiguration {
   @Bean
   public NewsImageService newsImageService(NewsImageDAO newsImageDAO,
       NewsImageMapper newsImageMapper) {
-    return new NewsImageServiceImpl(newsImageDAO, newsImageMapper);
+    return new DefaultNewsImageService(newsImageDAO, newsImageMapper);
   }
 
   @Bean
   public NewsContentDAO newsContentDAO(ApplicationEventPublisher publisher,
       NewsContentRepository newsContentRepository) {
-    return new NewsContentDAOImpl(newsContentRepository, publisher);
+    return new DefaultNewsContentDAO(newsContentRepository, publisher);
   }
 
   @Bean
@@ -102,7 +102,7 @@ public class NewsConfiguration {
   @Bean
   public NewsContentService newsContentService(NewsContentDAO newsContentDAO,
       NewsContentMapper newsContentMapper) {
-    return new NewsContentServiceImpl(newsContentDAO, newsContentMapper);
+    return new DefaultNewsContentService(newsContentDAO, newsContentMapper);
   }
 
 }

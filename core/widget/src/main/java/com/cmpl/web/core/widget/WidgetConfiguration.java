@@ -7,11 +7,11 @@ import com.cmpl.web.core.menu.BackMenuItemBuilder;
 import com.cmpl.web.core.models.Widget;
 import com.cmpl.web.core.models.WidgetPage;
 import com.cmpl.web.core.widget.page.WidgetPageDAO;
-import com.cmpl.web.core.widget.page.WidgetPageDAOImpl;
+import com.cmpl.web.core.widget.page.DefaultWidgetPageDAO;
 import com.cmpl.web.core.widget.page.WidgetPageMapper;
 import com.cmpl.web.core.widget.page.WidgetPageRepository;
 import com.cmpl.web.core.widget.page.WidgetPageService;
-import com.cmpl.web.core.widget.page.WidgetPageServiceImpl;
+import com.cmpl.web.core.widget.page.DefaultWidgetPageService;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +26,7 @@ public class WidgetConfiguration {
   @Bean
   public WidgetDAO widgetDAO(WidgetRepository widgetRepository,
       ApplicationEventPublisher publisher) {
-    return new WidgetDAOImpl(widgetRepository, publisher);
+    return new DefaultWidgetDAO(widgetRepository, publisher);
   }
 
   @Bean
@@ -46,7 +46,7 @@ public class WidgetConfiguration {
   @Bean
   public WidgetService widgetService(WidgetDAO widgetDAO, WidgetMapper widgetMapper,
       FileService fileService) {
-    return new WidgetServiceImpl(widgetDAO, widgetMapper, fileService);
+    return new DefaultWidgetService(widgetDAO, widgetMapper, fileService);
   }
 
   @Bean
@@ -57,25 +57,25 @@ public class WidgetConfiguration {
   @Bean
   public WidgetPageDAO widgetPageDAO(WidgetPageRepository widgetPageRepository,
       ApplicationEventPublisher publisher) {
-    return new WidgetPageDAOImpl(widgetPageRepository, publisher);
+    return new DefaultWidgetPageDAO(widgetPageRepository, publisher);
   }
 
   @Bean
   public WidgetPageService widgetPageService(WidgetPageDAO widgetPageDAO,
       WidgetPageMapper widgetPageMapper) {
-    return new WidgetPageServiceImpl(widgetPageDAO, widgetPageMapper);
+    return new DefaultWidgetPageService(widgetPageDAO, widgetPageMapper);
   }
 
   @Bean
   public WidgetTranslator widgetTranslator() {
-    return new WidgetTranslatorImpl();
+    return new DefaultWidgetTranslator();
   }
 
   @Bean
   public WidgetDispatcher widgetDispatcher(WidgetService widgetService,
       WidgetPageService widgetPageService,
       WidgetTranslator widgetTranslator) {
-    return new WidgetDispatcherImpl(widgetTranslator, widgetService, widgetPageService);
+    return new DefaultWidgetDispatcher(widgetTranslator, widgetService, widgetPageService);
   }
 
 }

@@ -29,7 +29,7 @@ public class MenuConfiguration {
 
   @Bean
   public MenuDAO menuDAO(ApplicationEventPublisher publisher, MenuRepository menuRepository) {
-    return new MenuDAOImpl(menuRepository, publisher);
+    return new DefaultMenuDAO(menuRepository, publisher);
   }
 
   @Bean
@@ -39,18 +39,18 @@ public class MenuConfiguration {
 
   @Bean
   public MenuService menuService(MenuDAO menuDAO, MenuMapper menuMapper) {
-    return new MenuServiceImpl(menuDAO, menuMapper);
+    return new DefaultMenuService(menuDAO, menuMapper);
   }
 
   @Bean
   public MenuTranslator menuTranslator() {
-    return new MenuTranslatorImpl();
+    return new DefaultMenuTranslator();
   }
 
   @Bean
   public MenuDispatcher menuDispatcher(MenuTranslator translator, MenuService menuService,
       PageService pageService) {
-    return new MenuDispatcherImpl(translator, menuService, pageService);
+    return new DefaultMenuDispatcher(translator, menuService, pageService);
   }
 
   @Autowired

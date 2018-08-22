@@ -15,7 +15,7 @@ public class DesignConfiguration {
   @Bean
   public DesignDAO designDAO(DesignRepository designRepository,
       ApplicationEventPublisher publisher) {
-    return new DesignDAOImpl(designRepository, publisher);
+    return new DefaultDesignDAO(designRepository, publisher);
   }
 
   @Bean
@@ -25,18 +25,18 @@ public class DesignConfiguration {
 
   @Bean
   public DesignService designService(DesignDAO designDAO, DesignMapper designMapper) {
-    return new DesignServiceImpl(designDAO, designMapper);
+    return new DefaultDesignService(designDAO, designMapper);
   }
 
   @Bean
   public DesignTranslator designTranslator() {
-    return new DesignTranslatorImpl();
+    return new DefaultDesignTranslator();
   }
 
   @Bean
   public DesignDispatcher designDispatcher(DesignService designService,
       DesignTranslator designTranslator) {
-    return new DesignDispatcherImpl(designService, designTranslator);
+    return new DefaultDesignDispatcher(designService, designTranslator);
   }
 
 }

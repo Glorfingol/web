@@ -22,30 +22,30 @@ public class UserConfiguration {
 
   @Bean
   public UserDAO userDAO(UserRepository userRepository, ApplicationEventPublisher publisher) {
-    return new UserDAOImpl(userRepository, publisher);
+    return new DefaultUserDAO(userRepository, publisher);
   }
 
   @Bean
   public UserService userService(UserMapper userMapper, UserDAO userDAO,
       ActionTokenService actionTokenService,
       UserMailService userMailService) {
-    return new UserServiceImpl(actionTokenService, userMailService, userDAO, userMapper);
+    return new DefaultUserService(actionTokenService, userMailService, userDAO, userMapper);
   }
 
   @Bean
   public UserMailService userMailService(MailSender mailSender) {
-    return new UserMailServiceImpl(mailSender);
+    return new DefaultUserMailService(mailSender);
   }
 
   @Bean
   public UserTranslator userTranslator() {
-    return new UserTranslatorImpl();
+    return new DefaultUserTranslator();
   }
 
   @Bean
   public UserDispatcher userDispatcher(UserTranslator userTranslator, UserService userService,
       PasswordEncoder passwordEncoder, ActionTokenService tokenService) {
-    return new UserDispatcherImpl(userTranslator, userService, passwordEncoder, tokenService);
+    return new DefaultUserDispatcher(userTranslator, userService, passwordEncoder, tokenService);
   }
 
 }
