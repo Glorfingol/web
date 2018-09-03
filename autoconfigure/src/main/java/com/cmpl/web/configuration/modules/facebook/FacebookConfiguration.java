@@ -17,20 +17,20 @@ import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.BackPage;
 import com.cmpl.web.core.page.BackPageBuilder;
 import com.cmpl.web.core.page.BackPagePlugin;
+import com.cmpl.web.facebook.DefaultFacebookAdapter;
+import com.cmpl.web.facebook.DefaultFacebookDispatcher;
+import com.cmpl.web.facebook.DefaultFacebookImportService;
+import com.cmpl.web.facebook.DefaultFacebookImportTranslator;
+import com.cmpl.web.facebook.DefaultFacebookService;
 import com.cmpl.web.facebook.DoNothingFacebookAdapter;
 import com.cmpl.web.facebook.FacebookAdapter;
-import com.cmpl.web.facebook.DefaultFacebookAdapter;
 import com.cmpl.web.facebook.FacebookCustomApiVersionConnectionFactory;
 import com.cmpl.web.facebook.FacebookDispatcher;
-import com.cmpl.web.facebook.DefaultFacebookDispatcher;
 import com.cmpl.web.facebook.FacebookImportService;
-import com.cmpl.web.facebook.DefaultFacebookImportService;
 import com.cmpl.web.facebook.FacebookImportTranslator;
-import com.cmpl.web.facebook.DefaultFacebookImportTranslator;
 import com.cmpl.web.facebook.FacebookService;
-import com.cmpl.web.facebook.DefaultFacebookService;
-import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactory;
 import com.cmpl.web.modules.facebook.factory.DefaultFacebookDisplayFactory;
+import com.cmpl.web.modules.facebook.factory.FacebookDisplayFactory;
 import com.cmpl.web.modules.social.configuration.SocialAutoConfigurerAdapter;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -165,7 +165,8 @@ public class FacebookConfiguration {
       FacebookAdapter facebookAdapter, PluginRegistry<BreadCrumb, String> breadCrumbs,
       Set<Locale> availableLocales, @Qualifier(value = "backPages")
       PluginRegistry<BackPage, String> backPages) {
-    return new DefaultFacebookDisplayFactory(menuFactory, messageSource, facebookAdapter, breadCrumbs,
+    return new DefaultFacebookDisplayFactory(menuFactory, messageSource, facebookAdapter,
+        breadCrumbs,
         availableLocales, backPages);
   }
 
@@ -179,7 +180,8 @@ public class FacebookConfiguration {
   @ConditionalOnProperty(prefix = "import.", name = "enabled")
   public FacebookService facebookService(ContextHolder contextHolder, Facebook facebookConnector,
       ConnectionRepository inMemoryConnectionRepository, NewsEntryService newsEntryService) {
-    return new DefaultFacebookService(contextHolder, facebookConnector, inMemoryConnectionRepository,
+    return new DefaultFacebookService(contextHolder, facebookConnector,
+        inMemoryConnectionRepository,
         newsEntryService);
   }
 

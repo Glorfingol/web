@@ -10,7 +10,8 @@ public class DefaultWebsiteDAO extends DefaultBaseDAO<Website> implements Websit
 
   private final WebsiteRepository websiteRepository;
 
-  public DefaultWebsiteDAO(WebsiteRepository websiteRepository, ApplicationEventPublisher publisher) {
+  public DefaultWebsiteDAO(WebsiteRepository websiteRepository,
+      ApplicationEventPublisher publisher) {
     super(Website.class, websiteRepository, publisher);
     this.websiteRepository = websiteRepository;
   }

@@ -26,6 +26,13 @@ basePath: C:/volume1/cmpl/web
 baseUrl: http://localhost:3232
 mailFrom: contact@somewebsite.com
 
+reset:
+  token:
+    secret:
+      string: fa19zb7e-0371-4cfc-b8fa-6f96ba3b6b51
+      integer: 3474194
+
+
 management:
   endpoints:
     web:

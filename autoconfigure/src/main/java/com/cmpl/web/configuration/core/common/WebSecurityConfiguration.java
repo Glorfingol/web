@@ -2,13 +2,12 @@ package com.cmpl.web.configuration.core.common;
 
 import com.cmpl.web.core.common.user.ActionTokenService;
 import com.cmpl.web.core.common.user.DefaultActionTokenService;
-import com.cmpl.web.core.common.user.StatelessSecretTokenService;
 import com.cmpl.web.core.user.UserService;
 import com.cmpl.web.manager.ui.core.administration.user.DefaultLastConnectionUpdateAuthenticationSuccessHandler;
 import com.cmpl.web.manager.ui.core.common.security.AuthenticationFailureListener;
 import com.cmpl.web.manager.ui.core.common.security.AuthenticationSuccessListener;
-import com.cmpl.web.manager.ui.core.common.security.LoginAttemptsService;
 import com.cmpl.web.manager.ui.core.common.security.DefaultLoginAttemptsService;
+import com.cmpl.web.manager.ui.core.common.security.LoginAttemptsService;
 import com.cmpl.web.manager.ui.core.common.security.LoginAuthenticationProvider;
 import com.cmpl.web.manager.ui.core.common.security.PasswordTooOldInterceptor;
 import java.security.NoSuchAlgorithmException;
@@ -24,6 +23,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -47,13 +47,21 @@ public class WebSecurityConfiguration {
   @Value("${backUserFile}")
   String backUserJson;
 
-  @Value("${secret}")
-  String secret;
+
+  @Value("${reset.token.secret.string}")
+  String secretString;
+
+  @Value("${reset.token.secret.integer}")
+  Integer secretInteger;
 
   @Bean
   @ConditionalOnMissingBean(TokenService.class)
   public TokenService tokenService() {
-    return new StatelessSecretTokenService(secret);
+    KeyBasedPersistenceTokenService tokenService = new KeyBasedPersistenceTokenService();
+    tokenService.setServerInteger(secretInteger);
+    tokenService.setServerSecret(secretString);
+    tokenService.setSecureRandom(secureRandom());
+    return tokenService;
   }
 
   @Bean

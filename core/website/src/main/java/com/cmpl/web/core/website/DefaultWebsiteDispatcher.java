@@ -10,7 +10,8 @@ public class DefaultWebsiteDispatcher implements WebsiteDispatcher {
 
   private final WebsiteTranslator translator;
 
-  public DefaultWebsiteDispatcher(WebsiteService websiteService, WebsiteTranslator websiteTranslator) {
+  public DefaultWebsiteDispatcher(WebsiteService websiteService,
+      WebsiteTranslator websiteTranslator) {
     this.service = Objects.requireNonNull(websiteService);
     this.translator = Objects.requireNonNull(websiteTranslator);
   }
