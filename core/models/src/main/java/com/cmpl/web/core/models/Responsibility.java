@@ -11,10 +11,10 @@ import javax.persistence.Table;
     @Index(name = "IDX_ROLE_USER", columnList = "role_id,user_id")})
 public class Responsibility extends BaseEntity {
 
-  @Column(name = "user_id")
+  @Column(name = "user_id", length = 20)
   private String userId;
 
-  @Column(name = "role_id")
+  @Column(name = "role_id", length = 20)
   private String roleId;
 
   public String getUserId() {

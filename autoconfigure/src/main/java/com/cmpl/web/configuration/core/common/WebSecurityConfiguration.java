@@ -44,9 +44,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfiguration {
 
-  @Value("${backUserFile}")
-  String backUserJson;
-
 
   @Value("${reset.token.secret.string}")
   String secretString;

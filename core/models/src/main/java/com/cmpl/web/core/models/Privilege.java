@@ -9,7 +9,7 @@ import javax.persistence.Table;
 @Table(name = "privilege", indexes = {@Index(name = "IDX_PRIVILEGE", columnList = "role_id")})
 public class Privilege extends BaseEntity {
 
-  @Column(name = "role_id")
+  @Column(name = "role_id", length = 20)
   private String roleId;
 
   @Column(name = "content")
