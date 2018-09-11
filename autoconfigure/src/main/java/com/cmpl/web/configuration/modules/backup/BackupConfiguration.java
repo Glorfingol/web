@@ -7,14 +7,12 @@ import com.cmpl.web.core.design.DesignRepository;
 import com.cmpl.web.core.group.GroupRepository;
 import com.cmpl.web.core.media.MediaRepository;
 import com.cmpl.web.core.membership.MembershipRepository;
-import com.cmpl.web.core.menu.MenuRepository;
 import com.cmpl.web.core.models.BOGroup;
 import com.cmpl.web.core.models.Carousel;
 import com.cmpl.web.core.models.CarouselItem;
 import com.cmpl.web.core.models.Design;
 import com.cmpl.web.core.models.Media;
 import com.cmpl.web.core.models.Membership;
-import com.cmpl.web.core.models.Menu;
 import com.cmpl.web.core.models.NewsContent;
 import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.models.NewsImage;
@@ -48,7 +46,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @PropertySource("classpath:/backup/backup.properties")
-@EnableJpaRepositories(basePackageClasses = {MenuRepository.class, StyleRepository.class,
+@EnableJpaRepositories(basePackageClasses = {StyleRepository.class,
     PageRepository.class,
     MediaRepository.class, CarouselRepository.class, CarouselItemRepository.class,
     NewsEntryRepository.class,
@@ -60,10 +58,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
     MembershipRepository.class})
 public class BackupConfiguration {
 
-  @Bean
-  public DataManipulator<Menu> menuDataManipulator(MenuRepository menuRepository) {
-    return new DataManipulator<>(menuRepository);
-  }
 
   @Bean
   public DataManipulator<Style> styleDataManipulator(StyleRepository styleRepository) {

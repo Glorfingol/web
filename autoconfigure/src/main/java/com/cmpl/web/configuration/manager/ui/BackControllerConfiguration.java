@@ -9,7 +9,6 @@ import com.cmpl.web.core.factory.group.GroupManagerDisplayFactory;
 import com.cmpl.web.core.factory.index.IndexDisplayFactory;
 import com.cmpl.web.core.factory.login.LoginDisplayFactory;
 import com.cmpl.web.core.factory.media.MediaManagerDisplayFactory;
-import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactory;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactory;
 import com.cmpl.web.core.factory.page.PageManagerDisplayFactory;
 import com.cmpl.web.core.factory.role.RoleManagerDisplayFactory;
@@ -20,7 +19,6 @@ import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
 import com.cmpl.web.core.group.GroupDispatcher;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.membership.MembershipDispatcher;
-import com.cmpl.web.core.menu.MenuDispatcher;
 import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
 import com.cmpl.web.core.page.BackPage;
 import com.cmpl.web.core.page.PageDispatcher;
@@ -43,7 +41,6 @@ import com.cmpl.web.manager.ui.core.login.LoginController;
 import com.cmpl.web.manager.ui.core.webmastering.carousel.CarouselManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.design.DesignManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.media.MediaManagerController;
-import com.cmpl.web.manager.ui.core.webmastering.menu.MenuManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.news.NewsManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.page.PageManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.sitemap.SitemapManagerController;
@@ -96,12 +93,6 @@ public class BackControllerConfiguration {
         messageSource);
   }
 
-  @Bean
-  public MenuManagerController menuManagerController(MenuDispatcher dispatcher,
-      MenuManagerDisplayFactory displayFactory, NotificationCenter notificationCenter,
-      WebMessageSource messageSource) {
-    return new MenuManagerController(dispatcher, displayFactory, notificationCenter, messageSource);
-  }
 
   @Bean
   public NewsManagerController newsManagerController(

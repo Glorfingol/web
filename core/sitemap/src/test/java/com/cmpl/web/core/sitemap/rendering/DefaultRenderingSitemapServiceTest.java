@@ -2,9 +2,9 @@ package com.cmpl.web.core.sitemap.rendering;
 
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.menu.MenuService;
 import com.cmpl.web.core.news.entry.NewsEntryDTO;
 import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
+import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.sitemap.SitemapService;
 import com.cmpl.web.core.website.WebsiteService;
 import java.io.File;
@@ -40,7 +40,7 @@ public class DefaultRenderingSitemapServiceTest {
   private ContextHolder contextHolder;
 
   @Mock
-  private MenuService menuService;
+  private PageService pageService;
 
   @Mock
   private SitemapService sitemapService;

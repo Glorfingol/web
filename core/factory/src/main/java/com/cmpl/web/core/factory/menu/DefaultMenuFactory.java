@@ -4,12 +4,9 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.DefaultBaseFactory;
 import com.cmpl.web.core.menu.BackMenu;
 import com.cmpl.web.core.menu.BackMenuItem;
-import com.cmpl.web.core.menu.MenuDTO;
 import com.cmpl.web.core.menu.MenuItem;
 import com.cmpl.web.core.menu.MenuItemBuilder;
-import com.cmpl.web.core.menu.MenuService;
 import com.cmpl.web.core.page.BackPage;
-import com.cmpl.web.core.page.PageDTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -23,15 +20,12 @@ import java.util.stream.Collectors;
  */
 public class DefaultMenuFactory extends DefaultBaseFactory implements MenuFactory {
 
-  private final MenuService menuService;
 
   private final BackMenu backMenu;
 
-  public DefaultMenuFactory(WebMessageSource messageSource, MenuService menuService,
+  public DefaultMenuFactory(WebMessageSource messageSource,
       BackMenu backMenu) {
     super(messageSource);
-    this.menuService = Objects.requireNonNull(menuService);
-
     this.backMenu = Objects.requireNonNull(backMenu);
 
   }
@@ -92,26 +86,5 @@ public class DefaultMenuFactory extends DefaultBaseFactory implements MenuFactor
     return anyTrue.contains(Boolean.TRUE);
   }
 
-  @Override
-  public List<MenuItem> computeMenuItems(PageDTO page, Locale locale) {
-    return menuService.getMenus().stream().map(menuItem -> computeMenuItem(page, menuItem))
-        .collect(Collectors.toList());
-  }
-
-  MenuItem computeMenuItem(PageDTO page, MenuDTO menu) {
-    return MenuItemBuilder.create().href(menu.getHref()).label(menu.getLabel())
-        .title(menu.getTitle())
-        .customCssClass(computeCustomCssClass(page, menu))
-        .subMenuItems(computeSubMenuItems(page, menu)).build();
-  }
-
-  String computeCustomCssClass(PageDTO page, MenuDTO menu) {
-    return page.getId().equals(Long.parseLong(menu.getPageId())) ? "active" : "";
-  }
-
-  List<MenuItem> computeSubMenuItems(PageDTO page, MenuDTO menu) {
-    return menu.getChildren().stream().map(subMenuItem -> computeMenuItem(page, subMenuItem))
-        .collect(Collectors.toList());
-  }
 
 }

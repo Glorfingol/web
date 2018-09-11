@@ -13,7 +13,6 @@ import com.cmpl.web.backup.writer.DesignCSVWriter;
 import com.cmpl.web.backup.writer.GroupCSVWriter;
 import com.cmpl.web.backup.writer.MediaCSVWriter;
 import com.cmpl.web.backup.writer.MembershipCSVWriter;
-import com.cmpl.web.backup.writer.MenuCSVWriter;
 import com.cmpl.web.backup.writer.NewsContentCSVWriter;
 import com.cmpl.web.backup.writer.NewsEntryCSVWriter;
 import com.cmpl.web.backup.writer.NewsImageCSVWriter;
@@ -33,7 +32,6 @@ import com.cmpl.web.core.models.CarouselItem;
 import com.cmpl.web.core.models.Design;
 import com.cmpl.web.core.models.Media;
 import com.cmpl.web.core.models.Membership;
-import com.cmpl.web.core.models.Menu;
 import com.cmpl.web.core.models.NewsContent;
 import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.models.NewsImage;
@@ -91,10 +89,6 @@ public class BackupExportConfiguration {
         driveAdapter);
   }
 
-  @Bean
-  public MenuCSVWriter menuCSVWriter(DataManipulator<Menu> menuDataManipulator) {
-    return new MenuCSVWriter(dateFormatter, menuDataManipulator, backupFilePath);
-  }
 
   @Bean
   public StyleCSVWriter styleCSVWriter(DataManipulator<Style> styleDataManipulator) {
@@ -203,7 +197,7 @@ public class BackupExportConfiguration {
   @Bean
   public CSVGenerator csvGenerator(UserCSVWriter userCSVWriter, RoleCSVWriter roleCSVWriter,
       PrivilegeCSVWriter privilegeCSVWriter, ResponsibilityCSVWriter associationUserRoleCSVWriter,
-      MenuCSVWriter menuCSVWriter, StyleCSVWriter styleCSVWriter, PageCSVWriter pageCSVWriter,
+      StyleCSVWriter styleCSVWriter, PageCSVWriter pageCSVWriter,
       MediaCSVWriter mediaCSVWriter, CarouselCSVWriter carouselCSVWriter,
       CarouselItemCSVWriter carouselItemCSVWriter,
       NewsEntryCSVWriter newsEntryCSVWriter, NewsImageCSVWriter newsImageCSVWriter,
@@ -216,7 +210,7 @@ public class BackupExportConfiguration {
     List<CommonWriter<?>> writers = new ArrayList<>();
     writers.addAll(Arrays
         .asList(userCSVWriter, roleCSVWriter, privilegeCSVWriter, associationUserRoleCSVWriter,
-            menuCSVWriter, styleCSVWriter, pageCSVWriter, mediaCSVWriter, carouselCSVWriter,
+            styleCSVWriter, pageCSVWriter, mediaCSVWriter, carouselCSVWriter,
             carouselItemCSVWriter,
             newsEntryCSVWriter, newsContentCSVWriter, newsImageCSVWriter, widgetCSVWriter,
             widgetPageCSVWriter,

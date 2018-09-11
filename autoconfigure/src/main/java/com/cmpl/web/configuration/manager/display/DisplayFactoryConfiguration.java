@@ -17,9 +17,7 @@ import com.cmpl.web.core.factory.login.LoginDisplayFactory;
 import com.cmpl.web.core.factory.media.DefaultMediaManagerDisplayFactory;
 import com.cmpl.web.core.factory.media.MediaManagerDisplayFactory;
 import com.cmpl.web.core.factory.menu.DefaultMenuFactory;
-import com.cmpl.web.core.factory.menu.DefaultMenuManagerDisplayFactory;
 import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactory;
 import com.cmpl.web.core.factory.news.DefaultNewsManagerDisplayFactory;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactory;
 import com.cmpl.web.core.factory.page.DefaultPageManagerDisplayFactory;
@@ -28,17 +26,16 @@ import com.cmpl.web.core.factory.role.DefaultRoleManagerDisplayFactory;
 import com.cmpl.web.core.factory.role.RoleManagerDisplayFactory;
 import com.cmpl.web.core.factory.style.DefaultStyleDisplayFactory;
 import com.cmpl.web.core.factory.style.StyleDisplayFactory;
-import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
 import com.cmpl.web.core.factory.user.DefaultUserManagerDisplayFactory;
-import com.cmpl.web.core.factory.website.WebsiteManagerDisplayFactory;
+import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
 import com.cmpl.web.core.factory.website.DefaultWebsiteManagerDisplayFactory;
-import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
+import com.cmpl.web.core.factory.website.WebsiteManagerDisplayFactory;
 import com.cmpl.web.core.factory.widget.DefaultWidgetManagerDisplayFactory;
+import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
 import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.menu.BackMenu;
-import com.cmpl.web.core.menu.MenuService;
 import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.BackPage;
 import com.cmpl.web.core.page.PageService;
@@ -102,24 +99,11 @@ public class DisplayFactoryConfiguration {
         availableLocales, groupService, membershipService, backPages);
   }
 
-  @Bean
-  public MenuManagerDisplayFactory menuManagerDisplayFactory(MenuFactory menuFactory,
-      WebMessageSource messageSource,
-      MenuService menuService, PageService pageService, ContextHolder contextHolder,
-      PluginRegistry<BreadCrumb, String> breadCrumbs, Set<Locale> availableLocales,
-      GroupService groupService,
-      MembershipService membershipService,
-      @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
-    return new DefaultMenuManagerDisplayFactory(menuFactory, messageSource, menuService,
-        pageService,
-        contextHolder,
-        breadCrumbs, availableLocales, groupService, membershipService, backPages);
-  }
 
   @Bean
-  public MenuFactory menuFactory(WebMessageSource messageSource, MenuService menuService,
+  public MenuFactory menuFactory(WebMessageSource messageSource,
       BackMenu backMenu) {
-    return new DefaultMenuFactory(messageSource, menuService, backMenu);
+    return new DefaultMenuFactory(messageSource, backMenu);
   }
 
   @Bean

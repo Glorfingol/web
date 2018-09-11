@@ -30,7 +30,7 @@
 
   var setUpCodeMirror = function (textAreaId) {
     var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
-        {theme: "neo", lineNumbers: true, readOnly: false});
+        {theme: "neo", lineNumbers: true, readOnly: false, lineWrapping: true});
     return codeMirror;
   }
 </script>

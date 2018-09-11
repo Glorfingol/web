@@ -2,9 +2,9 @@ package com.cmpl.web.core.sitemap.rendering;
 
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.menu.MenuDTO;
-import com.cmpl.web.core.menu.MenuService;
 import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.page.PageDTO;
+import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.sitemap.SitemapDTO;
 import com.cmpl.web.core.sitemap.SitemapService;
 import com.cmpl.web.core.website.WebsiteDTO;
@@ -40,17 +40,17 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
 
   private final WebMessageSource messageSource;
 
-  private final MenuService menuService;
+  private final PageService pageService;
 
   private final WebsiteService websiteService;
 
   private final SitemapService sitemapService;
 
-  public DefaultRenderingSitemapService(WebMessageSource messageSource, MenuService menuService,
+  public DefaultRenderingSitemapService(WebMessageSource messageSource, PageService pageService,
       WebsiteService websiteService, SitemapService sitemapService) {
     this.messageSource = Objects.requireNonNull(messageSource);
 
-    this.menuService = Objects.requireNonNull(menuService);
+    this.pageService = Objects.requireNonNull(pageService);
 
     this.websiteService = Objects.requireNonNull(websiteService);
 
@@ -69,7 +69,7 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
 
     try {
       Path temporarySitemapFile = Files.createTempDirectory("sitemap");
-      writeSitemap(temporarySitemapFile, website, sitemapDTOS, locale);
+      writeSitemap(temporarySitemapFile, website, sitemapDTOS);
       Path sitemapPath = Paths.get(temporarySitemapFile.toString(), "sitemap.xml");
       return readSitemap(sitemapPath);
     } catch (IOException e) {
@@ -79,15 +79,14 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
 
   }
 
-  void writeSitemap(Path temporarySitemapFile, WebsiteDTO website, List<SitemapDTO> sitemapDTOS,
-      Locale locale)
+  void writeSitemap(Path temporarySitemapFile, WebsiteDTO website, List<SitemapDTO> sitemapDTOS)
       throws IOException {
     String scheme = website.isSecure() ? "https://" : "http://";
     WebSitemapGenerator sitemap = WebSitemapGenerator
         .builder(scheme + website.getName(), temporarySitemapFile.toFile())
         .build();
 
-    List<WebSitemapUrl> menuUrls = computeMenuUrls(website, sitemapDTOS, locale);
+    List<WebSitemapUrl> menuUrls = computeMenuUrls(website, sitemapDTOS);
     sitemap.addUrls(menuUrls);
     sitemap.write();
 
@@ -110,20 +109,19 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
     return messageSource.getI18n(key, locale);
   }
 
-  List<WebSitemapUrl> computeMenuUrls(WebsiteDTO website, List<SitemapDTO> sitemapDTOS,
-      Locale locale) {
+  List<WebSitemapUrl> computeMenuUrls(WebsiteDTO website, List<SitemapDTO> sitemapDTOS) {
     List<Long> pagesId = sitemapDTOS.stream().map(sitemap -> sitemap.getPageId())
         .collect(Collectors.toList());
-    return menuService.getEntities().stream()
-        .filter(menu -> pagesId.contains(Long.parseLong(menu.getPageId())))
-        .collect(Collectors.toList()).stream().map(menu -> computeUrlForMenu(website, menu))
+    return pageService.getEntities().stream()
+        .filter(page -> pagesId.contains(page.getId()))
+        .collect(Collectors.toList()).stream().map(page -> computeUrlForPage(website, page))
         .collect(Collectors.toList());
   }
 
-  WebSitemapUrl computeUrlForMenu(WebsiteDTO website, MenuDTO menu) {
+  WebSitemapUrl computeUrlForPage(WebsiteDTO website, PageDTO page) {
     try {
       String scheme = website.isSecure() ? "https://" : "http://";
-      return new WebSitemapUrl.Options(scheme + website.getName() + menu.getHref())
+      return new WebSitemapUrl.Options(scheme + website.getName() + page.getName())
           .changeFreq(ChangeFreq.YEARLY)
           .priority(1d).build();
     } catch (MalformedURLException e) {

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({CarouselBackPageConfiguration.class, MediaBackPageConfiguration.class,
-    MenuBackPageConfiguration.class, NewsBackPageConfiguration.class,
+    NewsBackPageConfiguration.class,
     PageBackPageConfiguration.class, StyleBackPageConfiguration.class,
     WebsiteBackPageConfiguration.class, WidgetBackPageConfiguration.class})
 public class WebMasteringBackPageConfiguration {

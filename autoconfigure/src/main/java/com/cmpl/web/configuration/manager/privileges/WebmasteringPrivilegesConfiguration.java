@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({CarouselPrivilegeConfiguration.class, MediaPrivilegeConfiguration.class,
-    MenuPrivilegeConfiguration.class,
     NewsPrivilegeConfiguration.class, PagePrivilegeConfiguration.class,
     StylePrivilegeConfiguration.class,
     WidgetPrivilegeConfiguration.class, WebsitePrivilegeConfiguration.class,

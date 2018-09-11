@@ -5,7 +5,6 @@ import com.cmpl.web.core.carousel.CarouselRepository;
 import com.cmpl.web.core.carousel.item.CarouselItemRepository;
 import com.cmpl.web.core.design.DesignRepository;
 import com.cmpl.web.core.media.MediaRepository;
-import com.cmpl.web.core.menu.MenuRepository;
 import com.cmpl.web.core.models.Privilege;
 import com.cmpl.web.core.models.Responsibility;
 import com.cmpl.web.core.models.Role;
@@ -55,7 +54,7 @@ public class WebLauncher {
   @Profile("dev")
   public CommandLineRunner init(final NewsEntryRepository newsEntryRepository,
       final NewsContentRepository newsContentRepository, final PageRepository pageRepository,
-      final MenuRepository menuRepository, final CarouselRepository carouselRepository,
+      final CarouselRepository carouselRepository,
       final CarouselItemRepository carouselItemRepository, final MediaRepository mediaRepository,
       final WidgetRepository widgetRepository, final WidgetPageRepository widgetPageRepository,
       final UserRepository userRepository, final RoleRepository roleRepository,
@@ -71,7 +70,7 @@ public class WebLauncher {
       NewsFactory.createNewsEntries(newsEntryRepository, newsContentRepository);
 
       PageFactory
-          .createPages(pageRepository, menuRepository, carouselRepository, carouselItemRepository,
+          .createPages(pageRepository, carouselRepository, carouselItemRepository,
               mediaRepository, widgetRepository, widgetPageRepository);
 
       WebsiteFactory

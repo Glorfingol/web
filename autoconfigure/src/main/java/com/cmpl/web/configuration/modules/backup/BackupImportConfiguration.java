@@ -11,7 +11,6 @@ import com.cmpl.web.backup.reader.DesignCSVParser;
 import com.cmpl.web.backup.reader.GroupCSVParser;
 import com.cmpl.web.backup.reader.MediaCSVParser;
 import com.cmpl.web.backup.reader.MembershipCSVParser;
-import com.cmpl.web.backup.reader.MenuCSVParser;
 import com.cmpl.web.backup.reader.NewsContentCSVParser;
 import com.cmpl.web.backup.reader.NewsEntryCSVParser;
 import com.cmpl.web.backup.reader.NewsImageCSVParser;
@@ -32,7 +31,6 @@ import com.cmpl.web.core.models.CarouselItem;
 import com.cmpl.web.core.models.Design;
 import com.cmpl.web.core.models.Media;
 import com.cmpl.web.core.models.Membership;
-import com.cmpl.web.core.models.Menu;
 import com.cmpl.web.core.models.NewsContent;
 import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.models.NewsImage;
@@ -86,10 +84,6 @@ public class BackupImportConfiguration {
         actualitesFilePath);
   }
 
-  @Bean
-  public MenuCSVParser menuCSVParser(DataManipulator<Menu> menuDataManipulator) {
-    return new MenuCSVParser(dateFormatter, menuDataManipulator, backupFilePath);
-  }
 
   @Bean
   public StyleCSVParser styleCSVParser(DataManipulator<Style> styleDataManipulator) {
@@ -198,7 +192,7 @@ public class BackupImportConfiguration {
   @Bean
   public CSVReader csvReader(UserCSVParser userCSVParser, RoleCSVParser roleCSVParser,
       PrivilegeCSVParser privilegeCSVParser, ResponsibilityCSVParser responsibilityCSVParser,
-      MenuCSVParser menuCSVParser, StyleCSVParser styleCSVParser, PageCSVParser pageCSVParser,
+      StyleCSVParser styleCSVParser, PageCSVParser pageCSVParser,
       MediaCSVParser mediaCSVParser, CarouselCSVParser carouselCSVParser,
       CarouselItemCSVParser carouselItemCSVParser,
       NewsEntryCSVParser newsEntryCSVParser, NewsImageCSVParser newsImageCSVParser,
@@ -210,7 +204,7 @@ public class BackupImportConfiguration {
     List<CommonParser<?>> parsers = new ArrayList<>();
     parsers
         .addAll(Arrays.asList(userCSVParser, roleCSVParser, responsibilityCSVParser, groupCSVParser,
-            privilegeCSVParser, menuCSVParser, styleCSVParser, pageCSVParser, mediaCSVParser,
+            privilegeCSVParser, styleCSVParser, pageCSVParser, mediaCSVParser,
             carouselCSVParser,
             carouselItemCSVParser, newsEntryCSVParser, newsContentCSVParser, newsImageCSVParser,
             widgetCSVParser,

@@ -4,14 +4,12 @@ import com.cmpl.web.core.carousel.CarouselService;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.design.DesignService;
-import com.cmpl.web.core.factory.DisplayFactory;
 import com.cmpl.web.core.factory.DefaultDisplayFactory;
+import com.cmpl.web.core.factory.DisplayFactory;
 import com.cmpl.web.core.factory.HtmlWidgetProvider;
 import com.cmpl.web.core.factory.carousel.CarouselWidgetProvider;
 import com.cmpl.web.core.factory.media.ImageWidgetProvider;
 import com.cmpl.web.core.factory.media.VideoWidgetProvider;
-import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.factory.menu.MenuWidgetProvider;
 import com.cmpl.web.core.factory.news.BlogEntryWidgetProvider;
 import com.cmpl.web.core.factory.news.BlogWidgetProvider;
 import com.cmpl.web.core.media.MediaService;
@@ -58,11 +56,6 @@ public class WidgetProviderConfiguration {
   }
 
   @Bean
-  public MenuWidgetProvider menuWidgetProvider(MenuFactory menuFactory, PageService pageService) {
-    return new MenuWidgetProvider(menuFactory, pageService);
-  }
-
-  @Bean
   public CarouselWidgetProvider carouselWidgetProvider(CarouselService carouselService) {
     return new CarouselWidgetProvider(carouselService);
   }
@@ -77,7 +70,8 @@ public class WidgetProviderConfiguration {
       WidgetService widgetService,
       WebsiteService websiteService, SitemapService sitemapService, DesignService designService,
       StyleService styleService) {
-    return new DefaultDisplayFactory(messageSource, pageService, newsEntryService, widgetPageService,
+    return new DefaultDisplayFactory(messageSource, pageService, newsEntryService,
+        widgetPageService,
         widgetService,
         widgetProviders, websiteService, sitemapService, designService, styleService);
   }
