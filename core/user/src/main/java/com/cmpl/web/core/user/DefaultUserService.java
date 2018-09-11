@@ -12,15 +12,10 @@ import java.util.Locale;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
-@CacheConfig(cacheNames = "users")
 public class DefaultUserService extends DefaultBaseService<UserDTO, User> implements UserService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DefaultUserService.class);
@@ -43,7 +38,6 @@ public class DefaultUserService extends DefaultBaseService<UserDTO, User> implem
   }
 
   @Override
-  @CachePut(key = "#a0.id")
   public UserDTO updateEntity(UserDTO dto) {
     UserDTO updatedUser = super.updateEntity(dto);
     return updatedUser;
@@ -68,7 +62,6 @@ public class DefaultUserService extends DefaultBaseService<UserDTO, User> implem
   }
 
   @Override
-  @Cacheable(value = "pagedUsers")
   public Page<UserDTO> getPagedEntities(PageRequest pageRequest) {
     return super.getPagedEntities(pageRequest);
   }
@@ -80,7 +73,6 @@ public class DefaultUserService extends DefaultBaseService<UserDTO, User> implem
   }
 
   @Override
-  @CacheEvict(value = {"pagedUsers", "listedUsers"}, allEntries = true)
   public UserDTO createUser(UserDTO dto, Locale locale) {
     UserDTO createdUser = createEntity(dto);
     try {
@@ -93,7 +85,6 @@ public class DefaultUserService extends DefaultBaseService<UserDTO, User> implem
   }
 
   @Override
-  @Cacheable(key = "#a0")
   public UserDTO getEntity(Long userId) {
     UserDTO fetchedUser = super.getEntity(userId);
 
@@ -102,7 +93,6 @@ public class DefaultUserService extends DefaultBaseService<UserDTO, User> implem
 
   @Override
   @Transactional
-  @CacheEvict(value = {"pagedUsers", "listedUsers"}, allEntries = true)
   public UserDTO createEntity(UserDTO dto) {
     UserDTO createdUser = super.createEntity(dto);
 
@@ -111,8 +101,6 @@ public class DefaultUserService extends DefaultBaseService<UserDTO, User> implem
   }
 
   @Override
-  @CacheEvict(value = {"pagedUsers", "listedUsers"}, allEntries = true)
-  @CachePut(key = "#a0")
   public UserDTO updateLastConnection(Long userId, LocalDateTime connectionDateTime) {
     User result = userDAO.getEntity(userId);
     if (result == null) {

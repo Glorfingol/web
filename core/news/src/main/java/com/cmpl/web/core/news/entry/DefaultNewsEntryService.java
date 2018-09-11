@@ -10,10 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +20,6 @@ import org.springframework.util.CollectionUtils;
  *
  * @author Louis
  */
-@CacheConfig(cacheNames = "newsEntries")
 public class DefaultNewsEntryService extends DefaultBaseService<NewsEntryDTO, NewsEntry> implements
     NewsEntryService {
 
@@ -47,7 +42,6 @@ public class DefaultNewsEntryService extends DefaultBaseService<NewsEntryDTO, Ne
 
   @Override
   @Transactional
-  @CacheEvict(value = {"listedNewsEntries", "pagedNewsEntries"}, allEntries = true)
   public NewsEntryDTO createEntity(NewsEntryDTO dto) {
 
     LOGGER.info("Creation d'une nouvelle entrée de blog");
@@ -76,8 +70,6 @@ public class DefaultNewsEntryService extends DefaultBaseService<NewsEntryDTO, Ne
 
   @Override
   @Transactional
-  @CachePut(key = "#a0.id")
-  @CacheEvict(value = {"listedNewsEntries", "pagedNewsEntries"}, allEntries = true)
   public NewsEntryDTO updateEntity(NewsEntryDTO dto) {
 
     LOGGER.info("Mise à jour d'une entrée de blog d'id " + dto.getId());
@@ -124,7 +116,6 @@ public class DefaultNewsEntryService extends DefaultBaseService<NewsEntryDTO, Ne
   }
 
   @Override
-  @Cacheable(key = "#a0")
   public NewsEntryDTO getEntity(Long id) {
     LOGGER.info("Récupération de l'entrée de blog d'id " + id);
     NewsEntry entry = newsEntryDAO.getEntity(id);
@@ -132,7 +123,6 @@ public class DefaultNewsEntryService extends DefaultBaseService<NewsEntryDTO, Ne
   }
 
   @Override
-  @Cacheable(value = "listedNewsEntries")
   public List<NewsEntryDTO> getEntities() {
 
     LOGGER.info("Récupération de toutes les entrées de blog");
@@ -145,7 +135,6 @@ public class DefaultNewsEntryService extends DefaultBaseService<NewsEntryDTO, Ne
   }
 
   @Override
-  @Cacheable(value = "pagedNewsEntries")
   public Page<NewsEntryDTO> getPagedEntities(PageRequest pageRequest) {
     return super.getPagedEntities(pageRequest);
   }

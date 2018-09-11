@@ -20,14 +20,14 @@ public class MediaBreadcrumbsConfiguration {
 
   @Bean
   public BreadCrumb mediaUpdateBreadCrumb() {
-    return BreadCrumbBuilder.create().items(mediaBreadCrumbItems()).pageName("MEDIA_UPDATE")
+    return BreadCrumbBuilder.create().items(mediaEditBreadCrumb()).pageName("MEDIA_UPDATE")
         .build();
   }
 
   @Bean
-  public BreadCrumb mediaVisualizeBreadCrumb() {
-    return BreadCrumbBuilder.create().items(mediaVisualizeBreadCrumbItems())
-        .pageName("MEDIA_VISUALIZE").build();
+  public BreadCrumb mediaCreateBreadCrumb() {
+    return BreadCrumbBuilder.create().items(mediaBreadCrumbItems())
+        .pageName("MEDIA_CREATE").build();
   }
 
   List<BreadCrumbItem> mediaBreadCrumbItems() {
@@ -38,7 +38,7 @@ public class MediaBreadcrumbsConfiguration {
     return items;
   }
 
-  List<BreadCrumbItem> mediaVisualizeBreadCrumbItems() {
+  List<BreadCrumbItem> mediaEditBreadCrumb() {
     List<BreadCrumbItem> items = new ArrayList<>();
     items.add(BreadCrumbItemBuilder.create().text("back.index.title").href("/manager/").build());
     items.add(

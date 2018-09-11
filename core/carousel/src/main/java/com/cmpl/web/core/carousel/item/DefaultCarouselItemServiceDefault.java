@@ -3,11 +3,7 @@ package com.cmpl.web.core.carousel.item;
 import com.cmpl.web.core.common.service.DefaultBaseService;
 import com.cmpl.web.core.models.CarouselItem;
 import java.util.List;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 
-@CacheConfig(cacheNames = "carouselItems")
 public class DefaultCarouselItemServiceDefault extends
     DefaultBaseService<CarouselItemDTO, CarouselItem>
     implements CarouselItemService {
@@ -21,25 +17,21 @@ public class DefaultCarouselItemServiceDefault extends
   }
 
   @Override
-  @Cacheable(value = "forCarousel", key = "#a0")
   public List<CarouselItemDTO> getByCarouselId(String carouselId) {
     return mapper.toListDTO(carouselItemDAO.getByCarouselId(carouselId));
   }
 
   @Override
-  @CacheEvict(value = "forCarousel", key = "#a0.carouselId")
   public CarouselItemDTO createEntity(CarouselItemDTO dto) {
     return mapper.toDTO(carouselItemDAO.createEntity(mapper.toEntity(dto)));
   }
 
   @Override
-  @Cacheable(key = "#a0")
   public CarouselItemDTO getEntity(Long id) {
     return super.getEntity(id);
   }
 
   @Override
-  @CacheEvict(value = "forCarousel", key = "#a0.carouselId")
   public void deleteEntityInCarousel(String carouselId, Long id) {
     deleteEntity(id);
   }
