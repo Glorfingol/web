@@ -121,7 +121,7 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
   WebSitemapUrl computeUrlForPage(WebsiteDTO website, PageDTO page) {
     try {
       String scheme = website.isSecure() ? "https://" : "http://";
-      return new WebSitemapUrl.Options(scheme + website.getName()  + "/pages/" + page.getName())
+      return new WebSitemapUrl.Options(scheme + website.getName() + "/pages/" + page.getName())
           .changeFreq(ChangeFreq.YEARLY)
           .priority(1d).build();
     } catch (MalformedURLException e) {
