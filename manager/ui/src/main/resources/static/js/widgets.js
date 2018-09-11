@@ -44,7 +44,12 @@ function computeUpdateWidget() {
   var inputAsynchronous = $("#asynchronous");
 
   widget.name = inputName.val();
-  widget.asynchronous = inputAsynchronous.is(':checked');
+  if (inputAsynchronous.is(":checkbox")) {
+    widget.asynchronous = inputAsynchronous.is(':checked');
+  } else {
+    widget.asynchronous = inputAsynchronous.val();
+  }
+
   widget.type = inputType.val();
   widget.entityId = inputEntityId.val();
   widget.personalization = computePersonalization();

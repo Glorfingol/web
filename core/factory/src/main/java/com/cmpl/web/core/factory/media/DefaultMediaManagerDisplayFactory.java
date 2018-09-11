@@ -69,7 +69,7 @@ public class DefaultMediaManagerDisplayFactory extends AbstractBackDisplayFactor
 
   @Override
   public ModelAndView computeModelAndViewForViewMediaMain(String mediaId) {
-    ModelAndView mediaManager = new ModelAndView("/back/medias/edit/tab_main");
+    ModelAndView mediaManager = new ModelAndView("back/medias/edit/tab_main");
     LOGGER.info("Construction de la page de visualisation d'un media ");
     MediaDTO media = mediaService.getEntity(Long.parseLong(mediaId));
     mediaManager.addObject("mediaBean", media);

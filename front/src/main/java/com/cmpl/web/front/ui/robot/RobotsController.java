@@ -49,7 +49,7 @@ public class RobotsController {
   public String printRobotString(WebsiteDTO websiteDTO) {
 
     String scheme = websiteDTO.isSecure() ? "https://" : "http://";
-    String robots = "User-agent: *\n" + "Disallow: /manager/\n" + "\n" + "Sitemap: "
+    String robots = "User-agent: * \r\n" + "Disallow: /manager/ \r\n" + "\r\n" + "Sitemap: "
         + URI.create(scheme + websiteDTO.getName() + "/sitemap.xml");
     return robots;
 
