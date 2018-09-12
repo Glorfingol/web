@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MembershipRepository extends BaseRepository<Membership> {
 
+  List<Membership> findByGroupId(Long groupId);
+
   List<Membership> findByEntityId(Long entityId);
 
   Membership findByEntityIdAndGroupId(Long entityId, Long groupId);

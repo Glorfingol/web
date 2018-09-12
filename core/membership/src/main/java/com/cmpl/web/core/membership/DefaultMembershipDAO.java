@@ -22,6 +22,11 @@ public class DefaultMembershipDAO extends DefaultBaseDAO<Membership> implements 
   }
 
   @Override
+  public List<Membership> findByGroupId(Long groupId) {
+    return entityRepository.findByGroupId(groupId);
+  }
+
+  @Override
   public Membership findByEntityIdAndGroupId(Long entityId, Long groupId) {
     return entityRepository.findByEntityIdAndGroupId(entityId, groupId);
   }

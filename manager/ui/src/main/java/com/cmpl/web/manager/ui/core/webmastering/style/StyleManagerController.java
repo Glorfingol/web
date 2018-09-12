@@ -121,7 +121,7 @@ public class StyleManagerController {
     try {
       StyleResponse response = dispatcher.updateEntity(form, locale);
 
-      LOGGER.info("Style modifié : " + response.getStyle().getName());
+      LOGGER.info("Style modifié : " + response.getStyle().getId());
       notificationCenter
           .sendNotification("success", messageSource.getMessage("update.success", locale));
       return new ResponseEntity<>(response, HttpStatus.OK);

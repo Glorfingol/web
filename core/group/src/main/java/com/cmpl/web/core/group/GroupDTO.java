@@ -1,6 +1,7 @@
 package com.cmpl.web.core.group;
 
 import com.cmpl.web.core.common.dto.BaseDTO;
+import java.util.Objects;
 
 public class GroupDTO extends BaseDTO {
 
@@ -23,4 +24,14 @@ public class GroupDTO extends BaseDTO {
   public void setDescription(String description) {
     this.description = description;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    boolean isSameBase = super.equals(o);
+    GroupDTO groupDTO = (GroupDTO) o;
+    return isSameBase && Objects.equals(name, groupDTO.name) &&
+        Objects.equals(description, groupDTO.description);
+  }
+
+
 }

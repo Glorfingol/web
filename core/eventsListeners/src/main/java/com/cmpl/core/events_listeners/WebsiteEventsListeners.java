@@ -2,7 +2,7 @@ package com.cmpl.core.events_listeners;
 
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.design.DesignService;
-import com.cmpl.web.core.models.BaseEntity;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.models.Website;
 import com.cmpl.web.core.sitemap.SitemapService;
 import java.util.Objects;
@@ -14,16 +14,19 @@ public class WebsiteEventsListeners {
 
   private final SitemapService sitemapService;
 
-  public WebsiteEventsListeners(DesignService designService, SitemapService sitemapService) {
+  private final MembershipService membershipService;
+
+  public WebsiteEventsListeners(DesignService designService, SitemapService sitemapService,
+      MembershipService membershipService) {
     this.designService = Objects.requireNonNull(designService);
     this.sitemapService = Objects.requireNonNull(sitemapService);
+    this.membershipService = Objects.requireNonNull(membershipService);
   }
 
   @EventListener
   public void handleEntityDeletion(DeletedEvent deletedEvent) {
 
-    Class<? extends BaseEntity> clazz = deletedEvent.getEntity().getClass();
-    if (Website.class.equals(clazz)) {
+    if (deletedEvent.getEntity() instanceof Website) {
       Website deletedWebsite = (Website) deletedEvent.getEntity();
       if (deletedWebsite != null) {
 
@@ -31,6 +34,9 @@ public class WebsiteEventsListeners {
             .forEach(design -> designService.deleteEntity(design.getId()));
         sitemapService.findByWebsiteId(deletedWebsite.getId())
             .forEach(design -> sitemapService.deleteEntity(design.getId()));
+
+        membershipService.findByGroupId(deletedWebsite.getId())
+            .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
 
       }
 

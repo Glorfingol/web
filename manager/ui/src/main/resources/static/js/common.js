@@ -200,7 +200,7 @@ function handleDeleteSuccess(urlFallBack) {
 
 function handleDeleteError(error, form, cardLoader, loader) {
   $.notify({message: "INTERNAL SERVER ERROR"}, {type: 'danger'});
-  formToToggle.show();
+  form.show();
   loader.hide();
   cardLoader.hide();
 }

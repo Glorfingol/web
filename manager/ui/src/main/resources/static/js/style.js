@@ -53,7 +53,7 @@ function computeStyleContent() {
 
 function postUpdateStyleForm() {
   var styleToUpdate = validateAndUpdateStyle();
-  var url = "/manager/styles/_edit";
+  var url = "/manager/styles/" + styleToUpdate.id;
   var urlFallback = "/manager/styles";
   update($("#styleUpdateForm"), $(".loader"), $(".card-loader"), url,
       urlFallback, styleToUpdate).done(function (data) {

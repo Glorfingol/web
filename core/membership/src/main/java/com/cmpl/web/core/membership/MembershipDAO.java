@@ -8,6 +8,8 @@ public interface MembershipDAO extends BaseDAO<Membership> {
 
   List<Membership> findByEntityId(Long entityId);
 
+  List<Membership> findByGroupId(Long groupId);
+
   Membership findByEntityIdAndGroupId(Long entityId, Long groupId);
 
 }

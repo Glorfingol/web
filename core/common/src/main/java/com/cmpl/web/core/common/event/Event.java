@@ -15,4 +15,5 @@ public class Event<ENTITY extends BaseEntity> extends ApplicationEvent {
   public ENTITY getEntity() {
     return entity;
   }
+
 }

@@ -11,6 +11,7 @@ import com.cmpl.core.events_listeners.WebsiteEventsListeners;
 import com.cmpl.core.events_listeners.WidgetEventsListeners;
 import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.file.FileService;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.news.content.NewsContentService;
 import com.cmpl.web.core.news.image.NewsImageService;
 import com.cmpl.web.core.responsibility.ResponsibilityService;
@@ -26,55 +27,61 @@ import org.springframework.context.annotation.Configuration;
 public class EventsListenerConfiguration {
 
   @Bean
-  public GroupEventsListener groupEventsListener(ResponsibilityService responsibilityService) {
-    return new GroupEventsListener(responsibilityService);
+  public GroupEventsListener groupEventsListener(ResponsibilityService responsibilityService,
+      MembershipService membershipService) {
+    return new GroupEventsListener(responsibilityService, membershipService);
   }
 
   @Bean
-  public MediaEventsListeners mediaEventsListener(FileService fileService) {
-    return new MediaEventsListeners(fileService);
+  public MediaEventsListeners mediaEventsListener(FileService fileService,
+      MembershipService membershipService) {
+    return new MediaEventsListeners(fileService, membershipService);
   }
 
   @Bean
   public NewsEventsListeners newsEventsListener(NewsContentService newsContentService,
-      NewsImageService newsImageService) {
-    return new NewsEventsListeners(newsContentService, newsImageService);
+      NewsImageService newsImageService, MembershipService membershipService) {
+    return new NewsEventsListeners(newsContentService, newsImageService, membershipService);
   }
 
   @Bean
   public PageEventsListeners pageEventsListener(WidgetPageService widgetPageService,
       FileService fileService,
-      Set<Locale> availableLocales, SitemapService sitemapService) {
+      Set<Locale> availableLocales, SitemapService sitemapService,
+      MembershipService membershipService) {
     return new PageEventsListeners(widgetPageService, fileService, availableLocales,
-        sitemapService);
+        sitemapService, membershipService);
   }
 
   @Bean
   public RoleEventsListeners roleEventsListener(ResponsibilityService responsibilityService,
-      PrivilegeService privilegeService) {
-    return new RoleEventsListeners(responsibilityService, privilegeService);
+      PrivilegeService privilegeService, MembershipService membershipService) {
+    return new RoleEventsListeners(responsibilityService, privilegeService, membershipService);
   }
 
   @Bean
-  public UserEventsListeners userEventsListener(ResponsibilityService responsibilityService) {
-    return new UserEventsListeners(responsibilityService);
+  public UserEventsListeners userEventsListener(ResponsibilityService responsibilityService,
+      MembershipService membershipService) {
+    return new UserEventsListeners(responsibilityService, membershipService);
   }
 
   @Bean
   public WidgetEventsListeners widgetEventsListener(WidgetPageService widgetPageService,
       FileService fileService,
-      Set<Locale> availableLocales) {
-    return new WidgetEventsListeners(widgetPageService, fileService, availableLocales);
+      Set<Locale> availableLocales, MembershipService membershipService) {
+    return new WidgetEventsListeners(widgetPageService, fileService, availableLocales,
+        membershipService);
   }
 
   @Bean
   public WebsiteEventsListeners websiteEventsListeners(DesignService designService,
-      SitemapService sitemapService) {
-    return new WebsiteEventsListeners(designService, sitemapService);
+      SitemapService sitemapService, MembershipService membershipService) {
+    return new WebsiteEventsListeners(designService, sitemapService, membershipService);
   }
 
   @Bean
-  public StyleEventsListeners styleEventsListeners(DesignService designService) {
-    return new StyleEventsListeners(designService);
+  public StyleEventsListeners styleEventsListeners(DesignService designService,
+      MembershipService membershipService) {
+    return new StyleEventsListeners(designService, membershipService);
   }
 }

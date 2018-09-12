@@ -21,6 +21,11 @@ public class DefaultMembershipService extends
   }
 
   @Override
+  public List<MembershipDTO> findByGroupId(Long groupId) {
+    return mapper.toListDTO(dao.findByGroupId(groupId));
+  }
+
+  @Override
   public MembershipDTO findByEntityIdAndGroupId(Long entityId, Long groupId) {
     return mapper.toDTO(dao.findByEntityIdAndGroupId(entityId, groupId));
   }

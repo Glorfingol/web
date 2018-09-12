@@ -23,4 +23,6 @@ public class MembershipDTO extends BaseDTO {
   public void setGroupId(Long groupId) {
     this.groupId = groupId;
   }
+
+  
 }

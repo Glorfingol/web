@@ -2,7 +2,7 @@ package com.cmpl.core.events_listeners;
 
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.file.FileService;
-import com.cmpl.web.core.models.BaseEntity;
+import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.models.Page;
 import com.cmpl.web.core.sitemap.SitemapService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
@@ -14,6 +14,8 @@ import org.springframework.context.event.EventListener;
 public class PageEventsListeners {
 
   private final WidgetPageService widgetPageService;
+
+  private final MembershipService membershipService;
 
   private final SitemapService sitemapService;
 
@@ -33,18 +35,18 @@ public class PageEventsListeners {
 
   public PageEventsListeners(WidgetPageService widgetPageService, FileService fileService,
       Set<Locale> locales,
-      SitemapService sitemapService) {
+      SitemapService sitemapService, MembershipService membershipService) {
     this.widgetPageService = Objects.requireNonNull(widgetPageService);
     this.locales = Objects.requireNonNull(locales);
     this.fileService = Objects.requireNonNull(fileService);
     this.sitemapService = Objects.requireNonNull(sitemapService);
+    this.membershipService = Objects.requireNonNull(membershipService);
   }
 
   @EventListener
   public void handleEntityDeletion(DeletedEvent deletedEvent) {
 
-    Class<? extends BaseEntity> clazz = deletedEvent.getEntity().getClass();
-    if (Page.class.equals(clazz)) {
+    if (deletedEvent.getEntity() instanceof Page) {
       Page deletedPage = (Page) deletedEvent.getEntity();
 
       if (deletedPage != null) {
@@ -68,6 +70,9 @@ public class PageEventsListeners {
 
         sitemapService.findByPageId(deletedPage.getId())
             .forEach(sitemap -> sitemapService.deleteEntity(sitemap.getId()));
+
+        membershipService.findByGroupId(deletedPage.getId())
+            .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
       }
 
     }

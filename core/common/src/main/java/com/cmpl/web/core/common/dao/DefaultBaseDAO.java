@@ -139,4 +139,8 @@ public abstract class DefaultBaseDAO<ENTITY extends BaseEntity> extends Querydsl
   }
 
   protected abstract Predicate computeSearchPredicate(String query);
+
+  public Class<ENTITY> getEntityClass() {
+    return entityClass;
+  }
 }

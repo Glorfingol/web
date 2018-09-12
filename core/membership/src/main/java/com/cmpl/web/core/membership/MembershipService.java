@@ -7,6 +7,8 @@ public interface MembershipService extends BaseService<MembershipDTO> {
 
   List<MembershipDTO> findByEntityId(Long entityId);
 
+  List<MembershipDTO> findByGroupId(Long groupId);
+
   MembershipDTO findByEntityIdAndGroupId(Long entityId, Long groupId);
 
 }

@@ -29,6 +29,8 @@ public class DefaultWidgetDispatcher implements WidgetDispatcher {
   public WidgetResponse createEntity(WidgetCreateForm form, Locale locale) {
 
     WidgetDTO widgetToCreate = translator.fromCreateFormToDTO(form);
+    String widgetName = form.getName().replace("-", "_");
+    widgetToCreate.setName(widgetName);
     WidgetDTO createdWidget = widgetService.createEntity(widgetToCreate, form.getLocaleCode());
     return translator.fromDTOToResponse(createdWidget);
   }
@@ -37,7 +39,8 @@ public class DefaultWidgetDispatcher implements WidgetDispatcher {
   public WidgetResponse updateEntity(WidgetUpdateForm form, Locale locale) {
 
     WidgetDTO widgetToUpdate = widgetService.getEntity(form.getId());
-    widgetToUpdate.setName(form.getName());
+    String widgetName = form.getName().replace("-", "_");
+    widgetToUpdate.setName(widgetName);
     widgetToUpdate.setPersonalization(form.getPersonalization());
     widgetToUpdate.setType(form.getType());
     widgetToUpdate.setEntityId(form.getEntityId());

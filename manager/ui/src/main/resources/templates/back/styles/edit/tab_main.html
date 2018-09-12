@@ -24,10 +24,6 @@
     codeMirrorStyleContent = setUpCodeMirror("styleContent");
   });
 
-  var goToUpdateStyle = function () {
-    window.location.href = "/manager/styles/_edit";
-  };
-
   var setUpCodeMirror = function (textAreaId) {
     var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
         {theme: "neo", lineNumbers: true, readOnly: false, lineWrapping: true});
