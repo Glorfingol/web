@@ -13,7 +13,7 @@ import com.cmpl.web.manager.ui.core.administration.user.CurrentUserAuditorAware;
 public class CommonConfiguration {
 
   @Bean
-  public CurrentUserAuditorAware auditorAware() {
+  public CurrentUserAuditorAware auditorProvider() {
     return new CurrentUserAuditorAware();
   }
 

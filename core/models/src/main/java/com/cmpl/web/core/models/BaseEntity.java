@@ -2,12 +2,12 @@ package com.cmpl.web.core.models;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
+
+import javax.persistence.*;
+
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * Objet DAO commun
@@ -15,6 +15,7 @@ import org.springframework.data.annotation.LastModifiedBy;
  * @author Louis
  */
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
 
   @Id
@@ -36,8 +37,7 @@ public abstract class BaseEntity {
   private String modificationUser;
 
   /**
-   * S'assure que les elements not nullable commun sont renseignes (id, creationDate,
-   * modificationDate)
+   * S'assure que les elements not nullable commun sont renseignes (id, creationDate, modificationDate)
    */
   @PrePersist
   public void ensureFields() {
