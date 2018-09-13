@@ -80,6 +80,7 @@
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         codeMirrorBody = setUpCodeMirror("pageBody");
+        fix_code_mirror_height();
         prepareDragAndDrop();
         currentTab = "body";
       });
@@ -93,6 +94,7 @@
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         codeMirrorHeader = setUpCodeMirror("pageHeader");
+        fix_code_mirror_height();
         prepareDragAndDrop();
         currentTab = "header";
       });
@@ -106,6 +108,7 @@
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         codeMirrorFooter = setUpCodeMirror("pageFooter");
+        fix_code_mirror_height();
         prepareDragAndDrop();
         currentTab = "footer";
       });
@@ -120,6 +123,7 @@
         $("#ajaxTab").html(data);
         currentTab = "new_meta";
         codeMirrorMeta = setUpCodeMirror("pageMeta");
+        fix_code_mirror_height();
       });
     }
   };
@@ -153,6 +157,7 @@
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         codeMirrorHeader = setUpCodeMirror("pageAmp");
+        fix_code_mirror_height();
         prepareDragAndDrop();
         currentTab = "amp";
       });
