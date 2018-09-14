@@ -1,9 +1,12 @@
 package com.cmpl.web.configuration.core.common;
 
+import com.cmpl.web.core.common.mail.DefaultMailSender;
+import com.cmpl.web.core.common.mail.DoNothingMailSender;
+import com.cmpl.web.core.common.mail.MailSender;
+import com.cmpl.web.core.common.message.WebMessageSource;
 import java.io.FileReader;
 import java.util.Properties;
 import java.util.Set;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,11 +17,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.thymeleaf.TemplateEngine;
-
-import com.cmpl.web.core.common.mail.DefaultMailSender;
-import com.cmpl.web.core.common.mail.DoNothingMailSender;
-import com.cmpl.web.core.common.mail.MailSender;
-import com.cmpl.web.core.common.message.WebMessageSource;
 
 @Configuration
 @PropertySource("classpath:/core/core.properties")

@@ -1,10 +1,10 @@
 package com.cmpl.web.core.carousel;
 
 import com.cmpl.web.core.carousel.item.CarouselItemDAO;
-import com.cmpl.web.core.carousel.item.DefaultCarouselItemDAODefault;
 import com.cmpl.web.core.carousel.item.CarouselItemMapper;
 import com.cmpl.web.core.carousel.item.CarouselItemRepository;
 import com.cmpl.web.core.carousel.item.CarouselItemService;
+import com.cmpl.web.core.carousel.item.DefaultCarouselItemDAODefault;
 import com.cmpl.web.core.carousel.item.DefaultCarouselItemServiceDefault;
 import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.media.MediaService;

@@ -1,7 +1,24 @@
 package com.cmpl.web.core.factory.style;
 
-import java.util.*;
-
+import com.cmpl.web.core.breadcrumb.BreadCrumb;
+import com.cmpl.web.core.common.context.ContextHolder;
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.resource.PageWrapper;
+import com.cmpl.web.core.factory.AbstractBackDisplayFactory;
+import com.cmpl.web.core.factory.menu.MenuFactory;
+import com.cmpl.web.core.group.GroupService;
+import com.cmpl.web.core.membership.MembershipService;
+import com.cmpl.web.core.page.BackPage;
+import com.cmpl.web.core.style.StyleCreateFormBuilder;
+import com.cmpl.web.core.style.StyleDTO;
+import com.cmpl.web.core.style.StyleService;
+import com.cmpl.web.core.style.StyleUpdateForm;
+import com.cmpl.web.core.style.StyleUpdateFormBuilder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -12,28 +29,21 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.breadcrumb.BreadCrumb;
-import com.cmpl.web.core.common.context.ContextHolder;
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.common.resource.PageWrapper;
-import com.cmpl.web.core.factory.AbstractBackDisplayFactory;
-import com.cmpl.web.core.factory.menu.MenuFactory;
-import com.cmpl.web.core.group.GroupService;
-import com.cmpl.web.core.membership.MembershipService;
-import com.cmpl.web.core.page.BackPage;
-import com.cmpl.web.core.style.*;
-
-public class DefaultStyleDisplayFactory extends AbstractBackDisplayFactory<StyleDTO> implements StyleDisplayFactory {
+public class DefaultStyleDisplayFactory extends AbstractBackDisplayFactory<StyleDTO> implements
+    StyleDisplayFactory {
 
   private final StyleService styleService;
 
   private final ContextHolder contextHolder;
 
-  public DefaultStyleDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource, StyleService styleService,
-      ContextHolder contextHolder, PluginRegistry<BreadCrumb, String> breadCrumbRegistry, Set<Locale> availableLocales,
+  public DefaultStyleDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
+      StyleService styleService,
+      ContextHolder contextHolder, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
+      Set<Locale> availableLocales,
       GroupService groupService, MembershipService membershipService,
       PluginRegistry<BackPage, String> backPagesRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService,
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
+        membershipService,
         backPagesRegistry);
     this.styleService = Objects.requireNonNull(styleService);
 
@@ -74,7 +84,8 @@ public class DefaultStyleDisplayFactory extends AbstractBackDisplayFactory<Style
     StyleDTO style = styleService.getEntity(Long.parseLong(styleId));
 
     StyleUpdateForm updateForm = StyleUpdateFormBuilder.create().content(style.getContent())
-        .creationDate(style.getCreationDate()).creationUser(style.getCreationUser()).id(style.getId())
+        .creationDate(style.getCreationDate()).creationUser(style.getCreationUser())
+        .id(style.getId())
         .name(style.getName()).modificationDate(style.getModificationDate())
         .modificationUser(style.getModificationUser()).mediaId(style.getMedia().getId())
         .mediaName(style.getMedia().getName()).build();
@@ -90,8 +101,10 @@ public class DefaultStyleDisplayFactory extends AbstractBackDisplayFactory<Style
 
     StyleDTO style = styleService.getEntity(Long.parseLong(styleId));
 
-    StyleUpdateForm updateForm = StyleUpdateFormBuilder.create().content(style.getContent()).name(style.getName())
-        .creationDate(style.getCreationDate()).creationUser(style.getCreationUser()).id(style.getId())
+    StyleUpdateForm updateForm = StyleUpdateFormBuilder.create().content(style.getContent())
+        .name(style.getName())
+        .creationDate(style.getCreationDate()).creationUser(style.getCreationUser())
+        .id(style.getId())
         .modificationDate(style.getModificationDate()).modificationUser(style.getModificationUser())
         .mediaId(style.getMedia().getId()).mediaName(style.getMedia().getName()).build();
 
