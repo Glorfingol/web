@@ -40,6 +40,7 @@ function computeUpdatePage() {
   page.footer = computePageFooter();
   page.meta = computePageMeta();
   page.id = inputId.val();
+  page.amp= computePageAMP();
   page.creationDate = inputCreationDate.val();
   page.modificationDate = inputModificationDate.val();
   page.creationUser = inputCreationUser.val();
@@ -60,6 +61,13 @@ function computePageHeader() {
     return codeMirrorHeader.getValue();
   }
   return $("#header").val();
+}
+
+function computePageAMP() {
+  if (codeMirrorAMP) {
+    return codeMirrorAMP.getValue();
+  }
+  return $("#amp").val();
 }
 
 function computePageMeta() {

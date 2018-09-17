@@ -70,6 +70,7 @@
   var codeMirrorBody;
   var codeMirrorFooter;
   var codeMirrorMeta;
+  var codeMirrorAMP;
   var currentTab = "";
   var languageCode = [[${updateForm.localeCode}]];
 
@@ -156,7 +157,7 @@
           + languageCode;
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
-        codeMirrorHeader = setUpCodeMirror("pageAmp");
+        codeMirrorAMP = setUpCodeMirror("pageAmp");
         fix_code_mirror_height();
         prepareDragAndDrop();
         currentTab = "amp";
