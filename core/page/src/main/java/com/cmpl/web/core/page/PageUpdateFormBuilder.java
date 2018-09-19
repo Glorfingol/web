@@ -17,6 +17,8 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
 
   private String meta;
 
+  private String href;
+
   private String amp;
 
   private Long id;
@@ -37,6 +39,11 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
 
   public PageUpdateFormBuilder name(String name) {
     this.name = name;
+    return this;
+  }
+
+  public PageUpdateFormBuilder href(String href) {
+    this.href = href;
     return this;
   }
 
@@ -117,6 +124,7 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
     form.setCreationUser(creationUser);
     form.setModificationUser(modificationUser);
     form.setAmp(amp);
+    form.setHref(href);
     return form;
   }
 

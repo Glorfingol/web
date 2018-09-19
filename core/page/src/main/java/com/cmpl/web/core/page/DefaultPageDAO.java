@@ -23,6 +23,11 @@ public class DefaultPageDAO extends DefaultBaseDAO<Page> implements PageDAO {
   }
 
   @Override
+  public List<Page> getPagesByHref(String href) {
+    return pageRepository.findByHref(href);
+  }
+
+  @Override
   public List<Page> getPages(Sort sort) {
     return pageRepository.findAll(sort);
   }

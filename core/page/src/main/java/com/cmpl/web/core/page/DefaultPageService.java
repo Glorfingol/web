@@ -46,19 +46,19 @@ public class DefaultPageService extends DefaultBaseService<PageDTO, Page> implem
     PageDTO createdPage = super.createEntity(dto);
 
     fileService.saveFileOnSystem(dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-        dto.getBody());
+      dto.getBody());
     fileService.saveFileOnSystem(
-        dto.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-        dto.getFooter());
+      dto.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+      dto.getFooter());
     fileService.saveFileOnSystem(
-        dto.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-        dto.getHeader());
+      dto.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+      dto.getHeader());
     fileService.saveFileOnSystem(
-        dto.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-        dto.getMeta());
+      dto.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+      dto.getMeta());
     fileService.saveFileOnSystem(
-        dto.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-        dto.getAmp());
+      dto.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+      dto.getAmp());
     return createdPage;
 
   }
@@ -68,19 +68,19 @@ public class DefaultPageService extends DefaultBaseService<PageDTO, Page> implem
     PageDTO updatedPage = super.updateEntity(dto);
 
     fileService.saveFileOnSystem(dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-        dto.getBody());
+      dto.getBody());
     fileService.saveFileOnSystem(
-        dto.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-        dto.getFooter());
+      dto.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+      dto.getFooter());
     fileService.saveFileOnSystem(
-        dto.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-        dto.getHeader());
+      dto.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+      dto.getHeader());
     fileService.saveFileOnSystem(
-        dto.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-        dto.getMeta());
+      dto.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+      dto.getMeta());
     fileService.saveFileOnSystem(
-        dto.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-        dto.getAmp());
+      dto.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+      dto.getAmp());
 
     updatedPage.setHeader(dto.getHeader());
     updatedPage.setFooter(dto.getFooter());
@@ -95,17 +95,17 @@ public class DefaultPageService extends DefaultBaseService<PageDTO, Page> implem
   public PageDTO getEntity(Long pageId, String localeCode) {
     PageDTO fetchedPage = super.getEntity(pageId);
     fetchedPage.setBody(
-        fileService.readFileContentFromSystem(
-            fetchedPage.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+      fileService.readFileContentFromSystem(
+        fetchedPage.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setFooter(fileService.readFileContentFromSystem(
-        fetchedPage.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+      fetchedPage.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setHeader(fileService.readFileContentFromSystem(
-        fetchedPage.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+      fetchedPage.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setMeta(fileService.readFileContentFromSystem(
-        fetchedPage.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+      fetchedPage.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setAmp(fileService
-        .readFileContentFromSystem(
-            fetchedPage.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+      .readFileContentFromSystem(
+        fetchedPage.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     return fetchedPage;
   }
 
@@ -122,18 +122,23 @@ public class DefaultPageService extends DefaultBaseService<PageDTO, Page> implem
     }
     PageDTO fetchedPage = mapper.toDTO(page);
     fetchedPage.setBody(
-        fileService.readFileContentFromSystem(
-            fetchedPage.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+      fileService.readFileContentFromSystem(
+        fetchedPage.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setFooter(fileService.readFileContentFromSystem(
-        fetchedPage.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+      fetchedPage.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setHeader(fileService.readFileContentFromSystem(
-        fetchedPage.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+      fetchedPage.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setMeta(fileService.readFileContentFromSystem(
-        fetchedPage.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+      fetchedPage.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     fetchedPage.setAmp(fileService
-        .readFileContentFromSystem(
-            fetchedPage.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+      .readFileContentFromSystem(
+        fetchedPage.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     return fetchedPage;
+  }
+
+  @Override
+  public List<PageDTO> getPagesByHref(String href) {
+    return mapper.toListDTO(pageDAO.getPagesByHref(href));
   }
 
   @Override

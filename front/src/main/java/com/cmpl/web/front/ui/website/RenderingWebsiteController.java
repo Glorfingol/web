@@ -22,29 +22,29 @@ public class RenderingWebsiteController {
     this.displayFactory = Objects.requireNonNull(displayFactory);
   }
 
-  @GetMapping(value = "/sites/{websiteName}/pages/{pageName}")
+  @GetMapping(value = "/sites/{websiteName}/pages/{pageHref}")
   public ModelAndView printWebsitePage(@PathVariable(value = "websiteName") String websiteName,
-      @PathVariable(value = "pageName") String pageName,
-      @RequestParam(name = "p", required = false) Integer pageNumber,
-      @RequestParam(name = "q", required = false) String query,
-      Locale locale) {
+    @PathVariable(value = "pageHref") String pageHref,
+    @RequestParam(name = "p", required = false) Integer pageNumber,
+    @RequestParam(name = "q", required = false) String query,
+    Locale locale) {
 
-    LOGGER.info("Accès à la page {0} du site {1}", pageName, websiteName);
-    return displayFactory.computeModelAndViewForWebsitePage(websiteName, pageName, locale,
-        computePageNumberFromRequest(pageNumber), query);
+    LOGGER.info("Accès à la page {0} du site {1}", pageHref, websiteName);
+    return displayFactory.computeModelAndViewForWebsitePage(websiteName, pageHref, locale,
+      computePageNumberFromRequest(pageNumber), query);
 
   }
 
-  @GetMapping(value = "/sites/{websiteName}/amp/{pageName}")
+  @GetMapping(value = "/sites/{websiteName}/amp/{pageHref}")
   public ModelAndView printWebsiteAMPPage(@PathVariable(value = "websiteName") String websiteName,
-      @PathVariable(value = "pageName") String pageName,
-      @RequestParam(name = "p", required = false) Integer pageNumber,
-      @RequestParam(name = "q", required = false) String query,
-      Locale locale) {
+    @PathVariable(value = "pageHref") String pageHref,
+    @RequestParam(name = "p", required = false) Integer pageNumber,
+    @RequestParam(name = "q", required = false) String query,
+    Locale locale) {
 
-    LOGGER.info("Accès à la page {0} du site {1}", pageName, websiteName);
-    return displayFactory.computeModelAndViewForWebsiteAMP(websiteName, pageName, locale,
-        computePageNumberFromRequest(pageNumber), query);
+    LOGGER.info("Accès à la page {0} du site {1}", pageHref, websiteName);
+    return displayFactory.computeModelAndViewForWebsiteAMP(websiteName, pageHref, locale,
+      computePageNumberFromRequest(pageNumber), query);
 
   }
 

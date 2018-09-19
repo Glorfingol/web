@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class DefaultRenderingSitemapService implements RenderingSitemapService {
 
   private static final Logger LOGGER = LoggerFactory
-      .getLogger(DefaultRenderingSitemapService.class);
+    .getLogger(DefaultRenderingSitemapService.class);
 
   private final WebMessageSource messageSource;
 
@@ -47,7 +47,7 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
   private final SitemapService sitemapService;
 
   public DefaultRenderingSitemapService(WebMessageSource messageSource, PageService pageService,
-      WebsiteService websiteService, SitemapService sitemapService) {
+    WebsiteService websiteService, SitemapService sitemapService) {
     this.messageSource = Objects.requireNonNull(messageSource);
 
     this.pageService = Objects.requireNonNull(pageService);
@@ -80,11 +80,11 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
   }
 
   void writeSitemap(Path temporarySitemapFile, WebsiteDTO website, List<SitemapDTO> sitemapDTOS)
-      throws IOException {
+    throws IOException {
     String scheme = website.isSecure() ? "https://" : "http://";
     WebSitemapGenerator sitemap = WebSitemapGenerator
-        .builder(scheme + website.getName(), temporarySitemapFile.toFile())
-        .build();
+      .builder(scheme + website.getName(), temporarySitemapFile.toFile())
+      .build();
 
     List<WebSitemapUrl> menuUrls = computeMenuUrls(website, sitemapDTOS);
     sitemap.addUrls(menuUrls);
@@ -111,19 +111,19 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
 
   List<WebSitemapUrl> computeMenuUrls(WebsiteDTO website, List<SitemapDTO> sitemapDTOS) {
     List<Long> pagesId = sitemapDTOS.stream().map(sitemap -> sitemap.getPageId())
-        .collect(Collectors.toList());
+      .collect(Collectors.toList());
     return pageService.getEntities().stream()
-        .filter(page -> pagesId.contains(page.getId()))
-        .collect(Collectors.toList()).stream().map(page -> computeUrlForPage(website, page))
-        .collect(Collectors.toList());
+      .filter(page -> pagesId.contains(page.getId()))
+      .collect(Collectors.toList()).stream().map(page -> computeUrlForPage(website, page))
+      .collect(Collectors.toList());
   }
 
   WebSitemapUrl computeUrlForPage(WebsiteDTO website, PageDTO page) {
     try {
       String scheme = website.isSecure() ? "https://" : "http://";
-      return new WebSitemapUrl.Options(scheme + website.getName() + "/pages/" + page.getName())
-          .changeFreq(ChangeFreq.YEARLY)
-          .priority(1d).build();
+      return new WebSitemapUrl.Options(scheme + website.getName() + "/pages/" + page.getHref())
+        .changeFreq(ChangeFreq.YEARLY)
+        .priority(1d).build();
     } catch (MalformedURLException e) {
       LOGGER.error("URL malformée", e);
       return null;

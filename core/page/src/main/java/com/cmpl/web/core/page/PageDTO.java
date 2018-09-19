@@ -23,6 +23,8 @@ public class PageDTO extends BaseDTO {
 
   private String amp;
 
+  private String href;
+
   public String getName() {
     return name;
   }
@@ -77,5 +79,13 @@ public class PageDTO extends BaseDTO {
 
   public void setAmp(String amp) {
     this.amp = amp;
+  }
+
+  public String getHref() {
+    return href;
+  }
+
+  public void setHref(String href) {
+    this.href = href;
   }
 }

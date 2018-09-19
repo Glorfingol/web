@@ -15,6 +15,9 @@ public interface PageService extends BaseService<PageDTO> {
    */
   PageDTO getPageByName(String pageName, String localeCode);
 
+
+  List<PageDTO> getPagesByHref(String href);
+
   /**
    * Remonter toutes les pages
    */

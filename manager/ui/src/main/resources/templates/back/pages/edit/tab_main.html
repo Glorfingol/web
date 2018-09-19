@@ -9,6 +9,11 @@
     <input type="text" class="form-control" th:field="*{menuTitle}"/>
     <small class="form-text text-muted" th:text="#{page.menuTitle.help}"/>
   </div>
+  <div class="form-check form-group mb-3" id="formInputHref">
+    <label th:text="#{page.href.label}"/>
+    <input type="text" class="form-control" th:field="*{href}"/>
+    <small class="form-text text-muted" th:text="#{page.href.help}"/>
+  </div>
   <input type="hidden" th:field="*{id}"/>
   <input type="hidden" th:field="*{creationDate}"/>
   <input type="hidden" th:field="*{creationUser}"/>

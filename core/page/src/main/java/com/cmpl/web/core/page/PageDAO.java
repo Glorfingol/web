@@ -9,5 +9,7 @@ public interface PageDAO extends BaseDAO<Page> {
 
   Page getPageByName(String pageName);
 
+  List<Page> getPagesByHref(String href);
+
   List<Page> getPages(Sort sort);
 }

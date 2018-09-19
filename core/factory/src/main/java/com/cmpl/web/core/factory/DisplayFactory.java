@@ -14,12 +14,12 @@ public interface DisplayFactory {
   ModelAndView computeModelAndViewForBlogEntry(String blogEntryId, String widgetId, Locale locale);
 
   ModelAndView computeModelAndViewForWidget(String widgetName, Locale locale, int pageNumber,
-      String pageId, String query);
+    String pageId, String query);
 
-  ModelAndView computeModelAndViewForWebsitePage(String websiteName, String pageName, Locale locale,
-      int pageNumber, String query);
+  ModelAndView computeModelAndViewForWebsitePage(String websiteName, String pageHref, Locale locale,
+    int pageNumber, String query);
 
-  ModelAndView computeModelAndViewForWebsiteAMP(String websiteName, String pageName, Locale locale,
-      int pageNumber, String query);
+  ModelAndView computeModelAndViewForWebsiteAMP(String websiteName, String pageHref, Locale locale,
+    int pageNumber, String query);
 
 }
