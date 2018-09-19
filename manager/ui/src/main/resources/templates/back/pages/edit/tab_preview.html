@@ -17,7 +17,7 @@
 
 <script th:inline="javascript">
   var loadPreview = function (websiteName) {
-    var url = "/sites/" + websiteName + "/pages/" + [['' + ${updateForm.name} +'']];
+    var url = "/sites/" + websiteName + "/pages/" + [['' + ${updateForm.href} +'']];
     var iframe = $('<iframe src="' + url + '" frameborder="0" id="previewIframe"></iframe>');
     $("#previewContent").html(iframe)
   }
