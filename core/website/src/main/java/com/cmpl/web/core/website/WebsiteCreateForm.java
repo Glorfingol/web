@@ -7,10 +7,21 @@ public class WebsiteCreateForm {
   @NotBlank(message = "empty.website.name")
   private String name;
 
+  @NotBlank(message = "empty.website.extension")
+  private String extension;
+
   @NotBlank(message = "empty.website.description")
   private String description;
 
   private Boolean secure;
+
+  public String getExtension() {
+    return extension;
+  }
+
+  public void setExtension(String extension) {
+    this.extension = extension;
+  }
 
   public String getName() {
     return name;

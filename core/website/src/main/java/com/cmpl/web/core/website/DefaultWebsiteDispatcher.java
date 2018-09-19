@@ -1,8 +1,9 @@
 package com.cmpl.web.core.website;
 
-import com.cmpl.web.core.common.resource.BaseResponse;
 import java.util.Locale;
 import java.util.Objects;
+
+import com.cmpl.web.core.common.resource.BaseResponse;
 
 public class DefaultWebsiteDispatcher implements WebsiteDispatcher {
 
@@ -10,8 +11,7 @@ public class DefaultWebsiteDispatcher implements WebsiteDispatcher {
 
   private final WebsiteTranslator translator;
 
-  public DefaultWebsiteDispatcher(WebsiteService websiteService,
-      WebsiteTranslator websiteTranslator) {
+  public DefaultWebsiteDispatcher(WebsiteService websiteService, WebsiteTranslator websiteTranslator) {
     this.service = Objects.requireNonNull(websiteService);
     this.translator = Objects.requireNonNull(websiteTranslator);
   }
@@ -30,6 +30,7 @@ public class DefaultWebsiteDispatcher implements WebsiteDispatcher {
     websiteToUpdate.setSecure(form.getSecure());
     websiteToUpdate.setDescription(form.getDescription());
     websiteToUpdate.setName(form.getName());
+    websiteToUpdate.setExtension(form.getExtension());
 
     WebsiteDTO websiteUpdated = service.updateEntity(websiteToUpdate);
 

@@ -1,13 +1,16 @@
 package com.cmpl.web.core.website;
 
-import com.cmpl.web.core.common.builder.Builder;
 import java.time.LocalDateTime;
+
+import com.cmpl.web.core.common.builder.Builder;
 
 public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
 
   private String name;
 
   private String description;
+
+  private String extension;
 
   private boolean secure;
 
@@ -27,6 +30,11 @@ public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
 
   public WebsiteUpdateFormBuilder name(String name) {
     this.name = name;
+    return this;
+  }
+
+  public WebsiteUpdateFormBuilder extension(String extension) {
+    this.extension = extension;
     return this;
   }
 
@@ -76,6 +84,7 @@ public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
     form.setModificationDate(modificationDate);
     form.setCreationUser(creationUser);
     form.setModificationUser(modificationUser);
+    form.setExtension(extension);
     return form;
   }
 

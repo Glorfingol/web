@@ -14,8 +14,19 @@ public class Website extends BaseEntity {
   @Column(name = "description")
   private String description;
 
+  @Column(name = "extension")
+  private String extension;
+
   @Column(name = "is_secure")
   private boolean secure;
+
+  public String getExtension() {
+    return extension;
+  }
+
+  public void setExtension(String extension) {
+    this.extension = extension;
+  }
 
   public String getName() {
     return name;

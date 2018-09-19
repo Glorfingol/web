@@ -9,6 +9,8 @@ public class WebsiteBuilder extends BaseBuilder<Website> {
 
   private String description;
 
+  private String extension;
+
   private boolean secure;
 
   private WebsiteBuilder() {
@@ -17,6 +19,11 @@ public class WebsiteBuilder extends BaseBuilder<Website> {
 
   public WebsiteBuilder name(String name) {
     this.name = name;
+    return this;
+  }
+
+  public WebsiteBuilder extension(String extension) {
+    this.extension = extension;
     return this;
   }
 
@@ -36,6 +43,7 @@ public class WebsiteBuilder extends BaseBuilder<Website> {
     website.setDescription(description);
     website.setName(name);
     website.setSecure(secure);
+    website.setExtension(extension);
     return website;
   }
 
