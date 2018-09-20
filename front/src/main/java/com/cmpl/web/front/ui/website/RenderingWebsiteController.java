@@ -29,7 +29,7 @@ public class RenderingWebsiteController {
     @RequestParam(name = "q", required = false) String query,
     Locale locale) {
 
-    LOGGER.info("Accès à la page {0} du site {1}", pageHref, websiteName);
+    LOGGER.info("Accès à la page {} du site {}", pageHref, websiteName);
     return displayFactory.computeModelAndViewForWebsitePage(websiteName, pageHref, locale,
       computePageNumberFromRequest(pageNumber), query);
 
@@ -42,7 +42,7 @@ public class RenderingWebsiteController {
     @RequestParam(name = "q", required = false) String query,
     Locale locale) {
 
-    LOGGER.info("Accès à la page {0} du site {1}", pageHref, websiteName);
+    LOGGER.info("Accès à la page {} du site {}", pageHref, websiteName);
     return displayFactory.computeModelAndViewForWebsiteAMP(websiteName, pageHref, locale,
       computePageNumberFromRequest(pageNumber), query);
 
