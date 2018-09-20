@@ -29,7 +29,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public abstract class DefaultBaseDAO<ENTITY extends BaseEntity> extends QuerydslRepositorySupport
-    implements BaseDAO<ENTITY> {
+  implements BaseDAO<ENTITY> {
 
   private final BaseRepository<ENTITY> entityRepository;
 
@@ -38,7 +38,7 @@ public abstract class DefaultBaseDAO<ENTITY extends BaseEntity> extends Querydsl
   private final Class<ENTITY> entityClass;
 
   public DefaultBaseDAO(Class<ENTITY> domainClass, BaseRepository<ENTITY> entityRepository,
-      ApplicationEventPublisher publisher) {
+    ApplicationEventPublisher publisher) {
     super(domainClass);
 
     this.entityClass = domainClass;
@@ -76,8 +76,13 @@ public abstract class DefaultBaseDAO<ENTITY extends BaseEntity> extends Querydsl
 
   @Override
   public List<ENTITY> getEntities() {
+    Predicate securedPredicate = getSecuredPredicate();
+    if (securedPredicate == null) {
+      Lists.newArrayList(
+        entityRepository.findAll(Sort.by(Direction.ASC, "creationDate")));
+    }
     return Lists.newArrayList(
-        entityRepository.findAll(getSecuredPredicate(), Sort.by(Direction.ASC, "creationDate")));
+      entityRepository.findAll(getSecuredPredicate(), Sort.by(Direction.ASC, "creationDate")));
   }
 
   @Override
@@ -111,21 +116,21 @@ public abstract class DefaultBaseDAO<ENTITY extends BaseEntity> extends Querydsl
   }
 
   private Predicate getDefaultAllPredicate(Class entityClass, Authentication auth,
-      List<Long> groupIds) {
+    List<Long> groupIds) {
     QMembership subQ = QMembership.membership;
 
     String entityPathName = entityClass.getSimpleName().substring(0, 1).toLowerCase()
-        + entityClass.getSimpleName().substring(1);
+      + entityClass.getSimpleName().substring(1);
 
     Path<? extends BaseEntity> entityPath = Expressions.path(entityClass, entityPathName);
 
     QBaseEntity boEntityPath = new QBaseEntity(entityPath);
     return boEntityPath.creationUser.eq(auth.getName())
-        .or(boEntityPath.id
-            .in(new JPAQuery<>().from(subQ).select(subQ.entityId).where(subQ.groupId.in(groupIds))
-                .distinct()))
-        .or(new JPAQuery<>().from(subQ).select(subQ.id).where(subQ.entityId.eq(boEntityPath.id))
-            .isNull());
+      .or(boEntityPath.id
+        .in(new JPAQuery<>().from(subQ).select(subQ.entityId).where(subQ.groupId.in(groupIds))
+          .distinct()))
+      .or(new JPAQuery<>().from(subQ).select(subQ.id).where(subQ.entityId.eq(boEntityPath.id))
+        .isNull());
   }
 
   @Override
@@ -133,7 +138,7 @@ public abstract class DefaultBaseDAO<ENTITY extends BaseEntity> extends Querydsl
 
     BooleanExpression securedPredicate = (BooleanExpression) getSecuredPredicate();
     Predicate searchPredicate = securedPredicate == null ? computeSearchPredicate(query)
-        : securedPredicate.and(computeSearchPredicate(query));
+      : securedPredicate.and(computeSearchPredicate(query));
 
     return entityRepository.findAll(searchPredicate, pageRequest);
   }
