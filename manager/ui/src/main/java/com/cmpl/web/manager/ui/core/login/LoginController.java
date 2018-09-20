@@ -5,8 +5,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -63,9 +61,9 @@ public class LoginController {
 
   @PostMapping(value = "/forgotten_password")
   @ResponseBody
-  public ResponseEntity handleForgottenPassword(@RequestBody String email, Locale locale) {
+  public ModelAndView handleForgottenPassword(@RequestBody String email, Locale locale) {
     userDispatcher.sendChangePasswordLink(email, locale);
-    return new ResponseEntity<>(HttpStatus.OK);
+    return displayFactory.computeModelAndViewForBackPage(computeBackPage("LOGIN"), Locale.FRANCE);
   }
 
   @GetMapping(value = "/change_password")
