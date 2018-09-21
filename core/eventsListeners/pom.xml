@@ -31,6 +31,32 @@
       <artifactId>cmpl-web-core-widget</artifactId>
       <version>${cmpl.web.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-sitemap</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-group</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-style</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-designs</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cmpl</groupId>
+      <artifactId>cmpl-web-core-membership</artifactId>
+      <version>${cmpl.web.version}</version>
+    </dependency>
+
   </dependencies>
 
 

@@ -1,24 +1,14 @@
 package com.cmpl.web.core.sitemap;
 
-import java.util.Locale;
+import com.cmpl.web.core.common.service.BaseService;
+import java.util.List;
 
-import com.cmpl.web.core.common.exception.BaseException;
+public interface SitemapService extends BaseService<SitemapDTO> {
 
-/**
- * Interface gerant le sitemap
- * 
- * @author Louis
- *
- */
-public interface SitemapService {
+  List<SitemapDTO> findByWebsiteId(Long websiteId);
 
-  /**
-   * Creer un sitemap et renvoyer le contenu dans un String
-   * 
-   * @param locale
-   * @return
-   * @throws BaseException
-   */
-  String createSiteMap(Locale locale) throws BaseException;
+  List<SitemapDTO> findByPageId(Long pageId);
+
+  SitemapDTO findByWebsiteIdAndPageId(Long websiteId, Long pageId);
 
 }

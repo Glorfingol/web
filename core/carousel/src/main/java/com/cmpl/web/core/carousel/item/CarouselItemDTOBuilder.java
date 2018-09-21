@@ -6,7 +6,9 @@ import com.cmpl.web.core.media.MediaDTO;
 public class CarouselItemDTOBuilder extends BaseBuilder<CarouselItemDTO> {
 
   private MediaDTO media;
+
   private String carouselId;
+
   private int orderInCarousel;
 
   private CarouselItemDTOBuilder() {

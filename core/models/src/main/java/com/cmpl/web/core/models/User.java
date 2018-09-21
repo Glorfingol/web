@@ -1,7 +1,6 @@
 package com.cmpl.web.core.models;
 
 import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;

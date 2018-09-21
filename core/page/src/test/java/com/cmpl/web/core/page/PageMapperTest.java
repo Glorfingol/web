@@ -1,15 +1,13 @@
 package com.cmpl.web.core.page;
 
+import com.cmpl.web.core.models.Page;
 import java.util.Arrays;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.cmpl.web.core.models.Page;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PageMapperTest {
@@ -21,7 +19,8 @@ public class PageMapperTest {
   public void testToDTO() throws Exception {
     Page entity = PageBuilder.create().build();
 
-    BDDMockito.doNothing().when(mapper).fillObject(BDDMockito.any(Page.class), BDDMockito.any(PageDTO.class));
+    BDDMockito.doNothing().when(mapper)
+        .fillObject(BDDMockito.any(Page.class), BDDMockito.any(PageDTO.class));
     mapper.toDTO(entity);
 
     BDDMockito.verify(mapper, BDDMockito.times(1)).fillObject(BDDMockito.any(Page.class),
@@ -32,7 +31,8 @@ public class PageMapperTest {
   public void testToEntity() throws Exception {
     PageDTO dto = PageDTOBuilder.create().build();
 
-    BDDMockito.doNothing().when(mapper).fillObject(BDDMockito.any(PageDTO.class), BDDMockito.any(Page.class));
+    BDDMockito.doNothing().when(mapper)
+        .fillObject(BDDMockito.any(PageDTO.class), BDDMockito.any(Page.class));
     mapper.toEntity(dto);
 
     BDDMockito.verify(mapper, BDDMockito.times(1)).fillObject(BDDMockito.any(PageDTO.class),

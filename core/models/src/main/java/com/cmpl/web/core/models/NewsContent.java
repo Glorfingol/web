@@ -6,15 +6,14 @@ import javax.persistence.Table;
 
 /**
  * DAO NewsContent
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Entity(name = "newsContent")
 @Table(name = "news_content")
 public class NewsContent extends BaseEntity {
 
-  @Column(name = "content", length = 21844)
+  @Column(name = "content", columnDefinition = "blob")
   private String content;
 
   @Column(name = "videoUrl")

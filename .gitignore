@@ -37,3 +37,5 @@ core/responsibility/target/maven-archiver/pom.properties
 core/group/target/
 core/membership/target/
 core/website/target/
+core/audit/target/
+core/design/target/

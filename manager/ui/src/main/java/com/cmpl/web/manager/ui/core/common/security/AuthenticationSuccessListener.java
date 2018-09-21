@@ -1,8 +1,9 @@
 package com.cmpl.web.manager.ui.core.common.security;
 
+import com.cmpl.web.core.common.user.BackUser;
+import com.cmpl.web.manager.ui.core.administration.user.CurrentUser;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
@@ -10,12 +11,11 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
-import com.cmpl.web.core.common.user.BackUser;
-import com.cmpl.web.manager.ui.core.administration.user.CurrentUser;
-
-public class AuthenticationSuccessListener implements ApplicationListener<AuthenticationSuccessEvent> {
+public class AuthenticationSuccessListener implements
+    ApplicationListener<AuthenticationSuccessEvent> {
 
   private final LoginAttemptsService loginAttemptService;
+
   private final RedirectStrategy redirectStrategy;
 
   public AuthenticationSuccessListener(LoginAttemptsService loginAttemptService) {

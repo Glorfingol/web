@@ -6,12 +6,21 @@ public class PageCreateForm {
 
   @NotBlank(message = "empty.name")
   private String name = "";
+
   @NotBlank(message = "empty.menuTitle")
   private String menuTitle = "";
+
   private String body = "";
+
   private String header = "";
+
   private String footer = "";
+
   private String meta = "";
+
+  @NotBlank(message = "empty.href")
+  private String href = "";
+
   private String localeCode;
 
   public String getName() {
@@ -68,5 +77,13 @@ public class PageCreateForm {
 
   public void setLocaleCode(String localeCode) {
     this.localeCode = localeCode;
+  }
+
+  public String getHref() {
+    return href;
+  }
+
+  public void setHref(String href) {
+    this.href = href;
   }
 }

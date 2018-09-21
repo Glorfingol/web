@@ -6,8 +6,10 @@ public class UserCreateForm {
 
   @NotBlank(message = "empty.user.login")
   private String login;
+
   @NotBlank(message = "empty.user.email")
   private String email;
+
   private String description;
 
   public String getLogin() {

@@ -5,12 +5,21 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 public class PageDTOBuilder extends BaseBuilder<PageDTO> {
 
   private String name;
+
   private String menuTitle;
+
   private String body;
+
   private String header;
+
   private String footer;
+
   private String meta;
+
   private String amp;
+
+  private String href;
+
 
   private PageDTOBuilder() {
 
@@ -18,6 +27,11 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
 
   public PageDTOBuilder name(String name) {
     this.name = name;
+    return this;
+  }
+
+  public PageDTOBuilder href(String href) {
+    this.href = href;
     return this;
   }
 
@@ -55,6 +69,8 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
   public PageDTO build() {
     PageDTO pageDTO = new PageDTO();
     pageDTO.setBody(body);
+
+    pageDTO.setHref(href);
 
     pageDTO.setFooter(footer);
     pageDTO.setMeta(meta);

@@ -1,7 +1,14 @@
 package com.cmpl.web.configuration.core.common;
 
+import com.cmpl.web.core.common.context.ContextHolder;
+import com.cmpl.web.core.common.user.Privilege;
+import com.cmpl.web.core.membership.MembershipService;
+import com.cmpl.web.core.responsibility.ResponsibilityService;
+import com.cmpl.web.core.role.RoleService;
+import com.cmpl.web.core.user.UserService;
+import com.cmpl.web.manager.ui.core.administration.user.DefaultLastConnectionUpdateAuthenticationSuccessHandler;
+import com.cmpl.web.manager.ui.core.common.security.DefaultCurrentUserDetailsService;
 import java.time.format.DateTimeFormatter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,20 +20,10 @@ import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.plugin.core.config.EnablePluginRegistries;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.cmpl.web.core.common.context.ContextHolder;
-import com.cmpl.web.core.common.user.Privilege;
-import com.cmpl.web.core.membership.MembershipService;
-import com.cmpl.web.core.responsibility.ResponsibilityService;
-import com.cmpl.web.core.role.RoleService;
-import com.cmpl.web.core.user.UserService;
-import com.cmpl.web.manager.ui.core.administration.user.LastConnectionUpdateAuthenticationSuccessHandlerImpl;
-import com.cmpl.web.manager.ui.core.common.security.CurrentUserDetailsServiceImpl;
-
 /**
  * COnfiguration du contextHolder a partir de donnes du fichier yaml
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Configuration
 @PropertySource("classpath:/core/core.properties")
@@ -39,9 +36,6 @@ public class ContextConfiguration {
   @Value("${mediaBasePath}")
   String mediaBasePath;
 
-  @Value("${websiteUrl}")
-  String websiteUrl;
-
   @Bean
   public ContextHolder contextHolder() {
 
@@ -53,7 +47,7 @@ public class ContextConfiguration {
     contextHolder.setElementsPerPage(10);
     contextHolder.setTemplateBasePath(templateBasePath);
     contextHolder.setMediaBasePath(mediaBasePath);
-    contextHolder.setWebsiteUrl(websiteUrl);
+
     return contextHolder;
 
   }
@@ -63,16 +57,17 @@ public class ContextConfiguration {
   private PluginRegistry<Privilege, String> privileges;
 
   @Bean
-  public LastConnectionUpdateAuthenticationSuccessHandlerImpl lastConnectionUpdateAuthenticationSuccessHandler(
+  public DefaultLastConnectionUpdateAuthenticationSuccessHandler lastConnectionUpdateAuthenticationSuccessHandler(
       UserService userService) {
-    return new LastConnectionUpdateAuthenticationSuccessHandlerImpl(userService);
+    return new DefaultLastConnectionUpdateAuthenticationSuccessHandler(userService);
   }
 
   @Bean
   @Primary
   public UserDetailsService dbUserDetailsService(UserService userService, RoleService roleService,
       ResponsibilityService responsibilityService, MembershipService membershipService) {
-    return new CurrentUserDetailsServiceImpl(userService, roleService, responsibilityService, membershipService);
+    return new DefaultCurrentUserDetailsService(userService, roleService, responsibilityService,
+        membershipService);
   }
 
 }

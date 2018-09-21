@@ -1,5 +1,6 @@
 package com.cmpl.web.backup.writer;
 
+import com.cmpl.web.core.models.BaseEntity;
 import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
@@ -11,21 +12,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
+import java.util.stream.Collectors;
 import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import com.cmpl.web.core.models.BaseEntity;
-
 public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CommonWriter.class);
 
   private final DateTimeFormatter dateFormatter;
+
   private final DataManipulator<T> dataManipulator;
+
   private final String backupFilePath;
 
   public CommonWriter() {
@@ -34,7 +35,8 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
     backupFilePath = null;
   }
 
-  public CommonWriter(DateTimeFormatter dateFormatter, DataManipulator<T> dataManipulator, String backupFilePath) {
+  public CommonWriter(DateTimeFormatter dateFormatter, DataManipulator<T> dataManipulator,
+      String backupFilePath) {
     this.dateFormatter = Objects.requireNonNull(dateFormatter);
     this.dataManipulator = Objects.requireNonNull(dataManipulator);
     this.backupFilePath = Objects.requireNonNull(backupFilePath);
@@ -67,10 +69,9 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
   }
 
   protected List<String> parseEntityToListString(T entityToWrite) {
-
-    List<String> records = new ArrayList<>();
-    getFields(entityToWrite.getClass()).forEach(field -> records.add(parseObjectValueToString(field, entityToWrite)));
-    return records;
+    return getFields(entityToWrite.getClass()).stream()
+        .map(field -> parseObjectValueToString(field, entityToWrite))
+        .collect(Collectors.toList());
 
   }
 
@@ -107,7 +108,9 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
 
       return parseObject(field, entityToWrite);
     } catch (Exception e) {
-      LOGGER.error("Impossible de parser le field : " + field.getName() + " pour l'objet : " + entityToWrite.getClass(),
+      LOGGER.error(
+          "Impossible de parser le field : " + field.getName() + " pour l'objet : " + entityToWrite
+              .getClass(),
           e);
     }
 

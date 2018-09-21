@@ -3,11 +3,17 @@ package com.cmpl.web.core.menu;
 public class BackMenuItem implements BackMenuItemPlugin {
 
   private String title;
+
   private String label;
+
   private String href;
+
   private int order;
+
   private String iconClass;
+
   private BackMenuItem parent;
+
   private String privilege;
 
   public String getTitle() {

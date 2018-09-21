@@ -2,16 +2,17 @@ package com.cmpl.web.configuration.manager.ui;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.plugin.core.PluginRegistry;
 
 import com.cmpl.web.core.carousel.CarouselDispatcher;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
+import com.cmpl.web.core.design.DesignDispatcher;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
 import com.cmpl.web.core.factory.group.GroupManagerDisplayFactory;
 import com.cmpl.web.core.factory.index.IndexDisplayFactory;
 import com.cmpl.web.core.factory.login.LoginDisplayFactory;
 import com.cmpl.web.core.factory.media.MediaManagerDisplayFactory;
-import com.cmpl.web.core.factory.menu.MenuManagerDisplayFactory;
 import com.cmpl.web.core.factory.news.NewsManagerDisplayFactory;
 import com.cmpl.web.core.factory.page.PageManagerDisplayFactory;
 import com.cmpl.web.core.factory.role.RoleManagerDisplayFactory;
@@ -22,11 +23,12 @@ import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
 import com.cmpl.web.core.group.GroupDispatcher;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.membership.MembershipDispatcher;
-import com.cmpl.web.core.menu.MenuDispatcher;
 import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
+import com.cmpl.web.core.page.BackPage;
 import com.cmpl.web.core.page.PageDispatcher;
 import com.cmpl.web.core.responsibility.ResponsibilityDispatcher;
 import com.cmpl.web.core.role.RoleDispatcher;
+import com.cmpl.web.core.sitemap.SitemapDispatcher;
 import com.cmpl.web.core.style.StyleDispatcher;
 import com.cmpl.web.core.user.UserDispatcher;
 import com.cmpl.web.core.website.WebsiteDispatcher;
@@ -41,10 +43,11 @@ import com.cmpl.web.manager.ui.core.administration.user.UserManagerController;
 import com.cmpl.web.manager.ui.core.index.IndexManagerController;
 import com.cmpl.web.manager.ui.core.login.LoginController;
 import com.cmpl.web.manager.ui.core.webmastering.carousel.CarouselManagerController;
+import com.cmpl.web.manager.ui.core.webmastering.design.DesignManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.media.MediaManagerController;
-import com.cmpl.web.manager.ui.core.webmastering.menu.MenuManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.news.NewsManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.page.PageManagerController;
+import com.cmpl.web.manager.ui.core.webmastering.sitemap.SitemapManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.style.StyleManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.website.WebsiteManagerController;
 import com.cmpl.web.manager.ui.core.webmastering.widget.WidgetManagerController;
@@ -69,13 +72,15 @@ public class BackControllerConfiguration {
   }
 
   @Bean
-  public IndexManagerController indexManagerController(IndexDisplayFactory indexDisplayFactory) {
-    return new IndexManagerController(indexDisplayFactory);
+  public IndexManagerController indexManagerController(IndexDisplayFactory indexDisplayFactory,
+      PluginRegistry<BackPage, String> backPages) {
+    return new IndexManagerController(indexDisplayFactory, backPages);
   }
 
   @Bean
-  public LoginController loginController(LoginDisplayFactory loginDisplayFactory, UserDispatcher userDispatcher) {
-    return new LoginController(loginDisplayFactory, userDispatcher);
+  public LoginController loginController(LoginDisplayFactory loginDisplayFactory, UserDispatcher userDispatcher,
+      PluginRegistry<BackPage, String> backPages, WebMessageSource messageSource) {
+    return new LoginController(loginDisplayFactory, userDispatcher, backPages, messageSource);
   }
 
   @Bean
@@ -83,12 +88,6 @@ public class BackControllerConfiguration {
       MediaManagerDisplayFactory mediaManagerDisplayFactory, NotificationCenter notificationCenter,
       WebMessageSource messageSource) {
     return new MediaManagerController(mediaService, mediaManagerDisplayFactory, notificationCenter, messageSource);
-  }
-
-  @Bean
-  public MenuManagerController menuManagerController(MenuDispatcher dispatcher,
-      MenuManagerDisplayFactory displayFactory, NotificationCenter notificationCenter, WebMessageSource messageSource) {
-    return new MenuManagerController(dispatcher, displayFactory, notificationCenter, messageSource);
   }
 
   @Bean
@@ -164,5 +163,17 @@ public class BackControllerConfiguration {
       WebsiteManagerDisplayFactory websiteManagerDisplayFactory) {
     return new WebsiteManagerController(websiteDispatcher, websiteManagerDisplayFactory, notificationCenter,
         messageSource);
+  }
+
+  @Bean
+  public DesignManagerController designManagerController(DesignDispatcher designDispatcher,
+      NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    return new DesignManagerController(designDispatcher, notificationCenter, messageSource);
+  }
+
+  @Bean
+  public SitemapManagerController sitemapManagerController(SitemapDispatcher sitemapDispatcher,
+      NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    return new SitemapManagerController(sitemapDispatcher, notificationCenter, messageSource);
   }
 }

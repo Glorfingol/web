@@ -4,9 +4,8 @@ import com.cmpl.web.core.common.service.BaseService;
 
 /**
  * Interface pour la gestion de NewsContent
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public interface NewsContentService extends BaseService<NewsContentDTO> {
 

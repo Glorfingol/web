@@ -20,7 +20,8 @@
         <span th:text="#{language.select}"></span>
       </a>
       <div class="dropdown-menu dropdown-menu-right">
-        <a th:each="locale : ${locales}" class="dropdown-item" th:href="${'?lang=' + locale.language}">
+        <a th:each="locale : ${locales}" class="dropdown-item"
+           th:href="${'?lang=' + locale.language}">
           <span th:text="${locale.displayLanguage}"></span>
         </a>
       </div>

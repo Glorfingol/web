@@ -1,17 +1,16 @@
 package com.cmpl.web.backup.reader;
 
+import com.cmpl.web.backup.writer.DataManipulator;
+import com.cmpl.web.core.models.WidgetPage;
 import java.lang.reflect.Field;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 import org.apache.commons.csv.CSVRecord;
-
-import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.models.WidgetPage;
 
 public class WidgetPageCSVParser extends CommonParser<WidgetPage> {
 
-  public WidgetPageCSVParser(DateTimeFormatter dateFormatter, DataManipulator<WidgetPage> dataManipulator,
+  public WidgetPageCSVParser(DateTimeFormatter dateFormatter,
+      DataManipulator<WidgetPage> dataManipulator,
       String backupFilePath) {
     super(dateFormatter, dataManipulator, backupFilePath);
   }

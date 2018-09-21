@@ -1,13 +1,14 @@
 package com.cmpl.web.core.common.notification;
 
 import java.util.List;
-
 import org.springframework.validation.FieldError;
 
 public class Notification {
 
   private String type;
+
   private String content;
+
   private List<FieldError> errors;
 
   public String getType() {

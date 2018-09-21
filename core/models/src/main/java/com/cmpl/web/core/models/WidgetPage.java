@@ -10,10 +10,10 @@ import javax.persistence.Table;
     @Index(name = "IDX_WIDGET_PAGE", columnList = "page_id,widget_id", unique = true)})
 public class WidgetPage extends BaseEntity {
 
-  @Column(name = "page_id", nullable = false)
+  @Column(name = "page_id", nullable = false, length = 20)
   private String pageId;
 
-  @Column(name = "widget_id", nullable = false)
+  @Column(name = "widget_id", nullable = false, length = 20)
   private String widgetId;
 
   public String getPageId() {

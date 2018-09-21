@@ -192,6 +192,12 @@ function handleErrorPutResult(loader, cardLoader, form) {
 
 function fix_height() {
   $('#page-wrapper').css("min-height", $(window).height() - 60 + "px");
+
+}
+
+function fix_code_mirror_height() {
+  $('.CodeMirror').css("min-height",
+      $(window).height() - $(window).height() / 2.5 + "px");
 }
 
 function handleDeleteSuccess(urlFallBack) {
@@ -200,7 +206,7 @@ function handleDeleteSuccess(urlFallBack) {
 
 function handleDeleteError(error, form, cardLoader, loader) {
   $.notify({message: "INTERNAL SERVER ERROR"}, {type: 'danger'});
-  formToToggle.show();
+  form.show();
   loader.hide();
   cardLoader.hide();
 }

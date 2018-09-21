@@ -2,22 +2,26 @@ package com.cmpl.web.core.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 /**
  * DAO Page
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Entity(name = "page")
-@Table(name = "page")
+@Table(name = "page", indexes = {@Index(name = "IDX_HREF", columnList = "href")})
 public class Page extends BaseEntity {
 
   @Column(name = "name", unique = true)
   private String name;
+
   @Column(name = "menu_title")
   private String menuTitle;
+
+  @Column(name = "href")
+  private String href;
 
   public String getName() {
     return name;
@@ -35,4 +39,11 @@ public class Page extends BaseEntity {
     this.menuTitle = menuTitle;
   }
 
+  public String getHref() {
+    return href;
+  }
+
+  public void setHref(String href) {
+    this.href = href;
+  }
 }

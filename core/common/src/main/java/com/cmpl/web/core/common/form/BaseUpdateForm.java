@@ -1,20 +1,22 @@
 package com.cmpl.web.core.common.form;
 
+import com.cmpl.web.core.common.dto.BaseDTO;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.cmpl.web.core.common.dto.BaseDTO;
 
 public class BaseUpdateForm<DTO extends BaseDTO> {
 
   private Long id;
+
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime creationDate;
+
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
 
   public BaseUpdateForm() {

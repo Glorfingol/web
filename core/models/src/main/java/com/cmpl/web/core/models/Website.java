@@ -14,6 +14,20 @@ public class Website extends BaseEntity {
   @Column(name = "description")
   private String description;
 
+  @Column(name = "extension")
+  private String extension;
+
+  @Column(name = "is_secure")
+  private boolean secure;
+
+  public String getExtension() {
+    return extension;
+  }
+
+  public void setExtension(String extension) {
+    this.extension = extension;
+  }
+
   public String getName() {
     return name;
   }
@@ -28,5 +42,13 @@ public class Website extends BaseEntity {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public boolean isSecure() {
+    return secure;
+  }
+
+  public void setSecure(boolean secure) {
+    this.secure = secure;
   }
 }

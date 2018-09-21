@@ -1,31 +1,30 @@
 package com.cmpl.web.configuration.manager.privileges;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import com.cmpl.web.core.common.user.Privilege;
 import com.cmpl.web.core.common.user.SimplePrivilege;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class WebsitePrivilegeConfiguration {
 
   @Bean
-  public Privilege rolesReadPrivilege() {
+  public Privilege websitesReadPrivilege() {
     return new SimplePrivilege("webmastering", "websites", "read");
   }
 
   @Bean
-  public Privilege rolesWritePrivilege() {
+  public Privilege websitesWritePrivilege() {
     return new SimplePrivilege("webmastering", "websites", "write");
   }
 
   @Bean
-  public Privilege rolesCreatePrivilege() {
+  public Privilege websitesCreatePrivilege() {
     return new SimplePrivilege("webmastering", "websites", "create");
   }
 
   @Bean
-  public Privilege rolesDeletePrivilege() {
+  public Privilege websitesDeletePrivilege() {
     return new SimplePrivilege("webmastering", "websites", "delete");
   }
 }

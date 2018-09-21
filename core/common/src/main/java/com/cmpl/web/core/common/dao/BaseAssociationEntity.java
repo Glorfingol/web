@@ -1,11 +1,11 @@
 package com.cmpl.web.core.common.dao;
 
+import com.cmpl.web.core.models.BaseEntity;
 import javax.persistence.MappedSuperclass;
 
-import com.cmpl.web.core.models.BaseEntity;
-
 @MappedSuperclass
-public abstract class BaseAssociationEntity<A extends BaseEntity, B extends BaseEntity> extends BaseEntity {
+public abstract class BaseAssociationEntity<A extends BaseEntity, B extends BaseEntity> extends
+    BaseEntity {
 
   public abstract A getA();
 

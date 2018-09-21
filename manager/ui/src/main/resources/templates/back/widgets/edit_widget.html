@@ -53,6 +53,7 @@
         currentTab = "personalization";
         prepareDragAndDrop();
         codeMirrorPersonalization = setUpCodeMirror("widgetPersonalization");
+        fix_code_mirror_height();
       });
     }
   };
@@ -82,7 +83,7 @@
 
   var setUpCodeMirror = function (textAreaId) {
     var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
-        {theme: "neo", lineNumbers: true});
+        {theme: "neo", lineNumbers: true, lineWrapping: true});
     codeMirror.on("drop", function (editor, e) {
       var dataTransferred = e.dataTransfer.getData("text/html");
       var newDiv = getMacroHtml(dataTransferred);

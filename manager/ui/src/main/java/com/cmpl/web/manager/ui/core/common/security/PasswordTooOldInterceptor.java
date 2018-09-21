@@ -1,24 +1,22 @@
 package com.cmpl.web.manager.ui.core.common.security;
 
+import com.cmpl.web.core.user.UserDTO;
+import com.cmpl.web.core.user.UserService;
+import com.cmpl.web.manager.ui.core.administration.user.CurrentUser;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.cmpl.web.core.user.UserDTO;
-import com.cmpl.web.core.user.UserService;
-import com.cmpl.web.manager.ui.core.administration.user.CurrentUser;
-
 public class PasswordTooOldInterceptor extends HandlerInterceptorAdapter {
 
   private final RedirectStrategy redirectStrategy;
+
   private final UserService userService;
 
   public PasswordTooOldInterceptor(UserService userService) {
@@ -28,7 +26,8 @@ public class PasswordTooOldInterceptor extends HandlerInterceptorAdapter {
   }
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+      throws Exception {
 
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication.getPrincipal() instanceof CurrentUser) {

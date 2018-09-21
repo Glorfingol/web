@@ -1,8 +1,7 @@
 package com.cmpl.web.core.widget.page;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.service.BaseService;
+import java.util.List;
 
 public interface WidgetPageService extends BaseService<WidgetPageDTO> {
 

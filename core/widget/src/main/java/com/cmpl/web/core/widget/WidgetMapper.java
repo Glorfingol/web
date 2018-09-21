@@ -7,6 +7,9 @@ public class WidgetMapper extends BaseMapper<WidgetDTO, Widget> {
 
   @Override
   public WidgetDTO toDTO(Widget entity) {
+    if (entity == null) {
+      return null;
+    }
     WidgetDTO dto = WidgetDTOBuilder.create().build();
     fillObject(entity, dto);
     return dto;

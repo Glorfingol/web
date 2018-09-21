@@ -1,12 +1,12 @@
 package com.cmpl.web.core.common.notification;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -14,13 +14,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import com.cmpl.web.core.common.message.WebMessageSource;
-
 public class NotificationCenter {
 
   private final SimpMessagingTemplate template;
+
   private final WebMessageSource messageSource;
+
   private static final String WEBSOCKET_DOMAIN = "/notifications";
+
   private static final Logger LOGGER = LoggerFactory.getLogger(NotificationCenter.class);
 
   public NotificationCenter(SimpMessagingTemplate template, WebMessageSource messageSource) {
@@ -43,7 +44,8 @@ public class NotificationCenter {
       notificationType = "danger";
     }
 
-    senNotificationViaExecutor(NotificationBuilder.create().content(messageToSend).type(notificationType).build());
+    senNotificationViaExecutor(
+        NotificationBuilder.create().content(messageToSend).type(notificationType).build());
   }
 
   public void sendNotification(String type, String content, List<FieldError> errors) {
@@ -53,7 +55,8 @@ public class NotificationCenter {
     }
 
     senNotificationViaExecutor(
-        NotificationBuilder.create().content(content).errors(errors).type(notificationType).build());
+        NotificationBuilder.create().content(content).errors(errors).type(notificationType)
+            .build());
   }
 
   private void senNotificationViaExecutor(Notification notification) {

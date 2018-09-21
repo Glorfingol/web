@@ -5,7 +5,9 @@ import com.cmpl.web.core.common.builder.Builder;
 public class ChangePasswordFormBuilder extends Builder<ChangePasswordForm> {
 
   private String password;
+
   private String confirmation;
+
   private String token;
 
   private ChangePasswordFormBuilder() {

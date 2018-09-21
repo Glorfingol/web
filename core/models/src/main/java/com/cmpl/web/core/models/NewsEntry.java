@@ -6,9 +6,8 @@ import javax.persistence.Table;
 
 /**
  * DAO NewsEntry
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Entity(name = "newsEntry")
 @Table(name = "news_entry")
@@ -16,14 +15,19 @@ public class NewsEntry extends BaseEntity {
 
   @Column(name = "author")
   private String author;
+
   @Column(name = "tags")
   private String tags;
+
   @Column(name = "image_id")
   private String imageId;
+
   @Column(name = "content_id")
   private String contentId;
+
   @Column(name = "facebook_Id")
   private String facebookId;
+
   @Column(name = "title")
   private String title;
 

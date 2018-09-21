@@ -47,7 +47,7 @@ function computeNewsImage() {
   return image;
 }
 
-function cancelUpdateNews() {
+function cancelUpdateNewsEntry() {
   window.location.href = "/manager/news";
 }
 

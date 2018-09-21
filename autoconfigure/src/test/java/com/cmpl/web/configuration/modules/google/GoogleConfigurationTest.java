@@ -1,12 +1,5 @@
 package com.cmpl.web.configuration.modules.google;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
-import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
-
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -14,6 +7,12 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GoogleConfigurationTest {
@@ -34,7 +33,8 @@ public class GoogleConfigurationTest {
   @Test
   public void testFileDataStoreFactory() throws Exception {
     configuration.credentialsDirectory = "test";
-    Assert.assertEquals(FileDataStoreFactory.class, configuration.fileDataStoreFactory().getClass());
+    Assert
+        .assertEquals(FileDataStoreFactory.class, configuration.fileDataStoreFactory().getClass());
     configuration.credentialsDirectory = null;
   }
 
@@ -42,8 +42,9 @@ public class GoogleConfigurationTest {
   public void testDriveService() throws Exception {
     Assert.assertEquals(
         Drive.class,
-        configuration.driveService(BDDMockito.mock(HttpTransport.class), BDDMockito.mock(JsonFactory.class),
-            BDDMockito.mock(Credential.class)).getClass());
+        configuration
+            .driveService(BDDMockito.mock(HttpTransport.class), BDDMockito.mock(JsonFactory.class),
+                BDDMockito.mock(Credential.class)).getClass());
   }
 
 }

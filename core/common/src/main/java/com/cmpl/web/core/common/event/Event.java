@@ -1,8 +1,7 @@
 package com.cmpl.web.core.common.event;
 
-import org.springframework.context.ApplicationEvent;
-
 import com.cmpl.web.core.models.BaseEntity;
+import org.springframework.context.ApplicationEvent;
 
 public class Event<ENTITY extends BaseEntity> extends ApplicationEvent {
 
@@ -16,4 +15,5 @@ public class Event<ENTITY extends BaseEntity> extends ApplicationEvent {
   public ENTITY getEntity() {
     return entity;
   }
+
 }

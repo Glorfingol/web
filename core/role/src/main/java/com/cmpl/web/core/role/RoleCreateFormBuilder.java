@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.Builder;
 public class RoleCreateFormBuilder extends Builder<RoleCreateForm> {
 
   private String name;
+
   private String description;
 
   private RoleCreateFormBuilder() {

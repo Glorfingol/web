@@ -5,14 +5,15 @@ import com.cmpl.web.core.media.MediaDTO;
 
 /**
  * DTO NewsImage
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class NewsImageDTO extends BaseDTO {
 
   private MediaDTO media;
+
   private String legend;
+
   private String alt;
 
   public MediaDTO getMedia() {

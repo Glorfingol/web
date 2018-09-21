@@ -1,17 +1,22 @@
 package com.cmpl.web.core.role;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.time.LocalDateTime;
 
 public class RoleUpdateFormBuilder extends Builder<RoleUpdateForm> {
 
   private String name;
+
   private String description;
+
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
 
   private RoleUpdateFormBuilder() {

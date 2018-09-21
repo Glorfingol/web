@@ -1,24 +1,33 @@
 package com.cmpl.web.facebook;
 
-import java.time.LocalDate;
-
-import org.springframework.social.facebook.api.Post.PostType;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.time.LocalDate;
+import org.springframework.social.facebook.api.Post.PostType;
 
 public class ImportablePostBuilder extends Builder<ImportablePost> {
 
   private String author;
+
   private String title;
+
   private PostType type;
+
   private String description;
+
   private String photoUrl;
+
   private String videoUrl;
+
   private String linkUrl;
+
   private String facebookId;
+
   private LocalDate creationDate;
+
   private String formattedDate;
+
   private String objectId;
+
   private String onclick;
 
   public ImportablePostBuilder author(String author) {

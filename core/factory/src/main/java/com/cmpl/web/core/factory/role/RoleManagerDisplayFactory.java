@@ -1,12 +1,10 @@
 package com.cmpl.web.core.factory.role;
 
+import com.cmpl.web.core.factory.CRUDBackDisplayFactory;
 import java.util.Locale;
-
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmpl.web.core.factory.BackDisplayFactory;
-
-public interface RoleManagerDisplayFactory extends BackDisplayFactory {
+public interface RoleManagerDisplayFactory extends CRUDBackDisplayFactory {
 
   ModelAndView computeModelAndViewForViewAllRoles(Locale locale, int pageNumber);
 

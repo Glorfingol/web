@@ -1,11 +1,10 @@
 package com.cmpl.web.core.news.image;
 
-import org.springframework.util.StringUtils;
-
 import com.cmpl.web.core.common.mapper.BaseMapper;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.models.NewsImage;
+import org.springframework.util.StringUtils;
 
 public class NewsImageMapper extends BaseMapper<NewsImageDTO, NewsImage> {
 

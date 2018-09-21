@@ -1,8 +1,7 @@
 package com.cmpl.web.core.website;
 
-import java.util.Locale;
-
 import com.cmpl.web.core.common.resource.BaseResponse;
+import java.util.Locale;
 
 public interface WebsiteDispatcher {
 

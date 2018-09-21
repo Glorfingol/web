@@ -1,17 +1,15 @@
 package com.cmpl.web.core.news.content;
 
+import com.cmpl.web.core.models.NewsContent;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.cmpl.web.core.models.NewsContent;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NewsContentMapperTest {
@@ -25,10 +23,12 @@ public class NewsContentMapperTest {
     NewsContentDTO dto = new NewsContentDTO();
     dto.setId(1L);
 
-    BDDMockito.doNothing().when(mapper).fillObject(BDDMockito.eq(dto), BDDMockito.any(NewsContent.class));
+    BDDMockito.doNothing().when(mapper)
+        .fillObject(BDDMockito.eq(dto), BDDMockito.any(NewsContent.class));
     NewsContent result = mapper.toEntity(dto);
 
-    BDDMockito.verify(mapper, BDDMockito.times(1)).fillObject(BDDMockito.eq(dto), BDDMockito.eq(result));
+    BDDMockito.verify(mapper, BDDMockito.times(1))
+        .fillObject(BDDMockito.eq(dto), BDDMockito.eq(result));
   }
 
   @Test
@@ -37,16 +37,19 @@ public class NewsContentMapperTest {
     NewsContent entity = new NewsContent();
     entity.setId(1L);
 
-    BDDMockito.doNothing().when(mapper).fillObject(BDDMockito.eq(entity), BDDMockito.any(NewsContentDTO.class));
+    BDDMockito.doNothing().when(mapper)
+        .fillObject(BDDMockito.eq(entity), BDDMockito.any(NewsContentDTO.class));
     NewsContentDTO result = mapper.toDTO(entity);
 
-    BDDMockito.verify(mapper, BDDMockito.times(1)).fillObject(BDDMockito.eq(entity), BDDMockito.eq(result));
+    BDDMockito.verify(mapper, BDDMockito.times(1))
+        .fillObject(BDDMockito.eq(entity), BDDMockito.eq(result));
   }
 
   @Test
   public void testFillObject() throws Exception {
     LocalDateTime date = LocalDateTime.now();
-    NewsContentDTO dto = NewsContentDTOBuilder.create().content("someContent").id(1L).creationDate(date)
+    NewsContentDTO dto = NewsContentDTOBuilder.create().content("someContent").id(1L)
+        .creationDate(date)
         .modificationDate(date).build();
 
     NewsContent destination = new NewsContent();
@@ -70,9 +73,11 @@ public class NewsContentMapperTest {
 
     LocalDateTime date = LocalDateTime.now();
 
-    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L).creationDate(date)
+    NewsContentDTO contentDTO1 = NewsContentDTOBuilder.create().content("content1").id(1L)
+        .creationDate(date)
         .modificationDate(date).build();
-    NewsContentDTO contentDTO2 = NewsContentDTOBuilder.create().content("content2").id(1L).creationDate(date)
+    NewsContentDTO contentDTO2 = NewsContentDTOBuilder.create().content("content2").id(1L)
+        .creationDate(date)
         .modificationDate(date).build();
 
     BDDMockito.doReturn(contentDTO1).when(mapper).toDTO(BDDMockito.eq(content1));

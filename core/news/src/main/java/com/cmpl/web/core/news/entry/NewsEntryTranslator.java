@@ -7,9 +7,8 @@ import com.cmpl.web.core.news.image.NewsImageRequest;
 
 /**
  * Translator pour les requetes de creation/modification de NewsEntry
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public interface NewsEntryTranslator {
 

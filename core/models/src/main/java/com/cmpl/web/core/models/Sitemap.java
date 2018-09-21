@@ -6,7 +6,7 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 
 @Entity(name = "sitemap")
-@Table(name = "sitemap", indexes = {@Index(name = "IDX_WEBSITE", columnList = "website_id"),
+@Table(name = "sitemap", indexes = {@Index(name = "IDX_SITEMAP", columnList = "website_id"),
     @Index(name = "IDX_PAGE", columnList = "page_id"),
     @Index(name = "IDX_WEBSITE_PAGE", columnList = "page_id,website_id")})
 public class Sitemap extends BaseEntity {

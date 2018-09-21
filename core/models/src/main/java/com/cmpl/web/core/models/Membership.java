@@ -12,6 +12,7 @@ public class Membership extends BaseEntity {
 
   @Column(name = "entity_id")
   private Long entityId;
+
   @Column(name = "group_id")
   private Long groupId;
 

@@ -1,12 +1,10 @@
 package com.cmpl.web.core.menu;
 
+import com.cmpl.web.core.common.builder.Builder;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
-
-import com.cmpl.web.core.common.builder.Builder;
 
 public class BackMenuBuilder extends Builder<BackMenu> {
 

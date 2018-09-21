@@ -5,9 +5,13 @@ import com.cmpl.web.core.common.dto.BaseDTO;
 public class MediaDTO extends BaseDTO {
 
   private String src;
+
   private String name;
+
   private String extension;
+
   private String contentType;
+
   private Long size;
 
   public String getSrc() {

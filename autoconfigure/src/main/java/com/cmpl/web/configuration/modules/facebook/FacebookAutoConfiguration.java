@@ -1,5 +1,7 @@
 package com.cmpl.web.configuration.modules.facebook;
 
+import com.cmpl.web.modules.social.configuration.SocialAutoConfigurerAdapter;
+import com.cmpl.web.modules.social.configuration.SocialWebAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -21,9 +23,6 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.web.GenericConnectionStatusView;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
-
-import com.cmpl.web.modules.social.configuration.SocialAutoConfigurerAdapter;
-import com.cmpl.web.modules.social.configuration.SocialWebAutoConfiguration;
 
 @Configuration
 @ConditionalOnClass({SocialConfigurerAdapter.class, FacebookConnectionFactory.class})
@@ -60,7 +59,8 @@ public class FacebookAutoConfiguration {
 
     @Override
     protected ConnectionFactory<?> createConnectionFactory() {
-      return new FacebookConnectionFactory(this.properties.getAppId(), this.properties.getAppSecret());
+      return new FacebookConnectionFactory(this.properties.getAppId(),
+          this.properties.getAppSecret());
     }
 
   }

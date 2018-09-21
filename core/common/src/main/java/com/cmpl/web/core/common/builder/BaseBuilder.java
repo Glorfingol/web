@@ -5,9 +5,13 @@ import java.time.LocalDateTime;
 public abstract class BaseBuilder<T> extends Builder<T> {
 
   protected Long id;
+
   protected LocalDateTime creationDate;
+
   protected LocalDateTime modificationDate;
+
   protected String creationUser;
+
   protected String modificationUser;
 
   public BaseBuilder<T> id(Long id) {

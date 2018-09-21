@@ -5,11 +5,19 @@ import com.cmpl.web.core.common.builder.Builder;
 public class PageCreateFormBuilder extends Builder<PageCreateForm> {
 
   private String name = "";
+
   private String menuTitle = "";
+
   private String body = "";
+
   private String header = "";
+
   private String footer = "";
+
   private String meta = "";
+
+  private String href = "";
+
   private String localeCode;
 
   private PageCreateFormBuilder() {
@@ -18,6 +26,11 @@ public class PageCreateFormBuilder extends Builder<PageCreateForm> {
 
   public PageCreateFormBuilder name(String name) {
     this.name = name;
+    return this;
+  }
+
+  public PageCreateFormBuilder href(String href) {
+    this.href = href;
     return this;
   }
 
@@ -61,6 +74,7 @@ public class PageCreateFormBuilder extends Builder<PageCreateForm> {
     form.setMenuTitle(menuTitle);
     form.setName(name);
     form.setLocaleCode(localeCode);
+    form.setHref(href);
     return form;
   }
 

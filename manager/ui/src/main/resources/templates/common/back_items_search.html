@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col">
+    <div class="input-group mt-3 mb-3">
+      <input type="text" id="queryInput" class="form-control" th:placeholder="${searchPlaceHolder}"
+             th:aria-label="${searchPlaceHolder}"
+             aria-describedby="addon">
+      <div class="input-group-append">
+        <btn class="btn input-group-text" id="addon" onclick="search()">
+          <i class="fa fa-search"></i>
+        </btn>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card card-loader">
+  <div class="loader">
+  </div>
+</div>
+<script th:inline="javascript">
+
+  $(document).ready(function () {
+    $(".card-loader").hide();
+    $(".loader").hide();
+    var queryInput = $("#queryInput");
+    queryInput.keyup(function () {
+      var value = $(this).val();
+      if (value.length >= 3) {
+        search();
+      }
+      if (value.length == 0) {
+        search();
+      }
+    });
+
+  });
+
+  var search = function () {
+    $("#tableBeans").hide();
+    $(".card-loader").show();
+    $(".loader").show();
+    var queryInput = $("#queryInput");
+    var queryValue = queryInput.val();
+
+    var url = [[${searchUrl}]] + "?q=" + queryValue;
+    $.get(url, function (data) {
+      $("#tableBeans").html(data);
+      $("#tableBeans").show();
+      $(".card-loader").hide();
+      $(".loader").hide();
+    });
+  }
+
+</script>

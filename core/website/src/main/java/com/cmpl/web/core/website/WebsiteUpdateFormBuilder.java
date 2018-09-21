@@ -7,11 +7,21 @@ import com.cmpl.web.core.common.builder.Builder;
 public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
 
   private String name;
+
   private String description;
+
+  private String extension;
+
+  private boolean secure;
+
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
 
   private WebsiteUpdateFormBuilder() {
@@ -20,6 +30,16 @@ public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
 
   public WebsiteUpdateFormBuilder name(String name) {
     this.name = name;
+    return this;
+  }
+
+  public WebsiteUpdateFormBuilder extension(String extension) {
+    this.extension = extension;
+    return this;
+  }
+
+  public WebsiteUpdateFormBuilder secure(boolean secure) {
+    this.secure = secure;
     return this;
   }
 
@@ -58,11 +78,13 @@ public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
     WebsiteUpdateForm form = new WebsiteUpdateForm();
     form.setDescription(description);
     form.setName(name);
+    form.setSecure(secure);
     form.setId(id);
     form.setCreationDate(creationDate);
     form.setModificationDate(modificationDate);
     form.setCreationUser(creationUser);
     form.setModificationUser(modificationUser);
+    form.setExtension(extension);
     return form;
   }
 

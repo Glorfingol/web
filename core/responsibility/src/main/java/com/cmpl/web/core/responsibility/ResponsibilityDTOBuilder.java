@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 public class ResponsibilityDTOBuilder extends BaseBuilder<ResponsibilityDTO> {
 
   private String userId;
+
   private String roleId;
 
   public ResponsibilityDTOBuilder userId(String userId) {

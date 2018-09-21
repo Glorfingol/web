@@ -1,7 +1,7 @@
 # Spring properties
 spring:
   application:
-     name: cmplWeb
+    name: cmplWeb
   logging:
     level:
       root: INFO
@@ -9,8 +9,32 @@ spring:
       org.hibernate: ERROR
     pattern:
       console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+  boot:
+    admin:
+      client:
+        url: http://localhost:8702
+        username: user
+        password: password
 
-      
+
 # HTTP Server
 server:
   port: 3232  # HTTP (Tomcat) port
+
+
+basePath: C:/volume1/cmpl/web
+baseUrl: http://localhost:3232
+mailFrom: contact@somewebsite.com
+
+reset:
+  token:
+    secret:
+      string: fa19zb7e-0371-4cfc-b8fa-6f96ba3b6b51
+      integer: 3474194
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

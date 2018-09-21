@@ -6,6 +6,7 @@ import com.cmpl.web.core.models.Responsibility;
 public class ResponsibilityBuilder extends BaseBuilder<Responsibility> {
 
   private String userId;
+
   private String roleId;
 
   public ResponsibilityBuilder userId(String userId) {

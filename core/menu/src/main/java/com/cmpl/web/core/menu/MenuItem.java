@@ -4,17 +4,21 @@ import java.util.List;
 
 /**
  * Objet representant un element du menu
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class MenuItem {
 
   private String title;
+
   private String href;
+
   private String label;
+
   private String customCssClass;
+
   private String iconClass;
+
   private String privilege;
 
   List<MenuItem> subMenuItems;

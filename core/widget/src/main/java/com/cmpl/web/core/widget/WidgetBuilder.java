@@ -11,6 +11,8 @@ public class WidgetBuilder extends BaseBuilder<Widget> {
 
   private String name;
 
+  private boolean asynchronous;
+
   private WidgetBuilder() {
 
   }
@@ -30,6 +32,11 @@ public class WidgetBuilder extends BaseBuilder<Widget> {
     return this;
   }
 
+  public WidgetBuilder asynchronous(boolean asynchronous) {
+    this.asynchronous = asynchronous;
+    return this;
+  }
+
   @Override
   public Widget build() {
     Widget widget = new Widget();
@@ -41,6 +48,7 @@ public class WidgetBuilder extends BaseBuilder<Widget> {
     widget.setModificationUser(modificationUser);
     widget.setId(id);
     widget.setModificationDate(modificationDate);
+    widget.setAsynchronous(asynchronous);
     return widget;
   }
 

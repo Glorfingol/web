@@ -6,19 +6,23 @@ import com.cmpl.web.core.news.image.NewsImageDTO;
 
 /**
  * DTO NewsEntry
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class NewsEntryDTO extends BaseDTO {
 
   private NewsContentDTO newsContent;
+
   private NewsImageDTO newsImage;
+
   private String facebookId;
 
   private String author;
+
   private String tags;
+
   private String title;
+
   private String name;
 
   public String getTags() {

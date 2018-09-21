@@ -31,11 +31,12 @@
   var codeMirrorStyleContent;
   $(document).ready(function () {
     codeMirrorStyleContent = setUpCodeMirror("styleContent");
+    fix_code_mirror_height();
   });
 
   var setUpCodeMirror = function (textAreaId) {
     var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
-        {theme: "neo", lineNumbers: true});
+        {theme: "neo", lineNumbers: true, lineWrapping: true});
     return codeMirror;
   }
 

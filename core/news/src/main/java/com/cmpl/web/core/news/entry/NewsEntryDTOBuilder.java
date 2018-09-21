@@ -9,11 +9,15 @@ public class NewsEntryDTOBuilder extends BaseBuilder<NewsEntryDTO> {
   private String facebookId;
 
   private NewsContentDTO newsContent;
+
   private NewsImageDTO newsImage;
 
   private String author;
+
   private String tags;
+
   private String title;
+
   private String name;
 
   private NewsEntryDTOBuilder() {

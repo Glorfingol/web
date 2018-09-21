@@ -1,9 +1,8 @@
 package com.cmpl.web.facebook;
 
+import com.cmpl.web.core.common.builder.Builder;
 import org.mockito.BDDMockito;
 import org.springframework.social.facebook.api.Reference;
-
-import com.cmpl.web.core.common.builder.Builder;
 
 public class ReferenceBuilder extends Builder<Reference> {
 

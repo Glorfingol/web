@@ -11,6 +11,11 @@
         <input type="text" class="form-control" th:field="*{menuTitle}"/>
         <small class="form-text text-muted" th:text="#{page.menuTitle.help}"/>
       </div>
+      <div class="form-check form-group mb-3" id="formInputHref">
+        <label th:text="#{page.href.label}"/>
+        <input type="text" class="form-control" th:field="*{href}"/>
+        <small class="form-text text-muted" th:text="#{page.href.help}"/>
+      </div>
       <div class="form-check form-group">
         <label th:text="#{page.body.language.label}"/>
         <select name="localeCode" id="localeCode" th:field="*{localeCode}"
@@ -67,12 +72,13 @@
     codeMirrorHeader = setUpCodeMirror("pageHeader");
     codeMirrorFooter = setUpCodeMirror("pageFooter");
     codeMirrorMeta = setUpCodeMirror("pageMeta");
+    fix_code_mirror_height();
 
   });
 
   var setUpCodeMirror = function (textAreaId) {
     var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
-        {theme: "neo", lineNumbers: true});
+        {theme: "neo", lineNumbers: true, lineWrapping: true});
     codeMirror.on("drop", function (editor, e) {
       var dataTransferred = e.dataTransfer.getData("text/html");
       var newDiv = '\n<div id="widget_' + dataTransferred + '">\n</div>';

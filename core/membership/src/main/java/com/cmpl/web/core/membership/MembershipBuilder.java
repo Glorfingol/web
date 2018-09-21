@@ -6,6 +6,7 @@ import com.cmpl.web.core.models.Membership;
 public class MembershipBuilder extends BaseBuilder<Membership> {
 
   private Long groupId;
+
   private Long entityId;
 
   public MembershipBuilder groupId(Long groupId) {

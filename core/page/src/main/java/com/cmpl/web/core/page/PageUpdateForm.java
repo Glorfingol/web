@@ -1,20 +1,29 @@
 package com.cmpl.web.core.page;
 
-import javax.validation.constraints.NotBlank;
-
 import com.cmpl.web.core.common.form.BaseUpdateForm;
+import javax.validation.constraints.NotBlank;
 
 public class PageUpdateForm extends BaseUpdateForm<PageDTO> {
 
   @NotBlank(message = "empty.name")
   private String name;
+
   @NotBlank(message = "empty.menuTitle")
   private String menuTitle;
+
+  @NotBlank(message = "empty.href")
+  private String href = "";
+
   private String body;
+
   private String header;
+
   private String footer;
+
   private String meta;
+
   private String amp;
+
   private String localeCode;
 
   public PageUpdateForm() {
@@ -31,6 +40,7 @@ public class PageUpdateForm extends BaseUpdateForm<PageDTO> {
     this.localeCode = personalizationLanguageCode;
     this.meta = page.getMeta();
     this.amp = page.getAmp();
+    this.href = page.getHref();
   }
 
   public String getName() {
@@ -95,5 +105,13 @@ public class PageUpdateForm extends BaseUpdateForm<PageDTO> {
 
   public void setAmp(String amp) {
     this.amp = amp;
+  }
+
+  public String getHref() {
+    return href;
+  }
+
+  public void setHref(String href) {
+    this.href = href;
   }
 }

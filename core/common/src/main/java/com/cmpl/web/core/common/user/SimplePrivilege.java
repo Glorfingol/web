@@ -5,9 +5,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SimplePrivilege implements Privilege {
+
   private final String namespace;
+
   private final String feature;
+
   private final String right;
+
   private final String privilege;
 
   public SimplePrivilege(String namespace, String feature, String right) {

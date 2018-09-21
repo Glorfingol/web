@@ -1,23 +1,36 @@
 package com.cmpl.web.core.page;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.time.LocalDateTime;
 
 public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
 
   private String name;
+
   private String menuTitle;
+
   private String body;
+
   private String header;
+
   private String footer;
+
   private String meta;
+
+  private String href;
+
   private String amp;
+
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
+
   private String localeCode;
 
   private PageUpdateFormBuilder() {
@@ -26,6 +39,11 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
 
   public PageUpdateFormBuilder name(String name) {
     this.name = name;
+    return this;
+  }
+
+  public PageUpdateFormBuilder href(String href) {
+    this.href = href;
     return this;
   }
 
@@ -106,6 +124,7 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
     form.setCreationUser(creationUser);
     form.setModificationUser(modificationUser);
     form.setAmp(amp);
+    form.setHref(href);
     return form;
   }
 

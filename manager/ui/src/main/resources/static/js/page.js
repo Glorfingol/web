@@ -7,9 +7,11 @@ function computePage() {
 
   var inputName = $("#name");
   var inputMenuTitle = $("#menuTitle");
+  var inputHref = $("#href");
   var inputLocaleCode = $("#localeCode");
 
   page.name = inputName.val();
+  page.href = inputHref.val();
   page.menuTitle = inputMenuTitle.val();
   page.body = computePageBody();
   page.header = computePageHeader();
@@ -25,6 +27,7 @@ function computeUpdatePage() {
   var page = {};
 
   var inputName = $("#name");
+  var inputHref = $("#href");
   var inputMenuTitle = $("#menuTitle");
   var inputId = $("#id");
   var inputCreationDate = $("#creationDate");
@@ -34,12 +37,14 @@ function computeUpdatePage() {
   var inputLocaleCode = $("#localeCode");
 
   page.name = inputName.val();
+  page.href = inputHref.val();
   page.menuTitle = inputMenuTitle.val();
   page.body = computePageBody();
   page.header = computePageHeader();
   page.footer = computePageFooter();
   page.meta = computePageMeta();
   page.id = inputId.val();
+  page.amp = computePageAMP();
   page.creationDate = inputCreationDate.val();
   page.modificationDate = inputModificationDate.val();
   page.creationUser = inputCreationUser.val();
@@ -60,6 +65,13 @@ function computePageHeader() {
     return codeMirrorHeader.getValue();
   }
   return $("#header").val();
+}
+
+function computePageAMP() {
+  if (codeMirrorAMP) {
+    return codeMirrorAMP.getValue();
+  }
+  return $("#amp").val();
 }
 
 function computePageMeta() {

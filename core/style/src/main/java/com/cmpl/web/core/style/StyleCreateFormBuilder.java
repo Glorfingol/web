@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.Builder;
 public class StyleCreateFormBuilder extends Builder<StyleCreateForm> {
 
   private String content;
+
   private String name;
 
   private StyleCreateFormBuilder() {

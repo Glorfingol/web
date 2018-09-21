@@ -4,11 +4,9 @@ import com.cmpl.web.core.carousel.CarouselRepository;
 import com.cmpl.web.core.carousel.item.CarouselItemRepository;
 import com.cmpl.web.core.media.MediaBuilder;
 import com.cmpl.web.core.media.MediaRepository;
-import com.cmpl.web.core.menu.MenuRepository;
 import com.cmpl.web.core.models.Carousel;
 import com.cmpl.web.core.models.CarouselItem;
 import com.cmpl.web.core.models.Media;
-import com.cmpl.web.core.models.Menu;
 import com.cmpl.web.core.models.Page;
 import com.cmpl.web.core.models.Widget;
 import com.cmpl.web.core.models.WidgetPage;
@@ -20,39 +18,33 @@ import com.cmpl.web.core.widget.page.WidgetPageRepository;
 
 public class PageFactory {
 
-  public static void createPages(PageRepository pageRepository, MenuRepository menuRepository,
+  public static void createPages(PageRepository pageRepository,
 
       CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
-      MediaRepository mediaRepository, WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
-    createIndex(pageRepository, menuRepository, carouselRepository, carouselItemRepository, mediaRepository,
+      MediaRepository mediaRepository, WidgetRepository widgetRepository,
+      WidgetPageRepository widgetPageRepository) {
+    createIndex(pageRepository, carouselRepository, carouselItemRepository,
+        mediaRepository,
         widgetRepository, widgetPageRepository);
-    createActualites(pageRepository, menuRepository, widgetRepository, widgetPageRepository);
-    createAppointment(pageRepository, menuRepository);
-    createCenter(pageRepository, menuRepository);
-    createContact(pageRepository, menuRepository);
-    createMedicalCare(pageRepository, menuRepository);
+    createActualites(pageRepository, widgetRepository, widgetPageRepository);
+    createAppointment(pageRepository);
+    createCenter(pageRepository);
+    createContact(pageRepository);
+    createMedicalCare(pageRepository);
 
   }
 
-  public static void createIndex(PageRepository pageRepository, MenuRepository menuRepository,
+  public static void createIndex(PageRepository pageRepository,
 
       CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
-      MediaRepository mediaRepository, WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
+      MediaRepository mediaRepository, WidgetRepository widgetRepository,
+      WidgetPageRepository widgetPageRepository) {
 
     Page index = new Page();
     index.setMenuTitle("Accueil");
     index.setName("accueil");
     index = pageRepository.save(index);
     String pageId = String.valueOf(index.getId());
-
-    Menu menu = new Menu();
-    menu.setHref("/pages/" + index.getName());
-    menu.setLabel(index.getMenuTitle());
-    menu.setPageId(pageId);
-    menu.setOrderInMenu(1);
-    menu.setTitle(index.getMenuTitle());
-
-    menuRepository.save(menu);
 
     Carousel carouselHome = new Carousel();
     carouselHome.setName("home");
@@ -92,16 +84,18 @@ public class PageFactory {
 
     carouselItemRepository.save(secondImage);
 
-    Widget widgetCarouselHome = WidgetBuilder.create().type("CAROUSEL").name("carousel_home").entityId(carouselId)
-        .build();
+    Widget widgetCarouselHome = WidgetBuilder.create().type("CAROUSEL").name("carousel_home")
+        .entityId(carouselId)
+        .asynchronous(true).build();
     widgetCarouselHome = widgetRepository.save(widgetCarouselHome);
-    WidgetPage widgetPage = WidgetPageBuilder.create().widgetId(String.valueOf(widgetCarouselHome.getId()))
+    WidgetPage widgetPage = WidgetPageBuilder.create()
+        .widgetId(String.valueOf(widgetCarouselHome.getId()))
         .pageId(pageId).build();
     widgetPageRepository.save(widgetPage);
 
   }
 
-  public static void createActualites(PageRepository pageRepository, MenuRepository menuRepository,
+  public static void createActualites(PageRepository pageRepository,
 
       WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
 
@@ -112,29 +106,23 @@ public class PageFactory {
 
     String pageId = String.valueOf(actualites.getId());
 
-    Menu menu = new Menu();
-    menu.setHref("/pages/" + actualites.getName());
-    menu.setLabel(actualites.getMenuTitle());
-    menu.setPageId(pageId);
-    menu.setOrderInMenu(7);
-    menu.setTitle(actualites.getMenuTitle());
-
-    menuRepository.save(menu);
-
-    Widget blog = WidgetBuilder.create().name("blog").type("BLOG").build();
+    Widget blog = WidgetBuilder.create().name("blog").asynchronous(true).type("BLOG").build();
     blog = widgetRepository.save(blog);
-    WidgetPage widgetPage = WidgetPageBuilder.create().pageId(pageId).widgetId(String.valueOf(blog.getId())).build();
+    WidgetPage widgetPage = WidgetPageBuilder.create().pageId(pageId)
+        .widgetId(String.valueOf(blog.getId())).build();
     widgetPageRepository.save(widgetPage);
 
-    Widget widgetMenu = WidgetBuilder.create().type("MENU").name("menu").build();
+    Widget widgetMenu = WidgetBuilder.create().type("MENU").name("menu").asynchronous(false)
+        .build();
     widgetMenu = widgetRepository.save(widgetMenu);
-    WidgetPage widgetPageMenu = WidgetPageBuilder.create().widgetId(String.valueOf(widgetMenu.getId())).pageId(pageId)
+    WidgetPage widgetPageMenu = WidgetPageBuilder.create()
+        .widgetId(String.valueOf(widgetMenu.getId())).pageId(pageId)
         .build();
     widgetPageRepository.save(widgetPageMenu);
 
   }
 
-  public static void createAppointment(PageRepository pageRepository, MenuRepository menuRepository) {
+  public static void createAppointment(PageRepository pageRepository) {
 
     Page appointment = new Page();
     appointment.setMenuTitle("Prendre rendez-vous");
@@ -142,36 +130,20 @@ public class PageFactory {
     appointment = pageRepository.save(appointment);
     String pageId = String.valueOf(appointment.getId());
 
-    Menu menu = new Menu();
-    menu.setHref("/pages/" + appointment.getName());
-    menu.setLabel(appointment.getMenuTitle());
-    menu.setPageId(pageId);
-    menu.setOrderInMenu(9);
-    menu.setTitle(appointment.getMenuTitle());
-
-    menuRepository.save(menu);
 
   }
 
-  public static void createCenter(PageRepository pageRepository, MenuRepository menuRepository) {
+  public static void createCenter(PageRepository pageRepository) {
     Page center = new Page();
     center.setMenuTitle("Le centre");
     center.setName("centre_medical");
     center = pageRepository.save(center);
     String pageId = String.valueOf(center.getId());
 
-    Menu menu = new Menu();
-    menu.setHref("/pages/" + center.getName());
-    menu.setLabel(center.getMenuTitle());
-    menu.setPageId(pageId);
-    menu.setOrderInMenu(2);
-    menu.setTitle(center.getMenuTitle());
-
-    menuRepository.save(menu);
 
   }
 
-  public static void createContact(PageRepository pageRepository, MenuRepository menuRepository) {
+  public static void createContact(PageRepository pageRepository) {
 
     Page contact = new Page();
     contact.setMenuTitle("Contact");
@@ -179,33 +151,17 @@ public class PageFactory {
     contact = pageRepository.save(contact);
     String pageId = String.valueOf(contact.getId());
 
-    Menu menu = new Menu();
-    menu.setHref("/pages/" + contact.getName());
-    menu.setLabel(contact.getMenuTitle());
-    menu.setPageId(pageId);
-    menu.setOrderInMenu(8);
-    menu.setTitle(contact.getMenuTitle());
-
-    menuRepository.save(menu);
 
   }
 
-  public static void createMedicalCare(PageRepository pageRepository, MenuRepository menuRepository) {
+  public static void createMedicalCare(PageRepository pageRepository
+  ) {
 
     Page medicalCare = new Page();
     medicalCare.setMenuTitle("Soins medicaux");
     medicalCare.setName("soins_medicaux");
     medicalCare = pageRepository.save(medicalCare);
     String pageId = String.valueOf(medicalCare.getId());
-
-    Menu menu = new Menu();
-    menu.setHref("/pages/" + medicalCare.getName());
-    menu.setLabel(medicalCare.getMenuTitle());
-    menu.setPageId(pageId);
-    menu.setOrderInMenu(4);
-    menu.setTitle(medicalCare.getMenuTitle());
-
-    menuRepository.save(menu);
 
   }
 

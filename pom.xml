@@ -15,7 +15,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.plugin.version>3.7.0</maven.plugin.version>
     <coveralls.plugin.version>4.3.0</coveralls.plugin.version>
-    <jacoco.plugin.version>0.7.6.201602180812</jacoco.plugin.version>
+    <jacoco.plugin.version>0.8.1</jacoco.plugin.version>
   </properties>
 
   <modules>

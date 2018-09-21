@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank;
 public class StyleCreateForm {
 
   private String content;
+
   @NotBlank
   private String name;
 

@@ -1,9 +1,8 @@
 package com.cmpl.web.core.widget.page;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.dao.BaseDAO;
 import com.cmpl.web.core.models.WidgetPage;
+import java.util.List;
 
 public interface WidgetPageDAO extends BaseDAO<WidgetPage> {
 

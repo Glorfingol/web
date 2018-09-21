@@ -1,19 +1,23 @@
 package com.cmpl.web.core.common.dto;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * DTO commun
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public abstract class BaseDTO {
 
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
 
   public Long getId() {
@@ -56,4 +60,19 @@ public abstract class BaseDTO {
   public void setCreationUser(String creationUser) {
     this.creationUser = creationUser;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    BaseDTO baseDTO = (BaseDTO) o;
+    return Objects.equals(id, baseDTO.id);
+
+  }
+
+
 }

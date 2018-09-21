@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.Builder;
 public class GroupCreateFormBuilder extends Builder<GroupCreateForm> {
 
   private String name;
+
   private String description;
 
   private GroupCreateFormBuilder() {

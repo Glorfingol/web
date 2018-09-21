@@ -1,33 +1,36 @@
 package com.cmpl.web.core.news.image;
 
+import com.cmpl.web.core.media.MediaDTO;
 import java.time.LocalDateTime;
-
 import javax.validation.constraints.NotBlank;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import com.cmpl.web.core.media.MediaDTO;
-
 /**
  * Requete NewsImage
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class NewsImageRequest {
 
   @NotBlank(message = "empty.legend")
   private String legend;
+
   @NotBlank(message = "empty.alt")
   private String alt;
+
   private Long id;
+
   @DateTimeFormat(iso = ISO.DATE_TIME)
   private LocalDateTime creationDate;
+
   @DateTimeFormat(iso = ISO.DATE_TIME)
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
+
   private MediaDTO media;
 
   public String getLegend() {

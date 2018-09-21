@@ -4,17 +4,18 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Holder des donnees de configuration globales de l'application
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class ContextHolder {
 
   private DateTimeFormatter dateFormat;
+
   private String templateBasePath;
+
   private int elementsPerPage;
+
   private String mediaBasePath;
-  private String websiteUrl;
 
   public DateTimeFormatter getDateFormat() {
     return dateFormat;
@@ -48,11 +49,4 @@ public class ContextHolder {
     this.mediaBasePath = mediaBasePath;
   }
 
-  public String getWebsiteUrl() {
-    return websiteUrl;
-  }
-
-  public void setWebsiteUrl(String websiteUrl) {
-    this.websiteUrl = websiteUrl;
-  }
 }

@@ -3,6 +3,7 @@ package com.cmpl.web.core.common.user;
 public class BackUser {
 
   private String login;
+
   private String password;
 
   public String getLogin() {

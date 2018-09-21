@@ -6,6 +6,7 @@ import com.cmpl.web.core.common.builder.Builder;
 public class BreadCrumbItemBuilder extends Builder<BreadCrumbItem> {
 
   private String text;
+
   private String href;
 
   private BreadCrumbItemBuilder() {

@@ -1,40 +1,44 @@
 package com.cmpl.web.manager.ui.core.index;
 
+import com.cmpl.web.core.factory.index.IndexDisplayFactory;
+import com.cmpl.web.core.page.BackPage;
+import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
 import java.util.Locale;
 import java.util.Objects;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.cmpl.web.core.factory.index.IndexDisplayFactory;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
 
 @ManagerController
 @RequestMapping(value = "/manager")
 public class IndexManagerController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(IndexManagerController.class);
   private final IndexDisplayFactory displayFactory;
 
-  public IndexManagerController(IndexDisplayFactory displayFactory) {
+  private final PluginRegistry<BackPage, String> backPages;
+
+  public IndexManagerController(IndexDisplayFactory displayFactory,
+      PluginRegistry<BackPage, String> backPages) {
 
     this.displayFactory = Objects.requireNonNull(displayFactory);
+    this.backPages = backPages;
   }
 
   @GetMapping
   public ModelAndView printIndex() {
-    LOGGER.info("Accès à la page " + BACK_PAGE.INDEX.name());
-    return displayFactory.computeModelAndViewForBackPage(BACK_PAGE.INDEX, Locale.FRANCE);
+    return displayFactory
+        .computeModelAndViewForBackPage(computeBackPage("INDEX"), Locale.FRANCE);
   }
 
   @GetMapping(value = "/")
   public ModelAndView printIndexGlobal() {
-    LOGGER.info("Accès à la page " + BACK_PAGE.INDEX.name());
-    return displayFactory.computeModelAndViewForBackPage(BACK_PAGE.INDEX, Locale.FRANCE);
+    return displayFactory
+        .computeModelAndViewForBackPage(computeBackPage("INDEX"), Locale.FRANCE);
+  }
+
+  protected BackPage computeBackPage(String pageName) {
+    return backPages.getPluginFor(pageName);
   }
 
 }

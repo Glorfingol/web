@@ -1,22 +1,29 @@
 package com.cmpl.web.backup.writer;
 
+import com.cmpl.web.core.common.builder.BaseBuilder;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.cmpl.web.core.common.builder.BaseBuilder;
-
 public class EntityTestBuilder extends BaseBuilder<EntityTest> {
 
   private Date date;
+
   private byte[] bytes;
+
   private Locale locale;
+
   private LocalDateTime localDate;
+
   private List<String> strings;
+
   private String string;
+
   private boolean booleanValue;
+
   private int integerValue;
+
   private Long someLong;
 
   public EntityTestBuilder date(Date date) {

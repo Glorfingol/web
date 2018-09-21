@@ -106,7 +106,7 @@ function postUpdatePrivilegesForm() {
   update($("#rolePrivilegesForm"), $(".loader"), $(".card-loader"), url,
       urlFallback,
       privilegesForm).done(function (data) {
-    handleSuccessPutResult(data, $(".card-loader"), $(".loader"),
+    handleSuccessPutResult(data, $(".loader"), $(".card-loader"),
         $("#rolePrivilegesForm"), url, true);
     currentTab = "";
     goToPrivilegesTab();

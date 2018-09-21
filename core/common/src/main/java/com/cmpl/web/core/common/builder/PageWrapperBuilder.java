@@ -1,20 +1,28 @@
 package com.cmpl.web.core.common.builder;
 
-import org.springframework.data.domain.Page;
-
 import com.cmpl.web.core.common.resource.PageWrapper;
+import org.springframework.data.domain.Page;
 
 public class PageWrapperBuilder<T> extends Builder<PageWrapper<T>> {
 
   private Page<T> page;
+
   private boolean isFirstPage;
+
   private boolean isLastPage;
+
   private int totalPages;
+
   private int currentPageNumber;
+
   private String pageBaseUrl;
+
   private String pageLabel;
+
   private String itemLink;
+
   private String createItemLink;
+
   private String createItemPrivilege;
 
   public PageWrapperBuilder<T> page(Page<T> page) {

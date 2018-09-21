@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -22,16 +21,23 @@ public class BackupImporter {
   private static final Logger LOGGER = LoggerFactory.getLogger(BackupImporter.class);
 
   private final CSVReader csvReader;
+
   private final String backupFilePath;
+
   private final String mediaFilePath;
+
   private final String pagesFilePath;
+
   private final String actualitesFilePath;
 
   private static final String DOT = ".";
+
   private static final String HTML_EXTENSION = "html";
+
   private static final long TEN_DAYS_MILLISECONDS = 10 * 24 * 60 * 60 * 1000;
 
-  public BackupImporter(CSVReader csvReader, String backupFilePath, String mediaFilePath, String pagesFilePath,
+  public BackupImporter(CSVReader csvReader, String backupFilePath, String mediaFilePath,
+      String pagesFilePath,
       String actualitesFilePath) {
 
     this.csvReader = Objects.requireNonNull(csvReader);
@@ -150,7 +156,7 @@ public class BackupImporter {
 
   void deleteUnzippedFiles() {
     List<File> filesToDelete = getCSVFiles();
-    filesToDelete.stream().forEach(file -> file.delete());
+    filesToDelete.stream().forEach(File::delete);
   }
 
   void deleteOlderThanTenDaysFiles() {
@@ -159,7 +165,7 @@ public class BackupImporter {
       return;
     }
     List<File> filesInBackup = Arrays.asList(directory.listFiles());
-    filesInBackup.stream().forEach(file -> deleteFileIfOlderThanTenDays(file));
+    filesInBackup.stream().forEach(this::deleteFileIfOlderThanTenDays);
 
   }
 

@@ -2,23 +2,22 @@ package com.cmpl.web.core.breadcrumb;
 
 import java.util.List;
 
-import com.cmpl.web.core.page.BACK_PAGE;
- 
 public class BreadCrumb implements BreadCrumbPlugin {
 
   private List<BreadCrumbItem> items;
-  private BACK_PAGE page;
+
+  private String pageName;
 
   public List<BreadCrumbItem> getItems() {
     return items;
   }
 
-  public BACK_PAGE getPage() {
-    return page;
+  public String getPageName() {
+    return pageName;
   }
 
-  public void setPage(BACK_PAGE page) {
-    this.page = page;
+  public void setPageName(String pageName) {
+    this.pageName = pageName;
   }
 
   public void setItems(List<BreadCrumbItem> items) {
@@ -26,8 +25,8 @@ public class BreadCrumb implements BreadCrumbPlugin {
   }
 
   @Override
-  public boolean supports(BACK_PAGE delimiter) {
-    return page.equals(delimiter);
+  public boolean supports(String delimiter) {
+    return pageName.equals(delimiter);
   }
 
 }

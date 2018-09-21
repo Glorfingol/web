@@ -22,15 +22,12 @@
   var codeMirrorStyleContent;
   $(document).ready(function () {
     codeMirrorStyleContent = setUpCodeMirror("styleContent");
+    fix_code_mirror_height();
   });
-
-  var goToUpdateStyle = function () {
-    window.location.href = "/manager/styles/_edit";
-  };
 
   var setUpCodeMirror = function (textAreaId) {
     var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
-        {theme: "neo", lineNumbers: true, readOnly: true});
+        {theme: "neo", lineNumbers: true, readOnly: false, lineWrapping: true});
     return codeMirror;
   }
 </script>

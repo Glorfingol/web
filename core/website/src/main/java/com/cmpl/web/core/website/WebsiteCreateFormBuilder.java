@@ -5,7 +5,10 @@ import com.cmpl.web.core.common.builder.Builder;
 public class WebsiteCreateFormBuilder extends Builder<WebsiteCreateForm> {
 
   private String name;
+
   private String description;
+
+  private String extension;
 
   private WebsiteCreateFormBuilder() {
 
@@ -21,11 +24,17 @@ public class WebsiteCreateFormBuilder extends Builder<WebsiteCreateForm> {
     return this;
   }
 
+  public WebsiteCreateFormBuilder extension(String extension) {
+    this.extension = extension;
+    return this;
+  }
+
   @Override
   public WebsiteCreateForm build() {
     WebsiteCreateForm form = new WebsiteCreateForm();
     form.setDescription(description);
     form.setName(name);
+    form.setExtension(extension);
     return form;
   }
 

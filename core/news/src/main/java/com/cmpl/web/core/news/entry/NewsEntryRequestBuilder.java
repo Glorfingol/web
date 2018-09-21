@@ -1,23 +1,30 @@
 package com.cmpl.web.core.news.entry;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.Builder;
 import com.cmpl.web.core.news.content.NewsContentRequest;
 import com.cmpl.web.core.news.image.NewsImageRequest;
+import java.time.LocalDateTime;
 
 public class NewsEntryRequestBuilder extends Builder<NewsEntryRequest> {
 
   private String author;
+
   private String tags;
+
   private String title;
+
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
 
   private NewsContentRequest content;
+
   private NewsImageRequest image;
 
   private NewsEntryRequestBuilder() {

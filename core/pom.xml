@@ -33,7 +33,7 @@
     <module>membership</module>
     <module>models</module>
     <module>website</module>
-    <module>audit</module>
+    <module>design</module>
   </modules>
 
 

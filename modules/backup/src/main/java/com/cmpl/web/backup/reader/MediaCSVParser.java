@@ -1,14 +1,12 @@
 package com.cmpl.web.backup.reader;
 
-import java.lang.reflect.Field;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
-import org.apache.commons.csv.CSVRecord;
-
 import com.cmpl.web.backup.writer.DataManipulator;
 import com.cmpl.web.core.media.MediaBuilder;
 import com.cmpl.web.core.models.Media;
+import java.lang.reflect.Field;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import org.apache.commons.csv.CSVRecord;
 
 public class MediaCSVParser extends CommonParser<Media> {
 

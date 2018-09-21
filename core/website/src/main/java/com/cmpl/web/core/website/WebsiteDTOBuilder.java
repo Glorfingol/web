@@ -6,7 +6,11 @@ public class WebsiteDTOBuilder extends BaseBuilder<WebsiteDTO> {
 
   private String name;
 
+  private String extension;
+
   private String description;
+
+  private boolean secure;
 
   private WebsiteDTOBuilder() {
 
@@ -17,8 +21,18 @@ public class WebsiteDTOBuilder extends BaseBuilder<WebsiteDTO> {
     return this;
   }
 
+  public WebsiteDTOBuilder extension(String extension) {
+    this.extension = extension;
+    return this;
+  }
+
   public WebsiteDTOBuilder description(String description) {
     this.description = description;
+    return this;
+  }
+
+  public WebsiteDTOBuilder secure(boolean secure) {
+    this.secure = secure;
     return this;
   }
 
@@ -27,6 +41,8 @@ public class WebsiteDTOBuilder extends BaseBuilder<WebsiteDTO> {
     WebsiteDTO website = new WebsiteDTO();
     website.setDescription(description);
     website.setName(name);
+    website.setSecure(secure);
+    website.setExtension(extension);
     return website;
   }
 

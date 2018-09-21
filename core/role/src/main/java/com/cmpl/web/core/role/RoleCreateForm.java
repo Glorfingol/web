@@ -6,6 +6,7 @@ public class RoleCreateForm {
 
   @NotBlank(message = "empty.role.name")
   private String name;
+
   @NotBlank(message = "empty.role.description")
   private String description;
 

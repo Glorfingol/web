@@ -1,13 +1,13 @@
 package com.cmpl.web.core.carousel;
 
-import java.util.List;
-
 import com.cmpl.web.core.carousel.item.CarouselItemDTO;
 import com.cmpl.web.core.common.builder.BaseBuilder;
+import java.util.List;
 
 public class CarouselDTOBuilder extends BaseBuilder<CarouselDTO> {
 
   private String name;
+
   private List<CarouselItemDTO> carouselItems;
 
   private CarouselDTOBuilder() {

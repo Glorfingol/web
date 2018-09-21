@@ -1,16 +1,20 @@
 package com.cmpl.web.core.carousel;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.time.LocalDateTime;
 
 public class CarouselUpdateFormBuilder extends Builder<CarouselUpdateForm> {
 
   private String name;
+
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
 
   private CarouselUpdateFormBuilder() {

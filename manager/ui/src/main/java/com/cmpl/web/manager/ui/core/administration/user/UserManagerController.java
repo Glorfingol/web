@@ -1,28 +1,32 @@
 package com.cmpl.web.manager.ui.core.administration.user;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
+import com.cmpl.web.core.common.notification.NotificationCenter;
+import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
+import com.cmpl.web.core.user.UserCreateForm;
+import com.cmpl.web.core.user.UserDispatcher;
+import com.cmpl.web.core.user.UserResponse;
+import com.cmpl.web.core.user.UserUpdateForm;
+import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
 import java.util.Locale;
 import java.util.Objects;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.common.notification.NotificationCenter;
-import com.cmpl.web.core.factory.user.UserManagerDisplayFactory;
-import com.cmpl.web.core.page.BACK_PAGE;
-import com.cmpl.web.core.user.UserCreateForm;
-import com.cmpl.web.core.user.UserDispatcher;
-import com.cmpl.web.core.user.UserResponse;
-import com.cmpl.web.core.user.UserUpdateForm;
-import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
 
 @ManagerController
 @RequestMapping(value = "/manager/users")
@@ -31,11 +35,15 @@ public class UserManagerController {
   private static final Logger LOGGER = LoggerFactory.getLogger(UserManagerController.class);
 
   private final UserManagerDisplayFactory userManagerDisplayFactory;
+
   private final UserDispatcher userDispatcher;
+
   private final NotificationCenter notificationCenter;
+
   private final WebMessageSource messageSource;
 
-  public UserManagerController(UserManagerDisplayFactory userManagerDisplayFactory, UserDispatcher userDispatcher,
+  public UserManagerController(UserManagerDisplayFactory userManagerDisplayFactory,
+      UserDispatcher userDispatcher,
       NotificationCenter notificationCenter, WebMessageSource messageSource) {
 
     this.userManagerDisplayFactory = Objects.requireNonNull(userManagerDisplayFactory);
@@ -46,11 +54,22 @@ public class UserManagerController {
 
   @GetMapping
   @PreAuthorize("hasAuthority('administration:users:read')")
-  public ModelAndView printViewUsers(@RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
+  public ModelAndView printViewUsers(@RequestParam(name = "p", required = false) Integer pageNumber,
+      Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
-    LOGGER.info("Accès à la page " + BACK_PAGE.USER_VIEW.name());
     return userManagerDisplayFactory.computeModelAndViewForViewAllUsers(locale, pageNumberToUse);
+  }
+
+  @GetMapping(value = "/search")
+  @PreAuthorize("hasAuthority('administration:users:read')")
+  public ModelAndView printSearchUsers(
+      @RequestParam(name = "p", required = false) Integer pageNumber,
+      @RequestParam(name = "q") String query, Locale locale) {
+
+    int pageNumberToUse = computePageNumberFromRequest(pageNumber);
+    return userManagerDisplayFactory
+        .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -64,7 +83,6 @@ public class UserManagerController {
   @GetMapping(value = "/_create")
   @PreAuthorize("hasAuthority('administration:users:create')")
   public ModelAndView printCreateUser(Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.USER_CREATE.name());
     return userManagerDisplayFactory.computeModelAndViewForCreateUser(locale);
   }
 
@@ -85,11 +103,13 @@ public class UserManagerController {
 
       LOGGER.info("Entrée crée, id " + response.getUser().getId());
 
-      notificationCenter.sendNotification("success", messageSource.getMessage("create.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("create.success", locale));
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("create.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
   }
@@ -111,12 +131,14 @@ public class UserManagerController {
 
       LOGGER.info("Entrée modifiée, id " + response.getUser().getId());
 
-      notificationCenter.sendNotification("success", messageSource.getMessage("update.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("update.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("update.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -125,17 +147,20 @@ public class UserManagerController {
   @DeleteMapping(value = "/{userId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:users:delete')")
-  public ResponseEntity<UserResponse> deleteUser(@PathVariable(value = "userId") String userId, Locale locale) {
+  public ResponseEntity<UserResponse> deleteUser(@PathVariable(value = "userId") String userId,
+      Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un utilisateur");
     try {
       UserResponse response = userDispatcher.deleteEntity(userId, locale);
       LOGGER.info("User " + userId + " supprimé");
-      notificationCenter.sendNotification("success", messageSource.getMessage("delete.success", locale));
+      notificationCenter
+          .sendNotification("success", messageSource.getMessage("delete.success", locale));
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       LOGGER.error("Echec de la suppression de l'entrée", e);
-      notificationCenter.sendNotification("danger", messageSource.getMessage("delete.error", locale));
+      notificationCenter
+          .sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -143,29 +168,29 @@ public class UserManagerController {
 
   @GetMapping(value = "/{userId}")
   @PreAuthorize("hasAuthority('administration:users:read')")
-  public ModelAndView printViewUpdateUser(@PathVariable(value = "userId") String userId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.USER_UPDATE.name() + " pour " + userId);
+  public ModelAndView printViewUpdateUser(@PathVariable(value = "userId") String userId,
+      Locale locale) {
     return userManagerDisplayFactory.computeModelAndViewForUpdateUser(locale, userId);
   }
 
   @GetMapping(value = "/{userId}/_main")
   @PreAuthorize("hasAuthority('administration:users:read')")
-  public ModelAndView printViewUpdateUserMain(@PathVariable(value = "userId") String userId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.USER_UPDATE.name() + " pour " + userId + " pour la partie main");
+  public ModelAndView printViewUpdateUserMain(@PathVariable(value = "userId") String userId,
+      Locale locale) {
     return userManagerDisplayFactory.computeModelAndViewForUpdateUserMain(locale, userId);
   }
 
   @GetMapping(value = "/{userId}/_roles")
   @PreAuthorize("hasAuthority('administration:users:read')")
-  public ModelAndView printViewUpdateUserRoles(@PathVariable(value = "userId") String userId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.USER_UPDATE.name() + " pour " + userId + " pour la partie roles");
+  public ModelAndView printViewUpdateUserRoles(@PathVariable(value = "userId") String userId,
+      Locale locale) {
     return userManagerDisplayFactory.computeModelAndViewForUpdateUserRoles(locale, userId);
   }
 
   @GetMapping(value = "/{userId}/_memberships")
   @PreAuthorize("hasAuthority('administration:users:read')")
-  public ModelAndView printViewUpdateUserMemberships(@PathVariable(value = "userId") String userId, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.USER_UPDATE.name() + " pour " + userId + " pour la partie groupes");
+  public ModelAndView printViewUpdateUserMemberships(@PathVariable(value = "userId") String userId,
+      Locale locale) {
     return userManagerDisplayFactory.computeModelAndViewForMembership(userId);
   }
 

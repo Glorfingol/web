@@ -1,12 +1,12 @@
 package com.cmpl.web.core.role.privilege;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.util.List;
 
 public class PrivilegeFormBuilder extends Builder<PrivilegeForm> {
 
   private String roleId;
+
   private List<String> privilegesToEnable;
 
   public PrivilegeFormBuilder privilegesToEnable(List<String> privilegesToEnable) {

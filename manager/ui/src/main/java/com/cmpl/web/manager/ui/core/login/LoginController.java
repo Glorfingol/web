@@ -1,92 +1,98 @@
 package com.cmpl.web.manager.ui.core.login;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.factory.login.LoginDisplayFactory;
-import com.cmpl.web.core.page.BACK_PAGE;
+import com.cmpl.web.core.page.BackPage;
 import com.cmpl.web.core.user.ChangePasswordForm;
-import com.cmpl.web.core.user.ChangePasswordResponse;
-import com.cmpl.web.core.user.RequestPasswordLinkResponse;
 import com.cmpl.web.core.user.UserDispatcher;
 
 /**
  * Controller pour afficher la page de login
- * 
- * @author Louis
  *
+ * @author Louis
  */
 @Controller
 public class LoginController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
-
   private final LoginDisplayFactory displayFactory;
+
   private final UserDispatcher userDispatcher;
+
+  private final PluginRegistry<BackPage, String> backPagesRegistry;
+
+  private final WebMessageSource messageSource;
 
   /**
    * Constructeur en autowired
-   * 
-   * @param displayFactory
    */
-  public LoginController(LoginDisplayFactory displayFactory, UserDispatcher userDispatcher) {
+  public LoginController(LoginDisplayFactory displayFactory, UserDispatcher userDispatcher,
+      PluginRegistry<BackPage, String> backPagesRegistry, WebMessageSource messageSource) {
 
     this.displayFactory = Objects.requireNonNull(displayFactory);
     this.userDispatcher = Objects.requireNonNull(userDispatcher);
+    this.backPagesRegistry = backPagesRegistry;
+    this.messageSource = messageSource;
   }
 
   /**
    * Mapping pour la page de login
-   * 
-   * @return
    */
   @GetMapping(value = "/login")
   public ModelAndView printLogin() {
-
-    LOGGER.info("Accès à la page " + BACK_PAGE.LOGIN.name());
-    return displayFactory.computeModelAndViewForBackPage(BACK_PAGE.LOGIN, Locale.FRANCE);
+    return displayFactory.computeModelAndViewForBackPage(computeBackPage("LOGIN"), Locale.FRANCE);
   }
 
   @GetMapping(value = "/forgotten_password")
   public ModelAndView printForgottenPassword() {
-    LOGGER.info("Accès à la page " + BACK_PAGE.FORGOTTEN_PASSWORD.name());
-    return displayFactory.computeModelAndViewForBackPage(BACK_PAGE.FORGOTTEN_PASSWORD, Locale.FRANCE);
+    return displayFactory.computeModelAndViewForBackPage(computeBackPage("FORGOTTEN_PASSWORD"), Locale.FRANCE);
   }
 
   @PostMapping(value = "/forgotten_password")
   @ResponseBody
-  public ResponseEntity<RequestPasswordLinkResponse> handleForgottenPassword(@RequestBody String email, Locale locale) {
-    RequestPasswordLinkResponse response = userDispatcher.sendChangePasswordLink(email, locale);
-    return new ResponseEntity<>(response, HttpStatus.OK);
+  public ModelAndView handleForgottenPassword(@RequestBody String email, Locale locale) {
+    userDispatcher.sendChangePasswordLink(email, locale);
+    return displayFactory.computeModelAndViewForBackPage(computeBackPage("LOGIN"), Locale.FRANCE);
   }
 
   @GetMapping(value = "/change_password")
   public ModelAndView printChangePassword(@RequestParam("token") String token, Locale locale) {
-    LOGGER.info("Accès à la page " + BACK_PAGE.FORGOTTEN_PASSWORD.name());
 
-    ModelAndView changePasswordModel = displayFactory.computeModelAndViewForBackPage(BACK_PAGE.CHANGE_PASSWORD, locale);
+    ModelAndView changePasswordModel = displayFactory.computeModelAndViewForBackPage(computeBackPage("CHANGE_PASSWORD"),
+        locale);
     changePasswordModel.addObject("token", token);
     return changePasswordModel;
   }
 
   @PostMapping(value = "/change_password")
-  @ResponseBody
-  public ResponseEntity<ChangePasswordResponse> handleChangePassword(@RequestBody ChangePasswordForm form,
+  public ModelAndView handleChangePassword(@RequestBody ChangePasswordForm form, BindingResult bindingResult,
       Locale locale) {
-    ChangePasswordResponse response = userDispatcher.changePassword(form, locale);
-    return new ResponseEntity<>(response, HttpStatus.OK);
+    if (bindingResult.hasErrors()) {
+      ModelAndView changePasswordModel = displayFactory
+          .computeModelAndViewForBackPage(computeBackPage("CHANGE_PASSWORD"), locale);
+      List<FieldError> translatedErrors = bindingResult.getFieldErrors().stream()
+          .map(fieldError -> new FieldError(fieldError.getObjectName(), fieldError.getField(),
+              messageSource.getMessage(fieldError.getDefaultMessage(), locale)))
+          .collect(Collectors.toList());
+      changePasswordModel.addObject("errors", translatedErrors);
+      return changePasswordModel;
+    }
+    userDispatcher.changePassword(form, locale);
+    return displayFactory.computeModelAndViewForBackPage(computeBackPage("LOGIN"), Locale.FRANCE);
   }
 
+  protected BackPage computeBackPage(String pageName) {
+    return backPagesRegistry.getPluginFor(pageName);
+  }
 }

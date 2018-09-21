@@ -1,9 +1,8 @@
 package com.cmpl.web.core.responsibility;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.dao.BaseDAO;
 import com.cmpl.web.core.models.Responsibility;
+import java.util.List;
 
 public interface ResponsibilityDAO extends BaseDAO<Responsibility> {
 

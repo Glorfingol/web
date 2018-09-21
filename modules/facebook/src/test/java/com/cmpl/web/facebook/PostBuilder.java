@@ -1,13 +1,11 @@
 package com.cmpl.web.facebook;
 
+import com.cmpl.web.core.common.builder.Builder;
 import java.util.Date;
-
 import org.mockito.BDDMockito;
 import org.springframework.social.facebook.api.Post;
-import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.Post.PostType;
-
-import com.cmpl.web.core.common.builder.Builder;
+import org.springframework.social.facebook.api.Reference;
 
 public class PostBuilder extends Builder<Post> {
 
@@ -15,16 +13,27 @@ public class PostBuilder extends Builder<Post> {
   }
 
   private String message;
+
   private String description;
+
   private String name;
+
   private String caption;
+
   private PostType type;
+
   private String id;
+
   private String objectId;
+
   private Date createdTime;
+
   private String link;
+
   private Reference reference;
+
   private String picture;
+
   private String source;
 
   public PostBuilder message(String message) {

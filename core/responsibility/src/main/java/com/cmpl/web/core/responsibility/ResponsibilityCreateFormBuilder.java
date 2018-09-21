@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.Builder;
 public class ResponsibilityCreateFormBuilder extends Builder<ResponsibilityCreateForm> {
 
   private String userId;
+
   private String roleId;
 
   public ResponsibilityCreateFormBuilder userId(String userId) {

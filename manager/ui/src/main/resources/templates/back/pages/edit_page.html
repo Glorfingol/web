@@ -70,6 +70,7 @@
   var codeMirrorBody;
   var codeMirrorFooter;
   var codeMirrorMeta;
+  var codeMirrorAMP;
   var currentTab = "";
   var languageCode = [[${updateForm.localeCode}]];
 
@@ -80,6 +81,7 @@
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         codeMirrorBody = setUpCodeMirror("pageBody");
+        fix_code_mirror_height();
         prepareDragAndDrop();
         currentTab = "body";
       });
@@ -93,6 +95,7 @@
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         codeMirrorHeader = setUpCodeMirror("pageHeader");
+        fix_code_mirror_height();
         prepareDragAndDrop();
         currentTab = "header";
       });
@@ -106,6 +109,7 @@
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
         codeMirrorFooter = setUpCodeMirror("pageFooter");
+        fix_code_mirror_height();
         prepareDragAndDrop();
         currentTab = "footer";
       });
@@ -120,6 +124,7 @@
         $("#ajaxTab").html(data);
         currentTab = "new_meta";
         codeMirrorMeta = setUpCodeMirror("pageMeta");
+        fix_code_mirror_height();
       });
     }
   };
@@ -152,7 +157,8 @@
           + languageCode;
       $.get(url, function (data) {
         $("#ajaxTab").html(data);
-        codeMirrorHeader = setUpCodeMirror("pageAmp");
+        codeMirrorAMP = setUpCodeMirror("pageAmp");
+        fix_code_mirror_height();
         prepareDragAndDrop();
         currentTab = "amp";
       });
@@ -171,10 +177,11 @@
 
   var goToPreviewTab = function () {
     if (currentTab !== "preview") {
-      var url = "/pages/" + [['' + ${updateForm.name} +'']];
-      var iframe = $('<iframe src="' + url + '" frameborder="0" id="previewIframe"></iframe>');
-      $("#ajaxTab").html(iframe)
-      currentTab = "preview";
+      var url = "/manager/pages/" + [['' + ${updateForm.id} +'']] + "/_preview";
+      $.get(url, function (data) {
+        $("#ajaxTab").html(data);
+        currentTab = "preview";
+      });
     }
   };
 
@@ -201,7 +208,7 @@
 
   var setUpCodeMirror = function (textAreaId) {
     var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
-        {theme: "neo", lineNumbers: true});
+        {theme: "neo", lineNumbers: true, lineWrapping: true});
     codeMirror.on("drop", function (editor, e) {
       var dataTransferred = e.dataTransfer.getData("text/html");
       var newDiv = '\n<div id="widget_' + dataTransferred + '">\n</div>';

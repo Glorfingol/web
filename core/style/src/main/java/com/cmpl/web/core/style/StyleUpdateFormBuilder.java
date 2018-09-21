@@ -1,19 +1,26 @@
 package com.cmpl.web.core.style;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.time.LocalDateTime;
 
 public class StyleUpdateFormBuilder extends Builder<StyleUpdateForm> {
 
   private String content;
+
   private String name;
+
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String mediaName;
+
   private Long mediaId;
+
   private String creationUser;
+
   private String modificationUser;
 
   public StyleUpdateFormBuilder content(String content) {

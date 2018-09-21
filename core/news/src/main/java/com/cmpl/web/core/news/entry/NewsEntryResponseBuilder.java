@@ -5,6 +5,7 @@ import com.cmpl.web.core.common.builder.Builder;
 public class NewsEntryResponseBuilder extends Builder<NewsEntryResponse> {
 
   private NewsEntryDTO newsEntry;
+
   private String createdEntityId;
 
   private NewsEntryResponseBuilder() {

@@ -5,11 +5,17 @@ import com.cmpl.web.core.common.builder.Builder;
 public class BackMenuItemBuilder extends Builder<BackMenuItem> {
 
   private String title;
+
   private String label;
+
   private String href;
+
   private int order;
+
   private String iconClass;
+
   private BackMenuItem parent;
+
   private String privilege;
 
   private BackMenuItemBuilder() {

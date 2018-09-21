@@ -1,28 +1,37 @@
 package com.cmpl.web.facebook;
 
 import java.time.LocalDate;
-
 import org.springframework.social.facebook.api.Post.PostType;
 
 /**
  * Objet representant un post facebook importable en tant que NewsEntry
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class ImportablePost {
 
   private String author;
+
   private String title;
+
   private PostType type;
+
   private String description;
+
   private String photoUrl;
+
   private String videoUrl;
+
   private String linkUrl;
+
   private String facebookId;
+
   private LocalDate creationDate;
+
   private String formattedDate;
+
   private String objectId;
+
   private String onclick;
 
   public String getAuthor() {

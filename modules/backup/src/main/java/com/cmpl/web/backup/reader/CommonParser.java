@@ -1,5 +1,8 @@
 package com.cmpl.web.backup.reader;
 
+import com.cmpl.web.backup.writer.DataManipulator;
+import com.cmpl.web.core.common.reflexion.CommonReflexion;
+import com.cmpl.web.core.models.BaseEntity;
 import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
@@ -15,7 +18,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.csv.QuoteMode;
@@ -23,19 +25,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.common.reflexion.CommonReflexion;
-import com.cmpl.web.core.models.BaseEntity;
-
 public abstract class CommonParser<T extends BaseEntity> extends CommonReflexion {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CommonParser.class);
 
   private final DateTimeFormatter dateFormatter;
+
   private final DataManipulator<T> dataManipulator;
+
   private final String backupFilePath;
 
-  public CommonParser(DateTimeFormatter dateFormatter, DataManipulator<T> dataManipulator, String backupFilePath) {
+  public CommonParser(DateTimeFormatter dateFormatter, DataManipulator<T> dataManipulator,
+      String backupFilePath) {
     this.dateFormatter = Objects.requireNonNull(dateFormatter);
     this.dataManipulator = Objects.requireNonNull(dataManipulator);
     this.backupFilePath = Objects.requireNonNull(backupFilePath);
@@ -144,7 +145,8 @@ public abstract class CommonParser<T extends BaseEntity> extends CommonReflexion
       checkedDateToParse = checkedDateToParse.substring(0, 19);
     }
     return Date
-        .from(LocalDateTime.from(dateFormatter.parse(checkedDateToParse)).atZone(ZoneId.systemDefault()).toInstant());
+        .from(LocalDateTime.from(dateFormatter.parse(checkedDateToParse))
+            .atZone(ZoneId.systemDefault()).toInstant());
   }
 
   private String parseString(CSVRecord record, String propertyName) {

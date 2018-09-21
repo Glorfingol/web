@@ -6,7 +6,9 @@ import com.cmpl.web.core.media.MediaDTO;
 public class NewsImageDTOBuilder extends BaseBuilder<NewsImageDTO> {
 
   private MediaDTO media;
+
   private String legend;
+
   private String alt;
 
   private NewsImageDTOBuilder() {

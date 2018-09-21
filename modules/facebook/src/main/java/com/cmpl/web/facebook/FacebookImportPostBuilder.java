@@ -1,20 +1,28 @@
 package com.cmpl.web.facebook;
 
-import org.springframework.social.facebook.api.Post.PostType;
-
 import com.cmpl.web.core.common.builder.Builder;
+import org.springframework.social.facebook.api.Post.PostType;
 
 public class FacebookImportPostBuilder extends Builder<FacebookImportPost> {
 
   private String author;
+
   private String title;
+
   private PostType type;
+
   private String description;
+
   private String photoUrl;
+
   private String videoUrl;
+
   private String linkUrl;
+
   private String facebookId;
+
   private String creationDate;
+
   private String objectId;
 
   private FacebookImportPostBuilder() {

@@ -4,13 +4,13 @@ import com.cmpl.web.core.common.resource.BaseResponse;
 
 /**
  * Reponse NewsEntry
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public class NewsEntryResponse extends BaseResponse {
 
   private NewsEntryDTO newsEntry;
+
   private String createdEntityId;
 
   public NewsEntryDTO getNewsEntry() {

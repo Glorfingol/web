@@ -1,12 +1,14 @@
 package com.cmpl.web.backup.reader;
 
+import com.cmpl.web.backup.writer.DataManipulator;
+import com.cmpl.web.core.models.BaseEntity;
+import com.cmpl.web.core.models.Page;
 import java.lang.reflect.Field;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.QuoteMode;
 import org.junit.Assert;
@@ -17,14 +19,11 @@ import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.core.models.BaseEntity;
-import com.cmpl.web.core.models.Page;
-
 @RunWith(MockitoJUnitRunner.class)
 public class CommonParserTest {
 
   private String backupFilePath;
+
   private DateTimeFormatter dateFormatter;
 
   @Mock
@@ -50,7 +49,8 @@ public class CommonParserTest {
 
   @Test
   public void testBuildCSVFormat() throws Exception {
-    Assert.assertEquals(CSVFormat.EXCEL.withHeader().withQuoteMode(QuoteMode.ALL), parser.buildCSVFormat());
+    Assert.assertEquals(CSVFormat.EXCEL.withHeader().withQuoteMode(QuoteMode.ALL),
+        parser.buildCSVFormat());
   }
 
   @Test

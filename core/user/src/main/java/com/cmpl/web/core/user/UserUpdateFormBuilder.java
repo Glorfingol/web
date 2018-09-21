@@ -1,20 +1,28 @@
 package com.cmpl.web.core.user;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.time.LocalDateTime;
 
 public class UserUpdateFormBuilder extends Builder<UserUpdateForm> {
 
   private String login;
+
   private LocalDateTime lastConnection;
+
   private String email;
+
   private String description;
+
   private Long id;
+
   private LocalDateTime creationDate;
+
   private LocalDateTime modificationDate;
+
   private String creationUser;
+
   private String modificationUser;
+
   private LocalDateTime lastPasswordModification;
 
   private UserUpdateFormBuilder() {

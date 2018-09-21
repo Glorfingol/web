@@ -7,6 +7,9 @@ public class PageMapper extends BaseMapper<PageDTO, Page> {
 
   @Override
   public PageDTO toDTO(Page entity) {
+    if (entity == null) {
+      return null;
+    }
     PageDTO dto = PageDTOBuilder.create().build();
     fillObject(entity, dto);
     return dto;

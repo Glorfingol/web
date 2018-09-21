@@ -1,8 +1,7 @@
 package com.cmpl.web.core.role;
 
-import java.util.List;
-
 import com.cmpl.web.core.common.dto.BaseDTO;
+import java.util.List;
 
 public class RoleDTO extends BaseDTO {
 

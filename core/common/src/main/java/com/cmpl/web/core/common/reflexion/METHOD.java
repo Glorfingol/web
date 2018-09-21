@@ -2,9 +2,8 @@ package com.cmpl.web.core.common.reflexion;
 
 /**
  * Enumeration listant les mutateurs possibles
- * 
- * @author Louis
  *
+ * @author Louis
  */
 public enum METHOD {
 

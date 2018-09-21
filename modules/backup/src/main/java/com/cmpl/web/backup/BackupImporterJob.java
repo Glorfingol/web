@@ -1,5 +1,6 @@
 package com.cmpl.web.backup;
 
+import com.cmpl.web.backup.reader.BackupImporter;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -8,8 +9,6 @@ import org.quartz.PersistJobDataAfterExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.cmpl.web.backup.reader.BackupImporter;
 
 @PersistJobDataAfterExecution
 @DisallowConcurrentExecution

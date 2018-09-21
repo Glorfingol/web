@@ -17,6 +17,9 @@ public class Widget extends BaseEntity {
   @Column(name = "name", nullable = false, unique = true)
   private String name;
 
+  @Column(name = "is_asynchronous")
+  private boolean asynchronous;
+
   public String getType() {
     return type;
   }
@@ -39,5 +42,13 @@ public class Widget extends BaseEntity {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public boolean isAsynchronous() {
+    return asynchronous;
+  }
+
+  public void setAsynchronous(boolean asynchronous) {
+    this.asynchronous = asynchronous;
   }
 }

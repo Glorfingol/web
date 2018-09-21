@@ -1,8 +1,7 @@
 package com.cmpl.web.core.group;
 
-import javax.validation.constraints.NotBlank;
-
 import com.cmpl.web.core.common.form.BaseUpdateForm;
+import javax.validation.constraints.NotBlank;
 
 public class GroupUpdateForm extends BaseUpdateForm<GroupDTO> {
 

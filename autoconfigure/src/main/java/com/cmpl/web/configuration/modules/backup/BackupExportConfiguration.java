@@ -1,10 +1,56 @@
 package com.cmpl.web.configuration.modules.backup;
 
+import com.cmpl.web.backup.BackupExporterJob;
+import com.cmpl.web.backup.DefaultCSVGenerator;
+import com.cmpl.web.backup.writer.ArchiveManager;
+import com.cmpl.web.backup.writer.CSVGenerator;
+import com.cmpl.web.backup.writer.CarouselCSVWriter;
+import com.cmpl.web.backup.writer.CarouselItemCSVWriter;
+import com.cmpl.web.backup.writer.CommonWriter;
+import com.cmpl.web.backup.writer.DataManipulator;
+import com.cmpl.web.backup.writer.DefaultArchiveManager;
+import com.cmpl.web.backup.writer.DesignCSVWriter;
+import com.cmpl.web.backup.writer.GroupCSVWriter;
+import com.cmpl.web.backup.writer.MediaCSVWriter;
+import com.cmpl.web.backup.writer.MembershipCSVWriter;
+import com.cmpl.web.backup.writer.NewsContentCSVWriter;
+import com.cmpl.web.backup.writer.NewsEntryCSVWriter;
+import com.cmpl.web.backup.writer.NewsImageCSVWriter;
+import com.cmpl.web.backup.writer.PageCSVWriter;
+import com.cmpl.web.backup.writer.PrivilegeCSVWriter;
+import com.cmpl.web.backup.writer.ResponsibilityCSVWriter;
+import com.cmpl.web.backup.writer.RoleCSVWriter;
+import com.cmpl.web.backup.writer.SitemapCSVWriter;
+import com.cmpl.web.backup.writer.StyleCSVWriter;
+import com.cmpl.web.backup.writer.UserCSVWriter;
+import com.cmpl.web.backup.writer.WebsiteCSVWriter;
+import com.cmpl.web.backup.writer.WidgetCSVWriter;
+import com.cmpl.web.backup.writer.WidgetPageCSVWriter;
+import com.cmpl.web.core.models.BOGroup;
+import com.cmpl.web.core.models.Carousel;
+import com.cmpl.web.core.models.CarouselItem;
+import com.cmpl.web.core.models.Design;
+import com.cmpl.web.core.models.Media;
+import com.cmpl.web.core.models.Membership;
+import com.cmpl.web.core.models.NewsContent;
+import com.cmpl.web.core.models.NewsEntry;
+import com.cmpl.web.core.models.NewsImage;
+import com.cmpl.web.core.models.Page;
+import com.cmpl.web.core.models.Privilege;
+import com.cmpl.web.core.models.Responsibility;
+import com.cmpl.web.core.models.Role;
+import com.cmpl.web.core.models.Sitemap;
+import com.cmpl.web.core.models.Style;
+import com.cmpl.web.core.models.User;
+import com.cmpl.web.core.models.Website;
+import com.cmpl.web.core.models.Widget;
+import com.cmpl.web.core.models.WidgetPage;
+import com.cmpl.web.google.DriveAdapter;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
 import org.quartz.JobDetail;
 import org.quartz.SimpleTrigger;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,45 +60,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
-
-import com.cmpl.web.backup.BackupExporterJob;
-import com.cmpl.web.backup.CSVGeneratorImpl;
-import com.cmpl.web.backup.writer.ArchiveManager;
-import com.cmpl.web.backup.writer.ArchiveManagerImpl;
-import com.cmpl.web.backup.writer.AssociationUserRoleCSVWriter;
-import com.cmpl.web.backup.writer.CSVGenerator;
-import com.cmpl.web.backup.writer.CarouselCSVWriter;
-import com.cmpl.web.backup.writer.CarouselItemCSVWriter;
-import com.cmpl.web.backup.writer.CommonWriter;
-import com.cmpl.web.backup.writer.DataManipulator;
-import com.cmpl.web.backup.writer.MediaCSVWriter;
-import com.cmpl.web.backup.writer.MenuCSVWriter;
-import com.cmpl.web.backup.writer.NewsContentCSVWriter;
-import com.cmpl.web.backup.writer.NewsEntryCSVWriter;
-import com.cmpl.web.backup.writer.NewsImageCSVWriter;
-import com.cmpl.web.backup.writer.PageCSVWriter;
-import com.cmpl.web.backup.writer.PrivilegeCSVWriter;
-import com.cmpl.web.backup.writer.RoleCSVWriter;
-import com.cmpl.web.backup.writer.StyleCSVWriter;
-import com.cmpl.web.backup.writer.UserCSVWriter;
-import com.cmpl.web.backup.writer.WidgetCSVWriter;
-import com.cmpl.web.backup.writer.WidgetPageCSVWriter;
-import com.cmpl.web.core.models.Carousel;
-import com.cmpl.web.core.models.CarouselItem;
-import com.cmpl.web.core.models.Media;
-import com.cmpl.web.core.models.Menu;
-import com.cmpl.web.core.models.NewsContent;
-import com.cmpl.web.core.models.NewsEntry;
-import com.cmpl.web.core.models.NewsImage;
-import com.cmpl.web.core.models.Page;
-import com.cmpl.web.core.models.Privilege;
-import com.cmpl.web.core.models.Responsibility;
-import com.cmpl.web.core.models.Role;
-import com.cmpl.web.core.models.Style;
-import com.cmpl.web.core.models.User;
-import com.cmpl.web.core.models.Widget;
-import com.cmpl.web.core.models.WidgetPage;
-import com.cmpl.web.google.DriveAdapter;
 
 @Configuration
 @PropertySource("classpath:/backup/backup.properties")
@@ -70,17 +77,18 @@ public class BackupExportConfiguration {
   @Value("${mediaFilePath}")
   String mediaFilePath;
 
-  DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withZone(ZoneId.systemDefault());;
+  DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+      .withZone(ZoneId.systemDefault());
+
+  ;
 
   @Bean
   public ArchiveManager archiveManager(DriveAdapter driveAdapter) {
-    return new ArchiveManagerImpl(backupFilePath, mediaFilePath, pagesFilePath, actualitesFilePath, driveAdapter);
+    return new DefaultArchiveManager(backupFilePath, mediaFilePath, pagesFilePath,
+        actualitesFilePath,
+        driveAdapter);
   }
 
-  @Bean
-  public MenuCSVWriter menuCSVWriter(DataManipulator<Menu> menuDataManipulator) {
-    return new MenuCSVWriter(dateFormatter, menuDataManipulator, backupFilePath);
-  }
 
   @Bean
   public StyleCSVWriter styleCSVWriter(DataManipulator<Style> styleDataManipulator) {
@@ -103,22 +111,26 @@ public class BackupExportConfiguration {
   }
 
   @Bean
-  public CarouselItemCSVWriter carouselItemCSVWriter(DataManipulator<CarouselItem> carouselItemDataManipulator) {
+  public CarouselItemCSVWriter carouselItemCSVWriter(
+      DataManipulator<CarouselItem> carouselItemDataManipulator) {
     return new CarouselItemCSVWriter(dateFormatter, carouselItemDataManipulator, backupFilePath);
   }
 
   @Bean
-  public NewsEntryCSVWriter newsEntryCSVWriter(DataManipulator<NewsEntry> newsEntryDataManipulator) {
+  public NewsEntryCSVWriter newsEntryCSVWriter(
+      DataManipulator<NewsEntry> newsEntryDataManipulator) {
     return new NewsEntryCSVWriter(dateFormatter, newsEntryDataManipulator, backupFilePath);
   }
 
   @Bean
-  public NewsImageCSVWriter newsImageCSVWriter(DataManipulator<NewsImage> newsImageDataManipulator) {
+  public NewsImageCSVWriter newsImageCSVWriter(
+      DataManipulator<NewsImage> newsImageDataManipulator) {
     return new NewsImageCSVWriter(dateFormatter, newsImageDataManipulator, backupFilePath);
   }
 
   @Bean
-  public NewsContentCSVWriter newsContentCSVWriter(DataManipulator<NewsContent> newsContentDataManipulator) {
+  public NewsContentCSVWriter newsContentCSVWriter(
+      DataManipulator<NewsContent> newsContentDataManipulator) {
     return new NewsContentCSVWriter(dateFormatter, newsContentDataManipulator, backupFilePath);
   }
 
@@ -128,7 +140,8 @@ public class BackupExportConfiguration {
   }
 
   @Bean
-  public WidgetPageCSVWriter widgetPageCSVWriter(DataManipulator<WidgetPage> widgetPageDataManipulator) {
+  public WidgetPageCSVWriter widgetPageCSVWriter(
+      DataManipulator<WidgetPage> widgetPageDataManipulator) {
     return new WidgetPageCSVWriter(dateFormatter, widgetPageDataManipulator, backupFilePath);
   }
 
@@ -143,41 +156,68 @@ public class BackupExportConfiguration {
   }
 
   @Bean
-  public PrivilegeCSVWriter privilegeCSVWriter(DataManipulator<Privilege> privilegeDataManipulator) {
+  public PrivilegeCSVWriter privilegeCSVWriter(
+      DataManipulator<Privilege> privilegeDataManipulator) {
     return new PrivilegeCSVWriter(dateFormatter, privilegeDataManipulator, backupFilePath);
   }
 
   @Bean
-  public AssociationUserRoleCSVWriter associationUserRoleCSVWriter(
+  public ResponsibilityCSVWriter associationUserRoleCSVWriter(
       DataManipulator<Responsibility> associationUserRoleDataManipulator) {
-    return new AssociationUserRoleCSVWriter(dateFormatter, associationUserRoleDataManipulator, backupFilePath);
+    return new ResponsibilityCSVWriter(dateFormatter, associationUserRoleDataManipulator,
+        backupFilePath);
+  }
+
+  @Bean
+  public WebsiteCSVWriter websiteCSVWriter(DataManipulator<Website> websiteDataManipulator) {
+    return new WebsiteCSVWriter(dateFormatter, websiteDataManipulator, backupFilePath);
+  }
+
+  @Bean
+  public GroupCSVWriter groupCSVWriter(DataManipulator<BOGroup> groupDataManipulator) {
+    return new GroupCSVWriter(dateFormatter, groupDataManipulator, backupFilePath);
+  }
+
+  @Bean
+  public MembershipCSVWriter membershipCSVWriter(
+      DataManipulator<Membership> membershipDataManipulator) {
+    return new MembershipCSVWriter(dateFormatter, membershipDataManipulator, backupFilePath);
+  }
+
+  @Bean
+  public DesignCSVWriter designCSVWriter(DataManipulator<Design> designDataManipulator) {
+    return new DesignCSVWriter(dateFormatter, designDataManipulator, backupFilePath);
+  }
+
+  @Bean
+  public SitemapCSVWriter sitemapCSVWriter(DataManipulator<Sitemap> sitemapDataManipulator) {
+    return new SitemapCSVWriter(dateFormatter, sitemapDataManipulator, backupFilePath);
   }
 
   @Bean
   public CSVGenerator csvGenerator(UserCSVWriter userCSVWriter, RoleCSVWriter roleCSVWriter,
-      PrivilegeCSVWriter privilegeCSVWriter, AssociationUserRoleCSVWriter associationUserRoleCSVWriter,
-      MenuCSVWriter menuCSVWriter, StyleCSVWriter styleCSVWriter, PageCSVWriter pageCSVWriter,
-      MediaCSVWriter mediaCSVWriter, CarouselCSVWriter carouselCSVWriter, CarouselItemCSVWriter carouselItemCSVWriter,
+      PrivilegeCSVWriter privilegeCSVWriter, ResponsibilityCSVWriter associationUserRoleCSVWriter,
+      StyleCSVWriter styleCSVWriter, PageCSVWriter pageCSVWriter,
+      MediaCSVWriter mediaCSVWriter, CarouselCSVWriter carouselCSVWriter,
+      CarouselItemCSVWriter carouselItemCSVWriter,
       NewsEntryCSVWriter newsEntryCSVWriter, NewsImageCSVWriter newsImageCSVWriter,
       NewsContentCSVWriter newsContentCSVWriter, WidgetCSVWriter widgetCSVWriter,
-      WidgetPageCSVWriter widgetPageCSVWriter) {
+      WidgetPageCSVWriter widgetPageCSVWriter, WebsiteCSVWriter websiteCSVWriter,
+      GroupCSVWriter groupCSVWriter,
+      MembershipCSVWriter membershipCSVWriter, DesignCSVWriter designCSVWriter,
+      SitemapCSVWriter sitemapCSVWriter) {
+
     List<CommonWriter<?>> writers = new ArrayList<>();
-    writers.add(userCSVWriter);
-    writers.add(roleCSVWriter);
-    writers.add(privilegeCSVWriter);
-    writers.add(associationUserRoleCSVWriter);
-    writers.add(menuCSVWriter);
-    writers.add(styleCSVWriter);
-    writers.add(pageCSVWriter);
-    writers.add(mediaCSVWriter);
-    writers.add(carouselCSVWriter);
-    writers.add(carouselItemCSVWriter);
-    writers.add(newsEntryCSVWriter);
-    writers.add(newsImageCSVWriter);
-    writers.add(newsContentCSVWriter);
-    writers.add(widgetCSVWriter);
-    writers.add(widgetPageCSVWriter);
-    return new CSVGeneratorImpl(writers);
+    writers.addAll(Arrays
+        .asList(userCSVWriter, roleCSVWriter, privilegeCSVWriter, associationUserRoleCSVWriter,
+            styleCSVWriter, pageCSVWriter, mediaCSVWriter, carouselCSVWriter,
+            carouselItemCSVWriter,
+            newsEntryCSVWriter, newsContentCSVWriter, newsImageCSVWriter, widgetCSVWriter,
+            widgetPageCSVWriter,
+            websiteCSVWriter, groupCSVWriter, membershipCSVWriter, designCSVWriter,
+            sitemapCSVWriter));
+
+    return new DefaultCSVGenerator(writers);
   }
 
   @Bean
@@ -202,7 +242,8 @@ public class BackupExportConfiguration {
     factoryBean.setStartDelay(120 * 1000l);
     factoryBean.setRepeatInterval(24 * 60 * 60 * 1000l);
     factoryBean.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
-    factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
+    factoryBean.setMisfireInstruction(
+        SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
     return factoryBean;
   }
 
