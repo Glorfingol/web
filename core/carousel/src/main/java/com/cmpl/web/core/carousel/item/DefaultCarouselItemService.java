@@ -4,14 +4,14 @@ import com.cmpl.web.core.common.service.DefaultBaseService;
 import com.cmpl.web.core.models.CarouselItem;
 import java.util.List;
 
-public class DefaultCarouselItemServiceDefault extends
-    DefaultBaseService<CarouselItemDTO, CarouselItem>
-    implements CarouselItemService {
+public class DefaultCarouselItemService extends
+  DefaultBaseService<CarouselItemDTO, CarouselItem>
+  implements CarouselItemService {
 
   private final CarouselItemDAO carouselItemDAO;
 
-  public DefaultCarouselItemServiceDefault(CarouselItemDAO carouselItemDAO,
-      CarouselItemMapper carouselItemMapper) {
+  public DefaultCarouselItemService(CarouselItemDAO carouselItemDAO,
+    CarouselItemMapper carouselItemMapper) {
     super(carouselItemDAO, carouselItemMapper);
     this.carouselItemDAO = carouselItemDAO;
   }

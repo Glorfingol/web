@@ -28,7 +28,7 @@ public class DefaultCarouselItemServiceTest {
 
   @Spy
   @InjectMocks
-  private DefaultCarouselItemServiceDefault carouselItemService;
+  private DefaultCarouselItemService carouselItemService;
 
   @Test
   public void testCreateEntity() throws Exception {

@@ -17,8 +17,9 @@ public class CarouselItemMapper extends BaseMapper<CarouselItemDTO, CarouselItem
 
   @Override
   public CarouselItemDTO toDTO(CarouselItem entity) {
-    CarouselItemDTO dto = CarouselItemDTOBuilder.create()
-        .media(mediaService.getEntity(Long.valueOf(entity.getMediaId()))).build();
+    CarouselItemDTO dto = CarouselItemDTOBuilder.create().carouselId(entity.getCarouselId())
+      .orderInCarousel(entity.getOrderInCarousel())
+      .media(mediaService.getEntity(Long.valueOf(entity.getMediaId()))).build();
     fillObject(entity, dto);
 
     return dto;
@@ -26,8 +27,9 @@ public class CarouselItemMapper extends BaseMapper<CarouselItemDTO, CarouselItem
 
   @Override
   public CarouselItem toEntity(CarouselItemDTO dto) {
-    CarouselItem entity = CarouselItemBuilder.create()
-        .mediaId(String.valueOf(dto.getMedia().getId())).build();
+    CarouselItem entity = CarouselItemBuilder.create().carouselId(dto.getCarouselId())
+      .orderInCarousel(dto.getOrderInCarousel())
+      .mediaId(String.valueOf(dto.getMedia().getId())).build();
 
     fillObject(entity, dto);
 

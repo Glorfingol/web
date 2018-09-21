@@ -6,13 +6,13 @@ import com.querydsl.core.types.Predicate;
 import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 
-public class DefaultCarouselItemDAODefault extends DefaultBaseDAO<CarouselItem> implements
-    CarouselItemDAO {
+public class DefaultCarouselItemDAO extends DefaultBaseDAO<CarouselItem> implements
+  CarouselItemDAO {
 
   private final CarouselItemRepository carouselItemRepository;
 
-  public DefaultCarouselItemDAODefault(CarouselItemRepository entityRepository,
-      ApplicationEventPublisher publisher) {
+  public DefaultCarouselItemDAO(CarouselItemRepository entityRepository,
+    ApplicationEventPublisher publisher) {
     super(CarouselItem.class, entityRepository, publisher);
     this.carouselItemRepository = entityRepository;
   }
