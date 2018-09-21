@@ -1,13 +1,21 @@
 package com.cmpl.web.core.factory.carousel;
 
+import java.util.*;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
-import com.cmpl.web.core.carousel.CarouselCreateForm;
-import com.cmpl.web.core.carousel.CarouselCreateFormBuilder;
-import com.cmpl.web.core.carousel.CarouselDTO;
-import com.cmpl.web.core.carousel.CarouselService;
-import com.cmpl.web.core.carousel.CarouselUpdateForm;
+import com.cmpl.web.core.carousel.*;
 import com.cmpl.web.core.carousel.item.CarouselItemCreateForm;
 import com.cmpl.web.core.carousel.item.CarouselItemCreateFormBuilder;
 import com.cmpl.web.core.carousel.item.CarouselItemDTO;
@@ -22,23 +30,8 @@ import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.page.BackPage;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.ModelAndView;
 
-public class DefaultCarouselManagerDisplayFactory extends
-    AbstractBackDisplayFactory<CarouselDTO>
+public class DefaultCarouselManagerDisplayFactory extends AbstractBackDisplayFactory<CarouselDTO>
     implements CarouselManagerDisplayFactory {
 
   private final CarouselService carouselService;
@@ -57,15 +50,13 @@ public class DefaultCarouselManagerDisplayFactory extends
 
   private static final String ITEMS = "items";
 
-  public DefaultCarouselManagerDisplayFactory(MenuFactory menuFactory,
-      WebMessageSource messageSource,
-      CarouselService carouselService, CarouselItemService carouselItemService,
-      MediaService mediaService,
-      ContextHolder contextHolder, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
-      Set<Locale> availableLocales, GroupService groupService,
-      MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
-        membershipService, backPagesRegistry);
+  public DefaultCarouselManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
+      CarouselService carouselService, CarouselItemService carouselItemService, MediaService mediaService,
+      ContextHolder contextHolder, PluginRegistry<BreadCrumb, String> breadCrumbRegistry, Set<Locale> availableLocales,
+      GroupService groupService, MembershipService membershipService,
+      PluginRegistry<BackPage, String> backPagesRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService,
+        backPagesRegistry);
 
     this.carouselItemService = Objects.requireNonNull(carouselItemService);
     this.carouselService = Objects.requireNonNull(carouselService);
@@ -76,8 +67,7 @@ public class DefaultCarouselManagerDisplayFactory extends
   @Override
   public ModelAndView computeModelAndViewForViewAllCarousels(Locale locale, int pageNumber) {
     BackPage backPage = computeBackPage("CAROUSEL_VIEW");
-    ModelAndView carouselsManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+    ModelAndView carouselsManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction des carousels pour la page {}", backPage.getPageName());
 
     PageWrapper<CarouselDTO> pagedCarouselDTOWrapped = computePageWrapper(locale, pageNumber, "");
@@ -95,11 +85,9 @@ public class DefaultCarouselManagerDisplayFactory extends
         Sort.by(Direction.ASC, "name"));
     Page<CarouselDTO> pagedCarouselDTOEntries;
     if (StringUtils.hasText(query)) {
-      pagedCarouselDTOEntries = carouselService
-          .searchEntities(pageRequest, query);
+      pagedCarouselDTOEntries = carouselService.searchEntities(pageRequest, query);
     } else {
-      pagedCarouselDTOEntries = carouselService
-          .getPagedEntities(pageRequest);
+      pagedCarouselDTOEntries = carouselService.getPagedEntities(pageRequest);
     }
     if (CollectionUtils.isEmpty(pagedCarouselDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
@@ -113,8 +101,7 @@ public class DefaultCarouselManagerDisplayFactory extends
   @Override
   public ModelAndView computeModelAndViewForUpdateCarousel(Locale locale, String carouselId) {
     BackPage backPage = computeBackPage("CAROUSEL_UPDATE");
-    ModelAndView carouselManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+    ModelAndView carouselManager = super.computeModelAndViewForBackPage(backPage, locale);
     return computeModelAndViewForCarouselUpdate(carouselManager, carouselId);
   }
 
@@ -128,8 +115,7 @@ public class DefaultCarouselManagerDisplayFactory extends
     return computeModelAndViewForCarouselUpdate(carouselManager, carouselId);
   }
 
-  ModelAndView computeModelAndViewForCarouselUpdate(ModelAndView initializedModelAndView,
-      String carouselId) {
+  ModelAndView computeModelAndViewForCarouselUpdate(ModelAndView initializedModelAndView, String carouselId) {
     ModelAndView carouselManager = initializedModelAndView;
     CarouselDTO carousel = carouselService.getEntity(Long.parseLong(carouselId));
     carouselManager.addObject(UPDATE_FORM, createUpdateForm(carousel));
@@ -149,6 +135,7 @@ public class DefaultCarouselManagerDisplayFactory extends
     ModelAndView carouselManager = new ModelAndView("back/carousels/edit/tab_items");
     carouselManager.addObject(CREATE_FORM, computeItemCreateForm(carouselId));
     List<MediaDTO> medias = mediaService.getEntities();
+    Collections.sort(medias, Comparator.comparing(MediaDTO::getName));
     carouselManager.addObject(MEDIAS, medias);
     List<CarouselItemDTO> items = carouselItemService.getByCarouselId(carouselId);
     carouselManager.addObject(ITEMS, items);
@@ -158,8 +145,7 @@ public class DefaultCarouselManagerDisplayFactory extends
   @Override
   public ModelAndView computeModelAndViewForCreateCarousel(Locale locale) {
     BackPage backPage = computeBackPage("CAROUSEL_CREATE");
-    ModelAndView carouselManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+    ModelAndView carouselManager = super.computeModelAndViewForBackPage(backPage, locale);
     carouselManager.addObject(CREATE_FORM, computeCreateForm());
     return carouselManager;
   }
@@ -186,7 +172,6 @@ public class DefaultCarouselManagerDisplayFactory extends
   protected String getSearchUrl() {
     return "/manager/carousels/search";
   }
-
 
   @Override
   protected String getSearchPlaceHolder() {

@@ -1,5 +1,17 @@
 package com.cmpl.web.core.factory.website;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
@@ -27,20 +39,6 @@ import com.cmpl.web.core.website.WebsiteCreateForm;
 import com.cmpl.web.core.website.WebsiteDTO;
 import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.website.WebsiteUpdateForm;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.ModelAndView;
 
 public class DefaultWebsiteManagerDisplayFactory extends AbstractBackDisplayFactory<WebsiteDTO>
     implements WebsiteManagerDisplayFactory {
@@ -57,16 +55,13 @@ public class DefaultWebsiteManagerDisplayFactory extends AbstractBackDisplayFact
 
   private final StyleService styleService;
 
-  public DefaultWebsiteManagerDisplayFactory(MenuFactory menuFactory,
-      WebMessageSource messageSource,
-      PluginRegistry<BreadCrumb, String> breadCrumbRegistry, Set<Locale> availableLocales,
-      GroupService groupService,
-      MembershipService membershipService, ContextHolder contextHolder,
-      WebsiteService websiteService,
-      DesignService designService, SitemapService sitemapService, PageService pageService,
-      StyleService styleService, PluginRegistry<BackPage, String> backPagesRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
-        membershipService, backPagesRegistry);
+  public DefaultWebsiteManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
+      PluginRegistry<BreadCrumb, String> breadCrumbRegistry, Set<Locale> availableLocales, GroupService groupService,
+      MembershipService membershipService, ContextHolder contextHolder, WebsiteService websiteService,
+      DesignService designService, SitemapService sitemapService, PageService pageService, StyleService styleService,
+      PluginRegistry<BackPage, String> backPagesRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService,
+        backPagesRegistry);
     this.websiteService = Objects.requireNonNull(websiteService);
     this.contextHolder = Objects.requireNonNull(contextHolder);
     this.designService = Objects.requireNonNull(designService);
@@ -79,8 +74,7 @@ public class DefaultWebsiteManagerDisplayFactory extends AbstractBackDisplayFact
   @Override
   public ModelAndView computeModelAndViewForViewAllWebsites(Locale locale, int pageNumber) {
     BackPage backPage = computeBackPage("WEBSITE_VIEW");
-    ModelAndView websitesManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+    ModelAndView websitesManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction des websites pour la page {} ", backPage.getPageName());
 
     PageWrapper<WebsiteDTO> pagedWebsiteDTOWrapped = computePageWrapper(locale, pageNumber, "");
@@ -93,8 +87,7 @@ public class DefaultWebsiteManagerDisplayFactory extends AbstractBackDisplayFact
   @Override
   public ModelAndView computeModelAndViewForCreateWebsite(Locale locale) {
     BackPage backPage = computeBackPage("WEBSITE_CREATE");
-    ModelAndView websiteManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+    ModelAndView websiteManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du formulaire de creation des wesbites");
 
     WebsiteCreateForm form = new WebsiteCreateForm();
@@ -107,8 +100,7 @@ public class DefaultWebsiteManagerDisplayFactory extends AbstractBackDisplayFact
   @Override
   public ModelAndView computeModelAndViewForUpdateWebsite(Locale locale, String websiteId) {
     BackPage backPage = computeBackPage("WEBSITE_UPDATE");
-    ModelAndView websiteManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+    ModelAndView websiteManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du website pour la page {} ", backPage.getPageName());
     WebsiteDTO website = websiteService.getEntity(Long.parseLong(websiteId));
     WebsiteUpdateForm form = new WebsiteUpdateForm(website);
@@ -140,14 +132,14 @@ public class DefaultWebsiteManagerDisplayFactory extends AbstractBackDisplayFact
     WebsiteDTO website = websiteService.getEntity(Long.parseLong(websiteId));
 
     List<SitemapDTO> sitemapDTOS = sitemapService.findByWebsiteId(website.getId());
-    List<PageDTO> pages = sitemapDTOS.stream()
-        .map(sitemap -> pageService.getEntity(sitemap.getPageId()))
+    List<PageDTO> pages = sitemapDTOS.stream().map(sitemap -> pageService.getEntity(sitemap.getPageId()))
         .collect(Collectors.toList());
+    Collections.sort(pages, Comparator.comparing(PageDTO::getName));
     websiteManager.addObject("linkedPages", pages);
 
-    List<PageDTO> linkablePages = pageService.getPages().stream()
-        .filter(page -> !pages.contains(page))
+    List<PageDTO> linkablePages = pageService.getPages().stream().filter(page -> !pages.contains(page))
         .collect(Collectors.toList());
+    Collections.sort(linkablePages, Comparator.comparing(PageDTO::getName));
     websiteManager.addObject("linkablePages", linkablePages);
 
     SitemapCreateForm createForm = SitemapCreateFormBuilder.create().websiteId(websiteId).build();
@@ -163,14 +155,14 @@ public class DefaultWebsiteManagerDisplayFactory extends AbstractBackDisplayFact
     WebsiteDTO website = websiteService.getEntity(Long.parseLong(websiteId));
 
     List<DesignDTO> designDTOS = designService.findByWebsiteId(website.getId());
-    List<StyleDTO> styles = designDTOS.stream()
-        .map(design -> styleService.getEntity(design.getStyleId()))
+    List<StyleDTO> styles = designDTOS.stream().map(design -> styleService.getEntity(design.getStyleId()))
         .collect(Collectors.toList());
+    Collections.sort(styles, Comparator.comparing(StyleDTO::getName));
     websiteManager.addObject("linkedStyles", styles);
 
-    List<StyleDTO> linkableStyles = styleService.getEntities().stream()
-        .filter(style -> !styles.contains(style))
+    List<StyleDTO> linkableStyles = styleService.getEntities().stream().filter(style -> !styles.contains(style))
         .collect(Collectors.toList());
+    Collections.sort(linkableStyles, Comparator.comparing(StyleDTO::getName));
     websiteManager.addObject("linkableStyles", linkableStyles);
 
     DesignCreateForm createForm = DesignCreateFormBuilder.create().websiteId(websiteId).build();
@@ -186,11 +178,9 @@ public class DefaultWebsiteManagerDisplayFactory extends AbstractBackDisplayFact
         Sort.by(Sort.Direction.ASC, "name"));
     Page<WebsiteDTO> pagedWebsiteDTOEntries;
     if (StringUtils.hasText(query)) {
-      pagedWebsiteDTOEntries = websiteService
-          .searchEntities(pageRequest, query);
+      pagedWebsiteDTOEntries = websiteService.searchEntities(pageRequest, query);
     } else {
-      pagedWebsiteDTOEntries = websiteService
-          .getPagedEntities(pageRequest);
+      pagedWebsiteDTOEntries = websiteService.getPagedEntities(pageRequest);
     }
     if (CollectionUtils.isEmpty(pagedWebsiteDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
@@ -215,7 +205,6 @@ public class DefaultWebsiteManagerDisplayFactory extends AbstractBackDisplayFact
   protected String getSearchUrl() {
     return "/manager/websites/search";
   }
-
 
   @Override
   protected String getSearchPlaceHolder() {

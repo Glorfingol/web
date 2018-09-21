@@ -1,5 +1,18 @@
 package com.cmpl.web.core.factory.user;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
@@ -19,21 +32,6 @@ import com.cmpl.web.core.user.UserCreateForm;
 import com.cmpl.web.core.user.UserDTO;
 import com.cmpl.web.core.user.UserService;
 import com.cmpl.web.core.user.UserUpdateForm;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.ModelAndView;
 
 public class DefaultUserManagerDisplayFactory extends AbstractBackDisplayFactory<UserDTO>
     implements UserManagerDisplayFactory {
@@ -47,13 +45,12 @@ public class DefaultUserManagerDisplayFactory extends AbstractBackDisplayFactory
   private final ContextHolder contextHolder;
 
   public DefaultUserManagerDisplayFactory(UserService userService, RoleService roleService,
-      ResponsibilityService responsibilityService, ContextHolder contextHolder,
-      MenuFactory menuFactory,
+      ResponsibilityService responsibilityService, ContextHolder contextHolder, MenuFactory menuFactory,
       WebMessageSource messageSource, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
-      Set<Locale> availableLocales, GroupService groupService,
-      MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
-        membershipService, backPagesRegistry);
+      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService,
+      PluginRegistry<BackPage, String> backPagesRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService,
+        backPagesRegistry);
     this.userService = Objects.requireNonNull(userService);
 
     this.roleService = Objects.requireNonNull(roleService);
@@ -67,8 +64,7 @@ public class DefaultUserManagerDisplayFactory extends AbstractBackDisplayFactory
   @Override
   public ModelAndView computeModelAndViewForViewAllUsers(Locale locale, int pageNumber) {
     BackPage backPage = computeBackPage("USER_VIEW");
-    ModelAndView usersManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+    ModelAndView usersManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction des users pour la page {} ", backPage);
 
     PageWrapper<UserDTO> pagedUserDTOWrapped = computePageWrapper(locale, pageNumber, "");
@@ -81,8 +77,7 @@ public class DefaultUserManagerDisplayFactory extends AbstractBackDisplayFactory
   @Override
   public ModelAndView computeModelAndViewForCreateUser(Locale locale) {
     BackPage backPage = computeBackPage("USER_CREATE");
-    ModelAndView userManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+    ModelAndView userManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du formulaire de creation des users");
 
     UserCreateForm form = new UserCreateForm();
@@ -95,8 +90,7 @@ public class DefaultUserManagerDisplayFactory extends AbstractBackDisplayFactory
   @Override
   public ModelAndView computeModelAndViewForUpdateUser(Locale locale, String userId) {
     BackPage backPage = computeBackPage("USER_UPDATE");
-    ModelAndView userManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+    ModelAndView userManager = super.computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du user pour la page {} ", backPage.getPageName());
     UserDTO user = userService.getEntity(Long.parseLong(userId));
     UserUpdateForm form = new UserUpdateForm(user);
@@ -131,16 +125,15 @@ public class DefaultUserManagerDisplayFactory extends AbstractBackDisplayFactory
         .collect(Collectors.toList());
 
     List<RoleDTO> linkableRoles = roleService.getEntities().stream()
-        .filter(role -> !associatedRoles.stream()
-            .filter(associatedRole -> associatedRole.getId().equals(role.getId()))
-            .map(filteredRole -> filteredRole.getId()).collect(Collectors.toList())
-            .contains(role.getId()))
+        .filter(role -> !associatedRoles.stream().filter(associatedRole -> associatedRole.getId().equals(role.getId()))
+            .map(filteredRole -> filteredRole.getId()).collect(Collectors.toList()).contains(role.getId()))
         .collect(Collectors.toList());
 
+    Collections.sort(associatedRoles, Comparator.comparing(RoleDTO::getName));
     userManager.addObject("linkedRoles", associatedRoles);
+    Collections.sort(linkableRoles, Comparator.comparing(RoleDTO::getName));
     userManager.addObject("linkableRoles", linkableRoles);
-    userManager
-        .addObject("createForm", ResponsibilityCreateFormBuilder.create().userId(userId).build());
+    userManager.addObject("createForm", ResponsibilityCreateFormBuilder.create().userId(userId).build());
     return userManager;
   }
 
@@ -152,12 +145,9 @@ public class DefaultUserManagerDisplayFactory extends AbstractBackDisplayFactory
         Sort.by(Direction.ASC, "login"));
     Page<UserDTO> pagedUserDTOEntries;
     if (StringUtils.hasText(query)) {
-      pagedUserDTOEntries = userService
-          .searchEntities(pageRequest,
-              query);
+      pagedUserDTOEntries = userService.searchEntities(pageRequest, query);
     } else {
-      pagedUserDTOEntries = userService
-          .getPagedEntities(pageRequest);
+      pagedUserDTOEntries = userService.getPagedEntities(pageRequest);
     }
     if (CollectionUtils.isEmpty(pagedUserDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);

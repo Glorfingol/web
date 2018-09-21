@@ -1,5 +1,18 @@
 package com.cmpl.web.core.factory.page;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
@@ -10,11 +23,7 @@ import com.cmpl.web.core.factory.AbstractBackDisplayFactory;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.membership.MembershipService;
-import com.cmpl.web.core.page.BackPage;
-import com.cmpl.web.core.page.PageCreateForm;
-import com.cmpl.web.core.page.PageDTO;
-import com.cmpl.web.core.page.PageService;
-import com.cmpl.web.core.page.PageUpdateForm;
+import com.cmpl.web.core.page.*;
 import com.cmpl.web.core.sitemap.SitemapService;
 import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.widget.WidgetDTO;
@@ -23,21 +32,6 @@ import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
 import com.cmpl.web.core.widget.page.WidgetPageCreateFormBuilder;
 import com.cmpl.web.core.widget.page.WidgetPageDTO;
 import com.cmpl.web.core.widget.page.WidgetPageService;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.ModelAndView;
 
 public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory<PageDTO>
     implements PageManagerDisplayFactory {
@@ -65,14 +59,13 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
   private static final String LOCALES = "locales";
 
   public DefaultPageManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      PageService pageService,
-      ContextHolder contextHolder, WidgetService widgetService, WidgetPageService widgetPageService,
-      PluginRegistry<BreadCrumb, String> breadCrumbRegistry, Set<Locale> availableLocales,
-      GroupService groupService,
-      MembershipService membershipService, WebsiteService websiteService,
-      SitemapService sitemapService, PluginRegistry<BackPage, String> backPagesRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
-        membershipService, backPagesRegistry);
+      PageService pageService, ContextHolder contextHolder, WidgetService widgetService,
+      WidgetPageService widgetPageService, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
+      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService,
+      WebsiteService websiteService, SitemapService sitemapService,
+      PluginRegistry<BackPage, String> backPagesRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService,
+        backPagesRegistry);
 
     this.pageService = Objects.requireNonNull(pageService);
     this.contextHolder = Objects.requireNonNull(contextHolder);
@@ -100,16 +93,13 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
   protected Page<PageDTO> computeEntries(Locale locale, int pageNumber, String query) {
     List<PageDTO> pageEntries = new ArrayList<>();
 
-    PageRequest pageRequest = PageRequest
-        .of(pageNumber, contextHolder.getElementsPerPage(), Sort.by(Direction.ASC, "name"));
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
+        Sort.by(Direction.ASC, "name"));
     Page<PageDTO> pagedPageDTOEntries;
     if (StringUtils.hasText(query)) {
-      pagedPageDTOEntries = pageService
-          .searchEntities(pageRequest,
-              query);
+      pagedPageDTOEntries = pageService.searchEntities(pageRequest, query);
     } else {
-      pagedPageDTOEntries = pageService
-          .getPagedEntities(pageRequest);
+      pagedPageDTOEntries = pageService.getPagedEntities(pageRequest);
     }
     if (CollectionUtils.isEmpty(pagedPageDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);
@@ -226,8 +216,7 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
     PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
     pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
     pageManager.addObject("linkedWebsites", sitemapService.findByPageId(page.getId()).stream()
-        .map(sitemap -> websiteService.getEntity(sitemap.getWebsiteId()))
-        .collect(Collectors.toList()));
+        .map(sitemap -> websiteService.getEntity(sitemap.getWebsiteId())).collect(Collectors.toList()));
 
     return pageManager;
   }
@@ -277,14 +266,15 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
     List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(pageId);
     List<WidgetDTO> widgets = widgetService.getEntities();
     List<WidgetDTO> linkableWidgets = computeLinkableWidgets(associatedWidgets, widgets);
-
+    Collections.sort(linkableWidgets, Comparator.comparing(WidgetDTO::getName));
     pageManager.addObject(LINKABLE_WIDGETS, linkableWidgets);
-    pageManager.addObject(LINKED_WIDGETS, computeLinkedWidgets(associatedWidgets));
+    List<WidgetDTO> linkedWidgets = computeLinkedWidgets(associatedWidgets);
+    Collections.sort(linkedWidgets, Comparator.comparing(WidgetDTO::getName));
+    pageManager.addObject(LINKED_WIDGETS, linkedWidgets);
     return pageManager;
   }
 
-  private List<WidgetDTO> computeLinkableWidgets(List<WidgetPageDTO> associatedWidgets,
-      List<WidgetDTO> widgets) {
+  private List<WidgetDTO> computeLinkableWidgets(List<WidgetPageDTO> associatedWidgets, List<WidgetDTO> widgets) {
     List<WidgetDTO> linkableWidgets = new ArrayList<>();
     if (CollectionUtils.isEmpty(associatedWidgets)) {
       linkableWidgets.addAll(widgets);
@@ -304,8 +294,7 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
   private List<WidgetDTO> computeLinkedWidgets(List<WidgetPageDTO> associatedWidgets) {
     List<WidgetDTO> linkedWidgets = new ArrayList<>();
     associatedWidgets.forEach(
-        associatedWidget -> linkedWidgets
-            .add(widgetService.getEntity(Long.parseLong(associatedWidget.getWidgetId()))));
+        associatedWidget -> linkedWidgets.add(widgetService.getEntity(Long.parseLong(associatedWidget.getWidgetId()))));
     return linkedWidgets;
   }
 
@@ -327,7 +316,6 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
   protected String getSearchUrl() {
     return "/manager/pages/search";
   }
-
 
   @Override
   protected String getSearchPlaceHolder() {
