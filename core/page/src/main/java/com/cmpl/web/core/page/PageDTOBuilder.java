@@ -20,6 +20,8 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
 
   private String href;
 
+  private boolean indexed;
+
 
   private PageDTOBuilder() {
 
@@ -65,6 +67,11 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
     return this;
   }
 
+  public PageDTOBuilder indexed(boolean indexed) {
+    this.indexed = indexed;
+    return this;
+  }
+
   @Override
   public PageDTO build() {
     PageDTO pageDTO = new PageDTO();
@@ -80,7 +87,7 @@ public class PageDTOBuilder extends BaseBuilder<PageDTO> {
 
     pageDTO.setName(name);
     pageDTO.setAmp(amp);
-
+    pageDTO.setIndexed(indexed);
     pageDTO.setCreationDate(creationDate);
     pageDTO.setCreationUser(creationUser);
     pageDTO.setModificationUser(modificationUser);

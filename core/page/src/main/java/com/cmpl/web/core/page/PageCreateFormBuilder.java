@@ -20,6 +20,8 @@ public class PageCreateFormBuilder extends Builder<PageCreateForm> {
 
   private String localeCode;
 
+  private boolean indexed;
+
   private PageCreateFormBuilder() {
 
   }
@@ -64,6 +66,11 @@ public class PageCreateFormBuilder extends Builder<PageCreateForm> {
     return this;
   }
 
+  public PageCreateFormBuilder indexed(boolean indexed) {
+    this.indexed = indexed;
+    return this;
+  }
+
   @Override
   public PageCreateForm build() {
     PageCreateForm form = new PageCreateForm();
@@ -75,6 +82,7 @@ public class PageCreateFormBuilder extends Builder<PageCreateForm> {
     form.setName(name);
     form.setLocaleCode(localeCode);
     form.setHref(href);
+    form.setIndexed(indexed);
     return form;
   }
 

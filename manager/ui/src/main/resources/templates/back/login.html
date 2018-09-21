@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="common/back_header"/>
+<head th:include="common/back_header_light"/>
 <body>
 <div class="container container-fluid login-body">
   <div class="row wrapper align-items-center">
@@ -55,4 +55,15 @@
   </div>
 </div>
 </body>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(".card-loader").hide();
+    $(".loader").hide();
+    $("#loginForm").submit(function () {
+      $(".card-loader").show();
+      $(".loader").show();
+      $("#loginForm").hide();
+    });
+  });
+</script>
 </html>

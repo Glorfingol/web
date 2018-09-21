@@ -33,6 +33,8 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
 
   private String localeCode;
 
+  private boolean indexed;
+
   private PageUpdateFormBuilder() {
 
   }
@@ -107,6 +109,12 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
     return this;
   }
 
+
+  public PageUpdateFormBuilder indexed(boolean indexed) {
+    this.indexed = indexed;
+    return this;
+  }
+
   @Override
   public PageUpdateForm build() {
     PageUpdateForm form = new PageUpdateForm();
@@ -125,6 +133,7 @@ public class PageUpdateFormBuilder extends Builder<PageUpdateForm> {
     form.setModificationUser(modificationUser);
     form.setAmp(amp);
     form.setHref(href);
+    form.setIndexed(indexed);
     return form;
   }
 

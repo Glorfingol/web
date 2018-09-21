@@ -25,6 +25,8 @@ public class PageDTO extends BaseDTO {
 
   private String href;
 
+  private boolean indexed;
+
   public String getName() {
     return name;
   }
@@ -87,5 +89,13 @@ public class PageDTO extends BaseDTO {
 
   public void setHref(String href) {
     this.href = href;
+  }
+
+  public boolean isIndexed() {
+    return indexed;
+  }
+
+  public void setIndexed(boolean indexed) {
+    this.indexed = indexed;
   }
 }

@@ -14,6 +14,17 @@
     <input type="text" class="form-control" th:field="*{href}"/>
     <small class="form-text text-muted" th:text="#{page.href.help}"/>
   </div>
+  <div class="form-check">
+    <label th:text="#{page.indexed.label}"/>
+  </div>
+  <div class="form-check">
+    <label class="switch">
+      <input type="checkbox" class="form-check-input"
+             th:name="indexed" th:id="indexed" th:checked="${updateForm.indexed} == true">
+      <span class="slider"></span>
+    </label>
+  </div>
+  <small class="form-text text-muted" th:text="#{page.indexed.help}"/>
   <input type="hidden" th:field="*{id}"/>
   <input type="hidden" th:field="*{creationDate}"/>
   <input type="hidden" th:field="*{creationUser}"/>

@@ -117,7 +117,7 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
     List<PageDTO> pagesToFilter = pageService.getEntities();
     LOGGER.info("{} pages à filtrer", pagesToFilter.size());
     List<PageDTO> recoveredPages = pagesToFilter.stream()
-      .filter(page -> pagesId.contains(page.getId()))
+      .filter(page -> pagesId.contains(page.getId()) && page.isIndexed())
       .collect(Collectors.toList());
     LOGGER.info("{} pages retrouvées en bdd", recoveredPages.size());
     return recoveredPages.stream().map(page -> computeUrlForPage(website, page))

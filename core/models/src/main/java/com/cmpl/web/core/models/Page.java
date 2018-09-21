@@ -23,6 +23,9 @@ public class Page extends BaseEntity {
   @Column(name = "href")
   private String href;
 
+  @Column(name = "indexed")
+  private boolean indexed;
+
   public String getName() {
     return name;
   }
@@ -45,5 +48,13 @@ public class Page extends BaseEntity {
 
   public void setHref(String href) {
     this.href = href;
+  }
+
+  public boolean isIndexed() {
+    return indexed;
+  }
+
+  public void setIndexed(boolean indexed) {
+    this.indexed = indexed;
   }
 }

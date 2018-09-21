@@ -26,6 +26,8 @@ public class PageUpdateForm extends BaseUpdateForm<PageDTO> {
 
   private String localeCode;
 
+  private boolean indexed;
+
   public PageUpdateForm() {
 
   }
@@ -41,6 +43,7 @@ public class PageUpdateForm extends BaseUpdateForm<PageDTO> {
     this.meta = page.getMeta();
     this.amp = page.getAmp();
     this.href = page.getHref();
+    this.indexed = page.isIndexed();
   }
 
   public String getName() {
@@ -113,5 +116,13 @@ public class PageUpdateForm extends BaseUpdateForm<PageDTO> {
 
   public void setHref(String href) {
     this.href = href;
+  }
+
+  public boolean isIndexed() {
+    return indexed;
+  }
+
+  public void setIndexed(boolean indexed) {
+    this.indexed = indexed;
   }
 }

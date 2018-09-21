@@ -1,0 +1,22 @@
+<title th:text="#{main.back.title}"/>
+
+<meta charset="UTF-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta name="viewport" content="width=device-width, user-scalable=no"/>
+<meta th:each="metaItem : ${metaItems}" th:name="${metaItem.name}"
+      th:content="${metaItem.content}"/>
+
+<script type="text/javascript" th:src="@{../../../webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{../../../webjars/tether/dist/js/tether.min.js}"></script>
+<script type="text/javascript" th:src="@{../../../webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+<link rel="stylesheet"
+      th:href="@{../../../../../webjars/font-awesome/css/font-awesome.min.css}">
+<link rel="stylesheet" th:href="@{../../../webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{../../../css/style_back.css}">
+
+
+
+

@@ -11,6 +11,8 @@ public class PageBuilder extends BaseBuilder<Page> {
 
   private String href;
 
+  private boolean indexed;
+
   private PageBuilder() {
 
   }
@@ -22,6 +24,11 @@ public class PageBuilder extends BaseBuilder<Page> {
 
   public PageBuilder menuTitle(String menuTitle) {
     this.menuTitle = menuTitle;
+    return this;
+  }
+
+  public PageBuilder indexed(boolean indexed) {
+    this.indexed = indexed;
     return this;
   }
 
@@ -41,6 +48,7 @@ public class PageBuilder extends BaseBuilder<Page> {
     page.setModificationUser(modificationUser);
     page.setId(id);
     page.setModificationDate(modificationDate);
+    page.setIndexed(indexed);
     return page;
   }
 

@@ -21,6 +21,8 @@ public class PageCreateForm {
   @NotBlank(message = "empty.href")
   private String href = "";
 
+  private boolean indexed;
+
   private String localeCode;
 
   public String getName() {
@@ -85,5 +87,13 @@ public class PageCreateForm {
 
   public void setHref(String href) {
     this.href = href;
+  }
+
+  public boolean isIndexed() {
+    return indexed;
+  }
+
+  public void setIndexed(boolean indexed) {
+    this.indexed = indexed;
   }
 }

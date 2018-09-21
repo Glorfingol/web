@@ -9,7 +9,7 @@ import javax.validation.Payload;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PasswordConfirmationValidator.class)
+@Constraint(validatedBy = PasswordDifferentValidator.class)
 public @interface PasswordDifferent {
 
   String message() default "same.password.as.before";

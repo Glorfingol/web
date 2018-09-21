@@ -9,7 +9,9 @@ function computePage() {
   var inputMenuTitle = $("#menuTitle");
   var inputHref = $("#href");
   var inputLocaleCode = $("#localeCode");
+  var inputIndexed = $("#indexed");
 
+  page.indexed = inputIndexed.is(':checked');
   page.name = inputName.val();
   page.href = inputHref.val();
   page.menuTitle = inputMenuTitle.val();
@@ -35,6 +37,13 @@ function computeUpdatePage() {
   var inputCreationUser = $("#creationUser");
   var inputModificationUser = $("#modificationUser");
   var inputLocaleCode = $("#localeCode");
+  var inputIndexed = $("#indexed");
+
+  if (inputIndexed.is(":checkbox")) {
+    page.indexed = inputIndexed.is(':checked');
+  } else {
+    page.indexed = inputIndexed.val();
+  }
 
   page.name = inputName.val();
   page.href = inputHref.val();

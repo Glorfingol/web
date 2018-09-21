@@ -33,6 +33,8 @@ public class DefaultPageDispatcher implements PageDispatcher {
     pageToUpdate.setName(form.getName());
     pageToUpdate.setMeta(form.getMeta());
     pageToUpdate.setAmp(form.getAmp());
+    pageToUpdate.setIndexed(form.isIndexed());
+    pageToUpdate.setHref(form.getHref());
 
     PageDTO updatedPage = pageService.updateEntity(pageToUpdate, form.getLocaleCode());
 
