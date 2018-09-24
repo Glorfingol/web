@@ -18,6 +18,7 @@ public class RenderingWebsiteController {
 
   private final DisplayFactory displayFactory;
 
+
   public RenderingWebsiteController(DisplayFactory displayFactory) {
     this.displayFactory = Objects.requireNonNull(displayFactory);
   }

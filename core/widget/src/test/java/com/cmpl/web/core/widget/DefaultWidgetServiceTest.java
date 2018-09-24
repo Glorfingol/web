@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultWidgetServiceTest {
@@ -23,6 +24,9 @@ public class DefaultWidgetServiceTest {
 
   @Mock
   private WidgetDAO widgetDAO;
+
+  @Mock
+  private SpringTemplateEngine templateEngine;
 
   @InjectMocks
   @Spy
@@ -37,7 +41,7 @@ public class DefaultWidgetServiceTest {
     BDDMockito.doReturn(result).when(mapper).toDTO(BDDMockito.any(Widget.class));
     BDDMockito.given(widgetDAO.findByName(BDDMockito.anyString())).willReturn(widget);
     BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString()))
-        .willReturn("someContent");
+      .willReturn("someContent");
 
     WidgetDTO widgetDTO = widgetService.findByName("someName", Locale.FRANCE.getLanguage());
 
@@ -65,7 +69,7 @@ public class DefaultWidgetServiceTest {
     BDDMockito.given(widgetDAO.getEntity(BDDMockito.anyLong())).willReturn(optional);
     BDDMockito.doReturn(result).when(mapper).toDTO(BDDMockito.any(Widget.class));
     BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString()))
-        .willReturn(null);
+      .willReturn(null);
 
     WidgetDTO resultDTO = widgetService.getEntity(123456789L, Locale.FRANCE.getLanguage());
 
@@ -83,7 +87,7 @@ public class DefaultWidgetServiceTest {
     BDDMockito.given(widgetDAO.getEntity(BDDMockito.anyLong())).willReturn(optional);
     BDDMockito.doReturn(result).when(mapper).toDTO(BDDMockito.any(Widget.class));
     BDDMockito.given(fileService.readFileContentFromSystem(BDDMockito.anyString()))
-        .willReturn("someContent");
+      .willReturn("someContent");
 
     WidgetDTO resultDTO = widgetService.getEntity(123456789L, Locale.FRANCE.getLanguage());
 
@@ -105,7 +109,7 @@ public class DefaultWidgetServiceTest {
     Assert.assertEquals(toUpdate, result);
 
     BDDMockito.verify(fileService, BDDMockito.times(1)).saveFileOnSystem(BDDMockito.anyString(),
-        BDDMockito.anyString());
+      BDDMockito.anyString());
   }
 
   @Test
@@ -123,7 +127,7 @@ public class DefaultWidgetServiceTest {
     Assert.assertEquals(toCreate, result);
 
     BDDMockito.verify(fileService, BDDMockito.times(0)).saveFileOnSystem(BDDMockito.anyString(),
-        BDDMockito.nullable(String.class));
+      BDDMockito.nullable(String.class));
   }
 
 }

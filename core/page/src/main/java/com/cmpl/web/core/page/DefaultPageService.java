@@ -8,6 +8,7 @@ import java.util.Objects;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.thymeleaf.cache.TemplateCacheKey;
 
 /**
  * Service des pages
@@ -19,13 +20,13 @@ public class DefaultPageService extends DefaultBaseService<PageDTO, Page> implem
 
   private static final String HTML_SUFFIX = ".html";
 
+  private static final String HEADER_SUFFIX = "_header";
+
   private static final String FOOTER_SUFFIX = "_footer";
 
   private static final String META_SUFFIX = "_meta";
 
   private static final String AMP_SUFFIX = "_amp";
-
-  private static final String HEADER_SUFFIX = "_header";
 
   private static final String LOCALE_CODE_PREFIX = "_";
 
@@ -33,11 +34,12 @@ public class DefaultPageService extends DefaultBaseService<PageDTO, Page> implem
 
   private final FileService fileService;
 
+
   public DefaultPageService(PageDAO pageDAO, PageMapper pageMapper, FileService fileService) {
     super(pageDAO, pageMapper);
     this.pageDAO = Objects.requireNonNull(pageDAO);
-
     this.fileService = Objects.requireNonNull(fileService);
+
 
   }
 
@@ -47,20 +49,29 @@ public class DefaultPageService extends DefaultBaseService<PageDTO, Page> implem
 
     fileService.saveFileOnSystem(dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
       dto.getBody());
+
     fileService.saveFileOnSystem(
       dto.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
       dto.getFooter());
+
     fileService.saveFileOnSystem(
       dto.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
       dto.getHeader());
+
     fileService.saveFileOnSystem(
       dto.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
       dto.getMeta());
+
     fileService.saveFileOnSystem(
       dto.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
       dto.getAmp());
+
     return createdPage;
 
+  }
+
+  private TemplateCacheKey computeTemplateCacheKey(String templateName, String owner) {
+    return new TemplateCacheKey(owner, templateName, null, 0, 0, null, null);
   }
 
   @Override
@@ -69,15 +80,19 @@ public class DefaultPageService extends DefaultBaseService<PageDTO, Page> implem
 
     fileService.saveFileOnSystem(dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
       dto.getBody());
+
     fileService.saveFileOnSystem(
       dto.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
       dto.getFooter());
+
     fileService.saveFileOnSystem(
       dto.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
       dto.getHeader());
+
     fileService.saveFileOnSystem(
       dto.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
       dto.getMeta());
+
     fileService.saveFileOnSystem(
       dto.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
       dto.getAmp());

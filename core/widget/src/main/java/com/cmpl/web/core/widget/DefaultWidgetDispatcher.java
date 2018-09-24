@@ -16,9 +16,9 @@ public class DefaultWidgetDispatcher implements WidgetDispatcher {
 
   private final WidgetPageService widgetPageService;
 
-  public DefaultWidgetDispatcher(WidgetTranslator translator, WidgetService widgetService,
-      WidgetPageService widgetPageService) {
 
+  public DefaultWidgetDispatcher(WidgetTranslator translator, WidgetService widgetService,
+    WidgetPageService widgetPageService) {
     this.translator = Objects.requireNonNull(translator);
     this.widgetService = Objects.requireNonNull(widgetService);
     this.widgetPageService = Objects.requireNonNull(widgetPageService);
@@ -62,7 +62,7 @@ public class DefaultWidgetDispatcher implements WidgetDispatcher {
 
     WidgetPageDTO widgetPageToCreateToCreate = translator.fromCreateFormToDTO(form);
     WidgetPageDTO createdWidgetPageToCreate = widgetPageService
-        .createEntity(widgetPageToCreateToCreate);
+      .createEntity(widgetPageToCreateToCreate);
     return translator.fromDTOToResponse(createdWidgetPageToCreate);
   }
 
@@ -73,4 +73,6 @@ public class DefaultWidgetDispatcher implements WidgetDispatcher {
     widgetPageService.deleteEntity(widgetPageDTO.getId());
 
   }
+
+
 }

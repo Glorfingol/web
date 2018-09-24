@@ -20,12 +20,12 @@ public class PageFactory {
 
   public static void createPages(PageRepository pageRepository,
 
-      CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
-      MediaRepository mediaRepository, WidgetRepository widgetRepository,
-      WidgetPageRepository widgetPageRepository) {
+    CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
+    MediaRepository mediaRepository, WidgetRepository widgetRepository,
+    WidgetPageRepository widgetPageRepository) {
     createIndex(pageRepository, carouselRepository, carouselItemRepository,
-        mediaRepository,
-        widgetRepository, widgetPageRepository);
+      mediaRepository,
+      widgetRepository, widgetPageRepository);
     createActualites(pageRepository, widgetRepository, widgetPageRepository);
     createAppointment(pageRepository);
     createCenter(pageRepository);
@@ -36,13 +36,14 @@ public class PageFactory {
 
   public static void createIndex(PageRepository pageRepository,
 
-      CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
-      MediaRepository mediaRepository, WidgetRepository widgetRepository,
-      WidgetPageRepository widgetPageRepository) {
+    CarouselRepository carouselRepository, CarouselItemRepository carouselItemRepository,
+    MediaRepository mediaRepository, WidgetRepository widgetRepository,
+    WidgetPageRepository widgetPageRepository) {
 
     Page index = new Page();
     index.setMenuTitle("Accueil");
     index.setName("accueil");
+    index.setHref("accueil");
     index = pageRepository.save(index);
     String pageId = String.valueOf(index.getId());
 
@@ -85,23 +86,24 @@ public class PageFactory {
     carouselItemRepository.save(secondImage);
 
     Widget widgetCarouselHome = WidgetBuilder.create().type("CAROUSEL").name("carousel_home")
-        .entityId(carouselId)
-        .asynchronous(true).build();
+      .entityId(carouselId)
+      .asynchronous(true).build();
     widgetCarouselHome = widgetRepository.save(widgetCarouselHome);
     WidgetPage widgetPage = WidgetPageBuilder.create()
-        .widgetId(String.valueOf(widgetCarouselHome.getId()))
-        .pageId(pageId).build();
+      .widgetId(String.valueOf(widgetCarouselHome.getId()))
+      .pageId(pageId).build();
     widgetPageRepository.save(widgetPage);
 
   }
 
   public static void createActualites(PageRepository pageRepository,
 
-      WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
+    WidgetRepository widgetRepository, WidgetPageRepository widgetPageRepository) {
 
     Page actualites = new Page();
     actualites.setMenuTitle("Actualites");
     actualites.setName("actualites");
+    actualites.setHref("actualites");
     actualites = pageRepository.save(actualites);
 
     String pageId = String.valueOf(actualites.getId());
@@ -109,16 +111,9 @@ public class PageFactory {
     Widget blog = WidgetBuilder.create().name("blog").asynchronous(true).type("BLOG").build();
     blog = widgetRepository.save(blog);
     WidgetPage widgetPage = WidgetPageBuilder.create().pageId(pageId)
-        .widgetId(String.valueOf(blog.getId())).build();
+      .widgetId(String.valueOf(blog.getId())).build();
     widgetPageRepository.save(widgetPage);
-
-    Widget widgetMenu = WidgetBuilder.create().type("MENU").name("menu").asynchronous(false)
-        .build();
-    widgetMenu = widgetRepository.save(widgetMenu);
-    WidgetPage widgetPageMenu = WidgetPageBuilder.create()
-        .widgetId(String.valueOf(widgetMenu.getId())).pageId(pageId)
-        .build();
-    widgetPageRepository.save(widgetPageMenu);
+    
 
   }
 
@@ -127,6 +122,7 @@ public class PageFactory {
     Page appointment = new Page();
     appointment.setMenuTitle("Prendre rendez-vous");
     appointment.setName("rendez_vous");
+    appointment.setHref("rendez-vous");
     appointment = pageRepository.save(appointment);
     String pageId = String.valueOf(appointment.getId());
 
@@ -137,6 +133,7 @@ public class PageFactory {
     Page center = new Page();
     center.setMenuTitle("Le centre");
     center.setName("centre_medical");
+    center.setHref("le-centre");
     center = pageRepository.save(center);
     String pageId = String.valueOf(center.getId());
 
@@ -148,6 +145,7 @@ public class PageFactory {
     Page contact = new Page();
     contact.setMenuTitle("Contact");
     contact.setName("contact");
+    contact.setHref("contact");
     contact = pageRepository.save(contact);
     String pageId = String.valueOf(contact.getId());
 
@@ -160,6 +158,7 @@ public class PageFactory {
     Page medicalCare = new Page();
     medicalCare.setMenuTitle("Soins medicaux");
     medicalCare.setName("soins_medicaux");
+    medicalCare.setHref("soins-medicaux");
     medicalCare = pageRepository.save(medicalCare);
     String pageId = String.valueOf(medicalCare.getId());
 

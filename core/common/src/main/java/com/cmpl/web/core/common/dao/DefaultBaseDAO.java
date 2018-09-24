@@ -1,6 +1,7 @@
 package com.cmpl.web.core.common.dao;
 
 import com.cmpl.web.core.common.event.DeletedEvent;
+import com.cmpl.web.core.common.event.UpdatedEvent;
 import com.cmpl.web.core.common.repository.BaseRepository;
 import com.cmpl.web.core.common.user.GroupGrantedAuthority;
 import com.cmpl.web.core.models.BaseEntity;
@@ -64,7 +65,9 @@ public abstract class DefaultBaseDAO<ENTITY extends BaseEntity> extends Querydsl
   @Override
   public ENTITY updateEntity(ENTITY entity) {
     entity.setModificationDate(LocalDateTime.now());
-    return entityRepository.save(entity);
+    ENTITY updatedEntity = entityRepository.save(entity);
+    publisher.publishEvent(new UpdatedEvent<>(this, updatedEntity));
+    return updatedEntity;
   }
 
   @Override
@@ -147,7 +150,5 @@ public abstract class DefaultBaseDAO<ENTITY extends BaseEntity> extends Querydsl
 
   protected abstract Predicate computeSearchPredicate(String query);
 
-  public Class<ENTITY> getEntityClass() {
-    return entityClass;
-  }
+
 }

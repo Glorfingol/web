@@ -1,14 +1,22 @@
 package com.cmpl.core.events_listeners;
 
 import com.cmpl.web.core.common.event.DeletedEvent;
+import com.cmpl.web.core.common.event.UpdatedEvent;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.models.Widget;
+import com.cmpl.web.core.page.PageDTO;
+import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.context.event.EventListener;
+import org.thymeleaf.cache.TemplateCacheKey;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 public class WidgetEventsListeners {
 
@@ -18,6 +26,10 @@ public class WidgetEventsListeners {
 
   private final FileService fileService;
 
+  private final SpringTemplateEngine templateEngine;
+
+  private final PageService pageService;
+
   private final Set<Locale> locales;
 
   private static final String WIDGET_PREFIX = "widget_";
@@ -26,12 +38,24 @@ public class WidgetEventsListeners {
 
   private static final String LOCALE_CODE_PREFIX = "_";
 
+  private static final String HEADER_SUFFIX = "_header";
+
+  private static final String FOOTER_SUFFIX = "_footer";
+
+  private static final String META_SUFFIX = "_meta";
+
+  private static final String AMP_SUFFIX = "_amp";
+
+
   public WidgetEventsListeners(WidgetPageService widgetPageService, FileService fileService,
-      Set<Locale> locales, MembershipService membershipService) {
+    Set<Locale> locales, MembershipService membershipService, PageService pageService,
+    SpringTemplateEngine templateEngine) {
     this.widgetPageService = Objects.requireNonNull(widgetPageService);
     this.locales = Objects.requireNonNull(locales);
     this.fileService = Objects.requireNonNull(fileService);
     this.membershipService = Objects.requireNonNull(membershipService);
+    this.pageService = Objects.requireNonNull(pageService);
+    this.templateEngine = Objects.requireNonNull(templateEngine);
   }
 
   @EventListener
@@ -42,18 +66,67 @@ public class WidgetEventsListeners {
 
       if (deletedWidget != null) {
         widgetPageService.findByWidgetId(String.valueOf(deletedWidget.getId()))
-            .forEach(widgetPageDTO -> widgetPageService.deleteEntity(widgetPageDTO.getId()));
+          .forEach(widgetPageDTO -> widgetPageService.deleteEntity(widgetPageDTO.getId()));
         locales.forEach(locale -> {
           String fileName =
-              WIDGET_PREFIX + deletedWidget.getName() + LOCALE_CODE_PREFIX + locale.getLanguage()
-                  + HTML_SUFFIX;
+            WIDGET_PREFIX + deletedWidget.getName() + LOCALE_CODE_PREFIX + locale.getLanguage()
+              + HTML_SUFFIX;
           fileService.removeFileFromSystem(fileName);
         });
 
         membershipService.findByGroupId(deletedWidget.getId())
-            .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
+          .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
       }
     }
 
+  }
+
+  @EventListener
+  public void handleUpdatedEvent(UpdatedEvent updatedEvent) {
+    if (updatedEvent.getEntity() instanceof Widget) {
+      Widget widget = (Widget) updatedEvent.getEntity();
+      locales.forEach(locale -> computeTemplateCacheKeys(widget, locale.getLanguage())
+        .forEach(key -> templateEngine.getCacheManager().getTemplateCache().clearKey(key)));
+    }
+  }
+
+
+  private List<TemplateCacheKey> computeTemplateCacheKeys(Widget widget, String localeCode) {
+    List<TemplateCacheKey> keys = new ArrayList<>();
+    String templateName = WIDGET_PREFIX + widget.getName() + LOCALE_CODE_PREFIX + localeCode;
+    keys.add(computeTemplateCacheKey(
+      templateName, null));
+
+    if (!widget.isAsynchronous()) {
+      List<PageDTO> pages = widgetPageService.findByWidgetId(String.valueOf(widget.getId()))
+        .stream()
+        .map(widgetPageDTO -> widgetPageDTO.getPageId()).collect(
+          Collectors.toList()).stream().map(id -> pageService.getEntity(Long.valueOf(id)))
+        .collect(Collectors.toList());
+
+      pages.forEach(page -> {
+        keys.add(
+          computeTemplateCacheKey(templateName, page.getName() + LOCALE_CODE_PREFIX + localeCode));
+        keys.add(
+          computeTemplateCacheKey(templateName,
+            page.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode));
+        keys.add(
+          computeTemplateCacheKey(templateName,
+            page.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode));
+        keys.add(
+          computeTemplateCacheKey(templateName,
+            page.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode));
+        keys.add(
+          computeTemplateCacheKey(templateName,
+            page.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode));
+      });
+
+    }
+
+    return keys;
+  }
+
+  private TemplateCacheKey computeTemplateCacheKey(String templateName, String owner) {
+    return new TemplateCacheKey(owner, templateName, null, 0, 0, null, null);
   }
 }

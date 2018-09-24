@@ -9,7 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.util.StringUtils;
 
 public class DefaultWidgetService extends DefaultBaseService<WidgetDTO, Widget> implements
-    WidgetService {
+  WidgetService {
 
   private final FileService fileService;
 
@@ -21,12 +21,13 @@ public class DefaultWidgetService extends DefaultBaseService<WidgetDTO, Widget> 
 
   private static final String LOCALE_CODE_PREFIX = "_";
 
+
   public DefaultWidgetService(WidgetDAO widgetDAO, WidgetMapper widgetMapper,
-      FileService fileService) {
+    FileService fileService) {
     super(widgetDAO, widgetMapper);
 
     this.fileService = Objects.requireNonNull(fileService);
-    this.widgetDAO = widgetDAO;
+    this.widgetDAO = Objects.requireNonNull(widgetDAO);
   }
 
   @Override
@@ -35,8 +36,8 @@ public class DefaultWidgetService extends DefaultBaseService<WidgetDTO, Widget> 
 
     if (StringUtils.hasText(dto.getPersonalization())) {
       fileService.saveFileOnSystem(
-          WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-          dto.getPersonalization());
+        WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+        dto.getPersonalization());
     }
 
     return updatedWidget;
@@ -48,8 +49,8 @@ public class DefaultWidgetService extends DefaultBaseService<WidgetDTO, Widget> 
 
     if (StringUtils.hasText(dto.getPersonalization())) {
       fileService.saveFileOnSystem(
-          WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
-          dto.getPersonalization());
+        WIDGET_PREFIX + dto.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX,
+        dto.getPersonalization());
     }
 
     updatedWidget.setPersonalization(dto.getPersonalization());
@@ -57,11 +58,12 @@ public class DefaultWidgetService extends DefaultBaseService<WidgetDTO, Widget> 
     return updatedWidget;
   }
 
+
   @Override
   public WidgetDTO getEntity(Long widgetId, String localeCode) {
     WidgetDTO fetchedWidget = super.getEntity(widgetId);
     fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(
-        WIDGET_PREFIX + fetchedWidget.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+      WIDGET_PREFIX + fetchedWidget.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     return fetchedWidget;
   }
 
@@ -73,7 +75,7 @@ public class DefaultWidgetService extends DefaultBaseService<WidgetDTO, Widget> 
     }
     WidgetDTO fetchedWidget = mapper.toDTO(entity);
     fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(
-        WIDGET_PREFIX + fetchedWidget.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
+      WIDGET_PREFIX + fetchedWidget.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     return fetchedWidget;
   }
 

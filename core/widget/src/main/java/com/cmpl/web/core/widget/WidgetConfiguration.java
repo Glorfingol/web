@@ -25,7 +25,7 @@ public class WidgetConfiguration {
 
   @Bean
   public WidgetDAO widgetDAO(WidgetRepository widgetRepository,
-      ApplicationEventPublisher publisher) {
+    ApplicationEventPublisher publisher) {
     return new DefaultWidgetDAO(widgetRepository, publisher);
   }
 
@@ -36,16 +36,16 @@ public class WidgetConfiguration {
 
   @Bean
   public BackMenuItem widgetBackMenuItem(BackMenuItem webmastering,
-      Privilege widgetsReadPrivilege) {
+    Privilege widgetsReadPrivilege) {
     return BackMenuItemBuilder.create().href("/manager/widgets").label("back.widgets.label")
-        .title("back.widgets.title")
-        .iconClass("fa fa-cube").parent(webmastering).order(8)
-        .privilege(widgetsReadPrivilege.privilege()).build();
+      .title("back.widgets.title")
+      .iconClass("fa fa-cube").parent(webmastering).order(8)
+      .privilege(widgetsReadPrivilege.privilege()).build();
   }
 
   @Bean
   public WidgetService widgetService(WidgetDAO widgetDAO, WidgetMapper widgetMapper,
-      FileService fileService) {
+    FileService fileService) {
     return new DefaultWidgetService(widgetDAO, widgetMapper, fileService);
   }
 
@@ -56,13 +56,13 @@ public class WidgetConfiguration {
 
   @Bean
   public WidgetPageDAO widgetPageDAO(WidgetPageRepository widgetPageRepository,
-      ApplicationEventPublisher publisher) {
+    ApplicationEventPublisher publisher) {
     return new DefaultWidgetPageDAO(widgetPageRepository, publisher);
   }
 
   @Bean
   public WidgetPageService widgetPageService(WidgetPageDAO widgetPageDAO,
-      WidgetPageMapper widgetPageMapper) {
+    WidgetPageMapper widgetPageMapper) {
     return new DefaultWidgetPageService(widgetPageDAO, widgetPageMapper);
   }
 
@@ -73,9 +73,9 @@ public class WidgetConfiguration {
 
   @Bean
   public WidgetDispatcher widgetDispatcher(WidgetService widgetService,
-      WidgetPageService widgetPageService,
-      WidgetTranslator widgetTranslator) {
-    return new DefaultWidgetDispatcher(widgetTranslator, widgetService, widgetPageService);
+    WidgetPageService widgetPageService, WidgetTranslator widgetTranslator) {
+    return new DefaultWidgetDispatcher(widgetTranslator, widgetService, widgetPageService
+    );
   }
 
 }

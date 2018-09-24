@@ -29,7 +29,7 @@ public class FrontControllerConfiguration {
 
   @Bean
   public RenderingSitemapController sitemapController(
-      RenderingSitemapService renderingSitemapService) {
+    RenderingSitemapService renderingSitemapService) {
     return new RenderingSitemapController(renderingSitemapService);
   }
 
