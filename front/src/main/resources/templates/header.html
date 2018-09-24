@@ -1,14 +1,12 @@
 <script type="text/javascript" th:src="@{../../../webjars/jquery/jquery.min.js}"></script>
-<script async type="text/javascript"
+<script type="text/javascript"
         th:src="@{../../../webjars/tether/dist/js/tether.min.js}"></script>
-<script async type="text/javascript"
+<script type="text/javascript"
         th:src="@{../../../webjars/bootstrap/js/bootstrap.min.js}"></script>
 
-<link rel="preload" th:href="@{../../../../webjars/font-awesome/css/font-awesome.min.css}"
-      as="style" onload="this.rel='stylesheet'"/>
-<link rel="preload" th:href="@{../../../webjars/bootstrap/css/bootstrap.min.css}" as="style"
-      onload="this.rel='stylesheet'"/>
-<link rel="preload" th:if="${not #lists.isEmpty(styles)}" th:each="style : ${styles}"
-      th:href="@{${style.media.src}}" as="style" onload="this.rel='stylesheet'"/>
+<link rel="stylesheet" th:href="@{../../../../webjars/font-awesome/css/font-awesome.min.css}"/>
+<link rel="stylesheet" th:href="@{../../../webjars/bootstrap/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:if="${not #lists.isEmpty(styles)}" th:each="style : ${styles}"
+      th:href="@{${style.media.src}}"/>
 
 <meta th:replace="${meta}"/>

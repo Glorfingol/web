@@ -13,30 +13,40 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackageClasses = PageRepository.class)
 public class PageConfiguration {
 
-  @Bean
-  public PageDispatcher pageDispatcher(PageTranslator translator, PageService pageService) {
-    return new DefaultPageDispatcher(translator, pageService);
-  }
+    @Bean
+    public PageDispatcher pageDispatcher(PageTranslator translator, PageService pageService) {
+        return new DefaultPageDispatcher(translator, pageService);
+    }
 
-  @Bean
-  public PageDAO pageDAO(PageRepository pageRepository, ApplicationEventPublisher publisher) {
-    return new DefaultPageDAO(pageRepository, publisher);
-  }
+    @Bean
+    public PageDAO pageDAO(PageRepository pageRepository, ApplicationEventPublisher publisher) {
+        return new DefaultPageDAO(pageRepository, publisher);
+    }
 
-  @Bean
-  public PageMapper pageMapper() {
-    return new PageMapper();
-  }
+    @Bean
+    public PageMapper pageMapper() {
+        return new PageMapper();
+    }
 
-  @Bean
-  public PageService pageService(PageDAO pageDAO, PageMapper pageMapper, FileService fileService) {
-    return new DefaultPageService(pageDAO, pageMapper, fileService);
-  }
+    @Bean
+    public RenderingPageMapper renderingPageMapper() {
+        return new RenderingPageMapper();
+    }
 
-  @Bean
-  public PageTranslator pageTranslator() {
-    return new DefaultPageTranslator();
-  }
+    @Bean
+    public PageService pageService(PageDAO pageDAO, PageMapper pageMapper, FileService fileService) {
+        return new DefaultPageService(pageDAO, pageMapper, fileService);
+    }
 
+    @Bean
+    public PageTranslator pageTranslator() {
+        return new DefaultPageTranslator();
+    }
+
+
+    @Bean
+    public RenderingPageService renderingPageService(PageDAO pageDAO, RenderingPageMapper renderingPageMapper) {
+        return new DefaultRenderingPageService(pageDAO, renderingPageMapper);
+    }
 
 }

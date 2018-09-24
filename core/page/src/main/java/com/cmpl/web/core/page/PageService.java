@@ -1,6 +1,7 @@
 package com.cmpl.web.core.page;
 
 import com.cmpl.web.core.common.service.BaseService;
+
 import java.util.List;
 
 /**
@@ -10,23 +11,13 @@ import java.util.List;
  */
 public interface PageService extends BaseService<PageDTO> {
 
-  /**
-   * Trouver une page via son nom
-   */
-  PageDTO getPageByName(String pageName, String localeCode);
 
+    List<PageDTO> getPages();
 
-  List<PageDTO> getPagesByHref(String href);
+    PageDTO updateEntity(PageDTO dto, String localeCode);
 
-  /**
-   * Remonter toutes les pages
-   */
-  List<PageDTO> getPages();
+    PageDTO createEntity(PageDTO dto, String localeCode);
 
-  PageDTO updateEntity(PageDTO dto, String localeCode);
-
-  PageDTO createEntity(PageDTO dto, String localeCode);
-
-  PageDTO getEntity(Long pageId, String localeCode);
+    PageDTO getEntity(Long pageId, String localeCode);
 
 }
