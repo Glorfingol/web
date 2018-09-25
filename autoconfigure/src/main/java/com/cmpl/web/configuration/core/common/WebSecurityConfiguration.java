@@ -73,7 +73,7 @@ public class WebSecurityConfiguration {
 
   @Bean
   public AuthenticationFailureListener authenticationFailureListener(
-      LoginAttemptsService loginAttemptService) {
+    LoginAttemptsService loginAttemptService) {
     return new AuthenticationFailureListener(loginAttemptService);
   }
 
@@ -84,17 +84,17 @@ public class WebSecurityConfiguration {
 
   @Bean
   public AuthenticationSuccessListener authenticationSuccessListener(
-      LoginAttemptsService loginAttemptService) {
+    LoginAttemptsService loginAttemptService) {
     return new AuthenticationSuccessListener(loginAttemptService);
   }
 
   @Bean
   public LoginAuthenticationProvider loginAuthenticationProvider(
-      UserDetailsService dbUserDetailsService,
-      PasswordEncoder passwordEncoder, LoginAttemptsService userLoginAttemptsService) {
+    UserDetailsService dbUserDetailsService,
+    PasswordEncoder passwordEncoder, LoginAttemptsService userLoginAttemptsService) {
 
     LoginAuthenticationProvider provider = new LoginAuthenticationProvider(dbUserDetailsService,
-        userLoginAttemptsService);
+      userLoginAttemptsService);
     provider.setPasswordEncoder(passwordEncoder);
     return provider;
   }
@@ -112,7 +112,7 @@ public class WebSecurityConfiguration {
       return SecureRandom.getInstance("SHA1PRNG");
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException("Can't find the SHA1PRNG algorithm for generating random numbers",
-          e);
+        e);
     }
   }
 
@@ -124,8 +124,8 @@ public class WebSecurityConfiguration {
     private final DefaultLastConnectionUpdateAuthenticationSuccessHandler lastConnectionUpdateAuthenticationSuccessHandler;
 
     public LoginWebSecurityConfigurerAdapter(
-        LoginAuthenticationProvider loginAuthenticationProvider,
-        DefaultLastConnectionUpdateAuthenticationSuccessHandler lastConnectionUpdateAuthenticationSuccessHandler) {
+      LoginAuthenticationProvider loginAuthenticationProvider,
+      DefaultLastConnectionUpdateAuthenticationSuccessHandler lastConnectionUpdateAuthenticationSuccessHandler) {
       this.loginAuthenticationProvider = loginAuthenticationProvider;
       this.lastConnectionUpdateAuthenticationSuccessHandler = lastConnectionUpdateAuthenticationSuccessHandler;
 
@@ -135,22 +135,22 @@ public class WebSecurityConfiguration {
     protected void configure(HttpSecurity http) throws Exception {
       String[] authorizedUrls = prepareAuthorizedUrls();
       http.headers().frameOptions().sameOrigin().and().authorizeRequests()
-          .antMatchers(authorizedUrls).permitAll()
-          .anyRequest().authenticated().and().formLogin().loginPage("/login")
-          .successHandler(lastConnectionUpdateAuthenticationSuccessHandler).permitAll().and()
-          .logout()
-          .logoutRequestMatcher(new AntPathRequestMatcher("/manager/logout")).permitAll();
+        .antMatchers(authorizedUrls).permitAll()
+        .anyRequest().authenticated().and().formLogin().loginPage("/login")
+        .successHandler(lastConnectionUpdateAuthenticationSuccessHandler).permitAll().and()
+        .logout()
+        .logoutRequestMatcher(new AntPathRequestMatcher("/manager/logout")).permitAll();
 
     }
 
     String[] prepareAuthorizedUrls() {
       return new String[]{"/", "/actuator/**", "/websites/**", "/sites/**", "/pages/**",
-          "/manager-websocket/**",
-          "/robots", "/robot", "/robot.txt", "/robots.txt", "/webjars/**", "/js/**", "/img/**",
-          "/css/**",
-          "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**", "/widgets/**",
-          "/forgotten_password",
-          "/change_password"};
+        "/manager-websocket/**",
+        "/robots", "/robot", "/robot.txt", "/robots.txt", "/webjars/**", "/js/**", "/img/**",
+        "/css/**",
+        "/**/favicon.ico", "/sitemap.xml", "/public/**", "/blog/**", "/widgets/**",
+        "/forgotten_password",
+        "/change_password"};
     }
 
     @Bean

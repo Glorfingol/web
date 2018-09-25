@@ -50,8 +50,19 @@ public class WidgetConfiguration {
   }
 
   @Bean
+  public RenderingWidgetService renderingWidgetService(WidgetDAO widgetDAO,
+    RenderingWidgetMapper renderingWidgetMapper) {
+    return new DefaultRenderingWidgetService(widgetDAO, renderingWidgetMapper);
+  }
+
+  @Bean
   public WidgetPageMapper widgetPageMapper() {
     return new WidgetPageMapper();
+  }
+
+  @Bean
+  public RenderingWidgetMapper renderingWidgetMapper() {
+    return new RenderingWidgetMapper();
   }
 
   @Bean

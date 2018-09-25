@@ -5,9 +5,9 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.news.entry.NewsEntryService;
-import com.cmpl.web.core.page.PageDTO;
-import com.cmpl.web.core.page.PageDTOBuilder;
-import com.cmpl.web.core.page.PageService;
+import com.cmpl.web.core.page.RenderingPageDTO;
+import com.cmpl.web.core.page.RenderingPageDTOBuilder;
+import com.cmpl.web.core.page.RenderingPageService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.sitemap.SitemapService;
 import com.cmpl.web.core.style.StyleService;
@@ -32,9 +32,9 @@ public class DefaultDisplayFactoryTest {
 
   @Mock
   private WebMessageSource messageSource;
-
+  
   @Mock
-  private PageService pageService;
+  private RenderingPageService renderingPageService;
 
   @Mock
   private NewsEntryService newsEntryService;
@@ -70,7 +70,7 @@ public class DefaultDisplayFactoryTest {
   @Test
   public void testComputePageFooter() throws Exception {
 
-    PageDTO page = PageDTOBuilder.create().build();
+    RenderingPageDTO page = RenderingPageDTOBuilder.create().build();
     page.setName("test");
 
     Assert.assertEquals("test_footer_fr", displayFactory.computePageFooter(page, Locale.FRANCE));
@@ -79,7 +79,7 @@ public class DefaultDisplayFactoryTest {
   @Test
   public void testComputePageHeader() throws Exception {
 
-    PageDTO page = PageDTOBuilder.create().build();
+    RenderingPageDTO page = RenderingPageDTOBuilder.create().build();
     page.setName("test");
 
     Assert.assertEquals("test_header_fr", displayFactory.computePageHeader(page, Locale.FRANCE));
@@ -88,7 +88,7 @@ public class DefaultDisplayFactoryTest {
   @Test
   public void testComputePageContent() throws Exception {
 
-    PageDTO page = PageDTOBuilder.create().build();
+    RenderingPageDTO page = RenderingPageDTOBuilder.create().build();
     page.setName("test");
 
     Assert.assertEquals("test_fr", displayFactory.computePageContent(page, Locale.FRANCE));
