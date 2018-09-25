@@ -112,15 +112,15 @@ public class PageEventsListeners {
 
     keys.add(
       computeTemplateCacheKey(page.getName() + FOOTER_SUFFIX + LOCALE_CODE_PREFIX + localeCode,
-        FOOTER));
+        DECORATOR));
 
     keys.add(
       computeTemplateCacheKey(page.getName() + HEADER_SUFFIX + LOCALE_CODE_PREFIX + localeCode,
-        HEADER));
+        DECORATOR));
 
     keys.add(
       computeTemplateCacheKey(page.getName() + META_SUFFIX + LOCALE_CODE_PREFIX + localeCode,
-        DECORATOR));
+        HEADER));
 
     keys.add(
       computeTemplateCacheKey(page.getName() + AMP_SUFFIX + LOCALE_CODE_PREFIX + localeCode,
