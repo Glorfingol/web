@@ -14,9 +14,9 @@ import com.cmpl.web.core.style.StyleDTO;
 import com.cmpl.web.core.style.StyleService;
 import com.cmpl.web.core.website.WebsiteDTO;
 import com.cmpl.web.core.website.WebsiteService;
-import com.cmpl.web.core.widget.WidgetDTO;
-import com.cmpl.web.core.widget.WidgetDTOBuilder;
-import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.RenderingWidgetDTO;
+import com.cmpl.web.core.widget.RenderingWidgetDTOBuilder;
+import com.cmpl.web.core.widget.RenderingWidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageDTO;
 import com.cmpl.web.core.widget.page.WidgetPageService;
 import java.util.List;
@@ -39,14 +39,14 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultDisplayFactory.class);
 
-
   private final RenderingPageService renderingPageService;
+
+
+  private final RenderingWidgetService renderingWidgetService;
 
   private final NewsEntryService newsEntryService;
 
   private final WidgetPageService widgetPageService;
-
-  private final WidgetService widgetService;
 
   private final PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
 
@@ -61,7 +61,7 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
   public DefaultDisplayFactory(WebMessageSource messageSource,
     RenderingPageService renderingPageService,
     NewsEntryService newsEntryService, WidgetPageService widgetPageService,
-    WidgetService widgetService,
+    RenderingWidgetService renderingWidgetService,
     PluginRegistry<WidgetProviderPlugin, String> widgetProviders, WebsiteService websiteService,
     SitemapService sitemapService, DesignService designService, StyleService styleService) {
     super(messageSource);
@@ -69,7 +69,7 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
     this.renderingPageService = Objects.requireNonNull(renderingPageService);
     this.newsEntryService = Objects.requireNonNull(newsEntryService);
     this.widgetPageService = Objects.requireNonNull(widgetPageService);
-    this.widgetService = Objects.requireNonNull(widgetService);
+    this.renderingWidgetService = Objects.requireNonNull(renderingWidgetService);
     this.widgetProviders = Objects.requireNonNull(widgetProviders);
     this.websiteService = Objects.requireNonNull(websiteService);
     this.designService = Objects.requireNonNull(designService);
@@ -86,7 +86,7 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
 
     WidgetProviderPlugin widgetProvider = widgetProviders.getPluginFor("BLOG_ENTRY");
     ModelAndView model = new ModelAndView(
-      widgetProvider.computeWidgetTemplate(WidgetDTOBuilder.create().build(), locale));
+      widgetProvider.computeWidgetTemplate(RenderingWidgetDTOBuilder.create().build(), locale));
     NewsEntryDTO newsEntry = newsEntryService.getEntity(Long.parseLong(newsEntryId));
     model.addObject("newsBean", newsEntry);
 
@@ -101,7 +101,7 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
 
     LOGGER.debug("Construction du wiget {}", widgetName);
 
-    WidgetDTO widget = widgetService.findByName(widgetName, locale.getLanguage());
+    RenderingWidgetDTO widget = renderingWidgetService.findByName(widgetName);
     ModelAndView model = new ModelAndView(computeWidgetTemplate(widget, locale));
 
     model.addObject("pageNumber", pageNumber);
@@ -162,15 +162,15 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
       .map(widgetPageDTO -> widgetPageDTO.getWidgetId())
       .collect(Collectors.toList());
     List<String> widgetAsynchronousNames = widgetIds.stream()
-      .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId)))
+      .map(widgetId -> renderingWidgetService.getEntity(Long.parseLong(widgetId)))
       .filter(widget -> widget.isAsynchronous())
       .map(widget -> widget.getName()).collect(Collectors.toList());
 
-    List<WidgetDTO> synchronousWidgets = widgetIds.stream()
-      .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId), locale.getLanguage()))
+    List<RenderingWidgetDTO> synchronousWidgets = widgetIds.stream()
+      .map(widgetId -> renderingWidgetService.getEntity(Long.parseLong(widgetId)))
       .filter(widget -> !widget.isAsynchronous()).collect(Collectors.toList());
 
-    addSynchronousWidgetsTemplatesToModel(model, synchronousWidgets, pageNumber, locale, pageName,
+    addSynchronousWidgetsTemplatesToModel(model, synchronousWidgets, pageNumber, locale,
       query);
 
     model.addObject("pageNumber", pageNumber);
@@ -210,11 +210,12 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
     List<String> widgetIds = widgetPageDTOS.stream()
       .map(widgetPageDTO -> widgetPageDTO.getWidgetId())
       .collect(Collectors.toList());
-    List<WidgetDTO> synchronousWidgets = widgetIds.stream()
-      .map(widgetId -> widgetService.getEntity(Long.parseLong(widgetId), locale.getLanguage()))
+    List<RenderingWidgetDTO> synchronousWidgets = widgetIds.stream()
+      .map(widgetId -> renderingWidgetService
+        .getEntity(Long.parseLong(widgetId)))
       .filter(widget -> !widget.isAsynchronous()).collect(Collectors.toList());
 
-    addSynchronousWidgetsTemplatesToModel(model, synchronousWidgets, pageNumber, locale, pageName,
+    addSynchronousWidgetsTemplatesToModel(model, synchronousWidgets, pageNumber, locale,
       query);
 
     LOGGER.debug("Page {} prête", pageName);
@@ -223,8 +224,8 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
   }
 
   private void addSynchronousWidgetsTemplatesToModel(ModelAndView model,
-    List<WidgetDTO> synchronousWidgets,
-    int pageNumber, Locale locale, String pageName, String query) {
+    List<RenderingWidgetDTO> synchronousWidgets,
+    int pageNumber, Locale locale, String query) {
     synchronousWidgets.forEach(widget -> {
 
       Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale,
@@ -239,7 +240,7 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
 
   }
 
-  String computeWidgetTemplate(WidgetDTO widget, Locale locale) {
+  String computeWidgetTemplate(RenderingWidgetDTO widget, Locale locale) {
     WidgetProviderPlugin widgetProvider = widgetProviders.getPluginFor(widget.getType());
     return widgetProvider.computeWidgetTemplate(widget, locale);
   }
@@ -264,7 +265,7 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
     return page.getName() + "_footer_" + locale.getLanguage();
   }
 
-  Map<String, Object> computeWidgetModel(WidgetDTO widget, int pageNumber, Locale locale,
+  Map<String, Object> computeWidgetModel(RenderingWidgetDTO widget, int pageNumber, Locale locale,
     String query) {
 
     WidgetProviderPlugin widgetProvider = widgetProviders.getPluginFor(widget.getType());

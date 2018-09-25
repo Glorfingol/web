@@ -7,7 +7,7 @@ import java.util.Locale;
 
 public interface WidgetDispatcher {
 
-  WidgetResponse createEntity(WidgetCreateForm form, Locale locale);
+  WidgetResponse createEntity(WidgetCreateForm form, String personalization);
 
   WidgetResponse updateEntity(WidgetUpdateForm form, Locale locale);
 

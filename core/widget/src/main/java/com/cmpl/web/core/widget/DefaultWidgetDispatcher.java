@@ -26,9 +26,10 @@ public class DefaultWidgetDispatcher implements WidgetDispatcher {
   }
 
   @Override
-  public WidgetResponse createEntity(WidgetCreateForm form, Locale locale) {
+  public WidgetResponse createEntity(WidgetCreateForm form, String personalization) {
 
     WidgetDTO widgetToCreate = translator.fromCreateFormToDTO(form);
+    widgetToCreate.setPersonalization(personalization);
     String widgetName = form.getName().replace("-", "_");
     widgetToCreate.setName(widgetName);
     WidgetDTO createdWidget = widgetService.createEntity(widgetToCreate, form.getLocaleCode());

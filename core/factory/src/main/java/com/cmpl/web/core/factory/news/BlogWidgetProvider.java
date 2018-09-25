@@ -8,7 +8,7 @@ import com.cmpl.web.core.common.resource.PageWrapper;
 import com.cmpl.web.core.news.entry.NewsEntryDTO;
 import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
-import com.cmpl.web.core.widget.WidgetDTO;
+import com.cmpl.web.core.widget.RenderingWidgetDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +42,7 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
-  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale,
+  public Map<String, Object> computeWidgetModel(RenderingWidgetDTO widget, Locale locale,
     int pageNumber, String query) {
     Map<String, Object> widgetModel = new HashMap<>();
 
@@ -65,9 +65,9 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
     return new ArrayList<>();
   }
 
-  PageWrapper<NewsEntryDTO> computePageWrapperOfNews(WidgetDTO widget, Locale locale,
+  PageWrapper<NewsEntryDTO> computePageWrapperOfNews(RenderingWidgetDTO widget, Locale locale,
     int pageNumber) {
-    Page<NewsEntryDTO> pagedNewsEntries = computeNewsEntries(locale, pageNumber);
+    Page<NewsEntryDTO> pagedNewsEntries = computeNewsEntries(pageNumber);
 
     boolean isFirstPage = pagedNewsEntries.isFirst();
     boolean isLastPage = pagedNewsEntries.isLast();
@@ -86,7 +86,7 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
     return messageSource.getI18n(key, locale, args);
   }
 
-  Page<NewsEntryDTO> computeNewsEntries(Locale locale, int pageNumber) {
+  Page<NewsEntryDTO> computeNewsEntries(int pageNumber) {
     List<NewsEntryDTO> newsEntries = new ArrayList<>();
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage());
     Page<NewsEntryDTO> pagedNewsEntries = newsEntryService.getPagedEntities(pageRequest);
@@ -112,10 +112,12 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
-  public String computeWidgetTemplate(WidgetDTO widget, Locale locale) {
-    if (StringUtils.hasText(widget.getPersonalization())) {
-      return "widget_" + widget.getName() + "_" + locale.getLanguage();
-    }
+  public String computeWidgetTemplate(RenderingWidgetDTO widget, Locale locale) {
+    return "widget_" + widget.getName() + "_" + locale.getLanguage();
+  }
+
+  @Override
+  public String computeDefaultWidgetTemplate() {
     return "widgets/blog";
   }
 

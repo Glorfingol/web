@@ -3,18 +3,24 @@ package com.cmpl.web.manager.ui.core.webmastering.widget;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.factory.widget.WidgetManagerDisplayFactory;
+import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.widget.WidgetCreateForm;
 import com.cmpl.web.core.widget.WidgetDispatcher;
 import com.cmpl.web.core.widget.WidgetResponse;
 import com.cmpl.web.core.widget.WidgetUpdateForm;
 import com.cmpl.web.manager.ui.core.common.stereotype.ManagerController;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Stream;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,35 +48,39 @@ public class WidgetManagerController {
 
   private final WebMessageSource messageSource;
 
+  private final PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
+
+
   public WidgetManagerController(WidgetManagerDisplayFactory widgetManagerDisplayFactory,
-      WidgetDispatcher widgetDispatcher, NotificationCenter notificationCenter,
-      WebMessageSource messageSource) {
+    WidgetDispatcher widgetDispatcher, NotificationCenter notificationCenter,
+    WebMessageSource messageSource, PluginRegistry<WidgetProviderPlugin, String> widgetProviders) {
     this.widgetManagerDisplayFactory = Objects.requireNonNull(widgetManagerDisplayFactory);
     this.widgetDispatcher = Objects.requireNonNull(widgetDispatcher);
     this.notificationCenter = Objects.requireNonNull(notificationCenter);
     this.messageSource = Objects.requireNonNull(messageSource);
+    this.widgetProviders = Objects.requireNonNull(widgetProviders);
 
   }
 
   @GetMapping
   @PreAuthorize("hasAuthority('webmastering:widgets:read')")
   public ModelAndView printViewWidgets(
-      @RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
+    @RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     return widgetManagerDisplayFactory
-        .computeModelAndViewForViewAllWidgets(locale, pageNumberToUse);
+      .computeModelAndViewForViewAllWidgets(locale, pageNumberToUse);
   }
 
   @GetMapping(value = "/search")
   @PreAuthorize("hasAuthority('webmastering:widgets:read')")
   public ModelAndView printSearchWidgets(
-      @RequestParam(name = "p", required = false) Integer pageNumber,
-      @RequestParam(name = "q") String query, Locale locale) {
+    @RequestParam(name = "p", required = false) Integer pageNumber,
+    @RequestParam(name = "q") String query, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     return widgetManagerDisplayFactory
-        .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+      .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -91,8 +101,8 @@ public class WidgetManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:widgets:create')")
   public ResponseEntity<WidgetResponse> createWidget(
-      @Valid @RequestBody WidgetCreateForm createForm,
-      BindingResult bindingResult, Locale locale) {
+    @Valid @RequestBody WidgetCreateForm createForm,
+    BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
 
     if (bindingResult.hasErrors()) {
@@ -101,54 +111,73 @@ public class WidgetManagerController {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     try {
-      WidgetResponse response = widgetDispatcher.createEntity(createForm, locale);
+      WidgetResponse response = widgetDispatcher
+        .createEntity(createForm, computeDefaultPersonalizationContentForWidget(createForm));
 
       LOGGER.info("Entrée crée, id " + response.getWidget().getId());
 
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("create.success", locale));
+        .sendNotification("success", messageSource.getMessage("create.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("create.error", locale));
+        .sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
+  }
+
+  private String computeDefaultPersonalizationContentForWidget(WidgetCreateForm form) {
+    WidgetProviderPlugin provider = widgetProviders.getPluginFor(form.getType());
+    String template = provider.computeDefaultWidgetTemplate();
+
+    try {
+      Path path = Paths.get(getClass().getClassLoader()
+        .getResource(template + ".html").toURI());
+      StringBuilder data = new StringBuilder();
+      Stream<String> lines = Files.lines(path);
+      lines.forEach(line -> data.append(line).append("\n"));
+      lines.close();
+    } catch (Exception e) {
+      LOGGER.error("Impossible de lre le template par défaut {}", template, e);
+    }
+    return "";
   }
 
   @GetMapping(value = "/{widgetId}")
   @PreAuthorize("hasAuthority('webmastering:widgets:read')")
   public ModelAndView printViewUpdateWidget(@PathVariable(value = "widgetId") String widgetId,
-      Locale locale,
-      @RequestParam(name = "languageCode", required = false) String languageCode) {
+    Locale locale,
+    @RequestParam(name = "languageCode", required = false) String languageCode) {
     return widgetManagerDisplayFactory
-        .computeModelAndViewForUpdateWidget(locale, widgetId, languageCode);
+      .computeModelAndViewForUpdateWidget(locale, widgetId, languageCode);
   }
 
   @GetMapping(value = "/{widgetId}/_main")
   @PreAuthorize("hasAuthority('webmastering:widgets:read')")
-  public ModelAndView printViewUpdateWidgetMain(@PathVariable(value = "widgetId") String widgetId,
-      Locale locale,
-      @RequestParam(name = "languageCode", required = false) String languageCode) {
+  public ModelAndView printViewUpdateWidgetMain(@PathVariable(value = "widgetId") String
+    widgetId,
+    Locale locale,
+    @RequestParam(name = "languageCode", required = false) String languageCode) {
     return widgetManagerDisplayFactory
-        .computeModelAndViewForUpdateWidgetMain(locale, widgetId, languageCode);
+      .computeModelAndViewForUpdateWidgetMain(locale, widgetId, languageCode);
   }
 
   @GetMapping(value = "/{widgetId}/_personalization")
   @PreAuthorize("hasAuthority('webmastering:widgets:read')")
   public ModelAndView printViewUpdateWidgetPersonalization(
-      @PathVariable(value = "widgetId") String widgetId,
-      Locale locale, @RequestParam(name = "languageCode", required = false) String languageCode) {
+    @PathVariable(value = "widgetId") String widgetId,
+    Locale locale, @RequestParam(name = "languageCode", required = false) String languageCode) {
     return widgetManagerDisplayFactory
-        .computeModelAndViewForUpdateWidgetPersonalization(locale, widgetId,
-            languageCode);
+      .computeModelAndViewForUpdateWidgetPersonalization(locale, widgetId,
+        languageCode);
   }
 
   @GetMapping(value = "/{widgetId}/_memberships")
   @PreAuthorize("hasAuthority('webmastering:widgets:read')")
   public ModelAndView printViewUpdateWidgetMemberships(
-      @PathVariable(value = "widgetId") String widgetId) {
+    @PathVariable(value = "widgetId") String widgetId) {
     return widgetManagerDisplayFactory.computeModelAndViewForMembership(widgetId);
   }
 
@@ -156,8 +185,8 @@ public class WidgetManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:widgets:write')")
   public ResponseEntity<WidgetResponse> updateWidget(
-      @Valid @RequestBody WidgetUpdateForm updateForm,
-      BindingResult bindingResult, Locale locale) {
+    @Valid @RequestBody WidgetUpdateForm updateForm,
+    BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
 
     if (bindingResult.hasErrors()) {
@@ -172,13 +201,13 @@ public class WidgetManagerController {
       LOGGER.info("Entrée modifiée, id " + response.getWidget().getId());
 
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("update.success", locale));
+        .sendNotification("success", messageSource.getMessage("update.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("update.error", locale));
+        .sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
   }
@@ -187,19 +216,19 @@ public class WidgetManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:widgets:delete')")
   public ResponseEntity<WidgetResponse> deleteWidget(
-      @PathVariable(value = "widgetId") String widgetId, Locale locale) {
+    @PathVariable(value = "widgetId") String widgetId, Locale locale) {
     LOGGER.info("Tentative de création d'une page");
 
     try {
       WidgetResponse response = widgetDispatcher.deleteEntity(widgetId, locale);
 
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("delete.success", locale));
+        .sendNotification("success", messageSource.getMessage("delete.success", locale));
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       LOGGER.error("Echec de la suppression de l'entrée", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("delete.error", locale));
+        .sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
   }

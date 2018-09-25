@@ -2,18 +2,17 @@ package com.cmpl.web.core.factory;
 
 import com.cmpl.web.core.common.dto.BaseDTO;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
-import com.cmpl.web.core.widget.WidgetDTO;
+import com.cmpl.web.core.widget.RenderingWidgetDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import org.springframework.util.StringUtils;
 
 public class HtmlWidgetProvider implements WidgetProviderPlugin {
 
   @Override
-  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale,
+  public Map<String, Object> computeWidgetModel(RenderingWidgetDTO widget, Locale locale,
     int pageNumber, String query) {
     return new HashMap<>();
   }
@@ -24,10 +23,12 @@ public class HtmlWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
-  public String computeWidgetTemplate(WidgetDTO widget, Locale locale) {
-    if (StringUtils.hasText(widget.getPersonalization())) {
-      return "widget_" + widget.getName() + "_" + locale.getLanguage();
-    }
+  public String computeWidgetTemplate(RenderingWidgetDTO widget, Locale locale) {
+    return "widget_" + widget.getName() + "_" + locale.getLanguage();
+  }
+
+  @Override
+  public String computeDefaultWidgetTemplate() {
     return "widgets/default";
   }
 

@@ -3,17 +3,15 @@ package com.cmpl.web.core.factory.media;
 import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
-import com.cmpl.web.core.widget.WidgetDTO;
+import com.cmpl.web.core.widget.RenderingWidgetDTO;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import org.springframework.util.StringUtils;
 
-public class ImageWidgetProvider implements WidgetProviderPlugin {
+public class ImageWidgetProvider extends MediaWidgetProvider implements WidgetProviderPlugin {
 
   private final MediaService mediaService;
 
@@ -26,19 +24,9 @@ public class ImageWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
-  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale,
+  public Map<String, Object> computeWidgetModel(RenderingWidgetDTO widget, Locale locale,
     int pageNumber, String query) {
-
-    if (!StringUtils.hasText(widget.getEntityId())) {
-      return new HashMap<>();
-    }
-
-    Map<String, Object> widgetModel = new HashMap<>();
-
-    MediaDTO image = mediaService.getEntity(Long.parseLong(widget.getEntityId()));
-    widgetModel.put("mediaUrl", image.getSrc());
-
-    return widgetModel;
+    return computeMediaWidgetModel(widget);
   }
 
   @Override
@@ -49,10 +37,12 @@ public class ImageWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
-  public String computeWidgetTemplate(WidgetDTO widget, Locale locale) {
-    if (StringUtils.hasText(widget.getPersonalization())) {
-      return "widget_" + widget.getName() + "_" + locale.getLanguage();
-    }
+  public String computeWidgetTemplate(RenderingWidgetDTO widget, Locale locale) {
+    return "widget_" + widget.getName() + "_" + locale.getLanguage();
+  }
+
+  @Override
+  public String computeDefaultWidgetTemplate() {
     return "widgets/image";
   }
 
@@ -69,5 +59,11 @@ public class ImageWidgetProvider implements WidgetProviderPlugin {
   @Override
   public boolean supports(String delimiter) {
     return getWidgetType().equals(delimiter);
+  }
+
+  @Override
+  protected MediaDTO recoverMedia(RenderingWidgetDTO widget) {
+    return mediaService.getEntity(Long.parseLong(widget.getEntityId()));
+
   }
 }

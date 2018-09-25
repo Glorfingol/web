@@ -3,7 +3,7 @@ package com.cmpl.web.core.factory.news;
 import com.cmpl.web.core.news.entry.NewsEntryDTO;
 import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
-import com.cmpl.web.core.widget.WidgetDTO;
+import com.cmpl.web.core.widget.RenderingWidgetDTO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -22,7 +22,7 @@ public class BlogEntryWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
-  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale,
+  public Map<String, Object> computeWidgetModel(RenderingWidgetDTO widget, Locale locale,
     int pageNumber, String query) {
     Map<String, Object> widgetModel = new HashMap<>();
 
@@ -42,10 +42,12 @@ public class BlogEntryWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
-  public String computeWidgetTemplate(WidgetDTO widget, Locale locale) {
-    if (StringUtils.hasText(widget.getPersonalization())) {
-      return "widget_" + widget.getName() + "_" + locale.getLanguage();
-    }
+  public String computeWidgetTemplate(RenderingWidgetDTO widget, Locale locale) {
+    return "widget_" + widget.getName() + "_" + locale.getLanguage();
+  }
+
+  @Override
+  public String computeDefaultWidgetTemplate() {
     return "widgets/blog_entry";
   }
 
