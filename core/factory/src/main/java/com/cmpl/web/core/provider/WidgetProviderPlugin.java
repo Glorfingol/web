@@ -11,8 +11,8 @@ import org.springframework.plugin.core.Plugin;
 @Qualifier(value = "widgetProviders")
 public interface WidgetProviderPlugin extends Plugin<String> {
 
-  Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName,
-      int pageNumber, String query);
+  Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale,
+    int pageNumber, String query);
 
   List<? extends BaseDTO> getLinkableEntities();
 

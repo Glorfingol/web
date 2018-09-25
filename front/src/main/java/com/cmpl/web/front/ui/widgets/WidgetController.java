@@ -26,13 +26,12 @@ public class WidgetController {
 
   @GetMapping(value = "/widgets/{widgetName}")
   public ModelAndView printPage(@PathVariable(value = "widgetName") String widgetName,
-      @RequestParam(name = "p", required = false) Integer pageNumber,
-      @RequestParam(name = "pageName", required = false) String pageName,
-      @RequestParam(name = "q", required = false) String query, Locale locale) {
+    @RequestParam(name = "p", required = false) Integer pageNumber,
+    @RequestParam(name = "q", required = false) String query, Locale locale) {
     LOGGER.info("Récupération du widget " + widgetName);
     return displayFactory
-        .computeModelAndViewForWidget(widgetName, locale, computePageNumberFromRequest(pageNumber),
-            pageName, query);
+      .computeModelAndViewForWidget(widgetName, locale, computePageNumberFromRequest(pageNumber),
+        query);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {

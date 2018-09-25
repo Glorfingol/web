@@ -26,8 +26,8 @@ public class ImageWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
-  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName,
-      int pageNumber, String query) {
+  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale,
+    int pageNumber, String query) {
 
     if (!StringUtils.hasText(widget.getEntityId())) {
       return new HashMap<>();
@@ -44,8 +44,8 @@ public class ImageWidgetProvider implements WidgetProviderPlugin {
   @Override
   public List<MediaDTO> getLinkableEntities() {
     return mediaService.getEntities().stream()
-        .filter(mediaDTO -> !movieExtensions.contains(mediaDTO.getExtension()))
-        .collect(Collectors.toList());
+      .filter(mediaDTO -> !movieExtensions.contains(mediaDTO.getExtension()))
+      .collect(Collectors.toList());
   }
 
   @Override

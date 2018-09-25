@@ -13,8 +13,8 @@ import org.springframework.util.StringUtils;
 public class HtmlWidgetProvider implements WidgetProviderPlugin {
 
   @Override
-  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName,
-      int pageNumber, String query) {
+  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale,
+    int pageNumber, String query) {
     return new HashMap<>();
   }
 

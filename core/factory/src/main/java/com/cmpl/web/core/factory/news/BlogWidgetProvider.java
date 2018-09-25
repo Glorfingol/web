@@ -31,7 +31,7 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
   private final NewsEntryService newsEntryService;
 
   public BlogWidgetProvider(WebMessageSource messageSource, ContextHolder contextHolder,
-      NewsEntryService newsEntryService) {
+    NewsEntryService newsEntryService) {
 
     this.messageSource = Objects.requireNonNull(messageSource);
 
@@ -42,16 +42,16 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
-  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale, String pageName,
-      int pageNumber, String query) {
+  public Map<String, Object> computeWidgetModel(WidgetDTO widget, Locale locale,
+    int pageNumber, String query) {
     Map<String, Object> widgetModel = new HashMap<>();
 
     PageWrapper<NewsEntryDTO> pagedNewsWrapped = computePageWrapperOfNews(widget, locale,
-        pageNumber);
+      pageNumber);
 
     List<NewsEntryDTO> entries = computeNewsEntriesForPage(pageNumber, query);
     List<String> entriesIds = entries.stream().map(entry -> String.valueOf(entry.getId()))
-        .collect(Collectors.toList());
+      .collect(Collectors.toList());
     widgetModel.put("wrappedNews", pagedNewsWrapped);
     widgetModel.put("news", entriesIds);
     widgetModel.put("widgetId", String.valueOf(widget.getId()));
@@ -66,7 +66,7 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
   }
 
   PageWrapper<NewsEntryDTO> computePageWrapperOfNews(WidgetDTO widget, Locale locale,
-      int pageNumber) {
+    int pageNumber) {
     Page<NewsEntryDTO> pagedNewsEntries = computeNewsEntries(locale, pageNumber);
 
     boolean isFirstPage = pagedNewsEntries.isFirst();
@@ -75,11 +75,11 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
     int currentPageNumber = pagedNewsEntries.getNumber();
 
     return new PageWrapperBuilder<NewsEntryDTO>().currentPageNumber(currentPageNumber)
-        .firstPage(isFirstPage)
-        .lastPage(isLastPage).page(pagedNewsEntries).totalPages(totalPages)
-        .pageBaseUrl("/widgets/" + widget.getName())
-        .pageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages))
-        .build();
+      .firstPage(isFirstPage)
+      .lastPage(isLastPage).page(pagedNewsEntries).totalPages(totalPages)
+      .pageBaseUrl("/widgets/" + widget.getName())
+      .pageLabel(getI18nValue("pagination.page", locale, currentPageNumber + 1, totalPages))
+      .build();
   }
 
   String getI18nValue(String key, Locale locale, Object... args) {

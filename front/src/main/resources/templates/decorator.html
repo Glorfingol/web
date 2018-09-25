@@ -12,11 +12,10 @@
 </body>
 <script th:inline="javascript">
   var widgetNames = [[${widgetNames}]];
-  var pageName = [[${pageName}]];
   widgetNames.forEach(function (widgetName) {
     var widgetDiv = $("#widget_" + widgetName);
     if (widgetDiv) {
-      var url = "/widgets/" + widgetName + "?pageName=" + pageName;
+      var url = "/widgets/" + widgetName
       $.get(url, function (data) {
         widgetDiv.html(data);
       });
@@ -26,7 +25,7 @@
   function reloadWidget(widgetName, pageNumber, query) {
     var widgetDiv = $("#widget_" + widgetName);
     if (widgetDiv) {
-      var url = "/widgets/" + widgetName + "?pageName=" + pageName + "&p=" + pageNumber + "&q="
+      var url = "/widgets/" + widgetName + "?p=" + pageNumber + "&q="
           + query;
       $.get(url, function (data) {
         widgetDiv.html(data);

@@ -97,7 +97,6 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
 
   @Override
   public ModelAndView computeModelAndViewForWidget(String widgetName, Locale locale, int pageNumber,
-    String pageName,
     String query) {
 
     LOGGER.debug("Construction du wiget {}", widgetName);
@@ -107,7 +106,7 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
 
     model.addObject("pageNumber", pageNumber);
 
-    Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale, pageName,
+    Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale,
       query);
     if (!CollectionUtils.isEmpty(widgetModel)) {
       widgetModel.forEach((key, value) -> model.addObject(key, value));
@@ -228,7 +227,7 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
     int pageNumber, Locale locale, String pageName, String query) {
     synchronousWidgets.forEach(widget -> {
 
-      Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale, pageName,
+      Map<String, Object> widgetModel = computeWidgetModel(widget, pageNumber, locale,
         query);
       if (!CollectionUtils.isEmpty(widgetModel)) {
         widgetModel.forEach((key, value) -> model.addObject(key, value));
@@ -266,11 +265,10 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
   }
 
   Map<String, Object> computeWidgetModel(WidgetDTO widget, int pageNumber, Locale locale,
-    String pageName,
     String query) {
 
     WidgetProviderPlugin widgetProvider = widgetProviders.getPluginFor(widget.getType());
-    return widgetProvider.computeWidgetModel(widget, locale, pageName, pageNumber, query);
+    return widgetProvider.computeWidgetModel(widget, locale, pageNumber, query);
 
   }
 
