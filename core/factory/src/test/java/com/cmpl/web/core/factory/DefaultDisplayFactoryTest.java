@@ -12,7 +12,7 @@ import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.sitemap.SitemapService;
 import com.cmpl.web.core.style.StyleService;
 import com.cmpl.web.core.website.WebsiteService;
-import com.cmpl.web.core.widget.WidgetService;
+import com.cmpl.web.core.widget.RenderingWidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
 import java.util.Locale;
 import org.junit.Assert;
@@ -32,7 +32,7 @@ public class DefaultDisplayFactoryTest {
 
   @Mock
   private WebMessageSource messageSource;
-  
+
   @Mock
   private RenderingPageService renderingPageService;
 
@@ -46,7 +46,7 @@ public class DefaultDisplayFactoryTest {
   private WidgetPageService widgetPageService;
 
   @Mock
-  private WidgetService widgetService;
+  private RenderingWidgetService renderingWidgetService;
 
   @Mock
   private PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
