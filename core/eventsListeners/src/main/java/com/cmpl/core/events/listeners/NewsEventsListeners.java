@@ -1,6 +1,8 @@
-package com.cmpl.core.events_listeners;
+package com.cmpl.core.events.listeners;
 
 import com.cmpl.web.core.common.event.DeletedEvent;
+import com.cmpl.web.core.common.event.UpdatedEvent;
+import com.cmpl.web.core.factory.DisplayFactoryCacheManager;
 import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.news.content.NewsContentService;
@@ -18,11 +20,15 @@ public class NewsEventsListeners {
 
   private final MembershipService membershipService;
 
+  private final DisplayFactoryCacheManager displayFactoryCacheManager;
+
   public NewsEventsListeners(NewsContentService newsContentService,
-      NewsImageService newsImageService, MembershipService membershipService) {
+    NewsImageService newsImageService, MembershipService membershipService,
+    DisplayFactoryCacheManager displayFactoryCacheManager) {
     this.newsContentService = Objects.requireNonNull(newsContentService);
     this.newsImageService = Objects.requireNonNull(newsImageService);
     this.membershipService = Objects.requireNonNull(membershipService);
+    this.displayFactoryCacheManager = Objects.requireNonNull(displayFactoryCacheManager);
   }
 
   @EventListener
@@ -43,8 +49,19 @@ public class NewsEventsListeners {
           newsImageService.deleteEntity(deletedNewsImage.getId());
         }
         membershipService.findByGroupId(deletedNewsEntry.getId())
-            .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
+          .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
+
+        displayFactoryCacheManager.evictNewsEntryById(deletedNewsEntry.getId());
       }
+
+    }
+  }
+
+  @EventListener
+  public void handleEntityDeletion(UpdatedEvent updatedEvent) {
+    if (updatedEvent.getEntity() instanceof NewsEntry) {
+      NewsEntry updatedNewsEntry = (NewsEntry) updatedEvent.getEntity();
+      displayFactoryCacheManager.evictNewsEntryById(updatedNewsEntry.getId());
 
     }
   }

@@ -18,7 +18,7 @@ spring:
   resources:
     cache:
       cachecontrol:
-        max-age: 1M
+        max-age: 30D
 
 
 # HTTP Server

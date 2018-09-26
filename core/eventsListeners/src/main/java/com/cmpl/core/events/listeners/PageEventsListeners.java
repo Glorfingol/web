@@ -1,7 +1,8 @@
-package com.cmpl.core.events_listeners;
+package com.cmpl.core.events.listeners;
 
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.common.event.UpdatedEvent;
+import com.cmpl.web.core.factory.DisplayFactoryCacheManager;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.models.Page;
@@ -26,6 +27,8 @@ public class PageEventsListeners {
 
   private final FileService fileService;
 
+  private final DisplayFactoryCacheManager displayFactoryCacheManager;
+
   private final Set<Locale> locales;
 
   private final SpringTemplateEngine templateEngine;
@@ -46,18 +49,18 @@ public class PageEventsListeners {
 
   private static final String HEADER = "header";
 
-  private static final String FOOTER = "footer";
 
   public PageEventsListeners(WidgetPageService widgetPageService, FileService fileService,
     Set<Locale> locales,
     SitemapService sitemapService, MembershipService membershipService,
-    SpringTemplateEngine templateEngine) {
+    SpringTemplateEngine templateEngine, DisplayFactoryCacheManager displayFactoryCacheManager) {
     this.widgetPageService = Objects.requireNonNull(widgetPageService);
     this.locales = Objects.requireNonNull(locales);
     this.fileService = Objects.requireNonNull(fileService);
     this.sitemapService = Objects.requireNonNull(sitemapService);
     this.membershipService = Objects.requireNonNull(membershipService);
     this.templateEngine = Objects.requireNonNull(templateEngine);
+    this.displayFactoryCacheManager = Objects.requireNonNull(displayFactoryCacheManager);
   }
 
   @EventListener
@@ -86,7 +89,11 @@ public class PageEventsListeners {
         });
 
         sitemapService.findByPageId(deletedPage.getId())
-          .forEach(sitemap -> sitemapService.deleteEntity(sitemap.getId()));
+          .forEach(siteMap -> {
+            sitemapService.deleteEntity(siteMap.getId());
+            displayFactoryCacheManager
+              .evictPageForHrefAndWebsite(siteMap.getWebsiteId(), deletedPage.getHref());
+          });
 
         membershipService.findByGroupId(deletedPage.getId())
           .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
@@ -101,6 +108,10 @@ public class PageEventsListeners {
       Page page = (Page) updatedEvent.getEntity();
       locales.forEach(locale -> computeTemplateCacheKeys(page, locale.getLanguage())
         .forEach(key -> templateEngine.getCacheManager().getTemplateCache().clearKey(key)));
+
+      sitemapService.findByPageId(page.getId())
+        .forEach(siteMap -> displayFactoryCacheManager
+          .evictPageForHrefAndWebsite(siteMap.getWebsiteId(), page.getHref()));
     }
   }
 

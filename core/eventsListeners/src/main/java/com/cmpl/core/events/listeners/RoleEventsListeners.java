@@ -1,4 +1,4 @@
-package com.cmpl.core.events_listeners;
+package com.cmpl.core.events.listeners;
 
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.membership.MembershipService;
@@ -17,7 +17,7 @@ public class RoleEventsListeners {
   private final PrivilegeService privilegeService;
 
   public RoleEventsListeners(ResponsibilityService responsibilityService,
-      PrivilegeService privilegeService, MembershipService membershipService) {
+    PrivilegeService privilegeService, MembershipService membershipService) {
     this.responsibilityService = Objects.requireNonNull(responsibilityService);
     this.privilegeService = Objects.requireNonNull(privilegeService);
     this.membershipService = Objects.requireNonNull(membershipService);
@@ -31,13 +31,13 @@ public class RoleEventsListeners {
       if (deletedRole != null) {
         String roleId = String.valueOf(deletedRole.getId());
         responsibilityService.findByRoleId(roleId)
-            .forEach(associationUserRoleDTO -> responsibilityService
-                .deleteEntity(associationUserRoleDTO.getId()));
+          .forEach(associationUserRoleDTO -> responsibilityService
+            .deleteEntity(associationUserRoleDTO.getId()));
         privilegeService.findByRoleId(roleId)
-            .forEach(privilegeDTO -> privilegeService.deleteEntity(privilegeDTO.getId()));
+          .forEach(privilegeDTO -> privilegeService.deleteEntity(privilegeDTO.getId()));
 
         membershipService.findByGroupId(deletedRole.getId())
-            .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
+          .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
       }
 
     }

@@ -1,4 +1,4 @@
-package com.cmpl.core.events_listeners;
+package com.cmpl.core.events.listeners;
 
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.file.FileService;
@@ -27,7 +27,7 @@ public class MediaEventsListeners {
       if (deletedMedia != null) {
         fileService.removeMediaFromSystem(deletedMedia.getName());
         membershipService.findByGroupId(deletedMedia.getId())
-            .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
+          .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
       }
 
 

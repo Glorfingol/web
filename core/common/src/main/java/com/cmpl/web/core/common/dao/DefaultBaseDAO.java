@@ -50,7 +50,9 @@ public abstract class DefaultBaseDAO<ENTITY extends BaseEntity> extends Querydsl
   @Override
   public ENTITY createEntity(ENTITY entity) {
     entity.setModificationDate(LocalDateTime.now());
-    return entityRepository.save(entity);
+    ENTITY createdEntity = entityRepository.save(entity);
+    publisher.publishEvent(new UpdatedEvent<>(this, createdEntity));
+    return createdEntity;
   }
 
   @Override

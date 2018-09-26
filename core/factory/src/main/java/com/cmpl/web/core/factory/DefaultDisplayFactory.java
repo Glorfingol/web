@@ -1,33 +1,24 @@
 package com.cmpl.web.core.factory;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.design.DesignDTO;
-import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.news.entry.NewsEntryDTO;
-import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.page.RenderingPageDTO;
-import com.cmpl.web.core.page.RenderingPageService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
-import com.cmpl.web.core.sitemap.SitemapDTO;
-import com.cmpl.web.core.sitemap.SitemapService;
 import com.cmpl.web.core.style.StyleDTO;
-import com.cmpl.web.core.style.StyleService;
 import com.cmpl.web.core.website.WebsiteDTO;
-import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.widget.RenderingWidgetDTO;
 import com.cmpl.web.core.widget.RenderingWidgetDTOBuilder;
-import com.cmpl.web.core.widget.RenderingWidgetService;
-import com.cmpl.web.core.widget.page.WidgetPageDTO;
-import com.cmpl.web.core.widget.page.WidgetPageService;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -35,46 +26,24 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author Louis
  */
+@CacheConfig(cacheNames = "display")
 public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements DisplayFactory {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultDisplayFactory.class);
 
-  private final RenderingPageService renderingPageService;
-
-
-  private final RenderingWidgetService renderingWidgetService;
-
-  private final NewsEntryService newsEntryService;
-
-  private final WidgetPageService widgetPageService;
 
   private final PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
 
-  private final WebsiteService websiteService;
 
-  private final SitemapService sitemapService;
-
-  private final DesignService designService;
-
-  private final StyleService styleService;
+  private final DisplayFactoryCacheManager displayFactoryCacheManager;
 
   public DefaultDisplayFactory(WebMessageSource messageSource,
-    RenderingPageService renderingPageService,
-    NewsEntryService newsEntryService, WidgetPageService widgetPageService,
-    RenderingWidgetService renderingWidgetService,
-    PluginRegistry<WidgetProviderPlugin, String> widgetProviders, WebsiteService websiteService,
-    SitemapService sitemapService, DesignService designService, StyleService styleService) {
+    PluginRegistry<WidgetProviderPlugin, String> widgetProviders,
+    DisplayFactoryCacheManager displayFactoryCacheManager) {
     super(messageSource);
 
-    this.renderingPageService = Objects.requireNonNull(renderingPageService);
-    this.newsEntryService = Objects.requireNonNull(newsEntryService);
-    this.widgetPageService = Objects.requireNonNull(widgetPageService);
-    this.renderingWidgetService = Objects.requireNonNull(renderingWidgetService);
     this.widgetProviders = Objects.requireNonNull(widgetProviders);
-    this.websiteService = Objects.requireNonNull(websiteService);
-    this.designService = Objects.requireNonNull(designService);
-    this.sitemapService = Objects.requireNonNull(sitemapService);
-    this.styleService = Objects.requireNonNull(styleService);
+    this.displayFactoryCacheManager = Objects.requireNonNull(displayFactoryCacheManager);
 
   }
 
@@ -84,10 +53,10 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
 
     LOGGER.debug("Construction de l'entree de blog d'id {}", newsEntryId);
 
-    WidgetProviderPlugin widgetProvider = widgetProviders.getPluginFor("BLOG_ENTRY");
     ModelAndView model = new ModelAndView(
-      widgetProvider.computeWidgetTemplate(RenderingWidgetDTOBuilder.create().build(), locale));
-    NewsEntryDTO newsEntry = newsEntryService.getEntity(Long.parseLong(newsEntryId));
+      computeWidgetTemplate(RenderingWidgetDTOBuilder.create().type("BLOG_ENTRY").build(), locale));
+    NewsEntryDTO newsEntry = displayFactoryCacheManager
+      .getNewsEntryById(Long.parseLong(newsEntryId));
     model.addObject("newsBean", newsEntry);
 
     LOGGER.debug("Entree de blog {}  prête", newsEntryId);
@@ -101,7 +70,7 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
 
     LOGGER.debug("Construction du wiget {}", widgetName);
 
-    RenderingWidgetDTO widget = renderingWidgetService.findByName(widgetName);
+    RenderingWidgetDTO widget = displayFactoryCacheManager.findWidgetByName(widgetName);
     ModelAndView model = new ModelAndView(computeWidgetTemplate(widget, locale));
 
     model.addObject("pageNumber", pageNumber);
@@ -125,27 +94,21 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
     int pageNumber, String query) {
 
     LOGGER.debug("Construction de la page  {} pour le site {}", pageHref, websiteName);
-    WebsiteDTO websiteDTO = websiteService.getWebsiteByName(websiteName);
+    WebsiteDTO websiteDTO = displayFactoryCacheManager.findWebsiteByName(websiteName);
     if (websiteDTO == null) {
       return new ModelAndView("404");
     }
 
-    List<SitemapDTO> sitemaps = sitemapService.findByWebsiteId(websiteDTO.getId());
-    List<RenderingPageDTO> pages = sitemaps.stream()
-      .map(sitemap -> renderingPageService.getEntity(sitemap.getPageId()))
-      .filter(page -> page.getHref().equals(pageHref)).collect(Collectors.toList());
-    if (CollectionUtils.isEmpty(pages)) {
+    Optional<RenderingPageDTO> optionalPage = displayFactoryCacheManager
+      .getPageForHrefAndWebsite(websiteDTO.getId(), pageHref);
+    if (!optionalPage.isPresent()) {
       return new ModelAndView("404");
     }
 
-    List<DesignDTO> designs = designService.findByWebsiteId(websiteDTO.getId());
-    List<StyleDTO> styles = designs.stream()
-      .map(design -> styleService.getEntity(design.getStyleId()))
-      .collect(Collectors.toList());
-
-    RenderingPageDTO page = pages.get(0);
+    RenderingPageDTO page = optionalPage.get();
     String pageName = page.getName();
     ModelAndView model = new ModelAndView("decorator");
+    List<StyleDTO> styles = displayFactoryCacheManager.getWebsiteStyles(websiteDTO.getId());
     model.addObject("styles", styles);
     model.addObject("content", computePageContent(page, locale));
     LOGGER.debug("Construction du footer pour la page  {}", pageName);
@@ -156,19 +119,13 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
     model.addObject("meta", computePageMeta(page, locale));
 
     LOGGER.debug("Construction des widgets pour la page {}", pageName);
-    List<WidgetPageDTO> widgetPageDTOS = widgetPageService
-      .findByPageId(String.valueOf(page.getId()));
-    List<String> widgetIds = widgetPageDTOS.stream()
-      .map(widgetPageDTO -> widgetPageDTO.getWidgetId())
-      .collect(Collectors.toList());
-    List<String> widgetAsynchronousNames = widgetIds.stream()
-      .map(widgetId -> renderingWidgetService.getEntity(Long.parseLong(widgetId)))
-      .filter(widget -> widget.isAsynchronous())
-      .map(widget -> widget.getName()).collect(Collectors.toList());
+    List<String> widgetIds = displayFactoryCacheManager.getWidgetsIdsForPage(page.getId());
+    List<String> widgetAsynchronousNames = displayFactoryCacheManager
+      .getAsynchronousWidgetsForPage(page.getId(), widgetIds);
 
-    List<RenderingWidgetDTO> synchronousWidgets = widgetIds.stream()
-      .map(widgetId -> renderingWidgetService.getEntity(Long.parseLong(widgetId)))
-      .filter(widget -> !widget.isAsynchronous()).collect(Collectors.toList());
+    List<RenderingWidgetDTO> synchronousWidgets = displayFactoryCacheManager
+      .getSynchronousWidgetsForPage(page.getId(),
+        widgetIds);
 
     addSynchronousWidgetsTemplatesToModel(model, synchronousWidgets, pageNumber, locale,
       query);
@@ -188,32 +145,25 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
     int pageNumber, String query) {
     LOGGER.debug("Construction de la page amp {} pour le site {}", pageHref, websiteName);
 
-    WebsiteDTO websiteDTO = websiteService.getWebsiteByName(websiteName);
+    WebsiteDTO websiteDTO = displayFactoryCacheManager.findWebsiteByName(websiteName);
     if (websiteDTO == null) {
       return new ModelAndView("404");
     }
 
-    List<SitemapDTO> sitemaps = sitemapService.findByWebsiteId(websiteDTO.getId());
-    List<RenderingPageDTO> pages = sitemaps.stream()
-      .map(sitemap -> renderingPageService.getEntity(sitemap.getPageId()))
-      .filter(page -> page.getHref().equals(pageHref)).collect(Collectors.toList());
-    if (CollectionUtils.isEmpty(pages)) {
+    Optional<RenderingPageDTO> optionalPage = displayFactoryCacheManager
+      .getPageForHrefAndWebsite(websiteDTO.getId(), pageHref);
+    if (!optionalPage.isPresent()) {
       return new ModelAndView("404");
     }
 
-    RenderingPageDTO page = pages.get(0);
+    RenderingPageDTO page = optionalPage.get();
     String pageName = page.getName();
     ModelAndView model = new ModelAndView("decorator_amp");
     model.addObject("amp_content", computePageAMPContent(page, locale));
-    List<WidgetPageDTO> widgetPageDTOS = widgetPageService
-      .findByPageId(String.valueOf(page.getId()));
-    List<String> widgetIds = widgetPageDTOS.stream()
-      .map(widgetPageDTO -> widgetPageDTO.getWidgetId())
-      .collect(Collectors.toList());
-    List<RenderingWidgetDTO> synchronousWidgets = widgetIds.stream()
-      .map(widgetId -> renderingWidgetService
-        .getEntity(Long.parseLong(widgetId)))
-      .filter(widget -> !widget.isAsynchronous()).collect(Collectors.toList());
+    List<String> widgetIds = displayFactoryCacheManager.getWidgetsIdsForPage(page.getId());
+    List<RenderingWidgetDTO> synchronousWidgets = displayFactoryCacheManager
+      .getSynchronousWidgetsForPage(page.getId(),
+        widgetIds);
 
     addSynchronousWidgetsTemplatesToModel(model, synchronousWidgets, pageNumber, locale,
       query);
@@ -242,6 +192,9 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
 
   String computeWidgetTemplate(RenderingWidgetDTO widget, Locale locale) {
     WidgetProviderPlugin widgetProvider = widgetProviders.getPluginFor(widget.getType());
+    if (!StringUtils.hasText(widget.getName())) {
+      return widgetProvider.computeDefaultWidgetTemplate();
+    }
     return widgetProvider.computeWidgetTemplate(widget, locale);
   }
 
@@ -265,12 +218,13 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
     return page.getName() + "_footer_" + locale.getLanguage();
   }
 
-  Map<String, Object> computeWidgetModel(RenderingWidgetDTO widget, int pageNumber, Locale locale,
-    String query) {
+  public Map<String, Object> computeWidgetModel(RenderingWidgetDTO widget, int pageNumber,
+    Locale locale, String query) {
 
     WidgetProviderPlugin widgetProvider = widgetProviders.getPluginFor(widget.getType());
     return widgetProvider.computeWidgetModel(widget, locale, pageNumber, query);
 
   }
+
 
 }

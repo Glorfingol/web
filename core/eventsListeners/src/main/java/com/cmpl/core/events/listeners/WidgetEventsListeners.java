@@ -1,7 +1,8 @@
-package com.cmpl.core.events_listeners;
+package com.cmpl.core.events.listeners;
 
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.common.event.UpdatedEvent;
+import com.cmpl.web.core.factory.DisplayFactoryCacheManager;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.models.Widget;
@@ -28,6 +29,8 @@ public class WidgetEventsListeners {
 
   private final SpringTemplateEngine templateEngine;
 
+  private final DisplayFactoryCacheManager displayFactoryCacheManager;
+
   private final PageService pageService;
 
   private final Set<Locale> locales;
@@ -49,13 +52,14 @@ public class WidgetEventsListeners {
 
   public WidgetEventsListeners(WidgetPageService widgetPageService, FileService fileService,
     Set<Locale> locales, MembershipService membershipService, PageService pageService,
-    SpringTemplateEngine templateEngine) {
+    SpringTemplateEngine templateEngine, DisplayFactoryCacheManager displayFactoryCacheManager) {
     this.widgetPageService = Objects.requireNonNull(widgetPageService);
     this.locales = Objects.requireNonNull(locales);
     this.fileService = Objects.requireNonNull(fileService);
     this.membershipService = Objects.requireNonNull(membershipService);
     this.pageService = Objects.requireNonNull(pageService);
     this.templateEngine = Objects.requireNonNull(templateEngine);
+    this.displayFactoryCacheManager = Objects.requireNonNull(displayFactoryCacheManager);
   }
 
   @EventListener
@@ -76,7 +80,11 @@ public class WidgetEventsListeners {
 
         membershipService.findByGroupId(deletedWidget.getId())
           .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
+        displayFactoryCacheManager.evictWidgetByName(deletedWidget.getName());
+        displayFactoryCacheManager.evictWidgetById(deletedWidget.getId());
       }
+
+
     }
 
   }
@@ -87,6 +95,18 @@ public class WidgetEventsListeners {
       Widget widget = (Widget) updatedEvent.getEntity();
       locales.forEach(locale -> computeTemplateCacheKeys(widget, locale.getLanguage())
         .forEach(key -> templateEngine.getCacheManager().getTemplateCache().clearKey(key)));
+
+      widgetPageService.findByWidgetId(String.valueOf(widget.getId())).forEach(
+        widgetPage -> {
+          displayFactoryCacheManager
+            .evictSynchronousWidgetForPage(Long.valueOf(widgetPage.getPageId()));
+          displayFactoryCacheManager
+            .evictAsynchronousWidgetsForPage(Long.valueOf(widgetPage.getPageId()));
+        });
+
+      displayFactoryCacheManager.evictWidgetByName(widget.getName());
+      displayFactoryCacheManager.evictWidgetById(widget.getId());
+
     }
   }
 

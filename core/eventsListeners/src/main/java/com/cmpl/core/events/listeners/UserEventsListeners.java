@@ -1,4 +1,4 @@
-package com.cmpl.core.events_listeners;
+package com.cmpl.core.events.listeners;
 
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.membership.MembershipService;
@@ -14,7 +14,7 @@ public class UserEventsListeners {
   private final MembershipService membershipService;
 
   public UserEventsListeners(ResponsibilityService responsibilityService,
-      MembershipService membershipService) {
+    MembershipService membershipService) {
     this.responsibilityService = Objects.requireNonNull(responsibilityService);
     this.membershipService = Objects.requireNonNull(membershipService);
   }
@@ -26,11 +26,11 @@ public class UserEventsListeners {
       User deletedUser = (User) deletedEvent.getEntity();
       if (deletedUser != null) {
         responsibilityService.findByUserId(String.valueOf(deletedUser.getId()))
-            .forEach(associationUserRoleDTO -> responsibilityService
-                .deleteEntity(associationUserRoleDTO.getId()));
+          .forEach(associationUserRoleDTO -> responsibilityService
+            .deleteEntity(associationUserRoleDTO.getId()));
 
         membershipService.findByGroupId(deletedUser.getId())
-            .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
+          .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
       }
 
     }

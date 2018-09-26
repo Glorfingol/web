@@ -1,15 +1,18 @@
 package com.cmpl.web.configuration.core.common;
 
-import com.cmpl.core.events_listeners.GroupEventsListener;
-import com.cmpl.core.events_listeners.MediaEventsListeners;
-import com.cmpl.core.events_listeners.NewsEventsListeners;
-import com.cmpl.core.events_listeners.PageEventsListeners;
-import com.cmpl.core.events_listeners.RoleEventsListeners;
-import com.cmpl.core.events_listeners.StyleEventsListeners;
-import com.cmpl.core.events_listeners.UserEventsListeners;
-import com.cmpl.core.events_listeners.WebsiteEventsListeners;
-import com.cmpl.core.events_listeners.WidgetEventsListeners;
+import com.cmpl.core.events.listeners.DesignEventsListeners;
+import com.cmpl.core.events.listeners.GroupEventsListener;
+import com.cmpl.core.events.listeners.MediaEventsListeners;
+import com.cmpl.core.events.listeners.NewsEventsListeners;
+import com.cmpl.core.events.listeners.PageEventsListeners;
+import com.cmpl.core.events.listeners.RoleEventsListeners;
+import com.cmpl.core.events.listeners.StyleEventsListeners;
+import com.cmpl.core.events.listeners.UserEventsListeners;
+import com.cmpl.core.events.listeners.WebsiteEventsListeners;
+import com.cmpl.core.events.listeners.WidgetEventsListeners;
+import com.cmpl.core.events.listeners.WidgetPageEventsListeners;
 import com.cmpl.web.core.design.DesignService;
+import com.cmpl.web.core.factory.DisplayFactoryCacheManager;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.membership.MembershipService;
 import com.cmpl.web.core.news.content.NewsContentService;
@@ -42,17 +45,20 @@ public class EventsListenerConfiguration {
 
   @Bean
   public NewsEventsListeners newsEventsListener(NewsContentService newsContentService,
-    NewsImageService newsImageService, MembershipService membershipService) {
-    return new NewsEventsListeners(newsContentService, newsImageService, membershipService);
+    NewsImageService newsImageService, MembershipService membershipService,
+    DisplayFactoryCacheManager displayFactoryCacheManager) {
+    return new NewsEventsListeners(newsContentService, newsImageService, membershipService,
+      displayFactoryCacheManager);
   }
 
   @Bean
   public PageEventsListeners pageEventsListener(WidgetPageService widgetPageService,
     FileService fileService,
     Set<Locale> availableLocales, SitemapService sitemapService,
-    MembershipService membershipService, SpringTemplateEngine templateEngine) {
+    MembershipService membershipService, SpringTemplateEngine templateEngine,
+    DisplayFactoryCacheManager displayFactoryCacheManager) {
     return new PageEventsListeners(widgetPageService, fileService, availableLocales,
-      sitemapService, membershipService, templateEngine);
+      sitemapService, membershipService, templateEngine, displayFactoryCacheManager);
   }
 
   @Bean
@@ -71,20 +77,34 @@ public class EventsListenerConfiguration {
   public WidgetEventsListeners widgetEventsListener(WidgetPageService widgetPageService,
     FileService fileService,
     Set<Locale> availableLocales, MembershipService membershipService, PageService pageService,
-    SpringTemplateEngine templateEngine) {
+    SpringTemplateEngine templateEngine, DisplayFactoryCacheManager displayFactoryCacheManager) {
     return new WidgetEventsListeners(widgetPageService, fileService, availableLocales,
-      membershipService, pageService, templateEngine);
+      membershipService, pageService, templateEngine, displayFactoryCacheManager);
   }
 
   @Bean
   public WebsiteEventsListeners websiteEventsListeners(DesignService designService,
-    SitemapService sitemapService, MembershipService membershipService) {
-    return new WebsiteEventsListeners(designService, sitemapService, membershipService);
+    SitemapService sitemapService, MembershipService membershipService,
+    DisplayFactoryCacheManager displayFactoryCacheManager, PageService pageService) {
+    return new WebsiteEventsListeners(designService, sitemapService, membershipService, pageService,
+      displayFactoryCacheManager);
   }
 
   @Bean
   public StyleEventsListeners styleEventsListeners(DesignService designService,
-    MembershipService membershipService) {
-    return new StyleEventsListeners(designService, membershipService);
+    MembershipService membershipService, DisplayFactoryCacheManager displayFactoryCacheManager) {
+    return new StyleEventsListeners(designService, membershipService, displayFactoryCacheManager);
+  }
+
+  @Bean
+  public WidgetPageEventsListeners widgetPageEventsListeners(
+    DisplayFactoryCacheManager displayFactoryCacheManager) {
+    return new WidgetPageEventsListeners(displayFactoryCacheManager);
+  }
+
+  @Bean
+  public DesignEventsListeners designEventsListeners(
+    DisplayFactoryCacheManager displayFactoryCacheManager) {
+    return new DesignEventsListeners(displayFactoryCacheManager);
   }
 }

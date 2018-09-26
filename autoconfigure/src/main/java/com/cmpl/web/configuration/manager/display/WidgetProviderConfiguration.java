@@ -6,6 +6,7 @@ import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.factory.DefaultDisplayFactory;
 import com.cmpl.web.core.factory.DisplayFactory;
+import com.cmpl.web.core.factory.DisplayFactoryCacheManager;
 import com.cmpl.web.core.factory.HtmlWidgetProvider;
 import com.cmpl.web.core.factory.carousel.CarouselWidgetProvider;
 import com.cmpl.web.core.factory.media.ImageWidgetProvider;
@@ -67,15 +68,23 @@ public class WidgetProviderConfiguration {
 
   @Bean
   public DisplayFactory displayFactory(WebMessageSource messageSource,
+    DisplayFactoryCacheManager displayFactoryCacheManager) {
+    return new DefaultDisplayFactory(messageSource,
+      widgetProviders, displayFactoryCacheManager);
+  }
+
+  @Bean
+  public DisplayFactoryCacheManager displayFactoryCacheManager(
     RenderingPageService renderingPageService,
     NewsEntryService newsEntryService, WidgetPageService widgetPageService,
     RenderingWidgetService renderingWidgetService,
     WebsiteService websiteService, SitemapService sitemapService, DesignService designService,
     StyleService styleService) {
-    return new DefaultDisplayFactory(messageSource, renderingPageService, newsEntryService,
+    return new DisplayFactoryCacheManager(renderingPageService, newsEntryService,
       widgetPageService,
       renderingWidgetService,
-      widgetProviders, websiteService, sitemapService, designService, styleService);
+      websiteService, sitemapService, designService, styleService);
+
   }
 
   @Bean
