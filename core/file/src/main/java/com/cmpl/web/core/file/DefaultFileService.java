@@ -9,12 +9,16 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * Implementation de l'enregistrement de fichiers dans le classpath
  *
  * @author Louis
  */
+@CacheConfig(cacheNames = "files")
 public class DefaultFileService implements FileService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DefaultFileService.class);
@@ -28,10 +32,11 @@ public class DefaultFileService implements FileService {
   }
 
   @Override
+  @CacheEvict(key = "#a0")
   public void saveFileOnSystem(String fileName, String content) {
     try {
       Files.write(Paths.get(contextHolder.getTemplateBasePath() + fileName),
-          content == null ? "".getBytes() : content.getBytes());
+        content == null ? "".getBytes() : content.getBytes());
     } catch (IOException e) {
       LOGGER.error("Impossible d'enregistrer le fichier " + fileName, e);
     }
@@ -39,16 +44,11 @@ public class DefaultFileService implements FileService {
 
   @Override
   public String readFileContentFromSystem(String fileName) {
-    try {
-      return new String(
-          Files.readAllBytes(Paths.get(contextHolder.getTemplateBasePath() + fileName)));
-    } catch (IOException e) {
-      LOGGER.warn("Impossible de lire le contenu du fichier " + fileName);
-    }
-    return null;
+    return new String(readFileBytes(fileName, contextHolder.getTemplateBasePath()));
   }
 
   @Override
+  @CacheEvict(key = "#a0")
   public void saveMediaOnSystem(String fileName, byte[] content) {
     try {
       Files.write(Paths.get(contextHolder.getMediaBasePath() + fileName), content);
@@ -59,15 +59,11 @@ public class DefaultFileService implements FileService {
 
   @Override
   public InputStream read(String fileName) {
-    try {
-      return new ByteArrayInputStream(
-          Files.readAllBytes(Paths.get(contextHolder.getMediaBasePath() + fileName)));
-    } catch (Exception e) {
-      return new ByteArrayInputStream(new byte[]{});
-    }
+    return new ByteArrayInputStream(readFileBytes(fileName, contextHolder.getMediaBasePath()));
   }
 
   @Override
+  @CacheEvict(key = "#a0")
   public void removeFileFromSystem(String fileName) {
     try {
       Files.delete(Paths.get(contextHolder.getTemplateBasePath() + fileName));
@@ -77,11 +73,21 @@ public class DefaultFileService implements FileService {
   }
 
   @Override
+  @CacheEvict(key = "#a0")
   public void removeMediaFromSystem(String fileName) {
     try {
       Files.delete(Paths.get(contextHolder.getMediaBasePath() + fileName));
     } catch (IOException e) {
       LOGGER.error("Impossible de supprimer le fichier " + fileName, e);
+    }
+  }
+
+  @Cacheable(key = "#a0",sync = true)
+  public byte[] readFileBytes(String fileName, String basePath) {
+    try {
+      return Files.readAllBytes(Paths.get(basePath + fileName));
+    } catch (IOException e) {
+      return new byte[]{};
     }
   }
 
