@@ -82,7 +82,7 @@ public class DefaultFileService implements FileService {
     }
   }
 
-  @Cacheable(key = "#a0",sync = true)
+  @Cacheable(key = "#a0", sync = true)
   public byte[] readFileBytes(String fileName, String basePath) {
     try {
       return Files.readAllBytes(Paths.get(basePath + fileName));

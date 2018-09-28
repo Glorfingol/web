@@ -36,13 +36,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EntityScan(basePackageClasses = {NewsEntry.class, NewsContent.class, NewsImage.class})
 @EnableJpaRepositories(basePackageClasses = {NewsEntryRepository.class, NewsImageRepository.class,
-    NewsContentRepository.class})
+  NewsContentRepository.class})
 public class NewsConfiguration {
 
   @Bean
   public NewsEntryDispatcher newsEntryDispatcher(NewsEntryTranslator translator,
-      NewsEntryService newsEntryService,
-      FileService fileService, MediaService mediaService) {
+    NewsEntryService newsEntryService,
+    FileService fileService, MediaService mediaService) {
     return new DefaultNewsEntryDispatcher(translator, newsEntryService, fileService, mediaService);
   }
 
@@ -53,27 +53,27 @@ public class NewsConfiguration {
 
   @Bean
   public NewsEntryDAO newsEntryDAO(NewsEntryRepository newsEntryRepository,
-      ApplicationEventPublisher publisher) {
+    ApplicationEventPublisher publisher) {
     return new DefaultNewsEntryDAO(newsEntryRepository, publisher);
   }
 
   @Bean
   public NewsEntryMapper newsEntryMapper(NewsContentService newsContentService,
-      NewsImageService newsImageService) {
+    NewsImageService newsImageService) {
     return new NewsEntryMapper(newsContentService, newsImageService);
   }
 
   @Bean
   public NewsEntryService newsEntryService(NewsEntryDAO newsEntryDAO,
-      NewsEntryMapper newsEntryMapper,
-      NewsImageService newsImageService, NewsContentService newsContentService) {
+    NewsEntryMapper newsEntryMapper,
+    NewsImageService newsImageService, NewsContentService newsContentService) {
     return new DefaultNewsEntryService(newsEntryDAO, newsImageService, newsContentService,
-        newsEntryMapper);
+      newsEntryMapper);
   }
 
   @Bean
   public NewsImageDAO newsImageDAO(ApplicationEventPublisher publisher,
-      NewsImageRepository newsImageRepository) {
+    NewsImageRepository newsImageRepository) {
     return new DefaultNewsImageDAO(newsImageRepository, publisher);
   }
 
@@ -84,13 +84,13 @@ public class NewsConfiguration {
 
   @Bean
   public NewsImageService newsImageService(NewsImageDAO newsImageDAO,
-      NewsImageMapper newsImageMapper) {
+    NewsImageMapper newsImageMapper) {
     return new DefaultNewsImageService(newsImageDAO, newsImageMapper);
   }
 
   @Bean
   public NewsContentDAO newsContentDAO(ApplicationEventPublisher publisher,
-      NewsContentRepository newsContentRepository) {
+    NewsContentRepository newsContentRepository) {
     return new DefaultNewsContentDAO(newsContentRepository, publisher);
   }
 
@@ -101,8 +101,8 @@ public class NewsConfiguration {
 
   @Bean
   public NewsContentService newsContentService(NewsContentDAO newsContentDAO,
-      NewsContentMapper newsContentMapper) {
-    return new DefaultNewsContentService(newsContentDAO, newsContentMapper);
+    NewsContentMapper newsContentMapper, FileService fileService) {
+    return new DefaultNewsContentService(newsContentDAO, newsContentMapper, fileService);
   }
 
 }

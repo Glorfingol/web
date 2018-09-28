@@ -5,7 +5,6 @@ import com.cmpl.web.core.models.NewsContent;
 
 public class NewsContentBuilder extends BaseBuilder<NewsContent> {
 
-  private String content;
 
   private String linkUrl;
 
@@ -15,10 +14,6 @@ public class NewsContentBuilder extends BaseBuilder<NewsContent> {
 
   }
 
-  public NewsContentBuilder content(String content) {
-    this.content = content;
-    return this;
-  }
 
   public NewsContentBuilder linkUrl(String linkUrl) {
     this.linkUrl = linkUrl;
@@ -38,7 +33,6 @@ public class NewsContentBuilder extends BaseBuilder<NewsContent> {
     newsContent.setModificationUser(modificationUser);
     newsContent.setId(id);
     newsContent.setModificationDate(modificationDate);
-    newsContent.setContent(content);
     newsContent.setLinkUrl(linkUrl);
     newsContent.setVideoUrl(videoUrl);
 

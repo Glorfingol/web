@@ -10,7 +10,7 @@ import java.util.List;
 public class NewsFactory {
 
   public static void createNewsEntries(final NewsEntryRepository newsEntryRepository,
-      final NewsContentRepository newsContentRepository) {
+    final NewsContentRepository newsContentRepository) {
 
     NewsContent newsContent = createNewsContent(newsContentRepository);
 
@@ -46,7 +46,6 @@ public class NewsFactory {
 
   private static NewsContent createNewsContent(final NewsContentRepository newsContentRepository) {
     NewsContent newsContent = new NewsContent();
-    newsContent.setContent("Un contenu de test");
     return newsContentRepository.save(newsContent);
 
   }
