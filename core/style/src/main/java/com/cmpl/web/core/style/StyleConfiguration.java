@@ -26,20 +26,31 @@ public class StyleConfiguration {
 
   @Bean
   public StyleService styleService(StyleDAO styleDAO, StyleMapper styleMapper,
-      MediaService mediaService,
-      FileService fileService) {
+    MediaService mediaService,
+    FileService fileService) {
     return new DefaultStyleService(styleDAO, styleMapper, mediaService, fileService);
   }
 
   @Bean
   public StyleDispatcher styleDispacther(StyleService styleService,
-      StyleTranslator styleTranslator) {
+    StyleTranslator styleTranslator) {
     return new DefaultStyleDispatcher(styleService, styleTranslator);
   }
 
   @Bean
   public StyleTranslator styleTranslator() {
     return new DefaultStyleTranslator();
+  }
+
+  @Bean
+  public RenderingStyleMapper renderingStyleMapper(MediaService mediaService) {
+    return new RenderingStyleMapper(mediaService);
+  }
+
+  @Bean
+  public RenderingStyleService renderingStyleService(StyleDAO styleDAO,
+    RenderingStyleMapper renderingStyleMapper) {
+    return new DefaultRenderingStyleService(styleDAO, renderingStyleMapper);
   }
 
 }

@@ -15,12 +15,15 @@ import com.cmpl.web.core.news.entry.DefaultNewsEntryDAO;
 import com.cmpl.web.core.news.entry.DefaultNewsEntryDispatcher;
 import com.cmpl.web.core.news.entry.DefaultNewsEntryService;
 import com.cmpl.web.core.news.entry.DefaultNewsEntryTranslator;
+import com.cmpl.web.core.news.entry.DefaultRenderingNewsService;
 import com.cmpl.web.core.news.entry.NewsEntryDAO;
 import com.cmpl.web.core.news.entry.NewsEntryDispatcher;
 import com.cmpl.web.core.news.entry.NewsEntryMapper;
 import com.cmpl.web.core.news.entry.NewsEntryRepository;
 import com.cmpl.web.core.news.entry.NewsEntryService;
 import com.cmpl.web.core.news.entry.NewsEntryTranslator;
+import com.cmpl.web.core.news.entry.RenderingNewsEntryMapper;
+import com.cmpl.web.core.news.entry.RenderingNewsService;
 import com.cmpl.web.core.news.image.DefaultNewsImageDAO;
 import com.cmpl.web.core.news.image.DefaultNewsImageService;
 import com.cmpl.web.core.news.image.NewsImageDAO;
@@ -103,6 +106,18 @@ public class NewsConfiguration {
   public NewsContentService newsContentService(NewsContentDAO newsContentDAO,
     NewsContentMapper newsContentMapper, FileService fileService) {
     return new DefaultNewsContentService(newsContentDAO, newsContentMapper, fileService);
+  }
+
+  @Bean
+  public RenderingNewsEntryMapper renderingNewsEntryMapper(NewsContentService newsContentService,
+    NewsImageService newsImageService) {
+    return new RenderingNewsEntryMapper(newsContentService, newsImageService);
+  }
+
+  @Bean
+  public RenderingNewsService renderingNewsService(NewsEntryDAO newsEntryDAO,
+    RenderingNewsEntryMapper renderingNewsEntryMapper) {
+    return new DefaultRenderingNewsService(newsEntryDAO, renderingNewsEntryMapper);
   }
 
 }

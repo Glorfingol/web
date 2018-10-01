@@ -19,7 +19,7 @@ public class WebsiteConfiguration {
 
   @Bean
   public WebsiteDAO websiteDAO(ApplicationEventPublisher publisher,
-      WebsiteRepository websiteRepository) {
+    WebsiteRepository websiteRepository) {
     return new DefaultWebsiteDAO(websiteRepository, publisher);
   }
 
@@ -35,7 +35,18 @@ public class WebsiteConfiguration {
 
   @Bean
   public WebsiteDispatcher websiteDispatcher(WebsiteService websiteService,
-      WebsiteTranslator websiteTranslator) {
+    WebsiteTranslator websiteTranslator) {
     return new DefaultWebsiteDispatcher(websiteService, websiteTranslator);
+  }
+
+  @Bean
+  public RenderingWebsiteMapper renderingWebsiteMapper() {
+    return new RenderingWebsiteMapper();
+  }
+
+  @Bean
+  public RenderingWebsiteService renderingWebsiteService(WebsiteDAO websiteDAO,
+    RenderingWebsiteMapper renderingWebsiteMapper) {
+    return new DefaultRenderingWebsiteService(websiteDAO, renderingWebsiteMapper);
   }
 }

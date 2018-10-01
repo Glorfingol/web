@@ -15,10 +15,11 @@ import com.cmpl.web.core.factory.news.BlogEntryWidgetProvider;
 import com.cmpl.web.core.factory.news.BlogWidgetProvider;
 import com.cmpl.web.core.media.MediaService;
 import com.cmpl.web.core.news.entry.NewsEntryService;
+import com.cmpl.web.core.news.entry.RenderingNewsService;
 import com.cmpl.web.core.page.RenderingPageService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.sitemap.SitemapService;
-import com.cmpl.web.core.style.StyleService;
+import com.cmpl.web.core.style.RenderingStyleService;
 import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.widget.RenderingWidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
@@ -76,14 +77,14 @@ public class WidgetProviderConfiguration {
   @Bean
   public DisplayFactoryCacheManager displayFactoryCacheManager(
     RenderingPageService renderingPageService,
-    NewsEntryService newsEntryService, WidgetPageService widgetPageService,
+    RenderingNewsService renderingNewsService, WidgetPageService widgetPageService,
     RenderingWidgetService renderingWidgetService,
     WebsiteService websiteService, SitemapService sitemapService, DesignService designService,
-    StyleService styleService) {
-    return new DisplayFactoryCacheManager(renderingPageService, newsEntryService,
+    RenderingStyleService renderingStyleService) {
+    return new DisplayFactoryCacheManager(renderingPageService, renderingNewsService,
       widgetPageService,
       renderingWidgetService,
-      websiteService, sitemapService, designService, styleService);
+      websiteService, sitemapService, designService, renderingStyleService);
 
   }
 

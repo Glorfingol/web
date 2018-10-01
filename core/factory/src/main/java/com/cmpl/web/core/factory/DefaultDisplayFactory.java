@@ -1,11 +1,11 @@
 package com.cmpl.web.core.factory;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.news.entry.NewsEntryDTO;
+import com.cmpl.web.core.news.entry.RenderingNewsEntryDTO;
 import com.cmpl.web.core.page.RenderingPageDTO;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
-import com.cmpl.web.core.style.StyleDTO;
-import com.cmpl.web.core.website.WebsiteDTO;
+import com.cmpl.web.core.style.RenderingStyleDTO;
+import com.cmpl.web.core.website.RenderingWebsiteDTO;
 import com.cmpl.web.core.widget.RenderingWidgetDTO;
 import com.cmpl.web.core.widget.RenderingWidgetDTOBuilder;
 import java.util.List;
@@ -55,9 +55,9 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
 
     ModelAndView model = new ModelAndView(
       computeWidgetTemplate(RenderingWidgetDTOBuilder.create().type("BLOG_ENTRY").build(), locale));
-    NewsEntryDTO newsEntry = displayFactoryCacheManager
+    RenderingNewsEntryDTO renderingWidgetDTO = displayFactoryCacheManager
       .getNewsEntryById(Long.parseLong(newsEntryId));
-    model.addObject("newsBean", newsEntry);
+    model.addObject("newsBean", renderingWidgetDTO);
 
     LOGGER.debug("Entree de blog {}  prête", newsEntryId);
 
@@ -94,7 +94,7 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
     int pageNumber, String query) {
 
     LOGGER.debug("Construction de la page  {} pour le site {}", pageHref, websiteName);
-    WebsiteDTO websiteDTO = displayFactoryCacheManager.findWebsiteByName(websiteName);
+    RenderingWebsiteDTO websiteDTO = displayFactoryCacheManager.findWebsiteByName(websiteName);
     if (websiteDTO == null) {
       return new ModelAndView("404");
     }
@@ -108,7 +108,8 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
     RenderingPageDTO page = optionalPage.get();
     String pageName = page.getName();
     ModelAndView model = new ModelAndView("decorator");
-    List<StyleDTO> styles = displayFactoryCacheManager.getWebsiteStyles(websiteDTO.getId());
+    List<RenderingStyleDTO> styles = displayFactoryCacheManager
+      .getWebsiteStyles(websiteDTO.getId());
     model.addObject("styles", styles);
     model.addObject("content", computePageContent(page, locale));
     LOGGER.debug("Construction du footer pour la page  {}", pageName);
@@ -145,7 +146,7 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
     int pageNumber, String query) {
     LOGGER.debug("Construction de la page amp {} pour le site {}", pageHref, websiteName);
 
-    WebsiteDTO websiteDTO = displayFactoryCacheManager.findWebsiteByName(websiteName);
+    RenderingWebsiteDTO websiteDTO = displayFactoryCacheManager.findWebsiteByName(websiteName);
     if (websiteDTO == null) {
       return new ModelAndView("404");
     }

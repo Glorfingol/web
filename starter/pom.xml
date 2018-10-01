@@ -201,11 +201,6 @@
       <version>${webjar.fontawesome.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.webjars.bower</groupId>
-      <artifactId>tether</artifactId>
-      <version>${webjar.tether.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.webjars.npm</groupId>
       <artifactId>codemirror</artifactId>
       <version>${webjar.codemirror.version}</version>

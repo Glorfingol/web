@@ -34,7 +34,6 @@
     <webjar.jquery.version>3.3.1-1</webjar.jquery.version>
     <webjar.bootstrap.version>4.0.0-2</webjar.bootstrap.version>
     <webjar.fontawesome.version>4.7.0</webjar.fontawesome.version>
-    <webjar.tether.version>1.3.3</webjar.tether.version>
     <webjar.codemirror.version>5.34.0</webjar.codemirror.version>
     <webjar.ckeditor.version>4.10.0</webjar.ckeditor.version>
     <webjar.bootstrap.notify.version>3.1.3-1</webjar.bootstrap.notify.version>
