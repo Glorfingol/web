@@ -70,7 +70,8 @@ public class DefaultWidgetDispatcher implements WidgetDispatcher {
   @Override
   public void deleteEntity(String pageId, String widgetId, Locale locale) throws BaseException {
 
-    WidgetPageDTO widgetPageDTO = widgetPageService.findByPageIdAndWidgetId(pageId, widgetId);
+    WidgetPageDTO widgetPageDTO = widgetPageService
+      .findByPageIdAndWidgetId(Long.parseLong(pageId), Long.parseLong(widgetId));
     widgetPageService.deleteEntity(widgetPageDTO.getId());
 
   }

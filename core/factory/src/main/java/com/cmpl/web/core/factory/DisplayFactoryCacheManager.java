@@ -62,9 +62,9 @@ public class DisplayFactoryCacheManager {
   @Cacheable(cacheNames = "widgetsIdsForPage", key = "#a0", sync = true)
   public List<String> getWidgetsIdsForPage(Long pageId) {
     List<WidgetPageDTO> widgetPageDTOS = widgetPageService
-      .findByPageId(String.valueOf(pageId));
+      .findByPageId(pageId);
     return widgetPageDTOS.stream()
-      .map(widgetPageDTO -> widgetPageDTO.getWidgetId())
+      .map(widgetPageDTO -> String.valueOf(widgetPageDTO.getWidgetId()))
       .collect(Collectors.toList());
   }
 

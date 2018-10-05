@@ -70,7 +70,7 @@ public class PageEventsListeners {
       Page deletedPage = (Page) deletedEvent.getEntity();
 
       if (deletedPage != null) {
-        widgetPageService.findByPageId(String.valueOf(deletedPage.getId()))
+        widgetPageService.findByPageId(deletedPage.getId())
           .forEach(widgetPageDTO -> widgetPageService.deleteEntity(widgetPageDTO.getId()));
         locales.forEach(locale -> {
 

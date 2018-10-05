@@ -5,10 +5,10 @@ import java.util.List;
 
 public interface WidgetPageService extends BaseService<WidgetPageDTO> {
 
-  List<WidgetPageDTO> findByPageId(String pageId);
+  List<WidgetPageDTO> findByPageId(Long pageId);
 
-  List<WidgetPageDTO> findByWidgetId(String widgetId);
+  List<WidgetPageDTO> findByWidgetId(Long widgetId);
 
-  WidgetPageDTO findByPageIdAndWidgetId(String pageId, String widgetId);
+  WidgetPageDTO findByPageIdAndWidgetId(Long pageId, Long widgetId);
 
 }

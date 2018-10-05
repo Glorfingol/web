@@ -11,7 +11,7 @@ public class DefaultPrivilegeDAO extends DefaultBaseDAO<Privilege> implements Pr
   private final PrivilegeRepository privilegeRepository;
 
   public DefaultPrivilegeDAO(PrivilegeRepository privilegeRepository,
-      ApplicationEventPublisher publisher) {
+    ApplicationEventPublisher publisher) {
     super(Privilege.class, privilegeRepository, publisher);
     this.privilegeRepository = privilegeRepository;
   }
@@ -23,6 +23,16 @@ public class DefaultPrivilegeDAO extends DefaultBaseDAO<Privilege> implements Pr
 
   @Override
   protected Predicate computeSearchPredicate(String query) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeLinkedPredicate(Long linkedToId) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeNotLinkedPredicate(Long notLinkedToId) {
     throw new UnsupportedOperationException();
   }
 }

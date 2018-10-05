@@ -7,28 +7,28 @@ import javax.persistence.Table;
 
 @Entity(name = "widget_page")
 @Table(name = "widget_page", indexes = {
-    @Index(name = "IDX_WIDGET_PAGE", columnList = "page_id,widget_id", unique = true)})
+  @Index(name = "IDX_WIDGET_PAGE", columnList = "page_id,widget_id", unique = true)})
 public class WidgetPage extends BaseEntity {
 
   @Column(name = "page_id", nullable = false, length = 20)
-  private String pageId;
+  private Long pageId;
 
   @Column(name = "widget_id", nullable = false, length = 20)
-  private String widgetId;
+  private Long widgetId;
 
-  public String getPageId() {
+  public Long getPageId() {
     return pageId;
   }
 
-  public void setPageId(String pageId) {
+  public void setPageId(Long pageId) {
     this.pageId = pageId;
   }
 
-  public String getWidgetId() {
+  public Long getWidgetId() {
     return widgetId;
   }
 
-  public void setWidgetId(String widgetId) {
+  public void setWidgetId(Long widgetId) {
     this.widgetId = widgetId;
   }
 }

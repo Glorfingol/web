@@ -4,16 +4,16 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 
 public class WidgetPageDTOBuilder extends BaseBuilder<WidgetPageDTO> {
 
-  private String pageId;
+  private Long pageId;
 
-  private String widgetId;
+  private Long widgetId;
 
-  public WidgetPageDTOBuilder pageId(String pageId) {
+  public WidgetPageDTOBuilder pageId(Long pageId) {
     this.pageId = pageId;
     return this;
   }
 
-  public WidgetPageDTOBuilder widgetId(String widgetId) {
+  public WidgetPageDTOBuilder widgetId(Long widgetId) {
     this.widgetId = widgetId;
     return this;
   }

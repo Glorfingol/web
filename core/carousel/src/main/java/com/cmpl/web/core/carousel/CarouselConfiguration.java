@@ -52,7 +52,7 @@ public class CarouselConfiguration {
   @Bean
   public CarouselDAO carouselDAO(CarouselRepository carouselRepository,
     ApplicationEventPublisher publisher) {
-    return new DefaultCarouselDAODefault(carouselRepository, publisher);
+    return new DefaultCarouselDAO(carouselRepository, publisher);
   }
 
   @Bean
@@ -62,7 +62,7 @@ public class CarouselConfiguration {
 
   @Bean
   public CarouselService carouselService(CarouselDAO carouselDAO, CarouselMapper carouselMapper) {
-    return new DefaultCarouselServiceDefault(carouselDAO, carouselMapper);
+    return new DefaultCarouselService(carouselDAO, carouselMapper);
   }
 
   @Bean

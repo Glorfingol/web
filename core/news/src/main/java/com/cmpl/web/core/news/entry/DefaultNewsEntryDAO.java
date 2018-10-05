@@ -12,7 +12,7 @@ public class DefaultNewsEntryDAO extends DefaultBaseDAO<NewsEntry> implements Ne
   private final NewsEntryRepository newsEntryRepository;
 
   public DefaultNewsEntryDAO(NewsEntryRepository entityRepository,
-      ApplicationEventPublisher publisher) {
+    ApplicationEventPublisher publisher) {
     super(NewsEntry.class, entityRepository, publisher);
     this.newsEntryRepository = entityRepository;
   }
@@ -26,6 +26,16 @@ public class DefaultNewsEntryDAO extends DefaultBaseDAO<NewsEntry> implements Ne
   protected Predicate computeSearchPredicate(String query) {
     QNewsEntry entry = QNewsEntry.newsEntry;
     return entry.tags.containsIgnoreCase(query).or(entry.title.containsIgnoreCase(query))
-        .or(entry.author.containsIgnoreCase(query));
+      .or(entry.author.containsIgnoreCase(query));
+  }
+
+  @Override
+  protected Predicate computeLinkedPredicate(Long linkedToId) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeNotLinkedPredicate(Long notLinkedToId) {
+    throw new UnsupportedOperationException();
   }
 }

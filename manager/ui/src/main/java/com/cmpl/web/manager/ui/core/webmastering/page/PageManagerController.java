@@ -48,8 +48,8 @@ public class PageManagerController {
   private final WebMessageSource messageSource;
 
   public PageManagerController(PageManagerDisplayFactory pageManagerDisplayFactory,
-      PageDispatcher pageDispatcher,
-      NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    PageDispatcher pageDispatcher,
+    NotificationCenter notificationCenter, WebMessageSource messageSource) {
 
     this.pageManagerDisplayFactory = Objects.requireNonNull(pageManagerDisplayFactory);
     this.pageDispatcher = Objects.requireNonNull(pageDispatcher);
@@ -63,7 +63,7 @@ public class PageManagerController {
   @GetMapping
   @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewPages(@RequestParam(name = "p", required = false) Integer pageNumber,
-      Locale locale) {
+    Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     return pageManagerDisplayFactory.computeModelAndViewForViewAllPages(locale, pageNumberToUse);
@@ -72,12 +72,12 @@ public class PageManagerController {
   @GetMapping(value = "/search")
   @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printSearchPages(
-      @RequestParam(name = "p", required = false) Integer pageNumber,
-      @RequestParam(name = "q") String query, Locale locale) {
+    @RequestParam(name = "p", required = false) Integer pageNumber,
+    @RequestParam(name = "q") String query, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     return pageManagerDisplayFactory
-        .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+      .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -99,7 +99,7 @@ public class PageManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:pages:create')")
   public ResponseEntity<PageResponse> createPage(@Valid @RequestBody PageCreateForm createForm,
-      BindingResult bindingResult, Locale locale) {
+    BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de création d'une page");
     if (bindingResult.hasErrors()) {
@@ -113,13 +113,13 @@ public class PageManagerController {
       LOGGER.info("Entrée crée, id " + response.getPage().getId());
 
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("create.success", locale));
+        .sendNotification("success", messageSource.getMessage("create.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("create.error", locale));
+        .sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -129,7 +129,7 @@ public class PageManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:pages:write')")
   public ResponseEntity<PageResponse> updatePage(@Valid @RequestBody PageUpdateForm updateForm,
-      BindingResult bindingResult, Locale locale) {
+    BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification d'une page");
     if (bindingResult.hasErrors()) {
@@ -143,13 +143,13 @@ public class PageManagerController {
       LOGGER.info("Entrée modifiée, id " + response.getPage().getId());
 
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("update.success", locale));
+        .sendNotification("success", messageSource.getMessage("update.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("update.error", locale));
+        .sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -158,110 +158,132 @@ public class PageManagerController {
   @GetMapping(value = "/{pageId}")
   @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePage(@PathVariable(value = "pageId") String pageId,
-      Locale locale,
-      @RequestParam(name = "languageCode", required = false) String languageCode) {
+    Locale locale,
+    @RequestParam(name = "languageCode", required = false) String languageCode) {
     return pageManagerDisplayFactory.computeModelAndViewForUpdatePage(locale, pageId, languageCode);
   }
 
   @GetMapping(value = "/{pageId}/_main")
   @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageMain(@PathVariable(value = "pageId") String pageId,
-      Locale locale,
-      @RequestParam(name = "languageCode", required = false) String languageCode) {
+    Locale locale,
+    @RequestParam(name = "languageCode", required = false) String languageCode) {
     return pageManagerDisplayFactory
-        .computeModelAndViewForUpdatePageMain(locale, pageId, languageCode);
+      .computeModelAndViewForUpdatePageMain(locale, pageId, languageCode);
   }
 
   @GetMapping(value = "/{pageId}/_body")
   @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageBody(@PathVariable(value = "pageId") String pageId,
-      Locale locale,
-      @RequestParam(name = "languageCode", required = false) String languageCode) {
+    Locale locale,
+    @RequestParam(name = "languageCode", required = false) String languageCode) {
     return pageManagerDisplayFactory
-        .computeModelAndViewForUpdatePageBody(locale, pageId, languageCode);
+      .computeModelAndViewForUpdatePageBody(locale, pageId, languageCode);
   }
 
   @GetMapping(value = "/{pageId}/_header")
   @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageHeader(@PathVariable(value = "pageId") String pageId,
-      Locale locale,
-      @RequestParam(name = "languageCode", required = false) String languageCode) {
+    Locale locale,
+    @RequestParam(name = "languageCode", required = false) String languageCode) {
     return pageManagerDisplayFactory
-        .computeModelAndViewForUpdatePageHeader(locale, pageId, languageCode);
+      .computeModelAndViewForUpdatePageHeader(locale, pageId, languageCode);
   }
 
   @GetMapping(value = "/{pageId}/_footer")
   @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageFooter(@PathVariable(value = "pageId") String pageId,
-      Locale locale,
-      @RequestParam(name = "languageCode", required = false) String languageCode) {
+    Locale locale,
+    @RequestParam(name = "languageCode", required = false) String languageCode) {
     return pageManagerDisplayFactory
-        .computeModelAndViewForUpdatePageFooter(locale, pageId, languageCode);
+      .computeModelAndViewForUpdatePageFooter(locale, pageId, languageCode);
   }
 
   @GetMapping(value = "/{pageId}/_meta")
   @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageMeta(@PathVariable(value = "pageId") String pageId,
-      Locale locale,
-      @RequestParam(name = "languageCode", required = false) String languageCode) {
+    Locale locale,
+    @RequestParam(name = "languageCode", required = false) String languageCode) {
     return pageManagerDisplayFactory
-        .computeModelAndViewForUpdatePageMeta(locale, pageId, languageCode);
+      .computeModelAndViewForUpdatePageMeta(locale, pageId, languageCode);
   }
 
   @GetMapping(value = "/{pageId}/_widgets")
   @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageWidgets(@PathVariable(value = "pageId") String pageId,
-      Locale locale,
-      @RequestParam(name = "languageCode", required = false) String languageCode) {
+    Locale locale,
+    @RequestParam(name = "languageCode", required = false) String languageCode) {
     return pageManagerDisplayFactory
-        .computeModelAndViewForUpdatePageWidgets(locale, pageId, languageCode);
+      .computeModelAndViewForUpdatePageWidgets(locale, pageId, languageCode);
   }
 
   @GetMapping(value = "/{pageId}/_amp")
   @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageAMP(@PathVariable(value = "pageId") String pageId,
-      Locale locale,
-      @RequestParam(name = "languageCode", required = false) String languageCode) {
+    Locale locale,
+    @RequestParam(name = "languageCode", required = false) String languageCode) {
     return pageManagerDisplayFactory
-        .computeModelAndViewForUpdatePageAMP(locale, pageId, languageCode);
+      .computeModelAndViewForUpdatePageAMP(locale, pageId, languageCode);
   }
 
   @GetMapping(value = "/{pageId}/_memberships")
   @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePageMemberships(
-      @PathVariable(value = "pageId") String pageId) {
+    @PathVariable(value = "pageId") String pageId) {
     return pageManagerDisplayFactory.computeModelAndViewForMembership(pageId);
   }
 
   @GetMapping(value = "/{pageId}/_preview")
   @PreAuthorize("hasAuthority('webmastering:pages:read')")
   public ModelAndView printViewUpdatePagePreview(@PathVariable(value = "pageId") String pageId,
-      Locale locale,
-      @RequestParam(name = "languageCode", required = false) String languageCode) {
+    Locale locale,
+    @RequestParam(name = "languageCode", required = false) String languageCode) {
     return pageManagerDisplayFactory
-        .computeModelAndViewForUpdatePagePreview(locale, pageId, languageCode);
+      .computeModelAndViewForUpdatePagePreview(locale, pageId, languageCode);
   }
 
   @DeleteMapping(value = "/{pageId}", produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('webmastering:pages:delete')")
   public ResponseEntity<PageResponse> deletePage(@PathVariable(value = "pageId") String pageId,
-      Locale locale) {
+    Locale locale) {
 
     LOGGER.info("Tentative de suppression d'une page");
 
     try {
       PageResponse response = pageDispatcher.deleteEntity(pageId, locale);
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("delete.success", locale));
+        .sendNotification("success", messageSource.getMessage("delete.success", locale));
       LOGGER.info("Page " + pageId + " supprimée");
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       LOGGER.error("Erreur lors de la suppression de la page " + pageId, e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("delete.error", locale));
+        .sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+  }
+
+
+  @GetMapping(value = "/{pageId}/_linked_widgets")
+  @PreAuthorize("hasAuthority('webmastering:pages:read')")
+  public ModelAndView printViewLinkedWidgets(@PathVariable(value = "pageId") String pageId,
+    @RequestParam(name = "q") String query) {
+    return pageManagerDisplayFactory.computeLinkedWidgets(pageId, query);
+  }
+
+  @GetMapping(value = "/{pageId}/_linkable_widgets")
+  @PreAuthorize("hasAuthority('webmastering:pages:read')")
+  public ModelAndView printViewLinkableWidgets(@PathVariable(value = "pageId") String pageId,
+    @RequestParam(name = "q") String query) {
+    return pageManagerDisplayFactory.computeLinkableWidgets(pageId, query);
+  }
+
+  @GetMapping(value = "/{pageId}/_linked_websites")
+  @PreAuthorize("hasAuthority('webmastering:pages:read')")
+  public ModelAndView printViewLinkedWebsites(@PathVariable(value = "pageId") String pageId,
+    @RequestParam(name = "q") String query) {
+    return pageManagerDisplayFactory.computeLinkedWebsites(pageId, query);
   }
 }

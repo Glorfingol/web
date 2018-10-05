@@ -5,8 +5,8 @@ import com.cmpl.web.core.models.WidgetPage;
 import java.util.List;
 
 public class DefaultWidgetPageService extends
-    DefaultBaseService<WidgetPageDTO, WidgetPage> implements
-    WidgetPageService {
+  DefaultBaseService<WidgetPageDTO, WidgetPage> implements
+  WidgetPageService {
 
   private final WidgetPageDAO widgetPageDAO;
 
@@ -16,17 +16,17 @@ public class DefaultWidgetPageService extends
   }
 
   @Override
-  public List<WidgetPageDTO> findByPageId(String pageId) {
+  public List<WidgetPageDTO> findByPageId(Long pageId) {
     return mapper.toListDTO(widgetPageDAO.findByPageId(pageId));
   }
 
   @Override
-  public List<WidgetPageDTO> findByWidgetId(String widgetId) {
+  public List<WidgetPageDTO> findByWidgetId(Long widgetId) {
     return mapper.toListDTO(widgetPageDAO.findByWidgetId(widgetId));
   }
 
   @Override
-  public WidgetPageDTO findByPageIdAndWidgetId(String pageId, String widgetId) {
+  public WidgetPageDTO findByPageIdAndWidgetId(Long pageId, Long widgetId) {
     return mapper.toDTO(widgetPageDAO.findByPageIdAndWidgetId(pageId, widgetId));
   }
 

@@ -20,7 +20,7 @@ import com.cmpl.web.core.page.RenderingPageService;
 import com.cmpl.web.core.provider.WidgetProviderPlugin;
 import com.cmpl.web.core.sitemap.SitemapService;
 import com.cmpl.web.core.style.RenderingStyleService;
-import com.cmpl.web.core.website.WebsiteService;
+import com.cmpl.web.core.website.RenderingWebsiteService;
 import com.cmpl.web.core.widget.RenderingWidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,12 +79,13 @@ public class WidgetProviderConfiguration {
     RenderingPageService renderingPageService,
     RenderingNewsService renderingNewsService, WidgetPageService widgetPageService,
     RenderingWidgetService renderingWidgetService,
-    WebsiteService websiteService, SitemapService sitemapService, DesignService designService,
+    RenderingWebsiteService renderingWebsiteService, SitemapService sitemapService,
+    DesignService designService,
     RenderingStyleService renderingStyleService) {
     return new DisplayFactoryCacheManager(renderingPageService, renderingNewsService,
       widgetPageService,
       renderingWidgetService,
-      websiteService, sitemapService, designService, renderingStyleService);
+      renderingWebsiteService, sitemapService, designService, renderingStyleService);
 
   }
 

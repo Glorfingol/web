@@ -1,14 +1,5 @@
-<div class="d-flex flex-nowrap text-center">
-  <div class="col-auto flex-grow-1 mb-3 mt-3" th:each="website : ${linkedWebsites}">
-    <a th:onclick="${'loadPreview(''' + website.name + ''')'}" th:title=" ${website.name}"
-       class="previewMenu">
-      <div class="card">
-        <div class="card-body">
-          <span th:text="${website.name}"></span>
-        </div>
-      </div>
-    </a>
-  </div>
+<label th:text="#{page.websites}"/>
+<div class="row" id="websites">
 </div>
 <hr>
 <div id="previewContent">
@@ -16,6 +7,32 @@
 </div>
 
 <script th:inline="javascript">
+
+  $(document).ready(function () {
+    var urlLinkedWebsites = "/manager/pages/" + [['' + ${updateForm.id} +'']]
+        + "/_linked_websites?q=";
+
+    $.get(urlLinkedWebsites, function (data) {
+      $("#websites").html(data);
+    });
+
+  });
+
+  var searchWebsites = function () {
+    $("#websites").hide();
+    $(".card-loader").show();
+    $(".loader").show();
+
+    var urlLinkedWebsites = "/manager/pages/" + [['' + ${updateForm.id} +'']]
+        + "/_linked_websites?q=" + $("#queryInput").val();
+    $.get(urlLinkedWebsites, function (data) {
+      $("#websites").html(data);
+      $("#websites").show();
+      $(".card-loader").hide();
+      $(".loader").hide();
+    });
+  }
+
   var loadPreview = function (websiteName) {
     var url = "/sites/" + websiteName + "/pages/" + [['' + ${updateForm.href} +'']];
     var iframe = $('<iframe src="' + url + '" frameborder="0" id="previewIframe"></iframe>');

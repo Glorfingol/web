@@ -4,9 +4,9 @@ import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.news.entry.NewsEntryDTO;
 import com.cmpl.web.core.news.entry.NewsEntryDTOBuilder;
-import com.cmpl.web.core.page.PageService;
+import com.cmpl.web.core.page.RenderingPageService;
 import com.cmpl.web.core.sitemap.SitemapService;
-import com.cmpl.web.core.website.WebsiteService;
+import com.cmpl.web.core.website.RenderingWebsiteService;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -40,13 +40,13 @@ public class DefaultRenderingSitemapServiceTest {
   private ContextHolder contextHolder;
 
   @Mock
-  private PageService pageService;
+  private RenderingPageService renderingPageService;
 
   @Mock
   private SitemapService sitemapService;
 
   @Mock
-  private WebsiteService websiteService;
+  private RenderingWebsiteService renderingWebsiteService;
 
   @InjectMocks
   @Spy
@@ -70,9 +70,9 @@ public class DefaultRenderingSitemapServiceTest {
 
     NewsEntryDTO newsEntryToday = NewsEntryDTOBuilder.create().modificationDate(today).build();
     NewsEntryDTO newsEntryYesterday = NewsEntryDTOBuilder.create().modificationDate(yesterday)
-        .build();
+      .build();
     NewsEntryDTO newsEntryTwoDaysAgo = NewsEntryDTOBuilder.create().modificationDate(twoDaysAgo)
-        .build();
+      .build();
 
     List<NewsEntryDTO> entries = new ArrayList<>();
     entries.add(newsEntryTwoDaysAgo);
@@ -90,7 +90,7 @@ public class DefaultRenderingSitemapServiceTest {
     String value = "someValue";
     String key = "someKey";
     BDDMockito.doReturn(value).when(messageSource)
-        .getI18n(BDDMockito.eq(key), BDDMockito.eq(Locale.FRANCE));
+      .getI18n(BDDMockito.eq(key), BDDMockito.eq(Locale.FRANCE));
     String result = service.getI18nValue(key, Locale.FRANCE);
 
     Assert.assertEquals(value, result);

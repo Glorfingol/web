@@ -42,4 +42,14 @@ public interface BaseDAO<ENTITY extends BaseEntity> {
    */
   Page<ENTITY> searchEntities(PageRequest pageRequest, String query);
 
+  /**
+   * Faire une recherche
+   */
+  Page<ENTITY> searchLinkedEntities(PageRequest pageRequest, String query, Long linkedToId);
+
+  /**
+   * Faire une recherche
+   */
+  Page<ENTITY> searchNotLinkedEntities(PageRequest pageRequest, String query, Long notLinkedToId);
+
 }

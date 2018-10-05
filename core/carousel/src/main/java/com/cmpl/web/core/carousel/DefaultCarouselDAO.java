@@ -6,10 +6,10 @@ import com.cmpl.web.core.models.QCarousel;
 import com.querydsl.core.types.Predicate;
 import org.springframework.context.ApplicationEventPublisher;
 
-public class DefaultCarouselDAODefault extends DefaultBaseDAO<Carousel> implements CarouselDAO {
+public class DefaultCarouselDAO extends DefaultBaseDAO<Carousel> implements CarouselDAO {
 
-  public DefaultCarouselDAODefault(CarouselRepository entityRepository,
-      ApplicationEventPublisher publisher) {
+  public DefaultCarouselDAO(CarouselRepository entityRepository,
+    ApplicationEventPublisher publisher) {
     super(Carousel.class, entityRepository, publisher);
   }
 
@@ -17,5 +17,15 @@ public class DefaultCarouselDAODefault extends DefaultBaseDAO<Carousel> implemen
   protected Predicate computeSearchPredicate(String query) {
     QCarousel qCarousel = QCarousel.carousel;
     return qCarousel.name.containsIgnoreCase(query);
+  }
+
+  @Override
+  protected Predicate computeLinkedPredicate(Long linkedToId) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeNotLinkedPredicate(Long notLinkedToId) {
+    throw new UnsupportedOperationException();
   }
 }

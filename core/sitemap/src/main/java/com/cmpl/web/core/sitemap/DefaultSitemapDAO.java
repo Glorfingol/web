@@ -11,7 +11,7 @@ public class DefaultSitemapDAO extends DefaultBaseDAO<Sitemap> implements Sitema
   private final SitemapRepository sitemapRepository;
 
   public DefaultSitemapDAO(SitemapRepository entityRepository,
-      ApplicationEventPublisher publisher) {
+    ApplicationEventPublisher publisher) {
     super(Sitemap.class, entityRepository, publisher);
     this.sitemapRepository = entityRepository;
   }
@@ -33,6 +33,16 @@ public class DefaultSitemapDAO extends DefaultBaseDAO<Sitemap> implements Sitema
 
   @Override
   protected Predicate computeSearchPredicate(String query) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeLinkedPredicate(Long linkedToId) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeNotLinkedPredicate(Long notLinkedToId) {
     throw new UnsupportedOperationException();
   }
 }

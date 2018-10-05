@@ -25,4 +25,14 @@ public class DefaultMediaDAO extends DefaultBaseDAO<Media> implements MediaDAO {
     QMedia qMedia = QMedia.media;
     return qMedia.name.containsIgnoreCase(query).or(qMedia.extension.containsIgnoreCase(query));
   }
+
+  @Override
+  protected Predicate computeLinkedPredicate(Long linkedToId) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeNotLinkedPredicate(Long notLinkedToId) {
+    throw new UnsupportedOperationException();
+  }
 }

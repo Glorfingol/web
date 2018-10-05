@@ -1,53 +1,29 @@
+<label th:text="#{page.widgets.to.link}"/>
 <form id="widgetAssociationForm" th:object="${createForm}" class="row">
   <div class="mb-3 col-12">
     <input type="hidden" th:field="*{pageId}"/>
-    <div class="form-check form-group mb-3" id="formInputWidget">
-      <label th:text="#{widget.name.label}"/>
-      <select th:field="*{widgetId}" class="form-control">
-        <option value=""></option>
-        <option th:each="linkableWidget : ${linkableWidgets}" th:value="${linkableWidget.id}"
-                th:text="${linkableWidget.name}"></option>
-      </select>
-      <small class="form-text text-muted" th:text="#{widget.name.help}"/>
-    </div>
-    <div class="float-right">
-      <a class="btn btn-md btn-success fa fa-plus fa-white" onclick="postCreateWidgetForm()"
-         th:if="${currentUser.hasPrivilege('webmastering:pages:write')}"></a>
+    <div id="linkableWidgets">
     </div>
   </div>
 </form>
-<div class="row mt-3" id="associatedWidgets">
-  <table class="table table-bordered table-hover">
-    <thead>
-    <tr>
-      <th scope="col">
-        <label th:text="#{widget.name.label}"/>
-      </th>
-      <th scope="col" colspan="2">
-        <label th:text="#{widget.type.label}"/>
-      </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="associatedWidget : ${linkedWidgets}">
-      <td>
-        <input type="text" class="form-control" th:value="${associatedWidget.name}"
-               disabled="true"/>
-      </td>
-      <td>
-        <input type="text" class="form-control" th:value="${associatedWidget.type}"
-               disabled="true"/>
-      </td>
-      <td class="text-center">
-        <a class="btn btn-md btn-danger fa fa-times fa-white" th:id="${associatedWidget.id}"
-           th:if="${currentUser.hasPrivilege('webmastering:pages:delete')}"
-           onclick="deleteAssociatedWidget(this.id)"></a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+<hr>
+<label th:text="#{page.widgets.linked}"/>
+<div id="associatedWidgets">
 </div>
+
 <script th:inline="javascript">
+  $(document).ready(function () {
+    var urlLinkedWidgets = "/manager/pages/" + [['' + ${createForm.pageId} +'']]
+        + "/_linked_widgets?q=";
+    var urlLinkableWidgets = "/manager/pages/" + [['' + ${createForm.pageId} +'']]
+        + "/_linkable_widgets?q=";
+    $.get(urlLinkedWidgets, function (data) {
+      $("#associatedWidgets").html(data);
+    });
+    $.get(urlLinkableWidgets, function (data) {
+      $("#linkableWidgets").html(data);
+    });
+  });
   var deleteAssociatedWidget = function (idAssociatedWidget) {
 
     $("#widgetAssociationForm").hide();
@@ -73,7 +49,7 @@
     });
   }
 
-  var postCreateWidgetForm = function () {
+  var postCreateWidgetPageForm = function (linkableWidgetId) {
     $("#widgetAssociationForm").hide();
     $("#associatedWidgets").hide();
     $(".loader").show();
@@ -81,10 +57,9 @@
     var url = "/manager/pages/" + inputPageId.val() + "/widgets";
 
     var associatedWidgetForm = {};
-    var inputWidgetId = $("#widgetId");
     var inputPageId = $("#pageId");
 
-    associatedWidgetForm.widgetId = inputWidgetId.val();
+    associatedWidgetForm.widgetId = linkableWidgetId;
     associatedWidgetForm.pageId = inputPageId.val();
 
     var data = JSON.stringify(associatedWidgetForm);
@@ -107,6 +82,34 @@
       }
     });
   }
+
+  var searchLinkableWidgets = function (query) {
+    var urlLinkableWidgets = "/manager/pages/" + [['' + ${createForm.pageId} +'']]
+        + "/_linkable_widgets?q=" + queryValue;
+
+    searchWidgets($("#linkableWidgets"), urlLinkableWidgets);
+  }
+
+  var searchLinkedWidgets = function (query) {
+    var urlLinkedWidgets = "/manager/pages/" + [['' + ${createForm.pageId} +'']]
+        + "/_linked_widgets?q=" + queryValue;
+
+    searchWidgets($("#linkableWidgets"), urlLinkedWidgets);
+  }
+
+  var searchWidgets = function (table, url) {
+    table.hide();
+    $(".card-loader").show();
+    $(".loader").show();
+
+    $.get(url, function (data) {
+      table.html(data);
+      table.show();
+      $(".card-loader").hide();
+      $(".loader").hide();
+    });
+  }
+
   $(document).ready(function () {
         $(".card-loader").hide();
         $(".loader").hide();

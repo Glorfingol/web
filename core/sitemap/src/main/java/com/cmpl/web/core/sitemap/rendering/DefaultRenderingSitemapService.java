@@ -3,12 +3,12 @@ package com.cmpl.web.core.sitemap.rendering;
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.news.entry.NewsEntryDTO;
-import com.cmpl.web.core.page.PageDTO;
-import com.cmpl.web.core.page.PageService;
+import com.cmpl.web.core.page.RenderingPageDTO;
+import com.cmpl.web.core.page.RenderingPageService;
 import com.cmpl.web.core.sitemap.SitemapDTO;
 import com.cmpl.web.core.sitemap.SitemapService;
-import com.cmpl.web.core.website.WebsiteDTO;
-import com.cmpl.web.core.website.WebsiteService;
+import com.cmpl.web.core.website.RenderingWebsiteDTO;
+import com.cmpl.web.core.website.RenderingWebsiteService;
 import com.redfin.sitemapgenerator.ChangeFreq;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
@@ -40,19 +40,20 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
 
   private final WebMessageSource messageSource;
 
-  private final PageService pageService;
+  private final RenderingPageService renderingPageService;
 
-  private final WebsiteService websiteService;
+  private final RenderingWebsiteService renderingWebsiteService;
 
   private final SitemapService sitemapService;
 
-  public DefaultRenderingSitemapService(WebMessageSource messageSource, PageService pageService,
-    WebsiteService websiteService, SitemapService sitemapService) {
+  public DefaultRenderingSitemapService(WebMessageSource messageSource,
+    RenderingPageService renderingPageService,
+    RenderingWebsiteService renderingWebsiteService, SitemapService sitemapService) {
     this.messageSource = Objects.requireNonNull(messageSource);
 
-    this.pageService = Objects.requireNonNull(pageService);
+    this.renderingPageService = Objects.requireNonNull(renderingPageService);
 
-    this.websiteService = Objects.requireNonNull(websiteService);
+    this.renderingWebsiteService = Objects.requireNonNull(renderingWebsiteService);
 
     this.sitemapService = Objects.requireNonNull(sitemapService);
 
@@ -61,7 +62,7 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
   @Override
   public String createSiteMap(String websiteName, Locale locale) throws BaseException {
 
-    WebsiteDTO website = websiteService.getWebsiteByName(websiteName);
+    RenderingWebsiteDTO website = renderingWebsiteService.getWebsiteByName(websiteName);
     if (website == null) {
       return "";
     }
@@ -79,7 +80,8 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
 
   }
 
-  void writeSitemap(Path temporarySitemapFile, WebsiteDTO website, List<SitemapDTO> sitemapDTOS)
+  void writeSitemap(Path temporarySitemapFile, RenderingWebsiteDTO website,
+    List<SitemapDTO> sitemapDTOS)
     throws IOException {
     String scheme = website.isSecure() ? "https://" : "http://";
     WebSitemapGenerator sitemap = WebSitemapGenerator
@@ -110,13 +112,13 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
     return messageSource.getI18n(key, locale);
   }
 
-  List<WebSitemapUrl> computeMenuUrls(WebsiteDTO website, List<SitemapDTO> sitemapDTOS) {
+  List<WebSitemapUrl> computeMenuUrls(RenderingWebsiteDTO website, List<SitemapDTO> sitemapDTOS) {
     List<Long> pagesId = sitemapDTOS.stream().map(sitemap -> sitemap.getPageId())
       .collect(Collectors.toList());
     LOGGER.info("{} pages dans le sitemap du site {}", pagesId.size(), website.getName());
-    List<PageDTO> pagesToFilter = pageService.getEntities();
+    List<RenderingPageDTO> pagesToFilter = renderingPageService.getEntities();
     LOGGER.info("{} pages à filtrer", pagesToFilter.size());
-    List<PageDTO> recoveredPages = pagesToFilter.stream()
+    List<RenderingPageDTO> recoveredPages = pagesToFilter.stream()
       .filter(page -> pagesId.contains(page.getId()) && page.isIndexed())
       .collect(Collectors.toList());
     LOGGER.info("{} pages retrouvées en bdd", recoveredPages.size());
@@ -124,7 +126,7 @@ public class DefaultRenderingSitemapService implements RenderingSitemapService {
       .collect(Collectors.toList());
   }
 
-  WebSitemapUrl computeUrlForPage(WebsiteDTO website, PageDTO page) {
+  WebSitemapUrl computeUrlForPage(RenderingWebsiteDTO website, RenderingPageDTO page) {
     try {
       LOGGER.info("Création de l'url du sitemap pour la page {}", page.getName());
       String scheme = website.isSecure() ? "https://" : "http://";

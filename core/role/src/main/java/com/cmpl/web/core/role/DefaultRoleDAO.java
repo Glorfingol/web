@@ -17,4 +17,14 @@ public class DefaultRoleDAO extends DefaultBaseDAO<Role> implements RoleDAO {
     QRole role = QRole.role;
     return role.name.containsIgnoreCase(query);
   }
+
+  @Override
+  protected Predicate computeLinkedPredicate(Long linkedToId) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeNotLinkedPredicate(Long notLinkedToId) {
+    throw new UnsupportedOperationException();
+  }
 }

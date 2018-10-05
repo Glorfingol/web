@@ -7,12 +7,12 @@ import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 
 public class DefaultResponsibilityDAO extends DefaultBaseDAO<Responsibility> implements
-    ResponsibilityDAO {
+  ResponsibilityDAO {
 
   private final ResponsibilityRepository responsibilityRepository;
 
   public DefaultResponsibilityDAO(ResponsibilityRepository entityRepository,
-      ApplicationEventPublisher publisher) {
+    ApplicationEventPublisher publisher) {
     super(Responsibility.class, entityRepository, publisher);
     this.responsibilityRepository = entityRepository;
   }
@@ -34,6 +34,16 @@ public class DefaultResponsibilityDAO extends DefaultBaseDAO<Responsibility> imp
 
   @Override
   protected Predicate computeSearchPredicate(String query) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeLinkedPredicate(Long linkedToId) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeNotLinkedPredicate(Long notLinkedToId) {
     throw new UnsupportedOperationException();
   }
 }

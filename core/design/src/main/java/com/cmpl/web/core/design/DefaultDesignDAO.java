@@ -34,4 +34,14 @@ public class DefaultDesignDAO extends DefaultBaseDAO<Design> implements DesignDA
   protected Predicate computeSearchPredicate(String query) {
     throw new UnsupportedOperationException();
   }
+
+  @Override
+  protected Predicate computeLinkedPredicate(Long linkedToId) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeNotLinkedPredicate(Long notLinkedToId) {
+    throw new UnsupportedOperationException();
+  }
 }

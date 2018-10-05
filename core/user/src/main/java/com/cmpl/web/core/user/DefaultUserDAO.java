@@ -30,4 +30,14 @@ public class DefaultUserDAO extends DefaultBaseDAO<User> implements UserDAO {
     QUser user = QUser.user;
     return user.email.containsIgnoreCase(query).or(user.login.contains(query));
   }
+
+  @Override
+  protected Predicate computeLinkedPredicate(Long linkedToId) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeNotLinkedPredicate(Long notLinkedToId) {
+    throw new UnsupportedOperationException();
+  }
 }

@@ -4,23 +4,23 @@ import com.cmpl.web.core.common.dto.BaseDTO;
 
 public class WidgetPageDTO extends BaseDTO {
 
-  private String pageId;
+  private Long pageId;
 
-  private String widgetId;
+  private Long widgetId;
 
-  public String getPageId() {
+  public Long getPageId() {
     return pageId;
   }
 
-  public void setPageId(String pageId) {
+  public void setPageId(Long pageId) {
     this.pageId = pageId;
   }
 
-  public String getWidgetId() {
+  public Long getWidgetId() {
     return widgetId;
   }
 
-  public void setWidgetId(String widgetId) {
+  public void setWidgetId(Long widgetId) {
     this.widgetId = widgetId;
   }
 }

@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface WidgetPageDAO extends BaseDAO<WidgetPage> {
 
-  List<WidgetPage> findByPageId(String pageId);
+  List<WidgetPage> findByPageId(Long pageId);
 
-  List<WidgetPage> findByWidgetId(String widgetId);
+  List<WidgetPage> findByWidgetId(Long widgetId);
 
-  WidgetPage findByPageIdAndWidgetId(String pageId, String widgetId);
+  WidgetPage findByPageIdAndWidgetId(Long pageId, Long widgetId);
 
 }

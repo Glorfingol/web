@@ -6,11 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 
-public class DefaultCarouselServiceDefault extends
-    DefaultBaseService<CarouselDTO, Carousel> implements
-    CarouselService {
+public class DefaultCarouselService extends
+  DefaultBaseService<CarouselDTO, Carousel> implements
+  CarouselService {
 
-  public DefaultCarouselServiceDefault(CarouselDAO carouselDAO, CarouselMapper carouselMapper) {
+  public DefaultCarouselService(CarouselDAO carouselDAO, CarouselMapper carouselMapper) {
     super(carouselDAO, carouselMapper);
   }
 

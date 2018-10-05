@@ -28,6 +28,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 
 public abstract class DefaultBaseDAO<ENTITY extends BaseEntity> extends QuerydslRepositorySupport
   implements BaseDAO<ENTITY> {
@@ -150,7 +151,58 @@ public abstract class DefaultBaseDAO<ENTITY extends BaseEntity> extends Querydsl
     return entityRepository.findAll(searchPredicate, pageRequest);
   }
 
+  @Override
+  public Page<ENTITY> searchLinkedEntities(PageRequest pageRequest, String query, Long linkedToId) {
+
+    Predicate predicate = getSecuredPredicate();
+    if (predicate == null) {
+      return entityRepository.findAll(pageRequest);
+    }
+    BooleanExpression booleanPredicate = (BooleanExpression) predicate;
+    BooleanExpression linkedToPredicate = (BooleanExpression) computeLinkedPredicate(linkedToId);
+    if (linkedToPredicate != null) {
+      booleanPredicate = booleanPredicate.and(linkedToPredicate);
+    }
+    BooleanExpression searchPredicate = null;
+    if (StringUtils.hasText(query)) {
+      searchPredicate = (BooleanExpression) computeSearchPredicate(query);
+    }
+    if (searchPredicate != null) {
+      booleanPredicate = booleanPredicate.and(searchPredicate);
+    }
+
+    return entityRepository.findAll(booleanPredicate, pageRequest);
+  }
+
+  @Override
+  public Page<ENTITY> searchNotLinkedEntities(PageRequest pageRequest, String query,
+    Long linkedToId) {
+
+    Predicate predicate = getSecuredPredicate();
+    if (predicate == null) {
+      return entityRepository.findAll(pageRequest);
+    }
+    BooleanExpression booleanPredicate = (BooleanExpression) predicate;
+    BooleanExpression notLinkedToPredicate = (BooleanExpression) computeNotLinkedPredicate(
+      linkedToId);
+    if (notLinkedToPredicate != null) {
+      booleanPredicate = booleanPredicate.and(notLinkedToPredicate);
+    }
+    BooleanExpression searchPredicate = null;
+    if (StringUtils.hasText(query)) {
+      searchPredicate = (BooleanExpression) computeSearchPredicate(query);
+    }
+    if (searchPredicate != null) {
+      booleanPredicate = booleanPredicate.and(searchPredicate);
+    }
+    return entityRepository.findAll(booleanPredicate, pageRequest);
+  }
+
   protected abstract Predicate computeSearchPredicate(String query);
+
+  protected abstract Predicate computeLinkedPredicate(Long linkedToId);
+
+  protected abstract Predicate computeNotLinkedPredicate(Long notLinkedToId);
 
 
 }

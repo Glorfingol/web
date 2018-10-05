@@ -11,7 +11,7 @@ public class DefaultMembershipDAO extends DefaultBaseDAO<Membership> implements 
   private final MembershipRepository entityRepository;
 
   public DefaultMembershipDAO(MembershipRepository entityRepository,
-      ApplicationEventPublisher publisher) {
+    ApplicationEventPublisher publisher) {
     super(Membership.class, entityRepository, publisher);
     this.entityRepository = entityRepository;
   }
@@ -33,6 +33,16 @@ public class DefaultMembershipDAO extends DefaultBaseDAO<Membership> implements 
 
   @Override
   protected Predicate computeSearchPredicate(String query) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeLinkedPredicate(Long linkedToId) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeNotLinkedPredicate(Long notLinkedToId) {
     throw new UnsupportedOperationException();
   }
 }

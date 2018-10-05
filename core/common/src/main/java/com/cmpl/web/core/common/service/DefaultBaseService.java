@@ -16,7 +16,7 @@ import org.springframework.data.domain.PageRequest;
  * @author Louis
  */
 public class DefaultBaseService<DTO extends BaseDTO, ENTITY extends BaseEntity> implements
-    BaseService<DTO> {
+  BaseService<DTO> {
 
   private final BaseDAO<ENTITY> dao;
 
@@ -62,6 +62,17 @@ public class DefaultBaseService<DTO extends BaseDTO, ENTITY extends BaseEntity> 
   @Override
   public Page<DTO> searchEntities(PageRequest pageRequest, String query) {
     return dao.searchEntities(pageRequest, query).map(mapper::toDTO);
+  }
+
+  @Override
+  public Page<DTO> searchLinkedEntities(PageRequest pageRequest, String query, Long linkedToId) {
+    return dao.searchLinkedEntities(pageRequest, query, linkedToId).map(mapper::toDTO);
+  }
+
+  @Override
+  public Page<DTO> searchNotLinkedEntities(PageRequest pageRequest, String query,
+    Long notLinkedToId) {
+    return dao.searchNotLinkedEntities(pageRequest, query, notLinkedToId).map(mapper::toDTO);
   }
 
 }

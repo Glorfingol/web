@@ -9,31 +9,38 @@ public interface PageManagerDisplayFactory extends CRUDBackDisplayFactory {
   ModelAndView computeModelAndViewForViewAllPages(Locale locale, int pageNumber);
 
   ModelAndView computeModelAndViewForUpdatePage(Locale locale, String pageId,
-      String personalizationLanguageCode);
+    String personalizationLanguageCode);
 
   ModelAndView computeModelAndViewForUpdatePageMain(Locale locale, String pageId,
-      String personalizationLanguageCode);
+    String personalizationLanguageCode);
 
   ModelAndView computeModelAndViewForUpdatePageBody(Locale locale, String pageId,
-      String personalizationLanguageCode);
+    String personalizationLanguageCode);
 
   ModelAndView computeModelAndViewForUpdatePageHeader(Locale locale, String pageId,
-      String personalizationLanguageCode);
+    String personalizationLanguageCode);
 
   ModelAndView computeModelAndViewForUpdatePageFooter(Locale locale, String pageId,
-      String personalizationLanguageCode);
+    String personalizationLanguageCode);
 
   ModelAndView computeModelAndViewForUpdatePageMeta(Locale locale, String pageId,
-      String personalizationLanguageCode);
+    String personalizationLanguageCode);
 
   ModelAndView computeModelAndViewForUpdatePageAMP(Locale locale, String pageId,
-      String personalizationLanguageCode);
+    String personalizationLanguageCode);
 
   ModelAndView computeModelAndViewForUpdatePagePreview(Locale locale, String pageId,
-      String personalizationLanguageCode);
+    String personalizationLanguageCode);
 
   ModelAndView computeModelAndViewForCreatePage(Locale locale);
 
   ModelAndView computeModelAndViewForUpdatePageWidgets(Locale locale, String pageId,
-      String personalizationLanguageCode);
+    String personalizationLanguageCode);
+
+  ModelAndView computeLinkedWidgets(String pageId, String query);
+
+  ModelAndView computeLinkableWidgets(String pageId, String query);
+
+  ModelAndView computeLinkedWebsites(String pageId, String query);
+
 }

@@ -1,18 +1,5 @@
 package com.cmpl.web.core.factory.page;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
@@ -23,8 +10,13 @@ import com.cmpl.web.core.factory.AbstractBackDisplayFactory;
 import com.cmpl.web.core.factory.menu.MenuFactory;
 import com.cmpl.web.core.group.GroupService;
 import com.cmpl.web.core.membership.MembershipService;
-import com.cmpl.web.core.page.*;
+import com.cmpl.web.core.page.BackPage;
+import com.cmpl.web.core.page.PageCreateForm;
+import com.cmpl.web.core.page.PageDTO;
+import com.cmpl.web.core.page.PageService;
+import com.cmpl.web.core.page.PageUpdateForm;
 import com.cmpl.web.core.sitemap.SitemapService;
+import com.cmpl.web.core.website.WebsiteDTO;
 import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.widget.WidgetDTO;
 import com.cmpl.web.core.widget.WidgetService;
@@ -32,9 +24,23 @@ import com.cmpl.web.core.widget.page.WidgetPageCreateForm;
 import com.cmpl.web.core.widget.page.WidgetPageCreateFormBuilder;
 import com.cmpl.web.core.widget.page.WidgetPageDTO;
 import com.cmpl.web.core.widget.page.WidgetPageService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory<PageDTO>
-    implements PageManagerDisplayFactory {
+  implements PageManagerDisplayFactory {
 
   private final PageService pageService;
 
@@ -56,16 +62,19 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
 
   private static final String LINKED_WIDGETS = "linkedWidgets";
 
+  private static final String LINKED_WEBSITES = "linkedWebsites";
+
   private static final String LOCALES = "locales";
 
   public DefaultPageManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      PageService pageService, ContextHolder contextHolder, WidgetService widgetService,
-      WidgetPageService widgetPageService, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
-      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService,
-      WebsiteService websiteService, SitemapService sitemapService,
-      PluginRegistry<BackPage, String> backPagesRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService,
-        backPagesRegistry);
+    PageService pageService, ContextHolder contextHolder, WidgetService widgetService,
+    WidgetPageService widgetPageService, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
+    Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService,
+    WebsiteService websiteService, SitemapService sitemapService,
+    PluginRegistry<BackPage, String> backPagesRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
+      membershipService,
+      backPagesRegistry);
 
     this.pageService = Objects.requireNonNull(pageService);
     this.contextHolder = Objects.requireNonNull(contextHolder);
@@ -94,7 +103,7 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
     List<PageDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        Sort.by(Direction.ASC, "name"));
+      Sort.by(Direction.ASC, "name"));
     Page<PageDTO> pagedPageDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedPageDTOEntries = pageService.searchEntities(pageRequest, query);
@@ -116,7 +125,7 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
 
   @Override
   public ModelAndView computeModelAndViewForUpdatePage(Locale locale, String pageId,
-      String personalizationLanguageCode) {
+    String personalizationLanguageCode) {
     BackPage backPage = computeBackPage("PAGE_UPDATE");
     ModelAndView pageManager = super.computeModelAndViewForBackPage(backPage, locale);
 
@@ -150,7 +159,7 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
 
   @Override
   public ModelAndView computeModelAndViewForUpdatePageMain(Locale locale, String pageId,
-      String personalizationLanguageCode) {
+    String personalizationLanguageCode) {
     if (!StringUtils.hasText(personalizationLanguageCode)) {
       personalizationLanguageCode = locale.getLanguage();
     }
@@ -162,7 +171,7 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
 
   @Override
   public ModelAndView computeModelAndViewForUpdatePageBody(Locale locale, String pageId,
-      String personalizationLanguageCode) {
+    String personalizationLanguageCode) {
     if (!StringUtils.hasText(personalizationLanguageCode)) {
       personalizationLanguageCode = locale.getLanguage();
     }
@@ -171,7 +180,7 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
     PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
     pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
 
-    List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(pageId);
+    List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(Long.parseLong(pageId));
     pageManager.addObject(LINKED_WIDGETS, computeLinkedWidgets(associatedWidgets));
 
     return pageManager;
@@ -179,7 +188,7 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
 
   @Override
   public ModelAndView computeModelAndViewForUpdatePageMeta(Locale locale, String pageId,
-      String personalizationLanguageCode) {
+    String personalizationLanguageCode) {
     if (!StringUtils.hasText(personalizationLanguageCode)) {
       personalizationLanguageCode = locale.getLanguage();
     }
@@ -193,7 +202,7 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
 
   @Override
   public ModelAndView computeModelAndViewForUpdatePageAMP(Locale locale, String pageId,
-      String personalizationLanguageCode) {
+    String personalizationLanguageCode) {
     if (!StringUtils.hasText(personalizationLanguageCode)) {
       personalizationLanguageCode = locale.getLanguage();
     }
@@ -207,7 +216,7 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
 
   @Override
   public ModelAndView computeModelAndViewForUpdatePagePreview(Locale locale, String pageId,
-      String personalizationLanguageCode) {
+    String personalizationLanguageCode) {
     if (!StringUtils.hasText(personalizationLanguageCode)) {
       personalizationLanguageCode = locale.getLanguage();
     }
@@ -215,15 +224,13 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
 
     PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
     pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
-    pageManager.addObject("linkedWebsites", sitemapService.findByPageId(page.getId()).stream()
-        .map(sitemap -> websiteService.getEntity(sitemap.getWebsiteId())).collect(Collectors.toList()));
 
     return pageManager;
   }
 
   @Override
   public ModelAndView computeModelAndViewForUpdatePageHeader(Locale locale, String pageId,
-      String personalizationLanguageCode) {
+    String personalizationLanguageCode) {
     if (!StringUtils.hasText(personalizationLanguageCode)) {
       personalizationLanguageCode = locale.getLanguage();
     }
@@ -232,14 +239,14 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
     PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
     pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
 
-    List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(pageId);
+    List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(Long.parseLong(pageId));
     pageManager.addObject(LINKED_WIDGETS, computeLinkedWidgets(associatedWidgets));
     return pageManager;
   }
 
   @Override
   public ModelAndView computeModelAndViewForUpdatePageFooter(Locale locale, String pageId,
-      String personalizationLanguageCode) {
+    String personalizationLanguageCode) {
     if (!StringUtils.hasText(personalizationLanguageCode)) {
       personalizationLanguageCode = locale.getLanguage();
     }
@@ -248,14 +255,14 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
     PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
     pageManager.addObject(UPDATE_FORM, createUpdateForm(page, personalizationLanguageCode));
 
-    List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(pageId);
+    List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(Long.parseLong(pageId));
     pageManager.addObject(LINKED_WIDGETS, computeLinkedWidgets(associatedWidgets));
     return pageManager;
   }
 
   @Override
   public ModelAndView computeModelAndViewForUpdatePageWidgets(Locale locale, String pageId,
-      String personalizationLanguageCode) {
+    String personalizationLanguageCode) {
     if (!StringUtils.hasText(personalizationLanguageCode)) {
       personalizationLanguageCode = locale.getLanguage();
     }
@@ -263,38 +270,50 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
     pageManager.addObject(LOCALES, availableLocales);
     PageDTO page = pageService.getEntity(Long.parseLong(pageId), personalizationLanguageCode);
     pageManager.addObject(CREATE_FORM, computeWidgetPageCreateForm(page));
-    List<WidgetPageDTO> associatedWidgets = widgetPageService.findByPageId(pageId);
-    List<WidgetDTO> widgets = widgetService.getEntities();
-    List<WidgetDTO> linkableWidgets = computeLinkableWidgets(associatedWidgets, widgets);
-    Collections.sort(linkableWidgets, Comparator.comparing(WidgetDTO::getName));
-    pageManager.addObject(LINKABLE_WIDGETS, linkableWidgets);
-    List<WidgetDTO> linkedWidgets = computeLinkedWidgets(associatedWidgets);
-    Collections.sort(linkedWidgets, Comparator.comparing(WidgetDTO::getName));
+
+    return pageManager;
+  }
+
+  @Override
+  public ModelAndView computeLinkedWidgets(String pageId, String query) {
+    PageRequest pageRequest = PageRequest.of(0, contextHolder.getElementsPerPage(),
+      Sort.by(Direction.ASC, "name"));
+    Page<WidgetDTO> linkedWidgets = widgetService
+      .searchLinkedEntities(pageRequest, query, Long.parseLong(pageId));
+    ModelAndView pageManager = new ModelAndView("back/pages/edit/linked_widgets");
     pageManager.addObject(LINKED_WIDGETS, linkedWidgets);
     return pageManager;
   }
 
-  private List<WidgetDTO> computeLinkableWidgets(List<WidgetPageDTO> associatedWidgets, List<WidgetDTO> widgets) {
-    List<WidgetDTO> linkableWidgets = new ArrayList<>();
-    if (CollectionUtils.isEmpty(associatedWidgets)) {
-      linkableWidgets.addAll(widgets);
-    } else {
-      List<String> associatedWidgetsIds = associatedWidgets.stream()
-          .map(associatedWidget -> associatedWidget.getWidgetId()).collect(Collectors.toList());
-      widgets.forEach(widget -> {
-        if (!associatedWidgetsIds.contains(String.valueOf(widget.getId()))) {
-          linkableWidgets.add(widget);
-        }
-      });
-    }
 
-    return linkableWidgets;
+  @Override
+  public ModelAndView computeLinkedWebsites(String pageId, String query) {
+    PageRequest pageRequest = PageRequest.of(0, contextHolder.getElementsPerPage(),
+      Sort.by(Direction.ASC, "name"));
+    Page<WebsiteDTO> linkedWebsites = websiteService
+      .searchLinkedEntities(pageRequest, query, Long.parseLong(pageId));
+    ModelAndView pageManager = new ModelAndView("back/pages/edit/linked_websites");
+    pageManager.addObject(LINKED_WEBSITES, linkedWebsites);
+    return pageManager;
   }
+
+  @Override
+  public ModelAndView computeLinkableWidgets(String pageId, String query) {
+    PageRequest pageRequest = PageRequest.of(0, contextHolder.getElementsPerPage(),
+      Sort.by(Direction.ASC, "name"));
+    Page<WidgetDTO> linkableWidgets = widgetService
+      .searchNotLinkedEntities(pageRequest, query, Long.parseLong(pageId));
+    ModelAndView pageManager = new ModelAndView("back/pages/edit/linkable_widgets");
+    pageManager.addObject(LINKABLE_WIDGETS, linkableWidgets);
+    return pageManager;
+  }
+
 
   private List<WidgetDTO> computeLinkedWidgets(List<WidgetPageDTO> associatedWidgets) {
     List<WidgetDTO> linkedWidgets = new ArrayList<>();
     associatedWidgets.forEach(
-        associatedWidget -> linkedWidgets.add(widgetService.getEntity(Long.parseLong(associatedWidget.getWidgetId()))));
+      associatedWidget -> linkedWidgets
+        .add(widgetService.getEntity(associatedWidget.getWidgetId())));
     return linkedWidgets;
   }
 

@@ -69,7 +69,7 @@ public class WidgetEventsListeners {
       Widget deletedWidget = (Widget) deletedEvent.getEntity();
 
       if (deletedWidget != null) {
-        widgetPageService.findByWidgetId(String.valueOf(deletedWidget.getId()))
+        widgetPageService.findByWidgetId(deletedWidget.getId())
           .forEach(widgetPageDTO -> widgetPageService.deleteEntity(widgetPageDTO.getId()));
         locales.forEach(locale -> {
           String fileName =
@@ -96,7 +96,7 @@ public class WidgetEventsListeners {
       locales.forEach(locale -> computeTemplateCacheKeys(widget, locale.getLanguage())
         .forEach(key -> templateEngine.getCacheManager().getTemplateCache().clearKey(key)));
 
-      widgetPageService.findByWidgetId(String.valueOf(widget.getId())).forEach(
+      widgetPageService.findByWidgetId(widget.getId()).forEach(
         widgetPage -> {
           displayFactoryCacheManager
             .evictSynchronousWidgetForPage(Long.valueOf(widgetPage.getPageId()));
@@ -118,7 +118,7 @@ public class WidgetEventsListeners {
       templateName, null));
 
     if (!widget.isAsynchronous()) {
-      List<PageDTO> pages = widgetPageService.findByWidgetId(String.valueOf(widget.getId()))
+      List<PageDTO> pages = widgetPageService.findByWidgetId(widget.getId())
         .stream()
         .map(widgetPageDTO -> widgetPageDTO.getPageId()).collect(
           Collectors.toList()).stream().map(id -> pageService.getEntity(Long.valueOf(id)))

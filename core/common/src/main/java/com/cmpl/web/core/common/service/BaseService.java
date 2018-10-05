@@ -47,4 +47,14 @@ public interface BaseService<DTO extends BaseDTO> {
    */
   Page<DTO> searchEntities(PageRequest pageRequest, String query);
 
+  /**
+   * Faire une recherche
+   */
+  Page<DTO> searchLinkedEntities(PageRequest pageRequest, String query, Long linkedToId);
+
+  /**
+   * Faire une recherche
+   */
+  Page<DTO> searchNotLinkedEntities(PageRequest pageRequest, String query, Long notLinkedToId);
+
 }

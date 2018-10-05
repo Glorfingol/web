@@ -90,8 +90,8 @@ public class PageFactory {
       .asynchronous(true).build();
     widgetCarouselHome = widgetRepository.save(widgetCarouselHome);
     WidgetPage widgetPage = WidgetPageBuilder.create()
-      .widgetId(String.valueOf(widgetCarouselHome.getId()))
-      .pageId(pageId).build();
+      .widgetId(widgetCarouselHome.getId())
+      .pageId(Long.parseLong(pageId)).build();
     widgetPageRepository.save(widgetPage);
 
   }
@@ -110,10 +110,10 @@ public class PageFactory {
 
     Widget blog = WidgetBuilder.create().name("blog").asynchronous(true).type("BLOG").build();
     blog = widgetRepository.save(blog);
-    WidgetPage widgetPage = WidgetPageBuilder.create().pageId(pageId)
-      .widgetId(String.valueOf(blog.getId())).build();
+    WidgetPage widgetPage = WidgetPageBuilder.create().pageId(Long.parseLong(pageId))
+      .widgetId(blog.getId()).build();
     widgetPageRepository.save(widgetPage);
-    
+
 
   }
 

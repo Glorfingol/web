@@ -5,20 +5,20 @@ import com.cmpl.web.core.models.WidgetPage;
 
 public class WidgetPageBuilder extends BaseBuilder<WidgetPage> {
 
-  private String pageId;
+  private Long pageId;
 
-  private String widgetId;
+  private Long widgetId;
 
   private WidgetPageBuilder() {
 
   }
 
-  public WidgetPageBuilder pageId(String pageId) {
+  public WidgetPageBuilder pageId(Long pageId) {
     this.pageId = pageId;
     return this;
   }
 
-  public WidgetPageBuilder widgetId(String widgetId) {
+  public WidgetPageBuilder widgetId(Long widgetId) {
     this.widgetId = widgetId;
     return this;
   }

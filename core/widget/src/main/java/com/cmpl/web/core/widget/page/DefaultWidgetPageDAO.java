@@ -11,28 +11,38 @@ public class DefaultWidgetPageDAO extends DefaultBaseDAO<WidgetPage> implements 
   private final WidgetPageRepository widgetPageRepository;
 
   public DefaultWidgetPageDAO(WidgetPageRepository entityRepository,
-      ApplicationEventPublisher publisher) {
+    ApplicationEventPublisher publisher) {
     super(WidgetPage.class, entityRepository, publisher);
     this.widgetPageRepository = entityRepository;
   }
 
   @Override
-  public List<WidgetPage> findByPageId(String pageId) {
+  public List<WidgetPage> findByPageId(Long pageId) {
     return widgetPageRepository.findByPageId(pageId);
   }
 
   @Override
-  public List<WidgetPage> findByWidgetId(String widgetId) {
+  public List<WidgetPage> findByWidgetId(Long widgetId) {
     return widgetPageRepository.findByWidgetId(widgetId);
   }
 
   @Override
-  public WidgetPage findByPageIdAndWidgetId(String pageId, String widgetId) {
+  public WidgetPage findByPageIdAndWidgetId(Long pageId, Long widgetId) {
     return widgetPageRepository.findByPageIdAndWidgetId(pageId, widgetId);
   }
 
   @Override
   protected Predicate computeSearchPredicate(String query) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeLinkedPredicate(Long linkedToId) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected Predicate computeNotLinkedPredicate(Long notLinkedToId) {
     throw new UnsupportedOperationException();
   }
 }

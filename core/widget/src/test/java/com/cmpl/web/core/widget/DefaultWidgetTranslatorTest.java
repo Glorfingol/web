@@ -22,8 +22,8 @@ public class DefaultWidgetTranslatorTest {
   @Test
   public void testFromCreateFormToDTOWidget() {
     WidgetCreateForm form = WidgetCreateFormBuilder.create().asynchronous(true)
-        .localeCode(Locale.FRANCE.getLanguage())
-        .name("someName").type("HTML").build();
+      .localeCode(Locale.FRANCE.getLanguage())
+      .name("someName").type("HTML").build();
 
     WidgetDTO result = translator.fromCreateFormToDTO(form);
 
@@ -47,12 +47,12 @@ public class DefaultWidgetTranslatorTest {
   @Test
   public void testFromCreateFormToDTOWidgetPage() {
     WidgetPageCreateForm form = WidgetPageCreateFormBuilder.create().pageId("123456789")
-        .widgetId("123456789").build();
+      .widgetId("123456789").build();
 
     WidgetPageDTO result = translator.fromCreateFormToDTO(form);
 
-    Assert.assertEquals(form.getPageId(), result.getPageId());
-    Assert.assertEquals(form.getWidgetId(), result.getWidgetId());
+    Assert.assertEquals(Long.valueOf(form.getPageId()), result.getPageId());
+    Assert.assertEquals(Long.valueOf(form.getWidgetId()), result.getWidgetId());
 
   }
 
