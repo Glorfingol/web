@@ -1,6 +1,7 @@
 <div class="col-12">
   <div class="input-group mt-3 mb-3">
-    <input type="text" id="queryInput" class="form-control" th:placeholder="${searchPlaceHolder}"
+    <input type="text" id="linkedQueryInput" class="form-control"
+           th:placeholder="${searchPlaceHolder}"
            th:aria-label="${searchPlaceHolder}"
            aria-describedby="addon">
     <div class="input-group-append">
@@ -26,7 +27,7 @@
   $(document).ready(function () {
     $(".card-loader").hide();
     $(".loader").hide();
-    var queryInput = $("#queryInput");
+    var queryInput = $("#linkedQueryInput");
     queryInput.keyup(function () {
       var value = $(this).val();
       if (value.length >= 3) {

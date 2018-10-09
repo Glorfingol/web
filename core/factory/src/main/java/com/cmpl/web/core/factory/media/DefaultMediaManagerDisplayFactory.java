@@ -25,28 +25,26 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 public class DefaultMediaManagerDisplayFactory extends AbstractBackDisplayFactory<MediaDTO>
-    implements MediaManagerDisplayFactory {
+  implements MediaManagerDisplayFactory {
 
   private final MediaService mediaService;
 
-  private final ContextHolder contextHolder;
-
   public DefaultMediaManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      MediaService mediaService, ContextHolder contextHolder,
-      PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
-      Set<Locale> availableLocales, GroupService groupService,
-      MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
+    MediaService mediaService, ContextHolder contextHolder,
+    PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
+    Set<Locale> availableLocales, GroupService groupService,
+    MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
-        membershipService, backPagesRegistry);
+      membershipService, backPagesRegistry, contextHolder);
     this.mediaService = Objects.requireNonNull(mediaService);
-    this.contextHolder = Objects.requireNonNull(contextHolder);
+
   }
 
   @Override
   public ModelAndView computeModelAndViewForViewAllMedias(Locale locale, int pageNumber) {
     BackPage backPage = computeBackPage("MEDIA_VIEW");
     ModelAndView pagesManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction des medias pour la page {}", backPage.getPageName());
 
     PageWrapper<MediaDTO> pagedMediaDTOWrapped = computePageWrapper(locale, pageNumber, "");
@@ -60,7 +58,7 @@ public class DefaultMediaManagerDisplayFactory extends AbstractBackDisplayFactor
   public ModelAndView computeModelAndViewForViewMedia(String mediaId, Locale locale) {
     BackPage backPage = computeBackPage("MEDIA_UPDATE");
     ModelAndView mediaManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction de la page de visualisation d'un media ");
     MediaDTO media = mediaService.getEntity(Long.parseLong(mediaId));
     mediaManager.addObject("updateForm", media);
@@ -100,7 +98,7 @@ public class DefaultMediaManagerDisplayFactory extends AbstractBackDisplayFactor
   public ModelAndView computeModelAndViewForUploadMedia(Locale locale) {
     BackPage backPage = computeBackPage("MEDIA_CREATE");
     ModelAndView mediaManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du formulaire d'upload de media ");
     return mediaManager;
   }

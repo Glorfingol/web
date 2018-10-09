@@ -29,7 +29,7 @@ public class RoleEventsListeners {
     if (deletedEvent.getEntity() instanceof Role) {
       Role deletedRole = (Role) deletedEvent.getEntity();
       if (deletedRole != null) {
-        String roleId = String.valueOf(deletedRole.getId());
+        Long roleId = deletedRole.getId();
         responsibilityService.findByRoleId(roleId)
           .forEach(associationUserRoleDTO -> responsibilityService
             .deleteEntity(associationUserRoleDTO.getId()));

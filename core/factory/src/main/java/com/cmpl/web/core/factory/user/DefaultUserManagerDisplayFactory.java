@@ -1,18 +1,5 @@
 package com.cmpl.web.core.factory.user;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.plugin.core.PluginRegistry;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.cmpl.web.core.breadcrumb.BreadCrumb;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItem;
 import com.cmpl.web.core.breadcrumb.BreadCrumbItemBuilder;
@@ -32,9 +19,26 @@ import com.cmpl.web.core.user.UserCreateForm;
 import com.cmpl.web.core.user.UserDTO;
 import com.cmpl.web.core.user.UserService;
 import com.cmpl.web.core.user.UserUpdateForm;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.plugin.core.PluginRegistry;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 public class DefaultUserManagerDisplayFactory extends AbstractBackDisplayFactory<UserDTO>
-    implements UserManagerDisplayFactory {
+  implements UserManagerDisplayFactory {
 
   private final UserService userService;
 
@@ -42,22 +46,26 @@ public class DefaultUserManagerDisplayFactory extends AbstractBackDisplayFactory
 
   private final ResponsibilityService responsibilityService;
 
-  private final ContextHolder contextHolder;
+  private static final String LINKABLE_ROLES = "linkableRoles";
+
+  private static final String LINKED_ROLES = "linkedRoles";
+
 
   public DefaultUserManagerDisplayFactory(UserService userService, RoleService roleService,
-      ResponsibilityService responsibilityService, ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSource messageSource, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
-      Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService,
-      PluginRegistry<BackPage, String> backPagesRegistry) {
-    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService, membershipService,
-        backPagesRegistry);
+    ResponsibilityService responsibilityService, ContextHolder contextHolder,
+    MenuFactory menuFactory,
+    WebMessageSource messageSource, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
+    Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService,
+    PluginRegistry<BackPage, String> backPagesRegistry) {
+    super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
+      membershipService,
+      backPagesRegistry, contextHolder);
     this.userService = Objects.requireNonNull(userService);
 
     this.roleService = Objects.requireNonNull(roleService);
 
     this.responsibilityService = Objects.requireNonNull(responsibilityService);
 
-    this.contextHolder = Objects.requireNonNull(contextHolder);
 
   }
 
@@ -120,21 +128,47 @@ public class DefaultUserManagerDisplayFactory extends AbstractBackDisplayFactory
   public ModelAndView computeModelAndViewForUpdateUserRoles(Locale locale, String userId) {
     ModelAndView userManager = new ModelAndView("back/users/edit/tab_roles");
 
-    List<RoleDTO> associatedRoles = responsibilityService.findByUserId(userId).stream()
-        .map(associtation -> roleService.getEntity(Long.parseLong(associtation.getRoleId())))
-        .collect(Collectors.toList());
+    List<RoleDTO> associatedRoles = responsibilityService.findByUserId(Long.parseLong(userId))
+      .stream()
+      .map(association -> roleService.getEntity(association.getRoleId()))
+      .collect(Collectors.toList());
 
     List<RoleDTO> linkableRoles = roleService.getEntities().stream()
-        .filter(role -> !associatedRoles.stream().filter(associatedRole -> associatedRole.getId().equals(role.getId()))
-            .map(filteredRole -> filteredRole.getId()).collect(Collectors.toList()).contains(role.getId()))
-        .collect(Collectors.toList());
+      .filter(role -> !associatedRoles.stream()
+        .filter(associatedRole -> associatedRole.getId().equals(role.getId()))
+        .map(filteredRole -> filteredRole.getId()).collect(Collectors.toList())
+        .contains(role.getId()))
+      .collect(Collectors.toList());
 
     Collections.sort(associatedRoles, Comparator.comparing(RoleDTO::getName));
     userManager.addObject("linkedRoles", associatedRoles);
     Collections.sort(linkableRoles, Comparator.comparing(RoleDTO::getName));
     userManager.addObject("linkableRoles", linkableRoles);
-    userManager.addObject("createForm", ResponsibilityCreateFormBuilder.create().userId(userId).build());
+    userManager
+      .addObject("createForm", ResponsibilityCreateFormBuilder.create().userId(userId).build());
     return userManager;
+  }
+
+  @Override
+  public ModelAndView computeLinkedRoles(String userId, String query) {
+    PageRequest pageRequest = PageRequest.of(0, contextHolder.getElementsPerPage(),
+      Sort.by(Direction.ASC, "name"));
+    Page<RoleDTO> linkedRoles = roleService
+      .searchLinkedEntities(pageRequest, query, Long.parseLong(userId));
+    ModelAndView websiteManager = new ModelAndView("back/users/edit/linked_roles");
+    websiteManager.addObject(LINKED_ROLES, linkedRoles);
+    return websiteManager;
+  }
+
+  @Override
+  public ModelAndView computeLinkableRoles(String userId, String query) {
+    PageRequest pageRequest = PageRequest.of(0, contextHolder.getElementsPerPage(),
+      Sort.by(Direction.ASC, "name"));
+    Page<RoleDTO> linkableRoles = roleService
+      .searchNotLinkedEntities(pageRequest, query, Long.parseLong(userId));
+    ModelAndView websiteManager = new ModelAndView("back/users/edit/linkable_roles");
+    websiteManager.addObject(LINKABLE_ROLES, linkableRoles);
+    return websiteManager;
   }
 
   @Override
@@ -142,7 +176,7 @@ public class DefaultUserManagerDisplayFactory extends AbstractBackDisplayFactory
     List<UserDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        Sort.by(Direction.ASC, "login"));
+      Sort.by(Direction.ASC, "login"));
     Page<UserDTO> pagedUserDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedUserDTOEntries = userService.searchEntities(pageRequest, query);

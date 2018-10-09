@@ -17,7 +17,7 @@ public class DefaultPrivilegeDAO extends DefaultBaseDAO<Privilege> implements Pr
   }
 
   @Override
-  public List<Privilege> findByRoleId(String roleId) {
+  public List<Privilege> findByRoleId(Long roleId) {
     return privilegeRepository.findByRoleId(roleId);
   }
 

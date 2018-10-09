@@ -43,8 +43,8 @@ public class UserManagerController {
   private final WebMessageSource messageSource;
 
   public UserManagerController(UserManagerDisplayFactory userManagerDisplayFactory,
-      UserDispatcher userDispatcher,
-      NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    UserDispatcher userDispatcher,
+    NotificationCenter notificationCenter, WebMessageSource messageSource) {
 
     this.userManagerDisplayFactory = Objects.requireNonNull(userManagerDisplayFactory);
     this.userDispatcher = Objects.requireNonNull(userDispatcher);
@@ -55,7 +55,7 @@ public class UserManagerController {
   @GetMapping
   @PreAuthorize("hasAuthority('administration:users:read')")
   public ModelAndView printViewUsers(@RequestParam(name = "p", required = false) Integer pageNumber,
-      Locale locale) {
+    Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     return userManagerDisplayFactory.computeModelAndViewForViewAllUsers(locale, pageNumberToUse);
@@ -64,12 +64,12 @@ public class UserManagerController {
   @GetMapping(value = "/search")
   @PreAuthorize("hasAuthority('administration:users:read')")
   public ModelAndView printSearchUsers(
-      @RequestParam(name = "p", required = false) Integer pageNumber,
-      @RequestParam(name = "q") String query, Locale locale) {
+    @RequestParam(name = "p", required = false) Integer pageNumber,
+    @RequestParam(name = "q") String query, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     return userManagerDisplayFactory
-        .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+      .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -90,7 +90,7 @@ public class UserManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:users:create')")
   public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserCreateForm createForm,
-      BindingResult bindingResult, Locale locale) {
+    BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de création d'un utilisateur");
 
     if (bindingResult.hasErrors()) {
@@ -104,12 +104,12 @@ public class UserManagerController {
       LOGGER.info("Entrée crée, id " + response.getUser().getId());
 
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("create.success", locale));
+        .sendNotification("success", messageSource.getMessage("create.success", locale));
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("create.error", locale));
+        .sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
   }
@@ -118,7 +118,7 @@ public class UserManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:users:write')")
   public ResponseEntity<UserResponse> updateUser(@Valid @RequestBody UserUpdateForm updateForm,
-      BindingResult bindingResult, Locale locale) {
+    BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un utilisateur");
     if (bindingResult.hasErrors()) {
@@ -132,13 +132,13 @@ public class UserManagerController {
       LOGGER.info("Entrée modifiée, id " + response.getUser().getId());
 
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("update.success", locale));
+        .sendNotification("success", messageSource.getMessage("update.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("update.error", locale));
+        .sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -148,19 +148,19 @@ public class UserManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:users:delete')")
   public ResponseEntity<UserResponse> deleteUser(@PathVariable(value = "userId") String userId,
-      Locale locale) {
+    Locale locale) {
 
     LOGGER.info("Tentative de suppression d'un utilisateur");
     try {
       UserResponse response = userDispatcher.deleteEntity(userId, locale);
       LOGGER.info("User " + userId + " supprimé");
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("delete.success", locale));
+        .sendNotification("success", messageSource.getMessage("delete.success", locale));
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       LOGGER.error("Echec de la suppression de l'entrée", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("delete.error", locale));
+        .sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -169,29 +169,43 @@ public class UserManagerController {
   @GetMapping(value = "/{userId}")
   @PreAuthorize("hasAuthority('administration:users:read')")
   public ModelAndView printViewUpdateUser(@PathVariable(value = "userId") String userId,
-      Locale locale) {
+    Locale locale) {
     return userManagerDisplayFactory.computeModelAndViewForUpdateUser(locale, userId);
   }
 
   @GetMapping(value = "/{userId}/_main")
   @PreAuthorize("hasAuthority('administration:users:read')")
   public ModelAndView printViewUpdateUserMain(@PathVariable(value = "userId") String userId,
-      Locale locale) {
+    Locale locale) {
     return userManagerDisplayFactory.computeModelAndViewForUpdateUserMain(locale, userId);
   }
 
   @GetMapping(value = "/{userId}/_roles")
   @PreAuthorize("hasAuthority('administration:users:read')")
   public ModelAndView printViewUpdateUserRoles(@PathVariable(value = "userId") String userId,
-      Locale locale) {
+    Locale locale) {
     return userManagerDisplayFactory.computeModelAndViewForUpdateUserRoles(locale, userId);
   }
 
   @GetMapping(value = "/{userId}/_memberships")
   @PreAuthorize("hasAuthority('administration:users:read')")
   public ModelAndView printViewUpdateUserMemberships(@PathVariable(value = "userId") String userId,
-      Locale locale) {
+    Locale locale) {
     return userManagerDisplayFactory.computeModelAndViewForMembership(userId);
+  }
+
+  @GetMapping(value = "/{userId}/_linkable_roles")
+  @PreAuthorize("hasAuthority('administration:users:read')")
+  public ModelAndView printViewLinkableRoles(@PathVariable(value = "userId") String userId,
+    @RequestParam(name = "q") String query) {
+    return userManagerDisplayFactory.computeLinkableRoles(userId, query);
+  }
+
+  @GetMapping(value = "/{userId}/_linked_roles")
+  @PreAuthorize("hasAuthority('administration:users:read')")
+  public ModelAndView printViewLinkedRoles(@PathVariable(value = "userId") String userId,
+    @RequestParam(name = "q") String query) {
+    return userManagerDisplayFactory.computeLinkedRoles(userId, query);
   }
 
 }

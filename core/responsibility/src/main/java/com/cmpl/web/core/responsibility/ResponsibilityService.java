@@ -5,10 +5,10 @@ import java.util.List;
 
 public interface ResponsibilityService extends BaseService<ResponsibilityDTO> {
 
-  List<ResponsibilityDTO> findByUserId(String userId);
+  List<ResponsibilityDTO> findByUserId(Long userId);
 
-  List<ResponsibilityDTO> findByRoleId(String roleId);
+  List<ResponsibilityDTO> findByRoleId(Long roleId);
 
-  ResponsibilityDTO findByUserIdAndRoleId(String userId, String roleId);
+  ResponsibilityDTO findByUserIdAndRoleId(Long userId, Long roleId);
 
 }

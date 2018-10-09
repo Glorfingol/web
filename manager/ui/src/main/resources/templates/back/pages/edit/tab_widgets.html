@@ -8,7 +8,7 @@
 </form>
 <hr>
 <label th:text="#{page.widgets.linked}"/>
-<div id="associatedWidgets">
+<div id="linkedWidgets">
 </div>
 
 <script th:inline="javascript">
@@ -18,7 +18,7 @@
     var urlLinkableWidgets = "/manager/pages/" + [['' + ${createForm.pageId} +'']]
         + "/_linkable_widgets?q=";
     $.get(urlLinkedWidgets, function (data) {
-      $("#associatedWidgets").html(data);
+      $("#linkedWidgets").html(data);
     });
     $.get(urlLinkableWidgets, function (data) {
       $("#linkableWidgets").html(data);
@@ -27,7 +27,7 @@
   var deleteAssociatedWidget = function (idAssociatedWidget) {
 
     $("#widgetAssociationForm").hide();
-    $("#associatedWidgets").hide();
+    $("#linkedWidgets").hide();
     $(".loader").show();
     var inputPageId = $("#pageId");
     var url = "/manager/pages/" + inputPageId.val() + "/widgets/" + idAssociatedWidget;
@@ -51,7 +51,7 @@
 
   var postCreateWidgetPageForm = function (linkableWidgetId) {
     $("#widgetAssociationForm").hide();
-    $("#associatedWidgets").hide();
+    $("#linkedWidgets").hide();
     $(".loader").show();
     var inputPageId = $("#pageId");
     var url = "/manager/pages/" + inputPageId.val() + "/widgets";
@@ -85,16 +85,16 @@
 
   var searchLinkableWidgets = function (query) {
     var urlLinkableWidgets = "/manager/pages/" + [['' + ${createForm.pageId} +'']]
-        + "/_linkable_widgets?q=" + queryValue;
+        + "/_linkable_widgets?q=" + query;
 
     searchWidgets($("#linkableWidgets"), urlLinkableWidgets);
   }
 
   var searchLinkedWidgets = function (query) {
     var urlLinkedWidgets = "/manager/pages/" + [['' + ${createForm.pageId} +'']]
-        + "/_linked_widgets?q=" + queryValue;
+        + "/_linked_widgets?q=" + query;
 
-    searchWidgets($("#linkableWidgets"), urlLinkedWidgets);
+    searchWidgets($("#linkedWidgets"), urlLinkedWidgets);
   }
 
   var searchWidgets = function (table, url) {

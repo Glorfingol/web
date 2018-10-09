@@ -20,10 +20,10 @@ public class RoleMapper extends BaseMapper<RoleDTO, Role> {
   public RoleDTO toDTO(Role entity) {
     RoleDTO dto = RoleDTOBuilder.create().build();
     fillObject(entity, dto);
-    List<PrivilegeDTO> privileges = privilegeService.findByRoleId(String.valueOf(dto.getId()));
+    List<PrivilegeDTO> privileges = privilegeService.findByRoleId(dto.getId());
     if (!CollectionUtils.isEmpty(privileges)) {
       dto.setPrivileges(privileges.stream().map(privilege -> privilege.getContent())
-          .collect(Collectors.toList()));
+        .collect(Collectors.toList()));
     }
     return dto;
   }

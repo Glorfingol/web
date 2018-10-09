@@ -30,24 +30,21 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 public class DefaultStyleDisplayFactory extends AbstractBackDisplayFactory<StyleDTO> implements
-    StyleDisplayFactory {
+  StyleDisplayFactory {
 
   private final StyleService styleService;
 
-  private final ContextHolder contextHolder;
-
   public DefaultStyleDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      StyleService styleService,
-      ContextHolder contextHolder, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
-      Set<Locale> availableLocales,
-      GroupService groupService, MembershipService membershipService,
-      PluginRegistry<BackPage, String> backPagesRegistry) {
+    StyleService styleService,
+    ContextHolder contextHolder, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
+    Set<Locale> availableLocales,
+    GroupService groupService, MembershipService membershipService,
+    PluginRegistry<BackPage, String> backPagesRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
-        membershipService,
-        backPagesRegistry);
+      membershipService,
+      backPagesRegistry, contextHolder);
     this.styleService = Objects.requireNonNull(styleService);
 
-    this.contextHolder = Objects.requireNonNull(contextHolder);
 
   }
 
@@ -84,11 +81,11 @@ public class DefaultStyleDisplayFactory extends AbstractBackDisplayFactory<Style
     StyleDTO style = styleService.getEntity(Long.parseLong(styleId));
 
     StyleUpdateForm updateForm = StyleUpdateFormBuilder.create().content(style.getContent())
-        .creationDate(style.getCreationDate()).creationUser(style.getCreationUser())
-        .id(style.getId())
-        .name(style.getName()).modificationDate(style.getModificationDate())
-        .modificationUser(style.getModificationUser()).mediaId(style.getMedia().getId())
-        .mediaName(style.getMedia().getName()).build();
+      .creationDate(style.getCreationDate()).creationUser(style.getCreationUser())
+      .id(style.getId())
+      .name(style.getName()).modificationDate(style.getModificationDate())
+      .modificationUser(style.getModificationUser()).mediaId(style.getMedia().getId())
+      .mediaName(style.getMedia().getName()).build();
 
     stylesManager.addObject("updateForm", updateForm);
 
@@ -102,11 +99,11 @@ public class DefaultStyleDisplayFactory extends AbstractBackDisplayFactory<Style
     StyleDTO style = styleService.getEntity(Long.parseLong(styleId));
 
     StyleUpdateForm updateForm = StyleUpdateFormBuilder.create().content(style.getContent())
-        .name(style.getName())
-        .creationDate(style.getCreationDate()).creationUser(style.getCreationUser())
-        .id(style.getId())
-        .modificationDate(style.getModificationDate()).modificationUser(style.getModificationUser())
-        .mediaId(style.getMedia().getId()).mediaName(style.getMedia().getName()).build();
+      .name(style.getName())
+      .creationDate(style.getCreationDate()).creationUser(style.getCreationUser())
+      .id(style.getId())
+      .modificationDate(style.getModificationDate()).modificationUser(style.getModificationUser())
+      .mediaId(style.getMedia().getId()).mediaName(style.getMedia().getName()).build();
 
     stylesManager.addObject("updateForm", updateForm);
     return stylesManager;
@@ -137,7 +134,7 @@ public class DefaultStyleDisplayFactory extends AbstractBackDisplayFactory<Style
     List<StyleDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        Sort.by(Direction.ASC, "name"));
+      Sort.by(Direction.ASC, "name"));
     Page<StyleDTO> pagedStyleDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedStyleDTOEntries = styleService.searchEntities(pageRequest, query);

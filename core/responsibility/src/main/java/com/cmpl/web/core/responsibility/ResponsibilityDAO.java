@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface ResponsibilityDAO extends BaseDAO<Responsibility> {
 
-  List<Responsibility> findByUserId(String userId);
+  List<Responsibility> findByUserId(Long userId);
 
-  List<Responsibility> findByRoleId(String roleId);
+  List<Responsibility> findByRoleId(Long roleId);
 
-  Responsibility findByUserIdAndRoleId(String userId, String roleId);
+  Responsibility findByUserIdAndRoleId(Long userId, Long roleId);
 
 }

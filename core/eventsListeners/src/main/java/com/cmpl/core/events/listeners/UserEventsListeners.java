@@ -25,7 +25,7 @@ public class UserEventsListeners {
     if (deletedEvent.getEntity() instanceof User) {
       User deletedUser = (User) deletedEvent.getEntity();
       if (deletedUser != null) {
-        responsibilityService.findByUserId(String.valueOf(deletedUser.getId()))
+        responsibilityService.findByUserId(deletedUser.getId())
           .forEach(associationUserRoleDTO -> responsibilityService
             .deleteEntity(associationUserRoleDTO.getId()));
 

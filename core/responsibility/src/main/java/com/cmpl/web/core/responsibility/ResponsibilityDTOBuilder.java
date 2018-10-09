@@ -4,16 +4,16 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 
 public class ResponsibilityDTOBuilder extends BaseBuilder<ResponsibilityDTO> {
 
-  private String userId;
+  private Long userId;
 
-  private String roleId;
+  private Long roleId;
 
-  public ResponsibilityDTOBuilder userId(String userId) {
+  public ResponsibilityDTOBuilder userId(Long userId) {
     this.userId = userId;
     return this;
   }
 
-  public ResponsibilityDTOBuilder roleId(String roleId) {
+  public ResponsibilityDTOBuilder roleId(Long roleId) {
     this.roleId = roleId;
     return this;
   }

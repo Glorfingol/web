@@ -17,4 +17,12 @@ public interface WebsiteManagerDisplayFactory extends CRUDBackDisplayFactory {
   ModelAndView computeModelAndViewForUpdateWebsiteSitemap(Locale locale, String websiteId);
 
   ModelAndView computeModelAndViewForUpdateWebsiteDesign(Locale locale, String websiteId);
+
+  ModelAndView computeLinkedStyles(String websiteId, String query);
+
+  ModelAndView computeLinkableStyles(String websiteId, String query);
+
+  ModelAndView computeLinkedPages(String websiteId, String query);
+
+  ModelAndView computeLinkablePages(String websiteId, String query);
 }

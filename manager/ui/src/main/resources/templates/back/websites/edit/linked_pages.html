@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col">
     <div class="input-group mt-3 mb-3">
-      <input type="text" id="linkableQueryInput" class="form-control"
+      <input type="text" id="linkedQueryInput" class="form-control"
              th:placeholder="${searchPlaceHolder}"
              th:aria-label="${searchPlaceHolder}"
              aria-describedby="addon">
       <div class="input-group-append">
-        <btn class="btn input-group-text" id="addon" onclick="searchLinkableWidgets()">
+        <btn class="btn input-group-text" id="addon" onclick="searchLinkedPages()">
           <i class="fa fa-search"></i>
         </btn>
       </div>
@@ -20,28 +20,21 @@
 <table class="table table-bordered table-hover">
   <thead>
   <tr>
-    <th scope="col">
-      <label th:text="#{widget.name.label}"/>
-    </th>
     <th scope="col" colspan="2">
-      <label th:text="#{widget.type.label}"/>
+      <label th:text="#{page.name.label}"/>
     </th>
   </tr>
   </thead>
   <tbody>
-  <tr th:each="bean : ${linkableWidgets.content}">
+  <tr th:each="bean : ${linkedPages.content}">
     <td>
       <div class="full-width"
            th:text="${bean.name}"/>
     </td>
     <td>
-      <div class="full-width"
-           th:text="${bean.type}"/>
-    </td>
-    <td>
-      <a th:id="${bean.id}" class="btn btn-md btn-success float-right fa fa-plus fa-white"
-         onclick="postCreateWidgetPageForm(this.id)"
-         th:if="${currentUser.hasPrivilege('webmastering:pages:write')}"></a>
+      <a class="btn btn-md btn-danger fa fa-times fa-white float-right" th:id="${bean.id}"
+         th:if="${currentUser.hasPrivilege('webmastering:pages:delete')}"
+         onclick="deleteSitemap(this.id)"></a>
     </td>
   </tr>
   </tbody>
@@ -51,14 +44,14 @@
   $(document).ready(function () {
     $(".card-loader").hide();
     $(".loader").hide();
-    var queryInput = $("#linkableQueryInput");
+    var queryInput = $("#linkedQueryInput");
     queryInput.keyup(function () {
       var value = $(this).val();
       if (value.length >= 3) {
-        searchLinkableWidgets();
+        searchLinkedPages();
       }
       if (value.length == 0) {
-        searchLinkableWidgets();
+        searchLinkedPages();
       }
     });
 
@@ -66,3 +59,4 @@
 
 
 </script>
+

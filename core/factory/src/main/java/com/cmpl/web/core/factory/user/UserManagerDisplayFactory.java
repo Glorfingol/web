@@ -16,4 +16,8 @@ public interface UserManagerDisplayFactory extends CRUDBackDisplayFactory {
 
   ModelAndView computeModelAndViewForUpdateUserRoles(Locale locale, String userId);
 
+  ModelAndView computeLinkedRoles(String userId, String query);
+
+  ModelAndView computeLinkableRoles(String userId, String query);
+
 }

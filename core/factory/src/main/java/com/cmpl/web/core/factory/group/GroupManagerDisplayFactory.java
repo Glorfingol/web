@@ -14,4 +14,5 @@ public interface GroupManagerDisplayFactory extends CRUDBackDisplayFactory {
 
   ModelAndView computeModelAndViewForUpdateGroupMain(Locale locale, String groupId);
 
+
 }

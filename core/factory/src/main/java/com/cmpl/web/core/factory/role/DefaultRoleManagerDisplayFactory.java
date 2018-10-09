@@ -37,30 +37,26 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 public class DefaultRoleManagerDisplayFactory extends AbstractBackDisplayFactory<RoleDTO>
-    implements RoleManagerDisplayFactory {
+  implements RoleManagerDisplayFactory {
 
   private final RoleService roleService;
 
   private final PrivilegeService privilegeService;
 
-  private final ContextHolder contextHolder;
-
   private final PluginRegistry<Privilege, String> privileges;
 
   public DefaultRoleManagerDisplayFactory(RoleService roleService,
-      PrivilegeService privilegeService,
-      ContextHolder contextHolder, MenuFactory menuFactory, WebMessageSource messageSource,
-      PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
-      PluginRegistry<Privilege, String> privileges,
-      Set<Locale> availableLocales, GroupService groupService,
-      MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
+    PrivilegeService privilegeService,
+    ContextHolder contextHolder, MenuFactory menuFactory, WebMessageSource messageSource,
+    PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
+    PluginRegistry<Privilege, String> privileges,
+    Set<Locale> availableLocales, GroupService groupService,
+    MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
-        membershipService, backPagesRegistry);
+      membershipService, backPagesRegistry, contextHolder);
     this.roleService = Objects.requireNonNull(roleService);
 
     this.privilegeService = Objects.requireNonNull(privilegeService);
-
-    this.contextHolder = Objects.requireNonNull(contextHolder);
 
     this.privileges = Objects.requireNonNull(privileges);
 
@@ -70,7 +66,7 @@ public class DefaultRoleManagerDisplayFactory extends AbstractBackDisplayFactory
   public ModelAndView computeModelAndViewForViewAllRoles(Locale locale, int pageNumber) {
     BackPage backPage = computeBackPage("ROLE_VIEW");
     ModelAndView rolesManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction des roles pour la page {} ", backPage.getPageName());
 
     PageWrapper<RoleDTO> pagedRoleDTOWrapped = computePageWrapper(locale, pageNumber, "");
@@ -84,7 +80,7 @@ public class DefaultRoleManagerDisplayFactory extends AbstractBackDisplayFactory
   public ModelAndView computeModelAndViewForCreateRole(Locale locale) {
     BackPage backPage = computeBackPage("ROLE_CREATE");
     ModelAndView roleManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du formulaire de creation des roles");
 
     RoleCreateForm form = new RoleCreateForm();
@@ -98,7 +94,7 @@ public class DefaultRoleManagerDisplayFactory extends AbstractBackDisplayFactory
   public ModelAndView computeModelAndViewForUpdateRole(Locale locale, String roleId) {
     BackPage backPage = computeBackPage("ROLE_UPDATE");
     ModelAndView roleManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du role pour la page {} ", backPage.getPageName());
     RoleDTO role = roleService.getEntity(Long.parseLong(roleId));
     RoleUpdateForm form = new RoleUpdateForm(role);
@@ -134,7 +130,7 @@ public class DefaultRoleManagerDisplayFactory extends AbstractBackDisplayFactory
 
     roleManager.addObject("updateForm", form);
 
-    List<PrivilegeDTO> privilegesOfRole = privilegeService.findByRoleId(roleId);
+    List<PrivilegeDTO> privilegesOfRole = privilegeService.findByRoleId(Long.parseLong(roleId));
 
     List<Privilege> availablePrivileges = privileges.getPlugins();
 
@@ -157,9 +153,9 @@ public class DefaultRoleManagerDisplayFactory extends AbstractBackDisplayFactory
       }
 
       featurePrivileges.put(privilege.right(),
-          !privilegesOfRole.stream()
-              .filter(privilegeOfRole -> privilegeOfRole.getContent().equals(privilege.privilege()))
-              .collect(Collectors.toList()).isEmpty());
+        !privilegesOfRole.stream()
+          .filter(privilegeOfRole -> privilegeOfRole.getContent().equals(privilege.privilege()))
+          .collect(Collectors.toList()).isEmpty());
     });
     roleManager.addObject("privilegesTree", privileges);
     return roleManager;
@@ -199,7 +195,7 @@ public class DefaultRoleManagerDisplayFactory extends AbstractBackDisplayFactory
     List<RoleDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        Sort.by(Direction.ASC, "name"));
+      Sort.by(Direction.ASC, "name"));
     Page<RoleDTO> pagedRoleDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedRoleDTOEntries = roleService.searchEntities(pageRequest, query);

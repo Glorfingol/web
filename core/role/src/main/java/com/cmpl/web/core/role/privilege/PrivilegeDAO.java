@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface PrivilegeDAO extends BaseDAO<Privilege> {
 
-  List<Privilege> findByRoleId(String roleId);
+  List<Privilege> findByRoleId(Long roleId);
 }

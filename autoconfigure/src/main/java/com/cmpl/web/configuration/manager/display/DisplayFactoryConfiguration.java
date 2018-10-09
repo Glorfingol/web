@@ -5,7 +5,6 @@ import com.cmpl.web.core.carousel.CarouselService;
 import com.cmpl.web.core.carousel.item.CarouselItemService;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
-import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.factory.carousel.CarouselManagerDisplayFactory;
 import com.cmpl.web.core.factory.carousel.DefaultCarouselManagerDisplayFactory;
 import com.cmpl.web.core.factory.group.DefaultGroupManagerDisplayFactory;
@@ -132,7 +131,7 @@ public class DisplayFactoryConfiguration {
       widgetService,
       widgetPageService, breadCrumbs, availableLocales, groupService, membershipService,
       websiteService,
-      sitemapService, backPages);
+      backPages);
   }
 
   @Bean
@@ -214,13 +213,12 @@ public class DisplayFactoryConfiguration {
     ContextHolder contextHolder, MenuFactory menuFactory, WebMessageSource messageSource,
     PluginRegistry<BreadCrumb, String> breadCrumbs, Set<Locale> availableLocales,
     GroupService groupService,
-    MembershipService membershipService, DesignService designService,
-    SitemapService sitemapService,
+    MembershipService membershipService,
     PageService pageService, StyleService styleService,
     @Qualifier(value = "backPages") PluginRegistry<BackPage, String> backPages) {
     return new DefaultWebsiteManagerDisplayFactory(menuFactory, messageSource, breadCrumbs,
       availableLocales, groupService,
-      membershipService, contextHolder, websiteService, designService, sitemapService,
+      membershipService, contextHolder, websiteService,
       pageService, styleService, backPages);
   }
 

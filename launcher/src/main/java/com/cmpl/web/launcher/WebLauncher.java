@@ -53,48 +53,48 @@ public class WebLauncher {
   @Bean
   @Profile("dev")
   public CommandLineRunner init(final NewsEntryRepository newsEntryRepository,
-      final NewsContentRepository newsContentRepository, final PageRepository pageRepository,
-      final CarouselRepository carouselRepository,
-      final CarouselItemRepository carouselItemRepository, final MediaRepository mediaRepository,
-      final WidgetRepository widgetRepository, final WidgetPageRepository widgetPageRepository,
-      final UserRepository userRepository, final RoleRepository roleRepository,
-      final PrivilegeRepository privilegeRepository,
-      final ResponsibilityRepository responsibilityRepository,
-      final PasswordEncoder passwordEncoder,
-      final PluginRegistry<com.cmpl.web.core.common.user.Privilege, String> privileges,
-      final WebsiteRepository websiteRepository, SitemapRepository sitemapRepository,
-      StyleRepository styleRepository,
-      DesignRepository designRepository) {
+    final NewsContentRepository newsContentRepository, final PageRepository pageRepository,
+    final CarouselRepository carouselRepository,
+    final CarouselItemRepository carouselItemRepository, final MediaRepository mediaRepository,
+    final WidgetRepository widgetRepository, final WidgetPageRepository widgetPageRepository,
+    final UserRepository userRepository, final RoleRepository roleRepository,
+    final PrivilegeRepository privilegeRepository,
+    final ResponsibilityRepository responsibilityRepository,
+    final PasswordEncoder passwordEncoder,
+    final PluginRegistry<com.cmpl.web.core.common.user.Privilege, String> privileges,
+    final WebsiteRepository websiteRepository, SitemapRepository sitemapRepository,
+    StyleRepository styleRepository,
+    DesignRepository designRepository) {
     return (args) -> {
 
       NewsFactory.createNewsEntries(newsEntryRepository, newsContentRepository);
 
       PageFactory
-          .createPages(pageRepository, carouselRepository, carouselItemRepository,
-              mediaRepository, widgetRepository, widgetPageRepository);
+        .createPages(pageRepository, carouselRepository, carouselItemRepository,
+          mediaRepository, widgetRepository, widgetPageRepository);
 
       WebsiteFactory
-          .createWebsite(websiteRepository, pageRepository, sitemapRepository, styleRepository,
-              designRepository);
+        .createWebsite(websiteRepository, pageRepository, sitemapRepository, styleRepository,
+          designRepository);
 
       User system = UserBuilder.create().login("system").email("lperrod@cardiweb.com")
-          .description("system")
-          .lastConnection(LocalDateTime.now())
-          .lastPasswordModification(LocalDateTime.now().minusMonths(1))
-          .password(passwordEncoder.encode("system")).build();
+        .description("system")
+        .lastConnection(LocalDateTime.now())
+        .lastPasswordModification(LocalDateTime.now().minusMonths(1))
+        .password(passwordEncoder.encode("system")).build();
       system = userRepository.save(system);
       Role admin = RoleBuilder.create().description("admin").name("admin").build();
       final Role createdAdmin = roleRepository.save(admin);
 
       Responsibility associationSystemAdmin = ResponsibilityBuilder.create()
-          .roleId(String.valueOf(admin.getId()))
-          .userId(String.valueOf(system.getId())).build();
+        .roleId(admin.getId())
+        .userId(system.getId()).build();
       responsibilityRepository.save(associationSystemAdmin);
 
       privileges.getPlugins().forEach(privilege -> {
         Privilege privilegeToCreate = PrivilegeBuilder.create()
-            .roleId(String.valueOf(createdAdmin.getId()))
-            .content(privilege.privilege()).build();
+          .roleId(createdAdmin.getId())
+          .content(privilege.privilege()).build();
         privilegeRepository.save(privilegeToCreate);
       });
 

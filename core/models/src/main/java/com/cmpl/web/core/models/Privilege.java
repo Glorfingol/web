@@ -10,16 +10,16 @@ import javax.persistence.Table;
 public class Privilege extends BaseEntity {
 
   @Column(name = "role_id", length = 20)
-  private String roleId;
+  private Long roleId;
 
   @Column(name = "content")
   private String content;
 
-  public String getRoleId() {
+  public Long getRoleId() {
     return roleId;
   }
 
-  public void setRoleId(String roleId) {
+  public void setRoleId(Long roleId) {
     this.roleId = roleId;
   }
 

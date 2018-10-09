@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PrivilegeRepository extends BaseRepository<Privilege> {
 
-  List<Privilege> findByRoleId(String roleId);
+  List<Privilege> findByRoleId(Long roleId);
 }

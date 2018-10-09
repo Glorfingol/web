@@ -30,28 +30,25 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 public class DefaultGroupManagerDisplayFactory extends AbstractBackDisplayFactory<GroupDTO>
-    implements GroupManagerDisplayFactory {
+  implements GroupManagerDisplayFactory {
 
   private final GroupService groupService;
 
-  private final ContextHolder contextHolder;
-
   public DefaultGroupManagerDisplayFactory(GroupService groupService, ContextHolder contextHolder,
-      MenuFactory menuFactory,
-      WebMessageSource messageSource, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
-      Set<Locale> availableLocales,
-      MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
+    MenuFactory menuFactory,
+    WebMessageSource messageSource, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
+    Set<Locale> availableLocales,
+    MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
-        membershipService, backPagesRegistry);
+      membershipService, backPagesRegistry, contextHolder);
     this.groupService = Objects.requireNonNull(groupService);
-    this.contextHolder = Objects.requireNonNull(contextHolder);
   }
 
   @Override
   public ModelAndView computeModelAndViewForViewAllGroups(Locale locale, int pageNumber) {
     BackPage backPage = computeBackPage("GROUP_VIEW");
     ModelAndView groupsManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
 
     PageWrapper<GroupDTO> pagedGroupDTOWrapped = computePageWrapper(locale, pageNumber, "");
 
@@ -64,7 +61,7 @@ public class DefaultGroupManagerDisplayFactory extends AbstractBackDisplayFactor
   public ModelAndView computeModelAndViewForCreateGroup(Locale locale) {
     BackPage backPage = computeBackPage("GROUP_CREATE");
     ModelAndView groupManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du formulaire de creation des groupes");
 
     GroupCreateForm form = new GroupCreateForm();
@@ -78,7 +75,7 @@ public class DefaultGroupManagerDisplayFactory extends AbstractBackDisplayFactor
   public ModelAndView computeModelAndViewForUpdateGroup(Locale locale, String groupId) {
     BackPage backPage = computeBackPage("GROUP_UPDATE");
     ModelAndView groupManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
     GroupDTO group = groupService.getEntity(Long.parseLong(groupId));
     GroupUpdateForm form = new GroupUpdateForm(group);
 
@@ -119,15 +116,15 @@ public class DefaultGroupManagerDisplayFactory extends AbstractBackDisplayFactor
     List<GroupDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        Sort.by(Direction.ASC, "name"));
+      Sort.by(Direction.ASC, "name"));
     Page<GroupDTO> pagedGroupDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedGroupDTOEntries = groupService
-          .searchEntities(pageRequest,
-              query);
+        .searchEntities(pageRequest,
+          query);
     } else {
       pagedGroupDTOEntries = groupService
-          .getPagedEntities(pageRequest);
+        .getPagedEntities(pageRequest);
     }
     if (CollectionUtils.isEmpty(pagedGroupDTOEntries.getContent())) {
       return new PageImpl<>(pageEntries);

@@ -5,7 +5,7 @@ import com.cmpl.web.core.models.Privilege;
 
 public class PrivilegeBuilder extends BaseBuilder<Privilege> {
 
-  private String roleId;
+  private Long roleId;
 
   private String content;
 
@@ -13,7 +13,7 @@ public class PrivilegeBuilder extends BaseBuilder<Privilege> {
 
   }
 
-  public PrivilegeBuilder roleId(String roleId) {
+  public PrivilegeBuilder roleId(Long roleId) {
     this.roleId = roleId;
     return this;
   }

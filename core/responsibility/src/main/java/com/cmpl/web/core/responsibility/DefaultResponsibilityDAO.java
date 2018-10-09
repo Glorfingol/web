@@ -18,17 +18,17 @@ public class DefaultResponsibilityDAO extends DefaultBaseDAO<Responsibility> imp
   }
 
   @Override
-  public List<Responsibility> findByUserId(String userId) {
+  public List<Responsibility> findByUserId(Long userId) {
     return responsibilityRepository.findByUserId(userId);
   }
 
   @Override
-  public List<Responsibility> findByRoleId(String roleId) {
+  public List<Responsibility> findByRoleId(Long roleId) {
     return responsibilityRepository.findByRoleId(roleId);
   }
 
   @Override
-  public Responsibility findByUserIdAndRoleId(String userId, String roleId) {
+  public Responsibility findByUserIdAndRoleId(Long userId, Long roleId) {
     return responsibilityRepository.findByUserIdAndRoleId(userId, roleId);
   }
 

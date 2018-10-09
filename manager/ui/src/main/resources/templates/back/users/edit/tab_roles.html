@@ -1,47 +1,31 @@
+<label th:text="#{user.roles.to.link}"/>
 <form id="roleAssociationForm" th:object="${createForm}" class="row">
   <div class="mb-3 col-12">
     <input type="hidden" th:field="*{userId}"/>
-    <div class="form-check form-group mb-3" id="formInputRole">
-      <label th:text="#{role.name.label}"/>
-      <select th:field="*{roleId}" class="form-control">
-        <option value=""></option>
-        <option th:each="linkableRole : ${linkableRoles}" th:value="${linkableRole.id}"
-                th:text="${linkableRole.name}"></option>
-      </select>
-      <small class="form-text text-muted" th:text="#{role.name.help}"/>
-    </div>
-    <div class="float-right">
-      <a class="btn btn-md btn-success fa fa-plus fa-white" onclick="postCreateResponsibilityForm()"
-         th:if="${currentUser.hasPrivilege('administration:responsibilities:create')}"></a>
+    <div id="linkableRoles">
     </div>
   </div>
 </form>
-<div class="row mt-3" id="associatedRoles">
-  <table class="table table-bordered table-hover">
-    <thead>
-    <tr>
-      <th scope="col" colspan="3">
-        <label th:text="#{role.name.label}"/>
-      </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="associatedRole : ${linkedRoles}">
-      <td colspan="2">
-        <a th:href="'/manager/roles/' + ${associatedRole.id}" class="table-link">
-          <span th:text="${associatedRole.name}"/>
-        </a>
-      </td>
-      <td class="text-center" colspan="1">
-        <a class="btn btn-md btn-danger fa fa-times fa-white" th:id="${associatedRole.id}"
-           th:if="${currentUser.hasPrivilege('administration:responsibilities:delete')}"
-           onclick="deleteAssociatedRole(this.id)"></a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+<hr>
+<label th:text="#{user.roles.linked}"/>
+<div id="linkedRoles">
 </div>
 <script th:inline="javascript">
+  $(document).ready(function () {
+    var urlLinkedRoles = "/manager/users/" + [['' + ${createForm.userId} +'']]
+        + "/_linked_roles?q=";
+    var urlLinkableRoles = "/manager/users/" + [['' + ${createForm.userId} +'']]
+        + "/_linkable_roles?q=";
+    $.get(urlLinkedRoles, function (data) {
+      $("#linkedRoles").html(data);
+    });
+    $.get(urlLinkableRoles, function (data) {
+      $("#linkableRoles").html(data);
+    });
+    $(".card-loader").hide();
+    $(".loader").hide();
+
+  });
   var deleteAssociatedRole = function (idAssociatedRole) {
 
     var inputUserId = $("#userId");
@@ -102,9 +86,32 @@
       }
     });
   }
-  $(document).ready(function () {
-        $(".card-loader").hide();
-        $(".loader").hide();
-      }
-  );
+
+  var searchLinkableRoles = function (query) {
+    var urlLinkableRoles = "/manager/users/" + [['' + ${createForm.userId} +'']]
+        + "/_linkable_roles?q=" + query;
+
+    searchRoles($("#linkableRoles"), urlLinkableRoles);
+  }
+
+  var searchLinkedRoles = function (query) {
+    var urlLinkedRoles = "/manager/users/" + [['' + ${createForm.userId} +'']]
+        + "/_linked_roles?q=" + query;
+
+    searchRoles($("#linkedRoles"), urlLinkedRoles);
+  }
+
+  var searchRoles = function (table, url) {
+    table.hide();
+    $(".card-loader").show();
+    $(".loader").show();
+
+    $.get(url, function (data) {
+      table.html(data);
+      table.show();
+      $(".card-loader").hide();
+      $(".loader").hide();
+    });
+  }
+
 </script>

@@ -11,7 +11,7 @@ public class DefaultResponsibilityDispatcher implements ResponsibilityDispatcher
   private final ResponsibilityTranslator translator;
 
   public DefaultResponsibilityDispatcher(ResponsibilityService service,
-      ResponsibilityTranslator translator) {
+    ResponsibilityTranslator translator) {
 
     this.service = Objects.requireNonNull(service);
 
@@ -21,7 +21,7 @@ public class DefaultResponsibilityDispatcher implements ResponsibilityDispatcher
 
   @Override
   public ResponsibilityResponse createEntity(ResponsibilityCreateForm createForm, Locale locale)
-      throws BaseException {
+    throws BaseException {
 
     ResponsibilityDTO responsibilityDTOToCreate = translator.fromCreateFormToDTO(createForm);
     ResponsibilityDTO createdResponsibilityDTO = service.createEntity(responsibilityDTOToCreate);
@@ -32,7 +32,8 @@ public class DefaultResponsibilityDispatcher implements ResponsibilityDispatcher
   @Override
   public void deleteEntity(String userId, String roleId, Locale locale) throws BaseException {
 
-    ResponsibilityDTO responsibilityDTO = service.findByUserIdAndRoleId(userId, roleId);
+    ResponsibilityDTO responsibilityDTO = service
+      .findByUserIdAndRoleId(Long.parseLong(userId), Long.parseLong(roleId));
     service.deleteEntity(responsibilityDTO.getId());
   }
 }

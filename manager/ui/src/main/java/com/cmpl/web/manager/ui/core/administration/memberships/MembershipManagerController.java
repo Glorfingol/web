@@ -2,6 +2,7 @@ package com.cmpl.web.manager.ui.core.administration.memberships;
 
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
+import com.cmpl.web.core.factory.group.GroupManagerDisplayFactory;
 import com.cmpl.web.core.membership.MembershipCreateForm;
 import com.cmpl.web.core.membership.MembershipDispatcher;
 import com.cmpl.web.core.membership.MembershipResponse;
@@ -17,11 +18,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @ManagerController
 @RequestMapping(value = "/manager/memberships")
@@ -35,23 +39,26 @@ public class MembershipManagerController {
 
   private final WebMessageSource messageSource;
 
+  private final GroupManagerDisplayFactory groupManagerDisplayFactory;
+
   public MembershipManagerController(MembershipDispatcher dispatcher,
-      NotificationCenter notificationCenter,
-      WebMessageSource messageSource) {
+    NotificationCenter notificationCenter,
+    WebMessageSource messageSource, GroupManagerDisplayFactory groupManagerDisplayFactory) {
 
     this.dispatcher = Objects.requireNonNull(dispatcher);
     this.notificationCenter = Objects.requireNonNull(notificationCenter);
     this.messageSource = Objects.requireNonNull(messageSource);
+    this.groupManagerDisplayFactory = Objects.requireNonNull(groupManagerDisplayFactory);
   }
 
   @PostMapping(produces = "application/json")
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:memberships:create')")
   public ResponseEntity<MembershipResponse> createMembership(
-      @Valid @RequestBody MembershipCreateForm createForm,
-      BindingResult bindingResult, Locale locale) {
+    @Valid @RequestBody MembershipCreateForm createForm,
+    BindingResult bindingResult, Locale locale) {
 
-    LOGGER.info("Tentative de création d'une association user/role");
+    LOGGER.info("Tentative de création d'une association entity/groupe");
     if (bindingResult.hasErrors()) {
       notificationCenter.sendNotification("create.error", bindingResult, locale);
       LOGGER.error("Echec de la creation de l'entrée");
@@ -63,13 +70,13 @@ public class MembershipManagerController {
       LOGGER.info("Entrée crée, id " + response.getMembership().getId());
 
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("create.success", locale));
+        .sendNotification("success", messageSource.getMessage("create.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("create.error", locale));
+        .sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -78,27 +85,43 @@ public class MembershipManagerController {
   @DeleteMapping(value = "/{entityId}/{groupId}", produces = "application/json")
   @PreAuthorize("hasAuthority('administration:memberships:delete')")
   public ResponseEntity<ResponsibilityResponse> deleteMembership(
-      @PathVariable(name = "entityId") String entityId,
-      @PathVariable(name = "groupId") String groupId, Locale locale) {
+    @PathVariable(name = "entityId") String entityId,
+    @PathVariable(name = "groupId") String groupId, Locale locale) {
     LOGGER.info("Tentative de suppression d'une association entity groupe");
 
     try {
       dispatcher.deleteEntity(entityId, groupId, locale);
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("delete.success", locale));
+        .sendNotification("success", messageSource.getMessage("delete.success", locale));
       LOGGER.info(
-          "Association entre l'entité " + entityId + " et le groupe " + groupId + " supprimée");
+        "Association entre l'entité " + entityId + " et le groupe " + groupId + " supprimée");
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     } catch (Exception e) {
       LOGGER.error(
-          "Echec de la suppression de l'association user/role pour  l'association entre l'entité d'id "
-              + entityId + " et le groupe d'id " + groupId, e);
+        "Echec de la suppression de l'association user/role pour  l'association entre l'entité d'id "
+          + entityId + " et le groupe d'id " + groupId, e);
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("delete.error", locale));
+        .sendNotification("success", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
   }
+
+
+  @GetMapping(value = "/{entityId}/_linkable_groups")
+  @PreAuthorize("hasAuthority('administration:groups:read')")
+  public ModelAndView printViewLinkableGroups(@PathVariable(value = "entityId") String entityId,
+    @RequestParam(name = "q") String query) {
+    return groupManagerDisplayFactory.computeModelAndViewForLinkableGroups(entityId, query);
+  }
+
+  @GetMapping(value = "/{entityId}/_linked_groups")
+  @PreAuthorize("hasAuthority('administration:groups:read')")
+  public ModelAndView printViewLinkedGroups(@PathVariable(value = "entityId") String entityId,
+    @RequestParam(name = "q") String query) {
+    return groupManagerDisplayFactory.computeModelAndViewForLinkedGroups(entityId, query);
+  }
+
 
 }

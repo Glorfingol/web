@@ -30,7 +30,7 @@ public class DefaultCurrentUserDetailsService implements UserDetailsService {
   private final RoleService roleService;
 
   public DefaultCurrentUserDetailsService(UserService userService, RoleService roleService,
-      ResponsibilityService responsibilityService, MembershipService membershipService) {
+    ResponsibilityService responsibilityService, MembershipService membershipService) {
     this.userService = Objects.requireNonNull(userService);
 
     this.roleService = Objects.requireNonNull(roleService);
@@ -49,23 +49,23 @@ public class DefaultCurrentUserDetailsService implements UserDetailsService {
     }
 
     List<ResponsibilityDTO> associationsUserRoles = responsibilityService
-        .findByUserId(String.valueOf(user.getId()));
+      .findByUserId(user.getId());
     Set<String> mergedPrivileges = new HashSet<>();
 
     associationsUserRoles.forEach(associationUserRoleDTO -> {
       mergedPrivileges
-          .addAll(roleService.getEntity(Long.parseLong(associationUserRoleDTO.getRoleId()))
-              .getPrivileges());
+        .addAll(roleService.getEntity(associationUserRoleDTO.getRoleId())
+          .getPrivileges());
     });
 
     List<MembershipDTO> associationEntityGroups = membershipService.findByEntityId(user.getId());
     List<GroupGrantedAuthority> groupsGranted = associationEntityGroups.stream()
-        .map(associationEntityGroup -> new GroupGrantedAuthority(
-            associationEntityGroup.getGroupId()))
-        .collect(Collectors.toList());
+      .map(associationEntityGroup -> new GroupGrantedAuthority(
+        associationEntityGroup.getGroupId()))
+      .collect(Collectors.toList());
 
     List<GrantedAuthority> authorities = AuthorityUtils
-        .createAuthorityList(mergedPrivileges.toArray(new String[mergedPrivileges.size()]));
+      .createAuthorityList(mergedPrivileges.toArray(new String[mergedPrivileges.size()]));
     authorities.addAll(groupsGranted);
 
     return new CurrentUser(user, authorities);

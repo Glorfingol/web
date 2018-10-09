@@ -2,7 +2,7 @@
   <div class="mb-3 col-12">
     <div class="form-check form-group mb-3" id="formInputOrderInCarousel">
       <label th:text="#{carousel.item.order.label}"/>
-      <input type="number" class="form-control" th:field="*{orderInCarousel}" min="0" step="1"/>
+      <input type="number" class="form-control" th:field="*{orderInCarousel}" min="1" step="1"/>
       <small class="form-text text-muted" th:text="#{carousel.item.order.help}"/>
     </div>
     <div class="form-check form-group mb-3" id="formInputContent">

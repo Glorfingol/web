@@ -7,6 +7,10 @@ public interface CRUDBackDisplayFactory extends BackDisplayFactory {
 
   ModelAndView computeModelAndViewForMembership(String entityId);
 
+  ModelAndView computeModelAndViewForLinkedGroups(String entityId, String query);
+
+  ModelAndView computeModelAndViewForLinkableGroups(String entityId, String query);
+
   ModelAndView computeModelAndViewForAllEntitiesTab(Locale locale, int pageNumber, String query);
 
 }

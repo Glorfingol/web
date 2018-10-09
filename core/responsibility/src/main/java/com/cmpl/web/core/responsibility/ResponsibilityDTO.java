@@ -4,23 +4,23 @@ import com.cmpl.web.core.common.dto.BaseDTO;
 
 public class ResponsibilityDTO extends BaseDTO {
 
-  private String userId;
+  private Long userId;
 
-  private String roleId;
+  private Long roleId;
 
-  public String getUserId() {
+  public Long getUserId() {
     return userId;
   }
 
-  public void setUserId(String userId) {
+  public void setUserId(Long userId) {
     this.userId = userId;
   }
 
-  public String getRoleId() {
+  public Long getRoleId() {
     return roleId;
   }
 
-  public void setRoleId(String roleId) {
+  public void setRoleId(Long roleId) {
     this.roleId = roleId;
   }
 

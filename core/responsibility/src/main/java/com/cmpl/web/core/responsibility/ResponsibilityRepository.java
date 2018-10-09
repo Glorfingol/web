@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ResponsibilityRepository extends BaseRepository<Responsibility> {
 
-  List<Responsibility> findByUserId(String userId);
+  List<Responsibility> findByUserId(Long userId);
 
-  List<Responsibility> findByRoleId(String roleId);
+  List<Responsibility> findByRoleId(Long roleId);
 
-  Responsibility findByUserIdAndRoleId(String userId, String roleId);
+  Responsibility findByUserIdAndRoleId(Long userId, Long roleId);
 
 }

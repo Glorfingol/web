@@ -15,7 +15,6 @@ import com.cmpl.web.core.page.PageCreateForm;
 import com.cmpl.web.core.page.PageDTO;
 import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.page.PageUpdateForm;
-import com.cmpl.web.core.sitemap.SitemapService;
 import com.cmpl.web.core.website.WebsiteDTO;
 import com.cmpl.web.core.website.WebsiteService;
 import com.cmpl.web.core.widget.WidgetDTO;
@@ -50,10 +49,6 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
 
   private final WebsiteService websiteService;
 
-  private final SitemapService sitemapService;
-
-  private final ContextHolder contextHolder;
-
   private static final String CREATE_FORM = "createForm";
 
   private static final String UPDATE_FORM = "updateForm";
@@ -70,18 +65,17 @@ public class DefaultPageManagerDisplayFactory extends AbstractBackDisplayFactory
     PageService pageService, ContextHolder contextHolder, WidgetService widgetService,
     WidgetPageService widgetPageService, PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
     Set<Locale> availableLocales, GroupService groupService, MembershipService membershipService,
-    WebsiteService websiteService, SitemapService sitemapService,
+    WebsiteService websiteService,
     PluginRegistry<BackPage, String> backPagesRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
       membershipService,
-      backPagesRegistry);
+      backPagesRegistry, contextHolder);
 
     this.pageService = Objects.requireNonNull(pageService);
-    this.contextHolder = Objects.requireNonNull(contextHolder);
+
     this.widgetService = Objects.requireNonNull(widgetService);
     this.widgetPageService = Objects.requireNonNull(widgetPageService);
     this.websiteService = Objects.requireNonNull(websiteService);
-    this.sitemapService = Objects.requireNonNull(sitemapService);
 
   }
 

@@ -39,23 +39,20 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Louis
  */
 public class DefaultNewsManagerDisplayFactory extends AbstractBackDisplayFactory<NewsEntryDTO>
-    implements NewsManagerDisplayFactory {
+  implements NewsManagerDisplayFactory {
 
   private final NewsEntryService newsEntryService;
 
-  private final ContextHolder contextHolder;
 
   public DefaultNewsManagerDisplayFactory(ContextHolder contextHolder, MenuFactory menuFactory,
-      WebMessageSource messageSource, NewsEntryService newsEntryService,
-      PluginRegistry<BreadCrumb, String> breadCrumbRegistry, Set<Locale> availableLocales,
-      GroupService groupService,
-      MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
+    WebMessageSource messageSource, NewsEntryService newsEntryService,
+    PluginRegistry<BreadCrumb, String> breadCrumbRegistry, Set<Locale> availableLocales,
+    GroupService groupService,
+    MembershipService membershipService, PluginRegistry<BackPage, String> backPagesRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
-        membershipService, backPagesRegistry);
+      membershipService, backPagesRegistry, contextHolder);
 
     this.newsEntryService = Objects.requireNonNull(newsEntryService);
-
-    this.contextHolder = Objects.requireNonNull(contextHolder);
 
   }
 
@@ -77,9 +74,9 @@ public class DefaultNewsManagerDisplayFactory extends AbstractBackDisplayFactory
   public ModelAndView computeModelAndViewForBackPageCreateNews(Locale locale) {
     BackPage backPage = computeBackPage("NEWS_CREATE");
     ModelAndView newsManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du formulaire d'entrées de blog pour la page {}",
-        backPage.getPageName());
+      backPage.getPageName());
     newsManager.addObject("newsFormBean", computeNewsRequestForCreateForm());
 
     return newsManager;
@@ -91,11 +88,11 @@ public class DefaultNewsManagerDisplayFactory extends AbstractBackDisplayFactory
     Page<NewsEntryDTO> pagedNewsEntries;
     if (StringUtils.hasText(query)) {
       pagedNewsEntries = newsEntryService
-          .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
-              query);
+        .searchEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()),
+          query);
     } else {
       pagedNewsEntries = newsEntryService
-          .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
+        .getPagedEntities(PageRequest.of(pageNumber, contextHolder.getElementsPerPage()));
     }
     if (CollectionUtils.isEmpty(pagedNewsEntries.getContent())) {
       return new PageImpl<>(new ArrayList<>());
@@ -108,7 +105,7 @@ public class DefaultNewsManagerDisplayFactory extends AbstractBackDisplayFactory
   public ModelAndView computeModelAndViewForOneNewsEntry(Locale locale, String newsEntryId) {
     BackPage backPage = computeBackPage("NEWS_UPDATE");
     ModelAndView newsManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
     newsManager.addObject("updateForm", computeNewsRequestForEditForm(newsEntryId));
 
     return newsManager;
@@ -116,7 +113,7 @@ public class DefaultNewsManagerDisplayFactory extends AbstractBackDisplayFactory
 
   NewsEntryRequest computeNewsRequestForCreateForm() {
     return NewsEntryRequestBuilder.create().content(NewsContentRequestBuilder.create().build())
-        .image(NewsImageRequestBuilder.create().build()).build();
+      .image(NewsImageRequestBuilder.create().build()).build();
   }
 
   NewsEntryRequest computeNewsRequestForEditForm(String newsEntryId) {
@@ -136,23 +133,23 @@ public class DefaultNewsManagerDisplayFactory extends AbstractBackDisplayFactory
 
   NewsEntryRequest computeNewsEntryRequest(NewsEntryDTO dto) {
     return NewsEntryRequestBuilder.create().author(dto.getAuthor()).tags(dto.getTags())
-        .title(dto.getTitle())
-        .content(computeNewsContentRequest(dto)).image(computeNewsImageRequest(dto)).id(dto.getId())
-        .creationDate(dto.getCreationDate()).modificationDate(dto.getModificationDate()).build();
+      .title(dto.getTitle())
+      .content(computeNewsContentRequest(dto)).image(computeNewsImageRequest(dto)).id(dto.getId())
+      .creationDate(dto.getCreationDate()).modificationDate(dto.getModificationDate()).build();
   }
 
   NewsImageRequest computeNewsImageRequest(NewsEntryDTO dto) {
     return NewsImageRequestBuilder.create().alt(dto.getNewsImage().getAlt())
-        .media(dto.getNewsImage().getMedia())
-        .id(dto.getNewsImage().getId()).creationDate(dto.getNewsImage().getCreationDate())
-        .modificationDate(dto.getNewsImage().getModificationDate())
-        .legend(dto.getNewsImage().getLegend()).build();
+      .media(dto.getNewsImage().getMedia())
+      .id(dto.getNewsImage().getId()).creationDate(dto.getNewsImage().getCreationDate())
+      .modificationDate(dto.getNewsImage().getModificationDate())
+      .legend(dto.getNewsImage().getLegend()).build();
   }
 
   NewsContentRequest computeNewsContentRequest(NewsEntryDTO dto) {
     return NewsContentRequestBuilder.create().content(dto.getNewsContent().getContent())
-        .id(dto.getNewsContent().getId()).creationDate(dto.getNewsContent().getCreationDate())
-        .modificationDate(dto.getNewsContent().getModificationDate()).build();
+      .id(dto.getNewsContent().getId()).creationDate(dto.getNewsContent().getCreationDate())
+      .modificationDate(dto.getNewsContent().getModificationDate()).build();
   }
 
   @Override

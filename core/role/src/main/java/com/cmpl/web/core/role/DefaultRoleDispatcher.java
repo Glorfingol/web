@@ -25,8 +25,8 @@ public class DefaultRoleDispatcher implements RoleDispatcher {
   private final PluginRegistry<Privilege, String> privilegesRegistry;
 
   public DefaultRoleDispatcher(RoleService service, PrivilegeService privilegeService,
-      RoleTranslator translator,
-      PluginRegistry<Privilege, String> privilegesRegistry) {
+    RoleTranslator translator,
+    PluginRegistry<Privilege, String> privilegesRegistry) {
     this.service = Objects.requireNonNull(service);
     this.translator = Objects.requireNonNull(translator);
     this.privilegeService = Objects.requireNonNull(privilegeService);
@@ -63,13 +63,13 @@ public class DefaultRoleDispatcher implements RoleDispatcher {
   @Override
   public PrivilegeResponse updateEntity(PrivilegeForm form, Locale locale) {
 
-    List<PrivilegeDTO> privileges = privilegeService.findByRoleId(form.getRoleId());
+    List<PrivilegeDTO> privileges = privilegeService.findByRoleId(Long.parseLong(form.getRoleId()));
     privileges.forEach(privilegeDTO -> privilegeService.deleteEntity(privilegeDTO.getId()));
 
     List<PrivilegeDTO> privilegesDTOToAdd = computePrivilegesToCreate(form);
 
     privilegesDTOToAdd
-        .forEach(privilegeDTOToAdd -> privilegeService.createEntity(privilegeDTOToAdd));
+      .forEach(privilegeDTOToAdd -> privilegeService.createEntity(privilegeDTOToAdd));
     return PrivilegeResponseBuilder.create().build();
   }
 
@@ -78,22 +78,24 @@ public class DefaultRoleDispatcher implements RoleDispatcher {
     if (isAll(form)) {
       privilegesRegistry.getPlugins().forEach(privilege -> {
         privilegesDTOToAdd
-            .add(
-                PrivilegeDTOBuilder.create().content(privilege.privilege()).roleId(form.getRoleId())
-                    .build());
+          .add(
+            PrivilegeDTOBuilder.create().content(privilege.privilege())
+              .roleId(Long.parseLong(form.getRoleId()))
+              .build());
       });
     } else {
       form.getPrivilegesToEnable().forEach(privilegeToEnable -> privilegesDTOToAdd
-          .add(PrivilegeDTOBuilder.create().content(privilegeToEnable).roleId(form.getRoleId())
-              .build()));
+        .add(PrivilegeDTOBuilder.create().content(privilegeToEnable)
+          .roleId(Long.parseLong(form.getRoleId()))
+          .build()));
     }
     return privilegesDTOToAdd;
   }
 
   private boolean isAll(PrivilegeForm form) {
     return form.getPrivilegesToEnable().stream()
-        .filter(privilege -> "all:all:all".equals(privilege))
-        .collect(Collectors.toList()).contains(true);
+      .filter(privilege -> "all:all:all".equals(privilege))
+      .collect(Collectors.toList()).contains(true);
 
   }
 }

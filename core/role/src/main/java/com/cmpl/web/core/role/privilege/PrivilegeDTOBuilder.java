@@ -4,7 +4,7 @@ import com.cmpl.web.core.common.builder.BaseBuilder;
 
 public class PrivilegeDTOBuilder extends BaseBuilder<PrivilegeDTO> {
 
-  private String roleId;
+  private Long roleId;
 
   private String content;
 
@@ -12,7 +12,7 @@ public class PrivilegeDTOBuilder extends BaseBuilder<PrivilegeDTO> {
 
   }
 
-  public PrivilegeDTOBuilder roleId(String roleId) {
+  public PrivilegeDTOBuilder roleId(Long roleId) {
     this.roleId = roleId;
     return this;
   }

@@ -6,7 +6,7 @@
              th:aria-label="${searchPlaceHolder}"
              aria-describedby="addon">
       <div class="input-group-append">
-        <btn class="btn input-group-text" id="addon" onclick="searchLinkableWidgets()">
+        <btn class="btn input-group-text" id="addon" onclick="searchLinkableGroups()">
           <i class="fa fa-search"></i>
         </btn>
       </div>
@@ -20,28 +20,21 @@
 <table class="table table-bordered table-hover">
   <thead>
   <tr>
-    <th scope="col">
-      <label th:text="#{widget.name.label}"/>
-    </th>
     <th scope="col" colspan="2">
-      <label th:text="#{widget.type.label}"/>
+      <label th:text="#{group.name.label}"/>
     </th>
   </tr>
   </thead>
   <tbody>
-  <tr th:each="bean : ${linkableWidgets.content}">
+  <tr th:each="bean : ${linkableGroups.content}">
     <td>
       <div class="full-width"
            th:text="${bean.name}"/>
     </td>
     <td>
-      <div class="full-width"
-           th:text="${bean.type}"/>
-    </td>
-    <td>
       <a th:id="${bean.id}" class="btn btn-md btn-success float-right fa fa-plus fa-white"
-         onclick="postCreateWidgetPageForm(this.id)"
-         th:if="${currentUser.hasPrivilege('webmastering:pages:write')}"></a>
+         onclick="postCreateMembershipForm(this.id)"
+         th:if="${currentUser.hasPrivilege('administration:memberships:create')}"></a>
     </td>
   </tr>
   </tbody>
@@ -55,10 +48,10 @@
     queryInput.keyup(function () {
       var value = $(this).val();
       if (value.length >= 3) {
-        searchLinkableWidgets();
+        searchLinkableGroups();
       }
       if (value.length == 0) {
-        searchLinkableWidgets();
+        searchLinkableGroups();
       }
     });
 

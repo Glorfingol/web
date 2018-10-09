@@ -5,16 +5,16 @@ import com.cmpl.web.core.models.Responsibility;
 
 public class ResponsibilityBuilder extends BaseBuilder<Responsibility> {
 
-  private String userId;
+  private Long userId;
 
-  private String roleId;
+  private Long roleId;
 
-  public ResponsibilityBuilder userId(String userId) {
+  public ResponsibilityBuilder userId(Long userId) {
     this.userId = userId;
     return this;
   }
 
-  public ResponsibilityBuilder roleId(String roleId) {
+  public ResponsibilityBuilder roleId(Long roleId) {
     this.roleId = roleId;
     return this;
   }

@@ -180,9 +180,10 @@ public class BackControllerConfiguration {
   @Bean
   public MembershipManagerController membershipManagerController(
     MembershipDispatcher membershipDispatcher,
-    NotificationCenter notificationCenter, WebMessageSource webMessageSource) {
+    NotificationCenter notificationCenter, WebMessageSource webMessageSource,
+    GroupManagerDisplayFactory groupManagerDisplayFactory) {
     return new MembershipManagerController(membershipDispatcher, notificationCenter,
-      webMessageSource);
+      webMessageSource, groupManagerDisplayFactory);
   }
 
   @Bean

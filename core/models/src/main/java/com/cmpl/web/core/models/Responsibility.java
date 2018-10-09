@@ -7,29 +7,29 @@ import javax.persistence.Table;
 
 @Entity(name = "responsibilities")
 @Table(name = "responsibilities", indexes = {@Index(name = "IDX_USER", columnList = "user_id"),
-    @Index(name = "IDX_ROLE", columnList = "role_id"),
-    @Index(name = "IDX_ROLE_USER", columnList = "role_id,user_id")})
+  @Index(name = "IDX_ROLE", columnList = "role_id"),
+  @Index(name = "IDX_ROLE_USER", columnList = "role_id,user_id")})
 public class Responsibility extends BaseEntity {
 
   @Column(name = "user_id", length = 20)
-  private String userId;
+  private Long userId;
 
   @Column(name = "role_id", length = 20)
-  private String roleId;
+  private Long roleId;
 
-  public String getUserId() {
+  public Long getUserId() {
     return userId;
   }
 
-  public void setUserId(String userId) {
+  public void setUserId(Long userId) {
     this.userId = userId;
   }
 
-  public String getRoleId() {
+  public Long getRoleId() {
     return roleId;
   }
 
-  public void setRoleId(String roleId) {
+  public void setRoleId(Long roleId) {
     this.roleId = roleId;
   }
 }

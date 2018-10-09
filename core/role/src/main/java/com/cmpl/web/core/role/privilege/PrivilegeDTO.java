@@ -4,15 +4,15 @@ import com.cmpl.web.core.common.dto.BaseDTO;
 
 public class PrivilegeDTO extends BaseDTO {
 
-  private String roleId;
+  private Long roleId;
 
   private String content;
 
-  public String getRoleId() {
+  public Long getRoleId() {
     return roleId;
   }
 
-  public void setRoleId(String roleId) {
+  public void setRoleId(Long roleId) {
     this.roleId = roleId;
   }
 

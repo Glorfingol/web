@@ -1,50 +1,35 @@
-<form id="designCreateForm" th:object="${createForm}" class="row">
+<label th:text="#{website.pages.to.link}"/>
+<form id="pageAssociationForm" th:object="${createForm}" class="row">
   <div class="mb-3 col-12">
     <input type="hidden" th:field="*{websiteId}"/>
-    <div class="form-check form-group mb-3" id="formInputPage">
-      <label th:text="#{page.name.label}"/>
-      <select th:field="*{pageId}" class="form-control">
-        <option value=""></option>
-        <option th:each="linkablePage : ${linkablePages}" th:value="${linkablePage.id}"
-                th:text="${linkablePage.name}"></option>
-      </select>
-      <small class="form-text text-muted" th:text="#{page.name.help}"/>
-    </div>
-    <div class="float-right">
-      <a class="btn btn-md btn-success fa fa-plus fa-white" onclick="postCreateSitemapForm()"
-         th:if="${currentUser.hasPrivilege('webmastering:sitemaps:create')}"></a>
+    <div id="linkablePages">
     </div>
   </div>
 </form>
-<div class="row mt-3" id="designs">
-  <table class="table table-bordered table-hover">
-    <thead>
-    <tr>
-      <th scope="col" colspan="3">
-        <label th:text="#{page.name.label}"/>
-      </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="page : ${linkedPages}">
-      <td colspan="2">
-        <input type="text" class="form-control" th:value="${page.name}"
-               disabled="true"/>
-      </td>
-      <td class="text-center" colspan="1">
-        <a class="btn btn-md btn-danger fa fa-times fa-white" th:id="${page.id}"
-           th:if="${currentUser.hasPrivilege('webmastering:sitemaps:delete')}"
-           onclick="deleteSitemap(this.id)"></a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+<hr>
+<label th:text="#{website.pages.linked}"/>
+<div id="linkedPages">
 </div>
 <script th:inline="javascript">
+  $(document).ready(function () {
+    var urlLinkedPages = "/manager/websites/" + [['' + ${createForm.websiteId} +'']]
+        + "/_linked_pages?q=";
+    var urlLinkablePages = "/manager/websites/" + [['' + ${createForm.websiteId} +'']]
+        + "/_linkable_pages?q=";
+    $.get(urlLinkedPages, function (data) {
+      $("#linkedPages").html(data);
+    });
+    $.get(urlLinkablePages, function (data) {
+      $("#linkablePages").html(data);
+    });
+
+    $(".card-loader").hide();
+    $(".loader").hide();
+  });
   var deleteSitemap = function (idSitemap) {
 
-    $("#designCreateForm").hide();
-    $("#designs").hide();
+    $("#pageAssociationForm").hide();
+    $("#linkedPages").hide();
     $(".loader").show();
 
     var inputWebsiteId = $("#websiteId");
@@ -68,18 +53,17 @@
     });
   }
 
-  var postCreateSitemapForm = function () {
-    $("#designCreateForm").hide();
-    $("#designs").hide();
+  var postCreateSitemapForm = function (linkablePageId) {
+    $("#pageAssociationForm").hide();
+    $("#linkedPages").hide();
     $(".loader").show();
     var url = "/manager/sitemaps";
 
     var designForm = {};
     var inputWebsiteId = $("#websiteId");
-    var inputPageId = $("#pageId");
 
     designForm.websiteId = inputWebsiteId.val();
-    designForm.pageId = inputPageId.val();
+    designForm.pageId = linkablePageId;
 
     var data = JSON.stringify(designForm);
     $.ajax({
@@ -101,9 +85,31 @@
       }
     });
   }
-  $(document).ready(function () {
-        $(".card-loader").hide();
-        $(".loader").hide();
-      }
-  );
+
+  var searchLinkablePages = function (query) {
+    var urlLinkablePages = "/manager/websites/" + [['' + ${createForm.websiteId} +'']]
+        + "/_linkable_pages?q=" + query;
+
+    searchPages($("#linkablePages"), urlLinkablePages);
+  }
+
+  var searchLinkedPages = function (query) {
+    var urlLinkedPages = "/manager/websites/" + [['' + ${createForm.websiteId} +'']]
+        + "/_linked_pages?q=" + query;
+
+    searchPages($("#linkedPages"), urlLinkedPages);
+  }
+
+  var searchPages = function (table, url) {
+    table.hide();
+    $(".card-loader").show();
+    $(".loader").show();
+
+    $.get(url, function (data) {
+      table.html(data);
+      table.show();
+      $(".card-loader").hide();
+      $(".loader").hide();
+    });
+  }
 </script>

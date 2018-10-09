@@ -25,7 +25,7 @@ public class GroupEventsListener {
     if (deletedEvent.getEntity() instanceof BOGroup) {
       BOGroup deletedGroup = (BOGroup) deletedEvent.getEntity();
       if (deletedGroup != null) {
-        String groupId = String.valueOf(deletedGroup.getId());
+        Long groupId = deletedGroup.getId();
         responsibilityService.findByRoleId(groupId)
           .forEach(
             responsibilityDTO -> responsibilityService.deleteEntity(responsibilityDTO.getId()));

@@ -37,7 +37,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 public class DefaultWidgetManagerDisplayFactory extends AbstractBackDisplayFactory<WidgetDTO>
-    implements WidgetManagerDisplayFactory {
+  implements WidgetManagerDisplayFactory {
 
   private final WidgetService widgetService;
 
@@ -60,13 +60,13 @@ public class DefaultWidgetManagerDisplayFactory extends AbstractBackDisplayFacto
   private static final String MACROS_KEY = "macros";
 
   public DefaultWidgetManagerDisplayFactory(MenuFactory menuFactory, WebMessageSource messageSource,
-      ContextHolder contextHolder, WidgetService widgetService,
-      PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
-      PluginRegistry<WidgetProviderPlugin, String> widgetProviders, Set<Locale> availableLocales,
-      GroupService groupService, MembershipService membershipService,
-      PluginRegistry<BackPage, String> backPagesRegistry) {
+    ContextHolder contextHolder, WidgetService widgetService,
+    PluginRegistry<BreadCrumb, String> breadCrumbRegistry,
+    PluginRegistry<WidgetProviderPlugin, String> widgetProviders, Set<Locale> availableLocales,
+    GroupService groupService, MembershipService membershipService,
+    PluginRegistry<BackPage, String> backPagesRegistry) {
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
-        membershipService, backPagesRegistry);
+      membershipService, backPagesRegistry, contextHolder);
     this.widgetService = Objects.requireNonNull(widgetService);
 
     this.contextHolder = Objects.requireNonNull(contextHolder);
@@ -79,7 +79,7 @@ public class DefaultWidgetManagerDisplayFactory extends AbstractBackDisplayFacto
   public ModelAndView computeModelAndViewForViewAllWidgets(Locale locale, int pageNumber) {
     BackPage backPage = computeBackPage("WIDGET_VIEW");
     ModelAndView widgetsManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction des widgets pour la page {} ", backPage.getPageName());
 
     PageWrapper<WidgetDTO> pagedWidgetDTOWrapped = computePageWrapper(locale, pageNumber, "");
@@ -93,11 +93,11 @@ public class DefaultWidgetManagerDisplayFactory extends AbstractBackDisplayFacto
   public ModelAndView computeModelAndViewForCreateWidget(Locale locale) {
     BackPage backPage = computeBackPage("WIDGET_CREATE");
     ModelAndView widgetManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
     LOGGER.info("Construction du formulaire de creation des widgets ");
     widgetManager.addObject(CREATE_FORM, computeCreateForm());
     List<String> types = widgetProviders.getPlugins().stream().map(plugin -> plugin.getWidgetType())
-        .collect(Collectors.toList());
+      .collect(Collectors.toList());
     widgetManager.addObject(WIDGET_TYPES, types);
     return widgetManager;
   }
@@ -108,21 +108,21 @@ public class DefaultWidgetManagerDisplayFactory extends AbstractBackDisplayFacto
 
   @Override
   public ModelAndView computeModelAndViewForUpdateWidget(Locale locale, String widgetId,
-      String personalizationLanguageCode) {
+    String personalizationLanguageCode) {
 
     if (!StringUtils.hasText(personalizationLanguageCode)) {
       personalizationLanguageCode = locale.getLanguage();
     }
     BackPage backPage = computeBackPage("WIDGET_UPDATE");
     ModelAndView widgetManager = super
-        .computeModelAndViewForBackPage(backPage, locale);
+      .computeModelAndViewForBackPage(backPage, locale);
 
     WidgetDTO widget = widgetService
-        .getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
+      .getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
     LOGGER.info("Construction du formulaire de creation des widgets ");
     widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget, personalizationLanguageCode));
     List<String> types = widgetProviders.getPlugins().stream().map(plugin -> plugin.getWidgetType())
-        .collect(Collectors.toList());
+      .collect(Collectors.toList());
     widgetManager.addObject(WIDGET_TYPES, types);
 
     BreadCrumbItem item = BreadCrumbItemBuilder.create().href("#").text(widget.getName()).build();
@@ -136,44 +136,44 @@ public class DefaultWidgetManagerDisplayFactory extends AbstractBackDisplayFacto
 
   @Override
   public ModelAndView computeModelAndViewForUpdateWidgetMain(Locale locale, String widgetId,
-      String personalizationLanguageCode) {
+    String personalizationLanguageCode) {
     if (!StringUtils.hasText(personalizationLanguageCode)) {
       personalizationLanguageCode = locale.getLanguage();
     }
     ModelAndView widgetManager = new ModelAndView("back/widgets/edit/tab_main");
     WidgetDTO widget = widgetService
-        .getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
+      .getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
     widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget, personalizationLanguageCode));
     List<String> types = widgetProviders.getPlugins().stream().map(plugin -> plugin.getWidgetType())
-        .collect(Collectors.toList());
+      .collect(Collectors.toList());
     widgetManager.addObject(WIDGET_TYPES, types);
     return widgetManager;
   }
 
   WidgetUpdateForm computeUpdateForm(WidgetDTO widget, String personalizationLanguageCode) {
     return WidgetUpdateFormBuilder.create().creationDate(widget.getCreationDate())
-        .entityId(widget.getEntityId())
-        .id(widget.getId()).asynchronous(widget.isAsynchronous())
-        .personalization(widget.getPersonalization())
-        .modificationDate(widget.getModificationDate()).name(widget.getName())
-        .type(widget.getType())
-        .localeCode(personalizationLanguageCode).build();
+      .entityId(widget.getEntityId())
+      .id(widget.getId()).asynchronous(widget.isAsynchronous())
+      .personalization(widget.getPersonalization())
+      .modificationDate(widget.getModificationDate()).name(widget.getName())
+      .type(widget.getType())
+      .localeCode(personalizationLanguageCode).build();
   }
 
   @Override
   public ModelAndView computeModelAndViewForUpdateWidgetPersonalization(Locale locale,
-      String widgetId,
-      String personalizationLanguageCode) {
+    String widgetId,
+    String personalizationLanguageCode) {
     if (!StringUtils.hasText(personalizationLanguageCode)) {
       personalizationLanguageCode = locale.getLanguage();
     }
     ModelAndView widgetManager = new ModelAndView("back/widgets/edit/tab_personalization");
     widgetManager.addObject(LOCALES, availableLocales);
     WidgetDTO widget = widgetService
-        .getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
+      .getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
     widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget, personalizationLanguageCode));
     List<? extends BaseDTO> linkableEntities = widgetProviders.getPluginFor(widget.getType())
-        .getLinkableEntities();
+      .getLinkableEntities();
     widgetManager.addObject(LINKABLE_ENTITIES, linkableEntities);
     widgetManager.addObject(TOOLTIP_KEY, computeToolTipKey(widget.getType()));
     widgetManager.addObject(MACROS_KEY, computePersonalizationMacros());
@@ -210,14 +210,14 @@ public class DefaultWidgetManagerDisplayFactory extends AbstractBackDisplayFacto
     List<WidgetDTO> pageEntries = new ArrayList<>();
 
     PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
-        Sort.by(Direction.ASC, "name"));
+      Sort.by(Direction.ASC, "name"));
     Page<WidgetDTO> pagedWidgetDTOEntries;
     if (StringUtils.hasText(query)) {
       pagedWidgetDTOEntries = widgetService
-          .searchEntities(pageRequest, query);
+        .searchEntities(pageRequest, query);
     } else {
       pagedWidgetDTOEntries = widgetService
-          .getPagedEntities(pageRequest);
+        .getPagedEntities(pageRequest);
     }
 
     if (CollectionUtils.isEmpty(pagedWidgetDTOEntries.getContent())) {

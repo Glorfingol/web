@@ -5,7 +5,7 @@ import com.cmpl.web.core.models.Privilege;
 import java.util.List;
 
 public class DefaultPrivilegeService extends DefaultBaseService<PrivilegeDTO, Privilege> implements
-    PrivilegeService {
+  PrivilegeService {
 
   private final PrivilegeDAO privilegeDAO;
 
@@ -15,7 +15,7 @@ public class DefaultPrivilegeService extends DefaultBaseService<PrivilegeDTO, Pr
   }
 
   @Override
-  public List<PrivilegeDTO> findByRoleId(String roleId) {
+  public List<PrivilegeDTO> findByRoleId(Long roleId) {
     return mapper.toListDTO(privilegeDAO.findByRoleId(roleId));
   }
 }

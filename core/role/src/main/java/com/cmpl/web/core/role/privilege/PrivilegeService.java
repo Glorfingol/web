@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface PrivilegeService extends BaseService<PrivilegeDTO> {
 
-  List<PrivilegeDTO> findByRoleId(String roleId);
+  List<PrivilegeDTO> findByRoleId(Long roleId);
 }
