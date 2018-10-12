@@ -1,3 +1,6 @@
+<script type="text/javascript" th:src="@{../../../js/page.js}"></script>
+<div th:replace="common/back_codemirror">
+</div>
 <div class="card mb-4">
   <div role="tabpanel" class="card-header">
     <ul class="nav nav-tabs card-header-tabs" id="pageTabs" role="tablist">
@@ -208,7 +211,22 @@
 
   var setUpCodeMirror = function (textAreaId) {
     var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
-        {theme: "neo", lineNumbers: true, lineWrapping: true});
+        {
+          theme: "neo",
+          lineNumbers: true,
+          lineWrapping: true,
+          extraKeys: {
+            "F11": function (cm) {
+              cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+            },
+            "Esc": function (cm) {
+              if (cm.getOption("fullScreen")) {
+                cm.setOption("fullScreen", false);
+              }
+            },
+            "Ctrl-Space": "autocomplete"
+          }
+        });
     codeMirror.on("drop", function (editor, e) {
       var dataTransferred = e.dataTransfer.getData("text/html");
       var newDiv = '\n<div id="widget_' + dataTransferred + '">\n</div>';

@@ -1,3 +1,6 @@
+<script type="text/javascript" th:src="@{../../../js/style.js}"></script>
+<div th:replace="common/back_codemirror">
+</div>
 <form id="styleCreateForm" th:object="${createForm}">
   <div class="card mb-4">
     <div class="card-body">
@@ -36,7 +39,22 @@
 
   var setUpCodeMirror = function (textAreaId) {
     var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
-        {theme: "neo", lineNumbers: true, lineWrapping: true});
+        {
+          theme: "neo",
+          lineNumbers: true,
+          lineWrapping: true,
+          extraKeys: {
+            "F11": function (cm) {
+              cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+            },
+            "Esc": function (cm) {
+              if (cm.getOption("fullScreen")) {
+                cm.setOption("fullScreen", false);
+              }
+            },
+            "Ctrl-Space": "autocomplete"
+          }
+        });
     return codeMirror;
   }
 

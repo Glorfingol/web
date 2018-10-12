@@ -27,7 +27,23 @@
 
   var setUpCodeMirror = function (textAreaId) {
     var codeMirror = CodeMirror.fromTextArea(document.getElementById(textAreaId),
-        {theme: "neo", lineNumbers: true, readOnly: false, lineWrapping: true});
+        {
+          theme: "neo",
+          lineNumbers: true,
+          readOnly: false,
+          lineWrapping: true,
+          extraKeys: {
+            "F11": function (cm) {
+              cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+            },
+            "Esc": function (cm) {
+              if (cm.getOption("fullScreen")) {
+                cm.setOption("fullScreen", false);
+              }
+            },
+            "Ctrl-Space": "autocomplete"
+          }
+        });
     return codeMirror;
   }
 </script>

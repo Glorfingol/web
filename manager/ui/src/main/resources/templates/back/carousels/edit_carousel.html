@@ -1,3 +1,4 @@
+<script type="text/javascript" th:src="@{../../../js/carousel.js}"></script>
 <div class="card mb-4">
   <div role="tabpanel" class="card-header">
     <ul class="nav nav-tabs card-header-tabs" id="carouselTabs" role="tablist">
@@ -19,13 +20,7 @@
           <span th:text="#{tab.membership}"/>
         </a>
       </li>
-      <li class="ml-auto nav-item">
-        <a class="btn btn-md btn-danger collapsed fa fa-trash fa-white"
-           data-toggle="modal" data-target="#deleteModal"
-           th:if="${currentUser.hasPrivilege('webmastering:carousel:delete')}">
-        </a>
-      </li>
-      <div th:replace="common/back_delete_link :: deleteTab(${'webmastering:carousel:delete'})"/>
+      <div th:replace="common/back_delete_link :: deleteTab(${'webmastering:carousels:delete'})"/>
     </ul>
   </div>
   <div class="tab-content card-body" id="carouselTabContent">

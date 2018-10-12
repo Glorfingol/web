@@ -1,3 +1,5 @@
+<script type="text/javascript" th:src="@{../../../webjars/ckeditor/basic/ckeditor.js}"></script>
+<script type="text/javascript" th:src="@{../../../js/website.js}"></script>
 <form id="websiteCreateForm" th:object="${createForm}">
   <div class="card mb-4">
     <div class="card-body">
@@ -43,6 +45,7 @@
   <div class="loader">
   </div>
 </div>
+
 <script type="text/javascript">
   $(document).ready(function () {
     CKEDITOR.replace("description");

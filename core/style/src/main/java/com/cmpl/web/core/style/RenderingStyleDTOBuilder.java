@@ -19,7 +19,14 @@ public class RenderingStyleDTOBuilder extends BaseBuilder<RenderingStyleDTO> {
 
   @Override
   public RenderingStyleDTO build() {
-    return null;
+    RenderingStyleDTO renderingStyleDTO = new RenderingStyleDTO();
+    renderingStyleDTO.setMediaSrc(mediaSrc);
+    renderingStyleDTO.setId(id);
+    renderingStyleDTO.setCreationDate(creationDate);
+    renderingStyleDTO.setModificationDate(modificationDate);
+    renderingStyleDTO.setCreationUser(creationUser);
+    renderingStyleDTO.setModificationUser(modificationUser);
+    return renderingStyleDTO;
   }
 
   public static RenderingStyleDTOBuilder create() {
