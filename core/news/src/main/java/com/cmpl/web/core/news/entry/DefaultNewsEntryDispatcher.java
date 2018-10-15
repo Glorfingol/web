@@ -9,6 +9,8 @@ import com.cmpl.web.core.news.image.NewsImageRequest;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Objects;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -29,8 +31,8 @@ public class DefaultNewsEntryDispatcher implements NewsEntryDispatcher {
   private static final String MEDIA_CONTROLLER_PATH = "/public/medias/";
 
   public DefaultNewsEntryDispatcher(NewsEntryTranslator translator,
-      NewsEntryService newsEntryService,
-      FileService fileService, MediaService mediaService) {
+    NewsEntryService newsEntryService,
+    FileService fileService, MediaService mediaService) {
 
     this.translator = Objects.requireNonNull(translator);
     this.newsEntryService = Objects.requireNonNull(newsEntryService);
@@ -50,7 +52,7 @@ public class DefaultNewsEntryDispatcher implements NewsEntryDispatcher {
 
   @Override
   public NewsEntryResponse updateEntity(NewsEntryRequest newsEntryRequest, String newsEntryId,
-      Locale locale) {
+    Locale locale) {
 
     newsEntryRequest.setId(Long.parseLong(newsEntryId));
     NewsEntryDTO entityToUpdate = translator.fromRequestToDTO(newsEntryRequest);
@@ -63,7 +65,7 @@ public class DefaultNewsEntryDispatcher implements NewsEntryDispatcher {
 
   @Override
   public NewsEntryResponse updateContent(NewsContentRequest newsContentRequest, String newsEntryId,
-      Locale locale) {
+    Locale locale) {
 
     NewsEntryDTO newsEntryDTO = newsEntryService.getEntity(Long.parseLong(newsEntryId));
     newsEntryDTO.setNewsContent(translator.fromRequestToDTO(newsContentRequest));
@@ -74,7 +76,7 @@ public class DefaultNewsEntryDispatcher implements NewsEntryDispatcher {
 
   @Override
   public NewsEntryResponse updateImage(NewsImageRequest newsImageRequest, String newsEntryId,
-      Locale locale) {
+    Locale locale) {
     NewsEntryDTO newsEntryDTO = newsEntryService.getEntity(Long.parseLong(newsEntryId));
     newsEntryDTO.setNewsImage(translator.fromRequestToDTO(newsImageRequest));
     NewsEntryDTO updatedNewsEntry = newsEntryService.updateEntity(newsEntryDTO);
@@ -104,9 +106,9 @@ public class DefaultNewsEntryDispatcher implements NewsEntryDispatcher {
     MediaDTO mediaSaved;
     if (mediaToSave == null) {
       mediaToSave = MediaDTOBuilder.create().name(fileName)
-          .contentType(uploadedMedia.getContentType())
-          .extension(extension).size(uploadedMedia.getSize()).src(MEDIA_CONTROLLER_PATH + fileName)
-          .build();
+        .contentType(uploadedMedia.getContentType())
+        .extension(extension).size(uploadedMedia.getSize()).src(MEDIA_CONTROLLER_PATH + fileName)
+        .build();
       mediaSaved = mediaService.createEntity(mediaToSave);
     } else {
       mediaToSave.setContentType(uploadedMedia.getContentType());
@@ -120,6 +122,11 @@ public class DefaultNewsEntryDispatcher implements NewsEntryDispatcher {
     newsEntryToUpdate.getNewsImage().setMedia(mediaSaved);
     newsEntryService.updateEntity(newsEntryToUpdate);
 
+  }
+
+  @Override
+  public Page<NewsEntryDTO> searchEntities(PageRequest pageRequest, String query) {
+    return newsEntryService.searchEntities(pageRequest, query);
   }
 
 }

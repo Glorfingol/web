@@ -9,6 +9,8 @@ import com.cmpl.web.core.media.MediaDTO;
 import com.cmpl.web.core.media.MediaService;
 import java.util.Locale;
 import java.util.Objects;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 public class DefaultCarouselDispatcher implements CarouselDispatcher {
 
@@ -21,8 +23,8 @@ public class DefaultCarouselDispatcher implements CarouselDispatcher {
   private final CarouselTranslator translator;
 
   public DefaultCarouselDispatcher(CarouselService carouselService,
-      CarouselItemService carouselItemService,
-      MediaService mediaService, CarouselTranslator carouselTransaltor) {
+    CarouselItemService carouselItemService,
+    MediaService mediaService, CarouselTranslator carouselTransaltor) {
     this.carouselItemService = Objects.requireNonNull(carouselItemService);
     this.carouselService = Objects.requireNonNull(carouselService);
     this.translator = Objects.requireNonNull(carouselTransaltor);
@@ -68,9 +70,14 @@ public class DefaultCarouselDispatcher implements CarouselDispatcher {
 
   @Override
   public void deleteCarouselItemEntity(String carouselId, String carouselItemId, Locale locale)
-      throws BaseException {
+    throws BaseException {
 
     carouselItemService.deleteEntityInCarousel(carouselId, Long.valueOf(carouselItemId));
+  }
+
+  @Override
+  public Page<CarouselDTO> searchEntities(PageRequest pageRequest, String query) {
+    return carouselService.searchEntities(pageRequest, query);
   }
 
 }

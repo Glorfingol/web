@@ -132,6 +132,17 @@ public class BlogWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
+  public boolean withDatasource() {
+    return false;
+  }
+
+  @Override
+  public String getAjaxSearchUrl() {
+    return null;
+  }
+
+
+  @Override
   public boolean supports(String delimiter) {
     return getWidgetType().equals(delimiter);
   }

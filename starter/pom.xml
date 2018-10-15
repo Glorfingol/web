@@ -227,6 +227,12 @@
       <artifactId>bootstrap-notify</artifactId>
       <version>${webjar.bootstrap.notify.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>select2</artifactId>
+      <version>${webjar.select2.version}</version>
+    </dependency>
   </dependencies>
 
 

@@ -7,8 +7,7 @@
     </div>
     <div class="form-check form-group mb-3" id="formInputContent">
       <label th:text="#{carousel.item.media.label}"/>
-      <select th:field="*{mediaId}" class="form-control">
-        <option th:each="media : ${medias}" th:value="${media.id}" th:text="${media.name}"></option>
+      <select th:field="*{mediaId}" class="form-control mediaSelect">
       </select>
       <small class="form-text text-muted" th:text="#{carousel.item.media.help}"/>
     </div>
@@ -58,10 +57,35 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function () {
-        $(".card-loader").hide();
-        $(".loader").hide();
+    $(".card-loader").hide();
+    $(".loader").hide();
+
+    $('.mediaSelect').select2({
+      ajax: {
+        url: "/manager/medias/ajaxSearch",
+        dataType: "json",
+        data: function (params) {
+          return {
+            q: params.term,
+            page: 0
+          };
+        },
+        minimumInputLength: 2,
+        processResults: function (data, params) {
+          params.page = params.page || 1;
+
+          var result = $.map(data.content, function (obj) {
+            obj.text = obj.name;
+            return obj;
+          });
+          return {
+            results: result
+          };
+        },
       }
-  );
+    });
+
+  });
 
   function deleteCarouselItem(idCarouselItem) {
 

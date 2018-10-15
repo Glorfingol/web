@@ -1,5 +1,7 @@
 package com.cmpl.web.core.common.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -10,6 +12,7 @@ import java.util.Objects;
  */
 public abstract class BaseDTO {
 
+  @JsonSerialize(using = ToStringSerializer.class)
   private Long id;
 
   private LocalDateTime creationDate;

@@ -1,6 +1,7 @@
 package com.cmpl.web.configuration.manager.ui;
 
 import com.cmpl.web.core.carousel.CarouselDispatcher;
+import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.design.DesignDispatcher;
@@ -69,9 +70,9 @@ public class BackControllerConfiguration {
   @Bean
   public CarouselManagerController carouselManagerController(CarouselDispatcher carouselDispatcher,
     CarouselManagerDisplayFactory carouselDisplayFactory, NotificationCenter notificationCenter,
-    WebMessageSource messageSource) {
+    WebMessageSource messageSource, ContextHolder contextHolder) {
     return new CarouselManagerController(carouselDispatcher, carouselDisplayFactory,
-      notificationCenter, messageSource);
+      notificationCenter, messageSource, contextHolder);
   }
 
   @Bean
@@ -90,18 +91,18 @@ public class BackControllerConfiguration {
   @Bean
   public MediaManagerController mediaManagerController(MediaService mediaService,
     MediaManagerDisplayFactory mediaManagerDisplayFactory, NotificationCenter notificationCenter,
-    WebMessageSource messageSource) {
+    WebMessageSource messageSource, ContextHolder contextHolder) {
     return new MediaManagerController(mediaService, mediaManagerDisplayFactory, notificationCenter,
-      messageSource);
+      messageSource, contextHolder);
   }
 
   @Bean
   public NewsManagerController newsManagerController(
     NewsManagerDisplayFactory newsManagerDisplayFactory,
     NewsEntryDispatcher dispatcher, NotificationCenter notificationCenter,
-    WebMessageSource messageSource) {
+    WebMessageSource messageSource, ContextHolder contextHolder) {
     return new NewsManagerController(newsManagerDisplayFactory, dispatcher, notificationCenter,
-      messageSource);
+      messageSource, contextHolder);
   }
 
   @Bean

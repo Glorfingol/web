@@ -60,6 +60,16 @@ public class CarouselWidgetProvider implements WidgetProviderPlugin {
   }
 
   @Override
+  public boolean withDatasource() {
+    return true;
+  }
+
+  @Override
+  public String getAjaxSearchUrl() {
+    return "/manager/carousels/ajaxSearch";
+  }
+
+  @Override
   public boolean supports(String delimiter) {
     return getWidgetType().equals(delimiter);
   }

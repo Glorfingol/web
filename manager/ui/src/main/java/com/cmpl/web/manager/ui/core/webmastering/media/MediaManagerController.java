@@ -1,5 +1,6 @@
 package com.cmpl.web.manager.ui.core.webmastering.media;
 
+import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
 import com.cmpl.web.core.factory.media.MediaManagerDisplayFactory;
@@ -11,10 +12,16 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StreamUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,14 +47,18 @@ public class MediaManagerController {
 
   private final WebMessageSource messageSource;
 
+  private final ContextHolder contextHolder;
+
   public MediaManagerController(MediaService mediaService,
-      MediaManagerDisplayFactory mediaManagerDisplayFactory,
-      NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    MediaManagerDisplayFactory mediaManagerDisplayFactory,
+    NotificationCenter notificationCenter, WebMessageSource messageSource,
+    ContextHolder contextHolder) {
 
     this.mediaService = Objects.requireNonNull(mediaService);
     this.mediaManagerDisplayFactory = Objects.requireNonNull(mediaManagerDisplayFactory);
     this.notificationCenter = Objects.requireNonNull(notificationCenter);
     this.messageSource = Objects.requireNonNull(messageSource);
+    this.contextHolder = Objects.requireNonNull(contextHolder);
   }
 
   @PostMapping(consumes = "multipart/form-data")
@@ -60,18 +71,18 @@ public class MediaManagerController {
     try {
       mediaService.upload(uploadedMedia);
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("create.success", locale));
+        .sendNotification("success", messageSource.getMessage("create.success", locale));
     } catch (Exception e) {
       LOGGER.error("Cannot save multipart file !", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("create.error", locale));
+        .sendNotification("danger", messageSource.getMessage("create.error", locale));
     }
   }
 
   @GetMapping
   @PreAuthorize("hasAuthority('webmastering:media:read')")
   public ModelAndView printViewMedias(
-      @RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
+    @RequestParam(name = "p", required = false) Integer pageNumber, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     return mediaManagerDisplayFactory.computeModelAndViewForViewAllMedias(locale, pageNumberToUse);
@@ -80,12 +91,12 @@ public class MediaManagerController {
   @GetMapping(value = "/search")
   @PreAuthorize("hasAuthority('webmastering:media:read')")
   public ModelAndView printSearchMedias(
-      @RequestParam(name = "p", required = false) Integer pageNumber,
-      @RequestParam(name = "q") String query, Locale locale) {
+    @RequestParam(name = "p", required = false) Integer pageNumber,
+    @RequestParam(name = "q") String query, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     return mediaManagerDisplayFactory
-        .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+      .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -111,13 +122,13 @@ public class MediaManagerController {
   @GetMapping("/download/{mediaId}")
   @PreAuthorize("hasAuthority('webmastering:media:read')")
   public void serve(@PathVariable("mediaId") String mediaId, HttpServletResponse res)
-      throws Exception {
+    throws Exception {
     MediaDTO fileDTO = mediaService.getEntity(Long.valueOf(mediaId));
     if (fileDTO != null) {
       res.setHeader(HttpHeaders.CONTENT_TYPE, fileDTO.getContentType());
       res.setHeader(HttpHeaders.CONTENT_LENGTH, fileDTO.getSize() + "");
       res.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-          "Content-Disposition: inline; filename=\"" + fileDTO.getName() + "\"");
+        "Content-Disposition: inline; filename=\"" + fileDTO.getName() + "\"");
       StreamUtils.copy(mediaService.download(fileDTO.getName()), res.getOutputStream());
       return;
     }
@@ -133,13 +144,13 @@ public class MediaManagerController {
     try {
       mediaService.deleteEntity(Long.parseLong(mediaId));
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("delete.success", locale));
+        .sendNotification("success", messageSource.getMessage("delete.success", locale));
       LOGGER.info("Media " + mediaId + " supprimé");
 
     } catch (Exception e) {
       LOGGER.error("Erreur lors de la suppression du media " + mediaId, e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("delete.error", locale));
+        .sendNotification("danger", messageSource.getMessage("delete.error", locale));
 
     }
 
@@ -157,4 +168,20 @@ public class MediaManagerController {
     return mediaManagerDisplayFactory.computeModelAndViewForMembership(mediaId);
   }
 
+  @GetMapping(value = "/ajaxSearch")
+  @PreAuthorize("hasAuthority('webmastering:media:read')")
+  @ResponseBody
+  public ResponseEntity<Page<MediaDTO>> searchMediasForSelect(
+    @RequestParam(name = "page", required = false) Integer pageNumber,
+    @RequestParam(name = "q", required = false) String query) {
+    if (pageNumber == null) {
+      pageNumber = 0;
+    }
+    if (!StringUtils.hasText(query)) {
+      query = "";
+    }
+    PageRequest pageRequest = PageRequest.of(pageNumber, contextHolder.getElementsPerPage(),
+      Sort.by(Direction.ASC, "name"));
+    return new ResponseEntity<>(mediaService.searchEntities(pageRequest, query), HttpStatus.OK);
+  }
 }

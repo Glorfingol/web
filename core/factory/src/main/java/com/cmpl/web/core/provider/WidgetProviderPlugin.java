@@ -23,4 +23,9 @@ public interface WidgetProviderPlugin extends Plugin<String> {
   String getWidgetType();
 
   String getTooltipKey();
+
+  boolean withDatasource();
+
+  String getAjaxSearchUrl();
+
 }

@@ -57,6 +57,17 @@ public class VideoWidgetProvider extends MediaWidgetProvider implements WidgetPr
   }
 
   @Override
+  public boolean withDatasource() {
+    return true;
+  }
+
+  @Override
+  public String getAjaxSearchUrl() {
+    return "/manager/medias/ajaxSearch";
+  }
+
+
+  @Override
   public boolean supports(String delimiter) {
     return getWidgetType().equals(delimiter);
   }
@@ -64,6 +75,7 @@ public class VideoWidgetProvider extends MediaWidgetProvider implements WidgetPr
   @Override
   protected MediaDTO recoverMedia(RenderingWidgetDTO widget) {
     return mediaService.getEntity(Long.parseLong(widget.getEntityId()));
-
   }
+
+
 }

@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
@@ -40,8 +41,6 @@ public class DefaultWidgetManagerDisplayFactory extends AbstractBackDisplayFacto
   implements WidgetManagerDisplayFactory {
 
   private final WidgetService widgetService;
-
-  private final ContextHolder contextHolder;
 
   private final PluginRegistry<WidgetProviderPlugin, String> widgetProviders;
 
@@ -68,8 +67,6 @@ public class DefaultWidgetManagerDisplayFactory extends AbstractBackDisplayFacto
     super(menuFactory, messageSource, breadCrumbRegistry, availableLocales, groupService,
       membershipService, backPagesRegistry, contextHolder);
     this.widgetService = Objects.requireNonNull(widgetService);
-
-    this.contextHolder = Objects.requireNonNull(contextHolder);
 
     this.widgetProviders = Objects.requireNonNull(widgetProviders);
 
@@ -172,9 +169,25 @@ public class DefaultWidgetManagerDisplayFactory extends AbstractBackDisplayFacto
     WidgetDTO widget = widgetService
       .getEntity(Long.parseLong(widgetId), personalizationLanguageCode);
     widgetManager.addObject(UPDATE_FORM, computeUpdateForm(widget, personalizationLanguageCode));
-    List<? extends BaseDTO> linkableEntities = widgetProviders.getPluginFor(widget.getType())
-      .getLinkableEntities();
-    widgetManager.addObject(LINKABLE_ENTITIES, linkableEntities);
+
+    WidgetProviderPlugin widgetProviderPlugin = widgetProviders.getPluginFor(widget.getType());
+    widgetManager.addObject("withDatasource", widgetProviderPlugin.withDatasource());
+    if (widgetProviderPlugin.withDatasource()) {
+      widgetManager.addObject("ajaxSearchUrl", widgetProviderPlugin.getAjaxSearchUrl());
+      String entityId = widget.getEntityId();
+      if (StringUtils.hasText(entityId)) {
+        List<? extends BaseDTO> linkableEntities = widgetProviders.getPluginFor(widget.getType())
+          .getLinkableEntities();
+
+        Optional<? extends BaseDTO> linkedEntity = linkableEntities.stream()
+          .filter(entity -> entity.getId().equals(Long.parseLong(entityId))).findFirst();
+        if (linkedEntity.isPresent()) {
+          widgetManager.addObject("linkedEntity", linkedEntity.get());
+        }
+      }
+
+    }
+
     widgetManager.addObject(TOOLTIP_KEY, computeToolTipKey(widget.getType()));
     widgetManager.addObject(MACROS_KEY, computePersonalizationMacros());
     return widgetManager;
