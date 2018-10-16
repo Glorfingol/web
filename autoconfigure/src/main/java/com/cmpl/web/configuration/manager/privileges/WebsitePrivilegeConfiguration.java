@@ -27,4 +27,5 @@ public class WebsitePrivilegeConfiguration {
   public Privilege websitesDeletePrivilege() {
     return new SimplePrivilege("webmastering", "websites", "delete");
   }
+
 }

@@ -1,5 +1,6 @@
 package com.cmpl.web.manager.ui.core.webmastering.news;
 
+import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.common.message.WebMessageSource;
 import com.cmpl.web.core.common.notification.NotificationCenter;
@@ -41,6 +42,10 @@ public class NewsManagerControllerTest {
   @Mock
   private WebMessageSource messageSource;
 
+
+  @Mock
+  private ContextHolder contextHolder;
+
   @Spy
   @InjectMocks
   private NewsManagerController controller;
@@ -59,7 +64,7 @@ public class NewsManagerControllerTest {
     ModelAndView model = new ModelAndView("back/news/edit_news_entry");
 
     BDDMockito.doReturn(model).when(newsManagerDisplayFactory)
-        .computeModelAndViewForOneNewsEntry(BDDMockito.eq(Locale.FRANCE), BDDMockito.eq("666"));
+      .computeModelAndViewForOneNewsEntry(BDDMockito.eq(Locale.FRANCE), BDDMockito.eq("666"));
 
     ModelAndView result = controller.getNewsEntity("666", Locale.FRANCE);
 
@@ -75,10 +80,10 @@ public class NewsManagerControllerTest {
     BDDMockito.given(bindingResult.hasErrors()).willReturn(false);
 
     BDDMockito.doReturn(response).when(dispatcher)
-        .updateEntity(BDDMockito.eq(request), BDDMockito.eq("666"),
-            BDDMockito.eq(Locale.FRANCE));
+      .updateEntity(BDDMockito.eq(request), BDDMockito.eq("666"),
+        BDDMockito.eq(Locale.FRANCE));
     ResponseEntity<NewsEntryResponse> result = controller
-        .updateNewsEntry("666", request, bindingResult, Locale.FRANCE);
+      .updateNewsEntry("666", request, bindingResult, Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
     Assert.assertEquals(response, result.getBody());
@@ -96,9 +101,9 @@ public class NewsManagerControllerTest {
     BDDMockito.given(bindingResult.hasErrors()).willReturn(false);
 
     BDDMockito.doReturn(response).when(dispatcher)
-        .createEntity(BDDMockito.eq(request), BDDMockito.eq(Locale.FRANCE));
+      .createEntity(BDDMockito.eq(request), BDDMockito.eq(Locale.FRANCE));
     ResponseEntity<NewsEntryResponse> result = controller
-        .createNewsEntry(request, bindingResult, Locale.FRANCE);
+      .createNewsEntry(request, bindingResult, Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.CREATED, result.getStatusCode());
     Assert.assertEquals(response, result.getBody());
@@ -113,10 +118,10 @@ public class NewsManagerControllerTest {
     BDDMockito.given(bindingResult.hasErrors()).willReturn(false);
 
     BDDMockito.doThrow(new BaseException("")).when(dispatcher).createEntity(BDDMockito.eq(request),
-        BDDMockito.eq(Locale.FRANCE));
+      BDDMockito.eq(Locale.FRANCE));
 
     ResponseEntity<NewsEntryResponse> result = controller
-        .createNewsEntry(request, bindingResult, Locale.FRANCE);
+      .createNewsEntry(request, bindingResult, Locale.FRANCE);
 
     Assert.assertEquals(HttpStatus.CONFLICT, result.getStatusCode());
 
@@ -127,8 +132,8 @@ public class NewsManagerControllerTest {
     ModelAndView model = new ModelAndView("back/news/view_news");
 
     BDDMockito.doReturn(model).when(newsManagerDisplayFactory)
-        .computeModelAndViewForViewAllNews(
-            BDDMockito.any(Locale.class), BDDMockito.anyInt());
+      .computeModelAndViewForViewAllNews(
+        BDDMockito.any(Locale.class), BDDMockito.anyInt());
 
     ModelAndView result = controller.printViewNews(0, Locale.FRANCE);
 

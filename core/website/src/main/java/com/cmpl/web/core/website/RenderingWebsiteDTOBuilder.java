@@ -12,6 +12,12 @@ public class RenderingWebsiteDTOBuilder extends BaseBuilder<RenderingWebsiteDTO>
 
   private boolean secure;
 
+  private boolean systemJquery;
+
+  private boolean systemBootstrap;
+
+  private boolean systemFontAwesome;
+
   private RenderingWebsiteDTOBuilder() {
 
   }
@@ -36,6 +42,24 @@ public class RenderingWebsiteDTOBuilder extends BaseBuilder<RenderingWebsiteDTO>
     return this;
   }
 
+
+  public RenderingWebsiteDTOBuilder systemJquery(boolean systemJquery) {
+    this.systemJquery = systemJquery;
+    return this;
+  }
+
+
+  public RenderingWebsiteDTOBuilder systemBootstrap(boolean systemBootstrap) {
+    this.systemBootstrap = systemBootstrap;
+    return this;
+  }
+
+
+  public RenderingWebsiteDTOBuilder systemFontAwesome(boolean systemFontAwesome) {
+    this.systemFontAwesome = systemFontAwesome;
+    return this;
+  }
+
   @Override
   public RenderingWebsiteDTO build() {
     RenderingWebsiteDTO website = new RenderingWebsiteDTO();
@@ -43,6 +67,9 @@ public class RenderingWebsiteDTOBuilder extends BaseBuilder<RenderingWebsiteDTO>
     website.setName(name);
     website.setSecure(secure);
     website.setExtension(extension);
+    website.setSystemBootstrap(systemBootstrap);
+    website.setSystemJquery(systemJquery);
+    website.setSystemFontAwesome(systemFontAwesome);
     return website;
   }
 

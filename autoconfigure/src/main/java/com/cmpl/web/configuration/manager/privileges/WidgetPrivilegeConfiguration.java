@@ -27,4 +27,9 @@ public class WidgetPrivilegeConfiguration {
   public Privilege widgetsDeletePrivilege() {
     return new SimplePrivilege("webmastering", "widgets", "delete");
   }
+
+  @Bean
+  public Privilege widgetsPersonalizationWritePrivilege() {
+    return new SimplePrivilege("webmastering", "widgets-personalization", "write");
+  }
 }

@@ -34,7 +34,7 @@
     <td>
       <a th:id="${bean.id}" class="btn btn-md btn-success float-right fa fa-plus fa-white"
          onclick="postCreateDesignForm(this.id)"
-         th:if="${currentUser.hasPrivilege('webmastering:website:write')}"></a>
+         th:if="${currentUser.hasPrivilege('webmastering:designs:write')}"></a>
     </td>
   </tr>
   </tbody>

@@ -12,6 +12,12 @@ public class WebsiteDTOBuilder extends BaseBuilder<WebsiteDTO> {
 
   private boolean secure;
 
+  private boolean systemJquery;
+
+  private boolean systemBootstrap;
+
+  private boolean systemFontAwesome;
+
   private WebsiteDTOBuilder() {
 
   }
@@ -31,8 +37,23 @@ public class WebsiteDTOBuilder extends BaseBuilder<WebsiteDTO> {
     return this;
   }
 
+  public WebsiteDTOBuilder systemBootstrap(boolean systemBootstrap) {
+    this.systemBootstrap = systemBootstrap;
+    return this;
+  }
+
   public WebsiteDTOBuilder secure(boolean secure) {
     this.secure = secure;
+    return this;
+  }
+
+  public WebsiteDTOBuilder systemJquery(boolean systemJquery) {
+    this.systemJquery = systemJquery;
+    return this;
+  }
+
+  public WebsiteDTOBuilder systemFontAwesome(boolean systemFontAwesome) {
+    this.systemFontAwesome = systemFontAwesome;
     return this;
   }
 
@@ -43,6 +64,9 @@ public class WebsiteDTOBuilder extends BaseBuilder<WebsiteDTO> {
     website.setName(name);
     website.setSecure(secure);
     website.setExtension(extension);
+    website.setSystemBootstrap(systemBootstrap);
+    website.setSystemJquery(systemJquery);
+    website.setSystemFontAwesome(systemFontAwesome);
     return website;
   }
 

@@ -12,6 +12,9 @@ function computeWebsiteToUpdate() {
   var inputName = $("#name");
   var inputExtension = $("#extension");
   var inputSecure = $("#secure");
+  var inputSystemJquery = $("#systemJquery");
+  var inputSystemBootstrap = $("#systemBootstrap");
+  var inputSystemFontAwesome = $("#systemFontAwesome");
   var inputId = $("#id");
   var inputCreationDate = $("#creationDate");
   var inputModificationDate = $("#modificationDate");
@@ -22,6 +25,9 @@ function computeWebsiteToUpdate() {
   website.description = computeWebsiteDescription();
   website.extension = inputExtension.val();
   website.secure = inputSecure.is(':checked');
+  website.systemJquery = inputSystemJquery.is(':checked');
+  website.systemBootstrap = inputSystemBootstrap.is(':checked');
+  website.systemFontAwesome = inputSystemFontAwesome.is(':checked');
 
   website.id = inputId.val();
   website.creationDate = formatDate(inputCreationDate.val());
@@ -39,11 +45,17 @@ function computeWebsiteToCreate() {
   var inputName = $("#name");
   var inputExtension = $("#extension");
   var inputSecure = $("#secure");
+  var inputSystemJquery = $("#systemJquery");
+  var inputSystemBootstrap = $("#systemBootstrap");
+  var inputSystemFontAwesome = $("#systemFontAwesome");
 
   website.name = inputName.val();
   website.extension = inputExtension.val();
   website.description = computeWebsiteDescription();
   website.secure = inputSecure.is(':checked');
+  website.systemJquery = inputSystemJquery.is(':checked');
+  website.systemBootstrap = inputSystemBootstrap.is(':checked');
+  website.systemFontAwesome = inputSystemFontAwesome.is(':checked');
 
   return website;
 

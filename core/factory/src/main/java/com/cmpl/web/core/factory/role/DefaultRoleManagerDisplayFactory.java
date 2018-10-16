@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -143,12 +144,12 @@ public class DefaultRoleManagerDisplayFactory extends AbstractBackDisplayFactory
     availablePrivileges.forEach(privilege -> {
       Map<String, Map<String, Boolean>> namespacePrivileges = privileges.get(privilege.namespace());
       if (namespacePrivileges == null) {
-        namespacePrivileges = new HashMap<>();
+        namespacePrivileges = new TreeMap<>();
         privileges.put(privilege.namespace(), namespacePrivileges);
       }
       Map<String, Boolean> featurePrivileges = namespacePrivileges.get(privilege.feature());
       if (featurePrivileges == null) {
-        featurePrivileges = new HashMap<>();
+        featurePrivileges = new TreeMap<>();
         namespacePrivileges.put(privilege.feature(), featurePrivileges);
       }
 

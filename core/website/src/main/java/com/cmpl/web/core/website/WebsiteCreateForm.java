@@ -15,6 +15,12 @@ public class WebsiteCreateForm {
 
   private Boolean secure;
 
+  private Boolean systemJquery;
+
+  private Boolean systemBootstrap;
+
+  private Boolean systemFontAwesome;
+
   public String getExtension() {
     return extension;
   }
@@ -45,5 +51,29 @@ public class WebsiteCreateForm {
 
   public void setSecure(Boolean secure) {
     this.secure = secure;
+  }
+
+  public Boolean getSystemJquery() {
+    return systemJquery;
+  }
+
+  public void setSystemJquery(Boolean systemJquery) {
+    this.systemJquery = systemJquery;
+  }
+
+  public Boolean getSystemBootstrap() {
+    return systemBootstrap;
+  }
+
+  public void setSystemBootstrap(Boolean systemBootstrap) {
+    this.systemBootstrap = systemBootstrap;
+  }
+
+  public Boolean getSystemFontAwesome() {
+    return systemFontAwesome;
+  }
+
+  public void setSystemFontAwesome(Boolean systemFontAwesome) {
+    this.systemFontAwesome = systemFontAwesome;
   }
 }

@@ -12,6 +12,12 @@ public class WebsiteDTO extends BaseDTO {
 
   private boolean secure;
 
+  private boolean systemJquery;
+
+  private boolean systemBootstrap;
+
+  private boolean systemFontAwesome;
+
   public String getExtension() {
     return extension;
   }
@@ -42,5 +48,29 @@ public class WebsiteDTO extends BaseDTO {
 
   public void setSecure(boolean secure) {
     this.secure = secure;
+  }
+
+  public boolean isSystemJquery() {
+    return systemJquery;
+  }
+
+  public void setSystemJquery(boolean systemJquery) {
+    this.systemJquery = systemJquery;
+  }
+
+  public boolean isSystemBootstrap() {
+    return systemBootstrap;
+  }
+
+  public void setSystemBootstrap(boolean systemBootstrap) {
+    this.systemBootstrap = systemBootstrap;
+  }
+
+  public boolean isSystemFontAwesome() {
+    return systemFontAwesome;
+  }
+
+  public void setSystemFontAwesome(boolean systemFontAwesome) {
+    this.systemFontAwesome = systemFontAwesome;
   }
 }

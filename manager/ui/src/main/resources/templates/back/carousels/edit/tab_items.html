@@ -14,7 +14,7 @@
     <div class="float-right">
       <a class="btn btn-md btn-success fa fa-plus fa-white"
          onclick="postCreateCarouselItemForm()"
-         th:if="${currentUser.hasPrivilege('webmastering:carousels:write')}"></a>
+         th:if="${currentUser.hasPrivilege('webmastering:carousels-items:write')}"></a>
     </div>
   </div>
   <input type="hidden" th:field="*{carouselId}"/>
@@ -44,7 +44,7 @@
       <td class="text-center">
         <a class="btn btn-md btn-danger fa fa-times fa-white" th:id="${carouselItem.id}"
            onclick="deleteCarouselItem(this.id)"
-           th:if="${currentUser.hasPrivilege('webmastering:carousels:delete')}"></a>
+           th:if="${currentUser.hasPrivilege('webmastering:carousels-items:delete')}"></a>
       </td>
     </tr>
     </tbody>

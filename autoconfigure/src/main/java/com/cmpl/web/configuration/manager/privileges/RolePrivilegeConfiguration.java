@@ -28,4 +28,9 @@ public class RolePrivilegeConfiguration {
     return new SimplePrivilege("administration", "roles", "delete");
   }
 
+  @Bean
+  public Privilege rolesPrivilegesWritePrivilege() {
+    return new SimplePrivilege("administration", "roles-privileges", "write");
+  }
+
 }

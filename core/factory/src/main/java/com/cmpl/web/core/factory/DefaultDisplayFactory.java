@@ -108,6 +108,10 @@ public class DefaultDisplayFactory extends DefaultBaseDisplayFactory implements 
     RenderingPageDTO page = optionalPage.get();
     String pageName = page.getName();
     ModelAndView model = new ModelAndView("decorator");
+
+    model.addObject("systemJquery", websiteDTO.isSystemJquery());
+    model.addObject("systemBootstrap", websiteDTO.isSystemBootstrap());
+    model.addObject("systemFontAwesome", websiteDTO.isSystemFontAwesome());
     List<RenderingStyleDTO> styles = displayFactoryCacheManager
       .getWebsiteStyles(websiteDTO.getId());
     model.addObject("styles", styles);

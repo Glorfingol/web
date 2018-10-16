@@ -10,6 +10,15 @@ public class WebsiteCreateFormBuilder extends Builder<WebsiteCreateForm> {
 
   private String extension;
 
+
+  private Boolean secure;
+
+  private Boolean systemJquery;
+
+  private Boolean systemBootstrap;
+
+  private Boolean systemFontAwesome;
+
   private WebsiteCreateFormBuilder() {
 
   }
@@ -29,12 +38,36 @@ public class WebsiteCreateFormBuilder extends Builder<WebsiteCreateForm> {
     return this;
   }
 
+  public WebsiteCreateFormBuilder secure(boolean secure) {
+    this.secure = secure;
+    return this;
+  }
+
+  public WebsiteCreateFormBuilder systemJquery(boolean systemJquery) {
+    this.systemJquery = systemJquery;
+    return this;
+  }
+
+  public WebsiteCreateFormBuilder systemBootstrap(boolean systemBootstrap) {
+    this.systemBootstrap = systemBootstrap;
+    return this;
+  }
+
+  public WebsiteCreateFormBuilder systemFontAwesome(boolean systemFontAwesome) {
+    this.systemFontAwesome = systemFontAwesome;
+    return this;
+  }
+
   @Override
   public WebsiteCreateForm build() {
     WebsiteCreateForm form = new WebsiteCreateForm();
     form.setDescription(description);
     form.setName(name);
     form.setExtension(extension);
+    form.setSecure(secure);
+    form.setSystemBootstrap(systemBootstrap);
+    form.setSystemFontAwesome(systemFontAwesome);
+    form.setSystemJquery(systemJquery);
     return form;
   }
 

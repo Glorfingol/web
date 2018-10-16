@@ -1,8 +1,7 @@
 package com.cmpl.web.core.website;
 
-import javax.validation.constraints.NotBlank;
-
 import com.cmpl.web.core.common.form.BaseUpdateForm;
+import javax.validation.constraints.NotBlank;
 
 public class WebsiteUpdateForm extends BaseUpdateForm<WebsiteDTO> {
 
@@ -17,6 +16,12 @@ public class WebsiteUpdateForm extends BaseUpdateForm<WebsiteDTO> {
 
   private Boolean secure;
 
+  private Boolean systemJquery;
+
+  private Boolean systemBootstrap;
+
+  private Boolean systemFontAwesome;
+
   public WebsiteUpdateForm() {
 
   }
@@ -27,6 +32,9 @@ public class WebsiteUpdateForm extends BaseUpdateForm<WebsiteDTO> {
     this.secure = websiteDTO.isSecure();
     this.description = websiteDTO.getDescription();
     this.extension = websiteDTO.getExtension();
+    this.systemBootstrap = websiteDTO.isSystemBootstrap();
+    this.systemJquery = websiteDTO.isSystemJquery();
+    this.systemFontAwesome = websiteDTO.isSystemFontAwesome();
   }
 
   public String getExtension() {
@@ -59,5 +67,29 @@ public class WebsiteUpdateForm extends BaseUpdateForm<WebsiteDTO> {
 
   public void setSecure(Boolean secure) {
     this.secure = secure;
+  }
+
+  public Boolean getSystemJquery() {
+    return systemJquery;
+  }
+
+  public void setSystemJquery(Boolean systemJquery) {
+    this.systemJquery = systemJquery;
+  }
+
+  public Boolean getSystemBootstrap() {
+    return systemBootstrap;
+  }
+
+  public void setSystemBootstrap(Boolean systemBootstrap) {
+    this.systemBootstrap = systemBootstrap;
+  }
+
+  public Boolean getSystemFontAwesome() {
+    return systemFontAwesome;
+  }
+
+  public void setSystemFontAwesome(Boolean systemFontAwesome) {
+    this.systemFontAwesome = systemFontAwesome;
   }
 }

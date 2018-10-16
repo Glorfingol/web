@@ -11,6 +11,12 @@ public class WebsiteBuilder extends BaseBuilder<Website> {
 
   private String extension;
 
+  private boolean systemJquery;
+
+  private boolean systemBootstrap;
+
+  private boolean systemFontAwesome;
+
   private boolean secure;
 
   private WebsiteBuilder() {
@@ -37,6 +43,21 @@ public class WebsiteBuilder extends BaseBuilder<Website> {
     return this;
   }
 
+  public WebsiteBuilder systemJquery(boolean systemJquery) {
+    this.systemJquery = systemJquery;
+    return this;
+  }
+
+  public WebsiteBuilder systemBootstrap(boolean systemBootstrap) {
+    this.systemBootstrap = systemBootstrap;
+    return this;
+  }
+
+  public WebsiteBuilder systemFontAwesome(boolean systemFontAwesome) {
+    this.systemFontAwesome = systemFontAwesome;
+    return this;
+  }
+
   @Override
   public Website build() {
     Website website = new Website();
@@ -44,6 +65,9 @@ public class WebsiteBuilder extends BaseBuilder<Website> {
     website.setName(name);
     website.setSecure(secure);
     website.setExtension(extension);
+    website.setSystemBootstrap(systemBootstrap);
+    website.setSystemJquery(systemJquery);
+    website.setSystemFontAwesome(systemFontAwesome);
     return website;
   }
 

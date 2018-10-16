@@ -20,6 +20,15 @@ public class Website extends BaseEntity {
   @Column(name = "is_secure")
   private boolean secure;
 
+  @Column(name = "is_system_jquery")
+  private boolean systemJquery;
+
+  @Column(name = "is_system_fontawesome")
+  private boolean systemFontAwesome;
+
+  @Column(name = "is_system_bootstrap")
+  private boolean systemBootstrap;
+
   public String getExtension() {
     return extension;
   }
@@ -50,5 +59,29 @@ public class Website extends BaseEntity {
 
   public void setSecure(boolean secure) {
     this.secure = secure;
+  }
+
+  public boolean isSystemJquery() {
+    return systemJquery;
+  }
+
+  public void setSystemJquery(boolean systemJquery) {
+    this.systemJquery = systemJquery;
+  }
+
+  public boolean isSystemBootstrap() {
+    return systemBootstrap;
+  }
+
+  public void setSystemBootstrap(boolean systemBootstrap) {
+    this.systemBootstrap = systemBootstrap;
+  }
+
+  public boolean isSystemFontAwesome() {
+    return systemFontAwesome;
+  }
+
+  public void setSystemFontAwesome(boolean systemFontAwesome) {
+    this.systemFontAwesome = systemFontAwesome;
   }
 }

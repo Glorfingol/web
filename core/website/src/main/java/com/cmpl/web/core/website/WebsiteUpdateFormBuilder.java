@@ -1,8 +1,7 @@
 package com.cmpl.web.core.website;
 
-import java.time.LocalDateTime;
-
 import com.cmpl.web.core.common.builder.Builder;
+import java.time.LocalDateTime;
 
 public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
 
@@ -24,6 +23,13 @@ public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
 
   private String modificationUser;
 
+
+  private Boolean systemJquery;
+
+  private Boolean systemBootstrap;
+
+  private Boolean systemFontAwesome;
+
   private WebsiteUpdateFormBuilder() {
 
   }
@@ -40,6 +46,21 @@ public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
 
   public WebsiteUpdateFormBuilder secure(boolean secure) {
     this.secure = secure;
+    return this;
+  }
+
+  public WebsiteUpdateFormBuilder systemJquery(boolean systemJquery) {
+    this.systemJquery = systemJquery;
+    return this;
+  }
+
+  public WebsiteUpdateFormBuilder systemBootstrap(boolean systemBootstrap) {
+    this.systemBootstrap = systemBootstrap;
+    return this;
+  }
+
+  public WebsiteUpdateFormBuilder systemFontAwesome(boolean systemFontAwesome) {
+    this.systemFontAwesome = systemFontAwesome;
     return this;
   }
 
@@ -85,6 +106,9 @@ public class WebsiteUpdateFormBuilder extends Builder<WebsiteUpdateForm> {
     form.setCreationUser(creationUser);
     form.setModificationUser(modificationUser);
     form.setExtension(extension);
+    form.setSystemBootstrap(systemBootstrap);
+    form.setSystemFontAwesome(systemFontAwesome);
+    form.setSystemJquery(systemJquery);
     return form;
   }
 

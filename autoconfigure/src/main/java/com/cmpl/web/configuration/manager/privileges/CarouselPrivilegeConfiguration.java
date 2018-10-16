@@ -28,4 +28,16 @@ public class CarouselPrivilegeConfiguration {
     return new SimplePrivilege("webmastering", "carousels", "delete");
   }
 
+  @Bean
+  public Privilege carouselsItemsWritePrivilege() {
+    return new SimplePrivilege("webmastering", "carousels-items", "write");
+  }
+
+
+  @Bean
+  public Privilege carouselsItemsDeletePrivilege() {
+    return new SimplePrivilege("webmastering", "carousels-items", "delete");
+  }
+
+
 }
