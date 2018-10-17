@@ -193,7 +193,7 @@ public class RoleManagerController {
       PrivilegeResponse response = roleDispatcher.updateEntity(privilegeForm, locale);
       notificationCenter
         .sendNotification("success", messageSource.getMessage("update.success", locale));
-      return new ResponseEntity<>(HttpStatus.OK);
+      return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
       notificationCenter

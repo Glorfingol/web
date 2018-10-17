@@ -111,6 +111,7 @@ function postUpdatePrivilegesForm() {
     currentTab = "";
     goToPrivilegesTab();
   }).fail(function (error) {
-    handleErrorPutResult(urlFallback);
+    handleErrorPutResult(urlFallback, $(".loader"), $(".card-loader"),
+        $("#rolePrivilegesForm"));
   });
 }

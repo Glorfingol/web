@@ -70,7 +70,7 @@ public class DefaultRoleDispatcher implements RoleDispatcher {
 
     privilegesDTOToAdd
       .forEach(privilegeDTOToAdd -> privilegeService.createEntity(privilegeDTOToAdd));
-    return PrivilegeResponseBuilder.create().build();
+    return PrivilegeResponseBuilder.create().privileges(privileges).build();
   }
 
   List<PrivilegeDTO> computePrivilegesToCreate(PrivilegeForm form) {
