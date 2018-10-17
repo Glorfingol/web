@@ -20,18 +20,12 @@ spring:
       cachecontrol:
         max-age: 30D
 
-  security:
-    oauth2:
-      client:
-        registration:
-          facebook:
-            redirect-uri-template: {baseUrl}/login/oauth2/code/{registrationId}
-
 
 # HTTP Server
 server:
   port: 3233  # HTTP (Tomcat) port
-  use-forward-headers: true
+  tomcat:
+    internal-proxies: .*
 
 
 basePath: C:/volume1/cmpl/web
