@@ -87,16 +87,18 @@
     });
   }
 
-  var searchLinkableRoles = function (query) {
+  var searchLinkableRoles = function () {
+    var queryInput = $("#linkableQueryInput");
     var urlLinkableRoles = "/manager/users/" + [['' + ${createForm.userId} +'']]
-        + "/_linkable_roles?q=" + query;
+        + "/_linkable_roles?q=" + queryInput.val();
 
     searchRoles($("#linkableRoles"), urlLinkableRoles);
   }
 
-  var searchLinkedRoles = function (query) {
+  var searchLinkedRoles = function () {
+    var queryInput = $("#linkableQueryInput");
     var urlLinkedRoles = "/manager/users/" + [['' + ${createForm.userId} +'']]
-        + "/_linked_roles?q=" + query;
+        + "/_linked_roles?q=" + queryInput.val();
 
     searchRoles($("#linkedRoles"), urlLinkedRoles);
   }

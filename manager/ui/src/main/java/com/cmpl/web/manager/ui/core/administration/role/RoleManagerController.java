@@ -46,8 +46,8 @@ public class RoleManagerController {
   private final WebMessageSource messageSource;
 
   public RoleManagerController(RoleDispatcher roleDispatcher,
-      RoleManagerDisplayFactory roleManagerDisplayFactory,
-      NotificationCenter notificationCenter, WebMessageSource messageSource) {
+    RoleManagerDisplayFactory roleManagerDisplayFactory,
+    NotificationCenter notificationCenter, WebMessageSource messageSource) {
     this.roleDispatcher = Objects.requireNonNull(roleDispatcher);
     this.roleManagerDisplayFactory = Objects.requireNonNull(roleManagerDisplayFactory);
     this.notificationCenter = Objects.requireNonNull(notificationCenter);
@@ -58,7 +58,7 @@ public class RoleManagerController {
   @GetMapping
   @PreAuthorize("hasAuthority('administration:roles:read')")
   public ModelAndView printViewRoles(@RequestParam(name = "p", required = false) Integer pageNumber,
-      Locale locale) {
+    Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     return roleManagerDisplayFactory.computeModelAndViewForViewAllRoles(locale, pageNumberToUse);
@@ -67,12 +67,12 @@ public class RoleManagerController {
   @GetMapping(value = "/search")
   @PreAuthorize("hasAuthority('administration:roles:read')")
   public ModelAndView printSearchRoles(
-      @RequestParam(name = "p", required = false) Integer pageNumber,
-      @RequestParam(name = "q") String query, Locale locale) {
+    @RequestParam(name = "p", required = false) Integer pageNumber,
+    @RequestParam(name = "q") String query, Locale locale) {
 
     int pageNumberToUse = computePageNumberFromRequest(pageNumber);
     return roleManagerDisplayFactory
-        .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
+      .computeModelAndViewForAllEntitiesTab(locale, pageNumberToUse, query);
   }
 
   int computePageNumberFromRequest(Integer pageNumber) {
@@ -93,7 +93,7 @@ public class RoleManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:roles:create')")
   public ResponseEntity<RoleResponse> createRole(@Valid @RequestBody RoleCreateForm createForm,
-      BindingResult bindingResult, Locale locale) {
+    BindingResult bindingResult, Locale locale) {
     LOGGER.info("Tentative de création d'un role");
     if (bindingResult.hasErrors()) {
       notificationCenter.sendNotification("create.error", bindingResult, locale);
@@ -106,13 +106,13 @@ public class RoleManagerController {
       LOGGER.info("Entrée crée, id " + response.getRole().getId());
 
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("create.success", locale));
+        .sendNotification("success", messageSource.getMessage("create.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
       LOGGER.error("Echec de la creation de l'entrée", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("create.error", locale));
+        .sendNotification("danger", messageSource.getMessage("create.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
   }
@@ -121,7 +121,7 @@ public class RoleManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:roles:write')")
   public ResponseEntity<RoleResponse> updateRole(@Valid @RequestBody RoleUpdateForm updateForm,
-      BindingResult bindingResult, Locale locale) {
+    BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification d'un role");
     if (bindingResult.hasErrors()) {
@@ -135,13 +135,13 @@ public class RoleManagerController {
       LOGGER.info("Entrée modifiée, id " + response.getRole().getId());
 
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("update.success", locale));
+        .sendNotification("success", messageSource.getMessage("update.success", locale));
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("update.error", locale));
+        .sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -150,21 +150,21 @@ public class RoleManagerController {
   @GetMapping(value = "/{roleId}")
   @PreAuthorize("hasAuthority('administration:roles:read')")
   public ModelAndView printViewUpdateRole(@PathVariable(value = "roleId") String roleId,
-      Locale locale) {
+    Locale locale) {
     return roleManagerDisplayFactory.computeModelAndViewForUpdateRole(locale, roleId);
   }
 
   @GetMapping(value = "/{roleId}/_main")
   @PreAuthorize("hasAuthority('administration:roles:read')")
   public ModelAndView printViewUpdateRoleMain(@PathVariable(value = "roleId") String roleId,
-      Locale locale) {
+    Locale locale) {
     return roleManagerDisplayFactory.computeModelAndViewForUpdateRoleMain(locale, roleId);
   }
 
   @GetMapping(value = "/{roleId}/_privileges")
   @PreAuthorize("hasAuthority('administration:roles:read')")
   public ModelAndView printViewUpdateRolePrivileges(@PathVariable(value = "roleId") String roleId,
-      Locale locale) {
+    Locale locale) {
 
     return roleManagerDisplayFactory.computeModelAndViewForUpdateRolePrivileges(locale, roleId);
   }
@@ -172,7 +172,7 @@ public class RoleManagerController {
   @GetMapping(value = "/{roleId}/_memberships")
   @PreAuthorize("hasAuthority('administration:roles:read')")
   public ModelAndView printViewUpdateRoleMemberships(
-      @PathVariable(value = "roleId") String roleId) {
+    @PathVariable(value = "roleId") String roleId) {
     return roleManagerDisplayFactory.computeModelAndViewForMembership(roleId);
   }
 
@@ -180,8 +180,8 @@ public class RoleManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:roles:write')")
   public ResponseEntity<PrivilegeResponse> updateRolePrivileges(
-      @Valid @RequestBody PrivilegeForm privilegeForm,
-      BindingResult bindingResult, Locale locale) {
+    @Valid @RequestBody PrivilegeForm privilegeForm,
+    BindingResult bindingResult, Locale locale) {
 
     LOGGER.info("Tentative de modification des privileges d'un role");
     if (bindingResult.hasErrors()) {
@@ -192,12 +192,12 @@ public class RoleManagerController {
     try {
       PrivilegeResponse response = roleDispatcher.updateEntity(privilegeForm, locale);
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("update.success", locale));
-      return new ResponseEntity<>(response, HttpStatus.OK);
+        .sendNotification("success", messageSource.getMessage("update.success", locale));
+      return new ResponseEntity<>(HttpStatus.OK);
     } catch (Exception e) {
       LOGGER.error("Echec de la modification de l'entrée", e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("update.error", locale));
+        .sendNotification("danger", messageSource.getMessage("update.error", locale));
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -207,19 +207,19 @@ public class RoleManagerController {
   @ResponseBody
   @PreAuthorize("hasAuthority('administration:roles:delete')")
   public ResponseEntity<BaseResponse> deleteRole(@PathVariable(value = "roleId") String roleId,
-      Locale locale) {
+    Locale locale) {
     LOGGER.info("Tentative de suppression d'un role");
 
     try {
       BaseResponse response = roleDispatcher.deleteEntity(roleId, locale);
       notificationCenter
-          .sendNotification("success", messageSource.getMessage("delete.success", locale));
+        .sendNotification("success", messageSource.getMessage("delete.success", locale));
       LOGGER.info("Role " + roleId + " supprimé");
       return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     } catch (Exception e) {
       LOGGER.error("Erreur lors de la suppression du role " + roleId, e);
       notificationCenter
-          .sendNotification("danger", messageSource.getMessage("delete.error", locale));
+        .sendNotification("danger", messageSource.getMessage("delete.error", locale));
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

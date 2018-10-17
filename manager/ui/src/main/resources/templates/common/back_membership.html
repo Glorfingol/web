@@ -87,16 +87,18 @@
     });
   }
 
-  var searchLinkableGroups = function (query) {
+  var searchLinkableGroups = function () {
+    var queryInput = $("#linkableQueryInput");
     var urlLinkableGroups = "/manager/memberships/" + [['' + ${createForm.entityId} +'']]
-        + "/_linkable_groups?q=" + query;
+        + "/_linkable_groups?q=" + queryInput.val();
 
     searchGroups($("#linkableGroups"), urlLinkableGroups);
   }
 
-  var searchLinkedGroups = function (query) {
+  var searchLinkedGroups = function () {
+    var queryInput = $("#linkableQueryInput");
     var urlLinkedGroups = "/manager/memberships/" + [['' + ${createForm.entityId} +'']]
-        + "/_linked_groups?q=" + query;
+        + "/_linked_groups?q=" + queryInput.val();
 
     searchGroups($("#linkedGroups"), urlLinkedGroups);
   }

@@ -86,16 +86,18 @@
     });
   }
 
-  var searchLinkableStyles = function (query) {
+  var searchLinkableStyles = function () {
+    var queryInput = $("#linkableQueryInput");
     var urlLinkableStyles = "/manager/websites/" + [['' + ${createForm.websiteId} +'']]
-        + "/_linkable_styles?q=" + query;
+        + "/_linkable_styles?q=" + queryInput.val();
 
     searchStyles($("#linkableStyles"), urlLinkableStyles);
   }
 
-  var searchLinkedStyles = function (query) {
+  var searchLinkedStyles = function () {
+    var queryInput = $("#linkableQueryInput");
     var urlLinkedStyles = "/manager/websites/" + [['' + ${createForm.websiteId} +'']]
-        + "/_linked_styles?q=" + query;
+        + "/_linked_styles?q=" + queryInput.val();
 
     searchStyles($("#linkedStyles"), urlLinkedStyles);
   }
