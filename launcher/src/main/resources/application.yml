@@ -24,8 +24,7 @@ spring:
 # HTTP Server
 server:
   port: 3233  # HTTP (Tomcat) port
-  tomcat:
-    internal-proxies: .*
+
 
 
 basePath: C:/volume1/cmpl/web
