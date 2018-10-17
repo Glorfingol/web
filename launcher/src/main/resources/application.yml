@@ -20,6 +20,13 @@ spring:
       cachecontrol:
         max-age: 30D
 
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            redirect-uri-template: {baseUrl}/login/oauth2/code/{registrationId}
+
 
 # HTTP Server
 server:
