@@ -23,7 +23,8 @@ spring:
 
 # HTTP Server
 server:
-  port: 3232  # HTTP (Tomcat) port
+  port: 3233  # HTTP (Tomcat) port
+  use-forward-headers: true
 
 
 basePath: C:/volume1/cmpl/web
