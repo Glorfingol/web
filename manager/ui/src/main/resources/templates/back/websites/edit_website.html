@@ -9,19 +9,19 @@
           <span th:text="#{websites.tab.main}"/>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" th:if="${currentUser.hasPrivilege('webmastering:sitemaps:read')}">
         <a class="nav-link" id="sitemap-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToSitemapTab()">
           <span th:text="#{websites.tab.sitemap}"/>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" th:if="${currentUser.hasPrivilege('webmastering:designs:read')}">
         <a class="nav-link" id="design-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToDesignTab()">
           <span th:text="#{websites.tab.design}"/>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" th:if="${currentUser.hasPrivilege('administration:memberships:read')}">
         <a class="nav-link" id="membership-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToMembershipTab()">
           <span th:text="#{tab.membership}"/>

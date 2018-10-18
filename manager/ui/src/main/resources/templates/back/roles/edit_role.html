@@ -9,13 +9,14 @@
           <span th:text="#{roles.tab.main}"/>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" id="body-tab" data-toggle="tab" href="#" role="tab"
+      <li class="nav-item"
+          th:if="${currentUser.hasPrivilege('administration:roles-privileges:read')}">
+        <a class=" nav-link" id="body-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToPrivilegesTab()">
           <span th:text="#{roles.tab.privileges}"/>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" th:if="${currentUser.hasPrivilege('administration:memberships:read')}">
         <a class="nav-link" id="membership-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToMembershipTab()">
           <span th:text="#{tab.membership}"/>

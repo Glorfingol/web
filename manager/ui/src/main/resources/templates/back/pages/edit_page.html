@@ -10,44 +10,44 @@
           <span th:text="#{page.tab.main}"/>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" th:if="${currentUser.hasPrivilege('webmastering:pages-body:read')}">
         <a class="nav-link" id="body-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToBodyTab()">
           <span th:text="#{page.tab.body}"/>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" th:if="${currentUser.hasPrivilege('webmastering:pages-header:read')}">
         <a class="nav-link" id="header-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToHeaderTab()">
           <span th:text="#{page.tab.header}"/>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" th:if="${currentUser.hasPrivilege('webmastering:pages-footer:read')}">
         <a class="nav-link" id="footer-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToFooterTab()">
           <span th:text="#{page.tab.footer}"/>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" th:if="${currentUser.hasPrivilege('webmastering:pages-meta:read')}">
         <a class="nav-link" id="news-meta-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToMetaTab()">
           <span th:text="#{page.tab.meta}"/>
         </a>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item" th:if="${currentUser.hasPrivilege('webmastering:pages-widgets:read')}">
         <a class="nav-link" id="widgets-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToWidgetsTab()">
           <span th:text="#{page.widgets}"/>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" th:if="${currentUser.hasPrivilege('webmastering:pages-amp:read')}">
         <a class="nav-link" id="amp-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToPageAmpTab()">
           <span th:text="#{page.tab.amp}"/>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" th:if="${currentUser.hasPrivilege('administration:memberships:read')}">
         <a class="nav-link" id="membership-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToMembershipTab()">
           <span th:text="#{tab.membership}"/>

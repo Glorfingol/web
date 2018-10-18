@@ -16,7 +16,7 @@
           <span th:text="#{widget.tab.personalization}"/>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" th:if="${currentUser.hasPrivilege('administration:memberships:read')}">
         <a class="nav-link" id="membership-tab" data-toggle="tab" href="#" role="tab"
            onclick="goToMembershipTab()">
           <span th:text="#{tab.membership}"/>

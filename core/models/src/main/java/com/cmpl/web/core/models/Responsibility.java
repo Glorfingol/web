@@ -5,8 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-@Entity(name = "responsibilities")
-@Table(name = "responsibilities", indexes = {@Index(name = "IDX_USER", columnList = "user_id"),
+@Entity(name = "responsibility")
+@Table(name = "responsibility", indexes = {@Index(name = "IDX_USER", columnList = "user_id"),
   @Index(name = "IDX_ROLE", columnList = "role_id"),
   @Index(name = "IDX_ROLE_USER", columnList = "role_id,user_id")})
 public class Responsibility extends BaseEntity {

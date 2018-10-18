@@ -33,4 +33,9 @@ public class RolePrivilegeConfiguration {
     return new SimplePrivilege("administration", "roles-privileges", "write");
   }
 
+  @Bean
+  public Privilege rolesPrivilegesReadPrivilege() {
+    return new SimplePrivilege("administration", "roles-privileges", "read");
+  }
+
 }

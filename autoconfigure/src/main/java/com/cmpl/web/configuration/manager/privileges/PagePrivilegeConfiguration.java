@@ -34,13 +34,30 @@ public class PagePrivilegeConfiguration {
   }
 
   @Bean
-  public Privilege pagesHeaderWritePrivilege() {
+  public Privilege pagesBodyReadPrivilege() {
+    return new SimplePrivilege("webmastering", "pages-body", "read");
+  }
+
+  @Bean
+  public Privilege pagesHeaderReadPrivilege() {
     return new SimplePrivilege("webmastering", "pages-header", "write");
+  }
+
+
+  @Bean
+  public Privilege pagesHeaderWritePrivilege() {
+    return new SimplePrivilege("webmastering", "pages-header", "read");
   }
 
   @Bean
   public Privilege pagesFooterWritePrivilege() {
     return new SimplePrivilege("webmastering", "pages-footer", "write");
+  }
+
+
+  @Bean
+  public Privilege pagesFooterReadPrivilege() {
+    return new SimplePrivilege("webmastering", "pages-footer", "read");
   }
 
   @Bean
@@ -49,8 +66,18 @@ public class PagePrivilegeConfiguration {
   }
 
   @Bean
+  public Privilege pagesMetaReadPrivilege() {
+    return new SimplePrivilege("webmastering", "pages-meta", "read");
+  }
+
+  @Bean
   public Privilege pagesAmpWritePrivilege() {
     return new SimplePrivilege("webmastering", "pages-amp", "write");
+  }
+
+  @Bean
+  public Privilege pagesAmpReadPrivilege() {
+    return new SimplePrivilege("webmastering", "pages-amp", "read");
   }
 
   @Bean
