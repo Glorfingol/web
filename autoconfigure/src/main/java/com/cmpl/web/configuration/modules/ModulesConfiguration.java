@@ -16,21 +16,21 @@ import org.springframework.social.connect.web.ConnectController;
 
 @Configuration
 @Import({GoogleConfiguration.class, FacebookAutoConfiguration.class, FacebookConfiguration.class,
-        BackupConfiguration.class, BackupExportConfiguration.class, BackupImportConfiguration.class})
+  BackupConfiguration.class, BackupExportConfiguration.class, BackupImportConfiguration.class})
 public class ModulesConfiguration {
 
 
-    @Value(value = "${baseUrl}")
-    private String baseUrl;
+  @Value(value = "${baseUrl}")
+  private String baseUrl;
 
-    @Bean
-    public ConnectController connectController(ConnectionFactoryLocator connectionFactoryLocator,
-                                               ConnectionRepository connectionRepository) {
-        ConnectController controller = new ConnectController(connectionFactoryLocator,
-                connectionRepository);
-        controller.setApplicationUrl(baseUrl);
-        return controller;
+  @Bean
+  public ConnectController connectController(ConnectionFactoryLocator connectionFactoryLocator,
+    ConnectionRepository connectionRepository) {
+    ConnectController controller = new ConnectController(connectionFactoryLocator,
+      connectionRepository);
+    controller.setApplicationUrl(baseUrl);
+    return controller;
 
-    }
+  }
 
 }
