@@ -38,6 +38,7 @@ import com.cmpl.web.manager.ui.core.administration.responsibilities.Responsibili
 import com.cmpl.web.manager.ui.core.administration.role.RoleManagerController;
 import com.cmpl.web.manager.ui.core.administration.user.CurrentUserControllerAdvice;
 import com.cmpl.web.manager.ui.core.administration.user.UserManagerController;
+import com.cmpl.web.manager.ui.core.common.i18n.CurrentLocaleControllerAdvice;
 import com.cmpl.web.manager.ui.core.index.IndexManagerController;
 import com.cmpl.web.manager.ui.core.login.LoginController;
 import com.cmpl.web.manager.ui.core.webmastering.carousel.CarouselManagerController;
@@ -142,6 +143,12 @@ public class BackControllerConfiguration {
   public CurrentUserControllerAdvice currentUserControllerAdvice() {
     return new CurrentUserControllerAdvice();
   }
+
+  @Bean
+  public CurrentLocaleControllerAdvice currentLocaleControllerAdvice() {
+    return new CurrentLocaleControllerAdvice();
+  }
+
 
   @Bean
   public UserManagerController userManagerController(

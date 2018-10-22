@@ -9,6 +9,9 @@ spring:
       org.hibernate: ERROR
     pattern:
       console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+      file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    path: ${basePath}/logs
+    file: ${logging.path}/web.log
   boot:
     admin:
       client:

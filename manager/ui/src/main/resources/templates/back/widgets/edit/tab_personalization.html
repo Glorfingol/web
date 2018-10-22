@@ -99,6 +99,7 @@
     var isWithDatasource = [[${withDatasource}]];
     if (isWithDatasource) {
       $('.datasourceSelect').select2({
+        language: "[[ ${currentLocale.language} ]]",
         ajax: {
           url: [['' + ${ajaxSearchUrl} +'']],
           dataType: "json",

@@ -61,6 +61,7 @@
     $(".loader").hide();
 
     $('.mediaSelect').select2({
+      language: "[[ ${currentLocale.language} ]]",
       ajax: {
         url: "/manager/medias/ajaxSearch",
         dataType: "json",
