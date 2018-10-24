@@ -3,7 +3,7 @@
 A light application that allows you to create a simple website.  
 
 Technologies :  
-Java 8, Spring Boot 2 M7, Thymeleaf 3.0.9, Bootstrap 4, Jquery 3.2.0 , CodeMirror 5.34.0 and FontAwesome
+Java 8, Spring Boot 2, Thymeleaf 3.0.9, Bootstrap 4, Jquery 3.2.0 , CodeMirror 5.34.0 and FontAwesome
 
 # Configuration
 The main configuration file is application.yml  
@@ -13,9 +13,9 @@ Please do note that there are several *.properties and you need to change the pa
 
 # Launch
 Simply run WebLauncher as a java program  
-NewsFactory will provide some default blog entries for the website, provided you run WebLauncher with -Dspring.profiles.active=dev as vm arguments 
+NewsFactory will provide some default blog entries for the website, provided you run WebLauncher with -Dspring.profiles.active=dev as vm arguments   
 PageFactory will provide some default values for the website, provided you run WebLauncher with -Dspring.profiles.active=dev as vm arguments  
-As for the db, feel free to modify application.yml
+As for the db, feel free to modify application.yml  
 By default, it will use an inline h2 db
 
 # Language
@@ -28,7 +28,7 @@ In order to do so, create the corresponding files in the i18n folder and add you
 # Access
 The backoffice url is your_localhost:your_port/manager/*  
 The front office url is your_localhost:your_port/pages/your_page_name  
-The media url is your_localhost:your_port/public/media/
+The media url is your_localhost:your_port/public/media/  
 
 In order to access to the backoffice you need to create a user in the db and a role with all the privileges and associate the user with the role
 
@@ -40,17 +40,30 @@ But you can add roles
 ## Roles
 You can create and manage roles for the users here.  
 ### Rights  
-This tab's purpose is to define which rights are given to the role
+This tab's purpose is to define which rights are given to the role  
+## Groups  
+You can create a group and then associate any entity with it  (tab "memberships")  
+Belonging to a group grant access to any entity belonging to the group  
+Groups allow you to filter what entities can be modified by whom
 
 # Website management
-## Menu
-You can create a menu and any sub menu there and link it to a page
+## Website
+You can create a website in this page  
+The main properties are :
+- Name (the name of the website)
+- Description (a short description)
+- Https (is the site secured via https)
+- Extension (is it .com ?)   
+
+The others flags determine if the system should load some js librairies or not  
+You may associate some styles and page to a website once you have created some
 ## Media
-You can upload and download any kind of file there
+You can upload and download any kind of file there  
+Be careful with what you upload
 ## Carousel
-You can create a carousel there and link it to a page
+You can create a carousel there
 ## Style
-You can configure the stylesheet of the website there
+You can configure a stylesheet there
 ## Blog
 You can create blog entries there
 ## Facebook
@@ -59,7 +72,7 @@ You can connect to your Facebook account and import the latest posts and convert
 Widgets are the core of the page content management  
 They are the html components that will construct your pages  
 You can personalize the widgets by selecting a datasource and modifying its html content in the desired language  
-There are many kinds of widgets from plain HTML, to IMAGE (linked to a media), VIDEO (linked to a media), MENU (linked to the menu)  
+There are many kinds of widgets from plain HTML, to IMAGE (linked to a media), VIDEO (linked to a media),  
 BLOG (all the blog entries), BLOG_ENTRY (a specific blog entry) and CAROUSEL (linked to a carousel)
 There are some macros that you can drag and drop. They are bootstrap 4 components
 ## Pages
@@ -67,6 +80,7 @@ There is a menu where you can create a page with its body, its header and footer
 You can link widgets to the page or remove said link  
 You can decide for which language the body,header,footer,meta will be created with the select
 In the editor (from codemirror) you can drag and drop any associated widget  
+You can also decide wether or not the page can appear in the sitemap of the website to which it is linked  
 Please note that the technology used for the templates is Thymeleaf (http://www.thymeleaf.org/doc/tutorials/2.1/thymeleafspring.html)
 
 
