@@ -1,44 +1,50 @@
 <div class="col-12">
-  <div class="input-group mt-3 mb-3">
-    <input type="text" id="linkedQueryInput" class="form-control"
-           th:placeholder="${searchPlaceHolder}"
-           th:aria-label="${searchPlaceHolder}"
-           aria-describedby="addon">
-    <div class="input-group-append">
-      <btn class="btn input-group-text" id="addon" onclick="searchWebsites()">
-        <i class="fa fa-search"></i>
-      </btn>
+    <div class="input-group mt-3 mb-3">
+        <input type="text" id="linkedQueryInput" class="form-control"
+               th:placeholder="${searchPlaceHolder}"
+               th:aria-label="${searchPlaceHolder}"
+               aria-describedby="addon">
+        <div class="input-group-append">
+            <btn class="btn input-group-text" id="addon" onclick="searchWebsites()">
+                <i class="fa fa-search"></i>
+            </btn>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="col-12" th:each="website : ${linkedWebsites.content}">
-  <a th:onclick="${'loadPreview(''' + website.name + ''')'}" th:title=" ${website.name}"
-     class="previewMenu">
-    <div class="card">
-      <div class="card-body">
-        <span th:text="${website.name}"></span>
-      </div>
-    </div>
-  </a>
+    <a th:title=" ${website.name}"
+       class="previewMenu" th:id="${website.name}">
+        <div class="card">
+            <div class="card-body">
+                <span th:text="${website.name}"></span>
+            </div>
+        </div>
+    </a>
 </div>
 <script th:inline="javascript">
 
-  $(document).ready(function () {
-    $(".card-loader").hide();
-    $(".loader").hide();
-    var queryInput = $("#linkedQueryInput");
-    queryInput.keyup(function () {
-      var value = $(this).val();
-      if (value.length >= 3) {
-        searchWebsites();
-      }
-      if (value.length == 0) {
-        searchWebsites();
-      }
-    });
+    $(document).ready(function () {
+        $(".card-loader").hide();
+        $(".loader").hide();
+        var queryInput = $("#linkedQueryInput");
+        queryInput.keyup(function () {
+            var value = $(this).val();
+            if (value.length >= 3) {
+                searchWebsites();
+            }
+            if (value.length == 0) {
+                searchWebsites();
+            }
+        });
 
-  });
+        $(".previewMenu").each(function () {
+            var that = $(this);
+            that.on("click", function () {
+                loadPreview(that.attr("id"));
+            });
+        });
+    });
 
 
 </script>

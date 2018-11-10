@@ -1,129 +1,129 @@
 <form id="widgetUpdateForm" th:object="${updateForm}">
-  <div class="row">
-    <div class="col-9">
-      <div class="form-check form-group mb-3" id="formInputDatasource" th:if="${withDatasource}">
-        <label th:text="#{widget.datasource.label}"/>
-        <select th:field="*{entityId}" class="form-control datasourceSelect">
-          <option th:if="${linkedEntity != null}" th:value="${linkedEntity.id}"
-                  th:text="${linkedEntity.name}"></option>
-        </select>
-        <small class="form-text text-muted" th:text="#{widget.datasource.help}"/>
-      </div>
-      <div class="form-check form-group">
-        <label th:text="#{widget.personalization.language.label}"/>
-        <select name="localeCode" id="localeCode" th:field="*{localeCode}"
-                class="form-control">
-          <option th:each="locale : ${locales}" th:value="${locale.language}"
-                  th:text="${locale.displayLanguage}"></option>
-        </select>
-        <small class="form-text text-muted" th:text="#{widget.personalization.language.help}"/>
-      </div>
-      <div class="form-check form-group mb-3" id="variables">
-        <p>
-          <button class="btn btn-primary" type="button" data-toggle="collapse"
-                  data-target="#collapseVariables" aria-expanded="false"
-                  aria-controls="collapseVariables" th:text="#{widget.personalization.variables}">
-          </button>
-        </p>
-        <div class="collapse" id="collapseVariables">
-          <div class="card card-body">
-            <span th:utext="#{${tooltipKey}}"></span>
-          </div>
-        </div>
-      </div>
-      <div class="form-check form-group mb-3" id="formInputPersonalization">
-        <label th:text="#{widget.personalization.label}"/>
-        <textarea rows="3" id="widgetPersonalization" class="form-control"
-                  th:field="*{personalization}"/>
-        <small class="form-text text-muted" th:text="#{widget.personalization.help}"/>
-      </div>
-      <input type="hidden" th:field="*{name}"/>
-      <input type="hidden" th:field="*{type}"/>
-      <input type="hidden" th:field="*{id}"/>
-      <input type="hidden" th:field="*{creationDate}"/>
-      <input type="hidden" th:field="*{creationUser}"/>
-      <input type="hidden" th:field="*{modificationDate}"/>
-      <input type="hidden" th:field="*{modificationUser}"/>
-      <input type="hidden" th:field="*{asynchronous}"/>
-    </div>
-    <div class="col-3" id="dragAndDrop">
-      <table class="table table-responsive-md table-hover table-bordered tabble-striped">
-        <thead>
-        <tr>
-          <th scope="col">
-            <label th:text="#{widget.personalization.macro}"/>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="macro : ${macros}">
-          <td>
-            <div th:attr="data-name=${macro}" class="macros" draggable="true">
-              <label th:text="${macro}"/>
+    <div class="row">
+        <div class="col-9">
+            <div class="form-check form-group mb-3" id="formInputDatasource" th:if="${withDatasource}">
+                <label th:text="#{widget.datasource.label}"/>
+                <select th:field="*{entityId}" class="form-control datasourceSelect">
+                    <option th:if="${linkedEntity != null}" th:value="${linkedEntity.id}"
+                            th:text="${linkedEntity.name}"></option>
+                </select>
+                <small class="form-text text-muted" th:text="#{widget.datasource.help}"/>
             </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+            <div class="form-check form-group">
+                <label th:text="#{widget.personalization.language.label}"/>
+                <select name="localeCode" id="localeCode" th:field="*{localeCode}"
+                        class="form-control">
+                    <option th:each="locale : ${locales}" th:value="${locale.language}"
+                            th:text="${locale.displayLanguage}"></option>
+                </select>
+                <small class="form-text text-muted" th:text="#{widget.personalization.language.help}"/>
+            </div>
+            <div class="form-check form-group mb-3" id="variables">
+                <p>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse"
+                            data-target="#collapseVariables" aria-expanded="false"
+                            aria-controls="collapseVariables" th:text="#{widget.personalization.variables}">
+                    </button>
+                </p>
+                <div class="collapse" id="collapseVariables">
+                    <div class="card card-body">
+                        <span th:utext="#{${tooltipKey}}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-check form-group mb-3" id="formInputPersonalization">
+                <label th:text="#{widget.personalization.label}"/>
+                <textarea rows="3" id="widgetPersonalization" class="form-control"
+                          th:field="*{personalization}"/>
+                <small class="form-text text-muted" th:text="#{widget.personalization.help}"/>
+            </div>
+            <input type="hidden" th:field="*{name}"/>
+            <input type="hidden" th:field="*{type}"/>
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{creationDate}"/>
+            <input type="hidden" th:field="*{creationUser}"/>
+            <input type="hidden" th:field="*{modificationDate}"/>
+            <input type="hidden" th:field="*{modificationUser}"/>
+            <input type="hidden" th:field="*{asynchronous}"/>
+        </div>
+        <div class="col-3" id="dragAndDrop">
+            <table class="table table-responsive-md table-hover table-bordered tabble-striped">
+                <thead>
+                <tr>
+                    <th scope="col">
+                        <label th:text="#{widget.personalization.macro}"/>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="macro : ${macros}">
+                    <td>
+                        <div th:attr="data-name=${macro}" class="macros" draggable="true">
+                            <label th:text="${macro}"/>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="float-right">
-        <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdateWidget()"></a>
-        <a class="btn btn-md btn-success fa fa-check fa-white"
-           onclick="postUpdateWidgetPersonalization()"
-           th:if="${currentUser.hasPrivilege('webmastering:widgets-personalization:write')}"></a>
-      </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="float-right">
+                <a class="btn btn-md btn-danger fa fa-times fa-white" onclick="cancelUpdateWidget()"></a>
+                <a class="btn btn-md btn-success fa fa-check fa-white"
+                   onclick="postUpdateWidgetPersonalization()"
+                   th:if="${currentUser.hasPrivilege('webmastering:widgets-personalization:write')}"></a>
+            </div>
+        </div>
     </div>
-  </div>
 </form>
 <div class="card card-loader">
-  <div class="loader">
-  </div>
+    <div class="loader">
+    </div>
 </div>
 <script th:inline="javascript">
-  $(document).ready(function () {
+    $(document).ready(function () {
 
-    $(".card-loader").hide();
-    $(".loader").hide();
+        $(".card-loader").hide();
+        $(".loader").hide();
 
-    $("#localeCode").change(function () {
-      currentTab = "";
-      languageCode = $("#localeCode").val();
-      goToPersonalizationTab();
-    });
+        $("#localeCode").change(function () {
+            currentTab = "";
+            languageCode = $("#localeCode").val();
+            goToPersonalizationTab();
+        });
 
-    $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"]').tooltip();
 
-    var isWithDatasource = [[${withDatasource}]];
-    if (isWithDatasource) {
-      $('.datasourceSelect').select2({
-        language: "[[ ${currentLocale.language} ]]",
-        ajax: {
-          url: [['' + ${ajaxSearchUrl} +'']],
-          dataType: "json",
-          data: function (params) {
-            return {
-              q: params.term,
-              page: 0
-            };
-          },
-          minimumInputLength: 2,
-          processResults: function (data, params) {
-            params.page = params.page || 1;
+        var isWithDatasource = [[${withDatasource}]];
+        if (isWithDatasource) {
+            $('.datasourceSelect').select2({
+                language: [[${currentLocale.language}]],
+                ajax: {
+                    url: [['' + ${ajaxSearchUrl} +'']],
+                    dataType: "json",
+                    data: function (params) {
+                        return {
+                            q: params.term,
+                            page: 0
+                        };
+                    },
+                    minimumInputLength: 2,
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
 
-            var result = $.map(data.content, function (obj) {
-              obj.text = obj.name;
-              return obj;
+                        var result = $.map(data.content, function (obj) {
+                            obj.text = obj.name;
+                            return obj;
+                        });
+                        return {
+                            results: result
+                        };
+                    },
+                }
             });
-            return {
-              results: result
-            };
-          },
         }
-      });
-    }
 
-  });
+    });
 </script>
