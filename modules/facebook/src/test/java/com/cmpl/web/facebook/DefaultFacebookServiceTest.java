@@ -3,14 +3,6 @@ package com.cmpl.web.facebook;
 import com.cmpl.web.core.common.context.ContextHolder;
 import com.cmpl.web.core.common.exception.BaseException;
 import com.cmpl.web.core.news.entry.NewsEntryService;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,456 +15,444 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.FeedOperations;
-import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.PagingParameters;
-import org.springframework.social.facebook.api.Post;
+import org.springframework.social.facebook.api.*;
 import org.springframework.social.facebook.api.Post.PostType;
-import org.springframework.social.facebook.api.Reference;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 ;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultFacebookServiceTest {
 
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
-  @Mock
-  private NewsEntryService newsEntryService;
+    @Mock
+    private NewsEntryService newsEntryService;
 
-  @Mock
-  private Facebook facebookConnector;
+    @Mock
+    private Facebook facebookConnector;
 
-  @Mock
-  private SimpleDateFormat dateFormat;
+    @Mock
+    private SimpleDateFormat dateFormat;
 
-  @Mock
-  private ConnectionRepository connectionRepository;
+    @Mock
+    private ConnectionRepository connectionRepository;
 
-  @Mock
-  private ContextHolder contextHolder;
+    @Mock
+    private ContextHolder contextHolder;
 
-  @InjectMocks
-  @Spy
-  private DefaultFacebookService facebookService;
+    @InjectMocks
+    @Spy
+    private DefaultFacebookService facebookService;
 
-  @Test
-  public void testComputeDescription_From_Message() throws Exception {
-    String message = "someMessage";
-    Post post = PostBuilder.create().message(message).build();
+    @Test
+    public void testComputeDescription_From_Message() throws Exception {
+        String message = "someMessage";
+        Post post = PostBuilder.create().message(message).build();
 
-    String result = facebookService.computeDescription(post);
+        String result = facebookService.computeDescription(post);
 
-    Assert.assertEquals(message, result);
+        Assert.assertEquals(message, result);
 
-  }
+    }
 
-  @Test
-  public void testComputeDescription_From_Description() throws Exception {
-    String description = "someDescription";
-    Post post = PostBuilder.create().description(description).build();
+    @Test
+    public void testComputeDescription_From_Description() throws Exception {
+        String description = "someDescription";
+        Post post = PostBuilder.create().description(description).build();
 
-    String result = facebookService.computeDescription(post);
+        String result = facebookService.computeDescription(post);
 
-    Assert.assertEquals(description, result);
+        Assert.assertEquals(description, result);
 
-  }
+    }
 
-  @Test
-  public void testComputeOnclick() throws Exception {
-    String toggle = "toggleImport('123456789')";
 
-    String id = "123456789";
-    Post post = PostBuilder.create().id(id).build();
+    @Test
+    public void testComputeId() throws Exception {
+        String id = "123456789";
+        Post post = PostBuilder.create().id(id).build();
 
-    BDDMockito.doReturn("123456789").when(facebookService).computeId(BDDMockito.eq(post));
+        String result = facebookService.computeId(post);
 
-    String result = facebookService.computeOnclick(post);
+        Assert.assertEquals(id, result);
+    }
 
-    Assert.assertEquals(toggle, result);
-  }
+    @Test
+    public void testComputeObjectId() throws Exception {
+        String objectId = "123456789";
+        Post post = PostBuilder.create().objectId(objectId).build();
 
-  @Test
-  public void testComputeId() throws Exception {
-    String id = "123456789";
-    Post post = PostBuilder.create().id(id).build();
+        String result = facebookService.computeObjectId(post);
 
-    String result = facebookService.computeId(post);
+        Assert.assertEquals(objectId, result);
+    }
 
-    Assert.assertEquals(id, result);
-  }
+    @Test
+    public void testComputeCreatedTime() throws Exception {
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        LocalDate createdTime = LocalDate.now();
+        Post post = PostBuilder.create()
+                .createdTime(Date.from(createdTime.atStartOfDay(defaultZoneId).toInstant()))
+                .build();
 
-  @Test
-  public void testComputeObjectId() throws Exception {
-    String objectId = "123456789";
-    Post post = PostBuilder.create().objectId(objectId).build();
+        LocalDate result = facebookService.computeCreatedTime(post);
 
-    String result = facebookService.computeObjectId(post);
+        Assert.assertEquals(createdTime, result);
+    }
 
-    Assert.assertEquals(objectId, result);
-  }
+    @Test
+    public void testComputeType() throws Exception {
+        PostType type = PostType.STATUS;
+        Post post = PostBuilder.create().type(type).build();
 
-  @Test
-  public void testComputeCreatedTime() throws Exception {
-    ZoneId defaultZoneId = ZoneId.systemDefault();
-    LocalDate createdTime = LocalDate.now();
-    Post post = PostBuilder.create()
-        .createdTime(Date.from(createdTime.atStartOfDay(defaultZoneId).toInstant()))
-        .build();
+        PostType result = facebookService.computeType(post);
 
-    LocalDate result = facebookService.computeCreatedTime(post);
+        Assert.assertEquals(type, result);
+    }
 
-    Assert.assertEquals(createdTime, result);
-  }
+    @Test
+    public void testComputeLink() throws Exception {
+        String link = "someLink";
+        Post post = PostBuilder.create().link(link).build();
 
-  @Test
-  public void testComputeType() throws Exception {
-    PostType type = PostType.STATUS;
-    Post post = PostBuilder.create().type(type).build();
+        String result = facebookService.computeLink(post);
 
-    PostType result = facebookService.computeType(post);
+        Assert.assertEquals(link, result);
+    }
 
-    Assert.assertEquals(type, result);
-  }
+    @Test
+    public void testComputeAuthor() throws Exception {
+        String name = "someName";
+        Reference reference = ReferenceBuilder.create().name(name).build();
+        Post post = PostBuilder.create().reference(reference).build();
 
-  @Test
-  public void testComputeLink() throws Exception {
-    String link = "someLink";
-    Post post = PostBuilder.create().link(link).build();
+        String result = facebookService.computeAuthor(post);
 
-    String result = facebookService.computeLink(post);
+        Assert.assertEquals(name, result);
 
-    Assert.assertEquals(link, result);
-  }
+    }
 
-  @Test
-  public void testComputeAuthor() throws Exception {
-    String name = "someName";
-    Reference reference = ReferenceBuilder.create().name(name).build();
-    Post post = PostBuilder.create().reference(reference).build();
+    @Test
+    public void testComputePhotoUrl_Ok() throws Exception {
 
-    String result = facebookService.computeAuthor(post);
+        String picture = "somePictureUrl";
+        Post post = PostBuilder.create().picture(picture).type(PostType.PHOTO).build();
 
-    Assert.assertEquals(name, result);
+        String result = facebookService.computePhotoUrl(post);
 
-  }
+        Assert.assertEquals(picture, result);
+    }
 
-  @Test
-  public void testComputePhotoUrl_Ok() throws Exception {
+    @Test
+    public void testComputePhotoUrl_No_Photo() throws Exception {
+        Post post = PostBuilder.create().type(PostType.STATUS).build();
 
-    String picture = "somePictureUrl";
-    Post post = PostBuilder.create().picture(picture).type(PostType.PHOTO).build();
+        String result = facebookService.computePhotoUrl(post);
 
-    String result = facebookService.computePhotoUrl(post);
+        Assert.assertTrue(!StringUtils.hasText(result));
+    }
 
-    Assert.assertEquals(picture, result);
-  }
+    @Test
+    public void testComputeVideoUrl_Ok() throws Exception {
+        String sourceNotAutoplay = "someVideoUrl?autoplay=0";
+        String sourceAutoplay = "someVideoUrl?autoplay=1";
+        Post post = PostBuilder.create().source(sourceAutoplay).build();
 
-  @Test
-  public void testComputePhotoUrl_No_Photo() throws Exception {
-    Post post = PostBuilder.create().type(PostType.STATUS).build();
+        BDDMockito.doReturn(sourceNotAutoplay).when(facebookService)
+                .makeVideoNotAutoplay(BDDMockito.eq(sourceAutoplay));
+        String result = facebookService.computeVideoUrl(post);
 
-    String result = facebookService.computePhotoUrl(post);
+        Assert.assertEquals(sourceNotAutoplay, result);
 
-    Assert.assertTrue(!StringUtils.hasText(result));
-  }
+    }
 
-  @Test
-  public void testComputeVideoUrl_Ok() throws Exception {
-    String sourceNotAutoplay = "someVideoUrl?autoplay=0";
-    String sourceAutoplay = "someVideoUrl?autoplay=1";
-    Post post = PostBuilder.create().source(sourceAutoplay).build();
+    @Test
+    public void testComputeVideoUrl_No_Video() throws Exception {
 
-    BDDMockito.doReturn(sourceNotAutoplay).when(facebookService)
-        .makeVideoNotAutoplay(BDDMockito.eq(sourceAutoplay));
-    String result = facebookService.computeVideoUrl(post);
+        Post post = PostBuilder.create().build();
 
-    Assert.assertEquals(sourceNotAutoplay, result);
+        String result = facebookService.computeVideoUrl(post);
 
-  }
+        Assert.assertNull(result);
+    }
 
-  @Test
-  public void testComputeVideoUrl_No_Video() throws Exception {
+    @Test
+    public void testMakeVideoNotAutoplay_Change() throws Exception {
+        String sourceNotAutoplay = "someVideoUrl?autoplay=0";
+        String sourceAutoplay = "someVideoUrl?autoplay=1";
 
-    Post post = PostBuilder.create().build();
+        String result = facebookService.makeVideoNotAutoplay(sourceAutoplay);
 
-    String result = facebookService.computeVideoUrl(post);
+        Assert.assertEquals(sourceNotAutoplay, result);
+    }
 
-    Assert.assertNull(result);
-  }
+    @Test
+    public void testMakeVideoNotAutoplay_No_Change() throws Exception {
+
+        String source = "someVideoUrl";
+
+        String result = facebookService.makeVideoNotAutoplay(source);
+
+        Assert.assertEquals(source, result);
+    }
+
+    @Test
+    public void testComputeTitle_From_Name() throws Exception {
+        String name = "someName";
+        Post post = PostBuilder.create().name(name).build();
 
-  @Test
-  public void testMakeVideoNotAutoplay_Change() throws Exception {
-    String sourceNotAutoplay = "someVideoUrl?autoplay=0";
-    String sourceAutoplay = "someVideoUrl?autoplay=1";
+        String result = facebookService.computeTitle(post);
 
-    String result = facebookService.makeVideoNotAutoplay(sourceAutoplay);
+        Assert.assertEquals(name, result);
+    }
 
-    Assert.assertEquals(sourceNotAutoplay, result);
-  }
+    @Test
+    public void testComputeTitle_From_Caption() throws Exception {
+        String caption = "someCaption";
+        Post post = PostBuilder.create().caption(caption).build();
 
-  @Test
-  public void testMakeVideoNotAutoplay_No_Change() throws Exception {
+        String result = facebookService.computeTitle(post);
 
-    String source = "someVideoUrl";
-
-    String result = facebookService.makeVideoNotAutoplay(source);
-
-    Assert.assertEquals(source, result);
-  }
-
-  @Test
-  public void testComputeTitle_From_Name() throws Exception {
-    String name = "someName";
-    Post post = PostBuilder.create().name(name).build();
+        Assert.assertEquals(caption, result);
+    }
 
-    String result = facebookService.computeTitle(post);
+    @Test
+    public void testComputeTitle_From_Type() throws Exception {
+        String type = "Type STATUS";
+        Post post = PostBuilder.create().type(PostType.STATUS).build();
 
-    Assert.assertEquals(name, result);
-  }
+        String result = facebookService.computeTitle(post);
 
-  @Test
-  public void testComputeTitle_From_Caption() throws Exception {
-    String caption = "someCaption";
-    Post post = PostBuilder.create().caption(caption).build();
+        Assert.assertEquals(type, result);
+    }
 
-    String result = facebookService.computeTitle(post);
+    @Test
+    public void testComputeImportablePost() throws Exception {
+        String message = "someMessage";
+        String caption = "someCaption";
+        String name = "someName";
+        String source = "someVideoUrl";
+        String picture = "somePictureUrl";
+        String link = "someLink";
+        PostType type = PostType.STATUS;
+        String objectId = "123456789";
+        String id = "123456789";
+        String description = "someDescription";
+        String author = "author";
+        LocalDate createdTime = LocalDate.now();
+        String formattedDate = "24/10/89";
+        String onclick = "toggleImport(" + id + ");";
 
-    Assert.assertEquals(caption, result);
-  }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        ZoneId defaultZoneId = ZoneId.systemDefault();
 
-  @Test
-  public void testComputeTitle_From_Type() throws Exception {
-    String type = "Type STATUS";
-    Post post = PostBuilder.create().type(PostType.STATUS).build();
+        Post post = PostBuilder.create().id(id).objectId(objectId).name(name).caption(caption)
+                .description(description)
+                .source(source).message(message).picture(picture).link(link).type(type)
+                .createdTime(Date.from(createdTime.atStartOfDay(defaultZoneId).toInstant())).build();
 
-    String result = facebookService.computeTitle(post);
+        BDDMockito.doReturn(author).when(facebookService).computeAuthor(BDDMockito.eq(post));
+        BDDMockito.doReturn(description).when(facebookService).computeDescription(BDDMockito.eq(post));
+        BDDMockito.doReturn(picture).when(facebookService).computePhotoUrl(BDDMockito.eq(post));
+        BDDMockito.doReturn(link).when(facebookService).computeLink(BDDMockito.eq(post));
+        BDDMockito.doReturn(source).when(facebookService).computeVideoUrl(BDDMockito.eq(post));
+        BDDMockito.doReturn(name).when(facebookService).computeTitle(BDDMockito.eq(post));
+        BDDMockito.doReturn(type).when(facebookService).computeType(BDDMockito.eq(post));
+        BDDMockito.doReturn(id).when(facebookService).computeId(BDDMockito.eq(post));
+        BDDMockito.doReturn(createdTime).when(facebookService).computeCreatedTime(BDDMockito.eq(post));
+        BDDMockito.doReturn(objectId).when(facebookService).computeObjectId(BDDMockito.eq(post));
+        BDDMockito.doReturn(formattedDate).when(facebookService)
+                .computeFormattedDate(BDDMockito.eq(post),
+                        BDDMockito.eq(formatter));
 
-    Assert.assertEquals(type, result);
-  }
+        ImportablePost result = facebookService.computeImportablePost(post, formatter);
 
-  @Test
-  public void testComputeImportablePost() throws Exception {
-    String message = "someMessage";
-    String caption = "someCaption";
-    String name = "someName";
-    String source = "someVideoUrl";
-    String picture = "somePictureUrl";
-    String link = "someLink";
-    PostType type = PostType.STATUS;
-    String objectId = "123456789";
-    String id = "123456789";
-    String description = "someDescription";
-    String author = "author";
-    LocalDate createdTime = LocalDate.now();
-    String formattedDate = "24/10/89";
-    String onclick = "toggleImport(" + id + ");";
+        Assert.assertEquals(author, result.getAuthor());
+        Assert.assertEquals(description, result.getDescription());
+        Assert.assertEquals(picture, result.getPhotoUrl());
+        Assert.assertEquals(link, result.getLinkUrl());
+        Assert.assertEquals(source, result.getVideoUrl());
+        Assert.assertEquals(name, result.getTitle());
+        Assert.assertEquals(type, result.getType());
+        Assert.assertEquals(id, result.getFacebookId());
+        Assert.assertEquals(createdTime, result.getCreationDate());
+        Assert.assertEquals(objectId, result.getObjectId());
+        Assert.assertEquals(formattedDate, result.getFormattedDate());
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-    ZoneId defaultZoneId = ZoneId.systemDefault();
+        BDDMockito.verify(facebookService, BDDMockito.times(1)).computeAuthor(BDDMockito.eq(post));
+        BDDMockito.verify(facebookService, BDDMockito.times(1)).computeDescription(BDDMockito.eq(post));
+        BDDMockito.verify(facebookService, BDDMockito.times(1)).computePhotoUrl(BDDMockito.eq(post));
+        BDDMockito.verify(facebookService, BDDMockito.times(1)).computeLink(BDDMockito.eq(post));
+        BDDMockito.verify(facebookService, BDDMockito.times(1)).computeVideoUrl(BDDMockito.eq(post));
+        BDDMockito.verify(facebookService, BDDMockito.times(1)).computeTitle(BDDMockito.eq(post));
+        BDDMockito.verify(facebookService, BDDMockito.times(1)).computeType(BDDMockito.eq(post));
+        BDDMockito.verify(facebookService, BDDMockito.times(1)).computeId(BDDMockito.eq(post));
+        BDDMockito.verify(facebookService, BDDMockito.times(1)).computeCreatedTime(BDDMockito.eq(post));
+        BDDMockito.verify(facebookService, BDDMockito.times(1)).computeObjectId(BDDMockito.eq(post));
+        BDDMockito.verify(facebookService, BDDMockito.times(1)).computeCreatedTime(BDDMockito.eq(post));
 
-    Post post = PostBuilder.create().id(id).objectId(objectId).name(name).caption(caption)
-        .description(description)
-        .source(source).message(message).picture(picture).link(link).type(type)
-        .createdTime(Date.from(createdTime.atStartOfDay(defaultZoneId).toInstant())).build();
+    }
 
-    BDDMockito.doReturn(author).when(facebookService).computeAuthor(BDDMockito.eq(post));
-    BDDMockito.doReturn(description).when(facebookService).computeDescription(BDDMockito.eq(post));
-    BDDMockito.doReturn(picture).when(facebookService).computePhotoUrl(BDDMockito.eq(post));
-    BDDMockito.doReturn(link).when(facebookService).computeLink(BDDMockito.eq(post));
-    BDDMockito.doReturn(source).when(facebookService).computeVideoUrl(BDDMockito.eq(post));
-    BDDMockito.doReturn(name).when(facebookService).computeTitle(BDDMockito.eq(post));
-    BDDMockito.doReturn(type).when(facebookService).computeType(BDDMockito.eq(post));
-    BDDMockito.doReturn(id).when(facebookService).computeId(BDDMockito.eq(post));
-    BDDMockito.doReturn(onclick).when(facebookService).computeOnclick(BDDMockito.eq(post));
-    BDDMockito.doReturn(createdTime).when(facebookService).computeCreatedTime(BDDMockito.eq(post));
-    BDDMockito.doReturn(objectId).when(facebookService).computeObjectId(BDDMockito.eq(post));
-    BDDMockito.doReturn(formattedDate).when(facebookService)
-        .computeFormattedDate(BDDMockito.eq(post),
-            BDDMockito.eq(formatter));
+    @Test
+    public void testComputeFormattedDate() throws Exception {
 
-    ImportablePost result = facebookService.computeImportablePost(post, formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 
-    Assert.assertEquals(author, result.getAuthor());
-    Assert.assertEquals(description, result.getDescription());
-    Assert.assertEquals(picture, result.getPhotoUrl());
-    Assert.assertEquals(link, result.getLinkUrl());
-    Assert.assertEquals(source, result.getVideoUrl());
-    Assert.assertEquals(name, result.getTitle());
-    Assert.assertEquals(type, result.getType());
-    Assert.assertEquals(id, result.getFacebookId());
-    Assert.assertEquals(onclick, result.getOnclick());
-    Assert.assertEquals(createdTime, result.getCreationDate());
-    Assert.assertEquals(objectId, result.getObjectId());
-    Assert.assertEquals(formattedDate, result.getFormattedDate());
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2017, 10, 15);
+        Date date = calendar.getTime();
 
-    BDDMockito.verify(facebookService, BDDMockito.times(1)).computeAuthor(BDDMockito.eq(post));
-    BDDMockito.verify(facebookService, BDDMockito.times(1)).computeDescription(BDDMockito.eq(post));
-    BDDMockito.verify(facebookService, BDDMockito.times(1)).computePhotoUrl(BDDMockito.eq(post));
-    BDDMockito.verify(facebookService, BDDMockito.times(1)).computeLink(BDDMockito.eq(post));
-    BDDMockito.verify(facebookService, BDDMockito.times(1)).computeVideoUrl(BDDMockito.eq(post));
-    BDDMockito.verify(facebookService, BDDMockito.times(1)).computeTitle(BDDMockito.eq(post));
-    BDDMockito.verify(facebookService, BDDMockito.times(1)).computeType(BDDMockito.eq(post));
-    BDDMockito.verify(facebookService, BDDMockito.times(1)).computeId(BDDMockito.eq(post));
-    BDDMockito.verify(facebookService, BDDMockito.times(1)).computeOnclick(BDDMockito.eq(post));
-    BDDMockito.verify(facebookService, BDDMockito.times(1)).computeCreatedTime(BDDMockito.eq(post));
-    BDDMockito.verify(facebookService, BDDMockito.times(1)).computeObjectId(BDDMockito.eq(post));
-    BDDMockito.verify(facebookService, BDDMockito.times(1)).computeCreatedTime(BDDMockito.eq(post));
+        Post post = PostBuilder.create().createdTime(date).build();
 
-  }
+        String result = facebookService.computeFormattedDate(post, formatter);
 
-  @Test
-  public void testComputeFormattedDate() throws Exception {
+        Assert.assertEquals("15/11/17", result);
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+    }
 
-    Calendar calendar = Calendar.getInstance();
-    calendar.set(2017, 10, 15);
-    Date date = calendar.getTime();
+    @Test
+    public void testCanImportPost_Ok() throws Exception {
 
-    Post post = PostBuilder.create().createdTime(date).build();
+        ImportablePost post = new ImportablePostBuilder().type(PostType.STATUS)
+                .description("someDescription")
+                .facebookId("someId").build();
 
-    String result = facebookService.computeFormattedDate(post, formatter);
+        BDDMockito.doReturn(false).when(newsEntryService)
+                .isAlreadyImportedFromFacebook(BDDMockito.anyString());
 
-    Assert.assertEquals("15/11/17", result);
+        boolean result = facebookService.canImportPost(post);
 
-  }
+        Assert.assertTrue(result);
+    }
 
-  @Test
-  public void testCanImportPost_Ok() throws Exception {
+    @Test
+    public void testCanImportPost_Ko_Status_And_Empty_Description() throws Exception {
 
-    ImportablePost post = new ImportablePostBuilder().type(PostType.STATUS)
-        .description("someDescription")
-        .facebookId("someId").build();
+        ImportablePost post = new ImportablePostBuilder().type(PostType.STATUS).facebookId("someId")
+                .build();
 
-    BDDMockito.doReturn(false).when(newsEntryService)
-        .isAlreadyImportedFromFacebook(BDDMockito.anyString());
+        boolean result = facebookService.canImportPost(post);
 
-    boolean result = facebookService.canImportPost(post);
+        Assert.assertFalse(result);
+    }
 
-    Assert.assertTrue(result);
-  }
+    @Test
+    public void testCanImportPost_Ko_Already_Imported() throws Exception {
 
-  @Test
-  public void testCanImportPost_Ko_Status_And_Empty_Description() throws Exception {
+        ImportablePost post = new ImportablePostBuilder().type(PostType.VIDEO)
+                .description("someDescription")
+                .facebookId("someId").build();
 
-    ImportablePost post = new ImportablePostBuilder().type(PostType.STATUS).facebookId("someId")
-        .build();
+        BDDMockito.doReturn(true).when(newsEntryService)
+                .isAlreadyImportedFromFacebook(BDDMockito.anyString());
 
-    boolean result = facebookService.canImportPost(post);
+        boolean result = facebookService.canImportPost(post);
 
-    Assert.assertFalse(result);
-  }
+        Assert.assertFalse(result);
+    }
 
-  @Test
-  public void testCanImportPost_Ko_Already_Imported() throws Exception {
+    @Test
+    public void testGetFeedOperations() throws Exception {
 
-    ImportablePost post = new ImportablePostBuilder().type(PostType.VIDEO)
-        .description("someDescription")
-        .facebookId("someId").build();
+        FeedOperations operations = BDDMockito.mock(FeedOperations.class);
 
-    BDDMockito.doReturn(true).when(newsEntryService)
-        .isAlreadyImportedFromFacebook(BDDMockito.anyString());
+        BDDMockito.doReturn(operations).when(facebookConnector).feedOperations();
 
-    boolean result = facebookService.canImportPost(post);
+        FeedOperations result = facebookService.getFeedOperations();
 
-    Assert.assertFalse(result);
-  }
+        Assert.assertEquals(operations, result);
+    }
 
-  @Test
-  public void testGetFeedOperations() throws Exception {
+    @Test
+    public void testComputeImportablePosts_Importable() throws Exception {
 
-    FeedOperations operations = BDDMockito.mock(FeedOperations.class);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        Post postToImport = PostBuilder.create().build();
+        PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
+        PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
+        PagedList<Post> postsToImport = new PagedList<>(Arrays.asList(postToImport), previous, next);
 
-    BDDMockito.doReturn(operations).when(facebookConnector).feedOperations();
+        ImportablePost importable = new ImportablePostBuilder().build();
 
-    FeedOperations result = facebookService.getFeedOperations();
+        BDDMockito.doReturn(formatter).when(contextHolder).getDateFormat();
+        BDDMockito.doReturn(importable).when(facebookService)
+                .computeImportablePost(BDDMockito.eq(postToImport),
+                        BDDMockito.any(DateTimeFormatter.class));
+        BDDMockito.doReturn(true).when(facebookService).canImportPost(BDDMockito.eq(importable));
 
-    Assert.assertEquals(operations, result);
-  }
+        List<ImportablePost> postsImportable = facebookService.computeImportablePosts(postsToImport);
 
-  @Test
-  public void testComputeImportablePosts_Importable() throws Exception {
+        Assert.assertTrue(!CollectionUtils.isEmpty(postsImportable));
+        Assert.assertEquals(importable, postsImportable.get(0));
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-    Post postToImport = PostBuilder.create().build();
-    PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
-    PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
-    PagedList<Post> postsToImport = new PagedList<>(Arrays.asList(postToImport), previous, next);
+    }
 
-    ImportablePost importable = new ImportablePostBuilder().build();
+    @Test
+    public void testComputeImportablePosts_Already_Imported() throws Exception {
 
-    BDDMockito.doReturn(formatter).when(contextHolder).getDateFormat();
-    BDDMockito.doReturn(importable).when(facebookService)
-        .computeImportablePost(BDDMockito.eq(postToImport),
-            BDDMockito.any(DateTimeFormatter.class));
-    BDDMockito.doReturn(true).when(facebookService).canImportPost(BDDMockito.eq(importable));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        Post postToImport = PostBuilder.create().build();
+        PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
+        PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
+        PagedList<Post> postsToImport = new PagedList<>(Arrays.asList(postToImport), previous, next);
 
-    List<ImportablePost> postsImportable = facebookService.computeImportablePosts(postsToImport);
+        ImportablePost importable = new ImportablePostBuilder().build();
 
-    Assert.assertTrue(!CollectionUtils.isEmpty(postsImportable));
-    Assert.assertEquals(importable, postsImportable.get(0));
+        BDDMockito.doReturn(formatter).when(contextHolder).getDateFormat();
+        BDDMockito.doReturn(importable).when(facebookService)
+                .computeImportablePost(BDDMockito.eq(postToImport),
+                        BDDMockito.any(DateTimeFormatter.class));
+        BDDMockito.doReturn(false).when(facebookService).canImportPost(BDDMockito.eq(importable));
 
-  }
+        List<ImportablePost> postsImportable = facebookService.computeImportablePosts(postsToImport);
 
-  @Test
-  public void testComputeImportablePosts_Already_Imported() throws Exception {
+        Assert.assertTrue(CollectionUtils.isEmpty(postsImportable));
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-    Post postToImport = PostBuilder.create().build();
-    PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
-    PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
-    PagedList<Post> postsToImport = new PagedList<>(Arrays.asList(postToImport), previous, next);
+    }
 
-    ImportablePost importable = new ImportablePostBuilder().build();
+    @Test
+    public void testGetRecentFeed_Ok() throws Exception {
 
-    BDDMockito.doReturn(formatter).when(contextHolder).getDateFormat();
-    BDDMockito.doReturn(importable).when(facebookService)
-        .computeImportablePost(BDDMockito.eq(postToImport),
-            BDDMockito.any(DateTimeFormatter.class));
-    BDDMockito.doReturn(false).when(facebookService).canImportPost(BDDMockito.eq(importable));
+        @SuppressWarnings("unchecked")
+        Connection<Facebook> connection = (Connection<Facebook>) BDDMockito.mock(Connection.class);
+        FeedOperations operations = BDDMockito.mock(FeedOperations.class);
 
-    List<ImportablePost> postsImportable = facebookService.computeImportablePosts(postsToImport);
+        Post postToImport = PostBuilder.create().build();
+        PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
+        PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
+        PagedList<Post> postsToImport = new PagedList<>(Arrays.asList(postToImport), previous, next);
 
-    Assert.assertTrue(CollectionUtils.isEmpty(postsImportable));
+        ImportablePost importable = new ImportablePostBuilder().build();
+        List<ImportablePost> importables = Arrays.asList(importable);
 
-  }
+        BDDMockito.doReturn(connection).when(connectionRepository)
+                .findPrimaryConnection(Facebook.class);
+        BDDMockito.doReturn(operations).when(facebookConnector).feedOperations();
+        BDDMockito.doReturn(postsToImport).when(operations).getPosts();
+        BDDMockito.doReturn(importables).when(facebookService)
+                .computeImportablePosts(BDDMockito.eq(postsToImport));
 
-  @Test
-  public void testGetRecentFeed_Ok() throws Exception {
+        List<ImportablePost> result = facebookService.getRecentFeed();
 
-    @SuppressWarnings("unchecked")
-    Connection<Facebook> connection = (Connection<Facebook>) BDDMockito.mock(Connection.class);
-    FeedOperations operations = BDDMockito.mock(FeedOperations.class);
+        Assert.assertEquals(importables, result);
 
-    Post postToImport = PostBuilder.create().build();
-    PagingParameters previous = new PagingParameters(0, 0, 0L, 0L, "after", "before");
-    PagingParameters next = new PagingParameters(0, 0, 0L, 0L, "after", "before");
-    PagedList<Post> postsToImport = new PagedList<>(Arrays.asList(postToImport), previous, next);
+    }
 
-    ImportablePost importable = new ImportablePostBuilder().build();
-    List<ImportablePost> importables = Arrays.asList(importable);
-
-    BDDMockito.doReturn(connection).when(connectionRepository)
-        .findPrimaryConnection(Facebook.class);
-    BDDMockito.doReturn(operations).when(facebookConnector).feedOperations();
-    BDDMockito.doReturn(postsToImport).when(operations).getPosts();
-    BDDMockito.doReturn(importables).when(facebookService)
-        .computeImportablePosts(BDDMockito.eq(postsToImport));
-
-    List<ImportablePost> result = facebookService.getRecentFeed();
-
-    Assert.assertEquals(importables, result);
-
-  }
-
-  @Test
-  public void testGetRecentFeed_Exception() throws Exception {
-    exception.expect(BaseException.class);
-    facebookService.getRecentFeed();
-  }
+    @Test
+    public void testGetRecentFeed_Exception() throws Exception {
+        exception.expect(BaseException.class);
+        facebookService.getRecentFeed();
+    }
 }
