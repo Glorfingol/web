@@ -20,7 +20,9 @@ public class WidgetPageEventsListeners {
   public void handleEntityDeletion(DeletedEvent deletedEvent) {
     if (deletedEvent.getEntity() instanceof WidgetPage) {
       WidgetPage widgetPage = (WidgetPage) deletedEvent.getEntity();
-      displayFactoryCacheManager.evictWidgetsIdsForPage(widgetPage.getId());
+      displayFactoryCacheManager.evictWidgetsIdsForPage(widgetPage.getPageId());
+      displayFactoryCacheManager.evictAsynchronousWidgetsForPage(widgetPage.getPageId());
+      displayFactoryCacheManager.evictSynchronousWidgetForPage(widgetPage.getPageId());
     }
 
   }
@@ -29,7 +31,9 @@ public class WidgetPageEventsListeners {
   public void handleEntityCreation(CreatedEvent createdEvent) {
     if (createdEvent.getEntity() instanceof WidgetPage) {
       WidgetPage widgetPage = (WidgetPage) createdEvent.getEntity();
-      displayFactoryCacheManager.evictWidgetsIdsForPage(widgetPage.getId());
+      displayFactoryCacheManager.evictWidgetsIdsForPage(widgetPage.getPageId());
+      displayFactoryCacheManager.evictAsynchronousWidgetsForPage(widgetPage.getPageId());
+      displayFactoryCacheManager.evictSynchronousWidgetForPage(widgetPage.getPageId());
     }
   }
 
