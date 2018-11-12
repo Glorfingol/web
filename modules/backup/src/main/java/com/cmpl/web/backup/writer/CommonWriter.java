@@ -36,7 +36,7 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
   }
 
   public CommonWriter(DateTimeFormatter dateFormatter, DataManipulator<T> dataManipulator,
-      String backupFilePath) {
+    String backupFilePath) {
     this.dateFormatter = Objects.requireNonNull(dateFormatter);
     this.dataManipulator = Objects.requireNonNull(dataManipulator);
     this.backupFilePath = Objects.requireNonNull(backupFilePath);
@@ -70,8 +70,8 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
 
   protected List<String> parseEntityToListString(T entityToWrite) {
     return getFields(entityToWrite.getClass()).stream()
-        .map(field -> parseObjectValueToString(field, entityToWrite))
-        .collect(Collectors.toList());
+      .map(field -> parseObjectValueToString(field, entityToWrite))
+      .collect(Collectors.toList());
 
   }
 
@@ -109,9 +109,9 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
       return parseObject(field, entityToWrite);
     } catch (Exception e) {
       LOGGER.error(
-          "Impossible de parser le field : " + field.getName() + " pour l'objet : " + entityToWrite
-              .getClass(),
-          e);
+        "Impossible de parser le field : " + field.getName() + " pour l'objet : " + entityToWrite
+          .getClass(),
+        e);
     }
 
     return result;
@@ -125,12 +125,18 @@ public abstract class CommonWriter<T extends BaseEntity> extends BaseCSVWriter {
 
   protected String parseLocalDate(Field field, T entityToWrite) throws Exception {
     LocalDate localDateToParse = (LocalDate) field.get(entityToWrite);
+    if (localDateToParse == null) {
+      return dateFormatter.format(LocalDate.now());
+    }
     return dateFormatter.format(localDateToParse);
 
   }
 
   protected String parseLocalDateTime(Field field, T entityToWrite) throws Exception {
     LocalDateTime localDateToParse = (LocalDateTime) field.get(entityToWrite);
+    if (localDateToParse == null) {
+      return dateFormatter.format(LocalDateTime.now());
+    }
     return dateFormatter.format(localDateToParse);
 
   }
