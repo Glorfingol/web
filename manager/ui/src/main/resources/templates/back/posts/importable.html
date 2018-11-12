@@ -1,14 +1,14 @@
 <div class="card-header">
-    <div class="form-check float-right">
-        <label>
-            <input type="checkbox" th:id="${'checkbox-'+feed.facebookId}" value="" data-click=""
-                   th:id="${feed.facebookId}"
-                   class="form-check-input facebook-checkbox"/>
-            <span th:text="#{import.one}" class="form-check-label"/>
-        </label>
-    </div>
-    <h3 class="card-title" th:text="${feed.title}"/>
-    <h3 class="card-title" th:text="${feed.formattedDate}"/>
+  <div class="form-check float-right">
+    <label>
+      <input type="checkbox" th:id="${'checkbox-'+feed.facebookId}" value=""
+             th:name="${feed.facebookId}"
+             class="form-check-input facebook-checkbox"/>
+      <span th:text="#{import.one}" class="form-check-label"/>
+    </label>
+  </div>
+  <h3 class="card-title" th:text="${feed.title}"/>
+  <h3 class="card-title" th:text="${feed.formattedDate}"/>
 </div>
 <div th:if="${feed.link}" th:include="back/posts/link"/>
 <div th:if="${feed.photo}" th:include="back/posts/photo"/>
