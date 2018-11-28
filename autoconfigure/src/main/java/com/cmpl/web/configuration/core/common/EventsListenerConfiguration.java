@@ -1,5 +1,6 @@
 package com.cmpl.web.configuration.core.common;
 
+import com.cmpl.core.events.listeners.CarouselEventsListener;
 import com.cmpl.core.events.listeners.DesignEventsListeners;
 import com.cmpl.core.events.listeners.GroupEventsListener;
 import com.cmpl.core.events.listeners.MediaEventsListeners;
@@ -11,6 +12,7 @@ import com.cmpl.core.events.listeners.UserEventsListeners;
 import com.cmpl.core.events.listeners.WebsiteEventsListeners;
 import com.cmpl.core.events.listeners.WidgetEventsListeners;
 import com.cmpl.core.events.listeners.WidgetPageEventsListeners;
+import com.cmpl.web.core.carousel.item.CarouselItemService;
 import com.cmpl.web.core.design.DesignService;
 import com.cmpl.web.core.factory.DisplayFactoryCacheManager;
 import com.cmpl.web.core.file.FileService;
@@ -21,6 +23,7 @@ import com.cmpl.web.core.page.PageService;
 import com.cmpl.web.core.responsibility.ResponsibilityService;
 import com.cmpl.web.core.role.privilege.PrivilegeService;
 import com.cmpl.web.core.sitemap.SitemapService;
+import com.cmpl.web.core.widget.WidgetService;
 import com.cmpl.web.core.widget.page.WidgetPageService;
 import java.util.Locale;
 import java.util.Set;
@@ -39,16 +42,16 @@ public class EventsListenerConfiguration {
 
   @Bean
   public MediaEventsListeners mediaEventsListener(FileService fileService,
-    MembershipService membershipService) {
-    return new MediaEventsListeners(fileService, membershipService);
+    MembershipService membershipService, CarouselItemService carouselItemService, WidgetService widgetService) {
+    return new MediaEventsListeners(fileService, membershipService, carouselItemService, widgetService);
   }
 
   @Bean
   public NewsEventsListeners newsEventsListener(NewsContentService newsContentService,
     NewsImageService newsImageService, MembershipService membershipService,
-    DisplayFactoryCacheManager displayFactoryCacheManager) {
+    DisplayFactoryCacheManager displayFactoryCacheManager, WidgetService widgetService) {
     return new NewsEventsListeners(newsContentService, newsImageService, membershipService,
-      displayFactoryCacheManager);
+      displayFactoryCacheManager, widgetService);
   }
 
   @Bean
@@ -106,5 +109,10 @@ public class EventsListenerConfiguration {
   public DesignEventsListeners designEventsListeners(
     DisplayFactoryCacheManager displayFactoryCacheManager) {
     return new DesignEventsListeners(displayFactoryCacheManager);
+  }
+
+  @Bean
+  public CarouselEventsListener carouselItemService(CarouselItemService carouselItemService, WidgetService widgetService) {
+    return new CarouselEventsListener(carouselItemService, widgetService);
   }
 }

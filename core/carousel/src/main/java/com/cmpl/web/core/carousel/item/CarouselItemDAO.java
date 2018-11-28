@@ -8,4 +8,6 @@ public interface CarouselItemDAO extends BaseDAO<CarouselItem> {
 
   List<CarouselItem> getByCarouselId(String carouselId);
 
+  List<CarouselItem> getByMediaId(String mediaId);
+
 }

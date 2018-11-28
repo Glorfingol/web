@@ -8,6 +8,7 @@ import com.cmpl.web.core.models.NewsEntry;
 import com.cmpl.web.core.news.content.NewsContentService;
 import com.cmpl.web.core.news.image.NewsImageDTO;
 import com.cmpl.web.core.news.image.NewsImageService;
+import com.cmpl.web.core.widget.WidgetService;
 import java.util.Objects;
 import org.springframework.context.event.EventListener;
 import org.springframework.util.StringUtils;
@@ -22,13 +23,16 @@ public class NewsEventsListeners {
 
   private final DisplayFactoryCacheManager displayFactoryCacheManager;
 
+  private final WidgetService widgetService;
+
   public NewsEventsListeners(NewsContentService newsContentService,
     NewsImageService newsImageService, MembershipService membershipService,
-    DisplayFactoryCacheManager displayFactoryCacheManager) {
+    DisplayFactoryCacheManager displayFactoryCacheManager, WidgetService widgetService) {
     this.newsContentService = Objects.requireNonNull(newsContentService);
     this.newsImageService = Objects.requireNonNull(newsImageService);
     this.membershipService = Objects.requireNonNull(membershipService);
     this.displayFactoryCacheManager = Objects.requireNonNull(displayFactoryCacheManager);
+    this.widgetService = Objects.requireNonNull(widgetService);
   }
 
   @EventListener
@@ -52,6 +56,9 @@ public class NewsEventsListeners {
           .forEach(membershipDTO -> membershipService.deleteEntity(membershipDTO.getId()));
 
         displayFactoryCacheManager.evictNewsEntryById(deletedNewsEntry.getId());
+
+        widgetService.findByEntityIdAndType(String.valueOf(deletedNewsEntry.getId()), "BLOG_ENTRY")
+          .forEach(widget -> widget.setEntityId(null));
       }
 
     }

@@ -23,6 +23,11 @@ public class DefaultCarouselItemDAO extends DefaultBaseDAO<CarouselItem> impleme
   }
 
   @Override
+  public List<CarouselItem> getByMediaId(String mediaId) {
+    return carouselItemRepository.findByMediaId(mediaId);
+  }
+
+  @Override
   protected Predicate computeSearchPredicate(String query) {
     throw new UnsupportedOperationException();
   }

@@ -4,9 +4,7 @@ import com.cmpl.web.core.common.service.DefaultBaseService;
 import com.cmpl.web.core.models.CarouselItem;
 import java.util.List;
 
-public class DefaultCarouselItemService extends
-  DefaultBaseService<CarouselItemDTO, CarouselItem>
-  implements CarouselItemService {
+public class DefaultCarouselItemService extends DefaultBaseService<CarouselItemDTO, CarouselItem> implements CarouselItemService {
 
   private final CarouselItemDAO carouselItemDAO;
 
@@ -19,6 +17,11 @@ public class DefaultCarouselItemService extends
   @Override
   public List<CarouselItemDTO> getByCarouselId(String carouselId) {
     return mapper.toListDTO(carouselItemDAO.getByCarouselId(carouselId));
+  }
+
+  @Override
+  public List<CarouselItemDTO> getByMediaId(String mediaId) {
+    return mapper.toListDTO(carouselItemDAO.getByMediaId(mediaId));
   }
 
   @Override

@@ -3,6 +3,7 @@ package com.cmpl.web.core.widget;
 import com.cmpl.web.core.common.service.DefaultBaseService;
 import com.cmpl.web.core.file.FileService;
 import com.cmpl.web.core.models.Widget;
+import java.util.List;
 import java.util.Objects;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -77,6 +78,11 @@ public class DefaultWidgetService extends DefaultBaseService<WidgetDTO, Widget> 
     fetchedWidget.setPersonalization(fileService.readFileContentFromSystem(
       WIDGET_PREFIX + fetchedWidget.getName() + LOCALE_CODE_PREFIX + localeCode + HTML_SUFFIX));
     return fetchedWidget;
+  }
+
+  @Override
+  public List<WidgetDTO> findByEntityIdAndType(String entityId, String type) {
+    return mapper.toListDTO(widgetDAO.findByEntityIdAndType(entityId, type));
   }
 
   @Override

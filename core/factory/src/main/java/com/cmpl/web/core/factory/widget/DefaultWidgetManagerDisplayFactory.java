@@ -48,8 +48,6 @@ public class DefaultWidgetManagerDisplayFactory extends AbstractBackDisplayFacto
 
   private static final String UPDATE_FORM = "updateForm";
 
-  private static final String LINKABLE_ENTITIES = "linkableEntities";
-
   private static final String WIDGET_TYPES = "widgetTypes";
 
   private static final String LOCALES = "locales";

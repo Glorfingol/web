@@ -6,6 +6,7 @@ import com.cmpl.web.core.models.QWidgetPage;
 import com.cmpl.web.core.models.Widget;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQuery;
+import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 
 public class DefaultWidgetDAO extends DefaultBaseDAO<Widget> implements WidgetDAO {
@@ -20,6 +21,11 @@ public class DefaultWidgetDAO extends DefaultBaseDAO<Widget> implements WidgetDA
   @Override
   public Widget findByName(String widgetName) {
     return widgetRepository.findByName(widgetName);
+  }
+
+  @Override
+  public List<Widget> findByEntityIdAndType(String entityId, String type) {
+    return widgetRepository.findByEntityIdAndType(entityId, type);
   }
 
   @Override

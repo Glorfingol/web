@@ -10,4 +10,6 @@ public interface CarouselItemRepository extends BaseRepository<CarouselItem> {
 
   List<CarouselItem> findByCarouselIdOrderByOrderInCarousel(String carouselId);
 
+  List<CarouselItem> findByMediaId(String mediaId);
+
 }
