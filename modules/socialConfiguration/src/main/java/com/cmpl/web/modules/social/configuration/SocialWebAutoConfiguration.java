@@ -56,9 +56,9 @@ public class SocialWebAutoConfiguration {
     private final List<ProviderSignInInterceptor<?>> signInInterceptors;
 
     public SocialAutoConfigurationAdapter(
-        ObjectProvider<List<ConnectInterceptor<?>>> connectInterceptorsProvider,
-        ObjectProvider<List<DisconnectInterceptor<?>>> disconnectInterceptorsProvider,
-        ObjectProvider<List<ProviderSignInInterceptor<?>>> signInInterceptorsProvider) {
+      ObjectProvider<List<ConnectInterceptor<?>>> connectInterceptorsProvider,
+      ObjectProvider<List<DisconnectInterceptor<?>>> disconnectInterceptorsProvider,
+      ObjectProvider<List<ProviderSignInInterceptor<?>>> signInInterceptorsProvider) {
       this.connectInterceptors = connectInterceptorsProvider.getIfAvailable();
       this.disconnectInterceptors = disconnectInterceptorsProvider.getIfAvailable();
       this.signInInterceptors = signInInterceptorsProvider.getIfAvailable();
@@ -67,7 +67,7 @@ public class SocialWebAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(ConnectController.class)
     public ConnectController connectController(ConnectionFactoryLocator factoryLocator,
-        ConnectionRepository repository) {
+      ConnectionRepository repository) {
       ConnectController controller = new ConnectController(factoryLocator, repository);
       if (!CollectionUtils.isEmpty(this.connectInterceptors)) {
         controller.setConnectInterceptors(this.connectInterceptors);
@@ -91,9 +91,9 @@ public class SocialWebAutoConfiguration {
     @ConditionalOnBean(SignInAdapter.class)
     @ConditionalOnMissingBean
     public ProviderSignInController signInController(ConnectionFactoryLocator factoryLocator,
-        UsersConnectionRepository usersRepository, SignInAdapter signInAdapter) {
+      UsersConnectionRepository usersRepository, SignInAdapter signInAdapter) {
       ProviderSignInController controller = new ProviderSignInController(factoryLocator,
-          usersRepository, signInAdapter);
+        usersRepository, signInAdapter);
       if (!CollectionUtils.isEmpty(this.signInInterceptors)) {
         controller.setSignInInterceptors(this.signInInterceptors);
       }
@@ -147,7 +147,7 @@ public class SocialWebAutoConfiguration {
       SecurityContext context = SecurityContextHolder.getContext();
       Authentication authentication = context.getAuthentication();
       Assert
-          .state(authentication != null, "Unable to get a ConnectionRepository: no user signed in");
+        .state(authentication != null, "Unable to get a ConnectionRepository: no user signed in");
       return authentication.getName();
     }
 

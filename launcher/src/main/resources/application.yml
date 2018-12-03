@@ -22,7 +22,8 @@ spring:
     cache:
       cachecontrol:
         max-age: 30D
-
+  main:
+    allow-bean-definition-overriding: true
 
 # HTTP Server
 server:
@@ -46,3 +47,6 @@ management:
     web:
       exposure:
         include: '*'
+    health:
+      show-details: always
+
