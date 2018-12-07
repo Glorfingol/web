@@ -19,10 +19,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 public class DisplayFactoryCacheManager {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(DisplayFactoryCacheManager.class);
 
   private final RenderingPageService renderingPageService;
 
@@ -70,7 +74,7 @@ public class DisplayFactoryCacheManager {
 
   @CacheEvict(cacheNames = "widgetsIdsForPage", key = "#a0")
   public void evictWidgetsIdsForPage(Long pageId) {
-
+    LOGGER.info("Eviction du cache des ids de widget pour la page " + pageId);
   }
 
   @Cacheable(cacheNames = "asynchronousWidgetForPage", key = "#a0", sync = true)
@@ -83,7 +87,7 @@ public class DisplayFactoryCacheManager {
 
   @CacheEvict(cacheNames = "asynchronousWidgetForPage", key = "#a0")
   public void evictAsynchronousWidgetsForPage(Long pageId) {
-
+    LOGGER.info("Eviction du cache des ids de widget asynchrones pour la page " + pageId);
   }
 
   @Cacheable(cacheNames = "synchronousWidgetForPage", key = "#a0", sync = true)
@@ -96,7 +100,7 @@ public class DisplayFactoryCacheManager {
 
   @CacheEvict(cacheNames = "synchronousWidgetForPage", key = "#a0")
   public void evictSynchronousWidgetForPage(Long pageId) {
-
+    LOGGER.info("Eviction du cache des ids de widget synchrones pour la page " + pageId);
   }
 
 
@@ -107,7 +111,7 @@ public class DisplayFactoryCacheManager {
 
   @CacheEvict(cacheNames = "news", key = "#a0")
   public void evictNewsEntryById(Long newsEntryId) {
-
+    LOGGER.info("Eviction du cache des entrées de blog pour l'entrée " + newsEntryId);
   }
 
   @Cacheable(cacheNames = "styles", key = "#a0", sync = true)
@@ -120,7 +124,7 @@ public class DisplayFactoryCacheManager {
 
   @CacheEvict(cacheNames = "styles", key = "#a0")
   public void evictWebsiteStyles(Long websiteId) {
-
+    LOGGER.info("Eviction du cache des styles pour le site " + websiteId);
   }
 
   @Cacheable(cacheNames = "websites", key = "#a0", sync = true)
@@ -131,7 +135,7 @@ public class DisplayFactoryCacheManager {
 
   @CacheEvict(cacheNames = "websites", key = "#a0")
   public void evictWebsiteByName(String websiteName) {
-
+    LOGGER.info("Eviction du cache des websites pour le site " + websiteName);
   }
 
   @Cacheable(cacheNames = "widgetByName", key = "#a0", sync = true)
@@ -141,7 +145,7 @@ public class DisplayFactoryCacheManager {
 
   @CacheEvict(cacheNames = "widgetByName", key = "#a0")
   public void evictWidgetByName(String widgetName) {
-
+    LOGGER.info("Eviction du cache des widgets pour le widget " + widgetName);
   }
 
   @Cacheable(cacheNames = "widgetById", key = "#a0", sync = true)
@@ -151,7 +155,7 @@ public class DisplayFactoryCacheManager {
 
   @CacheEvict(cacheNames = "widgetById", key = "#a0")
   public void evictWidgetById(Long widgetId) {
-
+    LOGGER.info("Eviction du cache des widgets pour le widget d'id " + widgetId);
   }
 
 
@@ -165,7 +169,7 @@ public class DisplayFactoryCacheManager {
 
   @CacheEvict(cacheNames = "pagesForWebsiteAndHref", key = "#a0 + '_' + #a1")
   public void evictPageForHrefAndWebsite(Long websiteId, String pageHref) {
-
+    LOGGER.info("Eviction du cache des pages pour le site " + websiteId + " pour le lien " + pageHref);
   }
 
 }

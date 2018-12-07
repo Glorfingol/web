@@ -1,5 +1,6 @@
 package com.cmpl.web.core.common.dao;
 
+import com.cmpl.web.core.common.event.CreatedEvent;
 import com.cmpl.web.core.common.event.DeletedEvent;
 import com.cmpl.web.core.common.event.UpdatedEvent;
 import com.cmpl.web.core.common.repository.BaseRepository;
@@ -52,7 +53,7 @@ public abstract class DefaultBaseDAO<ENTITY extends BaseEntity> extends Querydsl
   public ENTITY createEntity(ENTITY entity) {
     entity.setModificationDate(LocalDateTime.now());
     ENTITY createdEntity = entityRepository.save(entity);
-    publisher.publishEvent(new UpdatedEvent<>(this, createdEntity));
+    publisher.publishEvent(new CreatedEvent<>(this, createdEntity));
     return createdEntity;
   }
 
