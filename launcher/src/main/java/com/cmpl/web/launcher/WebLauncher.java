@@ -3,6 +3,7 @@ package com.cmpl.web.launcher;
 import com.cmpl.web.configuration.EnableCMPLWeb;
 import com.cmpl.web.core.carousel.CarouselRepository;
 import com.cmpl.web.core.carousel.item.CarouselItemRepository;
+import com.cmpl.web.core.common.context.WebApplicationContextInitializer;
 import com.cmpl.web.core.design.DesignRepository;
 import com.cmpl.web.core.media.MediaRepository;
 import com.cmpl.web.core.models.Privilege;
@@ -27,8 +28,8 @@ import com.cmpl.web.core.widget.WidgetRepository;
 import com.cmpl.web.core.widget.page.WidgetPageRepository;
 import java.time.LocalDateTime;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.plugin.core.PluginRegistry;
@@ -47,7 +48,8 @@ public class WebLauncher {
    * Main du projet, lance un SpringApplication
    */
   public static void main(String[] args) {
-    SpringApplication.run(WebLauncher.class, args);
+    new SpringApplicationBuilder(WebLauncher.class).initializers(new WebApplicationContextInitializer())
+      .run(args);
   }
 
   @Bean
